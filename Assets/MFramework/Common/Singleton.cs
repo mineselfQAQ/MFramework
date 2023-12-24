@@ -2,9 +2,6 @@ namespace MFramework
 {
     public abstract class Singleton<T> where T : class, new()
     {
-        //与abstract功能相似
-        //protected Singleton() { }
-
         private static T instance = null;
         public static T Instance
         {
