@@ -166,24 +166,10 @@ namespace MFramework
             return list;
         }
 
-        //public MArrayList PreOrder()
-        //{
-        //    MArrayList list = new MArrayList();
-        //    InternalPreOrder(root, list);
-
-        //    return list;
-        //}
-        //private void InternalPreOrder(MBinaryTreeNode root, MArrayList list)
-        //{
-        //    if (root == null) return;
-
-        //    list.Add(root.item);
-        //    InternalPreOrder(root.left, list);
-        //    InternalPreOrder(root.right, list);
-        //}
-
         public object[] PreOrder()
         {
+            ValidateNode(root);
+
             object[] list = new object[count];
             InternalPreOrder(root, list, 0);
 
@@ -191,8 +177,19 @@ namespace MFramework
         }
         public object[] InOrder()
         {
+            ValidateNode(root);
+
             object[] list = new object[count];
             InternalInOrder(root, list, 0);
+
+            return list;
+        }
+        public object[] PostOrder()
+        {
+            ValidateNode(root);
+
+            object[] list = new object[count];
+            InternalPostOrder(root, list, 0);
 
             return list;
         }
@@ -290,6 +287,7 @@ namespace MFramework
             while (queue.Count != 0)
             {
                 MBinaryTreeNode tempNode = (MBinaryTreeNode)queue.Dequeue();
+                count--;
 
                 //只要有子节点，就以先左再右的顺序添加node
                 if (tempNode.left != null)
@@ -318,7 +316,16 @@ namespace MFramework
             int next = InternalInOrder(root.left, list, index);
             next++;
             list[next] = root.item;
-            next = InternalInOrder(root.right, list, next + 1);
+            return InternalInOrder(root.right, list, next + 1);
+        }
+        private int InternalPostOrder(MBinaryTreeNode root, object[] list, int index)
+        {
+            if (root == null) return index - 1;
+            int next = InternalPostOrder(root.left, list, index);
+            next++;
+            next = InternalPostOrder(root.right, list, next);
+            next++;
+            list[next] = root.item;
             return next;
         }
 

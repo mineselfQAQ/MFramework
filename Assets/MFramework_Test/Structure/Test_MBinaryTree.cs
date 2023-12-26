@@ -11,13 +11,15 @@ public class Test_MBinaryTree : MonoBehaviour
         MBinaryTreeNode rightNode = tree.AddRight(tree.Root, 3);
 
         tree.AddLeft(leftNode, 4);
-        //tree.AddRight(leftNode, 5);
+        tree.AddRight(leftNode, 5);
         tree.AddLeft(rightNode, 6);
         tree.AddRight(rightNode, 7);
 
+        Log.Print(tree.Count);
+
         // µ—È---≤„–Ú±È¿˙
         string outputStr = "";
-        foreach (var item in tree.InOrder())
+        foreach (var item in tree.PreOrder())
         {
             outputStr += $"{item} ";
         }
