@@ -13,12 +13,6 @@ public class Test_MHashtable : MonoBehaviour
         hashtable.Add(3, "元素3");
         hashtable.Remove(1);
 
-
-
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
-
-
-
         Log.Print("hashtable[1]是否有值: " + !(hashtable[1] == null));
         Log.Print("Count: " + hashtable.Count);
         Log.Print("是否有Key-2: " + hashtable.ContainsKey(2));

@@ -96,10 +96,10 @@ namespace MFramework
                     {
                         return true;
                     }
-                    else if (_array[size].Equals(o))
-                    {
-                        return true;
-                    }
+                }
+                else if (_array[size] != null && _array[size].Equals(o))
+                {
+                    return true;
                 }
             }
             return false;

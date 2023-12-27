@@ -1,5 +1,7 @@
 using MFramework;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace MFramework
 {
@@ -45,7 +47,7 @@ namespace MFramework
             item = value;
         }
 
-        public MBinaryTreeNode(object value, MBinaryTree list)
+        internal MBinaryTreeNode(object value, MBinaryTree list)
         {
             this.list = list;
             item = value;
@@ -110,6 +112,7 @@ namespace MFramework
             ValidateNewNode(newNode);
 
             InternalAddLeft(node, newNode);
+            newNode.list = this;
         }
 
         public MBinaryTreeNode AddRight(MBinaryTreeNode node, object value)
@@ -128,6 +131,7 @@ namespace MFramework
             ValidateNewNode(newNode);
 
             InternalAddRight(node, newNode);
+            newNode.list = this;
         }
 
         public bool Remove(MBinaryTreeNode node)
@@ -192,6 +196,26 @@ namespace MFramework
             InternalPostOrder(root, list, 0);
 
             return list;
+        }
+
+        public bool Contains(object o)
+        {
+            object[] list = PreOrder();
+            foreach (var item in list)
+            {
+                if (o == null)
+                {
+                    if (item == null)
+                    {
+                        return true;
+                    }
+                }
+                else if (item != null && item.Equals(o))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void ValidateNode(MBinaryTreeNode node)

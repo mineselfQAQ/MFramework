@@ -1,25 +1,26 @@
 using MFramework;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_MQueue : MonoBehaviour
+public class Test_MDeque : MonoBehaviour
 {
     private void Start()
     {
-        MQueue queue = new MQueue();
-        queue.Enqueue(1);
-        queue.Enqueue(2);
-        queue.Enqueue(3);
+        MDeque queue = new MDeque();
+        queue.PushLast(1);
+        queue.PushLast(2);
+        queue.PushLast(3);
+        queue.PushFirst(4);
         queue.Print();
 
         Log.Print(Log.ColorWord("---分隔符---", Color.red));
 
-        queue.Dequeue();
+        queue.PopFirst();
+        queue.PopLast();
         queue.Print();
-        
+
         Log.Print(Log.ColorWord("---分隔符---", Color.red));
 
-        Log.Print("队首: " + queue.Peek());
+        Log.Print("队首: " + queue.PeekFirst());
         Log.Print("是否包含1: " + queue.Contains(1));
 
         Log.Print(Log.ColorWord("---分隔符---", Color.red));
