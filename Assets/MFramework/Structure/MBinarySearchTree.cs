@@ -101,7 +101,7 @@ namespace MFramework
 
             while (true)
             {
-                if (num.CompareTo(cur.item) < 0)
+                if (num.CompareTo(cur.item) > 0)//num > cur.item
                 {
                     if (cur.right == null)
                     {
@@ -112,7 +112,7 @@ namespace MFramework
 
                     cur = cur.right;//传入值更大，向右走
                 }
-                else if (num.CompareTo(cur.item) > 0)
+                else if (num.CompareTo(cur.item) < 0)//num < cur.item
                 {
                     if (cur.left == null)
                     {
