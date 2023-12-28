@@ -198,22 +198,7 @@ namespace MFramework
                 {
                     MAVLTreeNode childNode = node.left ?? node.right;
 
-                    if (node == root)
-                    {
-                        root = childNode;
-                    }
-                    else
-                    {
-                        if (node.parent.left == node)//该节点为左节点
-                        {
-                            node.parent.left = childNode;
-                        }
-                        else if (node.parent.right == node)//该节点为右节点
-                        {
-                            node.parent.right = childNode;
-                        }
-                    }
-                    node.Invalidate();//父节点已经链接其它节点，不需要使用InvalidNode()(对于根节点也不用做)
+                    node = childNode;
                 }
                 //度为2
                 else
@@ -223,8 +208,8 @@ namespace MFramework
                     {
                         tempNode = tempNode.left;
                     }
+                    node.right = InternalRemove(node.right, tempNode.Value);
                     node.item = tempNode.item;
-                    InvalidNode(tempNode);
                 }
             }
 
