@@ -393,7 +393,7 @@ public static class MBinaryTreeExtension
             }
             else
             {
-                levelStr += "null ";
+                levelStr += "X ";
             }
 
             //无论如何，都将node填入(但是node不能为空，也就是说该节点不是由空节点派生出来的)

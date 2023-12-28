@@ -1,5 +1,6 @@
 using MFramework;
 using System;
+using System.Collections;
 
 namespace MFramework
 {
@@ -64,7 +65,7 @@ namespace MFramework
         #endregion
     }
 
-    public class MBinarySearchTree
+    public class MBinarySearchTree : IEnumerable
     {
         #region Internal Field
         private MBinarySearchTreeNode root;
@@ -87,6 +88,41 @@ namespace MFramework
         {
             MBinarySearchTreeNode newNode = new MBinarySearchTreeNode(o, this);
 
+            InternalAdd(newNode);
+        }
+        public void Add(MBinarySearchTreeNode newNode)
+        {
+            ValidateNewNode(newNode);
+            newNode.list = this;
+
+            InternalAdd(newNode);
+        }
+
+        public void Remove(object o)
+        {
+            MBinarySearchTreeNode node = Search(o);
+
+            InternalRemove(node);
+        }
+        public void Remove(MBinarySearchTreeNode node)
+        {
+            ValidateNode(node);
+
+            InternalRemove(node);
+        }
+
+        public bool Contain(object o)
+        {
+            return Search(o) != null;
+        }
+
+        public object[] Sort()
+        {
+            return InOrder();
+        }
+
+        private void InternalAdd(MBinarySearchTreeNode newNode)
+        {
             if (root == null)
             {
                 root = newNode;
@@ -94,7 +130,7 @@ namespace MFramework
                 return;
             }
 
-            IComparable num = o as IComparable;
+            IComparable num = newNode.item as IComparable;
             if (num == null) throw new Exception();//对于没有IComparable的数据不能比较
 
             MBinarySearchTreeNode cur = root;
@@ -105,6 +141,7 @@ namespace MFramework
                 {
                     if (cur.right == null)
                     {
+                        newNode.parent = cur;
                         cur.right = newNode;
                         count++;
                         return;
@@ -116,6 +153,7 @@ namespace MFramework
                 {
                     if (cur.left == null)
                     {
+                        newNode.parent = cur;
                         cur.left = newNode;
                         count++;
                         return;
@@ -129,8 +167,57 @@ namespace MFramework
                 }
             }
         }
+        private void InternalRemove(MBinarySearchTreeNode node)
+        {
+            //节点为空说明没有删除对象
+            if (node == null)
+            {
+                throw new Exception();
+            }
 
-        public MBinarySearchTreeNode Search(object o)
+            //度为0(为叶子节点)
+            if (node.left == null && node.right == null)
+            {
+                InvalidNode(node);
+            }
+            //度为1
+            else if (node.left == null || node.right == null)
+            {
+                MBinarySearchTreeNode childNode = node.left ?? node.right;
+
+                if (node == root)
+                {
+                    root = childNode;
+                }
+                else
+                {
+                    if (node.parent.left == node)//该节点为左节点
+                    {
+                        node.parent.left = childNode;
+                    }
+                    else if (node.parent.right == node)//该节点为右节点
+                    {
+                        node.parent.right = childNode;
+                    }
+                }
+                node.Invalidate();//父节点已经链接其它节点，不需要使用InvalidNode()(对于根节点也不用做)
+            }
+            //度为2
+            else
+            {
+                MBinarySearchTreeNode tempNode = node.right;
+                while (tempNode.left != null)
+                {
+                    tempNode = tempNode.left;
+                }
+                node.item = tempNode.item;
+                InvalidNode(tempNode);
+            }
+
+            count--;
+        }
+
+        private MBinarySearchTreeNode Search(object o)
         {
             IComparable num = o as IComparable;
             if (num == null) throw new Exception();//对于没有IComparable的数据不能比较
@@ -139,11 +226,11 @@ namespace MFramework
 
             while (cur != null)
             {
-                if (num.CompareTo(cur.item) < 0)
+                if (num.CompareTo(cur.item) > 0)//num > cur.item
                 {
                     cur = cur.right;//传入值更大，向右走
                 }
-                else if (num.CompareTo(cur.item) > 0)
+                else if (num.CompareTo(cur.item) < 0)//num < cur.item
                 {
                     cur = cur.left;//传入值更小，向左走
                 }
@@ -188,7 +275,7 @@ namespace MFramework
             {
                 MBinarySearchTreeNode parentNode = node.parent;
 
-                //根据节点在父节点的位置断开
+                //根据节点在父节点的左右断开
                 if (parentNode.left == node)
                 {
                     parentNode.left = null;
@@ -202,6 +289,32 @@ namespace MFramework
             //断开自己的引用
             node.Invalidate();
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (var item in InOrder())
+            {
+                yield return item;
+            }
+        }
+        private object[] InOrder()
+        {
+            ValidateNode(root);
+
+            object[] list = new object[count];
+            InternalInOrder(root, list, 0);
+
+            return list;
+        }
+        private int InternalInOrder(MBinarySearchTreeNode root, object[] list, int index)
+        {
+            if (root == null) return index - 1;
+            int next = InternalInOrder(root.left, list, index);
+            next++;
+            list[next] = root.item;
+            return InternalInOrder(root.right, list, next + 1);
+        }
+
         #endregion
     }
 }
@@ -242,7 +355,7 @@ public static class MBinarySearchTreeExtension
             }
             else
             {
-                levelStr += "null ";
+                levelStr += "X ";
             }
 
             //无论如何，都将node填入(但是node不能为空，也就是说该节点不是由空节点派生出来的)
@@ -258,5 +371,23 @@ public static class MBinarySearchTreeExtension
             }
         }
         Log.Print(Log.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
+    }
+
+    public static void SortPrint(this MBinarySearchTree tree)
+    {
+        Log.Print("输出: ");
+
+        if (tree.Count == 0)
+        {
+            Log.Print("无元素");
+            return;
+        }
+
+        string outputStr = "";
+        foreach (var item in tree)
+        {
+            outputStr += $"{item} ";
+        }
+        Log.Print(outputStr);
     }
 }
