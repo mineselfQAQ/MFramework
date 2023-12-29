@@ -17,5 +17,11 @@ public class Test_MAVLTree : MonoBehaviour
         tree.Add(5);
 
         tree.Print();
+
+        tree.Remove(1);
+        tree.Remove(4);
+        tree.Remove(7);
+
+        tree.Print();
     }
 }

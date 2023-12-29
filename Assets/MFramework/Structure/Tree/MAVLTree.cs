@@ -86,50 +86,16 @@ namespace MFramework
         #endregion
 
         #region Function
-        public MAVLTreeNode Rotate(MAVLTreeNode node)
-        {
-            int balanceFactor = BalanceFactor(node);
-
-            if (balanceFactor > 1)//左偏树情况
-            {
-                if (BalanceFactor(node.left) >= 0)//节点在左侧
-                {
-                    //右旋
-                    return RightRotate(node);
-                }
-                else//节点在右侧
-                {
-                    //先左旋，再右旋
-                    node.left = LeftRotate(node.left);
-                    return RightRotate(node);
-                }
-            }
-            if (balanceFactor < -1)//右偏树情况
-            {
-                if (BalanceFactor(node.right) >= 0)//节点在左侧
-                {
-                    //左旋
-                    return LeftRotate(node);
-                }
-                else//节点在右侧
-                {
-                    //先右旋，再左旋
-                    node.right = RightRotate(node.right);
-                    return LeftRotate(node);
-                }
-            }
-            //没有失衡，直接返回
-            return node;
-        }
-
         public void Add(object o)
         {
-            root = InternalAdd(root, o);
+            root = InternalAdd(root, o, null);
             count++;
         }
 
         public void Remove(object o)
         {
+            if (root == null) throw new Exception();//root为空那么不可能有内容需要remove
+
             InternalRemove(root, o);
             count--;
         }
@@ -144,20 +110,25 @@ namespace MFramework
             return InOrder();
         }
 
-        private MAVLTreeNode InternalAdd(MAVLTreeNode node, object o)
+        private MAVLTreeNode InternalAdd(MAVLTreeNode node, object o, MAVLTreeNode beforeNode)
         {
-            if (node == null) return new MAVLTreeNode(o, this);
+            if (node == null)
+            {
+                MAVLTreeNode newNode = new MAVLTreeNode(o, this);
+                newNode.parent = beforeNode;
+                return newNode;
+            }
 
             IComparable num = o as IComparable;
             if (num == null) throw new Exception();//对于没有IComparable的数据不能比较
             
             if (num.CompareTo(node.item) < 0)//传入值更小，向左走
             {
-                node.left = InternalAdd(node.left, o);
+                node.left = InternalAdd(node.left, o, node);
             }
             else if (num.CompareTo(node.item) > 0)//传入值更大，向右走
             {
-                node.right = InternalAdd(node.right, o);
+                node.right = InternalAdd(node.right, o, node);
             }
             else
             {
@@ -190,7 +161,8 @@ namespace MFramework
                 //度为0(为叶子节点)
                 if (node.left == null && node.right == null)
                 {
-                    InvalidNode(node);
+                    //叶子节点的null会返回给上一层，那么上一层的下一层会设置为null，不用InvalidNode()
+                    node.Invalidate();
                     return null;
                 }
                 //度为1
@@ -198,7 +170,28 @@ namespace MFramework
                 {
                     MAVLTreeNode childNode = node.left ?? node.right;
 
-                    node = childNode;
+                    //另一种写法
+                    //node = childNode;
+                    //注意：需要将节点Invalidate()，可以通过temp存储node在赋值后删除
+                    //含义为：将node指向childNode的堆内存，那么childNode就被"提上来了"，
+                    //而且node还是那个node，node.parent和node的关系没有发生改变
+
+                    if (node == root)
+                    {
+                        root = childNode;
+                    }
+                    else
+                    {
+                        if (node.parent.left == node)//该节点为左节点
+                        {
+                            node.parent.left = childNode;
+                        }
+                        else if (node.parent.right == node)//该节点为右节点
+                        {
+                            node.parent.right = childNode;
+                        }
+                    }
+                    node.Invalidate();//父节点已经链接其它节点，不需要使用InvalidNode()(对于根节点也不用做)
                 }
                 //度为2
                 else
@@ -208,8 +201,8 @@ namespace MFramework
                     {
                         tempNode = tempNode.left;
                     }
-                    node.right = InternalRemove(node.right, tempNode.Value);
                     node.item = tempNode.item;
+                    InvalidNode(tempNode);
                 }
             }
 
@@ -309,6 +302,7 @@ namespace MFramework
         {
             MAVLTreeNode childNode = node.left;
 
+            //理论上不会发生，但是如果左子节点都没找到，那么就不可能右旋
             if (childNode == null)
             {
                 return node;
@@ -328,7 +322,7 @@ namespace MFramework
                 childNode.right = node;
                 node.left = grandChildNode;
                 node.parent = childNode;
-                grandChildNode.parent = childNode;
+                grandChildNode.parent = node;
             }
 
             //node和childNode顺序发生改变，高度自然发生改变，而子节点不受影响
@@ -360,7 +354,7 @@ namespace MFramework
                 childNode.left = node;
                 node.right = grandChildNode;
                 node.parent = childNode;
-                grandChildNode.parent = childNode;
+                grandChildNode.parent = node;
             }
 
             //node和childNode顺序发生改变，高度自然发生改变，而子节点不受影响
@@ -368,6 +362,41 @@ namespace MFramework
             UpdateHeight(childNode);
 
             return childNode;//为更新后的"根节点"
+        }
+        private MAVLTreeNode Rotate(MAVLTreeNode node)
+        {
+            int balanceFactor = BalanceFactor(node);
+
+            if (balanceFactor > 1)//左偏树情况
+            {
+                if (BalanceFactor(node.left) >= 0)//节点在左侧
+                {
+                    //右旋
+                    return RightRotate(node);
+                }
+                else//节点在右侧
+                {
+                    //先左旋，再右旋
+                    node.left = LeftRotate(node.left);
+                    return RightRotate(node);
+                }
+            }
+            if (balanceFactor < -1)//右偏树情况
+            {
+                if (BalanceFactor(node.right) <= 0)//节点在左侧
+                {
+                    //左旋
+                    return LeftRotate(node);
+                }
+                else//节点在右侧
+                {
+                    //先右旋，再左旋
+                    node.right = RightRotate(node.right);
+                    return LeftRotate(node);
+                }
+            }
+            //没有失衡，直接返回
+            return node;
         }
 
         public IEnumerator GetEnumerator()

@@ -264,8 +264,6 @@ namespace MFramework
                 bucket bucket;
                 do
                 {
-                    int num4 = 0;
-                    int num5;
                     bucket = array[num3];
 
                     if (bucket.key == null)
