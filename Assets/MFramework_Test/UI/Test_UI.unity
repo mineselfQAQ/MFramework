@@ -247,6 +247,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
+  UseCoolDown: 0
+  Duration: 1
   spriteList:
   - {fileID: 21300000, guid: 92e66e83dede27945804cee655185047, type: 3}
   - {fileID: 21300000, guid: 7656da91001c6fd4ebff2e36202c0158, type: 3}
@@ -256,6 +258,7 @@ MonoBehaviour:
   spacing: 200
   size: {x: 400, y: 300}
   scaleFactor: 0.8
+  alphaFactor: 0.8
   previousBtn: {fileID: 350449204}
   nextBtn: {fileID: 1725423646}
 --- !u!1 &278775084
