@@ -111,7 +111,7 @@ namespace MFramework
             }
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < _size; i++)
             {
