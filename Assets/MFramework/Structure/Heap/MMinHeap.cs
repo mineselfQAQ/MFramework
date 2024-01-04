@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MFramework
 {
-    public class MMaxHeap<T>
+    public class MMinHeap<T>
     {
         private MList<T> _heap;
 
@@ -17,19 +17,19 @@ namespace MFramework
             }
         }
 
-        public MMaxHeap()
+        public MMinHeap()
         {
             _heap = new MList<T>();
 
             this.comparer = Comparer<T>.Default;
         }
-        public MMaxHeap(IComparer<T> comparer)
+        public MMinHeap(IComparer<T> comparer)
         {
             _heap = new MList<T>();
 
             this.comparer = comparer;
         }
-        public MMaxHeap(IEnumerable<T> nums)
+        public MMinHeap(IEnumerable<T> nums)
         {
             this.comparer = Comparer<T>.Default;
 
@@ -42,7 +42,7 @@ namespace MFramework
                 SiftDown(i);
             }
         }
-        public MMaxHeap(IEnumerable<T> nums, IComparer<T> comparer)
+        public MMinHeap(IEnumerable<T> nums, IComparer<T> comparer)
         {
             this.comparer = comparer;
 
@@ -88,8 +88,8 @@ namespace MFramework
             {
                 int p = GetParent(i);
 
-                //条件满足，不再执行(父节点索引出界 或 子元素小于等于父元素)
-                if (p < 0 || comparer.Compare(_heap[i], _heap[p]) <= 0)
+                //条件满足，不再执行(父节点索引出界 或 子元素大于等于父元素)
+                if (p < 0 || comparer.Compare(_heap[i], _heap[p]) >= 0)
                 {
                     break;
                 }
@@ -107,11 +107,11 @@ namespace MFramework
                 int l = GetLeft(i), r = GetRight(i), max = i;
 
                 //子节点未出界 且 父节点并非最大，此时更改max
-                if (l < Count && comparer.Compare(_heap[l], _heap[max]) > 0)
+                if (l < Count && comparer.Compare(_heap[l], _heap[max]) < 0)
                 {
                     max = l;
                 }
-                if (r < Count && comparer.Compare(_heap[r], _heap[max]) > 0)
+                if (r < Count && comparer.Compare(_heap[r], _heap[max]) < 0)
                 {
                     max = r;
                 }

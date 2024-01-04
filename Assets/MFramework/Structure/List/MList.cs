@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MFramework
 {
-    public class MList<T> : IEnumerable
+    public class MList<T> : IEnumerable<T>
     {
         private const int _deafultCapacity = 4;
 
@@ -80,6 +80,17 @@ namespace MFramework
 
             _items = new T[capacity];
         }
+        public MList(IEnumerable<T> nums)
+        {
+            if (nums == null) throw new Exception();
+
+            _count = 0;
+            _items = new T[0];
+            foreach (T item in nums)
+            {
+                Add(item);
+            }
+        }
 
         public void Add(T item)
         {
@@ -115,9 +126,12 @@ namespace MFramework
         {
             if (index < 0 || index >= _count) throw new Exception();
 
-            Array.Copy(_items, index + 1, _items, index, _count - index);
-            _count--;
-            _items[_count] = default(T);//注意：先减再删，减了后才是最后一个元素的index
+            _count--;//先减
+            if (index < _count)//排除index为尾元素情况
+            {
+                Array.Copy(_items, index + 1, _items, index, _count - index);
+            }
+            _items[_count] = default(T);
         }
 
         /// <summary>
@@ -238,6 +252,14 @@ namespace MFramework
                 yield return _items[i];
             }
         }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                yield return _items[i];
+            }
+        }
     }
 
     public static class MListExtension
@@ -253,7 +275,7 @@ namespace MFramework
             }
 
             string outputStr = "";
-            foreach (var item in list)
+            foreach (T item in list)
             {
                 outputStr += $"{item} ";
             }

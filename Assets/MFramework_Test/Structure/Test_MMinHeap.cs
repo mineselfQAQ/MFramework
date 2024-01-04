@@ -1,11 +1,11 @@
 using MFramework;
 using UnityEngine;
 
-public class Test_MMaxHeap : MonoBehaviour
+public class Test_MMinHeap : MonoBehaviour
 {
     private void Start()
     {
-        MMaxHeap<int> heap = new MMaxHeap<int>();
+        MMinHeap<int> heap = new MMinHeap<int>();
 
         heap.Push(3);
         heap.Push(5);
@@ -25,7 +25,7 @@ public class Test_MMaxHeap : MonoBehaviour
         Log.Print(Log.ColorWord("---分隔符---", Color.red));
 
         MList<int> list = new MList<int>() { 3, 5, 8, 4, 7 };
-        MMaxHeap<int> heap2 = new MMaxHeap<int>(list);
+        MMinHeap<int> heap2 = new MMinHeap<int>(list);
         Log.Print("总数: " + heap2.Count);
 
         Log.Print("弹出堆顶元素: " + heap2.Pop());
