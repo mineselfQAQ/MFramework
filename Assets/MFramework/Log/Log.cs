@@ -53,7 +53,7 @@ namespace MFramework
             return message.ToString();
 #endif
         }
-        public static string ColorWord(object message, Color color, bool isBold, bool isItalic)
+        public static string ColorWord(object message, Color color, bool isBold = false, bool isItalic = false)
         {
 #if UNITY_EDITOR
             string resultStr = AddColor(message, color);
