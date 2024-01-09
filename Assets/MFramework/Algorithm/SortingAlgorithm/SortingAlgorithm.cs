@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MFramework
 {
@@ -71,6 +72,40 @@ namespace MFramework
                 }
                 //插入值
                 arr[j + 1] = temp;
+            }
+        }
+
+        /// <summary>
+        /// <para>希尔排序---基于插入排序，会根据步长多次进行插入排序，每次插入会使其逐渐有序</para>
+        /// 非适应排序(应该)，时间复杂度O(nlogn) | 原地排序，空间复杂度O(1) | 不稳定排序
+        /// </summary>
+        public static void ShellSort(int[] arr)
+        {
+            int gap = arr.Length;//gap---每组元素之间的间隔
+
+            while (gap != 1)//最后一次间隔总为1，也就是完整排序
+            {
+                gap /= 2;//间隔减少，也就是每次组内元素增加，最终间隔为1，完整排序
+
+                //组内排序
+                for (int i = 0; i < gap; i++)
+                {
+                    //使用插入排序做法
+                    for (int j = i; j < arr.Length; j += gap)
+                    {
+                        int temp = arr[j];//暂存值
+                        int k = j - 1;//index
+
+                        //如果待存值更小，为其"腾空间"(后移)
+                        while (k >= 0 && arr[k] > temp)
+                        {
+                            arr[k + 1] = arr[k];
+                            k--;
+                        }
+                        //插入值
+                        arr[k + 1] = temp;
+                    }
+                }
             }
         }
 
@@ -238,6 +273,183 @@ namespace MFramework
                 Swap(ref arr[i], ref arr[max]);//交换节点中的值
                 i = max;//向下一层
             }
+        }
+
+        /// <summary>
+        /// <para>桶排序---尽量均匀分配在不同的桶中，在桶中排序后合并至原数组</para>
+        /// <para>注意：限制条件为取值范围[0,1)</para>
+        /// 自适应排序，时间复杂度O(n)(理想情况) | 非原地排序，空间复杂度O(n) | 稳定性取决于桶中的排序算法
+        /// </summary>
+        public static void BucketSort(float[] arr)
+        {
+            //初始化桶
+            int k = arr.Length / 2;//创建桶的数量
+            List<List<float>> buckets = new List<List<float>>();
+            for (int i = 0; i < k; i++)
+            {
+                buckets.Add(new List<float>());
+            }
+
+            //将数添加至桶中
+            foreach (float num in arr)
+            {
+                //关键---原输入[0,1)，将其映射至[0,k-1](整数)
+                //所以说根据输入值的大小，会将其放置在不同的桶中
+                int i = (int)(num * k);
+                buckets[i].Add(num);
+            }
+
+            //对每个桶进行排序
+            foreach (List<float> bucket in buckets)
+            {
+                bucket.Sort();
+            }
+
+            //将桶中已排序内容转移回数组中
+            int j = 0;
+            foreach (List<float> bucket in buckets)
+            {
+                foreach (float num in bucket)
+                {
+                    arr[j++] = num;
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>计数排序(基础版)---桶排序的一个特例，将值作为索引依次存入一个数组，每有一个数就使对应索引的计数+1，
+        /// 最终通过得到的计数数组覆盖至原数组</para>
+        /// <para>注意：限制条件为只能用于非负整数(如果可以转换也行)</para>
+        /// 时间复杂度O(n) | 非原地排序，空间复杂度O(n) | 非稳定排序
+        /// </summary>
+        public static void CountingSortNaive(int[] arr)
+        {
+            //获取最大值
+            int max = 0;
+            foreach (int num in arr)
+            {
+                max = Math.Max(max, num);
+            }
+
+            //数组大小，由于索引代表的是数值大小，既然最大索引为max，那么数组元素个数应该为max+1
+            int[] counter = new int[max + 1];
+            //将元素根据值的大小填入计数数组的对应索引中
+            foreach (int num in arr)
+            {
+                counter[num]++;
+            }
+
+            //将数组元素按序覆盖
+            int i = 0;
+            for (int num = 0; num < max + 1; num++)//每组都会填入相同的值
+            {
+                for (int j = 0; j < counter[num]; j++, i++)//直到j到达计数量时，退出，填入下一个值
+                {
+                    arr[i] = num;
+                }
+            }
+        }
+        /// <summary>
+        /// <para>计数排序---桶排序的一个特例，将值作为索引依次存入一个数组，每有一个数就使对应索引的计数+1，
+        /// 在此基础之上更改为前缀和，最终通过倒序遍历得到res数组并覆盖至原数组</para>
+        /// <para>注意：限制条件为只能用于非负整数(如果可以转换也行)</para>
+        /// 时间复杂度O(n) | 非原地排序，空间复杂度O(n) | 稳定排序
+        /// </summary>
+        public static void CountingSort(int[] arr)
+        {
+            //获取最大值
+            int max = 0;
+            foreach (int num in arr)
+            {
+                max = Math.Max(max, num);
+            }
+
+            //数组大小，由于索引代表的是数值大小，既然最大索引为max，那么数组元素个数应该为max+1
+            int[] counter = new int[max + 1];
+            //将元素根据值的大小填入计数数组的对应索引中
+            foreach (int num in arr)
+            {
+                counter[num]++;
+            }
+            //将计数数组更改为前缀和数组
+            for (int i = 0; i < max; i++)
+            {
+                counter[i + 1] += counter[i];
+            }
+
+            int n = arr.Length;
+            int[] res = new int[n];//暂存数组
+            //倒序遍历
+            for (int i = n - 1; i >= 0; i--)
+            {
+                int num = arr[i];//值大小，同样为索引
+                res[counter[num] - 1] = num;//将值存入res数组
+                counter[num]--;//更改前缀和
+            }
+
+            //覆盖原数组
+            for (int i = 0; i < n; i++)
+            {
+                arr[i] = res[i];
+            }
+        }
+
+        /// <summary>
+        /// <para>基数排序---一种通过对每个位排序的方法</para>
+        /// <para>注意：数据必须可以表示为固定位数的格式，且位数不能过大</para>
+        /// 时间复杂度O(n) | 非原地排序，空间复杂度O(n) | 稳定排序(计数排序必须稳定)
+        /// </summary>
+        public static void RadixSort(int[] arr)
+        {
+            //获取最大值
+            int max = int.MinValue;
+            foreach (int num in arr)
+            {
+                if (num > max) max = num;
+            }
+
+            //按照从低位到高位的顺序遍历执行
+            for (int exp = 1; exp <= max; exp *= 10)
+            {
+                CountingSortDigit(arr, exp);//利用非常快的计数排序进行排序
+            }
+        }
+        private static void CountingSortDigit(int[] arr, int exp)
+        {
+            int[] counter = new int[10];//十进制下只有10个数，桶的大小就为10
+            int n = arr.Length;
+
+            //将元素根据值的大小填入计数数组的对应索引中
+            for (int i = 0; i < n; i++)
+            {
+                int d = Digit(arr[i], exp);//获取某一位的值
+                counter[d]++;
+            }
+            //将计数数组更改为前缀和数组
+            for (int i = 1; i < 10; i++)
+            {
+                counter[i] += counter[i - 1];
+            }
+
+            int[] res = new int[n];//暂存数组
+            //倒序遍历
+            for (int i = n - 1; i >= 0; i--)
+            {
+                int d = Digit(arr[i], exp);//值大小，同样为索引
+                int j = counter[d] - 1;//获取存入索引
+                res[j] = arr[i];//将值存入res数组
+                counter[d]--;//更改前缀和
+            }
+
+            //覆盖原数组
+            for (int i = 0; i < n; i++)
+            {
+                arr[i] = res[i];
+            }
+        }
+        private static int Digit(int num, int exp)
+        {
+            return (num / exp) % 10;//获取10进制下某一位的值
         }
 
         private static void Swap(ref int a, ref int b)

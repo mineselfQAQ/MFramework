@@ -45,6 +45,30 @@ namespace MFramework
             }
         }
 
+        public static string BoldWord(object message)
+        {
+            string resultStr = message.ToString();
+#if UNITY_EDITOR
+            resultStr = $"<b>{message}</b>";
+
+            return resultStr;
+#else
+            return resultStr;
+#endif
+        }
+
+        public static string ItalicWord(object message)
+        {
+            string resultStr = message.ToString();
+#if UNITY_EDITOR
+            resultStr = $"<i>{message}</i>";
+
+            return resultStr;
+#else
+            return resultStr;
+#endif
+        }
+
         public static string ColorWord(object message, Color color)
         {
 #if UNITY_EDITOR
