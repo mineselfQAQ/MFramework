@@ -24,6 +24,8 @@ namespace MFramework
         public static EventHandler Env { get { return GetHandler(EH_ENV); } }
         public static EventHandler FX { get { return GetHandler(EH_FX); } }
 
+        private EventDispatcher() { }
+
         public static void Dispatch(EventHandler handler, int id)
         {
             handler.DispatchEvent(id);

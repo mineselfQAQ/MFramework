@@ -13,9 +13,8 @@ namespace MFramework
 
         private bool dirty = false;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             prefabLookup = new Dictionary<GameObject, ObjectPool<GameObject>>();
             instanceLookup = new Dictionary<GameObject, ObjectPool<GameObject>>();
         }
