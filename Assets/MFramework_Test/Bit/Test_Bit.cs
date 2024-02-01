@@ -8,7 +8,8 @@ public class Test_Bit : MonoBehaviour
     {
         string bStr1 = "11111111";
         byte b1 = Convert.ToByte(bStr1, 2);
-        byte b2 = 0b11111111;
+        byte b2 = 0b11111111;//Tip:0bxxx所表示的是一个常量(无符号数)
+        //sbyte b2 = 0b11111111;//错误，0b11111111指代的就是255
         string bStr2 = "11111111";//在有符号中得-1---为补码11111111，这等价于反码11111110,也等价于原码10000001
         sbyte b3 = Convert.ToSByte(bStr2, 2);
         Log.Print(b1);//255
