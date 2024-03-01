@@ -43,7 +43,7 @@ namespace MFramework
         [Space(5)]
         public List<Sprite> spriteList;
 
-        public int spacing;
+        public int spacing = 200;
 
         public Vector2 size;
 
@@ -67,6 +67,8 @@ namespace MFramework
 
         private int midIndex;
 
+        private Vector2 basePos;
+
         private void Start()
         {
             //初始化
@@ -75,6 +77,7 @@ namespace MFramework
             SetOrientFactor();
             minXorY = CalculateMinXorY(count, spacing);
             totalTime = Duration;
+            basePos = transform.position;
 
             for (int i = 0; i < count; i++)
             {
@@ -84,8 +87,7 @@ namespace MFramework
                 RectTransform rectTransform = go.GetComponent<RectTransform>();
                 //位置
                 rectTransform.anchoredPosition = CalculatePosition(i);
-                Vector2 objPos = rectTransform.anchoredPosition +
-                    new Vector2(Screen.width / 2, Screen.height / 2);
+                Vector2 objPos = rectTransform.anchoredPosition + basePos;
                 //大小
                 rectTransform.sizeDelta = new Vector2(size.x, size.y);
                 float objScale = CalculateScale(i, midIndex);
