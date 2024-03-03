@@ -8,7 +8,8 @@ namespace MFramework
         [MenuItem("MFramework/OpenFolder/OpenPersistentDataPath")]
         public static void OpenPersistentDataPath()
         {
-            EditorUtility.RevealInFinder(Application.persistentDataPath);
+            System.Diagnostics.Process.Start("explorer", "/select,\"" + Application.persistentDataPath + "\"");
+            //EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenStreamingAssetsPath")]

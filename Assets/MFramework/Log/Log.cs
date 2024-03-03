@@ -17,6 +17,13 @@ namespace MFramework
         private static FileStream fs;
         private static string path = $"{Application.dataPath}/../LogCallBack.txt";
 
+        public static void Blank()
+        {
+#if UNITY_EDITOR
+            Debug.Log("");
+#endif
+        }
+
         public static void Print(object message, MLogType type = MLogType.Log, Object context = null)
         {
             switch (type) 
