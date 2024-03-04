@@ -3,21 +3,19 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[CustomEditor(typeof(Test_FindScriptPath))]
-public class Test_FindScriptPathEditor : Editor
+[CustomEditor(typeof(Test_FindPrefabPath))]
+public class Test_FindPrefabPathEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        if (GUILayout.Button("FindScriptPath"))
+        if (GUILayout.Button("FindPrefabPath"))
         {
-            FindScriptPath();
+            FindPrefabPath();
         }
-
     }
 
-    private void FindScriptPath()
+    private void FindPrefabPath()
     {
         string secondPath = GetSecondPath();
 

@@ -259,6 +259,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1238876162 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6437359362693478364, guid: fa64534e6d48dc841a5b0bc7b33cf3a5, type: 3}
+  m_PrefabInstance: {fileID: 1534465569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1534465569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -309,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6437359362693478364, guid: fa64534e6d48dc841a5b0bc7b33cf3a5, type: 3}
       propertyPath: m_Name
-      value: Test_FindScriptPath
+      value: Test_FindPrefabPath
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -325,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8643116135173589264}
-  - component: {fileID: 4439353405605465039}
+  - component: {fileID: 8643116135173589265}
   m_Layer: 0
   m_Name: Test_FindScriptPath
   m_TagString: Untagged
@@ -333,18 +338,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4439353405605465039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64163739305858132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb7e4ecd246b014429abb219013a46ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8643116135173589264
 Transform:
   m_ObjectHideFlags: 0
@@ -360,6 +353,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8643116135173589265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64163739305858132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f85347a83124e4e96f341409c6f5d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1238876162}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
