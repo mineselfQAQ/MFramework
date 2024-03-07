@@ -6,22 +6,26 @@ namespace MFramework
 {
     public class EditorSettingsController : EditorWindow
     {
+        private Vector2 scrollPos;
+
         [MenuItem("MFramework/EditorSettingsController")]
         public static void Init()
         {
             EditorSettingsController window = GetWindow<EditorSettingsController>();
+            window.minSize = new Vector2(600, 400);
+            window.maxSize = new Vector2(600, 400);
             window.Show();
         }
 
         private void OnGUI()
         {
-            EditorGUILayout.BeginVertical();
-            {
-                //标题
-                EditorGUILayout.Space(5);
-                EditorGUILayout.LabelField("EditorSettings", GUIStyleUtility.TitleStyle);
-                EditorGUILayout.Space(5);
+            //标题
+            EditorGUILayout.Space(5);
+            EditorGUILayout.LabelField("EditorSettings", GUIStyleUtility.TitleStyle);
+            EditorGUILayout.Space(5);
 
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+            {
                 EditorGUILayout.LabelField("excelGenerationPath路径：", GUIStyleUtility.BoldStyle);
                 EditorGUILayout.BeginHorizontal();
                 {
@@ -32,8 +36,10 @@ namespace MFramework
                     }
                 }
                 EditorGUILayout.EndHorizontal();
+
+                //TODO:找到所有的路径并以上述格式编写按钮
             }
-            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
         }
 
         /// <summary>
@@ -42,7 +48,8 @@ namespace MFramework
         /// <param name="originName">EditorSettings中的变量名</param>
         public static void ChangePath(string originName)
         {
-            string newPath = EditorUtility.OpenFolderPanel("请选择Excel存储路径", @$"{Application.dataPath}\..", "");
+            string guideFolder = Path.GetDirectoryName(Application.dataPath);
+            string newPath = EditorUtility.OpenFolderPanel("请选择Excel存储路径", guideFolder, "");
             if (newPath == "")
             {
                 Log.Print("取消更改", MLogType.Warning);

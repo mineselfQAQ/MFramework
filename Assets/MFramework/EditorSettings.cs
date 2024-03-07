@@ -2,7 +2,7 @@ namespace MFramework
 {
     public static class EditorSettings
     {
-        public const string excelGenerationPath = @"F:/MineselfDemo";
+        public const string excelGenerationPath = @"F:/UnityProject/MFramework/ExcelData";
 
         public const string TestPath = @"xxxxxx";
 
