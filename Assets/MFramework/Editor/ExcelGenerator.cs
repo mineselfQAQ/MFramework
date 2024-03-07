@@ -15,22 +15,30 @@ namespace MFramework
 
         private void OnGUI()
         {
+            if (GUILayout.Button("更改Excel存储路径"))
+            {
+                EditorSettingsController.ChangePath(EditorSettingsBase.GetPathName(EditorSettingsBase.PathName.ExcelGenerationPath));
+                Log.Print($"已更改路径{EditorSettings.excelGenerationPath}.");
+            }
+
             if (GUILayout.Button("生成Excel文件"))
             {
-                string fullExcelGenerationPath = GetFullExcelGenerationPath(EditorSettings.Instance.excelGenerationPath);
-
-                bool isContinue = EditorUtility.DisplayDialog
-                    ("Generating", $"确定文件将生成在{fullExcelGenerationPath}处吗？", "YES", "Cancel");
-                if (isContinue) Log.Print("已完成生成.");
-                else Log.Print("已取消生成.");
+                int state = EditorUtility.DisplayDialogComplex("Generating", 
+                    $"确定文件将生成在{EditorSettings.excelGenerationPath}处吗？", "确认", "取消", "更改路径");
+                if (state == 0)
+                {
+                    Log.Print("已完成生成.");
+                }
+                else if (state == 1)
+                {
+                    Log.Print("已取消生成.", MLogType.Warning);
+                }
+                else
+                {
+                    EditorSettingsController.ChangePath(EditorSettingsBase.GetPathName(EditorSettingsBase.PathName.ExcelGenerationPath));
+                    Log.Print($"已更改路径.");
+                } 
             }
         }
-
-        private string GetFullExcelGenerationPath(string secondPath)
-        {
-            string fullPath = Path.GetFullPath(secondPath);
-            return fullPath;
-        }
-
     }
 }

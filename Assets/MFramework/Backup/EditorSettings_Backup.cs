@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class EditorSettings : ScriptableObject
+    public class EditorSettings_Backup : ScriptableObject
     {
         private const string k_Path = @"Assets\MFramework\Excel\ExcelSettings.asset";
 
-        private static EditorSettings ms_Instance = null;
-        public static EditorSettings Instance
+        private static EditorSettings_Backup ms_Instance = null;
+        public static EditorSettings_Backup Instance
         {
             get
             {
                 if (ms_Instance == null)
                 {
-                    ms_Instance = AssetDatabase.LoadAssetAtPath<EditorSettings>(k_Path);
+                    ms_Instance = AssetDatabase.LoadAssetAtPath<EditorSettings_Backup>(k_Path);
                     if (ms_Instance == null) 
                     {
-                        ms_Instance = CreateInstance<EditorSettings>();
+                        ms_Instance = CreateInstance<EditorSettings_Backup>();
                         AssetDatabase.CreateAsset(ms_Instance, k_Path);
                         AssetDatabase.Refresh();
                     }

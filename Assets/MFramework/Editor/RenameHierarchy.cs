@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class Rename : EditorWindow
+public class RenameHierarchy : EditorWindow
 {
     public string _NewName;
     public int _StartValue = 0;
@@ -14,7 +14,7 @@ public class Rename : EditorWindow
     [MenuItem("MFramework/HierarchyRename")]
     public static void Init()
     {
-        Rename window = GetWindow<Rename>(true, "RenameTool");
+        RenameHierarchy window = GetWindow<RenameHierarchy>(true, "RenameTool");
         window.minSize = new Vector2(320, 150);
         window.maxSize = new Vector2(320, 1000);
         window.Show();
