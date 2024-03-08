@@ -9,7 +9,7 @@ namespace MFramework
             ExcelGenerationPath
         }
 
-        public static string originExcelGenerationPath = @$"{Application.dataPath}\..\ExcelData";
+        public static string defaultExcelGenerationPath = @$"{Application.dataPath}\..\ExcelData";
 
         public static string GetPathName(PathName name)
         {

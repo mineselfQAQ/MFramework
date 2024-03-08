@@ -20,9 +20,7 @@ namespace MFramework
         private void OnGUI()
         {
             //±êÌâ
-            EditorGUILayout.Space(5);
-            EditorGUILayout.LabelField("EditorSettings", GUIStyleUtility.TitleStyle);
-            EditorGUILayout.Space(5);
+            GUIUtility.DrawTitle(5, "Â·¾¶ÅäÖÃÆ÷");
 
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             {

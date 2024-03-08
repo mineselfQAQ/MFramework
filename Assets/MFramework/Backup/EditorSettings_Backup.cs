@@ -26,11 +26,11 @@ namespace MFramework
             }
         }
 
-        [MenuItem("MFramework/FindEditorSettings")]
-        public static void Find() 
-        {
-            Selection.activeObject = Instance;
-        }
+        //[MenuItem("MFramework/FindEditorSettings")]
+        //public static void Find() 
+        //{
+        //    Selection.activeObject = Instance;
+        //}
 
         //Tip：请使用'\'而非'/'以保证在Windows下的正确运行
         //==========Excel==========
