@@ -2,7 +2,7 @@ using System.IO;
 
 namespace MFramework
 {
-    public class PathUtility
+    public class MPathUtility
     {
         private string GetFullPathBaseProjectRoot(string secondPath)
         {

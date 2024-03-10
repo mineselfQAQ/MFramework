@@ -266,11 +266,11 @@ namespace MFramework
     {
         public static void Print<T>(this MList<T> list)
         {
-            Log.Print("输出: ");
+            MLog.Print("输出: ");
 
             if (list.Count == 0)
             {
-                Log.Print("无元素");
+                MLog.Print("无元素");
                 return;
             }
 
@@ -279,7 +279,7 @@ namespace MFramework
             {
                 outputStr += $"{item} ";
             }
-            Log.Print(outputStr);
+            MLog.Print(outputStr);
         }
     }
 }

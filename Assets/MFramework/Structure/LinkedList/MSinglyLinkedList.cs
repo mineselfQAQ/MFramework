@@ -414,11 +414,11 @@ public static class MSinglyLinkedListExtension
 {
     public static void Print(this MSinglyLinkedList list)
     {
-        Log.Print("输出: ");
+        MLog.Print("输出: ");
 
         if (list.Count == 0)
         {
-            Log.Print("无元素");
+            MLog.Print("无元素");
             return;
         }
 
@@ -427,6 +427,6 @@ public static class MSinglyLinkedListExtension
         {
             outputStr += $"{item} ";
         }
-        Log.Print(outputStr);
+        MLog.Print(outputStr);
     }
 }

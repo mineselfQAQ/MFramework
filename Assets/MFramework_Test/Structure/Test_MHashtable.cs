@@ -13,51 +13,51 @@ public class Test_MHashtable : MonoBehaviour
         hashtable.Add(3, "元素3");
         hashtable.Remove(1);
 
-        Log.Print("hashtable[1]是否有值: " + !(hashtable[1] == null));
-        Log.Print("Count: " + hashtable.Count);
-        Log.Print("是否有Key-2: " + hashtable.ContainsKey(2));
-        Log.Print("是否有Value-元素2: " + hashtable.ContainsValue("元素2"));
+        MLog.Print("hashtable[1]是否有值: " + !(hashtable[1] == null));
+        MLog.Print("Count: " + hashtable.Count);
+        MLog.Print("是否有Key-2: " + hashtable.ContainsKey(2));
+        MLog.Print("是否有Value-元素2: " + hashtable.ContainsValue("元素2"));
 
 
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
 
 
-        Log.Print("输出Key:");
+        MLog.Print("输出Key:");
         string keyOutput = "";
         foreach (var item in hashtable.Keys)
         {
             keyOutput += $"{item} ";
         }
-        Log.Print(keyOutput);
+        MLog.Print(keyOutput);
 
 
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
 
 
-        Log.Print("输出Value:");
+        MLog.Print("输出Value:");
         string valueOutput = "";
         foreach (var item in hashtable.Values)
         {
             valueOutput += $"{item} ";
         }
-        Log.Print(valueOutput);
+        MLog.Print(valueOutput);
 
 
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
 
 
-        Log.Print("输出KeyValuePair:");
+        MLog.Print("输出KeyValuePair:");
         string pairOutput = "";
         foreach (DictionaryEntry item in hashtable)
         {
             pairOutput += $"{item.Key}+{item.Value} ";
         }
-        Log.Print(pairOutput);
+        MLog.Print(pairOutput);
     }
 }

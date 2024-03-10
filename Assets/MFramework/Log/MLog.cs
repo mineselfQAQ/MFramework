@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEditor;
 
 namespace MFramework
 {
@@ -12,7 +13,7 @@ namespace MFramework
         Error
     }
 
-    public class Log
+    public class MLog
     {
         private static FileStream fs;
         private static string path = $"{Application.dataPath}/../LogCallBack.txt";
@@ -160,29 +161,31 @@ namespace MFramework
 
 #if UNITY_EDITOR
         //注意：必须将脚本挂上才有用
-        [UnityEditor.Callbacks.OnOpenAsset]
+        [UnityEditor.Callbacks.OnOpenAsset(0)]
         public static bool OnOpenAsset(int instanceID, int line)
         {
+            //Debug.Log("MLOG：OK");
+
             //首先需要拿到Console窗口下双击语句的输出信息
             string stackTrace = GetStackTrace();
 
-            //如果拿到了且有"Log.cs"，说明语句确实会跳转错误(堆栈到顶的话会找到Log类下的某个函数)
-            if (!string.IsNullOrEmpty(stackTrace) && stackTrace.Contains("Log.cs"))
+            //如果拿到了且有"MLog.cs"，说明语句确实会跳转错误(堆栈到顶的话会找到MLog类下的某个函数)
+            if (!string.IsNullOrEmpty(stackTrace) && stackTrace.Contains("MLog.cs"))
             {
                 //寻找内容：
                 //(at xxx)，这其实就是追踪函数的时候定位到的脚本信息
-                //举例：(at Assets/Utils/Log.cs:53)
+                //举例：(at Assets/Utils/MLog.cs:53)
                 var matches = Regex.Match(stackTrace, @"\(at (.+)\)", RegexOptions.IgnoreCase);
                 string pathLine = "";
                 //循环查找，先会匹配第一个找到的，然后使用NextMatch()找到第二个，以此类推
                 while (matches.Success)
                 {
-                    //组[1]，指代的就是(.+)，以上面的例子来说，就是Assets/Utils/Log.cs:53
+                    //组[1]，指代的就是(.+)，以上面的例子来说，就是Assets/Utils/MLog.cs:53
                     pathLine = matches.Groups[1].Value;
 
                     //根据堆栈调用中的内容，我们可以知道：
-                    //我们需要的是第一个不在Log.cs的内容(就是因为封装后多进入了一层，到了Log.cs才导致的问题)
-                    if (!pathLine.Contains("Log.cs"))
+                    //我们需要的是第一个不在MLog.cs的内容(就是因为封装后多进入了一层，到了MLog.cs才导致的问题)
+                    if (!pathLine.Contains("MLog.cs"))
                     {
                         //拆分，获得路径与行号
                         int splitIndex = pathLine.LastIndexOf(":");

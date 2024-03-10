@@ -58,7 +58,7 @@ namespace MFramework
             }
             else
             {
-                Log.Print($"EventHandler.RemoveListener() --- target event id not found.", MLogType.Error);
+                MLog.Print($"EventHandler.RemoveListener() --- target event id not found.", MLogType.Error);
                 return false;
             }
         }
@@ -81,7 +81,7 @@ namespace MFramework
         {
             if (dict == null)
             {
-                Log.Print("InsertOrUpdateKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
+                MLog.Print("InsertOrUpdateKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
                 return false;
             }
             if (dict.ContainsKey(key))
@@ -95,7 +95,7 @@ namespace MFramework
         {
             if (dict == null)
             {
-                Log.Print("RemoveKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
+                MLog.Print("RemoveKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
                 return false;
             }
             if (dict.ContainsKey(key))

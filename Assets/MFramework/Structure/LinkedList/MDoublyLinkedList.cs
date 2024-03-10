@@ -389,11 +389,11 @@ public static class MDoublyLinkedListExtension
 {
     public static void Print(this MDoublyLinkedList list)
     {
-        Log.Print("输出: ");
+        MLog.Print("输出: ");
 
         if (list.Count == 0)
         {
-            Log.Print("无元素");
+            MLog.Print("无元素");
             return;
         }
 
@@ -402,6 +402,6 @@ public static class MDoublyLinkedListExtension
         {
             outputStr += $"{item} ";
         }
-        Log.Print(outputStr);
+        MLog.Print(outputStr);
     }
 }

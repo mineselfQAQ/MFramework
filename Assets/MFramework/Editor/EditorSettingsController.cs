@@ -20,14 +20,18 @@ namespace MFramework
         private void OnGUI()
         {
             //标题
-            GUIUtility.DrawTitle(5, "路径配置器");
+            MGUIUtility.DrawTitle(5, "路径配置器");
 
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             {
-                EditorGUILayout.LabelField("excelGenerationPath路径：", GUIStyleUtility.BoldStyle);
+                EditorGUILayout.LabelField("excelGenerationPath路径：", MGUIStyleUtility.BoldStyle);
                 EditorGUILayout.BeginHorizontal();
                 {
                     EditorGUILayout.LabelField($"{EditorSettings.excelGenerationPath}");
+                    if (GUILayout.Button("查看"))
+                    {
+                        System.Diagnostics.Process.Start(EditorSettings.excelGenerationPath);
+                    }
                     if (GUILayout.Button("更改"))
                     {
                         ChangePath("excelGenerationPath");
@@ -50,7 +54,7 @@ namespace MFramework
             string newPath = EditorUtility.OpenFolderPanel("请选择Excel存储路径", guideFolder, "");
             if (newPath == "")
             {
-                Log.Print("取消更改", MLogType.Warning);
+                MLog.Print("取消更改", MLogType.Warning);
                 return;
             }
 
@@ -61,13 +65,13 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else Log.Print("ChangePath：未替换成功", MLogType.Error);
+                else MLog.Print("ChangePath：未替换成功", MLogType.Error);
 
                 AssetDatabase.Refresh();
             }
             else
             {
-                Log.Print("ChangePath：未找到路径", MLogType.Error);
+                MLog.Print("ChangePath：未找到路径", MLogType.Error);
             }
         }
         private static string ReplacePath(string str, string originName, string newPath)

@@ -12,28 +12,28 @@ public class Test_MMaxHeap : MonoBehaviour
         heap.Push(8);
         heap.Push(4);
         heap.Push(7);
-        Log.Print("总数: " + heap.Count);
+        MLog.Print("总数: " + heap.Count);
 
-        Log.Print("弹出堆顶元素: " + heap.Pop());
-        Log.Print("此时堆顶元素: " + heap.Peek());
+        MLog.Print("弹出堆顶元素: " + heap.Pop());
+        MLog.Print("此时堆顶元素: " + heap.Peek());
 
-        Log.Print("弹出堆顶元素: " + heap.Pop());
-        Log.Print("此时堆顶元素: " + heap.Peek());
+        MLog.Print("弹出堆顶元素: " + heap.Pop());
+        MLog.Print("此时堆顶元素: " + heap.Peek());
 
-        Log.Print("总数: " + heap.Count);
+        MLog.Print("总数: " + heap.Count);
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
         MList<int> list = new MList<int>() { 3, 5, 8, 4, 7 };
         MMaxHeap<int> heap2 = new MMaxHeap<int>(list);
-        Log.Print("总数: " + heap2.Count);
+        MLog.Print("总数: " + heap2.Count);
 
-        Log.Print("弹出堆顶元素: " + heap2.Pop());
-        Log.Print("此时堆顶元素: " + heap2.Peek());
+        MLog.Print("弹出堆顶元素: " + heap2.Pop());
+        MLog.Print("此时堆顶元素: " + heap2.Peek());
 
-        Log.Print("弹出堆顶元素: " + heap2.Pop());
-        Log.Print("此时堆顶元素: " + heap2.Peek());
+        MLog.Print("弹出堆顶元素: " + heap2.Pop());
+        MLog.Print("此时堆顶元素: " + heap2.Peek());
 
-        Log.Print("总数: " + heap2.Count);
+        MLog.Print("总数: " + heap2.Count);
     }
 }

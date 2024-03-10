@@ -21,7 +21,7 @@ public class Test_FindScriptPath : MonoBehaviour
             {
                 secondPath = path;
                 string fullPath = Path.GetFullPath(secondPath);
-                Log.Print(fullPath);
+                MLog.Print(fullPath);
                 //EditorGUIUtility.PingObject(obj); //不能Ping，必须在非运行时才能起效
                 break;
             }

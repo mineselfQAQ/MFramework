@@ -22,7 +22,7 @@ public class Test_FindPrefabPathEditor : Editor
         if (secondPath != null)
         {
             string fullPath = Path.GetFullPath(secondPath);
-            Log.Print(fullPath);
+            MLog.Print(fullPath);
             System.Diagnostics.Process.Start("explorer", "/select,\"" + fullPath + "\"");
         }
     }
@@ -44,7 +44,7 @@ public class Test_FindPrefabPathEditor : Editor
             }
             else
             {
-                Log.Print($"不是{Log.BoldWord("Prefab")}，无法获取", MLogType.Error);
+                MLog.Print($"不是{MLog.BoldWord("Prefab")}，无法获取", MLogType.Error);
                 return null;
             }
         }

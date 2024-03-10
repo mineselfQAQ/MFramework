@@ -10,7 +10,7 @@ namespace MFramework
         {
             if (logCallbackOn)
             {
-                Log.Init();
+                MLog.Init();
             }
         }
 
@@ -18,7 +18,7 @@ namespace MFramework
         {
             if (logCallbackOn)
             {
-                Log.Quit();
+                MLog.Quit();
             }
         }
     }

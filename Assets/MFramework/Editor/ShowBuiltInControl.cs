@@ -25,7 +25,7 @@ public class ShowBuiltInControl : EditorWindow
     private Rect _oldPosition;
 
     private bool _showingStyles = true;
-    private bool _showingIcons = false;
+    //private bool _showingIcons = false;
 
     private string _search = "";
 

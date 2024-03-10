@@ -12,17 +12,17 @@ public class Test_MQueue : MonoBehaviour
         queue.Enqueue(3);
         queue.Print();
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
         queue.Dequeue();
         queue.Print();
         
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
-        Log.Print("队首: " + queue.Peek());
-        Log.Print("是否包含1: " + queue.Contains(1));
+        MLog.Print("队首: " + queue.Peek());
+        MLog.Print("是否包含1: " + queue.Contains(1));
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
         queue.Clear();
         queue.Print();

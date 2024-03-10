@@ -84,7 +84,7 @@ namespace MFramework
             }
             else
             {
-                Log.Print("This object pool does not contain the item provided: " + item, MLogType.Error);
+                MLog.Print("This object pool does not contain the item provided: " + item, MLogType.Error);
             }
         }
 

@@ -24,7 +24,7 @@ public class Test_Excel : MonoBehaviour
         DataRowCollection data = ReadExcel(path, ms_SheetName);
         for (int i = 1; i < data.Count; i++)
         {
-           Log.Print($"第{i}行: {data[i][0]} {data[i][1]} {data[i][2]}");
+           MLog.Print($"第{i}行: {data[i][0]} {data[i][1]} {data[i][2]}");
         }
 
         //改写Excel
@@ -40,7 +40,7 @@ public class Test_Excel : MonoBehaviour
         FileInfo file = new FileInfo(path);
         if (file.Exists)
         {
-            Log.Print($"{ms_FileName}文件已存在，将进行删除后重新创建操作.");
+            MLog.Print($"{ms_FileName}文件已存在，将进行删除后重新创建操作.");
             file.Delete();
             file = new FileInfo(path);
         }
@@ -85,7 +85,7 @@ public class Test_Excel : MonoBehaviour
     public void UpdateExcel(string path)
     {
         FileInfo file = new FileInfo(path);
-        if (!file.Exists) Log.Print("UpdateExcel---未找到excel文件");
+        if (!file.Exists) MLog.Print("UpdateExcel---未找到excel文件");
 
         //填充数据
         using (ExcelPackage package = new ExcelPackage(file))

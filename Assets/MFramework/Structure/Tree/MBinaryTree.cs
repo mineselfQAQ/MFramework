@@ -408,6 +408,6 @@ public static class MBinaryTreeExtension
                 isNotBottom = true;
             }
         }
-        Log.Print(Log.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
+        MLog.Print(MLog.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
     }
 }

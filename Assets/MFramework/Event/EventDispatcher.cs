@@ -35,7 +35,7 @@ namespace MFramework
         {
             if (handler == null)
             {
-                Log.Print("EventDispatcher.AddListener()---event handler is null.", MLogType.Error);
+                MLog.Print("EventDispatcher.AddListener()---event handler is null.", MLogType.Error);
                 return false;
             }
             handler.AddListener(id, mEvent);
@@ -46,7 +46,7 @@ namespace MFramework
         {
             if (handler == null)
             {
-                Log.Print("EventDispatcher.RemoveListener()---event handler is null.", MLogType.Error);
+                MLog.Print("EventDispatcher.RemoveListener()---event handler is null.", MLogType.Error);
                 return false;
             }
             handler.RemoveListener(id, mEvent);
@@ -75,7 +75,7 @@ namespace MFramework
         {
             if (dict == null)
             {
-                Log.Print("InsertOrUpdateKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
+                MLog.Print("InsertOrUpdateKeyInDictionary: <Dictionary dict> is null.", MLogType.Error);
                 return false;
             }
             if (dict.ContainsKey(key))
@@ -89,14 +89,14 @@ namespace MFramework
         {
             if (dict == null)
             {
-                Log.Print("GetValueInDictionary: <Dictionary dict> is null.", MLogType.Error);
+                MLog.Print("GetValueInDictionary: <Dictionary dict> is null.", MLogType.Error);
                 return default(TValue);
             }
             if (dict.ContainsKey(key))
                 return dict[key];
             else
             {
-                Log.Print("GetValueInDictionary: Key is not present.", MLogType.Error);
+                MLog.Print("GetValueInDictionary: Key is not present.", MLogType.Error);
                 return default(TValue);
             }
         }

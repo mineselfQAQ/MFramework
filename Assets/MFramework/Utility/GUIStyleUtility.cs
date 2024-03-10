@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public static class GUIStyleUtility
+    public static class MGUIStyleUtility
     {
         private static int ms_DefaultFontSize = 14;
         private static Color ms_DefaultColor = EditorGUIUtility.isProSkin ? new Color(0.73f, 0.73f, 0.73f) : Color.black;

@@ -1,5 +1,7 @@
+//using CsvHelper;
 using Excel;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -23,7 +25,7 @@ namespace MFramework
         private void OnGUI()
         {
             //标题Excel编辑器
-            GUIUtility.DrawTitle(5, "Excel编辑器");
+            MGUIUtility.DrawTitle(5, "Excel编辑器");
 
             //if (GUILayout.Button("更改Excel存储路径"))
             //{
@@ -36,11 +38,18 @@ namespace MFramework
                 CreateExcelFile();
             }
 
-            EditorGUILayout.LabelField("------------------------------------------", GUIStyleUtility.BoldStyle);
+            EditorGUILayout.LabelField("------------------------------------------", MGUIStyleUtility.BoldStyle);
 
-            if (GUILayout.Button("生成持久化数据(XLSX--->CSV)"))
+            if (GUILayout.Button("生成CSV临时文件(XLSX--->CSV)"))
             {
                 XLSX2CSV();
+            }
+
+            EditorGUILayout.LabelField("------------------------------------------", MGUIStyleUtility.BoldStyle);
+
+            if (GUILayout.Button("生成二进制文件(XLSX--->BIN)"))
+            {
+                XLSX2BIN();
             }
         }
 
@@ -55,7 +64,7 @@ namespace MFramework
 
                 if (path == "")
                 {
-                    Log.Print("已取消生成Excel文件.", MLogType.Warning);
+                    MLog.Print("已取消生成Excel文件.", MLogType.Warning);
                     return;
                 }
 
@@ -67,7 +76,7 @@ namespace MFramework
                     file.Delete();
                     file = new FileInfo(path);
 
-                    Log.Print(Log.BoldWord($"已重新生成{fileName}."), MLogType.Warning);
+                    MLog.Print(MLog.BoldWord($"已重新生成{fileName}."), MLogType.Warning);
                 }
 
                 //创建Excel文件
@@ -75,36 +84,122 @@ namespace MFramework
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");//创建表1
                     worksheet.Cells["A1"].LoadFromDataTable(GetDefaultTable(), true);//创建初始表内容
-                    worksheet.Cells["A1:C4"].AutoFitColumns();//调整行宽
+
+                    worksheet.Cells["A1:C6"].AutoFitColumns();//调整行宽
+                    worksheet.Cells["A1:C6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//居中
+                    worksheet.Cells["A1:C3"].Style.Font.Bold = true;//加粗
+                    //worksheet.Cells["A1:A3"].Style.Numberformat = ???;
 
                     package.Save();
                 }
 
                 System.Diagnostics.Process.Start($"Explorer.exe", $@"/select,{path}");
-                Log.Print($"已生成{fileName}.");
+                MLog.Print($"已生成{fileName}.");
             }
             else if (state == 1)//取消
             {
-                Log.Print("已取消生成Excel文件.", MLogType.Warning);
+                MLog.Print("已取消生成Excel文件.", MLogType.Warning);
             }
             else//更改路径
             {
                 string pathName = EditorSettingsBase.GetPathName(EditorSettingsBase.PathName.ExcelGenerationPath);
                 EditorSettingsController.ChangePath(pathName);
-                Log.Print($"已更改{pathName}路径.");
+                MLog.Print($"已更改{pathName}路径.");
             }
         }
 
+        private void XLSX2BIN()
+        {
+            string resourceFolder = $@"{Application.dataPath}\Resources";
+            if (!Directory.Exists(resourceFolder))//保证Resources文件夹的创建
+            {
+                Directory.CreateDirectory(resourceFolder);
+            }
+            string BINFolder = $@"{resourceFolder}\ExcelBIN";//默认存放位置---Resources文件夹内部
+
+            if (!Directory.Exists(BINFolder))
+            {
+                Directory.CreateDirectory(BINFolder);
+            }
+            //确定是否已经有BIN文件夹，如果存在就全部重新生成
+            bool isDelete = false;
+            if (Directory.GetFiles(BINFolder).Length != 0)
+            {
+                isDelete = true;
+                DeleteFolderFilesSurface(BINFolder);
+                Directory.CreateDirectory(BINFolder);
+            }
+
+            List<string> fileList = GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+            if (fileList.Count == 0)
+            {
+                MLog.Print($"{EditorSettings.excelGenerationPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
+                return;
+            }
+
+            bool flag = true;
+            //遍历所有文件，在BINFolder中创建相应的二进制文件
+            foreach (string path in fileList)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(path);
+                string BINPath = $@"{BINFolder}\{fileName}.byte";
+
+                //获取dataset
+                FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read);
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                DataSet dataset = excelReader.AsDataSet();
+
+                bool createState = CreateBIN(dataset, BINPath, $" {fileName} ");
+                if (!createState) flag = false;
+            }
+            if (flag)
+            {
+                string dstFolder = BINFolder.Replace("/", "\\");
+                System.Diagnostics.Process.Start(dstFolder);
+                AssetDatabase.Refresh();
+
+                if (isDelete) MLog.Print("已重新生成所有BIN文件");
+                else MLog.Print("已生成所有BIN文件");
+            }
+        }
+
+        private bool CreateBIN(DataSet dataSet, string BINPath, string fileName = "")
+        {
+            if (dataSet.Tables.Count < 1)
+            {
+                MLog.Print($"CrateBIN：{fileName}没有表存在，请检查.", MLogType.Error);
+                return false;
+            }
+            DataTable sheet = dataSet.Tables[0];//取首表
+            //判断数据表内是否存在数据
+            if (sheet.Rows.Count < 1)
+            {
+                MLog.Print($"CrateBIN：{fileName}中不存在数据，请检查.", MLogType.Error);
+                return false;
+            }
+
+            int rowCount = sheet.Rows.Count;
+            int colCount = sheet.Columns.Count;
+            Debug.Log(sheet.Rows[0][0]);
+        }
+
+        /// <summary>
+        /// <para>.xlsx转.csv</para>
+        /// 设计失误，不再使用，应该直接使用.xlsx转.byte文件即可
+        /// </summary>
         private void XLSX2CSV()
         {
-            string CSVFolder = $@"{EditorSettings.excelGenerationPath}\CSVTemp";//CSV临时文件存放位置
+            //string CSVFolder = $@"{Application.dataPath}/Resources";//CSV临时文件存放位置---Resources文件夹
+            string CSVFolder = $@"{EditorSettings.excelGenerationPath}/CSVTemp";//CSV临时文件存放位置
             if (!Directory.Exists(CSVFolder))
             {
                 Directory.CreateDirectory(CSVFolder);
             }
             //确定是否已经有CSV临时文件，如果存在就全部重新生成
+            bool isDelete = false;
             if (Directory.GetFiles(CSVFolder).Length != 0)
             {
+                isDelete = true;
                 DeleteFolderFilesSurface(CSVFolder);
                 Directory.CreateDirectory(CSVFolder);
             }
@@ -112,7 +207,7 @@ namespace MFramework
             List<string> fileList = GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
             if (fileList.Count == 0)
             {
-                Log.Print($"{EditorSettings.excelGenerationPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
+                MLog.Print($"{EditorSettings.excelGenerationPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
                 return;
             }
 
@@ -128,13 +223,17 @@ namespace MFramework
                 IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
                 DataSet dataset = excelReader.AsDataSet();
 
-                bool createState = CreateCSV(dataset, CSVPath, $"{ fileName }");
+                bool createState = CreateCSV(dataset, CSVPath, $" {fileName} ");
                 if (!createState) flag = false;
             }
             if (flag)
             {
-                EditorUtility.RevealInFinder(12345);
-                Log.Print("转换完成");
+                string dstFolder = CSVFolder.Replace("/", "\\");
+                System.Diagnostics.Process.Start(dstFolder);
+                AssetDatabase.Refresh();
+
+                if(isDelete) MLog.Print("已重新生成所有CSV文件");
+                else MLog.Print("已生成所有CSV文件");
             }
         }
 
@@ -142,14 +241,14 @@ namespace MFramework
         {
             if (dataSet.Tables.Count < 1)
             {
-                Log.Print($"CrateCSV：{fileName}没有表存在，请检查.", MLogType.Error);
+                MLog.Print($"CrateCSV：{fileName}没有表存在，请检查.", MLogType.Error);
                 return false;
             }
             DataTable mSheet = dataSet.Tables[0];//取首表
             //判断数据表内是否存在数据
             if (mSheet.Rows.Count < 1)
             {
-                Log.Print($"CrateCSV：{fileName}中不存在数据，请检查.", MLogType.Error);
+                MLog.Print($"CrateCSV：{fileName}中不存在数据，请检查.", MLogType.Error);
                 return false;
             }
 
@@ -170,7 +269,8 @@ namespace MFramework
             //写入文件
             using (FileStream fileStream = new FileStream(CSVPath, FileMode.Create, FileAccess.Write))
             {
-                using (TextWriter textWriter = new StreamWriter(fileStream))
+                //注意：指定了UTF8格式(用Excel打开.csv文件时可以正常显示，不指定会变成乱码)
+                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
                 {
                     textWriter.Write(sb.ToString());
                 }
@@ -187,7 +287,6 @@ namespace MFramework
             string[] files = Directory.GetFiles(folder);
             foreach (string file in files)
             {
-                Debug.Log(file);
                 File.Delete(file);
             }
             Directory.Delete(folder);
@@ -215,13 +314,24 @@ namespace MFramework
         {
             DataTable table = new DataTable();
 
-            table.Columns.Add("编号ID", typeof(object));
-            table.Columns.Add("名字NAME", typeof(object));
-            table.Columns.Add("描述DESC", typeof(object));
-            table.Rows.Add(new object[] {"int","string","string[]"});
-            table.Rows.Add(new object[] {1    ,"苹果"  ,"红色#甜"   });
-            table.Rows.Add(new object[] {2    ,"香蕉"  ,"黄色#甜"   });
-            table.Rows.Add(new object[] {3    ,"橘子"  ,"橙色#酸"   });
+            //必须先创列，才能添加行
+            table.Columns.Add("ID");
+            table.Columns.Add("NAME");
+            table.Columns.Add("DESC");
+            //table.Rows.Add(new object[] { "ID", "NAME", "DESC" });
+            table.Rows.Add(new object[] { "编号", "名字", "描述" });
+            table.Rows.Add(new object[] { "int", "string", "string[]" });
+            table.Rows.Add(new object[] { 1    , "苹果"  , "红色#甜" });
+            table.Rows.Add(new object[] { 2    , "香蕉"  , "黄色#甜" });
+            table.Rows.Add(new object[] { 3    , "橘子"  , "橙色#酸" });
+
+            //table.Columns.Add("编号ID", typeof(object));
+            //table.Columns.Add("名字NAME", typeof(object));
+            //table.Columns.Add("描述DESC", typeof(object));
+            //table.Rows.Add(new object[] {"int","string","string[]"});
+            //table.Rows.Add(new object[] {1    ,"苹果"  ,"红色#甜"   });
+            //table.Rows.Add(new object[] {2    ,"香蕉"  ,"黄色#甜"   });
+            //table.Rows.Add(new object[] {3    ,"橘子"  ,"橙色#酸"   });
 
             return table;
         }

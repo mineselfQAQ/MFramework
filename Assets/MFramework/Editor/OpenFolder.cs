@@ -10,7 +10,7 @@ namespace MFramework
         public static void OpenPersistentDataPath()
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
-            Log.Print(Application.persistentDataPath);
+            MLog.Print(Application.persistentDataPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenStreamingAssetsPath")]
@@ -19,26 +19,26 @@ namespace MFramework
             string streamingAssetsPath = Application.streamingAssetsPath;
             if (!Directory.Exists(streamingAssetsPath))
             {
-                Log.Print("当前项目不存在StreamingAssets文件夹，现已自动创建.", MLogType.Warning);
+                MLog.Print("当前项目不存在StreamingAssets文件夹，现已自动创建.", MLogType.Warning);
                 Directory.CreateDirectory(streamingAssetsPath);
             }
 
             EditorUtility.RevealInFinder(streamingAssetsPath);
-            Log.Print(streamingAssetsPath);
+            MLog.Print(streamingAssetsPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenDataPath")]
         public static void OpenDataPath()
         {
             EditorUtility.RevealInFinder(Application.dataPath);
-            Log.Print(Application.dataPath);
+            MLog.Print(Application.dataPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenTemporaryCachePath")]
         public static void OpenTemporaryCachePath()
         {
             EditorUtility.RevealInFinder(Application.temporaryCachePath);
-            Log.Print(Application.temporaryCachePath);
+            MLog.Print(Application.temporaryCachePath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenConsoleLogPath")]
@@ -50,7 +50,7 @@ namespace MFramework
             string consoleLogPath = Application.consoleLogPath;
             consoleLogPath = consoleLogPath.Replace("/", "\\");
             System.Diagnostics.Process.Start("explorer", "/select,\"" + consoleLogPath + "\"");
-            Log.Print(consoleLogPath);
+            MLog.Print(consoleLogPath);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace MFramework.Test
 
         public void Print()
         {
-            Log.Print($"{x}, {y}");
+            MLog.Print($"{x}, {y}");
         }
     }
 
@@ -46,7 +46,7 @@ namespace MFramework.Test
 
         public void Print()
         {
-            Log.Print($"{x}, {y}");
+            MLog.Print($"{x}, {y}");
         }
     }
 
@@ -55,7 +55,7 @@ namespace MFramework.Test
     {
         public void Print()
         {
-            Log.Print("OK");
+            MLog.Print("OK");
         }
     }
 }

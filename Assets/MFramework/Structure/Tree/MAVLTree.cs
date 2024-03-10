@@ -479,16 +479,16 @@ public static class MAVLTreeExtension
                 isNotBottom = true;
             }
         }
-        Log.Print(Log.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
+        MLog.Print(MLog.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
     }
 
     public static void SortPrint(this MAVLTree tree)
     {
-        Log.Print("输出: ");
+        MLog.Print("输出: ");
 
         if (tree.Count == 0)
         {
-            Log.Print("无元素");
+            MLog.Print("无元素");
             return;
         }
 
@@ -497,6 +497,6 @@ public static class MAVLTreeExtension
         {
             outputStr += $"{item} ";
         }
-        Log.Print(outputStr);
+        MLog.Print(outputStr);
     }
 }

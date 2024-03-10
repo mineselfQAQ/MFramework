@@ -11,7 +11,7 @@ public class Test_IComparable : MonoBehaviour
         A a2 = new A("a2", 5);
         A a3 = new A("a3", 5);
 
-        Log.Print($"{a1.name}: {a1.num}  {a2.name}: {a2.num}  {a3.name}: {a3.num}");
+        MLog.Print($"{a1.name}: {a1.num}  {a2.name}: {a2.num}  {a3.name}: {a3.num}");
         Compare(a1, a2);
         Compare(a2, a1);
         Compare(a2, a3);
@@ -23,15 +23,15 @@ public class Test_IComparable : MonoBehaviour
 
         if (num < 0)
         {
-            Log.Print($"{a.name} < {b.name}");
+            MLog.Print($"{a.name} < {b.name}");
         }
         else if (num == 0)
         {
-            Log.Print($"{a.name} = {b.name}");
+            MLog.Print($"{a.name} = {b.name}");
         }
         else if (num > 0)
         {
-            Log.Print($"{a.name} > {b.name}");
+            MLog.Print($"{a.name} > {b.name}");
         }
     }
 }

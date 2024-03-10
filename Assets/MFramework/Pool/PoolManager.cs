@@ -32,7 +32,7 @@ namespace MFramework
             //prefabLookup中不应该存在prefabKey
             if (prefabLookup.ContainsKey(prefab))
             {
-                Log.Print("Pool for prefab " + prefab.name + " has already been created", MLogType.Error);
+                MLog.Print("Pool for prefab " + prefab.name + " has already been created", MLogType.Error);
             }
 
             //正常情况---初始化对象池，就是调用ObjectPool的构造函数
@@ -91,7 +91,7 @@ namespace MFramework
             }
             else
             {
-                Log.Print("No pool contains the object: " + clone.name, MLogType.Error);
+                MLog.Print("No pool contains the object: " + clone.name, MLogType.Error);
             }
         }
 
@@ -107,7 +107,7 @@ namespace MFramework
         {
             foreach (KeyValuePair<GameObject, ObjectPool<GameObject>> keyVal in prefabLookup)
             {
-                Log.Print(string.Format("Object Pool for Prefab: {0} In Use: {1} Total {2}", keyVal.Key.name,
+                MLog.Print(string.Format("Object Pool for Prefab: {0} In Use: {1} Total {2}", keyVal.Key.name,
                     keyVal.Value.CountUsedItems, keyVal.Value.Count), MLogType.Error);
             }
         }

@@ -17,14 +17,14 @@ public class Test_MBinaryTree : MonoBehaviour
         tree.AddRight(rightNode, 7);
         tree.Remove(tempNode);
 
-        Log.Print("Count: " + tree.Count);
-        Log.Print("是否包含5: " + tree.Contains(5));
-        Log.Print("2的值: " + leftNode.Value);
-        Log.Print("2的父节点: " + leftNode.Parent);
-        Log.Print("2的左节点: " + leftNode.Left);
-        Log.Print("2的右节点: " + leftNode.Right);
+        MLog.Print("Count: " + tree.Count);
+        MLog.Print("是否包含5: " + tree.Contains(5));
+        MLog.Print("2的值: " + leftNode.Value);
+        MLog.Print("2的父节点: " + leftNode.Parent);
+        MLog.Print("2的左节点: " + leftNode.Left);
+        MLog.Print("2的右节点: " + leftNode.Right);
 
-        Log.Print(Log.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
         tree.Print();
     }
