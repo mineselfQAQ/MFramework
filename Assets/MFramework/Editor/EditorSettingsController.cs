@@ -39,6 +39,21 @@ namespace MFramework
                 }
                 EditorGUILayout.EndHorizontal();
 
+                EditorGUILayout.LabelField("tableCSGenerationPath路径：", MGUIStyleUtility.BoldStyle);
+                EditorGUILayout.BeginHorizontal();
+                {
+                    EditorGUILayout.LabelField($"{EditorSettings.tableCSGenerationPath}");
+                    if (GUILayout.Button("查看"))
+                    {
+                        System.Diagnostics.Process.Start(EditorSettings.tableCSGenerationPath);
+                    }
+                    if (GUILayout.Button("更改"))
+                    {
+                        ChangePath("tableCSGenerationPath");
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+
                 //TODO:找到所有的路径并以上述格式编写按钮
             }
             EditorGUILayout.EndScrollView();
@@ -48,14 +63,14 @@ namespace MFramework
         /// 通过文件夹选择更换EditorSettings中的变量名
         /// </summary>
         /// <param name="originName">EditorSettings中的变量名</param>
-        public static void ChangePath(string originName)
+        public static bool ChangePath(string originName)
         {
             string guideFolder = Path.GetDirectoryName(Application.dataPath);
             string newPath = EditorUtility.OpenFolderPanel("请选择Excel存储路径", guideFolder, "");
             if (newPath == "")
             {
                 MLog.Print("取消更改", MLogType.Warning);
-                return;
+                return false;
             }
 
             string editorSettingsFilePath = GetEditorSettingsFilePath();//获取EditorSettings路径
@@ -65,14 +80,16 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else MLog.Print("ChangePath：未替换成功", MLogType.Error);
+                else { MLog.Print("ChangePath：未替换成功", MLogType.Error); return false; }
 
                 AssetDatabase.Refresh();
             }
             else
             {
                 MLog.Print("ChangePath：未找到路径", MLogType.Error);
+                return false;
             }
+            return true;
         }
         private static string ReplacePath(string str, string originName, string newPath)
         {

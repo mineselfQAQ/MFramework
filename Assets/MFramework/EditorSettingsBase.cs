@@ -6,10 +6,12 @@ namespace MFramework
     {
         public enum PathName
         {
-            ExcelGenerationPath
+            ExcelGenerationPath,
+            TableCSGenerationPath,
         }
 
         public static string defaultExcelGenerationPath = @$"{Application.dataPath}\..\ExcelData";
+        public static string defaultTableCSGenerationPath = @$"{Application.dataPath}\TableCS";
 
         public static string GetPathName(PathName name)
         {
@@ -17,6 +19,8 @@ namespace MFramework
             {
                 case PathName.ExcelGenerationPath:
                     return "excelGenerationPath";
+                case PathName.TableCSGenerationPath:
+                    return "tableCSGenerationPath";
                 default:
                     return null;
             }
