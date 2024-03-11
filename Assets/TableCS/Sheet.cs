@@ -14,7 +14,7 @@ namespace Table
 		public string NAME { get; private set; }
 		public string[] DESC { get; private set; }
 
-        internal Sheet(int id, string name, string[] desc)
+        private Sheet(int id, string name, string[] desc)
         {
             ID = id;
 			NAME = name;
@@ -27,7 +27,7 @@ namespace Table
     {
         public List<Sheet> items;
 
-        internal Sheets(List<Sheet> items)
+        private Sheets(List<Sheet> items)
         {
             this.items = items;
         }

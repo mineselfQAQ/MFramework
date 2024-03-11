@@ -152,16 +152,16 @@ namespace MFramework
                     continue;
                 }
                 GetDataFromTable(dataset.Tables[0], 
-                    out string[] names, out string[] types, out string[][] data);
+                    out string[] names, out string[] types, out object[][] data);
 
                 CreateCS(CSPath, names, types);
-                CreateBIN(BINPath);
+                CreateBIN(BINPath, fileName, data);
             }
             if (flag)
             {
                 //string dstFolder = BINFolder.Replace("/", "\\");
                 //System.Diagnostics.Process.Start(dstFolder);
-                AssetDatabase.Refresh();
+                //AssetDatabase.Refresh();
 
                 if (isDelete1 || isDelete2) MLog.Print("已重新生成所有文件");
                 else MLog.Print("已生成所有文件");
@@ -210,7 +210,7 @@ namespace MFramework
             return true;
         }
 
-        private void GetDataFromTable(DataTable sheet, out string[] names, out string[] types, out string[][] data)
+        private void GetDataFromTable(DataTable sheet, out string[] names, out string[] types, out object[][] data)
         {
             int rowCount = sheet.Rows.Count;
             int colCount = sheet.Columns.Count;
@@ -221,6 +221,7 @@ namespace MFramework
             data = new string[rowCount - 3][];
             for (int i = 0; i < data.Length; i++) data[i] = new string[colCount];
             //初始化数据
+            //TODO:对于非string类型，必须将其使用类似Convert.ToInt32()方法指示
             for (int i = 0; i < colCount; i++)
             {
                 names[i] = sheet.Rows[1][i].ToString();
@@ -230,7 +231,7 @@ namespace MFramework
             {
                 for (int j = 0; j < colCount; j++)
                 {
-                    data[i][j] = sheet.Rows[3 + i][j].ToString();
+                    data[i][j] = sheet.Rows[3 + i][j];
                 }
             }
         }
@@ -338,15 +339,46 @@ namespace MFramework
             }
         }
 
-        private void CreateBIN(string BINPath, string className)
+        private void CreateBIN(string BINPath, string className, object[][] data)
         {
             //GenerateInstance();
 
-            string csAssemblyPath = Application.dataPath + "/../Library/ScriptAssemblies/Assembly-CSharp.dll";
+            string csAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/Assembly-CSharp.dll";
             Assembly assembly = Assembly.LoadFile(csAssemblyPath);
             if (assembly != null)
             {
+                Type[] types = assembly.GetTypes();
+                foreach(var type in types)
+                {
+                    if (type.Namespace == "Table" && type.Name == className)
+                    {
+                        var ctors = type.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
+                        var ctor = ctors[0];//只有私有构造函数
 
+                        //foreach(var param in ctors[0].GetParameters()) 
+                        //{
+                        //    Debug.Log(param.ParameterType);
+                        //}
+
+                        int rowLength = data.Length;
+                        int colLength = data[0].Length;
+
+                        object[] instances = new object[rowLength];
+                        for (int i = 0; i < rowLength; i++)
+                        {
+                            object[] parameters = new object[colLength];
+                            for (int j = 0; j < colLength; j++)
+                            {
+                                parameters[j] = data[i][j];
+                            }
+                            object instance = ctor.Invoke(parameters);
+                            instances[i] = instance;
+                        }
+                        Debug.Log(instances[0]);
+                        Debug.Log(instances[1]);
+                        Debug.Log(instances[2]);
+                    }
+                }
             }
         }
 
@@ -368,7 +400,6 @@ namespace MFramework
         /// <para>.xlsx转.csv</para>
         /// 设计失误，应该直接使用.xlsx转二进制文件即可
         /// </summary>
-        [Obsolete]
         private void XLSX2CSV()
         {
             string CSVFolder = $@"{EditorSettings.excelGenerationPath}/CSVTemp";//CSV临时文件存放位置
@@ -417,7 +448,6 @@ namespace MFramework
                 else MLog.Print("已生成所有CSV文件");
             }
         }
-        [Obsolete]
         private bool CreateCSV(DataSet dataSet, string CSVPath, string fileName = "")
         {
             if (dataSet.Tables.Count < 1)
@@ -538,7 +568,7 @@ namespace Table
     {
         public List<{ClassName}> items;
 
-        internal {CollectionClassName}(List<{ClassName}> items)
+        private {CollectionClassName}(List<{ClassName}> items)
         {
             this.items = items;
         }
@@ -547,7 +577,7 @@ namespace Table
         private const string FIELDBASECODE = "private {Type} {Name};";
         private const string PROPERTIESBASECODE = "public {Type} {Name} { get; private set; }";
         private const string CONSTRUCTORBASECODE = 
-@"internal {ClassName}({Parameter})
+@"private {ClassName}({Parameter})
         {
             {AssignmentOperator}
         }";

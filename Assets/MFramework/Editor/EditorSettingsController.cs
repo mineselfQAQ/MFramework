@@ -30,6 +30,7 @@ namespace MFramework
                     EditorGUILayout.LabelField($"{EditorSettings.excelGenerationPath}");
                     if (GUILayout.Button("查看"))
                     {
+                        Debug.Log(EditorSettings.excelGenerationPath);
                         System.Diagnostics.Process.Start(EditorSettings.excelGenerationPath);
                     }
                     if (GUILayout.Button("更改"))
