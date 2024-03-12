@@ -20,7 +20,7 @@ namespace MFramework
         private void OnGUI()
         {
             //标题
-            MGUIUtility.DrawTitle(5, "路径配置器");
+            MGUIUtility.DrawH1("路径配置器");
 
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             {

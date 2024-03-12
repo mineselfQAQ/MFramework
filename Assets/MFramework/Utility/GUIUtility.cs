@@ -1,12 +1,22 @@
 using MFramework;
 using UnityEditor;
 
-public static class MGUIUtility
+namespace MFramework
 {
-    public static void DrawTitle(int spacing, string titleName)
+    public static class MGUIUtility
     {
-        EditorGUILayout.Space(spacing);
-        EditorGUILayout.LabelField(titleName, MGUIStyleUtility.TitleStyle);
-        EditorGUILayout.Space(spacing);
+        public static void DrawH1(string titleName)
+        {
+            EditorGUILayout.Space(5);
+            EditorGUILayout.LabelField(titleName, MGUIStyleUtility.H1Style);
+            EditorGUILayout.Space(5);
+        }
+
+        public static void DrawH2(string titleName)
+        {
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField(titleName, MGUIStyleUtility.H2Style);
+            EditorGUILayout.Space(2);
+        }
     }
 }

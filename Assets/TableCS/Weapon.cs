@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Table
 {
     [Serializable]
-    public class Sheet
+    public class Weapon
     {
         private int id;
 		private string name;
@@ -15,34 +15,34 @@ namespace Table
 		public string NAME { get; private set; }
 		public string[] DESC { get; private set; }
 
-        private Sheet(int id, string name, string[] desc)
+        private Weapon(int id, string name, string[] desc)
         {
             ID = id;
 			NAME = name;
 			DESC = desc;
         }
 
-        public static Sheet[] LoadBytes()
+        public static Weapon[] LoadBytes()
         {
-            string path = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN\Sheet.byte";
+            string path = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN\Weapon.byte";
             if (!File.Exists(path)) return null;
 
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                Sheets table = binaryFormatter.Deserialize(stream) as Sheets;
-                Sheet[] res = table.items;
+                Weapons table = binaryFormatter.Deserialize(stream) as Weapons;
+                Weapon[] res = table.items;
                 return res;
             }
         }
     }
 
     [Serializable]
-    internal class Sheets
+    internal class Weapons
     {
-        public Sheet[] items;
+        public Weapon[] items;
 
-        private Sheets(Sheet[] items)
+        private Weapons(Weapon[] items)
         {
             this.items = items;
         }

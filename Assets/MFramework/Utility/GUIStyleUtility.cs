@@ -47,24 +47,45 @@ namespace MFramework
             }
         }
 
-        private static GUIStyle m_TitleStyle;
-        public static GUIStyle TitleStyle
+        private static GUIStyle m_H1Style;
+        public static GUIStyle H1Style
         {
             get
             {
-                if (m_TitleStyle == null)
+                if (m_H1Style == null)
                 {
                     GUIStyle style = new GUIStyle();
 
-                    style.fontSize = 20;
+                    style.fontSize = 22;
                     style.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
                     style.alignment = TextAnchor.MiddleCenter;
                     style.fontStyle = FontStyle.Bold;
 
-                    m_TitleStyle = style;
+                    m_H1Style = style;
                 }
 
-                return m_TitleStyle;
+                return m_H1Style;
+            }
+        }
+
+        private static GUIStyle m_H2Style;
+        public static GUIStyle H2Style
+        {
+            get
+            {
+                if (m_H2Style == null)
+                {
+                    GUIStyle style = new GUIStyle();
+
+                    style.fontSize = 15;
+                    style.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
+                    style.alignment = TextAnchor.MiddleCenter;
+                    style.fontStyle = FontStyle.Bold;
+
+                    m_H2Style = style;
+                }
+
+                return m_H2Style;
             }
         }
     }
