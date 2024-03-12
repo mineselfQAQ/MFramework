@@ -7,15 +7,15 @@ namespace Table
     [Serializable]
     public class Weapon
     {
-        private int id;
+        private byte[] id;
 		private string name;
 		private string[] desc;
         
-        public int ID { get; private set; }
+        public byte[] ID { get; private set; }
 		public string NAME { get; private set; }
 		public string[] DESC { get; private set; }
 
-        private Weapon(int id, string name, string[] desc)
+        private Weapon(byte[] id, string name, string[] desc)
         {
             ID = id;
 			NAME = name;
@@ -24,7 +24,7 @@ namespace Table
 
         public static Weapon[] LoadBytes()
         {
-            string path = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN\Weapon.byte";
+            string path = @"F:\UnityProject\MFramework\Assets\Resources\ExcelBIN\Weapon.byte";
             if (!File.Exists(path)) return null;
 
             using (FileStream stream = new FileStream(path, FileMode.Open))

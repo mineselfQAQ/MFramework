@@ -24,7 +24,7 @@ namespace Table
 
         public static Sheet[] LoadBytes()
         {
-            string path = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN\Sheet.byte";
+            string path = @"F:\UnityProject\MFramework\Assets\Resources\ExcelBIN\Sheet.byte";
             if (!File.Exists(path)) return null;
 
             using (FileStream stream = new FileStream(path, FileMode.Open))

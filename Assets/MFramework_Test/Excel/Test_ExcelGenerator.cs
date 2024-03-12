@@ -15,7 +15,7 @@
 //        Weapon[] weapons = Weapon.LoadBytes();
 //        foreach (var weapon in weapons)
 //        {
-//            MLog.Print($"ID:{weapon.ID} NAME:{weapon.NAME} DESC:{weapon.DESC[0]} {weapon.DESC[1]}");
+//            MLog.Print($"ID:{weapon.ID[0]} {weapon.ID[1]} {weapon.ID[2]} NAME:{weapon.NAME} DESC:{weapon.DESC[0]} {weapon.DESC[1]}");
 //        }
 //    }
 //}

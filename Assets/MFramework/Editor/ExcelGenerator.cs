@@ -71,7 +71,7 @@ namespace MFramework
                     if (!haveFile) return;
 
                     CreateAllCS(BINFolder, CSFolder, fileList);
-                    //AssetDatabase.Refresh();
+                    AssetDatabase.Refresh();
                 }
                 if (GUILayout.Button("2.创建.byte文件"))
                 {
@@ -172,13 +172,12 @@ namespace MFramework
             //});
             //AssemblyReloadEvents.afterAssemblyReload += callback;
 
-            Debug.Log("1");
             CreateAllCS(BINFolder, CSFolder, fileList);
-            Debug.Log("2");
+
+            //TODO:此处需要进行域重新加载，完成后才能生成BIN文件
             EditorUtility.RequestScriptReload();
-            Debug.Log("3");
+
             CreateAllBIN(BINFolder, fileList);
-            Debug.Log("4");
         }
 
         private bool CheckTable(DataSet dataSet)
@@ -207,12 +206,13 @@ namespace MFramework
             data = new object[rowCount - 3][];
             for (int i = 0; i < data.Length; i++) data[i] = new object[colCount];
             //初始化数据
-            //TODO:对于非string类型，必须将其使用类似Convert.ToInt32()方法指示
+            //names/types
             for (int i = 0; i < colCount; i++)
             {
                 names[i] = sheet.Rows[1][i].ToString();
                 types[i] = sheet.Rows[2][i].ToString();
             }
+            //data
             for (int col = 0; col < colCount; col++)
             {
                 string colType = sheet.Rows[2][col].ToString();
@@ -227,6 +227,7 @@ namespace MFramework
                         string originStr = sheet.Rows[3 + row][col].ToString();
                         string[] splitStrs = originStr.Split("#");
                         int n = splitStrs.Length;
+
                         byte[] resBytes = new byte[n];
                         for (int i = 0; i < n; i++)
                         {
@@ -239,21 +240,91 @@ namespace MFramework
                     {
                         data[row][col] = Convert.ToInt16(sheet.Rows[3 + row][col]);
                     }
+                    else if (colType == "short[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        short[] resShorts = new short[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resShorts[i] = Convert.ToInt16(splitStrs[i]);
+                        }
+
+                        data[row][col] = resShorts;
+                    }
                     else if (colType == "int")
                     {
                         data[row][col] = Convert.ToInt32(sheet.Rows[3 + row][col]);
+                    }
+                    else if (colType == "int[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        int[] resInts = new int[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resInts[i] = Convert.ToInt32(splitStrs[i]);
+                        }
+
+                        data[row][col] = resInts;
                     }
                     else if (colType == "long")
                     {
                         data[row][col] = Convert.ToUInt64(sheet.Rows[3 + row][col]);
                     }
+                    else if (colType == "long[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        long[] resLongs = new long[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resLongs[i] = Convert.ToInt64(splitStrs[i]);
+                        }
+
+                        data[row][col] = resLongs;
+                    }
                     else if (colType == "float")
                     {
                         data[row][col] = Convert.ToSingle(sheet.Rows[3 + row][col]);
                     }
+                    else if (colType == "float[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        float[] resFloats = new float[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resFloats[i] = Convert.ToSingle(splitStrs[i]);
+                        }
+
+                        data[row][col] = resFloats;
+                    }
                     else if (colType == "double")
                     {
                         data[row][col] = Convert.ToDouble(sheet.Rows[3 + row][col]);
+                    }
+                    else if (colType == "double[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        double[] resDoubles = new double[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resDoubles[i] = Convert.ToDouble(splitStrs[i]);
+                        }
+
+                        data[row][col] = resDoubles;
                     }
                     else if (colType == "bool")
                     {
@@ -262,6 +333,20 @@ namespace MFramework
                     else if (colType == "char")
                     {
                         data[row][col] = Convert.ToChar(sheet.Rows[3 + row][col]);
+                    }
+                    else if (colType == "char[]")
+                    {
+                        string originStr = sheet.Rows[3 + row][col].ToString();
+                        string[] splitStrs = originStr.Split("#");
+                        int n = splitStrs.Length;
+
+                        char[] resChars = new char[n];
+                        for (int i = 0; i < n; i++)
+                        {
+                            resChars[i] = Convert.ToChar(splitStrs[i]);
+                        }
+
+                        data[row][col] = resChars;
                     }
                     else if (colType == "string")
                     {
@@ -623,14 +708,6 @@ namespace MFramework
             table.Rows.Add(new object[] { 2, "香蕉", "黄色#甜" });
             table.Rows.Add(new object[] { 3, "橘子", "橙色#酸" });
 
-            //table.Columns.Add("编号ID", typeof(object));
-            //table.Columns.Add("名字NAME", typeof(object));
-            //table.Columns.Add("描述DESC", typeof(object));
-            //table.Rows.Add(new object[] {"int","string","string[]"});
-            //table.Rows.Add(new object[] {1    ,"苹果"  ,"红色#甜"   });
-            //table.Rows.Add(new object[] {2    ,"香蕉"  ,"黄色#甜"   });
-            //table.Rows.Add(new object[] {3    ,"橘子"  ,"橙色#酸"   });
-
             return table;
         }
 
@@ -728,33 +805,6 @@ namespace MFramework
             return true;
         }
 
-        //        private const string CSBASECODE = 
-        //@"using System;
-        //using System.Collections.Generic;
-
-        //namespace Table
-        //{
-        //    [Serializable]
-        //    public class {ClassName}
-        //    {
-        //        {FieldsDefine}
-
-        //        {PropertiesDefine}
-
-        //        {ConstructorDefine}
-        //    }
-
-        //    [Serializable]
-        //    public class {CollectionClassName}
-        //    {
-        //        public List<{ClassName}> items;
-
-        //        private {CollectionClassName}(List<{ClassName}> items)
-        //        {
-        //            this.items = items;
-        //        }
-        //    }
-        //}";
         private const string CSBASECODE =
       @"using System;
 using System.IO;
