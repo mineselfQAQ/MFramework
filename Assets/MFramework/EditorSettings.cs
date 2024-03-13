@@ -2,8 +2,10 @@ namespace MFramework
 {
     public static class EditorSettings
     {
-        public const string excelGenerationPath = @"F:/UnityProject/MFramework/ExcelData";
+        public const string excelGenerationPath = @"F:\MineselfDemo\MFramework\ExcelData";
 
-        public const string tableCSGenerationPath = @"F:/UnityProject/MFramework/Assets/TableCS";
+        public const string excelCSGenerationPath = @"F:\MineselfDemo\MFramework\Assets\TableCS";
+
+        public const string excelBINGenerationPath = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN";
     }
 }

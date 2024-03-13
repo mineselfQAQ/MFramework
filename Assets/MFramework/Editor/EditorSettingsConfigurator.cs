@@ -1,19 +1,20 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static MFramework.EditorSettingsBase;
 
 namespace MFramework
 {
-    public class EditorSettingsController : EditorWindow
+    public class EditorSettingsConfigurator : EditorWindow
     {
         private Vector2 scrollPos;
 
-        [MenuItem("MFramework/EditorSettingsController")]
+        [MenuItem("MFramework/EditorSettingsConfigurator")]
         public static void Init()
         {
-            EditorSettingsController window = GetWindow<EditorSettingsController>();
-            window.minSize = new Vector2(600, 400);
-            window.maxSize = new Vector2(600, 400);
+            EditorSettingsConfigurator window = GetWindow<EditorSettingsConfigurator>();
+            window.minSize = new Vector2(600, 300);
+            window.maxSize = new Vector2(600, 300);
             window.Show();
         }
 
@@ -22,42 +23,89 @@ namespace MFramework
             //标题
             MGUIUtility.DrawH1("路径配置器");
 
+            MGUIUtility.DrawH2("Excel部分");
+            //TODO:找到所有的路径并按以下格式编写按钮
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             {
-                EditorGUILayout.LabelField("excelGenerationPath路径：", MGUIStyleUtility.BoldStyle);
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUILayout.LabelField($"{EditorSettings.excelGenerationPath}");
-                    if (GUILayout.Button("查看"))
-                    {
-                        Debug.Log(EditorSettings.excelGenerationPath);
-                        System.Diagnostics.Process.Start(EditorSettings.excelGenerationPath);
-                    }
-                    if (GUILayout.Button("更改"))
-                    {
-                        ChangePath("excelGenerationPath");
-                    }
-                }
-                EditorGUILayout.EndHorizontal();
-
-                EditorGUILayout.LabelField("tableCSGenerationPath路径：", MGUIStyleUtility.BoldStyle);
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUILayout.LabelField($"{EditorSettings.tableCSGenerationPath}");
-                    if (GUILayout.Button("查看"))
-                    {
-                        System.Diagnostics.Process.Start(EditorSettings.tableCSGenerationPath);
-                    }
-                    if (GUILayout.Button("更改"))
-                    {
-                        ChangePath("tableCSGenerationPath");
-                    }
-                }
-                EditorGUILayout.EndHorizontal();
-
-                //TODO:找到所有的路径并以上述格式编写按钮
+                DrawPathWidget("Excel表生成路径：", EditorSettings.excelGenerationPath,
+                    GetPathName(PathName.ExcelGenerationPath));
+                DrawPathWidget("Excel表CS文件生成路径：", EditorSettings.excelCSGenerationPath,
+                    GetPathName(PathName.ExcelCSGenerationPath));
+                DrawPathWidget("Excel表BIN文件生成路径：", EditorSettings.excelBINGenerationPath,
+                    GetPathName(PathName.ExcelBINGenerationPath));
             }
             EditorGUILayout.EndScrollView();
+
+            EditorGUILayout.Space(20);
+
+            DrawResetBtn();
+
+            EditorGUILayout.Space(5);
+
+            DrawCheckCSBtn();
+
+            EditorGUILayout.Space(5);
+        }
+
+        private void DrawPathWidget(string title, string path, string originName)
+        {
+            EditorGUILayout.LabelField(title, MGUIStyleUtility.BoldStyle);
+            EditorGUILayout.BeginHorizontal();
+            {
+                EditorGUILayout.LabelField(path);
+                if (GUILayout.Button("查看"))
+                {
+                    System.Diagnostics.Process.Start(path);
+                }
+                if (GUILayout.Button("更改"))
+                {
+                    ChangePath(originName);
+                    AssetDatabase.Refresh();
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawResetBtn()
+        {
+            if (GUILayout.Button("重置"))
+            {
+                MPathUtility.CreateFolderIfNotExist(defaultExcelGenerationPath);
+                MPathUtility.CreateFolderIfNotExist(defaultExcelCSGenerationPath);
+                MPathUtility.CreateFolderIfNotExist(defaultExcelBINGenerationPath);
+                ResetPath("excelGenerationPath", defaultExcelGenerationPath);
+                ResetPath("excelCSGenerationPath", defaultExcelCSGenerationPath);
+                ResetPath("excelBINGenerationPath", defaultExcelBINGenerationPath);
+                AssetDatabase.Refresh();
+            }
+        }
+
+        private void DrawCheckCSBtn()
+        {
+            if (GUILayout.Button("查看EditorSettings脚本"))
+            {
+                string fullPath = MPathUtility.GetFullPathBaseProjectRoot(@"Assets\MFramework\EditorSettings.cs");
+                UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(fullPath, 3);
+            }
+        }
+
+        private bool ResetPath(string originName, string newPath)
+        {
+            string editorSettingsFilePath = GetEditorSettingsFilePath();//获取EditorSettings路径
+            if (editorSettingsFilePath != null)
+            {
+                //新位置写入
+                string str = File.ReadAllText(editorSettingsFilePath);
+                string newStr = ReplacePath(str, originName, newPath);
+                if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
+                else { MLog.Print("ChangePath：未替换成功", MLogType.Error); return false; }
+            }
+            else
+            {
+                MLog.Print("ChangePath：未找到路径", MLogType.Error);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -92,6 +140,7 @@ namespace MFramework
             }
             return true;
         }
+
         private static string ReplacePath(string str, string originName, string newPath)
         {
             char initials = originName[0];
@@ -136,12 +185,16 @@ namespace MFramework
                         }
                         i++;
                     }
+                    //添加前缀(防止路径一致导致全部替换情况)
+                    oldPath = $@"{originName} = @""{oldPath}""";
+                    newPath = $@"{originName} = @""{newPath}""";
                     return str.Replace(oldPath, newPath);
                 }
                 i++;
             }
             return null;
         }
+
         private static string GetEditorSettingsFilePath()
         {
             string[] guids = AssetDatabase.FindAssets("EditorSettings");

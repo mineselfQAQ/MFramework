@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 namespace MFramework
@@ -7,11 +8,18 @@ namespace MFramework
         public enum PathName
         {
             ExcelGenerationPath,
-            TableCSGenerationPath,
+            ExcelCSGenerationPath,
+            ExcelBINGenerationPath
         }
 
-        public static string defaultExcelGenerationPath = @$"{Application.dataPath}\..\ExcelData";
-        public static string defaultTableCSGenerationPath = @$"{Application.dataPath}\TableCS";
+        public static string defaultExcelGenerationPath = 
+            @$"{Path.GetDirectoryName(Application.dataPath)}\ExcelData".Replace("/","\\");
+
+        public static string defaultExcelCSGenerationPath =
+            @$"{Application.dataPath}\TableCS".Replace("/", "\\");
+
+        public static string defaultExcelBINGenerationPath =
+            @$"{Application.dataPath}\Resources\ExcelBIN".Replace("/", "\\");
 
         public static string GetPathName(PathName name)
         {
@@ -19,8 +27,10 @@ namespace MFramework
             {
                 case PathName.ExcelGenerationPath:
                     return "excelGenerationPath";
-                case PathName.TableCSGenerationPath:
-                    return "tableCSGenerationPath";
+                case PathName.ExcelCSGenerationPath:
+                    return "excelCSGenerationPath";
+                case PathName.ExcelBINGenerationPath:
+                    return "excelBINGenerationPath";
                 default:
                     return null;
             }

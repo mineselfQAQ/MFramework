@@ -2,7 +2,6 @@ using System.IO;
 using UnityEngine;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using UnityEditor;
 
 namespace MFramework
 {
@@ -16,7 +15,7 @@ namespace MFramework
     public class MLog
     {
         private static FileStream fs;
-        private static string path = $"{Application.dataPath}/../LogCallBack.txt";
+        private static string path = $@"{Application.dataPath}\..\LogCallBack.txt";
 
         public static void Blank()
         {

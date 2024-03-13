@@ -24,7 +24,7 @@ namespace Table
 
         public static Weapon[] LoadBytes()
         {
-            string path = @"F:\UnityProject\MFramework\Assets\Resources\ExcelBIN\Weapon.byte";
+            string path = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN\Weapon.byte";
             if (!File.Exists(path)) return null;
 
             using (FileStream stream = new FileStream(path, FileMode.Open))
