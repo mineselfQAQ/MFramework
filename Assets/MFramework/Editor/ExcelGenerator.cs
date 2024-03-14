@@ -173,6 +173,7 @@ namespace MFramework
             //"—”≥Ÿ÷¥––"£¨‘⁄InitializeScript÷–---InitializeAfterAssemblyReload()
             //CreateAllBIN(BINFolder, fileList);
         }
+
         private bool CreateAllCS(string BINFolder, string CSFolder, List<string> fileList)
         {
             bool flag = true;

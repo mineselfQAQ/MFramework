@@ -56,8 +56,7 @@ namespace MFramework
             {
                 EditorPrefs.SetBool(ExcelBINGenerationState, false);
 
-                string resourceFolder = $@"{Application.dataPath}\Resources";
-                string BINFolder = $@"{resourceFolder}\ExcelBIN";//默认.byte文件存放位置---Resources文件夹内部
+                string BINFolder = EditorSettings.excelBINGenerationPath;//默认.byte文件存放位置---Resources文件夹内部
                 List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
 
                 ExcelGenerator.CreateAllBIN(BINFolder, fileList);

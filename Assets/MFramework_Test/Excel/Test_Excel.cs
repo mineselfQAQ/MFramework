@@ -1,10 +1,11 @@
+#if UNITY_EDITOR
 using Excel;
 using MFramework;
 using OfficeOpenXml;
 using System.Data;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 public class Test_Excel : MonoBehaviour
 {
@@ -63,7 +64,6 @@ public class Test_Excel : MonoBehaviour
 
             package.Save();
         }
-
         AssetDatabase.Refresh();
     }
 
@@ -121,3 +121,4 @@ public class Test_Excel : MonoBehaviour
         return null;
     }
 }
+#endif

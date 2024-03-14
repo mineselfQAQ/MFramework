@@ -1,7 +1,8 @@
+#if UNITY_EDITOR
 using MFramework;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 public class Test_FindScriptPath : MonoBehaviour
 {
@@ -28,3 +29,4 @@ public class Test_FindScriptPath : MonoBehaviour
         }
     }
 }
+#endif

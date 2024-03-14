@@ -39,13 +39,13 @@ namespace MFramework
                     Debug.LogError($"<b><color=#FF6E40FF>Error:</color></b> {message}", context);
                     break;
 #else
-                case LogType.Log:
+                case MLogType.Log:
                     Debug.Log($"Log: {message}", context);
                     break;
-                case LogType.Warning:
+                case MLogType.Warning:
                     Debug.LogWarning($"Warning: {message}", context);
                     break;
-                case LogType.Error:
+                case MLogType.Error:
                     Debug.LogError($"Error: {message}", context);
                     break;
 #endif
@@ -160,6 +160,7 @@ namespace MFramework
 
 #if UNITY_EDITOR
         //注意：必须将脚本挂上才有用
+        //其中(0)必须添加，是优先级的含义，如果不添加有时不会触发
         [UnityEditor.Callbacks.OnOpenAsset(0)]
         public static bool OnOpenAsset(int instanceID, int line)
         {

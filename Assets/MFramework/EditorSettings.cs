@@ -6,6 +6,6 @@ namespace MFramework
 
         public const string excelCSGenerationPath = @"F:\MineselfDemo\MFramework\Assets\TableCS";
 
-        public const string excelBINGenerationPath = @"F:\MineselfDemo\MFramework\Assets\Resources\ExcelBIN";
+        public const string excelBINGenerationPath = @"F:\MineselfDemo\MFramework\Assets\StreamingAssets\ExcelBIN";
     }
 }

@@ -19,7 +19,7 @@ namespace MFramework
             @$"{Application.dataPath}\TableCS".Replace("/", "\\");
 
         public static string defaultExcelBINGenerationPath =
-            @$"{Application.dataPath}\Resources\ExcelBIN".Replace("/", "\\");
+            @$"{Application.streamingAssetsPath}\ExcelBIN".Replace("/", "\\");
 
         public static string GetPathName(PathName name)
         {
