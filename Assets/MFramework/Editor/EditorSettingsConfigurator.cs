@@ -7,7 +7,8 @@ namespace MFramework
 {
     public class EditorSettingsConfigurator : EditorWindow
     {
-        private Vector2 scrollPos;
+        private Vector2 scrollPos1;
+        private Vector2 scrollPos2;
 
         [MenuItem("MFramework/EditorSettingsConfigurator")]
         public static void Init()
@@ -20,12 +21,13 @@ namespace MFramework
 
         private void OnGUI()
         {
-            //标题
+            //==========标题==========
             MGUIUtility.DrawH1("路径配置器");
 
+            //==========Excel==========
             MGUIUtility.DrawH2("Excel部分");
-            //TODO:找到所有的路径并按以下格式编写按钮
-            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+            //TODO:使用下拉列表选择需要显示的部分(Excel部分/Json部分)，并显示相应内容(节省空间)
+            scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
                 DrawPathWidget("Excel表生成路径：", EditorSettings.excelGenerationPath,
                     GetPathName(PathName.ExcelGenerationPath));
@@ -36,13 +38,27 @@ namespace MFramework
             }
             EditorGUILayout.EndScrollView();
 
-            EditorGUILayout.Space(20);
+            EditorGUILayout.Space(10);
 
-            DrawResetBtn();
+            //==========Json==========
+            //应该不需要
+            //MGUIUtility.DrawH2("Json部分");
+            //scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
+            //{
+            //    DrawPathWidget("Json路径存储：", EditorSettings.excelGenerationPath,
+            //        GetPathName(PathName.ExcelGenerationPath));
+            //}
+            //EditorGUILayout.EndScrollView();
 
-            EditorGUILayout.Space(5);
+            //EditorGUILayout.Space(20);
 
-            DrawCheckCSBtn();
+            //==========功能==========
+            EditorGUILayout.BeginHorizontal();
+            {
+                DrawResetBtn();
+                DrawCheckCSBtn();
+            }
+            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space(5);
         }
