@@ -12,7 +12,7 @@ namespace MFramework
         Error
     }
 
-    public class MLog
+    public class MLog : INeedInit, INeedQuit
     {
         private static FileStream fs;
         private static string path = $@"{Application.dataPath}\..\LogCallBack.txt";
@@ -43,6 +43,7 @@ namespace MFramework
                     Debug.Log($"Log: {message}", context);
                     break;
                 case MLogType.Warning:
+
                     Debug.LogWarning($"Warning: {message}", context);
                     break;
                 case MLogType.Error:
@@ -97,23 +98,33 @@ namespace MFramework
             {
                 resultStr = $"<i>{resultStr}</i>";
             }
-
+            
             return resultStr;
 #else
             return message.ToString();
 #endif
         }
 
-        public static void Init()
+        public object Instance
         {
-            //需要调用
+            get
+            {
+                if (Instance == null)
+                {
+                    return new MLog();
+                }
+                return Instance;
+            }
+        }
+
+        public void Init()
+        {
 #if !UNITY_EDITOR
             Application.logMessageReceived += OnLogCallBack;
 #endif
         }
-        public static void Quit()
+        public void Quit()
         {
-            //需要调用
 #if !UNITY_EDITOR
             Application.logMessageReceived -= OnLogCallBack;
 #endif

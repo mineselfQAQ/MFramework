@@ -1,4 +1,7 @@
-public interface INeedQuit
+namespace MFramework
 {
-    void Quit();
+    public interface INeedQuit : ISingleton
+    {
+        void Quit();
+    }
 }
