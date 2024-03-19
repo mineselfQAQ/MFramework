@@ -105,15 +105,16 @@ namespace MFramework
 #endif
         }
 
-        public object Instance
+        private static object instance;
+        public static object Instance
         {
             get
             {
-                if (Instance == null)
+                if (instance == null)
                 {
-                    return new MLog();
+                    instance = new MLog();
                 }
-                return Instance;
+                return instance;
             }
         }
 

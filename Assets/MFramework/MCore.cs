@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace MFramework
 {
@@ -25,7 +26,8 @@ namespace MFramework
             {
                 foreach (var type in INeedInitType)
                 {
-                    var instance = (INeedInit)Activator.CreateInstance(type);
+                    PropertyInfo info = type.GetProperty("Instance");
+                    var instance = (INeedInit)info.GetValue(this, null);
                     instance.Init();
                     Debug.Log($"{instance.GetType()}£ºINIT");
                 }
@@ -38,7 +40,8 @@ namespace MFramework
             {
                 foreach (var type in INeedQuitType)
                 {
-                    var instance = (INeedQuit)Activator.CreateInstance(type);
+                    PropertyInfo info = type.GetProperty("Instance");
+                    var instance = (INeedQuit)info.GetValue(this, null);
                     instance.Quit();
                     Debug.Log($"{instance.GetType()}£ºQUIT");
                 }
