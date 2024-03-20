@@ -3,34 +3,36 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using UnityEngine;
 
 namespace MFramework
 {
     public class UDPServer
     {
-        private Socket socket;
+        public string selfIP;
+        public int selfPort;
 
+        private Socket socket;
         private EndPoint selfEP;
         private EndPoint clientEP;
+        private byte[] sendData;
         private byte[] receiveData;
-        public string ReceiveStr { get { return receiveStr; } }
         private string receiveStr;
-
         private Thread connectThread;
 
-        public UDPServer(string selfIP, int selfPort)
-        {
-            Init(selfIP, selfPort);
-        }
+        public string ReceiveStr { get { return receiveStr; } }
 
-        private void Init(string selfIP, int selfPort)
+        internal UDPServer()
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        }
 
+        internal void Init(string selfIP, int selfPort)
+        {
             //绑定自己
             //TODO:selfIP应该能自动获取
+            this.selfIP = selfIP;
+            this.selfPort = selfPort;
             selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
             socket.Bind(selfEP);
 
@@ -39,17 +41,35 @@ namespace MFramework
 
             connectThread = InitThread(Receive);
         }
-        public void Quit()
+
+        internal void Quit()
         {
             //先关闭子线程
             if (connectThread != null)
             {
-                connectThread.Abort();
+                connectThread.Interrupt();
             }
             //再退出Socket
             if (socket != null)
             {
                 socket.Close();
+            }
+        }
+
+        public void Send(string sendStr)
+        {
+            //重置数据
+            sendData = new byte[1024];
+            //转byte[]，因为发送使用的是字节形式
+            sendData = Encoding.UTF8.GetBytes(sendStr);
+
+            try
+            {
+                socket.SendTo(sendData, sendData.Length, SocketFlags.None, clientEP);
+            }
+            catch
+            {
+                throw new Exception("未找到clientEP");
             }
         }
 
@@ -64,7 +84,6 @@ namespace MFramework
                 receiveStr = Encoding.UTF8.GetString(receiveData, 0, receiveLength);
 
                 DoAfterReceive(receiveStr);
-
                 MainThreadSynchronizationContext.Instance.Post((object state) =>
                 {
                     MainThreadDoAfterReceive(receiveStr);
@@ -80,14 +99,8 @@ namespace MFramework
             return thread;
         }
 
-        protected virtual void DoAfterReceive(string receiveStr)
-        {
-            Debug.Log("DoNothing");
-        }
+        protected virtual void DoAfterReceive(string receiveStr) { }
 
-        protected virtual void MainThreadDoAfterReceive(string receiveStr)
-        {
-            Debug.Log("DoNothing_MainThread");
-        }
+        protected virtual void MainThreadDoAfterReceive(string receiveStr) { }
     }
 }
