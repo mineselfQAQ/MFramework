@@ -1,4 +1,5 @@
 using MFramework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,18 +31,32 @@ public class CoroutineHandler : MonoSingleton<CoroutineHandler>
         }
     }
 
-    public Coroutine BeginCoroutine(IEnumerator fun, string name = null)
+    public void BeginCoroutine(IEnumerator fun, string name)
     {
-        Coroutine coroutine = StartCoroutine(fun);
-        count++;
+        Coroutine coroutine = StartCoroutine(BeginCoroutinueInternal(fun, name));
 
-        if (name == null)
-        {
-            name = count.ToString();
-        }
         dic.Add(name, coroutine);
+        count++;
+    }
 
-        return coroutine;
+    private IEnumerator BeginCoroutinueInternal(IEnumerator enumerator, string name)
+    {
+        bool flag = false;
+        Coroutine coroutine = StartCoroutine(enumerator);
+
+        if (flag)
+        {
+            OnCoroutineFinished(name);
+
+            yield break;
+        }
+    }
+
+    private void OnCoroutineFinished(string name)
+    {
+        StopCoroutine(dic[name]);
+        dic.Remove(name);
+        count--;
     }
 
     public bool EndCoroutine(string name)
@@ -58,23 +73,7 @@ public class CoroutineHandler : MonoSingleton<CoroutineHandler>
         return true;
     }
 
-    public bool EndCoroutine(Coroutine coroutine)
-    {
-        //var keys = dic.Where(q => q.Value == coroutine).Select(q => q.Key);
-        var key = dic.FirstOrDefault(q => q.Value == coroutine).Key;
-        if (key == null)
-        {
-            return false;
-        }
-
-        StopCoroutine(dic[name]);
-        dic.Remove(name);
-        count--;
-
-        return true;
-    }
-
-    public void EndAllCoroutine(Coroutine coroutine)
+    public void EndAllCoroutine()
     {
         foreach (var value in dic.Values)
         {
