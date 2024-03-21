@@ -1,8 +1,6 @@
 using MFramework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CoroutineHandler : MonoSingleton<CoroutineHandler>
@@ -33,36 +31,14 @@ public class CoroutineHandler : MonoSingleton<CoroutineHandler>
 
     public void BeginCoroutine(IEnumerator fun, string name)
     {
-        Coroutine coroutine = StartCoroutine(BeginCoroutinueInternal(fun, name));
-
-        dic.Add(name, coroutine);
-        count++;
-    }
-
-    private IEnumerator BeginCoroutinueInternal(IEnumerator enumerator, string name)
-    {
-        bool flag = false;
-        Coroutine coroutine = StartCoroutine(enumerator);
-
-        if (flag)
-        {
-            OnCoroutineFinished(name);
-
-            yield break;
-        }
-    }
-
-    private void OnCoroutineFinished(string name)
-    {
-        StopCoroutine(dic[name]);
-        dic.Remove(name);
-        count--;
+        StartCoroutine(BeginCoroutinueInternal(fun, name));
     }
 
     public bool EndCoroutine(string name)
     {
         if (!dic.ContainsKey(name))
         {
+            MLog.Print("字典中没有该Coroutine，请检查名字是否正确或协程是否已结束", MLogType.Warning);
             return false;
         }
 
@@ -81,5 +57,32 @@ public class CoroutineHandler : MonoSingleton<CoroutineHandler>
         }
         dic.Clear();
         count = 0;
+    }
+
+    internal void BeginCoroutineAndNotRecord(IEnumerator enumerator)
+    {
+        StartCoroutine(enumerator);
+    }
+
+    private IEnumerator BeginCoroutinueInternal(IEnumerator enumerator, string name)
+    {
+        Coroutine coroutine = StartCoroutine(enumerator);
+        dic.Add(name, coroutine);
+        count++;
+
+        yield return coroutine;
+
+        OnCoroutineFinished(name);
+
+        yield break;
+    }
+
+    private void OnCoroutineFinished(string name)
+    {
+        if (dic.ContainsKey(name))
+        {
+            dic.Remove(name);
+            count--;
+        }
     }
 }

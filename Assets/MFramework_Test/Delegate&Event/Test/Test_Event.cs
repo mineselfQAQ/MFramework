@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 delegate void MyDel_Event();

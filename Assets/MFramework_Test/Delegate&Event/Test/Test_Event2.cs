@@ -1,3 +1,4 @@
+using MFramework;
 using System;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ public class Test_Event2 : MonoBehaviour
     private void Start()
     {
         Publisher2 publisher = new Publisher2();
-        Subscriber2 subscriber = new Subscriber2();
 
         Publisher2.eventHandler += Subscriber2.Print;
         publisher.Execute();
@@ -31,8 +31,8 @@ class Subscriber2
 {
     public static void Print(object sender, Subscriber2EventArgs e)
     {
-        Debug.Log(sender);
-        Debug.Log(e.num);
+        MLog.Print(sender);
+        MLog.Print(e.num);
     }
 }
 

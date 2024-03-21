@@ -1,9 +1,9 @@
+using MFramework;
 using UnityEngine;
 
+//注意：delegate是一个自定义委托类型，所以跟class是同一级别的
 delegate void MyDel();
-
 delegate int MyDel2();
-
 delegate string MyDel3(int a, int b);
 
 public class Test_Delegate : MonoBehaviour
@@ -11,11 +11,17 @@ public class Test_Delegate : MonoBehaviour
     private void Start()
     {
         //===MyDel()===
-        MyDel myDel = () =>
+        //便捷语法，直接将函数传入
+        //MyDel myDel = () =>
+        //{
+        //    Debug.Log("无参无返回值Delegate");
+        //};
+        //一般语法，new一个对象
+        MyDel myDel = new MyDel(() => 
         {
             Debug.Log("无参无返回值Delegate");
-        };
-        myDel += () => { Debug.Log("追加"); };
+        });
+        myDel += Log;
 
         myDel();
 
@@ -35,5 +41,10 @@ public class Test_Delegate : MonoBehaviour
         };
         string del3Result = myDel3(1, 2);
         Debug.Log(del3Result);
+    }
+
+    private void Log()
+    {
+        MLog.Print("LOG");
     }
 }
