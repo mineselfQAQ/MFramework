@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Test_OpenClosedPrinciple : MonoBehaviour
+public class Test_OCP : MonoBehaviour
 {
     //private void Start()
     //{

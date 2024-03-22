@@ -1,7 +1,7 @@
 using MFramework;
 using UnityEngine;
 
-public class Test_SingleResponsibilityPrinciple : MonoBehaviour
+public class Test_SRP : MonoBehaviour
 {
     //private void Start()
     //{

@@ -30,15 +30,21 @@ namespace MFramework
         internal void Init(string selfIP, int selfPort)
         {
             //绑定自己
-            //TODO:selfIP应该能自动获取
-            this.selfIP = selfIP;
-            this.selfPort = selfPort;
-            selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
-            socket.Bind(selfEP);
+            BindSelf(selfIP, selfPort);
 
             //定义需要接受的EP
             clientEP = new IPEndPoint(IPAddress.Any, 0);//代表着监听所有客户端
 
+            connectThread = InitThread(Receive);
+        }
+
+        internal void Init(IPEndPoint selfEP)
+        {
+            //绑定自己
+            BindSelf(selfEP);
+
+            //定义需要接受的EP
+            clientEP = new IPEndPoint(IPAddress.Any, 0);//代表着监听所有客户端
             connectThread = InitThread(Receive);
         }
 
@@ -47,7 +53,7 @@ namespace MFramework
             //先关闭子线程
             if (connectThread != null)
             {
-                connectThread.Interrupt();
+                connectThread.Abort();
             }
             //再退出Socket
             if (socket != null)
@@ -63,14 +69,7 @@ namespace MFramework
             //转byte[]，因为发送使用的是字节形式
             sendData = Encoding.UTF8.GetBytes(sendStr);
 
-            try
-            {
-                socket.SendTo(sendData, sendData.Length, SocketFlags.None, clientEP);
-            }
-            catch
-            {
-                throw new Exception("未找到clientEP");
-            }
+            socket.SendTo(sendData, sendData.Length, SocketFlags.None, clientEP);
         }
 
         private void Receive()
@@ -83,12 +82,43 @@ namespace MFramework
 
                 receiveStr = Encoding.UTF8.GetString(receiveData, 0, receiveLength);
 
+                //初始化操作
+                bool flag = ResponseClientConnect(receiveStr);
+                if (flag) continue;//某客户端成功连接，此轮不应该做其它事情
+
+                //抽象方法---受到客户端消息所需做的事
                 DoAfterReceive(receiveStr);
                 MainThreadSynchronizationContext.Instance.Post((object state) =>
                 {
                     MainThreadDoAfterReceive(receiveStr);
                 });
             }
+        }
+
+        private bool ResponseClientConnect(string receiveStr)
+        {
+            if (receiveStr == "Start")
+            {
+                Send("OK");
+                return true;
+            }
+            return false;
+        }
+
+        private void BindSelf(string selfIP, int selfPort)
+        {
+            this.selfIP = selfIP;
+            this.selfPort = selfPort;
+            selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
+            socket.Bind(selfEP);
+        }
+
+        private void BindSelf(IPEndPoint selfEP)
+        {
+            this.selfIP = selfEP.Address.ToString();
+            this.selfPort = selfEP.Port;
+            this.selfEP = selfEP;
+            socket.Bind(selfEP);
         }
 
         private Thread InitThread(Action action)

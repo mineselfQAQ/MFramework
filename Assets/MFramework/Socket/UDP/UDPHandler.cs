@@ -52,10 +52,23 @@ namespace MFramework
             return (T)server;
         }
 
-        public T CreateClient<T>(string serverIP, int serverPort, bool enableThread = true) where T : UDPClient, new()
+        public T CreateServer<T>(IPEndPoint selfEP) where T : UDPServer, new()
+        {
+            if (server != null)
+            {
+                MLog.Print("服务端只能有唯一一个，不能多次创建", MLogType.Warning);
+                return null;
+            }
+            server = new T();
+            server.Init(selfEP);
+
+            return (T)server;
+        }
+
+        public T CreateClient<T>(string serverIP, int serverPort, float interval = 5.0f, bool enableThread = true) where T : UDPClient, new()
         {
             var client = new T();
-            client.Init(serverIP, serverPort, enableThread);
+            client.Init(serverIP, serverPort, interval, enableThread);
             clients.Add(client);
             return client;
         }

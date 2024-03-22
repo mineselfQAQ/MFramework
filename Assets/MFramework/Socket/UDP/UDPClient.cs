@@ -3,6 +3,8 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System;
+using System.Collections;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -12,6 +14,7 @@ namespace MFramework
         public int serverPort;//服务器Port
 
         private Socket socket;
+        private EndPoint selfEP;
         private EndPoint serverEP;
         private byte[] sendData;
         private byte[] receiveData;
@@ -26,19 +29,64 @@ namespace MFramework
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
 
-        internal void Init(string serverIP, int serverPort, bool enableThread = true)
+        internal void Init(string serverIP, int serverPort, float interval = 5.0f, bool enableThread = true)
         {
-            this.serverIP = serverIP;
-            this.serverPort = serverPort;
-            serverEP = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
+            BindServer(serverIP, serverPort);
 
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
             if (enableThread)
             {
-                Send("Connect");
-                connectThread = InitThread(Receive);
+                CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval));
+            }
+        }
+
+        internal void Init(IPEndPoint serverEP, float interval = 5.0f, bool enableThread = true)
+        {
+            BindServer(serverEP);
+
+            //开启线程，注意点：
+            //1.服务端必须已经存在
+            //2.必须向服务端先发送信息后才能连接
+            if (enableThread)
+            {
+                CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval));
+            }
+        }
+
+        private IEnumerator TryConnectServer(float interval)
+        {
+            while (true)
+            {
+                if (CheckServerExists())
+                {
+                    MLog.Print("客户端已成功连接");
+                    connectThread = InitThread(Receive);
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(interval);
+            }
+        }
+
+        private bool CheckServerExists()
+        {
+            try
+            {
+                Send("Start");//初始检测语句
+                //Debug.Log("OK");
+
+                byte[] bytes = new byte[1024];
+                int length = socket.ReceiveFrom(bytes, ref serverEP);
+                string str = Encoding.UTF8.GetString(bytes, 0, length);
+
+                if (str == "OK") return true;
+                else return false;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -47,7 +95,7 @@ namespace MFramework
             //先关闭子线程
             if (connectThread != null)
             {
-                connectThread.Interrupt();
+                connectThread.Abort();
             }
             //再退出Socket
             if (socket != null)
@@ -65,6 +113,7 @@ namespace MFramework
 
             socket.SendTo(sendData, sendData.Length, SocketFlags.None, serverEP);
         }
+
         internal void Send(string sendStr, EndPoint serverEP)
         {
             //重置数据
@@ -92,6 +141,20 @@ namespace MFramework
                     MainThreadDoAfterReceive(receiveStr);
                 });
             }
+        }
+
+        private void BindServer(string serverIP, int serverPort)
+        {
+            this.serverIP = serverIP;
+            this.serverPort = serverPort;
+            serverEP = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
+        }
+
+        private void BindServer(IPEndPoint serverEP)
+        {
+            this.serverIP = serverEP.Address.ToString();
+            this.serverPort = serverEP.Port;
+            this.serverEP = serverEP;
         }
 
         private Thread InitThread(Action action)

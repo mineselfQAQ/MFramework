@@ -18,8 +18,8 @@ public class Test_UDP : MonoBehaviour
         //服务端需要绑定的是自己，接收谁的消息不重要
         //客户端是谁不重要，重要的是向谁发消息
         //那么两者都会指向**服务端地址**
-        server = UDPHandler.Instance.CreateServer<TestServer>("192.168.50.12", 8080);
-        client = UDPHandler.Instance.CreateClient<TestClient>("192.168.50.12", 8080, true);
+        MLog.Print($"默认网卡IPV4: {MSocketUtility.GetDefaultNICIPV4Address()}");
+        client = UDPHandler.Instance.CreateClient<TestClient>("192.168.50.12", 8080, 5.0f, true);
 
         btn.onClick.AddListener(() =>
         {
@@ -29,6 +29,12 @@ public class Test_UDP : MonoBehaviour
 
     private void Update()
     {
-        text.text = server.ReceiveStr;
+        if(server != null) text.text = server.ReceiveStr;
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            server = UDPHandler.Instance.CreateServer<TestServer>
+                (MSocketUtility.GetDefaultNICIPV4Address().ToString(), 8080);
+        }
     }
 }
