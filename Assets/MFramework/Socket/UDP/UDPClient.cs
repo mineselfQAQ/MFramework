@@ -13,9 +13,12 @@ namespace MFramework
         public string serverIP;//服务器IP
         public int serverPort;//服务器Port
 
+        private string selfIP;
+        private int selfPort;
+
         private Socket socket;
-        private EndPoint selfEP;
         private EndPoint serverEP;
+        private IPEndPoint selfEP;
         private byte[] sendData;
         private byte[] receiveData;
         private string receiveStr;
@@ -27,6 +30,10 @@ namespace MFramework
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.ReceiveTimeout = 4999;
+
+            //默认IP
+            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
         }
 
         internal void Init(string serverIP, int serverPort, float interval = 5.0f, bool enableThread = true)
@@ -36,10 +43,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            if (enableThread)
-            {
-                CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval));
-            }
+            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Init(IPEndPoint serverEP, float interval = 5.0f, bool enableThread = true)
@@ -49,45 +53,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            if (enableThread)
-            {
-                CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval));
-            }
-        }
-
-        private IEnumerator TryConnectServer(float interval)
-        {
-            while (true)
-            {
-                if (CheckServerExists())
-                {
-                    MLog.Print("客户端已成功连接");
-                    connectThread = InitThread(Receive);
-                    yield break;
-                }
-
-                yield return new WaitForSeconds(interval);
-            }
-        }
-
-        private bool CheckServerExists()
-        {
-            try
-            {
-                Send("Start");//初始检测语句
-                //Debug.Log("OK");
-
-                byte[] bytes = new byte[1024];
-                int length = socket.ReceiveFrom(bytes, ref serverEP);
-                string str = Encoding.UTF8.GetString(bytes, 0, length);
-
-                if (str == "OK") return true;
-                else return false;
-            }
-            catch
-            {
-                return false;
-            }
+            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Quit()
@@ -102,6 +68,64 @@ namespace MFramework
             {
                 socket.Close();
             }
+        }
+
+        private IEnumerator TryConnectServer(float interval, bool enableThread)
+        {
+            while (true)
+            {
+                if (CheckServerExists(interval))
+                {
+                    MLog.Print($"{selfEP}已成功连接");
+                    if(enableThread) connectThread = InitThread(Receive);
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(interval);
+            }
+        }
+
+        private bool CheckServerExists(float interval)
+        {
+            try
+            {
+                Send("Start");//初始检测语句
+
+                byte[] bytes = new byte[1024];
+                int length = socket.ReceiveFrom(bytes, ref serverEP);
+                string str = Encoding.UTF8.GetString(bytes, 0, length);
+
+                if (str.Contains("ConnectSucceed")) 
+                {
+                    string[] strs = str.Split(":");
+                    string ep = strs[1];
+
+                    string[] epStrs = ep.Split("|");
+                    selfIP = epStrs[0];
+                    selfPort = int.Parse(epStrs[1]);
+
+                    selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
+
+                    return true;
+                } 
+                else return false;
+            }
+            catch
+            {
+                MLog.Print($"服务器未创建，{interval}秒后重新连接", MLogType.Warning);
+                return false;
+            }
+        }
+
+        public IPEndPoint GetEndPoint()
+        {
+            if (selfEP == null)
+            {
+                MLog.Print("服务器未创建，无法获取EP", MLogType.Error);
+                return null;
+            }
+
+            return selfEP;
         }
 
         public void Send(string sendStr)

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -77,13 +78,12 @@ namespace MFramework
             while (true)
             {
                 receiveData = new byte[1024];
-
                 int receiveLength = socket.ReceiveFrom(receiveData, ref clientEP);
 
                 receiveStr = Encoding.UTF8.GetString(receiveData, 0, receiveLength);
 
                 //初始化操作
-                bool flag = ResponseClientConnect(receiveStr);
+                bool flag = ResponseClientConnect(receiveStr, clientEP);
                 if (flag) continue;//某客户端成功连接，此轮不应该做其它事情
 
                 //抽象方法---受到客户端消息所需做的事
@@ -95,11 +95,15 @@ namespace MFramework
             }
         }
 
-        private bool ResponseClientConnect(string receiveStr)
+        private bool ResponseClientConnect(string receiveStr, EndPoint clientEP)
         {
             if (receiveStr == "Start")
             {
-                Send("OK");
+                IPEndPoint ep = (IPEndPoint)clientEP;
+                string ip = ep.Address.ToString();
+                int port = ep.Port;
+
+                Send($"ConnectSucceed:{ip}|{port}");
                 return true;
             }
             return false;
