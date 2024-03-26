@@ -33,16 +33,16 @@ namespace MFramework
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            
+            //默认IP
+            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
+            MLog.Print($"本机IP:{selfIP}，等待连接后获取端口号");
+
             isConnect = false;
         }
 
         internal void Init(string serverIP, int serverPort, float interval = 5.0f, bool enableThread = true)
         {
             BindServer(serverIP, serverPort);
-
-            //默认IP
-            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
 
             //开启线程，注意点：
             //1.服务端必须已经存在
@@ -80,12 +80,13 @@ namespace MFramework
             {
                 if (CheckServerExists(interval))
                 {
-                    Send("Start");//初始检测语句
+                    Send("START");//初始检测语句
 
                     byte[] bytes = new byte[1024];
                     int length = socket.ReceiveFrom(bytes, ref serverEP);
                     string str = Encoding.UTF8.GetString(bytes, 0, length);
 
+                    //TODO:为消息创建MMessage类，能够自动处理数据
                     if (str.Contains("ConnectSucceed"))
                     {
                         string[] strs = str.Split(":");
@@ -109,9 +110,9 @@ namespace MFramework
 
         private bool CheckServerExists(float interval)
         {
-            string str = UDPHandler.Instance.SendAndReceive("1", (IPEndPoint)serverEP);
+            string str = UDPHandler.Instance.SendAndReceive(" ", (IPEndPoint)serverEP);
 
-            if (str != null)
+            if (str == " ")
             {
                 isConnect = true;
                 return true;

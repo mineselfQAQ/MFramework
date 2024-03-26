@@ -70,6 +70,27 @@ namespace MFramework
             }
         }
 
+        public bool CheckConnection(string sendStr, IPEndPoint serverEP)
+        {
+            using (UdpClient udpClient = new UdpClient())
+            {
+                try
+                {
+                    byte[] sendData = Encoding.UTF8.GetBytes(sendStr);
+                    udpClient.Send(sendData, sendData.Length, serverEP);
+
+                    IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+                    byte[] receiveData = udpClient.Receive(ref remoteEP);
+
+                    return true;
+                }
+                catch (SocketException)
+                {
+                    return false;
+                }
+            }
+        }
+
         public T CreateServer<T>(string selfIP, int selfPort) where T : UDPServer, new()
         {
             if (server != null)

@@ -21,9 +21,9 @@ public class Test_UDP : MonoBehaviour
         //服务端需要绑定的是自己，接收谁的消息不重要
         //客户端是谁不重要，重要的是向谁发消息
         //那么两者都会指向**服务端地址**
-        client = UDPHandler.Instance.CreateClient<TestClient>("192.168.50.12", 8080, 5.0f, true);
+        client = UDPHandler.Instance.CreateClient<TestClient>("192.168.1.7", 8080, 5.0f, true);
 
-        serverEP = new IPEndPoint(IPAddress.Parse("192.168.50.12"), 8080);
+        serverEP = new IPEndPoint(IPAddress.Parse("192.168.1.7"), 8080);
 
         btn.onClick.AddListener(() =>
         {

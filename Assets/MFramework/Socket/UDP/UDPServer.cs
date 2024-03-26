@@ -101,7 +101,13 @@ namespace MFramework
 
         private bool ResponseClientConnect(string receiveStr, EndPoint clientEP)
         {
-            if (receiveStr == "Start")
+            if (receiveStr == " ")//‘§ºÏ≤‚
+            {
+                Send(" ");
+                return false;
+            }
+
+            if (receiveStr == "START")//≥ı ºªØ
             {
                 IPEndPoint ep = (IPEndPoint)clientEP;
                 string ip = ep.Address.ToString();
