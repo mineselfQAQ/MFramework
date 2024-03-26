@@ -24,21 +24,25 @@ namespace MFramework
         private string receiveStr;
         private Thread connectThread;
 
+        private bool isConnect;
+
+        public bool Connected { get { return isConnect; } }
         public string ReceiveStr { get { return receiveStr; } }
 
         internal UDPClient()
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            socket.ReceiveTimeout = 4999;
-
-            //默认IP
-            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
+            
+            isConnect = false;
         }
 
         internal void Init(string serverIP, int serverPort, float interval = 5.0f, bool enableThread = true)
         {
             BindServer(serverIP, serverPort);
+
+            //默认IP
+            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
 
             //开启线程，注意点：
             //1.服务端必须已经存在
@@ -76,6 +80,24 @@ namespace MFramework
             {
                 if (CheckServerExists(interval))
                 {
+                    Send("Start");//初始检测语句
+
+                    byte[] bytes = new byte[1024];
+                    int length = socket.ReceiveFrom(bytes, ref serverEP);
+                    string str = Encoding.UTF8.GetString(bytes, 0, length);
+
+                    if (str.Contains("ConnectSucceed"))
+                    {
+                        string[] strs = str.Split(":");
+                        string ep = strs[1];
+
+                        string[] epStrs = ep.Split("|");
+                        selfIP = epStrs[0];
+                        selfPort = int.Parse(epStrs[1]);
+
+                        selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
+                    }
+
                     MLog.Print($"{selfEP}已成功连接");
                     if(enableThread) connectThread = InitThread(Receive);
                     yield break;
@@ -87,34 +109,16 @@ namespace MFramework
 
         private bool CheckServerExists(float interval)
         {
-            try
+            string str = UDPHandler.Instance.SendAndReceive("1", (IPEndPoint)serverEP);
+
+            if (str != null)
             {
-                Send("Start");//初始检测语句
-
-                byte[] bytes = new byte[1024];
-                int length = socket.ReceiveFrom(bytes, ref serverEP);
-                string str = Encoding.UTF8.GetString(bytes, 0, length);
-
-                if (str.Contains("ConnectSucceed")) 
-                {
-                    string[] strs = str.Split(":");
-                    string ep = strs[1];
-
-                    string[] epStrs = ep.Split("|");
-                    selfIP = epStrs[0];
-                    selfPort = int.Parse(epStrs[1]);
-
-                    selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
-
-                    return true;
-                } 
-                else return false;
+                isConnect = true;
+                return true;
             }
-            catch
-            {
-                MLog.Print($"服务器未创建，{interval}秒后重新连接", MLogType.Warning);
-                return false;
-            }
+
+            MLog.Print($"服务器连接失败，将在{interval}秒后重试", MLogType.Warning);
+            return false;
         }
 
         public IPEndPoint GetEndPoint()
@@ -130,22 +134,19 @@ namespace MFramework
 
         public void Send(string sendStr)
         {
-            //重置数据
-            sendData = new byte[1024];
-            //转byte[]，因为发送使用的是字节形式
-            sendData = Encoding.UTF8.GetBytes(sendStr);
+            if (isConnect)
+            {
+                //重置数据
+                sendData = new byte[1024];
+                //转byte[]，因为发送使用的是字节形式
+                sendData = Encoding.UTF8.GetBytes(sendStr);
 
-            socket.SendTo(sendData, sendData.Length, SocketFlags.None, serverEP);
-        }
-
-        internal void Send(string sendStr, EndPoint serverEP)
-        {
-            //重置数据
-            sendData = new byte[1024];
-            //转byte[]，因为发送使用的是字节形式
-            sendData = Encoding.UTF8.GetBytes(sendStr);
-
-            socket.SendTo(sendData, sendData.Length, SocketFlags.None, serverEP);
+                socket.SendTo(sendData, sendData.Length, SocketFlags.None, serverEP);
+            }
+            else
+            {
+                MLog.Print("未连接，无法发送消息", MLogType.Warning);
+            }
         }
 
         private void Receive()

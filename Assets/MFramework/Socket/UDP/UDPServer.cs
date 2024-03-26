@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using UnityEngine;
 
 namespace MFramework
 {
@@ -36,6 +35,11 @@ namespace MFramework
             //定义需要接受的EP
             clientEP = new IPEndPoint(IPAddress.Any, 0);//代表着监听所有客户端
 
+            byte[] buf = new byte[1024];
+            while (socket.Available > 0)
+            {
+                socket.Receive(buf);
+            }
             connectThread = InitThread(Receive);
         }
 

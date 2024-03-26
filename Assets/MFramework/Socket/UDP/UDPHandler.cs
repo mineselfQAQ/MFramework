@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using static UnityEditorInternal.ReorderableList;
 
 namespace MFramework
 {
     public class UDPHandler : MonoSingleton<UDPHandler>
     {
-        private UDPClient Default;
-
         private UDPServer server;
         private List<UDPClient> clients;
 
         private UDPHandler() 
         {
-            Default = new UDPClient();
             clients = new List<UDPClient>();
         }
 
@@ -34,9 +34,40 @@ namespace MFramework
         /// <summary>
         /// 向服务器仅发送一条消息
         /// </summary>
-        public void Send(string sendStr, EndPoint serverEP)
+        public void Send(string sendStr, IPEndPoint serverEP)
         {
-            Default.Send(sendStr, serverEP);
+            using (UdpClient udpClient = new UdpClient())
+            {
+                byte[] sendData = Encoding.UTF8.GetBytes(sendStr);
+                udpClient.Send(sendData, sendData.Length, serverEP);
+            }
+        }
+
+        /// <summary>
+        /// 向服务器发送并接受消息
+        /// </summary>
+        public string SendAndReceive(string sendStr, IPEndPoint serverEP)
+        {
+            using (UdpClient udpClient = new UdpClient())
+            {
+                try
+                {
+                    udpClient.Client.ReceiveTimeout = 1000;//接受时间等待1秒
+
+                    byte[] sendData = Encoding.UTF8.GetBytes(sendStr);
+                    udpClient.Send(sendData, sendData.Length, serverEP);
+
+                    IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+                    byte[] receiveData = udpClient.Receive(ref remoteEP);
+                    string receivedMessage = Encoding.UTF8.GetString(receiveData);
+
+                    return receivedMessage;
+                }
+                catch (SocketException ex)
+                {
+                    return null;
+                }
+            }
         }
 
         public T CreateServer<T>(string selfIP, int selfPort) where T : UDPServer, new()
