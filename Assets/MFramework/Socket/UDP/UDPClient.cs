@@ -10,9 +10,8 @@ namespace MFramework
 {
     public class UDPClient
     {
-        public string serverIP;//服务器IP
-        public int serverPort;//服务器Port
-
+        private string serverIP;
+        private int serverPort;
         private string selfIP;
         private int selfPort;
 
@@ -26,6 +25,33 @@ namespace MFramework
 
         private bool isConnect;
 
+        public string ServerIP { get { return serverIP; } }
+        public int ServerPort { get { return serverPort; } }
+        public string SelfIP
+        {
+            get
+            {
+                if (selfIP == null)
+                {
+                    MLog.Print("未连接至服务器，无法获取本机IP", MLogType.Error);
+                    return null;
+                }
+                return selfIP;
+            }
+        }
+        public int SelfPort
+        {
+            get
+            {
+                if (selfPort == null)
+                {
+                    MLog.Print("未连接至服务器，无法获取本机Port", MLogType.Error);
+                    return -1;
+                }
+                return selfPort;
+            }
+        }
+
         public bool Connected { get { return isConnect; } }
         public string ReceiveStr { get { return receiveStr; } }
 
@@ -33,9 +59,6 @@ namespace MFramework
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            //默认IP
-            selfIP = MSocketUtility.GetDefaultNICIPV4Address().ToString();
-            MLog.Print($"本机IP:{selfIP}，等待连接后获取端口号");
 
             isConnect = false;
         }
@@ -83,25 +106,20 @@ namespace MFramework
                     Send("START");//初始检测语句
 
                     byte[] bytes = new byte[1024];
-                    int length = socket.ReceiveFrom(bytes, ref serverEP);
-                    string str = Encoding.UTF8.GetString(bytes, 0, length);
+                    socket.Receive(bytes);
 
-                    //TODO:为消息创建MMessage类，能够自动处理数据
-                    if (str.Contains("ConnectSucceed"))
+                    MMessage msg = MMessage.Bytes2Msg(bytes);
+                    if (msg.topic == "ConnectSucceed")
                     {
-                        string[] strs = str.Split(":");
-                        string ep = strs[1];
-
-                        string[] epStrs = ep.Split("|");
-                        selfIP = epStrs[0];
-                        selfPort = int.Parse(epStrs[1]);
+                        selfIP = (string)msg.infos[0];
+                        selfPort = (int)msg.infos[1];
 
                         selfEP = new IPEndPoint(IPAddress.Parse(selfIP), selfPort);
-                    }
 
-                    MLog.Print($"{selfEP}已成功连接");
-                    if(enableThread) connectThread = InitThread(Receive);
-                    yield break;
+                        MLog.Print($"{selfEP}已成功连接");
+                        if (enableThread) connectThread = InitThread(Receive);
+                        yield break;
+                    }
                 }
 
                 yield return new WaitForSeconds(interval);
@@ -110,7 +128,7 @@ namespace MFramework
 
         private bool CheckServerExists(float interval)
         {
-            string str = UDPHandler.Instance.SendAndReceive(" ", (IPEndPoint)serverEP);
+            string str = UDPHandler.SendAndReceive(" ", (IPEndPoint)serverEP);
 
             if (str == " ")
             {
@@ -131,6 +149,20 @@ namespace MFramework
             }
 
             return selfEP;
+        }
+
+        public void Send(MMessage msg)
+        {
+            if (isConnect)
+            {
+                sendData = msg.Msg2Bytes();
+
+                socket.SendTo(sendData, sendData.Length, SocketFlags.None, serverEP);
+            }
+            else
+            {
+                MLog.Print("未连接，无法发送消息", MLogType.Warning);
+            }
         }
 
         public void Send(string sendStr)

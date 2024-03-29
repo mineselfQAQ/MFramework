@@ -88,5 +88,22 @@ namespace MFramework
                 return m_H2Style;
             }
         }
+
+        private static GUIStyle m_CenterStyle;
+        public static GUIStyle CenterStyle
+        {
+            get
+            {
+                if (m_CenterStyle == null)
+                {
+                    GUIStyle style = new GUIStyle();
+                    style.alignment = TextAnchor.MiddleCenter;
+
+                    m_CenterStyle = style;
+                }
+
+                return m_CenterStyle;
+            }
+        }
     }
 }

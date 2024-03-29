@@ -14,10 +14,13 @@ namespace MFramework
 
         private void Awake()
         {
-            INeedInitType = this.GetType().Assembly.GetTypes()
+            if (logCallbackOn)
+            {
+                INeedInitType = this.GetType().Assembly.GetTypes()
                                    .Where(t => t.GetInterfaces().Contains(typeof(INeedInit)));
-            INeedQuitType = this.GetType().Assembly.GetTypes()
-                                   .Where(t => t.GetInterfaces().Contains(typeof(INeedQuit)));
+                INeedQuitType = this.GetType().Assembly.GetTypes()
+                                       .Where(t => t.GetInterfaces().Contains(typeof(INeedQuit)));
+            }
         }
 
         private void Start()

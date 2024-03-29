@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class MTimeUtility
+public static class MTimeUtility
 {
     public static void Delay(float sec)
     {

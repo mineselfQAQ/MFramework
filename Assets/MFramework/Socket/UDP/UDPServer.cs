@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -8,8 +10,8 @@ namespace MFramework
 {
     public class UDPServer
     {
-        public string selfIP;
-        public int selfPort;
+        private string selfIP;
+        private int selfPort;
 
         private Socket socket;
         private EndPoint selfEP;
@@ -19,6 +21,9 @@ namespace MFramework
         private string receiveStr;
         private Thread connectThread;
 
+        public string SelfIP { get { return selfIP; } }
+        public int SelfPort { get { return selfPort; } }
+
         public string ReceiveStr { get { return receiveStr; } }
 
         internal UDPServer()
@@ -27,10 +32,13 @@ namespace MFramework
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
 
-        internal void Init(string selfIP, int selfPort)
+        /// <summary>
+        /// 自动获取本机IP，并设置端口
+        /// </summary>
+        internal void Init(int selfPort)
         {
             //绑定自己
-            BindSelf(selfIP, selfPort);
+            BindSelf(MSocketUtility.GetDefaultNICIPV4Address().ToString(), selfPort);
 
             //定义需要接受的EP
             clientEP = new IPEndPoint(IPAddress.Any, 0);//代表着监听所有客户端
@@ -43,6 +51,28 @@ namespace MFramework
             connectThread = InitThread(Receive);
         }
 
+        /// <summary>
+        /// 手动输入本机IP，并设置端口
+        /// </summary>
+        internal void Init(string selfIP, int selfPort)
+        {
+            //绑定自己
+            BindSelf(selfIP, selfPort);
+
+            //定义需要接受的EP
+            clientEP = new IPEndPoint(IPAddress.Any, 0);//代表着监听所有客户端
+
+            //byte[] buf = new byte[1024];
+            //while (socket.Available > 0)
+            //{
+            //    socket.Receive(buf);
+            //}
+            connectThread = InitThread(Receive);
+        }
+
+        /// <summary>
+        /// 手动输入本机EP
+        /// </summary>
         internal void Init(IPEndPoint selfEP)
         {
             //绑定自己
@@ -65,6 +95,14 @@ namespace MFramework
             {
                 socket.Close();
             }
+        }
+
+        public void Send(MMessage msg)
+        {
+            sendData = msg.Msg2Bytes();
+            //msg = MMessage.Bytes2Msg(sendData);
+
+            socket.SendTo(sendData, sendData.Length, SocketFlags.None, clientEP);
         }
 
         public void Send(string sendStr)
@@ -113,7 +151,10 @@ namespace MFramework
                 string ip = ep.Address.ToString();
                 int port = ep.Port;
 
-                Send($"ConnectSucceed:{ip}|{port}");
+                MMessage msg = MMessage.CreateMessage("ConnectSucceed");
+                msg.AddInfo(ip, port);
+
+                Send(msg);
                 return true;
             }
             return false;

@@ -22,7 +22,7 @@ namespace MFramework
         private void OnGUI()
         {
             //==========标题==========
-            MGUIUtility.DrawH1("路径配置器");
+            MGUIUtility.DrawH1("编辑器配置器");
 
             //==========Excel==========
             MGUIUtility.DrawH2("Excel部分");
@@ -59,6 +59,11 @@ namespace MFramework
                 DrawCheckCSBtn();
             }
             EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Space(5);
+
+            MGUIUtility.DrawH2("Bool值");
+            DrawEnableCheckMCoreExistBool();
 
             EditorGUILayout.Space(5);
         }
@@ -103,6 +108,20 @@ namespace MFramework
                 string fullPath = MPathUtility.GetFullPathBaseProjectRoot(@"Assets\MFramework\EditorSettings.cs");
                 UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(fullPath, 3);
             }
+        }
+
+        private void DrawEnableCheckMCoreExistBool()
+        {
+            EditorGUILayout.BeginHorizontal();
+            {
+                bool flag = EditorPrefs.GetBool(EditorPrefsData.EnableCheckMCoreExist, true);
+                EditorGUILayout.LabelField($"是否强制添加MCore:  {flag}");
+                if (GUILayout.Button("更改"))
+                {
+                    EditorPrefs.SetBool(EditorPrefsData.EnableCheckMCoreExist, !flag);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
         }
 
         private bool ResetPath(string originName, string newPath)

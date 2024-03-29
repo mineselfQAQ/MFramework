@@ -1,18 +1,64 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using Unity.EditorCoroutines.Editor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
     public class InitializeScript
     {
-        public const string ExcelBINGenerationState = "ExcelBINGenerationState";
+        #region 检查MCore是否在Scene中
+        [InitializeOnLoadMethod]
+        public static void InitializeSceneOpen()
+        {
+            EditorSceneManager.sceneOpened += OnSceneOpened;
+        }
+        private static void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        {
+            if (EditorPrefs.GetBool(EditorPrefsData.EnableCheckMCoreExist, true))
+            {
+                CheckMCoreExist(scene);
+            }
+        }
+        private static void CheckMCoreExist(Scene scene)
+        {
+            GameObject[] rootGOs = SceneManager.GetActiveScene().GetRootGameObjects();
 
+            //检查表层中有无MCore
+            foreach (GameObject go in rootGOs)
+            {
+                if (go.name == "MCore")
+                {
+                    return;
+                }
+            }
+
+            //检查完整Hierarchy中有无MCore
+            foreach (GameObject go in GameObject.FindObjectsOfType<GameObject>())
+            {
+                if (go.name == "MCore")
+                {
+                    MLog.Print("核心组件MCore不处于表层，请检查", MLogType.Warning);
+                    return;
+                }
+            }
+
+            //添加MCore
+            GameObject MCore = new GameObject("MCore");
+            MCore.transform.SetAsFirstSibling();
+            MCore.AddComponent<MCore>();
+            GameObjectUtility.SetParentAndAlign(MCore, null);
+            Selection.activeGameObject = MCore;
+            EditorUtility.SetDirty(MCore);
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+            EditorGUIUtility.PingObject(MCore);
+            MLog.Print($"已为{scene.name}添加核心组件MCore");
+        }
+        #endregion
+
+        #region 检查重要文件夹是否存在
         [InitializeOnLoadMethod]
         public static void InitializeFolder()
         {
@@ -29,7 +75,9 @@ namespace MFramework
                 MLog.Print("已初始化生成StreamingAssets文件夹.", MLogType.Warning);
             }
         }
+        #endregion
 
+        #region ExcelGenerator操作(创建BIN文件)
         [InitializeOnLoadMethod]
         public static void InitializeAfterAssemblyReload()
         {
@@ -37,24 +85,11 @@ namespace MFramework
             //需要**在域重载后进行BIN文件的创建**
             AssemblyReloadEvents.afterAssemblyReload += GenerateBIN;
         }
-
-        /// <summary>
-        /// 初始化EditorPrefs
-        /// </summary>
-        [InitializeOnLoadMethod]
-        public static void InitializeEditorPrefs()
-        {
-            if (!EditorPrefs.HasKey(ExcelBINGenerationState))
-            {
-                EditorPrefs.SetBool(ExcelBINGenerationState, false);
-            }
-        }
-
         private static void GenerateBIN()
         {
-            if (EditorPrefs.GetBool(ExcelBINGenerationState))
+            if (EditorPrefs.GetBool(EditorPrefsData.ExcelBINGenerationState, false))
             {
-                EditorPrefs.SetBool(ExcelBINGenerationState, false);
+                EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, false);
 
                 string BINFolder = EditorSettings.excelBINGenerationPath;//默认.byte文件存放位置---Resources文件夹内部
                 List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
@@ -63,5 +98,15 @@ namespace MFramework
                 EditorDelayExecute.Instance.DelayRefresh();//延迟执行Refresh(否则无法刷新成功)
             }
         }
+        #endregion
+
+        //[InitializeOnLoadMethod]
+        //public static void InitializeEditorPrefs()
+        //{
+        //    if (!EditorPrefs.HasKey(ExcelBINGenerationState))
+        //    {
+        //        EditorPrefs.SetBool(ExcelBINGenerationState, false);
+        //    }
+        //}
     }
 }

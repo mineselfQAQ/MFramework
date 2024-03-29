@@ -85,7 +85,7 @@ namespace MFramework
 
             if (GUILayout.Button("Ò»¼üÉú³É"))
             {
-                EditorPrefs.SetBool(InitializeScript.ExcelBINGenerationState, true);
+                EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
                 XLSX2PersistentData();
             }
         }
@@ -767,7 +767,7 @@ namespace Table
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
+                {CollectionClassName} table = binaryFormatter.ByteDeserialize(stream) as {CollectionClassName};
                 {ClassName}[] res = table.items;
                 return res;
             }
