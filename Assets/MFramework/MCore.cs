@@ -8,13 +8,15 @@ namespace MFramework
 {
     public class MCore : MonoBehaviour
     {
-        public bool logCallbackOn;//在发布版本中输出Log文件
+        public bool m_LogCallbackOn;//在发布版本中输出Log文件
+
         IEnumerable<Type> INeedInitType;
         IEnumerable<Type> INeedQuitType;
 
         private void Awake()
         {
-            if (logCallbackOn)
+            Debug.Log(m_LogCallbackOn);
+            if (m_LogCallbackOn)
             {
                 INeedInitType = this.GetType().Assembly.GetTypes()
                                    .Where(t => t.GetInterfaces().Contains(typeof(INeedInit)));
@@ -25,7 +27,8 @@ namespace MFramework
 
         private void Start()
         {
-            if (logCallbackOn)
+            Debug.Log(m_LogCallbackOn);
+            if (m_LogCallbackOn)
             {
                 foreach (var type in INeedInitType)
                 {
@@ -39,7 +42,7 @@ namespace MFramework
 
         private void OnApplicationQuit()
         {
-            if (logCallbackOn)
+            if (m_LogCallbackOn)
             {
                 foreach (var type in INeedQuitType)
                 {

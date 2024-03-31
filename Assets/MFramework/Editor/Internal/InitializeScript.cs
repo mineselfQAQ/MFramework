@@ -9,6 +9,18 @@ namespace MFramework
 {
     public class InitializeScript
     {
+        #region 欢迎界面
+        [InitializeOnLoadMethod]
+        public static void InitializeWelcomePage()
+        {
+            bool state = EditorPrefs.GetBool(EditorPrefsData.WelcomePageState, true);
+            if (state)
+            {
+                WelcomePage.Init();
+            }
+        }
+        #endregion
+
         #region 检查MCore是否在Scene中
         [InitializeOnLoadMethod]
         public static void InitializeSceneOpen()

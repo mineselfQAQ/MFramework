@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -16,6 +17,14 @@ namespace MFramework
             EditorGUILayout.Space(2);
             EditorGUILayout.LabelField(titleName, MGUIStyleUtility.H2Style);
             EditorGUILayout.Space(2);
+        }
+
+        public static void DrawTexture(Texture2D tex, GUIStyle style)
+        {
+            if(tex != null) 
+            {
+                GUILayout.Label(tex, style);
+            }
         }
     }
 }
