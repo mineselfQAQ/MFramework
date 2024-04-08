@@ -353,6 +353,7 @@ namespace MFramework
                 bucket = buckets[num3];//找到放入的bucket
                 //bucket中存储的hashcode与hashcode1一致且bucket中存储的key与key相同
                 //也就是bucket确实是需要移除的那个
+                //0x7FFFFFFF---0111...1，进行&操作也就是排除最高位
                 if ((bucket.hash_coll & 0x7FFFFFFF) == num && KeyEquals(bucket.key, key))
                 {
                     buckets[num3].hash_coll &= int.MinValue;//取出哈希冲突标识(最高位为1/0，其它位都为0)
@@ -463,7 +464,9 @@ namespace MFramework
             {
                 expand();
             }
-            else if (occupancy > loadsize && count > 100)//发生大量冲突且容量超过100(核心是发生大量冲突)
+            //发生大量冲突且容量超过100(核心是发生大量冲突)
+            //注意：occupancy一个位置只能设置一次，这意味着统计的是有多少位置发生过冲突
+            else if (occupancy > loadsize && count > 100)
             {
                 rehash();
             }
@@ -524,7 +527,7 @@ namespace MFramework
                 {
                     //设置哈希冲突状态
                     buckets[num4].hash_coll |= int.MinValue;
-                    occupancy++;
+                    occupancy++;//好像是一个位置只能设置一次
                 }
 
                 num4 = (int)((num4 + incr) % (long)(uint)buckets.Length);//步进后的新index
@@ -539,6 +542,13 @@ namespace MFramework
                 buckets[num3].hash_coll |= (int)num;
                 count++;
 
+                //已经全部找过一遍了，并没有一个优质的位置，这意味着buckets的状态非常不好
+                //除此以外如果桶还挺长的，有100个以上，这种时候还是发生了，说明是真的不好(比如说就3个位置那么发生非常正常)
+                if (buckets.Length > 100)
+                {
+                    rehash(buckets.Length, forceNewHashCode: true);
+                }
+
                 return;
             }
 
@@ -550,7 +560,7 @@ namespace MFramework
         {
             //result = seed = 哈希冲突标识为0的hashcode
             uint result = (seed = (uint)key.GetHashCode() & 0x7FFFFFFFu);
-            incr = 1 + seed * 101 % (uint)(hashsize - 1);//indexIncr
+            incr = 1 + seed * 101 % (uint)(hashsize - 1);//indexIncr，应该可以称为混合哈希
             return result;
         }
 

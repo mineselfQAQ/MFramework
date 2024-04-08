@@ -13,7 +13,6 @@ namespace MFramework
 
         private int _size;
 
-
         private int _growFactor;
 
         public int Count => _size;

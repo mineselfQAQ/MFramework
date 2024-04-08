@@ -11,6 +11,10 @@ public class Test_MHashtable : MonoBehaviour
         hashtable.Add(1, "元素1");
         hashtable.Add(2, "元素2");
         hashtable.Add(3, "元素3");
+        //for (int i = 0; i <= int.MaxValue; i+=10)
+        //{
+        //    hashtable.Add(i, "1");
+        //}
         hashtable.Remove(1);
 
         MLog.Print("hashtable[1]是否有值: " + !(hashtable[1] == null));
