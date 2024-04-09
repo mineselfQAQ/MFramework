@@ -52,9 +52,70 @@ namespace MFramework
             this.comparer = comparer ?? EqualityComparer<TKey>.Default;
         }
 
+        public TValue this[TKey key]
+        {
+            get
+            {
+                int num = FindEntry(key);//寻找Entry
+                if (num >= 0)//如果存在Entry就返回
+                {
+                    return entries[num].value;
+                }
+
+                throw new Exception();
+            }
+            set
+            {
+                Insert(key, value, add: false);//改值
+            }
+        }
+
         public void Add(TKey key, TValue value)
         {
             Insert(key, value, add: true);
+        }
+
+        public bool Remove(TKey key)
+        {
+            if (key == null)
+            {
+                throw new Exception();
+            }
+
+            if (buckets != null)
+            {
+                int num = comparer.GetHashCode(key) & 0x7FFFFFFF;//hashcode
+                int num2 = num % buckets.Length;//index
+                int num3 = -1;
+                //同Insert()
+                for (int num4 = buckets[num2]; num4 >= 0; num4 = entries[num4].next)
+                {
+                    //找到了要删除的Entry
+                    if (entries[num4].hashCode == num && comparer.Equals(entries[num4].key, key))
+                    {
+                        if (num3 < 0)//第一个就中了，跳过它直接改链(头删)
+                        {
+                            buckets[num2] = entries[num4].next;
+                        }
+                        else//一般情况的链表删除方式(A->B->C变为A->C)
+                        {
+                            entries[num3].next = entries[num4].next;
+                        }
+
+                        entries[num4].hashCode = -1;
+                        entries[num4].next = freeList;//链接1
+                        entries[num4].key = default(TKey);
+                        entries[num4].value = default(TValue);
+                        freeList = num4;//链接2
+                        freeCount++;
+                        return true;
+                    }
+
+                    num3 = num4;//num3存放着上一个index
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -169,29 +230,55 @@ namespace MFramework
             //初始化新entries
             Entry[] array2 = new Entry[newSize];
             Array.Copy(entries, 0, array2, 0, count);
+
+            //强制更新Hashcode情况
             if (forceNewHashCodes)
             {
                 for (int j = 0; j < count; j++)
                 {
                     if (array2[j].hashCode != -1)
                     {
-                        array2[j].hashCode = comparer.GetHashCode(array2[j].key) & 0x7FFFFFFF;
+                        array2[j].hashCode = comparer.GetHashCode(array2[j].key) & 0x7FFFFFFF;//去除最高位
                     }
                 }
             }
 
             for (int k = 0; k < count; k++)
             {
-                if (array2[k].hashCode >= 0)
+                if (array2[k].hashCode >= 0)//最高位为0时
                 {
-                    int num = array2[k].hashCode % newSize;
-                    array2[k].next = array[num];
-                    array[num] = k;
+                    int num = array2[k].hashCode % newSize;//新的index
+                    array2[k].next = array[num];//???
+                    array[num] = k;//array[num]指向array2[k]
                 }
             }
 
             buckets = array;
             entries = array2;
+        }
+
+        private int FindEntry(TKey key)
+        {
+            if (key == null)
+            {
+                throw new Exception();
+            }
+
+            if (buckets != null)
+            {
+                int num = comparer.GetHashCode(key) & 0x7FFFFFFF;//hashcode
+                //依次查询桶链表中的每一个Entry
+                for (int num2 = buckets[num % buckets.Length]; num2 >= 0; num2 = entries[num2].next)
+                {
+                    //找到匹配Entry就返回
+                    if (entries[num2].hashCode == num && comparer.Equals(entries[num2].key, key))
+                    {
+                        return num2;
+                    }
+                }
+            }
+
+            return -1;
         }
     }
 }

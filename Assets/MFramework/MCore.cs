@@ -15,7 +15,6 @@ namespace MFramework
 
         private void Awake()
         {
-            Debug.Log(m_LogCallbackOn);
             if (m_LogCallbackOn)
             {
                 INeedInitType = this.GetType().Assembly.GetTypes()
@@ -27,7 +26,6 @@ namespace MFramework
 
         private void Start()
         {
-            Debug.Log(m_LogCallbackOn);
             if (m_LogCallbackOn)
             {
                 foreach (var type in INeedInitType)
