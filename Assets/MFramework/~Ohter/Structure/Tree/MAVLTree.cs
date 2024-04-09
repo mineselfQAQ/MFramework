@@ -383,12 +383,12 @@ namespace MFramework
             }
             if (balanceFactor < -1)//右偏树情况
             {
-                if (BalanceFactor(node.right) <= 0)//节点在左侧
+                if (BalanceFactor(node.right) <= 0)//节点在右侧
                 {
                     //左旋
                     return LeftRotate(node);
                 }
-                else//节点在右侧
+                else//节点在左侧
                 {
                     //先右旋，再左旋
                     node.right = RightRotate(node.right);
