@@ -480,16 +480,17 @@ namespace MFramework
 
             do
             {
-                //如果该处发生过哈希碰撞(条件3)，且该位置被移除(条件2)
-                //在没有备用位置的情况下找到了一个不算太好(发生过哈希碰撞)的空位
-                if (num3 == -1 && buckets[num4].key == buckets /*&& buckets[num4].hash_coll < 0*/)
+                //如果该处以前发生过哈希碰撞(条件2)而且目前也存在哈希碰撞(条件3)
+                //在没有备用位置的情况下找到了一个不好(发生过哈希碰撞)的空位
+                if (num3 == -1 && buckets[num4].key == buckets && buckets[num4].hash_coll < 0)
                 {
                     num3 = num4;//如果num3还没有设置过(条件1)，那么就将该index暂存于num3中
                 }
 
-                //如果该位置没有使用过 或者 发生冲突过的位置被移除且该处哈希冲突标识为0(感觉不合理，冲突过应该只可能为1)
-                if (buckets[num4].key == null /*|| (buckets[num4].key == buckets && (buckets[num4].hash_coll & 0x80000000u) == 0L)*/)
+                //如果该位置没有使用过(情况1)
+                if (buckets[num4].key == null || (buckets[num4].key == buckets && (buckets[num4].hash_coll & 0x80000000u) == 0L))
                 {
+                    //针对情况2---是一个不太好(发生过哈希碰撞，但rehash()后不再是)的空位
                     //如果已经保存了一个可用index
                     if (num3 != -1)
                     {
