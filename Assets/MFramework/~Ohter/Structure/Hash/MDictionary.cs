@@ -1,8 +1,6 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MFramework
 {
@@ -25,7 +23,7 @@ namespace MFramework
 
             private int index;
 
-            private int getEnumeratorRetType;
+            private int getEnumeratorRetType;//模式，一般为2，也就是键值对模式(泛型)
 
             internal const int DictEntry = 1;
 
@@ -56,11 +54,13 @@ namespace MFramework
                         throw new Exception();
                     }
 
+                    //模式1，也就是非泛型模式
                     if (getEnumeratorRetType == 1)
                     {
                         return new DictionaryEntry(current.Key, current.Value);
                     }
 
+                    //模式2，键值对模式，也就是泛型模式
                     return new KeyValuePair<TKey, TValue>(current.Key, current.Value);
                 }
             }
@@ -182,16 +182,15 @@ namespace MFramework
                 this.dictionary = dictionary;
             }
 
+            //看起来是想要隐藏，目前来看，优先会用1，然后用3，然后用2
             public Enumerator GetEnumerator()
             {
                 return new Enumerator(dictionary);
             }
-
             IEnumerator IEnumerable.GetEnumerator()//IEnumerable的GetEnumerator()
             {
                 return new Enumerator(dictionary);
             }
-
             IEnumerator<TKey> IEnumerable<TKey>.GetEnumerator()//IEnumerable<T>的GetEnumerator()
             {
                 return new Enumerator(dictionary);
@@ -283,16 +282,15 @@ namespace MFramework
                 this.dictionary = dictionary;
             }
 
+            //看起来是想要隐藏，目前来看，优先会用1，然后用3，然后用2
             public Enumerator GetEnumerator()
             {
                 return new Enumerator(dictionary);
             }
-
             IEnumerator IEnumerable.GetEnumerator()//IEnumerable的GetEnumerator()
             {
                 return new Enumerator(dictionary);
             }
-
             IEnumerator<TValue> IEnumerable<TValue>.GetEnumerator()//IEnumerable<T>的GetEnumerator()
             {
                 return new Enumerator(dictionary);
@@ -407,6 +405,8 @@ namespace MFramework
                     //找到了要删除的Entry
                     if (entries[num4].hashCode == num && comparer.Equals(entries[num4].key, key))
                     {
+                        //Tip：只有这一种可能，
+                        //如果途中发生entries[num4].next < 0的话，下一轮循环就会退出了，也就没有机会得到num3 < 0了
                         if (num3 < 0)//第一个就中了，跳过它直接改链(头删)
                         {
                             buckets[num2] = entries[num4].next;
@@ -612,15 +612,15 @@ namespace MFramework
             }
 
             //重新链接，大致流程：
+            //此时我们的buckets已经清空了，我们需要将所有的entries归入buckets
             //从元素数组的第一个开始，只要其中有hashCode，就说明该处有存在元素
-            //根据newSize得到newIndex，这其实意味着该处是属于buckets[newIndex]的，
-            //所以将该元素与buckets[newIndex]进行链接(头插法)
+            //然后依次将entry进行头插法链接即可
             for (int k = 0; k < count; k++)
             {
                 if (array2[k].hashCode >= 0)//最高位为0时
                 {
                     //大致就是：新元素指向上一个元素，buckets[newIndex]指向新元素
-                    int num = array2[k].hashCode % newSize;//新的index
+                    int num = array2[k].hashCode % newSize;//newIndex
                     array2[k].next = array[num];
                     array[num] = k;
                 }
@@ -654,11 +654,15 @@ namespace MFramework
             return -1;
         }
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        //看起来是想要隐藏，优先会用1
+        public Enumerator GetEnumerator()
         {
             return new Enumerator(this, 2);
         }
-
+        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return new Enumerator(this, 2);
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new Enumerator(this, 2);
