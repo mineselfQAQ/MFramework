@@ -1,9 +1,12 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MFramework
 {
-    public class MDictionary<TKey, TValue>
+    public class MDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         //类似于Hashtable中的Bucket
         private struct Entry
@@ -14,8 +17,287 @@ namespace MFramework
             public TValue value;
         }
 
-        public sealed class KeyCollection { }
-        public sealed class ValueCollection { }
+        public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
+        {
+            private MDictionary<TKey, TValue> dictionary;
+
+            private KeyValuePair<TKey, TValue> current;
+
+            private int index;
+
+            private int getEnumeratorRetType;
+
+            internal const int DictEntry = 1;
+
+            internal const int KeyValuePair = 2;
+
+            internal Enumerator(MDictionary<TKey, TValue> dictionary, int getEnumeratorRetType)
+            {
+                this.dictionary = dictionary;
+                index = 0;
+                this.getEnumeratorRetType = getEnumeratorRetType;
+                current = default(KeyValuePair<TKey, TValue>);
+            }
+
+            public KeyValuePair<TKey, TValue> Current
+            {
+                get
+                {
+                    return current;
+                }
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    if (index == 0 || index == dictionary.count + 1)
+                    {
+                        throw new Exception();
+                    }
+
+                    if (getEnumeratorRetType == 1)
+                    {
+                        return new DictionaryEntry(current.Key, current.Value);
+                    }
+
+                    return new KeyValuePair<TKey, TValue>(current.Key, current.Value);
+                }
+            }
+
+            public void Dispose()
+            {
+
+            }
+
+            public bool MoveNext()
+            {
+                while ((uint)index < (uint)dictionary.count)
+                {
+                    if (dictionary.entries[index].hashCode >= 0)
+                    {
+                        current = new KeyValuePair<TKey, TValue>(dictionary.entries[index].key, dictionary.entries[index].value);
+                        index++;
+                        return true;
+                    }
+
+                    index++;
+                }
+
+                index = dictionary.count + 1;
+                current = default(KeyValuePair<TKey, TValue>);
+                return false;
+            }
+
+            public void Reset()
+            {
+                index = 0;
+                current = default(KeyValuePair<TKey, TValue>);
+            }
+        }
+
+        public sealed class KeyCollection : IEnumerable<TKey>
+        {
+            public struct Enumerator : IEnumerator<TKey>
+            {
+                private MDictionary<TKey, TValue> dictionary;
+
+                private int index;
+
+                private TKey currentKey;
+
+                public TKey Current//IEnumerator<T>的Current
+                {
+                    get
+                    {
+                        return currentKey;
+                    }
+                }
+
+                object IEnumerator.Current//IEnuemrator的Current
+                {
+                    get
+                    {
+                        if (index == 0 || index == dictionary.count + 1)
+                        {
+                            throw new Exception();
+                        }
+
+                        return currentKey;
+                    }
+                }
+
+                internal Enumerator(MDictionary<TKey, TValue> dictionary)
+                {
+                    this.dictionary = dictionary;
+                    index = 0;
+                    currentKey = default(TKey);
+                }
+
+                public void Dispose(){ }
+
+                public bool MoveNext()
+                {
+                    while ((uint)index < (uint)dictionary.count)
+                    {
+                        if (dictionary.entries[index].hashCode >= 0)
+                        {
+                            currentKey = dictionary.entries[index].key;
+                            index++;
+                            return true;
+                        }
+
+                        index++;
+                    }
+
+                    index = dictionary.count + 1;
+                    currentKey = default(TKey);
+                    return false;
+                }
+
+                public void Reset()
+                {
+                    index = 0;
+                    currentKey = default(TKey);
+                }
+            }
+
+            private MDictionary<TKey, TValue> dictionary;
+
+            public int Count
+            {
+                get
+                {
+                    return dictionary.Count;
+                }
+            }
+
+            public KeyCollection(MDictionary<TKey, TValue> dictionary)
+            {
+                if (dictionary == null)
+                {
+                    throw new Exception();
+                }
+
+                this.dictionary = dictionary;
+            }
+
+            public Enumerator GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()//IEnumerable的GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+
+            IEnumerator<TKey> IEnumerable<TKey>.GetEnumerator()//IEnumerable<T>的GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+        }
+        public sealed class ValueCollection : IEnumerable<TValue>
+        {
+            public struct Enumerator : IEnumerator<TValue>
+            {
+                private MDictionary<TKey, TValue> dictionary;
+
+                private int index;
+
+                private TValue currentValue;
+
+                public TValue Current//IEnumerator<T>的Current
+                {
+                    get
+                    {
+                        return currentValue;
+                    }
+                }
+
+                object IEnumerator.Current//IEnuemrator的Current
+                {
+                    get
+                    {
+                        if (index == 0 || index == dictionary.count + 1)
+                        {
+                            throw new Exception();
+                        }
+
+                        return currentValue;
+                    }
+                }
+
+                internal Enumerator(MDictionary<TKey, TValue> dictionary)
+                {
+                    this.dictionary = dictionary;
+                    index = 0;
+                    currentValue = default(TValue);
+                }
+
+                public void Dispose() { }
+
+                public bool MoveNext()
+                {
+                    while ((uint)index < (uint)dictionary.count)
+                    {
+                        if (dictionary.entries[index].hashCode >= 0)
+                        {
+                            currentValue = dictionary.entries[index].value;
+                            index++;
+                            return true;
+                        }
+
+                        index++;
+                    }
+
+                    index = dictionary.count + 1;
+                    currentValue = default(TValue);
+                    return false;
+                }
+
+                public void Reset()
+                {
+                    index = 0;
+                    currentValue = default(TValue);
+                }
+            }
+
+            private MDictionary<TKey, TValue> dictionary;
+
+            public int Count
+            {
+                get
+                {
+                    return dictionary.Count;
+                }
+            }
+
+            public ValueCollection(MDictionary<TKey, TValue> dictionary)
+            {
+                if (dictionary == null)
+                {
+                    throw new Exception();
+                }
+
+                this.dictionary = dictionary;
+            }
+
+            public Enumerator GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()//IEnumerable的GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+
+            IEnumerator<TValue> IEnumerable<TValue>.GetEnumerator()//IEnumerable<T>的GetEnumerator()
+            {
+                return new Enumerator(dictionary);
+            }
+        }
 
 
 
@@ -23,7 +305,7 @@ namespace MFramework
 
         private Entry[] entries;//实际存储元素的数组
 
-        private int count;
+        private int count;//当前所在的entries的位置  Tip：可以认为是元素数量，但是如果Remove()过数量会发生变化
 
         private int freeList;
 
@@ -34,6 +316,15 @@ namespace MFramework
         private KeyCollection keys;
 
         private ValueCollection values;
+
+        //准确的元素数量
+        public int Count
+        {
+            get
+            {
+                return count - freeCount;
+            }
+        }
 
         public MDictionary() : this(0, null) { }//默认容量为0，这意味着不报错也不Initialize()
         public MDictionary(int capacity) : this(capacity, null){ }
@@ -70,6 +361,29 @@ namespace MFramework
             }
         }
 
+        public KeyCollection Keys
+        {
+            get
+            {
+                if (keys == null)
+                {
+                    keys = new KeyCollection(this);
+                }
+                return keys;
+            }
+        }
+        public ValueCollection Values
+        {
+            get
+            {
+                if (values == null)
+                {
+                    values = new ValueCollection(this);
+                }
+                return values;
+            }
+        }
+
         public void Add(TKey key, TValue value)
         {
             Insert(key, value, add: true);
@@ -99,7 +413,7 @@ namespace MFramework
                         }
                         else//一般情况的链表删除方式(A->B->C变为A->C)
                         {
-                            entries[num3].next = entries[num4].next;
+                            entries[num3].next = entries[num4].next;//Tip:此时的num3就是上一个元素
                         }
 
                         entries[num4].hashCode = -1;
@@ -116,6 +430,54 @@ namespace MFramework
             }
 
             return false;
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return FindEntry(key) >= 0;
+        }
+
+        public bool ContainsValue(TValue value)
+        {
+            if (value == null)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    if (entries[i].hashCode >= 0 && entries[i].value == null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                EqualityComparer<TValue> @default = EqualityComparer<TValue>.Default;
+                for (int j = 0; j < count; j++)
+                {
+                    if (entries[j].hashCode >= 0 && @default.Equals(entries[j].value, value))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void Clear()
+        {
+            if (count > 0)
+            {
+                for (int i = 0; i < buckets.Length; i++)
+                {
+                    buckets[i] = -1;
+                }
+
+                Array.Clear(entries, 0, count);
+                count = 0;
+                freeList = -1;
+                freeCount = 0;
+            }
         }
 
         /// <summary>
@@ -151,9 +513,12 @@ namespace MFramework
                 Initialize(0);//意味着是最小质数，为3
             }
 
+            //之所以取低31位，是因为需要保证数是正数，这样才能做接下来的取余操作
             int num = comparer.GetHashCode(key) & 0x7FFFFFFF;//取低31位hashcode
             int num2 = num % buckets.Length;//index(将hashcode映射至桶范围)
             int num3 = 0;//很像Hashtable中的count，但是是Insert()中即时计算的
+
+            //=====更改情况=====
             //流程：
             //在buckets中检查index处的int值，如果该处已被赋值，说明有指向，可以进行循环
             //每次都会检查entries中num4处的key与hashcode：
@@ -176,6 +541,7 @@ namespace MFramework
                 num3++;//统计这一组链表存储元素数量
             }
 
+            //=====获取存放新元素的entries索引=====
             int num5;
             if (freeCount > 0)//如果有空余位置
             {
@@ -195,6 +561,7 @@ namespace MFramework
                 count++;//提前放置下一位置
             }
 
+            //=====添加情况=====
             entries[num5].hashCode = num;
             //如果没有发生碰撞，next值会为默认值-1
             //如果发生碰撞，会更改指向，如：
@@ -206,6 +573,7 @@ namespace MFramework
             entries[num5].key = key;
             entries[num5].value = value;
             buckets[num2] = num5;//使buckets[nums2]处指向entreis的nums5处
+
             //num3过大，意味着出现了极大量的哈希冲突(每次都找到同一个index)
             if (num3 > 100 /*&& MHashHelpers.IsWellKnownEqualityComparer(comparer)*/)
             {
@@ -243,13 +611,18 @@ namespace MFramework
                 }
             }
 
+            //重新链接，大致流程：
+            //从元素数组的第一个开始，只要其中有hashCode，就说明该处有存在元素
+            //根据newSize得到newIndex，这其实意味着该处是属于buckets[newIndex]的，
+            //所以将该元素与buckets[newIndex]进行链接(头插法)
             for (int k = 0; k < count; k++)
             {
                 if (array2[k].hashCode >= 0)//最高位为0时
                 {
+                    //大致就是：新元素指向上一个元素，buckets[newIndex]指向新元素
                     int num = array2[k].hashCode % newSize;//新的index
-                    array2[k].next = array[num];//???
-                    array[num] = k;//array[num]指向array2[k]
+                    array2[k].next = array[num];
+                    array[num] = k;
                 }
             }
 
@@ -279,6 +652,16 @@ namespace MFramework
             }
 
             return -1;
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return new Enumerator(this, 2);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Enumerator(this, 2);
         }
     }
 }
