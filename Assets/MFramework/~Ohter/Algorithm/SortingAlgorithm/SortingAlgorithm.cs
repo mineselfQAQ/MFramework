@@ -145,6 +145,7 @@ namespace MFramework
             while (l < r)//如果只有一个元素不需要操作
             {
                 //寻找不符合元素索引(左侧的大元素，右侧的小元素)
+                //Tip：换了之后相当于又检测了一次，但是由于换了，此次必定会发生一次r--和l++
                 while (l < r && arr[r] >= arr[left])
                 {
                     r--;
