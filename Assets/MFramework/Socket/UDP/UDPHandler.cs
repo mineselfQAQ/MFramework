@@ -46,6 +46,7 @@ namespace MFramework
                 }
                 catch (SocketException ex)
                 {
+                    MLog.Print(ex.Message, MLogType.Error);
                     return null;
                 }
             }

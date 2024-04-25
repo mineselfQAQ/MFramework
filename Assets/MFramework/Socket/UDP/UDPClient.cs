@@ -13,7 +13,7 @@ namespace MFramework
         private string serverIP;
         private int serverPort;
         private string selfIP;
-        private int selfPort;
+        private int selfPort = -1;
 
         private Socket socket;
         private EndPoint serverEP;
@@ -43,7 +43,7 @@ namespace MFramework
         {
             get
             {
-                if (selfPort == null)
+                if (selfPort == -1)
                 {
                     MLog.Print("未连接至服务器，无法获取本机Port", MLogType.Error);
                     return -1;
