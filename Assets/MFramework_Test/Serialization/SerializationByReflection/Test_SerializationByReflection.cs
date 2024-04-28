@@ -31,12 +31,12 @@ public class Test_SerializationByReflection : MonoBehaviour
 
             T obj = Activator.CreateInstance<T>();//创建实例
 
+            object instance = JsonConvert.DeserializeObject(json, type);
             foreach (PropertyInfo property in properties)
             {
                 if (property.CanWrite)
                 {
                     //将所有属性赋值(进行还原)
-                    object instance = JsonConvert.DeserializeObject(json, type);
                     object value = instance.GetType().GetProperty(property.Name).GetValue(instance);
                     property.SetValue(obj, value);
                 }
