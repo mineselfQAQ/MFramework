@@ -10,13 +10,13 @@ public class Test_Json : MonoBehaviour
         JTest jt1 = new JTest(1, 1.1f, "1");
         JTest jt2 = new JTest(2, 3.4f, "5");
 
-        JsonHandler.Instance.SaveToJson(@"Jtest\jt1", jt1);
-        JsonHandler.Instance.SaveToJson(@"Jtest\jt2", jt2, true);
+        MSerializationUtility.SaveToJson(@"Jtest\jt1", jt1);
+        MSerializationUtility.SaveToJson(@"Jtest\jt2", jt2, true);
 
         //===Get===
-        JTest jt1Ret = JsonHandler.Instance.ReceiveFromJson<JTest>(@"Jtest\jt1");
+        JTest jt1Ret = MSerializationUtility.ReceiveFromJson<JTest>(@"Jtest\jt1");
         MLog.Print(jt1Ret.i + " " + jt1Ret.f + " " + jt1Ret.s);
-        JTest jt2Ret = JsonHandler.Instance.ReceiveFromJson<JTest>(@"Jtest\jt2");
+        JTest jt2Ret = MSerializationUtility.ReceiveFromJson<JTest>(@"Jtest\jt2");
         MLog.Print(jt2Ret.i + " " + jt2Ret.f + " " + jt2Ret.s);
     }
 }

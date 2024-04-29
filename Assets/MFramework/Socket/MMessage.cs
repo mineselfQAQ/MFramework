@@ -56,7 +56,7 @@ namespace MFramework
             {
                 byte[] byteInfo = Encoding.ASCII.GetBytes(infoStrs[i]);
 
-                object info = MSerializationUtility.ByteDeserialize(byteInfo);
+                object info = MSerializationUtility.ReceiveFromByte(byteInfo);
                 msg.infos.Add(info);
             }
 
@@ -67,44 +67,44 @@ namespace MFramework
         {
             foreach (var o in info)
             {
-                byte[] bytes = MSerializationUtility.ByteSerialize(o);
+                byte[] bytes = MSerializationUtility.SaveToByte(o);
                 bytesInfos.Add(bytes);
             }
         }
 
         public void AddInfo<T1, T2>(T1 info1, T2 info2)
         {
-            byte[] bytes = MSerializationUtility.ByteSerialize(info1);
+            byte[] bytes = MSerializationUtility.SaveToByte(info1);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info2);
+            bytes = MSerializationUtility.SaveToByte(info2);
             bytesInfos.Add(bytes);
         }
 
         public void AddInfo<T1, T2, T3>(T1 info1, T2 info2, T3 info3)
         {
-            byte[] bytes = MSerializationUtility.ByteSerialize(info1);
+            byte[] bytes = MSerializationUtility.SaveToByte(info1);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info2);
+            bytes = MSerializationUtility.SaveToByte(info2);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info3);
+            bytes = MSerializationUtility.SaveToByte(info3);
             bytesInfos.Add(bytes);
         }
 
         public void AddInfo<T1, T2, T3, T4>(T1 info1, T2 info2, T3 info3, T4 info4)
         {
-            byte[] bytes = MSerializationUtility.ByteSerialize(info1);
+            byte[] bytes = MSerializationUtility.SaveToByte(info1);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info2);
+            bytes = MSerializationUtility.SaveToByte(info2);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info3);
+            bytes = MSerializationUtility.SaveToByte(info3);
             bytesInfos.Add(bytes);
 
-            bytes = MSerializationUtility.ByteSerialize(info4);
+            bytes = MSerializationUtility.SaveToByte(info4);
             bytesInfos.Add(bytes);
         }
     }

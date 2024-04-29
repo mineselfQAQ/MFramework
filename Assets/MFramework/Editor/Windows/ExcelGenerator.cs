@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -330,11 +329,12 @@ namespace MFramework
                 }
             }
 
-            using (FileStream fileStream = new FileStream(BINPath, FileMode.Create))
-            {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(fileStream, resInstance);
-            }
+            MSerializationUtility.SaveToByte(resInstance, BINPath, FileMode.Create);
+            //using (FileStream fileStream = new FileStream(BINPath, FileMode.Create))
+            //{
+            //    BinaryFormatter binaryFormatter = new BinaryFormatter();
+            //    binaryFormatter.Serialize(fileStream, resInstance);
+            //}
 
             return true;
         }
@@ -767,7 +767,7 @@ namespace Table
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                {CollectionClassName} table = binaryFormatter.ByteDeserialize(stream) as {CollectionClassName};
+                {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
                 {ClassName}[] res = table.items;
                 return res;
             }
