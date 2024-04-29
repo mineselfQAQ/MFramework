@@ -105,7 +105,7 @@ namespace MFramework
             //RemoveTail();
             if (cellBundles.Count == 0)
             {
-                RefreshAllCellInViewRange();//完全更新viewCellBundles
+                //RefreshAllCellInViewRange();//完全更新viewCellBundles
             }
             else
             {
@@ -116,47 +116,47 @@ namespace MFramework
             //RemoveItemOutOfListRange();
         }
 
-        private void RefreshAllCellInViewRange()
-        {
-            int itemCount = ItemCount;
-            Vector2 viewRangeSize = viewRange.sizeDelta;
-            Vector2 itemSize = ItemSize;
-            Vector2 cellSize = CellSize;
-            Vector2 cellSpace = this.cellSpace;
+        //private void RefreshAllCellInViewRange()
+        //{
+        //    int itemCount = ItemCount;
+        //    Vector2 viewRangeSize = viewRange.sizeDelta;
+        //    Vector2 itemSize = ItemSize;
+        //    Vector2 cellSize = CellSize;
+        //    Vector2 cellSpace = this.cellSpace;
 
-            if (direction == CyclicScrollViewDirection.Vertical)
-            {
-                //获取ScrollView的顶和底
-                Vector2 topPos = -content.anchoredPosition;
-                Vector2 bottomPos = new Vector2(topPos.x, topPos.y - viewRangeSize.y);
+        //    if (direction == CyclicScrollViewDirection.Vertical)
+        //    {
+        //        //获取ScrollView的顶和底
+        //        Vector2 topPos = -content.anchoredPosition;
+        //        Vector2 bottomPos = new Vector2(topPos.x, topPos.y - viewRangeSize.y);
 
-                //获取顶和底所在行数
-                int startIndex = GetIndex(topPos);
-                int endIndex = GetIndex(bottomPos);
-                //
-                for (int i = startIndex; i <= endIndex && i < itemCount; i++)//for循环添加所有的bundle
-                {
-                    Vector2 pos = new Vector2(content.anchoredPosition.x, -i * itemSize.y);
-                    var bundle = GetViewBundle(i, pos, cellSize, cellSpace);//每个bundle之间的差距只有pos不同
-                    viewCellBundles.AddLast(bundle);
-                }
-            }
-            else if (viewDirection == UICyclicScrollDirection.Horizontal)
-            {
-                Vector2 leftPos = -content.anchoredPosition;
-                Vector2 rightPos = new Vector2(leftPos.x + viewRangeSize.x, leftPos.y);
+        //        //获取顶和底所在行数
+        //        int startIndex = GetIndex(topPos);
+        //        int endIndex = GetIndex(bottomPos);
+        //        //
+        //        for (int i = startIndex; i <= endIndex && i < itemCount; i++)//for循环添加所有的bundle
+        //        {
+        //            Vector2 pos = new Vector2(content.anchoredPosition.x, -i * itemSize.y);
+        //            var bundle = GetViewBundle(i, pos, cellSize, cellSpace);//每个bundle之间的差距只有pos不同
+        //            viewCellBundles.AddLast(bundle);
+        //        }
+        //    }
+        //    else if (viewDirection == UICyclicScrollDirection.Horizontal)
+        //    {
+        //        Vector2 leftPos = -content.anchoredPosition;
+        //        Vector2 rightPos = new Vector2(leftPos.x + viewRangeSize.x, leftPos.y);
 
-                int startIndex = GetIndex(leftPos);
-                int endIndex = GetIndex(rightPos);
+        //        int startIndex = GetIndex(leftPos);
+        //        int endIndex = GetIndex(rightPos);
 
-                for (int i = startIndex; i <= endIndex && i < itemCount; i++)
-                {
-                    Vector2 pos = new Vector2(i * itemSize.x, content.anchoredPosition.y);
-                    var bundle = GetViewBundle(i, pos, cellSize, cellSpace);
-                    viewCellBundles.AddLast(bundle);
-                }
-            }
-        }
+        //        for (int i = startIndex; i <= endIndex && i < itemCount; i++)
+        //        {
+        //            Vector2 pos = new Vector2(i * itemSize.x, content.anchoredPosition.y);
+        //            var bundle = GetViewBundle(i, pos, cellSize, cellSpace);
+        //            viewCellBundles.AddLast(bundle);
+        //        }
+        //    }
+        //}
 
         private int GetIndex(Vector2 position)
         {
