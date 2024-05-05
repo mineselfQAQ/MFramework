@@ -11,7 +11,7 @@ public class RenameHierarchy : EditorWindow
     //有：
     //NewName---更新后的名字
     //StartValue---后缀起始值
-    [MenuItem("MFramework/HierarchyRename")]
+    [MenuItem("MFramework/HierarchyRename", false, 1001)]
     public static void Init()
     {
         RenameHierarchy window = GetWindow<RenameHierarchy>(true, "RenameTool");

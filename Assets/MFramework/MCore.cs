@@ -2,54 +2,53 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace MFramework
 {
     public class MCore : MonoBehaviour
     {
-        public bool m_LogCallbackOn;//在发布版本中输出Log文件
+        [SerializeField]
+        private bool m_ExportLog;//在发布版本中输出Log文件
 
-        IEnumerable<Type> INeedInitType;
-        IEnumerable<Type> INeedQuitType;
+        private List<INeedInit> initList;
+        private List<INeedQuit> quitList;
+
+        public bool GetExportLog() => m_ExportLog;
+        public bool SetExportLog(bool b) => m_ExportLog = b;
 
         private void Awake()
         {
-            if (m_LogCallbackOn)
-            {
-                INeedInitType = this.GetType().Assembly.GetTypes()
-                                   .Where(t => t.GetInterfaces().Contains(typeof(INeedInit)));
-                INeedQuitType = this.GetType().Assembly.GetTypes()
-                                       .Where(t => t.GetInterfaces().Contains(typeof(INeedQuit)));
-            }
+            //TODO:这样反射很耗，考虑其他方案
+            initList = GetInterfaceInstanceList<INeedInit>();
+            quitList = GetInterfaceInstanceList<INeedQuit>();
         }
 
         private void Start()
         {
-            if (m_LogCallbackOn)
+            foreach (INeedInit instance in initList)
             {
-                foreach (var type in INeedInitType)
-                {
-                    PropertyInfo info = type.GetProperty("Instance");
-                    var instance = (INeedInit)info.GetValue(this, null);
-                    instance.Init();
-                    Debug.Log($"{instance.GetType()}：INIT");
-                }
+                instance.Init();
             }
         }
 
         private void OnApplicationQuit()
         {
-            if (m_LogCallbackOn)
+            foreach (INeedQuit instance in quitList)
             {
-                foreach (var type in INeedQuitType)
-                {
-                    PropertyInfo info = type.GetProperty("Instance");
-                    var instance = (INeedQuit)info.GetValue(this, null);
-                    instance.Quit();
-                    Debug.Log($"{instance.GetType()}：QUIT");
-                }
+                instance.Quit();
             }
+        }
+
+        private List<T> GetInterfaceInstanceList<T>()
+        {
+            List<T> resList = new List<T>();
+            var typeList = GetType().Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(T)));
+            foreach (var type in typeList) 
+            {
+                T instance = (T)Activator.CreateInstance(type);
+                resList.Add(instance);
+            }
+            return resList;
         }
     }
 }

@@ -9,16 +9,22 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
     private List<Data> dataList1;
     private Data[] datas;
 
+    protected override void ResetCellData(Cell cell, Data data, int dataIndex)
+    {
+        cell.gameObject.SetActive(true);
+        cell.UpdateDisplay(data.iconSprite, data.name);
+    }
+
     private void Start()
     {
         dataList1 = new List<Data>();
-        datas = new Data[30];
+        datas = new Data[100];
         for (int i = 0; i < datas.Length; i++)
         {
             int value = Random.Range(0, 3);//[0,2]
             datas[i] = dataTemplates[value];
         }
-        Init(datas, true);
+        Init(datas);
     }
 
     private void Update()

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/MFramework_Test/Excel/Test_ExcelGenerator.unity
     guid: 4627dbd32f6a09c40b3b139cef672e01
+  - enabled: 1
+    path: Assets/MFramework_Test/Serialization/Xml/Test_Xml.unity
+    guid: ac0c3bb7fb322004093d19d8e7075467
   m_configObjects: {}

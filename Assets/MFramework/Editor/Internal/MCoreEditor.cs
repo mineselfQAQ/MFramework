@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using static MFramework.MGUIOptionUtility;
 
@@ -30,14 +31,19 @@ namespace MFramework
 
             MGUIUtility.DrawTexture(LOGOTex, MGUIStyleUtility.CenterStyle);
 
-            BoolEnum logEnum = mCore.m_LogCallbackOn ? BoolEnum.ON : BoolEnum.OFF;
-            var newLogEnum = (BoolEnum)EditorGUILayout.EnumPopup("是否开启LOG输出", logEnum);
-            if (newLogEnum == BoolEnum.ON) mCore.m_LogCallbackOn = true;
-            else mCore.m_LogCallbackOn = false;
+            //m_ExportLog
+            Undo.RecordObject(target, "ChangeLogState");//记录Undo信息
+            BoolEnum logEnum = mCore.GetExportLog() ? BoolEnum.ON : BoolEnum.OFF;
+            var newLogEnum = (BoolEnum)EditorGUILayout.EnumPopup("是否输出LOG信息", logEnum);
+            if (newLogEnum == BoolEnum.ON) mCore.SetExportLog(true);
+            else mCore.SetExportLog(false);
 
             if (GUI.changed)
             {
-                EditorUtility.SetDirty(target);
+                //并不需要
+                //EditorUtility.SetDirty(target);
+                //AssetDatabase.SaveAssets();
+                //EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
             }
 
             serializedObject.ApplyModifiedProperties();

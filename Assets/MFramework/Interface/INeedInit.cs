@@ -1,6 +1,6 @@
 namespace MFramework
 {
-    public interface INeedInit : ISingleton
+    public interface INeedInit
     {
         void Init();
     }

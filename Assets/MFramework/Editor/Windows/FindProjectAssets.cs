@@ -68,7 +68,7 @@ namespace MFramework
         private List<string> scenePaths = new List<string>();
         private List<string> sceneNames = new List<string>();
 
-        [MenuItem("MFramework/FindProjectAssets")]
+        [MenuItem("MFramework/FindProjectAssets", false, 1002)]
         public static void Init()
         {
             EditorWindow window = GetWindow<FindProjectAssets>(true, "FindProjectAssets", false);

@@ -76,5 +76,18 @@ namespace MFramework
             string fullPath = Path.GetFullPath(secondPath);
             return fullPath;
         }
+
+        /// <summary>
+        /// 如果文件已存在，就删除文件
+        /// </summary>
+        public static bool DeleteFileIfExist(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                return true;
+            }
+            return false;
+        }
     }
 }

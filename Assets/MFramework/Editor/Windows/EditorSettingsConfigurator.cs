@@ -10,7 +10,7 @@ namespace MFramework
         private Vector2 scrollPos1;
         private Vector2 scrollPos2;
 
-        [MenuItem("MFramework/EditorSettingsConfigurator")]
+        [MenuItem("MFramework/EditorSettingsConfigurator", false, 100)]
         public static void Init()
         {
             EditorSettingsConfigurator window = GetWindow<EditorSettingsConfigurator>();
@@ -91,6 +91,7 @@ namespace MFramework
         {
             if (GUILayout.Button("重置"))
             {
+                //TODO:应该重新创建，而非更改内容，当文件被删除或内容被手动更改时就会出现问题
                 MPathUtility.CreateFolderIfNotExist(defaultExcelGenerationPath);
                 MPathUtility.CreateFolderIfNotExist(defaultExcelCSGenerationPath);
                 MPathUtility.CreateFolderIfNotExist(defaultExcelBINGenerationPath);

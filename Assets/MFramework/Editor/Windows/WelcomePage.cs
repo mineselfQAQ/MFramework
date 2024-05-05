@@ -7,12 +7,12 @@ public class WelcomePage : EditorWindow
     private Texture2D LOGOTex;
     private bool showState;
 
-    [MenuItem("MFramework/WelcomePage")]
+    [MenuItem("MFramework/WelcomePage", false, 0)]
     public static void Init()
     {
         WelcomePage window = GetWindow<WelcomePage>(true, "MFramework", false);
-        window.minSize = new Vector2(300, 400);
-        window.maxSize = new Vector2(300, 400);
+        window.minSize = new Vector2(425, 300);
+        window.maxSize = new Vector2(425, 300);
         window.Show();
     }
 
@@ -31,12 +31,13 @@ public class WelcomePage : EditorWindow
         MGUIUtility.DrawTexture(LOGOTex, MGUIStyleUtility.CenterStyle);
         MGUIUtility.DrawH1("欢迎");
 
-        EditorGUILayout.LabelField("欢迎使用MFramework，以下为一些基本用法：");
-        EditorGUILayout.LabelField("1.xxxxxx");
-        EditorGUILayout.LabelField("2.xxxxxx");
-        EditorGUILayout.LabelField("3.xxxxxx");
-        EditorGUILayout.LabelField("4.xxxxxx");
-        EditorGUILayout.LabelField("5.xxxxxx");
+        EditorGUILayout.LabelField("欢迎使用MFramework，目前该框架只能算是各个功能的集合，请见谅");
+        EditorGUILayout.LabelField("有以下部分：");
+        EditorGUILayout.LabelField("1.MFramework---核心框架");
+        EditorGUILayout.LabelField("2.MFramework_Demo---使用框架编写的Demo");
+        EditorGUILayout.LabelField("3.MFramework_Test---框架以及某些知识点的简单测试");
+        EditorGUILayout.LabelField("");
+        EditorGUILayout.LabelField("感谢你的使用~~~");
 
         GUILayout.FlexibleSpace();//在最底部绘制的一种方式
 

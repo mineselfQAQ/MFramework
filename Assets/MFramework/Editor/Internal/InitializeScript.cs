@@ -111,14 +111,5 @@ namespace MFramework
             }
         }
         #endregion
-
-        //[InitializeOnLoadMethod]
-        //public static void InitializeEditorPrefs()
-        //{
-        //    if (!EditorPrefs.HasKey(ExcelBINGenerationState))
-        //    {
-        //        EditorPrefs.SetBool(ExcelBINGenerationState, false);
-        //    }
-        //}
     }
 }

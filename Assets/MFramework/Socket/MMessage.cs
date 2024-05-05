@@ -56,7 +56,7 @@ namespace MFramework
             {
                 byte[] byteInfo = Encoding.ASCII.GetBytes(infoStrs[i]);
 
-                object info = MSerializationUtility.ReceiveFromByte(byteInfo);
+                object info = MSerializationUtility.ReadFromByte(byteInfo);
                 msg.infos.Add(info);
             }
 

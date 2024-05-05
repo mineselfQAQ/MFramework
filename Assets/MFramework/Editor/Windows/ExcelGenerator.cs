@@ -14,7 +14,15 @@ namespace MFramework
 {
     public class ExcelGenerator : EditorWindow
     {
-        [MenuItem("MFramework/ExcelGenerator")]
+        [MenuItem("MFramework/GenerateAllExcel _F8", false, 102)]
+        public static void GenerateAllExcel()
+        {
+            EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
+            ExcelGenerator window = CreateInstance<ExcelGenerator>();
+            window.XLSX2PersistentData();
+        }
+
+        [MenuItem("MFramework/ExcelGenerator", false, 101)]
         public static void Init()
         {
             ExcelGenerator window = GetWindow<ExcelGenerator>(true, "ExcelGenerator", false);
@@ -82,7 +90,7 @@ namespace MFramework
             }
             EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("一键生成"))
+            if (GUILayout.Button("一键生成(F8)"))
             {
                 EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
                 XLSX2PersistentData();
@@ -203,6 +211,7 @@ namespace MFramework
             }
             if (flag)
             {
+                //TODO:不知道为什么在家中创建.cs文件中的Log都不输出
                 MLog.Print("已生成所有CS文件");
                 return true;
             }
@@ -329,7 +338,7 @@ namespace MFramework
                 }
             }
 
-            MSerializationUtility.SaveToByte(resInstance, BINPath, FileMode.Create);
+            MSerializationUtility.SaveToByte(resInstance, BINPath);
             //using (FileStream fileStream = new FileStream(BINPath, FileMode.Create))
             //{
             //    BinaryFormatter binaryFormatter = new BinaryFormatter();

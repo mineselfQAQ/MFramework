@@ -1,4 +1,5 @@
 using MFramework;
+using System.IO;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class Test_Xml : MonoBehaviour
     private void Start()
     {
         CreateXml();
+        CreateXml2();
 
         CheckXml();
     }
@@ -47,11 +49,57 @@ public class Test_Xml : MonoBehaviour
 
         //document.Save("Example.xml");//存放在根目录
         string path = $@"{Application.dataPath}\MFramework_Test\Serialization\Xml\Example.xml";
+        if (File.Exists(path)) File.Delete(path);
         document.Save(path);
 
 #if UNITY_EDITOR
         AssetDatabase.Refresh();
 #endif
+    }
+
+    private void CreateXml2()
+    {
+        XmlDocument document = new XmlDocument();
+
+        //**无需声明**
+        //只要不添加XmlDeclaration就不会出现，显式声明形式如下所示：
+        //XmlWriterSettings settings = new XmlWriterSettings();
+        //settings.OmitXmlDeclaration = true;//忽略XML声明(在版本为1.0，且使用UTF-8时可用)
+
+        //父物体People
+        XmlElement people = document.CreateElement("People");
+        document.AppendChild(people);
+
+        //子物体Persons
+        CreatePersonNode(people, "Joe", "20", "Male");
+        CreatePersonNode(people, "Alice", "22", "Female");
+        CreatePersonNode(people, "Jame", "19", "Male");
+
+        //document.Save("Example2.xml");//存放在根目录
+        string path = $@"{Application.dataPath}\MFramework_Test\Serialization\Xml\Example2.xml";
+        if (File.Exists(path)) File.Delete(path);
+        document.Save(path);
+
+#if UNITY_EDITOR
+        AssetDatabase.Refresh();
+#endif
+
+        void CreatePersonNode(XmlElement root, string name, string age, string gender)
+        {
+            XmlElement person = document.CreateElement("Person");
+
+            XmlAttribute nameAttribute = document.CreateAttribute("Name");
+            XmlAttribute ageAttribute = document.CreateAttribute("Age");
+            XmlAttribute genderAttribute = document.CreateAttribute("Gender");
+            nameAttribute.Value = name;
+            ageAttribute.Value = age;
+            genderAttribute.Value = gender;
+            person.Attributes.Append(nameAttribute);
+            person.Attributes.Append(ageAttribute);
+            person.Attributes.Append(genderAttribute);
+
+            root.AppendChild(person);
+        }
     }
 
     private void CheckXml()

@@ -4,44 +4,44 @@ using UnityEngine;
 
 namespace MFramework
 {
+    /// <summary>
+    /// 对象池，其中存放着一组ObjectPoolContainer<T>
+    /// </summary>
     public class ObjectPool<T>
     {
         private List<ObjectPoolContainer<T>> list;
-        private Dictionary<T, ObjectPoolContainer<T>> lookup;//为instanceLookup
-        private Func<T> factoryFunc;
+        //注意：只有正在Used的物体才在表中
+        private Dictionary<T, ObjectPoolContainer<T>> lookup;//key---实际存放物体  value---list中的一个Container
+
+        private Func<T> initFunc;
         private int lastIndex = 0;
 
-        public ObjectPool(Func<T> factoryFunc, int initialSize)
+        public int Count
         {
-            this.factoryFunc = factoryFunc;
+            get { return list.Count; }
+        }
+        public int UsedCount
+        {
+            get { return lookup.Count; }
+        }
+
+        public ObjectPool(Func<T> initFunc, int initSize, bool warmObject)
+        {
+            this.initFunc = initFunc;//通过构造函数获得初始化
 
             //创建初始list/lookup
-            list = new List<ObjectPoolContainer<T>>(initialSize);
-            lookup = new Dictionary<T, ObjectPoolContainer<T>>(initialSize);
+            list = new List<ObjectPoolContainer<T>>(initSize);
+            lookup = new Dictionary<T, ObjectPoolContainer<T>>(initSize);
             //创建初始Container
-            Warm(initialSize);
+            if(warmObject) Warm(initSize);//TODO:此时应该设置为失活状态
         }
 
-        private void Warm(int capacity)
-        {
-            for (int i = 0; i < capacity; i++)
-            {
-                CreateContainer();
-            }
-        }
-
-        private ObjectPoolContainer<T> CreateContainer()
-        {
-            //Container的创建就是实例化物体并将其添加进list
-            var container = new ObjectPoolContainer<T>();
-            container.Item = factoryFunc();//其实就是设置为构造函数中的factoryFunc
-            list.Add(container);
-            return container;
-        }
-
+        /// <summary>
+        /// 获取Item(获取Not Used物体或创建Container)
+        /// </summary>
         public T GetItem()
         {
-            //在list中寻找!Used的物体
+            //在list中寻找Not Used的物体
             ObjectPoolContainer<T> container = null;
             for (int i = 0; i < list.Count; i++)
             {
@@ -52,13 +52,14 @@ namespace MFramework
                 {
                     continue;
                 }
-                else
+                else//找到Not Used的物体
                 {
                     container = list[lastIndex];
                     break;
                 }
             }
 
+            //没有找到，创个新的
             if (container == null)
             {
                 container = CreateContainer();
@@ -66,14 +67,21 @@ namespace MFramework
 
             container.Consume();
             lookup.Add(container.Item, container);
+
             return container.Item;
         }
 
+        /// <summary>
+        /// 释放Item(禁用物体)
+        /// </summary>
         public void ReleaseItem(object item)
         {
             ReleaseItem((T)item);
         }
 
+        /// <summary>
+        /// 释放Item(禁用物体)
+        /// </summary>
         public void ReleaseItem(T item)
         {
             if (lookup.ContainsKey(item))
@@ -82,20 +90,34 @@ namespace MFramework
                 container.Release();
                 lookup.Remove(item);
             }
-            else
+            else//只有在表中的物体才是可被释放物体
             {
-                MLog.Print("This object pool does not contain the item provided: " + item, MLogType.Error);
+                MLog.Print($"Pool：已没有可释放{item}，请检查", MLogType.Error);
             }
         }
 
-        public int Count
+        /// <summary>
+        /// 创建Container
+        /// </summary>
+        private void Warm(int capacity)
         {
-            get { return list.Count; }
+            for (int i = 0; i < capacity; i++)
+            {
+                var container = CreateContainer();
+                (container.Item as GameObject).SetActive(false);
+            }
         }
 
-        public int CountUsedItems
+        /// <summary>
+        /// 将Container加入池中
+        /// </summary>
+        private ObjectPoolContainer<T> CreateContainer()
         {
-            get { return lookup.Count; }
+            //Container的创建就是实例化物体并将其添加进list
+            var container = new ObjectPoolContainer<T>();
+            container.Item = initFunc();//其实就是执行InstantiatePrefab()
+            list.Add(container);
+            return container;
         }
     }
 }

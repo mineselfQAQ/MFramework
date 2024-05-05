@@ -14,9 +14,9 @@ public class Test_Json : MonoBehaviour
         MSerializationUtility.SaveToJson(@"Jtest\jt2", jt2, true);
 
         //===Get===
-        JTest jt1Ret = MSerializationUtility.ReceiveFromJson<JTest>(@"Jtest\jt1");
+        JTest jt1Ret = MSerializationUtility.ReadFromJson<JTest>(@"Jtest\jt1");
         MLog.Print(jt1Ret.i + " " + jt1Ret.f + " " + jt1Ret.s);
-        JTest jt2Ret = MSerializationUtility.ReceiveFromJson<JTest>(@"Jtest\jt2");
+        JTest jt2Ret = MSerializationUtility.ReadFromJson<JTest>(@"Jtest\jt2");
         MLog.Print(jt2Ret.i + " " + jt2Ret.f + " " + jt2Ret.s);
     }
 }

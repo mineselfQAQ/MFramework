@@ -1,44 +1,214 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Xml.Serialization;
+using System.Xml;
 using UnityEngine;
 
 namespace MFramework
 {
     public static class MSerializationUtility
     {
-        //=====Json序列化操作====
-        private static readonly string JSONPATH = @$"{Environment.CurrentDirectory}\JsonSettings";
+        //=====Xml序列化操作====
+        //默认在根目录下存储(编辑器与发布皆是)
+        private static readonly string DEFAULTXMLPATH = @$"{Environment.CurrentDirectory}\XmlSettings";
+        public static UTF8Encoding UTF8 = new UTF8Encoding(false);
 
-        public static void SaveToJson<T>(string filePath, T obj, bool isPrettyPrint = false)
+        public static void SaveToXml<T>(string filePath, T instance)
         {
-            string text = JsonUtility.ToJson(obj, isPrettyPrint);
-            string fullPath = GetFullPath(filePath);
+            string fullPath = GetFullPath(filePath, DEFAULTXMLPATH, "xml");
 
-            bool isOverwrite = false;
-            if (File.Exists(fullPath)) isOverwrite = true;
+            int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
+            if (isOverwrite == -1) return;
+
+            //xmlWriter---XML数据写入流
+            FileStream stream = File.Open(fullPath, FileMode.Create, FileAccess.Write);
+            XmlTextWriter writer = new XmlTextWriter(stream, UTF8);
+            writer.Formatting = Formatting.None;//单行模式
+
+            //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            serializer.Serialize(writer, instance, ns);
+
+            writer.Close();
+            stream.Close();
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            if (isOverwrite == 1) MLog.Print($"{fileName}.xml已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.xml已成功写入，路径：{fullPath}");
+        }
+        public static void SaveToXml<T>(string filePath, T instance, bool isPrettyPrint = false, SaveMode mode = SaveMode.Overwrite)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTXMLPATH, "xml");
+
+            int isOverwrite = CheckOverwrite(fullPath, mode);
+            if (isOverwrite == -1) return;
+
+            //xmlWriter---XML数据写入流
+            FileStream stream = File.Open(fullPath, FileMode.Create, FileAccess.Write);
+            XmlTextWriter writer = new XmlTextWriter(stream, UTF8);
+            if (isPrettyPrint) writer.Formatting = Formatting.Indented;//优秀格式(会换行)
+            else writer.Formatting = Formatting.None;//单行模式
+
+            //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            serializer.Serialize(writer, instance, ns);
+
+            writer.Close();
+            stream.Close();
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            if (isOverwrite == 1) MLog.Print($"{fileName}.xml已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.xml已成功写入，路径：{fullPath}");
+        }
+
+        public static object ReadFromXml(string filePath, Type type)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTXMLPATH, "xml");
+            //检测文件是否存在
+            if (!File.Exists(fullPath))
+            {
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                return null;
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            FileStream stream = null;
+            try
+            {
+                //xmlReader---XML数据读取流
+                stream = File.OpenRead(fullPath);
+                XmlReader reader = XmlReader.Create(stream);
+
+                XmlSerializer serializer = new XmlSerializer(type);
+                object instance = serializer.Deserialize(reader);
+                MLog.Print($"{fileName}.xml已获取成功.");
+
+                stream.Close();
+                return instance;
+            }
+            catch
+            {
+                MLog.Print($"文件{fullPath}序列化失败，请检查.", MLogType.Error);
+                if (stream != null) stream.Close();
+                return null;
+            }
+        }
+        public static T ReadFromXml<T>(string filePath)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTXMLPATH, "xml");
+            //检测文件是否存在
+            if (!File.Exists(fullPath))
+            {
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                return default(T);
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            FileStream stream = null;
+            try
+            {
+                //xmlReader---XML数据读取流
+                stream = File.OpenRead(fullPath);
+                XmlReader reader = XmlReader.Create(stream);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T instance = (T)serializer.Deserialize(reader);
+                MLog.Print($"{fileName}.xml已获取成功.");
+
+                stream.Close();
+                return instance;
+            }
+            catch
+            {
+                MLog.Print($"文件{fullPath}序列化失败，请检查.", MLogType.Error);
+                if (stream != null) stream.Close();
+                return default(T);
+            }
+        }
+
+
+
+        //=====Json序列化操作====
+        //默认在根目录下存储(编辑器与发布皆是)
+        private static readonly string DEFAULTJSONPATH = @$"{Environment.CurrentDirectory}\JsonSettings";
+
+        public static void SaveToJson<T>(string filePath, T instance)
+        {
+            string text = JsonUtility.ToJson(instance, false);
+
+            string fullPath = GetFullPath(filePath, DEFAULTJSONPATH, "json");
+
+            int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
+            if (isOverwrite == -1) return;
 
             File.WriteAllText(fullPath, text);
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            if (isOverwrite) MLog.Print($"{fileName}.json已成功覆盖.");
-            else MLog.Print($"{fileName}.json已成功写入.");
+            if (isOverwrite == 1) MLog.Print($"{fileName}.json已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.json已成功写入，路径：{fullPath}");
+        }
+        public static void SaveToJson<T>(string filePath, T instance, bool isPrettyPrint = false, SaveMode mode = SaveMode.Overwrite)
+        {
+            string text = JsonUtility.ToJson(instance, false);
+
+            string fullPath = GetFullPath(filePath, DEFAULTJSONPATH, "json");
+
+            int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
+            if (isOverwrite == -1) return;
+
+            File.WriteAllText(fullPath, text);
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            if (isOverwrite == 1) MLog.Print($"{fileName}.json已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.json已成功写入，路径：{fullPath}");
         }
 
-        public static T ReceiveFromJson<T>(string filePath)
+        public static object ReadFromJson(string filePath, Type type)
         {
-            string fullPath = GetFullPath(filePath);
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
-
+            string fullPath = GetFullPath(filePath, DEFAULTJSONPATH, "json");
+            //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"路径{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                return null;
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            StreamReader sr = new StreamReader(fullPath);
+            string text = sr.ReadToEnd();
+            if (text.Length > 0)
+            {
+                object result = JsonUtility.FromJson(text, type);
+                MLog.Print($"{fileName}.json已获取成功.");
+                return result;
+            }
+            else
+            {
+                MLog.Print($"{fileName}.json不存在内容，请检查.", MLogType.Error);
+                return null;
+            }
+        }
+        public static T ReadFromJson<T>(string filePath)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTJSONPATH, "json");
+            //检测文件是否存在
+            if (!File.Exists(fullPath))
+            {
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
                 return default(T);
             }
 
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
             StreamReader sr = new StreamReader(fullPath);
             string text = sr.ReadToEnd();
-
             if (text.Length > 0)
             {
                 T result = JsonUtility.FromJson<T>(text);
@@ -52,57 +222,97 @@ namespace MFramework
             }
         }
 
-        private static string GetFullPath(string filePath)
-        {
-            string directoryPath = Path.GetDirectoryName(filePath);
-            string fullDirectoryPath = $@"{JSONPATH}\{directoryPath}";
-            if (!Directory.Exists(fullDirectoryPath))
-            {
-                Directory.CreateDirectory(fullDirectoryPath);
-            }
 
-            string fileName = $"{Path.GetFileNameWithoutExtension(filePath)}.json";
-            return $@"{fullDirectoryPath}\{fileName}";
-        }
 
         //=====二进制序列化操作====
         //---文件流系---
-        public static void SaveToByte(object instance, string filePath, FileMode fileMode = FileMode.Create)
+        private static readonly string DEFAULTBYTEPATH = @$"{Environment.CurrentDirectory}\ByteSettings";
+
+        public static void SaveToByte(object instance, string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, fileMode))
+            string fullPath = GetFullPath(filePath, DEFAULTBYTEPATH, "byte");
+
+            int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
+            if (isOverwrite == -1) return;
+
+            using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(fileStream, instance);//写入
+                binaryFormatter.Serialize(fileStream, instance);
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            if (isOverwrite == 1) MLog.Print($"{fileName}.byte已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.byte已成功写入，路径：{fullPath}");
+        }
+        public static void SaveToByte(object instance, string filePath, SaveMode mode = SaveMode.Overwrite)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTBYTEPATH, "byte");
+
+            int isOverwrite = CheckOverwrite(fullPath, mode);
+            if (isOverwrite == -1) return;
+
+            using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(fileStream, instance);
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            if (isOverwrite == 1) MLog.Print($"{fileName}.byte已成功覆盖，路径：{fullPath}");
+            else if (isOverwrite == 0) MLog.Print($"{fileName}.byte已成功写入，路径：{fullPath}");
+        }
+
+        public static object ReadFromByte(string filePath)
+        {
+            string fullPath = GetFullPath(filePath, DEFAULTBYTEPATH, "byte");
+            //检测文件是否存在
+            if (!File.Exists(fullPath))
+            {
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                return null;
+            }
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            using (FileStream fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                object instance = binaryFormatter.Deserialize(fileStream);
+                MLog.Print($"{fileName}.byte已获取成功.");
+                return instance;
             }
         }
-        public static object ReceiveFromByte(string filePath, FileMode fileMode = FileMode.Open)
+        public static T ReadFromByte<T>(string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, fileMode))
+            string fullPath = GetFullPath(filePath, DEFAULTBYTEPATH, "byte");
+            //检测文件是否存在
+            if (!File.Exists(fullPath))
             {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                return binaryFormatter.Deserialize(fileStream);
+                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                return default(T);
             }
-        }
-        public static T ReceiveFromByte<T>(string filePath, FileMode fileMode = FileMode.Open)
-        {
-            using (FileStream fileStream = new FileStream(filePath, fileMode))
+
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(fileStream);
+                T instance = (T)binaryFormatter.Deserialize(fileStream);
+                MLog.Print($"{fileName}.byte已获取成功.");
+                return instance;
             }
         }
 
         //---内存流系---
-        public static byte[] SaveToByte(object instance)
+        public static byte[] SaveToByte<T>(T instance)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, instance);//转换
+                binaryFormatter.Serialize(memoryStream, instance);
                 return memoryStream.ToArray();
             }
         }
-        public static object ReceiveFromByte(byte[] data)
+        public static object ReadFromByte(byte[] data)
         {
             using (MemoryStream memoryStream = new MemoryStream(data))
             {
@@ -110,7 +320,7 @@ namespace MFramework
                 return binaryFormatter.Deserialize(memoryStream);
             }
         }
-        public static T ReceiveFromByte<T>(byte[] data)
+        public static T ReadFromByte<T>(byte[] data)
         {
             using (MemoryStream memoryStream = new MemoryStream(data))
             {
@@ -118,5 +328,58 @@ namespace MFramework
                 return (T)binaryFormatter.Deserialize(memoryStream);
             }
         }
+
+
+
+        private static string GetFullPath(string filePath, string prePath, string suffix)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            string fullFileName = $"{fileName}.{suffix}";
+            string directoryPath = Path.GetDirectoryName(filePath);
+
+            string fullPath = null;
+            if (Path.IsPathRooted(filePath))//绝对路径形式
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                fullPath = $@"{directoryPath}\{fullFileName}";
+            }
+            else//相对路径形式
+            {
+                string fullDirectoryPath = $@"{prePath}\{directoryPath}";
+                if (!Directory.Exists(fullDirectoryPath))
+                {
+                    Directory.CreateDirectory(fullDirectoryPath);
+                }
+                fullPath = $@"{fullDirectoryPath}\{fullFileName}";
+            }
+
+            return fullPath;
+        }
+
+        private static int CheckOverwrite(string filePath, SaveMode mode)
+        {
+            if (mode == SaveMode.Overwrite)
+            {
+                return MPathUtility.DeleteFileIfExist(filePath) ? 1 : 0;
+            }
+            else if (mode == SaveMode.DontOverwrite)
+            {
+                if (File.Exists(filePath))
+                {
+                    MLog.Print("已存在Byte文件，但为DontOverwrite模式，请检查", MLogType.Warning);
+                    return -1;
+                }
+            }
+            return -1;
+        }
+    }
+
+    public enum SaveMode
+    {
+        Overwrite,
+        DontOverwrite
     }
 }

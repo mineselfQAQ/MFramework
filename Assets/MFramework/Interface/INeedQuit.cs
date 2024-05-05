@@ -1,6 +1,6 @@
 namespace MFramework
 {
-    public interface INeedQuit : ISingleton
+    public interface INeedQuit
     {
         void Quit();
     }

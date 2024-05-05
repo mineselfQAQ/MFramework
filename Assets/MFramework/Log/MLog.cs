@@ -17,6 +17,9 @@ namespace MFramework
         private static FileStream fs;
         private static string path = $@"{Application.dataPath}\..\LogCallBack.txt";
 
+        //TODO:目前并没有检测core是否存在的机制，如果MCore发生意外被删除了就会导致错误
+        private static MCore core = GameObject.Find("MCore").GetComponent<MCore>();
+
         public static void Blank()
         {
 #if UNITY_EDITOR
@@ -40,14 +43,13 @@ namespace MFramework
                     break;
 #else
                 case MLogType.Log:
-                    Debug.Log($"Log: {message}", context);
+                    if (core.GetExportLog()) Debug.Log($"Log: {message}", context);
                     break;
                 case MLogType.Warning:
-
-                    Debug.LogWarning($"Warning: {message}", context);
+                    if (core.GetExportLog()) Debug.LogWarning($"Warning: {message}", context);
                     break;
                 case MLogType.Error:
-                    Debug.LogError($"Error: {message}", context);
+                    if (core.GetExportLog()) Debug.LogError($"Error: {message}", context);
                     break;
 #endif
             }
@@ -103,19 +105,6 @@ namespace MFramework
 #else
             return message.ToString();
 #endif
-        }
-
-        private static object instance;
-        public static object Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new MLog();
-                }
-                return instance;
-            }
         }
 
         public void Init()
@@ -176,8 +165,6 @@ namespace MFramework
         [UnityEditor.Callbacks.OnOpenAsset(0)]
         public static bool OnOpenAsset(int instanceID, int line)
         {
-            //Debug.Log("MLOG：OK");
-
             //首先需要拿到Console窗口下双击语句的输出信息
             string stackTrace = GetStackTrace();
 
