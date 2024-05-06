@@ -52,7 +52,7 @@ namespace MFramework
             }
         }
 
-        public virtual void Init(ICollection<Data> datas, bool reset = false)
+        protected virtual void Init(ICollection<Data> datas, bool reset = false)
         {
             if (datas == null)
             {
@@ -67,6 +67,12 @@ namespace MFramework
             RecalculateContentSize(reset);//更新显示内容(屏幕中到底是哪些viewCellBundle还存在)
 
             //核心---刷新视图
+            RefreshAllCellInViewRange();
+        }
+
+        protected virtual void Update()
+        {
+            if (datas == null) return;
             UpdateDisplay();
         }
 
@@ -109,19 +115,128 @@ namespace MFramework
         /// </summary>
         public void UpdateDisplay()
         {
-            //RemoveHead();
-            //RemoveTail();
-            if (cellBundles.Count == 0)
-            {
-                RefreshAllCellInViewRange();//完全更新CellBundles
-            }
-            else
-            {
-                //AddHead();
-                //AddTail();
-            }
+            RemoveOutOfRangeBundles();
+            //if (cellBundles.Count == 0) RefreshAllCellInViewRange();
+            AddHead();
+            AddTail();
             //清除越界,比如数据减少,此时就要清理在视野内的,在数据之外的UI
             //RemoveItemOutOfListRange();
+        }
+
+        private void RemoveOutOfRangeBundles()
+        {
+            if (cellBundles.Count == 0) return;
+
+            if (direction == CyclicScrollViewDirection.Vertical)
+            {
+                //越上界
+                CellBundle<Cell> bundle = cellBundles.First.Value;
+                while (AboveViewRange(bundle.position))
+                {
+                    ReleaseViewBundle(bundle);//移入对象池
+                    cellBundles.RemoveFirst();
+
+                    if (cellBundles.Count == 0) break;
+
+                    bundle = cellBundles.First.Value;
+                }
+                //越下界
+                bundle = cellBundles.Last.Value;
+                while (UnderViewRange(bundle.position))
+                {
+                    ReleaseViewBundle(bundle);//进入对象池
+                    cellBundles.RemoveLast();
+
+                    if (cellBundles.Count == 0) break;
+
+                    bundle = cellBundles.Last.Value;
+                }
+            }
+            else if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                //越左界
+                CellBundle<Cell> bundle = cellBundles.First.Value;
+                while (InViewRangeLeft(bundle.position))
+                {
+                    ReleaseViewBundle(bundle);//移入对象池
+                    cellBundles.RemoveFirst();
+
+                    if (cellBundles.Count == 0) break;
+
+                    bundle = cellBundles.First.Value;
+                }
+                //越右界
+                bundle = cellBundles.Last.Value;
+                while (InViewRangeRight(bundle.position))
+                {
+                    ReleaseViewBundle(bundle);//进入对象池
+                    cellBundles.RemoveLast();
+
+                    if (cellBundles.Count == 0) break;
+
+                    bundle = cellBundles.Last.Value;
+                }
+            }
+        }
+
+        private void AddOutOfRangeBundles()
+        {
+
+        }
+        private void AddHead()
+        {
+            //以头部元素向外计算出新头部的位置,计算该位置是否在显示区域，如果在显示区域则生成对应项目
+            CellBundle<Cell> bundle = cellBundles.First.Value;
+
+            Vector2 offset = default;
+            if (direction == CyclicScrollViewDirection.Vertical)
+                offset = new Vector2(0, ItemSize.y);
+            else if (direction == CyclicScrollViewDirection.Horizontal)
+                offset = new Vector2(-ItemSize.x, 0);
+
+            Vector2 newHeadBundlePos = bundle.position + offset;
+
+            while (OnViewRange(newHeadBundlePos))
+            {
+                int caculatedIndex = GetIndex(newHeadBundlePos);
+                int index = bundle.index - 1;
+
+                if (index < 0) break;
+                if (caculatedIndex != index)
+                    MLog.Print($"计算索引:{caculatedIndex},计数索引{index}计算出的索引和计数的索引值不相等", MLogType.Error);
+
+                bundle = GetViewBundle(index, newHeadBundlePos, CellSize, cellSpace);
+                cellBundles.AddFirst(bundle);
+
+                newHeadBundlePos = bundle.position + offset;
+            }
+        }
+        private void AddTail()
+        {
+            //以尾部元素向外计算出新头部的位置,计算该位置是否在显示区域，如果在显示区域则生成对应项目
+            CellBundle<Cell> bundle = cellBundles.Last.Value;
+            Vector2 offset = default;
+            if (direction == CyclicScrollViewDirection.Vertical)
+                offset = new Vector2(0, -ItemSize.y);
+            else if (direction == CyclicScrollViewDirection.Horizontal)
+                offset = new Vector2(ItemSize.x, 0);
+
+            Vector2 newTailBundlePos = bundle.position + offset;
+
+            while (OnViewRange(newTailBundlePos))
+            {
+                int caculatedIndex = GetIndex(newTailBundlePos);
+                int index = bundle.index + 1;
+
+                if (index >= ItemCount) break;
+                if (caculatedIndex != index)
+                    MLog.Print($"计算索引:{caculatedIndex},计数索引{index}计算出的索引和计数的索引值不相等", MLogType.Error);
+
+                bundle = GetViewBundle(index, newTailBundlePos, CellSize, cellSpace);
+                cellBundles.AddLast(bundle);
+
+                newTailBundlePos = bundle.position + offset;
+            }
         }
 
         private void RefreshAllCellInViewRange()
@@ -232,6 +347,12 @@ namespace MFramework
             return bundle;
         }
 
+        private void ReleaseViewBundle(CellBundle<Cell> viewCellBundle)
+        {
+            viewCellBundle.Clear();
+            cellBundlePool.Enqueue(viewCellBundle);
+        }
+
         protected abstract void ResetCellData(Cell cell, Data data, int dataIndex);
 
         private void ResetRectTransform(RectTransform rectTransform)
@@ -254,6 +375,57 @@ namespace MFramework
                 index = Mathf.RoundToInt(position.x / ItemSize.x);
             }
             return index;
+        }
+
+        private bool AboveViewRange(Vector2 position)
+        {
+            Vector2 relativePos = CaculateRelativePostion(position);
+            return relativePos.y > ItemSize.y;
+        }
+
+        private bool UnderViewRange(Vector2 position)
+        {
+            Vector2 relativePos = CaculateRelativePostion(position);
+            return relativePos.y < -viewRange.sizeDelta.y;
+        }
+
+        private bool InViewRangeLeft(Vector2 position)
+        {
+            Vector2 relativePos = CaculateRelativePostion(position);
+            return relativePos.x < -ItemSize.x;
+        }
+
+        private bool InViewRangeRight(Vector2 position)
+        {
+            Vector2 relativePos = CaculateRelativePostion(position);
+            return relativePos.x > viewRange.sizeDelta.x;
+        }
+
+        private Vector2 CaculateRelativePostion(Vector2 curPosition)
+        {
+            Vector2 relativePosition = default;
+            if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                relativePosition = new Vector2(curPosition.x + content.anchoredPosition.x, curPosition.y);
+            }
+            else if (direction == CyclicScrollViewDirection.Vertical)
+            {
+                relativePosition = new Vector2(curPosition.x, curPosition.y + content.anchoredPosition.y);
+            }
+            return relativePosition;
+        }
+
+        private bool OnViewRange(Vector2 position)
+        {
+            if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                return !InViewRangeLeft(position) && !InViewRangeRight(position);
+            }
+            else if (direction == CyclicScrollViewDirection.Vertical)
+            {
+                return !AboveViewRange(position) && !UnderViewRange(position);
+            }
+            return false;
         }
     }
 }
