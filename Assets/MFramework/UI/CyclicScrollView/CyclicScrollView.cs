@@ -70,14 +70,78 @@ namespace MFramework
             RefreshAllCellInViewRange();
         }
 
+        public void Refresh()
+        {
+            RecalculateContentSize(false);
+            RefreshViewRangeData();
+        }
+
         protected virtual void Update()
         {
             if (datas == null) return;
             UpdateDisplay();
         }
 
+        protected abstract void ResetCellData(Cell cell, Data data, int dataIndex);
+
+        public void RefreshViewRangeData()
+        {
+            if (cellBundles.Count() == 0) return;
+
+            bool flag = false;
+            int count = 0;
+
+            //遍历当前显示的所有Bundle
+            foreach (var bundle in cellBundles)
+            {
+                if (flag == true) break;
+
+                count++;
+                int startIndex = bundle.index * itemCellCount;
+                int endIndex = startIndex + bundle.Cells.Length - 1;
+
+                //防止越界(如果是最后一行就会发生)
+                if (endIndex >= datas.Count)
+                {
+                    flag = true;
+                    endIndex = datas.Count - 1;
+                }
+
+                int i = startIndex, j = 0;
+                for (; i <= endIndex && j < bundle.Cells.Length; i++, j++)
+                {
+                    ResetCellData(bundle.Cells[j], datas.ElementAt(i), i);//为每个Cell刷新
+                }
+
+                //如果是最后一行，需要将该行的剩余Cell隐藏
+                if (flag)
+                {
+                    while (j < bundle.Cells.Length)
+                    {
+                        try
+                        {
+                            bundle.Cells[j++].gameObject.SetActive(false);
+                        }
+                        catch (System.Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            //如果删除了最后几行，flag会变为true且下一轮直接退出，那么最后会剩下一些未处理Bundle，移除即可
+            int remainCount = cellBundles.Count() - count;
+            while (remainCount > 0)
+            {
+                remainCount--;
+                ReleaseViewBundle(cellBundles.Last.Value);
+                cellBundles.RemoveLast();
+            }
+        }
+
         /// <summary>
-        /// 计算每个元素的位置
+        /// 计算Content的大小
         /// </summary>
         public void RecalculateContentSize(bool reset)
         {
@@ -116,20 +180,16 @@ namespace MFramework
         public void UpdateDisplay()
         {
             RemoveOutOfRangeBundles();
-            //if (cellBundles.Count == 0) RefreshAllCellInViewRange();
-            AddHead();
-            AddTail();
-            //清除越界,比如数据减少,此时就要清理在视野内的,在数据之外的UI
-            //RemoveItemOutOfListRange();
+            AddInOfRangeBundles();
         }
 
         private void RemoveOutOfRangeBundles()
         {
-            if (cellBundles.Count == 0) return;
-
             if (direction == CyclicScrollViewDirection.Vertical)
             {
                 //越上界
+                if (cellBundles.Count == 0) return;
+
                 CellBundle<Cell> bundle = cellBundles.First.Value;
                 while (AboveViewRange(bundle.position))
                 {
@@ -141,6 +201,8 @@ namespace MFramework
                     bundle = cellBundles.First.Value;
                 }
                 //越下界
+                if (cellBundles.Count == 0) return;
+
                 bundle = cellBundles.Last.Value;
                 while (UnderViewRange(bundle.position))
                 {
@@ -155,6 +217,8 @@ namespace MFramework
             else if (direction == CyclicScrollViewDirection.Horizontal)
             {
                 //越左界
+                if (cellBundles.Count == 0) return;
+
                 CellBundle<Cell> bundle = cellBundles.First.Value;
                 while (InViewRangeLeft(bundle.position))
                 {
@@ -166,6 +230,8 @@ namespace MFramework
                     bundle = cellBundles.First.Value;
                 }
                 //越右界
+                if (cellBundles.Count == 0) return;
+
                 bundle = cellBundles.Last.Value;
                 while (InViewRangeRight(bundle.position))
                 {
@@ -179,12 +245,15 @@ namespace MFramework
             }
         }
 
-        private void AddOutOfRangeBundles()
+        private void AddInOfRangeBundles()
         {
-
+            AddHeadBundles();
+            AddTailBundles();
         }
-        private void AddHead()
+        private void AddHeadBundles()
         {
+            if (cellBundles.Count == 0) return;
+
             //以头部元素向外计算出新头部的位置,计算该位置是否在显示区域，如果在显示区域则生成对应项目
             CellBundle<Cell> bundle = cellBundles.First.Value;
 
@@ -194,7 +263,7 @@ namespace MFramework
             else if (direction == CyclicScrollViewDirection.Horizontal)
                 offset = new Vector2(-ItemSize.x, 0);
 
-            Vector2 newHeadBundlePos = bundle.position + offset;
+            Vector2 newHeadBundlePos = bundle.position + offset;//判断点，该处为当前越界位置
 
             while (OnViewRange(newHeadBundlePos))
             {
@@ -211,8 +280,10 @@ namespace MFramework
                 newHeadBundlePos = bundle.position + offset;
             }
         }
-        private void AddTail()
+        private void AddTailBundles()
         {
+            if (cellBundles.Count == 0) return;
+
             //以尾部元素向外计算出新头部的位置,计算该位置是否在显示区域，如果在显示区域则生成对应项目
             CellBundle<Cell> bundle = cellBundles.Last.Value;
             Vector2 offset = default;
@@ -229,7 +300,7 @@ namespace MFramework
                 int index = bundle.index + 1;
 
                 if (index >= ItemCount) break;
-                if (caculatedIndex != index)
+                if (caculatedIndex != index)//核验
                     MLog.Print($"计算索引:{caculatedIndex},计数索引{index}计算出的索引和计数的索引值不相等", MLogType.Error);
 
                 bundle = GetViewBundle(index, newTailBundlePos, CellSize, cellSpace);
@@ -311,6 +382,7 @@ namespace MFramework
                 {
                     bundle.Cells[j] = Instantiate(cellPrefab, content);//核心---初始化
                     bundle.Cells[j].gameObject.SetActive(false);
+                    //初设位置
                     RectTransform rectTransform = bundle.Cells[j].GetComponent<RectTransform>();
                     ResetRectTransform(rectTransform);
                     rectTransform.anchoredPosition = postion + j * cellOffset;
@@ -323,7 +395,7 @@ namespace MFramework
                     ResetCellData(bundle.Cells[j], datas.ElementAt(i), i);
                 }
             }
-            else//同上
+            else//移除Bundle后的填充
             {
                 bundle = cellBundlePool.Dequeue();
                 bundle.position = postion;
@@ -332,6 +404,7 @@ namespace MFramework
                 int end = itemIndex * itemCellCount + bundle.Cells.Length;
                 for (; j < bundle.Cells.Length && i < end; j++, i++)
                 {
+                    //重设位置
                     RectTransform rectTransform = bundle.Cells[j].GetComponent<RectTransform>();
                     ResetRectTransform(rectTransform);
                     rectTransform.anchoredPosition = postion + j * cellOffset;
@@ -352,8 +425,6 @@ namespace MFramework
             viewCellBundle.Clear();
             cellBundlePool.Enqueue(viewCellBundle);
         }
-
-        protected abstract void ResetCellData(Cell cell, Data data, int dataIndex);
 
         private void ResetRectTransform(RectTransform rectTransform)
         {
@@ -380,25 +451,38 @@ namespace MFramework
         private bool AboveViewRange(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.y > ItemSize.y;
+            return relativePos.y >= ItemSize.y;
         }
 
         private bool UnderViewRange(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.y < -viewRange.sizeDelta.y;
+            return relativePos.y <= -viewRange.sizeDelta.y;
         }
 
         private bool InViewRangeLeft(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.x < -ItemSize.x;
+            return relativePos.x <= -ItemSize.x;
         }
 
         private bool InViewRangeRight(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.x > viewRange.sizeDelta.x;
+            return relativePos.x >= viewRange.sizeDelta.x;
+        }
+
+        private bool OnViewRange(Vector2 position)
+        {
+            if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                return !InViewRangeLeft(position) && !InViewRangeRight(position);
+            }
+            else if (direction == CyclicScrollViewDirection.Vertical)
+            {
+                return !AboveViewRange(position) && !UnderViewRange(position);
+            }
+            return false;
         }
 
         private Vector2 CaculateRelativePostion(Vector2 curPosition)
@@ -413,19 +497,6 @@ namespace MFramework
                 relativePosition = new Vector2(curPosition.x, curPosition.y + content.anchoredPosition.y);
             }
             return relativePosition;
-        }
-
-        private bool OnViewRange(Vector2 position)
-        {
-            if (direction == CyclicScrollViewDirection.Horizontal)
-            {
-                return !InViewRangeLeft(position) && !InViewRangeRight(position);
-            }
-            else if (direction == CyclicScrollViewDirection.Vertical)
-            {
-                return !AboveViewRange(position) && !UnderViewRange(position);
-            }
-            return false;
         }
     }
 }

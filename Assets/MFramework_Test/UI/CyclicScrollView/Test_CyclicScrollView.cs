@@ -6,8 +6,7 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
 {
     public List<Data> dataTemplates;
 
-    private List<Data> dataList1;
-    private Data[] testDatas;
+    private List<Data> dataList;
 
     protected override void ResetCellData(Cell cell, Data data, int dataIndex)
     {
@@ -17,14 +16,13 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
 
     private void Start()
     {
-        dataList1 = new List<Data>();
-        testDatas = new Data[128];
-        for (int i = 0; i < testDatas.Length; i++)
+        dataList = new List<Data>();
+        for (int i = 0; i < 100; i++)
         {
             int value = Random.Range(0, 3);//[0,2]
-            testDatas[i] = dataTemplates[value];
+            dataList.Add(dataTemplates[value]);
         }
-        Init(testDatas);
+        Init(dataList);
     }
 
     protected override void Update()
@@ -33,7 +31,13 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            content.anchoredPosition = Vector2.zero;
+            int random = Random.Range(0, dataList.Count);
+            dataList.RemoveAt(random);
+            dataList.RemoveAt(random);
+            dataList.RemoveAt(random);
+            dataList.RemoveAt(random);
+
+            Refresh();
         }
     }
 }
