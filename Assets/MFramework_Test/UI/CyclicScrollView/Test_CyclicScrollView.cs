@@ -37,6 +37,7 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
     {
         base.Update();
 
+        //删除元素
         if (Input.GetKeyDown(KeyCode.E))
         {
             int random = Random.Range(0, dataList.Count);
@@ -44,26 +45,33 @@ public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
 
             Refresh();
         }
+        //添加元素
         if (Input.GetKeyDown(KeyCode.R))
         {
             int random = Random.Range(0, dataList.Count);
             dataList.Insert(random, dataTemplates[Random.Range(0, 3)]);
 
             Refresh();
+            MoveTo(1);
         }
+
+        //使用另一个Data数组进行刷新
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Refresh(dataList2);
         }
 
+        //移动至顶部
         if (Input.GetKeyDown(KeyCode.Z))
         {
             MoveTo(0);
         }
+        //移动至第2行
         if (Input.GetKeyDown(KeyCode.X))
         {
             MoveToBundle(2);
         }
+        //移动至第8个元素所在行
         if (Input.GetKeyDown(KeyCode.C))
         {
             MoveToCell(8);

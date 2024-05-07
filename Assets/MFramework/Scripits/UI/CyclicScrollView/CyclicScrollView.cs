@@ -94,8 +94,8 @@ namespace MFramework
         public void Refresh(ICollection<Data> datas)
         {
             if (datas.Count == 0) return;
-
             this.datas = datas;
+
             RecalculateContentSize();
             RefreshViewRangeData();
         }
