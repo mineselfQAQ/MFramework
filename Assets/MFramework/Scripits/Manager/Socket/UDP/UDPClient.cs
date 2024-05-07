@@ -70,7 +70,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
+            CoroutineManager.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Init(IPEndPoint serverEP, float interval = 5.0f, bool enableThread = true)
@@ -80,7 +80,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
+            CoroutineManager.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Quit()
@@ -128,7 +128,7 @@ namespace MFramework
 
         private bool CheckServerExists(float interval)
         {
-            string str = UDPHandler.SendAndReceive(" ", (IPEndPoint)serverEP);
+            string str = UDPManager.SendAndReceive(" ", (IPEndPoint)serverEP);
 
             if (str == " ")
             {

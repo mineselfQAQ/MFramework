@@ -6,16 +6,16 @@ public class Test_CoroutineHandler : MonoBehaviour
 {
     private void Start()
     {
-        CoroutineHandler.Instance.BeginCoroutine(TestCoroutine(), "Coroutine1");
+        CoroutineManager.Instance.BeginCoroutine(TestCoroutine(), "Coroutine1");
     }
 
     private void Update()
     {
-        MLog.Print(CoroutineHandler.Instance.Count);
+        MLog.Print(CoroutineManager.Instance.Count);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CoroutineHandler.Instance.EndCoroutine("Coroutine1");
+            CoroutineManager.Instance.EndCoroutine("Coroutine1");
         }
     }
 

@@ -68,10 +68,12 @@ namespace MFramework
             //如果在prefabDic中没有prefabKey，说明是第一次，需要先WarmPool()
             if (!prefabDic.ContainsKey(prefab))
             {
+                //创建父物体
                 string prefabName = prefab.name;
                 prefabName = char.ToUpper(prefabName[0]) + prefabName.Substring(1);
                 GameObject parent = new GameObject($"{prefabName}Group");
-                WarmPool(prefab, 1, parent.transform);
+
+                WarmPool(prefab, 0, parent.transform, false);
             }
 
             var pool = prefabDic[prefab];
@@ -92,12 +94,10 @@ namespace MFramework
         {
             if (!clone) return;
 
-            //释放的本质就是关闭物体
-            clone.SetActive(false);
-
             if (instanceDic.ContainsKey(clone))
             {
                 //删除表中两个表中的键值对并将Used设为false
+                clone.SetActive(false);
                 instanceDic[clone].ReleaseItem(clone);
                 instanceDic.Remove(clone);
             }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MFramework
 {
-    public class EventHandler
+    public class EventManager
     {
         public int uid = -1;
 
@@ -10,7 +10,7 @@ namespace MFramework
         //value---MEvent，指代的是某一模块下的某一组事件
         public Dictionary<int, MEvent> dict = new Dictionary<int, MEvent>();
 
-        public EventHandler(int uid)
+        public EventManager(int uid)
         {
             this.uid = uid;
         }
@@ -58,7 +58,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"EventHandler.RemoveListener() --- target event id not found.", MLogType.Error);
+                MLog.Print($"EventManager.RemoveListener() --- target event id not found.", MLogType.Error);
                 return false;
             }
         }

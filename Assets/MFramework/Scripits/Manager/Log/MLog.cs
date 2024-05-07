@@ -128,7 +128,6 @@ namespace MFramework
 
             //输出内容
             string str = null;
-            //TODO:决定是否需要输出LogType.Log的内容
             str = $"Time: {GetCurrTime()}\n" +
                     $"{logString}\n\n\n";
 

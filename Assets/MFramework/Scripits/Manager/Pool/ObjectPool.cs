@@ -33,7 +33,7 @@ namespace MFramework
             list = new List<ObjectPoolContainer<T>>(initSize);
             lookup = new Dictionary<T, ObjectPoolContainer<T>>(initSize);
             //创建初始Container
-            if(warmObject) Warm(initSize);//TODO:此时应该设置为失活状态
+            if(warmObject) Warm(initSize);
         }
 
         /// <summary>

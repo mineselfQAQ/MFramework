@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
-    public Image img;
-    public Transform parent;
+    public GameObject root;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        Instantiate(img, parent);
+        root.DeleteAllChild(true);
     }
 }

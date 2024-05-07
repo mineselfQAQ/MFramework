@@ -14,24 +14,24 @@ namespace MFramework
         public const int EH_FX = 6;
 
         //key---int值，与上方的const值对应
-        //value---EventHandler，就是get器想要获取的实例
-        public static Dictionary<int, EventHandler> handlerDict = new Dictionary<int, EventHandler>();
-        public static EventHandler Common { get { return GetHandler(EH_COMMON); } }
-        public static EventHandler Player { get { return GetHandler(EH_PLAYER); } }
-        public static EventHandler Item { get { return GetHandler(EH_ITEM); } }
-        public static EventHandler Combat { get { return GetHandler(EH_COMBAT); } }
-        public static EventHandler UI { get { return GetHandler(EH_UI); } }
-        public static EventHandler Env { get { return GetHandler(EH_ENV); } }
-        public static EventHandler FX { get { return GetHandler(EH_FX); } }
+        //value---EventManager，就是get器想要获取的实例
+        public static Dictionary<int, EventManager> handlerDict = new Dictionary<int, EventManager>();
+        public static EventManager Common { get { return GetHandler(EH_COMMON); } }
+        public static EventManager Player { get { return GetHandler(EH_PLAYER); } }
+        public static EventManager Item { get { return GetHandler(EH_ITEM); } }
+        public static EventManager Combat { get { return GetHandler(EH_COMBAT); } }
+        public static EventManager UI { get { return GetHandler(EH_UI); } }
+        public static EventManager Env { get { return GetHandler(EH_ENV); } }
+        public static EventManager FX { get { return GetHandler(EH_FX); } }
 
         private EventDispatcher() { }
 
-        public static void Dispatch(EventHandler handler, int id)
+        public static void Dispatch(EventManager handler, int id)
         {
             handler.DispatchEvent(id);
         }
 
-        public static bool AddListener(EventHandler handler, int id, MEvent mEvent)
+        public static bool AddListener(EventManager handler, int id, MEvent mEvent)
         {
             if (handler == null)
             {
@@ -42,7 +42,7 @@ namespace MFramework
             return true;
         }
 
-        public static bool RemoveListener(EventHandler handler, int id, MEvent mEvent)
+        public static bool RemoveListener(EventManager handler, int id, MEvent mEvent)
         {
             if (handler == null)
             {
@@ -53,18 +53,18 @@ namespace MFramework
             return true;
         }
 
-        private static EventHandler GetHandler(int type)
+        private static EventManager GetHandler(int type)
         {
             //第一次获取，进行注册
             if (!handlerDict.ContainsKey(type))
             {
-                RegisterHandler(new EventHandler(type), type);
+                RegisterHandler(new EventManager(type), type);
             }
 
             //正常就直接从字典中取出EventHandler实例即可
             return GetValueInDictionary(handlerDict, type);
         }
-        public static bool RegisterHandler(EventHandler handler, int id)
+        public static bool RegisterHandler(EventManager handler, int id)
         {
             return InsertOrUpdateKeyValueInDictionary(handlerDict, id, handler);
         }

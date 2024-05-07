@@ -8,11 +8,11 @@ namespace MFramework
     {
         public static void Delay(float sec)
         {
-            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(DelayEnumerator(sec));
+            CoroutineManager.Instance.BeginCoroutineAndNotRecord(DelayEnumerator(sec));
         }
         public static void Delay(Action action, float sec)
         {
-            CoroutineHandler.Instance.BeginCoroutineAndNotRecord(DelayAndDoEnumerator(action, sec));
+            CoroutineManager.Instance.BeginCoroutineAndNotRecord(DelayAndDoEnumerator(action, sec));
         }
 
         private static IEnumerator DelayEnumerator(float sec)

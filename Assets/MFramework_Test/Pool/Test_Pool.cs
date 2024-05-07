@@ -18,21 +18,15 @@ public class Test_Pool : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                cubeInstance.Add(PoolManager.SpawnObject(cube));
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                PoolManager.ReleaseObject(cubeInstance[i]);
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            PoolManager.SpawnObject(cube);
+            cubeInstance.Add(PoolManager.SpawnObject(cube));
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            int last = cubeInstance.Count - 1;
+            PoolManager.ReleaseObject(cubeInstance[last]);
+            cubeInstance.RemoveAt(last);
         }
     }
 }

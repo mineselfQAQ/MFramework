@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MFramework
 {
-    public class UDPHandler : MonoSingleton<UDPHandler>
+    public class UDPManager : MonoSingleton<UDPManager>
     {
         private UDPServer server;
         private List<UDPClient> clients;
@@ -53,7 +53,7 @@ namespace MFramework
         }
         #endregion
 
-        private UDPHandler() 
+        private UDPManager() 
         {
             clients = new List<UDPClient>();
         }

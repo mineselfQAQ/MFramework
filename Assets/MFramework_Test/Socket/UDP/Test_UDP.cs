@@ -18,7 +18,7 @@ public class Test_UDP : MonoBehaviour
         //1.创建服务器只需要服务器Port，IP可以自动获取
         //2.创建客户端提供的IP和Port是服务器的而不是自身的
         //3.服务器最好再客户端之前创建(已处理)
-        client = UDPHandler.Instance.CreateClient<TestClient>("192.168.50.12", 8080, 5.0f, true);
+        client = UDPManager.Instance.CreateClient<TestClient>("192.168.50.12", 8080, 5.0f, true);
 
         btn.onClick.AddListener(() =>
         {
@@ -32,7 +32,7 @@ public class Test_UDP : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            server = UDPHandler.Instance.CreateServer<TestServer>(8080);
+            server = UDPManager.Instance.CreateServer<TestServer>(8080);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MFramework
 {
@@ -9,19 +10,21 @@ namespace MFramework
         public CyclicScrollViewDirection direction;
         public ICollection<Data> datas { get; private set; }
 
-        [SerializeField] protected Cell cellPrefab;//传入Prefab(必须带有Cell子类型的组件)
-        [SerializeField] protected RectTransform content;//Scrollview中自带的Viewport下的Content
-
-        [SerializeField] private RectTransform viewRange;//父物体(带有ScrollRect组件)的RectTransform
+        [SerializeField] protected Cell cellPrefab;//Prefab(必须带有Cell子类型的组件)
+        [SerializeField] private RectTransform viewRange;//ScrollView本体
+        [SerializeField] protected RectTransform content;//ScrollView中的Content
         [SerializeField] private Vector2 cellSpace;//Cell之间的间距
-        [SerializeField] private int itemCellCount;//行/列中元素数(一个ViewCellBundle中有几个元素)
+        [SerializeField] private int itemCellCount;//Bundle内Cell个数
 
         private RectTransform cellRectTrans;
+        private ScrollRect viewRangeScrollRect;
 
         private readonly Vector2 horizontalContentAnchorMin = new Vector2(0, 0);
         private readonly Vector2 horizontalContentAnchorMax = new Vector2(0, 1);
+        private readonly Vector2 horizontalContentPivot = new Vector2(0, 0.5f);
         private readonly Vector2 verticalContentAnchorMin = new Vector2(0, 1);
         private readonly Vector2 verticalContentAnchorMax = new Vector2(1, 1);
+        private readonly Vector2 verticalContentPivot = new Vector2(0.5f, 1);
 
         private readonly Vector2 cellPivot = new Vector2(0, 1);
         private readonly Vector2 cellAnchorMin = new Vector2(0, 1);
@@ -51,8 +54,14 @@ namespace MFramework
                 return itemCount;
             }
         }
+        //元素个数
+        public int CellCount => datas.Count;
 
-        protected virtual void Init(ICollection<Data> datas, bool reset = false)
+        #region 子类操作
+        /// <summary>
+        /// 初始化操作
+        /// </summary>
+        protected virtual void Init(ICollection<Data> datas)
         {
             if (datas == null)
             {
@@ -61,18 +70,33 @@ namespace MFramework
             }
 
             cellRectTrans = cellPrefab.GetComponent<RectTransform>();
+            viewRangeScrollRect = viewRange.GetComponent<ScrollRect>();
             this.datas = datas;
 
             //重新计算Content的Size，其实就是根据当前实例个数更改"包围盒"的大小
-            RecalculateContentSize(reset);//更新显示内容(屏幕中到底是哪些viewCellBundle还存在)
+            RecalculateContentSize(true);//更新显示内容(屏幕中到底是哪些viewCellBundle还存在)
 
             //核心---刷新视图
             RefreshAllCellInViewRange();
         }
 
+        /// <summary>
+        /// 数据更新时手动刷新
+        /// </summary>
         public void Refresh()
         {
-            RecalculateContentSize(false);
+            RecalculateContentSize();
+            RefreshViewRangeData();
+        }
+        /// <summary>
+        /// 数据更新时手动刷新
+        /// </summary>
+        public void Refresh(ICollection<Data> datas)
+        {
+            if (datas.Count == 0) return;
+
+            this.datas = datas;
+            RecalculateContentSize();
             RefreshViewRangeData();
         }
 
@@ -82,104 +106,78 @@ namespace MFramework
             UpdateDisplay();
         }
 
-        protected abstract void ResetCellData(Cell cell, Data data, int dataIndex);
-
-        public void RefreshViewRangeData()
-        {
-            if (cellBundles.Count() == 0) return;
-
-            bool flag = false;
-            int count = 0;
-
-            //遍历当前显示的所有Bundle
-            foreach (var bundle in cellBundles)
-            {
-                if (flag == true) break;
-
-                count++;
-                int startIndex = bundle.index * itemCellCount;
-                int endIndex = startIndex + bundle.Cells.Length - 1;
-
-                //防止越界(如果是最后一行就会发生)
-                if (endIndex >= datas.Count)
-                {
-                    flag = true;
-                    endIndex = datas.Count - 1;
-                }
-
-                int i = startIndex, j = 0;
-                for (; i <= endIndex && j < bundle.Cells.Length; i++, j++)
-                {
-                    ResetCellData(bundle.Cells[j], datas.ElementAt(i), i);//为每个Cell刷新
-                }
-
-                //如果是最后一行，需要将该行的剩余Cell隐藏
-                if (flag)
-                {
-                    while (j < bundle.Cells.Length)
-                    {
-                        try
-                        {
-                            bundle.Cells[j++].gameObject.SetActive(false);
-                        }
-                        catch (System.Exception)
-                        {
-                            throw;
-                        }
-                    }
-                }
-            }
-
-            //如果删除了最后几行，flag会变为true且下一轮直接退出，那么最后会剩下一些未处理Bundle，移除即可
-            int remainCount = cellBundles.Count() - count;
-            while (remainCount > 0)
-            {
-                remainCount--;
-                ReleaseViewBundle(cellBundles.Last.Value);
-                cellBundles.RemoveLast();
-            }
-        }
-
         /// <summary>
-        /// 计算Content的大小
+        /// 瞬间移动到某处(取值范围[0,1])
         /// </summary>
-        public void RecalculateContentSize(bool reset)
+        public void MoveTo(float x)
         {
-            int itemCount = ItemCount;//行数列数，如果是100个元素每行放3个，那么就会有34行
+            x = Mathf.Clamp01(x);
 
-            //更改锚点以及大小
-            //大小---以垂直移动为例，横向x不动，竖向y为行数*高度-1份间隔
             if (direction == CyclicScrollViewDirection.Vertical)
             {
-                //TODO:直接更改好像并不能改变原有的错误
-                content.anchorMin = verticalContentAnchorMin;
-                content.anchorMax = verticalContentAnchorMax;
-
-                //Tip：ItemSize是本体+间隔，不要和CellSize搞混了
-                //减一份间隔是因为：如3行，那么其实只有2份间隔而不是3份
-                content.sizeDelta = new Vector2(content.sizeDelta.x, itemCount * ItemSize.y - cellSpace.y);
+                float max = content.sizeDelta.y - viewRange.sizeDelta.y;
+                if (max < 0) return;
+                content.anchoredPosition = new Vector2(content.anchoredPosition.x, max * x);
             }
             else if (direction == CyclicScrollViewDirection.Horizontal)
             {
-                content.anchorMin = horizontalContentAnchorMin;
-                content.anchorMax = horizontalContentAnchorMax;
-                content.sizeDelta = new Vector2(itemCount * ItemSize.x - cellSpace.x, content.sizeDelta.y);
+                float max = content.sizeDelta.x - viewRange.sizeDelta.x;
+                if (max < 0) return;
+                content.anchoredPosition = new Vector2(-max * x, content.anchoredPosition.y);
             }
-
-            if (reset)
+            viewRangeScrollRect.velocity = Vector2.zero;//防止更改位置后ScrollView还在滑动状态
+        }
+        /// <summary>
+        /// 瞬间移动到某一Bundle(行/列)
+        /// </summary>
+        /// <param name="count"></param>
+        public void MoveToBundle(int count)
+        {
+            //以垂直模式为例：
+            //移动一行也就是移动ItemSize.y距离，只要知道"最大行数"即可
+            //Tip："最大行数"并非最后一行，而是当该行置顶时，正好显示完所有元素
+            if (direction == CyclicScrollViewDirection.Vertical)
             {
-                //重置Pos值(PosX/PosY/PosZ都为0，或者Left/Right/PosY/PosZ都为0)
-                //也就是重置为默认状态
-                content.anchoredPosition = Vector2.zero;
+                int viewRangeMax = (int)(viewRange.sizeDelta.y / ItemSize.y) + 1;
+                int max = ItemCount - viewRangeMax + 1;
+                if (max <= 0) return;
+                count = Mathf.Clamp(count, 0, max);//限制到最大行/列
+                content.anchoredPosition = new Vector2(content.anchoredPosition.x, ItemSize.y * (count - 1));
             }
+            else if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                int viewRangeMax = (int)(viewRange.sizeDelta.x / ItemSize.x) + 1;
+                int max = ItemCount - viewRangeMax + 1;
+                if (max <= 0) return;
+                count = Mathf.Clamp(count, 0, max);//限制到最大行/列
+
+                content.anchoredPosition = new Vector2(-ItemSize.x * (count - 1), content.anchoredPosition.y);
+            }
+            viewRangeScrollRect.velocity = Vector2.zero;//防止更改位置后ScrollView还在滑动状态
+        }
+        /// <summary>
+        /// 瞬间移动到某一个Cell所在Bundle(行/列)
+        /// </summary>
+        /// <param name="count"></param>
+        public void MoveToCell(int count)
+        {
+            int bundleCount = count / itemCellCount;
+            if (count % itemCellCount != 0) bundleCount++;
+
+            MoveToBundle(bundleCount);
         }
 
         /// <summary>
-        /// 更新显示内容
+        /// 更新Cell预制体
         /// </summary>
-        public void UpdateDisplay()
+        protected abstract void ResetCellData(Cell cell, Data data, int dataIndex);
+        #endregion
+
+        #region 一级函数
+        private void UpdateDisplay()
         {
             RemoveOutOfRangeBundles();
+            if (cellBundles.Count == 0) RefreshAllCellInViewRange();
             AddInOfRangeBundles();
         }
 
@@ -206,7 +204,7 @@ namespace MFramework
                 bundle = cellBundles.Last.Value;
                 while (UnderViewRange(bundle.position))
                 {
-                    ReleaseViewBundle(bundle);//进入对象池
+                    ReleaseViewBundle(bundle);//移入对象池
                     cellBundles.RemoveLast();
 
                     if (cellBundles.Count == 0) break;
@@ -235,7 +233,7 @@ namespace MFramework
                 bundle = cellBundles.Last.Value;
                 while (InViewRangeRight(bundle.position))
                 {
-                    ReleaseViewBundle(bundle);//进入对象池
+                    ReleaseViewBundle(bundle);//移入对象池
                     cellBundles.RemoveLast();
 
                     if (cellBundles.Count == 0) break;
@@ -352,6 +350,103 @@ namespace MFramework
             }
         }
 
+        private void RefreshViewRangeData()
+        {
+            if (cellBundles.Count() == 0) return;
+
+            bool flag = false;
+            int count = 0;
+
+            //遍历当前显示的所有Bundle
+            foreach (var bundle in cellBundles)
+            {
+                if (flag == true) break;
+
+                count++;
+                int startIndex = bundle.index * itemCellCount;
+                int endIndex = startIndex + bundle.Cells.Length - 1;
+
+                //防止越界(如果是最后一行就会发生)
+                if (endIndex >= datas.Count)
+                {
+                    flag = true;
+                    endIndex = datas.Count - 1;
+                }
+
+                int i = startIndex, j = 0;
+                for (; i <= endIndex && j < bundle.Cells.Length; i++, j++)
+                {
+                    ResetCellData(bundle.Cells[j], datas.ElementAt(i), i);//为每个Cell刷新
+                }
+
+                //如果是最后一行，需要将该行的剩余Cell隐藏
+                if (flag)
+                {
+                    while (j < bundle.Cells.Length)
+                    {
+                        try
+                        {
+                            bundle.Cells[j++].gameObject.SetActive(false);
+                        }
+                        catch (System.Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            //如果删除了最后几行，flag会变为true且下一轮直接退出，那么最后会剩下一些未处理Bundle，移除即可
+            int remainCount = cellBundles.Count() - count;
+            while (remainCount > 0)
+            {
+                remainCount--;
+                ReleaseViewBundle(cellBundles.Last.Value);
+                cellBundles.RemoveLast();
+            }
+        }
+
+        private void RecalculateContentSize(bool reset = false)
+        {
+            int itemCount = ItemCount;//行数列数，如果是100个元素每行放3个，那么就会有34行
+
+            //更改锚点以及大小
+            //大小---以垂直移动为例，横向x不动，竖向y为行数*高度-1份间隔
+            if (direction == CyclicScrollViewDirection.Vertical)
+            {
+                if (reset)
+                {
+                    content.anchorMin = verticalContentAnchorMin;
+                    content.anchorMax = verticalContentAnchorMax;
+                    content.pivot = verticalContentPivot;
+                    content.anchoredPosition = Vector2.zero;
+                    content.offsetMin = Vector2.zero;
+                    content.offsetMax = Vector2.zero;
+                }
+
+                //Tip：ItemSize是本体+间隔，不要和CellSize搞混了
+                //减一份间隔是因为：如3行，那么其实只有2份间隔而不是3份
+                content.sizeDelta = new Vector2(content.sizeDelta.x, itemCount * ItemSize.y - cellSpace.y);
+            }
+            else if (direction == CyclicScrollViewDirection.Horizontal)
+            {
+                if (reset)
+                {
+                    content.anchorMin = horizontalContentAnchorMin;
+                    content.anchorMax = horizontalContentAnchorMax;
+                    content.pivot = horizontalContentPivot;
+                    content.anchoredPosition = Vector2.zero;
+                    content.offsetMin = Vector2.zero;
+                    content.offsetMax = Vector2.zero;
+                }
+
+                content.sizeDelta = new Vector2(itemCount * ItemSize.x - cellSpace.x, content.sizeDelta.y);
+            }
+        }
+
+        /// <summary>
+        /// 更改Bundle(初始化或重设)
+        /// </summary>
         private CellBundle<Cell> GetViewBundle(int itemIndex, Vector2 postion, Vector2 cellSize, Vector2 cellSpace)
         {
             CellBundle<Cell> bundle;
@@ -419,7 +514,9 @@ namespace MFramework
             }
             return bundle;
         }
+        #endregion
 
+        #region 功能函数
         private void ReleaseViewBundle(CellBundle<Cell> viewCellBundle)
         {
             viewCellBundle.Clear();
@@ -453,25 +550,21 @@ namespace MFramework
             Vector2 relativePos = CaculateRelativePostion(position);
             return relativePos.y >= ItemSize.y;
         }
-
         private bool UnderViewRange(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
             return relativePos.y <= -viewRange.sizeDelta.y;
         }
-
         private bool InViewRangeLeft(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
             return relativePos.x <= -ItemSize.x;
         }
-
         private bool InViewRangeRight(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
             return relativePos.x >= viewRange.sizeDelta.x;
         }
-
         private bool OnViewRange(Vector2 position)
         {
             if (direction == CyclicScrollViewDirection.Horizontal)
@@ -498,5 +591,6 @@ namespace MFramework
             }
             return relativePosition;
         }
+        #endregion
     }
 }
