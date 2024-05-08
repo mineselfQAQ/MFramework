@@ -1,4 +1,3 @@
-using MFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +39,7 @@ namespace MFramework
         {
             if (!dic.ContainsKey(name))
             {
-                MLog.Print("字典中没有该Coroutine，请检查名字是否正确或协程是否已结束", MLogType.Warning);
+                MLog.Print($"字典中没有名为{name}的Coroutine，请检查名字是否正确或协程是否已结束", MLogType.Warning);
                 return false;
             }
 

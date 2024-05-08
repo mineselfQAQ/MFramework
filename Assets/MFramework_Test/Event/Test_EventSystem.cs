@@ -13,6 +13,7 @@ public class Test_EventSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            MLog.Print($"发生事件：id-{EventID.WINDY}");
             EventSystem.Dispatch(EventID.WINDY);
         }
     }
@@ -28,7 +29,7 @@ public class Test_EventSystem : MonoBehaviour
     {
         public Bird()
         {
-            EventSystem.AddListener(EventID.WINDY, () => { Debug.Log("Bird: 刮风了"); });
+            EventSystem.AddListener(EventID.WINDY, () => { MLog.Print("Bird: 刮风了"); });
         }
     }
 

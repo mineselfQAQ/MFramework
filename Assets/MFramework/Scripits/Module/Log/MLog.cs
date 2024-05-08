@@ -5,13 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace MFramework
 {
-    public enum MLogType
-    {
-        Log,
-        Warning,
-        Error
-    }
-
     public class MLog : INeedInit, INeedQuit
     {
         private static FileStream fs;
@@ -19,6 +12,19 @@ namespace MFramework
 
         //TODO:目前并没有检测core是否存在的机制，如果MCore发生意外被删除了就会导致错误
         private static MCore core = GameObject.Find("MCore").GetComponent<MCore>();
+
+        public void Init()
+        {
+#if !UNITY_EDITOR
+            Application.logMessageReceived += OnLogCallBack;
+#endif
+        }
+        public void Quit()
+        {
+#if !UNITY_EDITOR
+            Application.logMessageReceived -= OnLogCallBack;
+#endif
+        }
 
         public static void Blank()
         {
@@ -107,18 +113,6 @@ namespace MFramework
 #endif
         }
 
-        public void Init()
-        {
-#if !UNITY_EDITOR
-            Application.logMessageReceived += OnLogCallBack;
-#endif
-        }
-        public void Quit()
-        {
-#if !UNITY_EDITOR
-            Application.logMessageReceived -= OnLogCallBack;
-#endif
-        }
         private static void OnLogCallBack(string logString, string stackTrace, LogType type)
         {
             //创建或打开
