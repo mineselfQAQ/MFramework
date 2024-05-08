@@ -28,6 +28,11 @@ public class Test_Coroutine : MonoBehaviour
     {
         List<IEnumerator> enumerators = new List<IEnumerator>();
 
+        private TestCoroutineManager()
+        {
+
+        }
+
         public void StartCoroutine(IEnumerator enumerator)
         {
             enumerators.Add(enumerator);

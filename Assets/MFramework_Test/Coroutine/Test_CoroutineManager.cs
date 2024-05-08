@@ -2,7 +2,7 @@ using MFramework;
 using System.Collections;
 using UnityEngine;
 
-public class Test_CoroutineHandler : MonoBehaviour
+public class Test_CoroutineManager : MonoBehaviour
 {
     private void Start()
     {
@@ -11,10 +11,9 @@ public class Test_CoroutineHandler : MonoBehaviour
 
     private void Update()
     {
-        MLog.Print(CoroutineManager.Instance.Count);
-
         if (Input.GetKeyDown(KeyCode.E))
         {
+            MLog.Print(CoroutineManager.Instance.Count);
             CoroutineManager.Instance.EndCoroutine("Coroutine1");
         }
     }
