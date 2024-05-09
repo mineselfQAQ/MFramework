@@ -4,6 +4,13 @@ namespace MFramework
 {
     public class Localization : MonoBehaviour
     {
+        public LocalizationMode mode = LocalizationMode.On;
         public int localID = -1;
+    }
+
+    public enum LocalizationMode
+    {
+        On,
+        Off
     }
 }
