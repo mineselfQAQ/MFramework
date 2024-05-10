@@ -23,9 +23,9 @@ namespace MFramework
             {
                 rootObj = new GameObject(k_RootName);
                 DontDestroyOnLoad(rootObj);
-                rootTransform = rootObj.transform;
             }
 
+            rootTransform = rootObj.transform;
             Type type = typeof(T);
             string name = type.Name;//默认类名
             HideFlags hideFlags = HideFlags.None;//默认HideFlags

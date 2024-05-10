@@ -14,6 +14,16 @@ namespace MFramework
 
             if (includeSelf) GameObject.Destroy(root);
         }
+
+        public static T GetOrAddComponent<T>(this GameObject go) where T : Component
+        {
+            bool exist = go.TryGetComponent<T>(out T comp);
+            if (!exist)
+            {
+                comp = go.AddComponent<T>();
+            }
+            return comp;
+        }
     }
 }
 
