@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,7 +18,9 @@ namespace MFramework
         protected GameObject gameObject;//该物体GameObject
         protected RectTransform trans;//该物体Transform
         protected Transform parentTrans;//父物体Transform，用于设置自身的父亲
-        protected UIViewBehaviour viewBehaviour;//收集的信息
+        protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
+
+        public string prefabName { private set; get; }//预制体名字
 
         protected Dictionary<string, UIWidget> widgetDic { private set; get; }
 
@@ -47,6 +51,7 @@ namespace MFramework
             //信息收集
             viewID = id;
             parentTrans = parent;
+            prefabName = Path.GetFileNameWithoutExtension(prefabPath);
 
             //TODO:路径需要处理，Editor下至少是从Assets开始的
             //实例化
@@ -94,7 +99,6 @@ namespace MFramework
             widgetDic.Add(id, widget);
             return widget;
         }
-
         protected bool DestroyWidget(string id)
         {
             UIWidget widget = widgetDic[id];
@@ -103,13 +107,11 @@ namespace MFramework
             //widget.destroy();
             return true;
         }
-
         protected UIWidget GetWidget(string id)
         {
             if (widgetDic == null) return null;
             return widgetDic[id];
         }
-
         protected bool ExistWidget(string id)
         {
             if (widgetDic == null) return false;

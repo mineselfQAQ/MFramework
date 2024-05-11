@@ -89,5 +89,24 @@ namespace MFramework
             }
             return false;
         }
+
+        /// <summary>
+        /// 获取路径下的文件名并确保带有正确后缀
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFileNameWithExtension(string path, string suffix)
+        {
+            string name = Path.GetFileNameWithoutExtension(path);
+            if (suffix[0] == '.')
+            {
+                name += suffix;
+            }
+            else
+            {
+                name += $".{suffix}";
+            }
+
+            return name;
+        }
     }
 }

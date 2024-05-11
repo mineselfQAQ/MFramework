@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,18 +6,23 @@ namespace MFramework
 {
     public class UIPanel : UIView
     {
-        //UIView字段公开
+        //UIView字段公开属性
         public string panelID { get { return viewID; } }
         public UIPanelBehaviour panelBehaviour { get { return (UIPanelBehaviour)viewBehaviour; } }
-        //UIPanel属性
-        public UIRoot parentUIRoot { private set; get; }//UIPanel所在的UIRoot
+        //UIPanel字段
+        public UIRoot parentRoot { private set; get; }//UIPanel所在的UIRoot
         public Canvas canvas { private set; get; }
         public GraphicRaycaster graphicRaycaster { private set; get; }
         public CanvasGroup canvasGroup { private set; get; }
 
+        public static HashSet<string> panelPrefabSet = new HashSet<string>();//检测是否已经存放过某个prefab
+
+        public int sortingOrder => canvas.sortingOrder;
+
         internal void Create(string id, UIRoot root, string prefabPath)
         {
-            parentUIRoot = root;
+            panelPrefabSet.Add(prefabName);
+            parentRoot = root;
             base.Create(id, UIManager.Instance.UICanvas.transform, prefabPath);
 
             //PlayOpenAnim(null);
@@ -25,6 +31,12 @@ namespace MFramework
         internal new void Destroy()
         {
             base.Destroy();
+        }
+
+        public void DestroySelf()
+        {
+            parentRoot.panelDic.Remove(panelID);
+            Destroy();
         }
 
         internal void SetSortingOrder(int order)
@@ -37,13 +49,7 @@ namespace MFramework
         {
             base.CreatingInternal();
 
-            SetRectStretchMode();
-            //trans.localPosition = Vector3.zero;
-            //trans.localRotation = Quaternion.Euler(Vector3.zero);
-            //trans.localScale = Vector3.one;
-            //trans.anchorMin = Vector2.zero;
-            //trans.anchorMax = Vector2.one;
-            //trans.sizeDelta = Vector2.zero;
+            SetRectStretchMode();//TODO:存疑，是否需要强制设置Transform模式
 
             canvas = panelBehaviour.gameObject.GetOrAddComponent<Canvas>();
             graphicRaycaster = gameObject.GetOrAddComponent<GraphicRaycaster>();
@@ -58,7 +64,7 @@ namespace MFramework
             canvasGroup = null;
             graphicRaycaster = null;
             canvas = null;
-            parentUIRoot = null;
+            parentRoot = null;
 
             base.DestroyingInternal();
         }
@@ -73,7 +79,7 @@ namespace MFramework
             trans.offsetMax = Vector2.zero;
             trans.pivot = new Vector2(0.5f, 0.5f);
             
-            trans.sizeDelta = trans.parent.GetComponent<RectTransform>().sizeDelta;
+            //trans.sizeDelta = trans.parent.GetComponent<RectTransform>().sizeDelta;
             trans.anchoredPosition = Vector2.zero;
         }
         #endregion

@@ -10,9 +10,9 @@ namespace MFramework
     public abstract class UIViewBehaviour : MonoBehaviour
     {
         [SerializeField]
-        private List<UICompCollection> compCollection;
+        private List<UICompCollection> compCollections;
 
-        protected List<UICompCollection> CompCollection { get { return compCollection; } }
+        protected List<UICompCollection> CompCollections { get { return compCollections; } }
 
 #if UNITY_EDITOR
         private void Awake()
@@ -20,5 +20,13 @@ namespace MFramework
             hideFlags = HideFlags.NotEditable;
         }
 #endif
+
+        /// <summary>
+        /// 获取某个Collection的某个Component
+        /// </summary>
+        public Component GetComp(int collectionIndex, int compIndex)
+        {
+            return compCollections[collectionIndex].GetComp(compIndex);
+        }
     }
 }
