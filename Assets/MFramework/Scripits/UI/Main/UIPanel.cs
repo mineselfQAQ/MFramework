@@ -34,18 +34,32 @@ namespace MFramework
 
         internal void Open(Action onFinish = null)
         {
-            PlayOpenAnim(() =>
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled) 
             {
-                onFinish?.Invoke();
-            });
+                PlayOpenAnim(() =>
+                {
+                    onFinish?.Invoke();
+                });
+            }
+            else
+            {
+                SetVisible(true);
+            }
         }
 
         internal void Close(Action onFinish = null)
         {
-            PlayCloseAnim(() =>
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled)
             {
-                onFinish?.Invoke();
-            });
+                PlayCloseAnim(() =>
+                {
+                    onFinish?.Invoke();
+                });
+            }
+            else
+            {
+                SetVisible(false);
+            }
         }
 
         internal void Destroy(Action onFinish = null)
@@ -82,7 +96,7 @@ namespace MFramework
 
         protected virtual void PlayOpenAnim(Action onFinish = null)
         {
-            if (panelBehaviour.openAnimMode == UIPanelOpenAnimMode.Disabled) return;
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return;
 
             if (panelBehaviour.openAnimMode == UIPanelOpenAnimMode.AutoPlay)
             {
@@ -101,7 +115,7 @@ namespace MFramework
         }
         protected virtual void PlayCloseAnim(Action onFinish = null)
         {
-            if (panelBehaviour.closeAnimMode == UIPanelCloseAnimMode.Disabled) return;
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return;
 
             if (panelBehaviour.closeAnimMode == UIPanelCloseAnimMode.AutoPlay)
             {

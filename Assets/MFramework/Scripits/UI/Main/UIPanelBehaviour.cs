@@ -3,30 +3,33 @@ using UnityEngine;
 
 namespace MFramework
 {
+    public enum UIPanelAnimSwitch
+    {
+        Enabled,
+        Disabled
+    }
+
     public enum UIPanelOpenAnimMode
     {
-        Disabled,
         AutoPlay,
         SelfControl
     }
     public enum UIPanelCloseAnimMode
     {
-        Disabled,
         AutoPlay,
         SelfControl
     }
 
     public class UIPanelBehaviour : UIViewBehaviour
     {
-        [HideInInspector]
         internal UIPanel panel;//归属Panel
 
         //必须>=1
         public int thinkness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
 
-        //除了AutoPlay/SelfControl，还隐藏了一种---不启用动画(通过Editor控制)
-        public UIPanelOpenAnimMode openAnimMode;
-        public UIPanelCloseAnimMode closeAnimMode;
+        public UIPanelAnimSwitch animSwitch = UIPanelAnimSwitch.Disabled;
+        public UIPanelOpenAnimMode openAnimMode = UIPanelOpenAnimMode.AutoPlay;
+        public UIPanelCloseAnimMode closeAnimMode = UIPanelCloseAnimMode.AutoPlay;
 
         internal void PlayOpenAnim(Action onFinish)
         {

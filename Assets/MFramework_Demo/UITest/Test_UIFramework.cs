@@ -9,7 +9,7 @@ public class Test_UIFramework : MonoBehaviour
     {
         root = UIManager.Instance.CreateRoot("ROOT", 0, 999);
 
-        TestPanel panel = root.CreatePanel<TestPanel>(@"F:\MineselfDemo\MFramework\Assets\MFramework_Demo\UITest\TestPanel.prefab");
+        TestPanel panel = root.CreatePanel<TestPanel>(@"Assets\MFramework_Demo\UITest\TestPanel.prefab");
     }
 
     private void Update()

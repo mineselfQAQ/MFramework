@@ -60,8 +60,9 @@ MonoBehaviour:
     compList:
     - {fileID: 2428793544254756193}
   thinkness: 10
-  openAnimMode: 1
-  closeAnimMode: 1
+  animSwitch: 1
+  openAnimMode: 0
+  closeAnimMode: 0
 --- !u!95 &1869323519868161033
 Animator:
   serializedVersion: 5
