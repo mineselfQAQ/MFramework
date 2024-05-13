@@ -12,9 +12,24 @@ namespace MFramework
 
         private void Awake()
         {
-            //TODO:*****固定命名，需要设置更改位置
-            UICanvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
-            UICamera = GameObject.Find("UICamera").GetComponent<Camera>();
+            UICanvas = GameObject.Find(BuildSettings.uiCanvasName).GetComponent<Canvas>();
+            UICamera = GameObject.Find(BuildSettings.uiCameraName).GetComponent<Camera>();
+            if (UICanvas == null && UICamera == null)
+            {
+                MLog.Print($"UI：没有名为{BuildSettings.uiCanvasName}的Canvas，也没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Warning);
+                return;
+            }
+            else if (UICanvas == null)
+            {
+                MLog.Print($"UI：没有名为{BuildSettings.uiCanvasName}的Canvas，请修改或创建后重试", MLogType.Warning);
+                return;
+            }
+            else if (UICamera == null)
+            {
+                MLog.Print($"UI：没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Warning);
+                return;
+            }
+
             RootDic = new Dictionary<string, UIRoot>();
         }
 

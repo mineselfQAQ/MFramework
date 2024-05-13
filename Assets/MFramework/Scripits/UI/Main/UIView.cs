@@ -53,9 +53,10 @@ namespace MFramework
             parentTrans = parent;
             prefabName = Path.GetFileNameWithoutExtension(prefabPath);
 
-            //TODO:路径需要处理，Editor下至少是从Assets开始的
             //实例化
 #if UNITY_EDITOR
+            prefabPath = prefabPath.Replace('\\', '/');
+            prefabPath = DealEditorPath(prefabPath);
             GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning);
 #else
@@ -63,6 +64,7 @@ namespace MFramework
             if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
 #endif
             GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
+            //检测
             UIViewBehaviour behaviour = go.GetComponent<UIViewBehaviour>();
             if (behaviour == null) MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning);
 
@@ -70,6 +72,36 @@ namespace MFramework
             viewBehaviour = behaviour;
             trans = viewBehaviour.gameObject.GetComponent<RectTransform>();
             gameObject = viewBehaviour.gameObject;
+        }
+        /// <summary>
+        /// 支持2种输入：完整路径/基于Assets的路径
+        /// </summary>
+        /// <param name="path"></param>
+        private string DealEditorPath(string path)
+        {
+            if (Path.IsPathRooted(path))//完整路径
+            {
+                string firstPath = Application.dataPath;
+                if (path.StartsWith(firstPath))
+                {
+                    path = path.Substring(firstPath.Length - "Assets".Length);
+                }
+            }
+            else
+            {
+                if (!path.StartsWith("Assets"))//非基于Assets的路径
+                {
+                    MLog.Print($"UI：路径{path}不正确，请提供|完整路径/基于Assets的路径|其中之一", MLogType.Warning);
+                    return null;
+                }
+            }
+
+            if (!path.EndsWith(".prefab"))
+            {
+                path += ".prefab";
+            }
+
+            return path;
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ namespace MFramework
             panelDic = new Dictionary<string, UIPanel>();
         }
 
+        #region Panel基础操作
         public T CreatePanel<T>(string id, string prefabPath, int order) where T : UIPanel
         {
             if (panelDic.ContainsKey(id))
@@ -46,9 +47,6 @@ namespace MFramework
             T panel = Activator.CreateInstance(typeof(T)) as T;//创建实例
             panel.Create(id, this, prefabPath);//创建Panel
             panel.SetSortingOrder(order);//设置排序(Canvas之间的排序)
-            //设置组内排序(Panel与Panel之间的排序)
-            //int siblingIndex = GetCurrentSiblingIndex(sortingOrder);
-            //panel.SetSiblingIndex(siblingIndex);
             panelDic.Add(panel.panelID, panel);//加入Panel字典
             //UIManager.Instance.SetBackgroundAndFocus();//*大致来说为设置背景与聚焦排序*
 
@@ -73,7 +71,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"Root-{rootID}下没有<{id}>，无法删除，请检查", MLogType.Warning);
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，无法删除，请检查", MLogType.Warning);
                 return false;
             }
 
@@ -94,7 +92,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"Root-{rootID}下没有<{id}>，获取失败，请检查", MLogType.Warning);
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，获取失败，请检查", MLogType.Warning);
                 return default(T);
             };
 
@@ -114,6 +112,60 @@ namespace MFramework
             return panelDic.ContainsKey(typeof(T).Name);
         }
 
+        public void SetPanelVisible(string id, bool visible)
+        {
+            if (!panelDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIPanel panel = panelDic[id];
+            panel.SetVisible(visible);
+            //UIManager.Instance.SetBackgroundAndFocus();
+        }
+        public void SetPanelVisible<T>(bool visible)
+        {
+            SetPanelVisible(typeof(T).Name, visible);
+        }
+
+        public void OpenPanel(string id, Action onFinish = null)
+        {
+            if (!panelDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，打开失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIPanel panel = panelDic[id];
+            panel.Open(onFinish);
+
+            //UIManager.Instance.SetBackgroundAndFocus();
+        }
+        public void OpenPanel<T>(Action onFinish = null)
+        {
+            OpenPanel(typeof(T).Name, onFinish);
+        }
+
+        public void ClosePanel(string id, Action onFinish = null)
+        {
+            if (!panelDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，关闭失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIPanel panel = panelDic[id];
+            panel.Close(onFinish);
+
+            //UIManager.Instance.SetBackgroundAndFocus();
+        }
+        public void ClosePanel<T>(Action onFinish = null)
+        {
+            ClosePanel(typeof(T).Name, onFinish);
+        }
+
+
         private int GetNextOrder()
         {
             UIPanel topPanel = null;
@@ -129,5 +181,7 @@ namespace MFramework
             //2.panelDic不为空，得topPanel+厚度
             return topPanel == null ? startOrder : topPanel.canvas.sortingOrder + topPanel.panelBehaviour.thinkness;
         }
+        #endregion
+
     }
 }
