@@ -94,6 +94,11 @@ namespace MFramework
             OnVisibleChanged(visible);
         }
 
+        internal void SetFocus(bool focus)
+        {
+            OnFocusChanged(focus);
+        }
+
         protected virtual void PlayOpenAnim(Action onFinish = null)
         {
             if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return;
@@ -151,7 +156,8 @@ namespace MFramework
         {
             base.CreatingInternal();
 
-            SetRectStretchMode();//TODO:存疑，是否需要强制设置Transform模式
+            //没必要强制设置RectTransform，Panel应该跟着原来Prefab的设置走
+            //SetRectStretchMode();
 
             canvas = panelBehaviour.gameObject.GetOrAddComponent<Canvas>();
             graphicRaycaster = gameObject.GetOrAddComponent<GraphicRaycaster>();
@@ -190,6 +196,7 @@ namespace MFramework
 
         #region 子类生命周期
         protected virtual void OnVisibleChanged(bool visible) { }
+        protected virtual void OnFocusChanged(bool focus) { }
         #endregion
     }
 }

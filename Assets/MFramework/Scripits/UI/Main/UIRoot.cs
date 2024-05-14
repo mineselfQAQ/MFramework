@@ -25,6 +25,7 @@ namespace MFramework
         }
 
         #region Panel基础操作
+        //TODO:ID用路径中的文件名可能更好
         public T CreatePanel<T>(string id, string prefabPath, int order) where T : UIPanel
         {
             if (panelDic.ContainsKey(id))

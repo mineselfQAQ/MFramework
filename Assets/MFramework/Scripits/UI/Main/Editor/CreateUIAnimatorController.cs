@@ -7,7 +7,7 @@ namespace MFramework
 {
     public static class CreateUIAnimatorController
     {
-        [MenuItem("Assets/CreateUIAnimatorController", false, 9)]
+        [MenuItem("Assets/MCreate/UIAnimatorController", false, priority = 9, secondaryPriority = 1.0f)]
         public static void Create()
         {
             if (CheckAvailability())

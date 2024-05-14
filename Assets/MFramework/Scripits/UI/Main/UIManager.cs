@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using static UnityEngine.EventSystems.EventSystem;
 
 namespace MFramework
 {
@@ -33,6 +35,14 @@ namespace MFramework
             RootDic = new Dictionary<string, UIRoot>();
         }
 
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                ClickDetect();
+            }
+        }
+
         public UIRoot CreateRoot(string id, int start, int end)
         {
             if (RootDic.ContainsKey(id)) 
@@ -50,6 +60,50 @@ namespace MFramework
             RootDic.Add(id, uiRoot);
 
             return uiRoot;
+        }
+
+        internal void SetFocus()
+        {
+
+        }
+
+        private void ClickDetect()
+        {
+            PointerEventData eventData = new PointerEventData(current);
+            eventData.position = Input.mousePosition;
+            var results = new List<RaycastResult>();
+            current.RaycastAll(eventData, results);
+
+            GameObject canvas = GetTopItemCanvas(results);
+            if (canvas != null)
+            {
+                //¸ü¸Ä¶¥²¿Canvas
+            }
+        }
+        private GameObject GetTopItemCanvas(List<RaycastResult> results)
+        {
+            if (results.Count > 0)
+            {
+                int maxSortingOrder = int.MinValue;
+                GameObject topItemCanvas = null;
+
+                foreach (RaycastResult result in results)
+                {
+                    Canvas canvas = result.gameObject.GetComponentInParent<Canvas>();
+                    if (canvas != null)
+                    {
+                        if (canvas.sortingOrder > maxSortingOrder)
+                        {
+                            maxSortingOrder = canvas.sortingOrder;
+                            topItemCanvas = canvas.gameObject;
+                        }
+                    }
+                }
+
+                return topItemCanvas;
+            }
+
+            return null;
         }
     }
 }
