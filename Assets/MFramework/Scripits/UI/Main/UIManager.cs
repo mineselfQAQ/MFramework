@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -62,9 +63,13 @@ namespace MFramework
             return uiRoot;
         }
 
-        internal void SetFocus()
+        internal void SetFocus(UIPanel newTopPanel)
         {
-
+            UIPanel topPanel = newTopPanel.parentRoot.topPanel;
+            topPanel.SetFocus(false);
+            newTopPanel.SetFocus(true);
+            newTopPanel.SetSortingOrder(topPanel.sortingOrder + topPanel.panelBehaviour.thinkness);
+            newTopPanel.parentRoot.topPanel = newTopPanel;
         }
 
         private void ClickDetect()
@@ -74,13 +79,15 @@ namespace MFramework
             var results = new List<RaycastResult>();
             current.RaycastAll(eventData, results);
 
-            GameObject canvas = GetTopItemCanvas(results);
-            if (canvas != null)
+            UIPanel newTopPanel = GetTopItemCanvas(results);
+            if (newTopPanel == null || newTopPanel == newTopPanel.parentRoot.topPanel)//当前Panel就是最上层Panel
             {
-                //更改顶部Canvas
+                return;
             }
+            
+            SetFocus(newTopPanel);
         }
-        private GameObject GetTopItemCanvas(List<RaycastResult> results)
+        private UIPanel GetTopItemCanvas(List<RaycastResult> results)
         {
             if (results.Count > 0)
             {
@@ -100,7 +107,7 @@ namespace MFramework
                     }
                 }
 
-                return topItemCanvas;
+                return topItemCanvas.GetComponent<UIPanelBehaviour>().panel;
             }
 
             return null;
