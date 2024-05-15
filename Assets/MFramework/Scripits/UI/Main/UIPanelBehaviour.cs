@@ -3,30 +3,6 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public enum UIPanelGetFocusMode
-    {
-        Disabled,
-        Get,
-        //与其它配合的焦点设置
-    }
-
-    public enum UIPanelAnimSwitch
-    {
-        Enabled,
-        Disabled
-    }
-
-    public enum UIPanelOpenAnimMode
-    {
-        AutoPlay,
-        SelfControl
-    }
-    public enum UIPanelCloseAnimMode
-    {
-        AutoPlay,
-        SelfControl
-    }
-
     public class UIPanelBehaviour : UIViewBehaviour
     {
         internal UIPanel panel;//归属Panel
@@ -34,7 +10,7 @@ namespace MFramework
         //必须>=1
         public int thickness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
 
-        public UIPanelGetFocusMode getFocusMode = UIPanelGetFocusMode.Get;
+        public UIPanelFocusMode focusMode = UIPanelFocusMode.Enabled;
 
         public UIPanelAnimSwitch animSwitch = UIPanelAnimSwitch.Disabled;
         public UIPanelOpenAnimMode openAnimMode = UIPanelOpenAnimMode.AutoPlay;

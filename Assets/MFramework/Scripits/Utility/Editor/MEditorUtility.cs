@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    internal static class MEditorUtitlity
+    internal static class MEditorUtility
     {
         internal static Texture GetIcon(Type type)
         {
@@ -39,6 +39,28 @@ namespace MFramework
                 return null;
             }
             return newPath;
+        }
+
+        internal static string DisplayGenerateFileDialog(string oldPath, string fileName = "")
+        {
+            int state = EditorUtility.DisplayDialogComplex("Generating",
+                    $"确定文件将生成在{oldPath}处吗？", "确认", "取消", "更改路径");
+
+            if (state == 0)//确认
+            {
+                return oldPath;
+            }
+            else if (state == 1)//取消
+            {
+                MLog.Print($"已取消生成{fileName}文件.", MLogType.Warning);
+                return null;
+            }
+            else//更改路径
+            {
+                string newPath = ChangePath();
+                newPath = Path.Combine(newPath, fileName);
+                return newPath;
+            }
         }
     }
 }

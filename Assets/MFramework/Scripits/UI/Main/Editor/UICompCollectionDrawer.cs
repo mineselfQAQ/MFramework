@@ -91,7 +91,7 @@ namespace MFramework
                                 int savedIndex = GetIndexFromSavedComponentList(compListSP, comp);//只显示已保存的组件
                                 if (savedIndex >= 0)
                                 {
-                                    Texture icon = MEditorUtitlity.GetIcon(comp.GetType());
+                                    Texture icon = MEditorUtility.GetIcon(comp.GetType());
                                     DrawIcon(selectRect, posIndex, icon);
                                     posIndex++;
                                 }

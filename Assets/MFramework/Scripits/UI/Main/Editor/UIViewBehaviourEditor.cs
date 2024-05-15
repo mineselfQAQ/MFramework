@@ -22,6 +22,7 @@ namespace MFramework
                         return; 
                     }
                     GenerateUIBaseCode();
+                    GUIUtility.ExitGUI();
                 }
 
                 if (GUILayout.Button("输出核心文件"))
@@ -32,9 +33,22 @@ namespace MFramework
                         return;
                     }
                     GenerateUIMainCode();
+                    GUIUtility.ExitGUI();
                 }
             }
             GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("完整输出"))
+            {
+                if (Application.isPlaying)
+                {
+                    MLog.Print("UI：请在非运行时导出", MLogType.Warning);
+                    return;
+                }
+
+                GenerateBaseAndMainCode();
+                GUIUtility.ExitGUI();
+            }
         }
         
         private string GetPrefabPath()
@@ -69,6 +83,51 @@ namespace MFramework
             return finalPrefabPath;
         }
 
+        private void GenerateBaseAndMainCode()
+        {
+            string prefabPath = GetPrefabPath();
+            if (string.IsNullOrEmpty(prefabPath))
+            {
+                MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                return;
+            }
+            string fullPrefabPath = Path.GetFullPath(prefabPath);
+            string directoryPath = Path.GetDirectoryName(fullPrefabPath);
+            directoryPath = MEditorUtility.DisplayGenerateFileDialog(directoryPath);
+            if (directoryPath == null) return;
+
+            //Base变量
+            string baseClassName = $"{Path.GetFileNameWithoutExtension(prefabPath)}Base";
+            string baseFileName = $"{baseClassName}.cs";
+            string baseBaseClassName = target is UIPanelBehaviour ? "UIPanel" : "UIWidget";
+            string baseFilePath = Path.Combine(directoryPath, baseFileName);
+            //Main变量
+            string mainClassName = $"{Path.GetFileNameWithoutExtension(prefabPath)}";
+            string mainFileName = $"{mainClassName}.cs";
+            string mainFilePath = Path.Combine(directoryPath, mainFileName);
+
+            if(File.Exists(baseFilePath) || File.Exists(mainFilePath)) 
+            {
+                bool state = EditorUtility.DisplayDialog("警告！！！", 
+                    "该路径下已存在Base文件或Main文件，是否直接覆盖", "确认", "取消");
+                if (!state) 
+                {
+                    MLog.Print("已取消生成", MLogType.Warning);
+                    return;
+                }
+            }
+
+            string baseCode = GetBaseCode(baseClassName, baseBaseClassName);
+            if (baseCode == null) return;
+            MPathUtility.SaveFile(baseFilePath, baseCode);
+            string mainCode = GetMainCode(mainClassName);
+            if (baseCode == null) return;
+            MPathUtility.SaveFile(mainFilePath, mainCode);
+            AssetDatabase.Refresh();
+
+            MLog.Print($"已成功生成{baseFileName}与{mainFileName}文件");
+        }
+
         private void GenerateUIBaseCode()
         {
             string prefabPath = GetPrefabPath();
@@ -77,31 +136,35 @@ namespace MFramework
                 MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
                 return;
             }
-
             string fullPrefabPath = Path.GetFullPath(prefabPath);
 
-            string className = Path.GetFileNameWithoutExtension(prefabPath);
-            string fileName = $"{className}Base.cs";
+            string className = $"{Path.GetFileNameWithoutExtension(prefabPath)}Base";
+            string fileName = $"{className}.cs";
             string baseClassName = target is UIPanelBehaviour ? "UIPanel" : "UIWidget";
 
             string filePath = Path.Combine(Path.GetDirectoryName(fullPrefabPath), fileName);
-            int state = EditorUtility.DisplayDialogComplex("Generating",
-                    $"确定文件将生成在{filePath}处吗？", "确认", "取消", "更改路径");
-            if (state == 1)//取消
-            {
-                MLog.Print($"已取消生成{fileName}文件.", MLogType.Warning);
-                GUIUtility.ExitGUI();
-                return;
-            }
+            filePath = MEditorUtility.DisplayGenerateFileDialog(filePath, fileName);
+            if (filePath == null) return;
 
+            string code = GetBaseCode(className, baseClassName);
+            if (code == null) return;
+
+            MPathUtility.SaveFile(filePath, code);
+            AssetDatabase.Refresh();
+
+            MLog.Print($"已成功生成{fileName}文件");
+        }
+
+        private string GetBaseCode(string className, string baseClassName)
+        {
             string code = UIBASECODE;
 
-            code = code.Replace("{ClassName}", $"{className}Base");
+            code = code.Replace("{ClassName}", className);
             code = code.Replace("{BaseClassName}", baseClassName);
 
             string fieldsDefine, bindComps, bindEvents, unbindEvents, unbindComps;
-            bool flag = GenerateAllBaseCode(out fieldsDefine, out bindComps, out bindEvents, out unbindEvents, out unbindComps);
-            if (!flag) return;
+            bool flag = GenerateAllBaseCodePart(out fieldsDefine, out bindComps, out bindEvents, out unbindEvents, out unbindComps);
+            if (!flag) return null;
 
             code = code.Replace("{FieldsDefine}", fieldsDefine);
             code = code.Replace("{BindComps}", bindComps);
@@ -109,25 +172,10 @@ namespace MFramework
             code = code.Replace("{UnbindEvents}", unbindEvents);
             code = code.Replace("{UnbindComps}", unbindComps);
 
-            
-            if (state == 0)//确认
-            {
-                MPathUtility.SaveFile(filePath, code);
-            }
-            else//更改路径
-            {
-                filePath = MEditorUtitlity.ChangePath();
-                filePath = Path.Combine(filePath, fileName);
-                MPathUtility.SaveFile(filePath, code);
-                GUIUtility.ExitGUI();
-            }
-
-            AssetDatabase.Refresh();
-
-            MLog.Print($"已成功生成{fileName}文件");
+            return code;
         }
 
-        private bool GenerateAllBaseCode(out string fieldsDefine, out string bindComps, out string bindEvents, out string unbindEvents, out string unbindComps)
+        private bool GenerateAllBaseCodePart(out string fieldsDefine, out string bindComps, out string bindEvents, out string unbindEvents, out string unbindComps)
         {
             UIViewBehaviour behaviour = (UIViewBehaviour)target;
             HashSet<string> targetSet = new HashSet<string>();
@@ -316,42 +364,31 @@ namespace MFramework
             string fileName = $"{className}.cs";
 
             string filePath = Path.Combine(Path.GetDirectoryName(fullPrefabPath), fileName);
-            int state = EditorUtility.DisplayDialogComplex("Generating",
-                    $"确定文件将生成在{filePath}处吗？", "确认", "取消", "更改路径");
-            if (state == 1)//取消
-            {
-                MLog.Print($"已取消生成{fileName}文件.", MLogType.Warning);
-                GUIUtility.ExitGUI();
-                return;
-            }
+            filePath = MEditorUtility.DisplayGenerateFileDialog(filePath, fileName);
+            if (filePath == null) return;
 
             if (File.Exists(filePath))
             {
                 MLog.Print($"{fileName}已存在，如需重新创建，请删除后再试", MLogType.Warning);
-                GUIUtility.ExitGUI();
                 return;
             }
 
+            string code = GetMainCode(className);
+
+            MPathUtility.SaveFile(filePath, code);
+            AssetDatabase.Refresh();
+
+            MLog.Print($"已成功生成{fileName}文件");
+        }
+        private string GetMainCode(string className)
+        {
             string code = UIMAINCODE;
 
             code = code.Replace("{ClassName}", className);
             code = code.Replace("{BaseClassName}", $"{className}Base");
             code = code.Replace("{PanelUniqueFunction}", target is UIPanelBehaviour ? PANELUNIQUEFUNCTION : "");
 
-            if (state == 0)//确认
-            {
-                MPathUtility.SaveFile(filePath, code);
-            }
-            else//更改路径
-            {
-                filePath = MEditorUtitlity.ChangePath();
-                filePath = Path.Combine(filePath, fileName);
-                MPathUtility.SaveFile(filePath, code);
-            }
-
-            AssetDatabase.Refresh();
-
-            MLog.Print($"已成功生成{fileName}文件");
+            return code;
         }
 
         private const string UIBASECODE =

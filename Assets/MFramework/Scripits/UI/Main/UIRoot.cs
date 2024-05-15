@@ -183,6 +183,8 @@ namespace MFramework
 
         private void MaintainTopPanel_Create<T>(T panel, int order) where T : UIPanel
         {
+            if (panel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled) return;
+
             if (topPanel == null || order >= topOrder)
             {
                 topPanel = panel;
@@ -192,6 +194,8 @@ namespace MFramework
         }
         private void MaintainTopPanel_Destroy<T>(T panel) where T : UIPanel
         {
+            if (panel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled) return;
+
             panel.SetFocus(false);
             if (panel.sortingOrder == topOrder)
             {
@@ -201,6 +205,8 @@ namespace MFramework
         }
         private void MaintainTopPanel_Visible<T>(T panel, bool visible, bool pinToTop) where T : UIPanel
         {
+            if (panel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled) return;
+
             if (visible && pinToTop)//启用Panel且强制置顶
             {
                 MaintainTopPanel_Open(panel, pinToTop);
@@ -212,6 +218,8 @@ namespace MFramework
         }
         private void MaintainTopPanel_Open<T>(T panel, bool pinToTop) where T : UIPanel
         {
+            if (panel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled) return;
+
             int order = topOrder + topPanel.panelBehaviour.thickness;
             if (pinToTop)
             {
@@ -233,6 +241,8 @@ namespace MFramework
         }
         private void MaintainTopPanel_Close<T>(T panel) where T : UIPanel
         {
+            if (panel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled) return;
+
             panel.SetFocus(false);
             topPanel = UIPanelUtility.FilterTopestPanel(this, (panel) =>
             { return panel != topPanel && panel.sortingOrder <= topOrder; });

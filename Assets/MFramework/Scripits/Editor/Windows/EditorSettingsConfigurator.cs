@@ -97,17 +97,43 @@ namespace MFramework
 
         private void DrawResetBtn()
         {
-            if (GUILayout.Button("重置"))
+            if (GUILayout.Button("重置为默认设置"))
             {
                 //TODO:应该重新创建，而非更改内容，当文件被删除或内容被手动更改时就会出现问题
-                MPathUtility.CreateFolderIfNotExist(defaultExcelGenerationPath);
-                MPathUtility.CreateFolderIfNotExist(defaultExcelCSGenerationPath);
-                MPathUtility.CreateFolderIfNotExist(defaultExcelBINGenerationPath);
-                ResetPath("excelGenerationPath", defaultExcelGenerationPath);
-                ResetPath("excelCSGenerationPath", defaultExcelCSGenerationPath);
-                ResetPath("excelBINGenerationPath", defaultExcelBINGenerationPath);
+                //MPathUtility.CreateFolderIfNotExist(defaultExcelGenerationPath);
+                //MPathUtility.CreateFolderIfNotExist(defaultExcelCSGenerationPath);
+                //MPathUtility.CreateFolderIfNotExist(defaultExcelBINGenerationPath);
+                //ResetPath("excelGenerationPath", defaultExcelGenerationPath);
+                //ResetPath("excelCSGenerationPath", defaultExcelCSGenerationPath);
+                //ResetPath("excelBINGenerationPath", defaultExcelBINGenerationPath);
+
+                RebuildAllEditorSettings();
+
                 AssetDatabase.Refresh();
             }
+        }
+        private void RebuildAllEditorSettings()
+        {
+            string editorSettingsFilePath = GetEditorSettingsFilePath();//获取EditorSettings路径
+
+            string code = EDITORSETTINGSCODE;
+
+            string settings = GenerateSettings();
+            code = code.Replace("{Settings}", settings);
+
+            if (editorSettingsFilePath != null)
+            {
+
+            }
+            else
+            {
+                //找个地方构建
+            }
+        }
+
+        private string GenerateSettings()
+        {
+            return null;
         }
 
         private void DrawCheckCSBtn()
@@ -255,5 +281,14 @@ namespace MFramework
             }
             return null;
         }
+
+        private const string EDITORSETTINGSCODE =
+    @"namespace MFramework;
+
+public static class EditorSettings
+{
+    {Settings}
+}";
+        private const string SETTINGSBASECODE = "public const string {ConstantName} = @\"{Path}\"";
     }
 }

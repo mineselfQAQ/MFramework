@@ -14,7 +14,7 @@ public class Test_UIFramework : MonoBehaviour
         //TestPanel panel = root.CreatePanel<TestPanel>(@"Assets\MFramework_Demo\UITest\TestPanel.prefab");
 
         EmptyPanel panel1 = bottomRoot.CreatePanel<EmptyPanel>("Background", @"Assets\MFramework_Demo\UITest\Canvas.prefab");
-        EmptyPanel panel2 = topRoot.CreatePanel<EmptyPanel>("Bag1", @"Assets\MFrameork_Demo\UITest\Canvas_1.prefab");
+        EmptyPanel panel2 = topRoot.CreatePanel<EmptyPanel>("Bag1", @"Assets\MFramework_Demo\UITest\Canvas_1.prefab");
         EmptyPanel panel3 = topRoot.CreatePanel<EmptyPanel>("Bag2", @"Assets\MFramework_Demo\UITest\Canvas_2.prefab");
         EmptyPanel panel4 = topRoot.CreatePanel<EmptyPanel>("Bag3", @"Assets\MFramework_Demo\UITest\Canvas_3.prefab");
     }

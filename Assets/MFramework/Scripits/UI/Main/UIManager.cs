@@ -70,7 +70,9 @@ namespace MFramework
             current.RaycastAll(eventData, results);
 
             UIPanel newTopPanel = GetTopItemCanvas(results);
-            if (newTopPanel == null || newTopPanel == newTopPanel.parentRoot.topPanel)//当前Panel就是最上层Panel
+            //没有获取/当前Panel就是最上层Panel/不参与Focus检测
+            if (newTopPanel == null || newTopPanel == newTopPanel.parentRoot.topPanel 
+                || newTopPanel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled)
             {
                 return;
             }

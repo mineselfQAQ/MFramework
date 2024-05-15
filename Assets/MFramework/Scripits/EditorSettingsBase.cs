@@ -13,13 +13,13 @@ namespace MFramework
         }
 
         public static string defaultExcelGenerationPath = 
-            @$"{Path.GetDirectoryName(Application.dataPath)}\ExcelData".Replace("/","\\");
+            @$"{Path.GetDirectoryName(Application.dataPath)}/ExcelData".Replace("\\","/");
 
         public static string defaultExcelCSGenerationPath =
-            @$"{Application.dataPath}\TableCS".Replace("/", "\\");
+            @$"{Application.dataPath}/TableCS".Replace("\\", "/");
 
         public static string defaultExcelBINGenerationPath =
-            @$"{Application.streamingAssetsPath}\ExcelBIN".Replace("/", "\\");
+            @$"{Application.streamingAssetsPath}/ExcelBIN".Replace("\\", "/");
 
         public static string GetPathName(PathName name)
         {

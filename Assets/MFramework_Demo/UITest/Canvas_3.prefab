@@ -168,9 +168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   compCollections: []
-  thinkness: 10
-  getFocusMode: 1
-  animSwitch: 1
+  thickness: 10
+  focusMode: 0
+  animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0
 --- !u!1 &8130654556444914350
