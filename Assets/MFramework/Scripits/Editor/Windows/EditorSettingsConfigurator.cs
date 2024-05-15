@@ -40,6 +40,14 @@ namespace MFramework
 
             EditorGUILayout.Space(10);
 
+            //==========UIPanel==========
+            //MGUIUtility.DrawH2("UIPanel部分");
+            //scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
+            //{
+            //    //...
+            //}
+            //EditorGUILayout.EndScrollView();
+
             //==========Json==========
             //应该不需要
             //MGUIUtility.DrawH2("Json部分");

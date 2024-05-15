@@ -60,7 +60,14 @@ MonoBehaviour:
   - target: {fileID: 7105845002189925438}
     compList:
     - {fileID: 2428793544254756193}
-  thinkness: 10
+    - {fileID: 965889593867997472}
+    - {fileID: 5923545306239683958}
+    - {fileID: 4670804032831388799}
+  - target: {fileID: 539884690272092921}
+    compList:
+    - {fileID: 1869323519868161033}
+  thickness: 10
+  getFocusMode: 1
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0

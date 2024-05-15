@@ -32,7 +32,7 @@ namespace MFramework
         internal UIPanel panel;//归属Panel
 
         //必须>=1
-        public int thinkness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
+        public int thickness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
 
         public UIPanelGetFocusMode getFocusMode = UIPanelGetFocusMode.Get;
 

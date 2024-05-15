@@ -32,33 +32,33 @@ namespace MFramework
             PlayOpenAnim();
         }
 
-        internal void Open(Action onFinish = null)
+        internal bool Open(Action onFinish = null)
         {
             if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled) 
             {
-                PlayOpenAnim(() =>
+                return PlayOpenAnim(() =>
                 {
                     onFinish?.Invoke();
                 });
             }
             else
             {
-                SetVisible(true);
+                return SetVisible(true);
             }
         }
 
-        internal void Close(Action onFinish = null)
+        internal bool Close(Action onFinish = null)
         {
             if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled)
             {
-                PlayCloseAnim(() =>
+                return PlayCloseAnim(() =>
                 {
                     onFinish?.Invoke();
                 });
             }
             else
             {
-                SetVisible(false);
+                return SetVisible(false);
             }
         }
 
@@ -76,10 +76,10 @@ namespace MFramework
             canvas.sortingOrder = order;//更改所属Canvas的sortingOrder
         }
 
-        internal void SetVisible(bool visible)
+        internal bool SetVisible(bool visible)
         {
-            if (showState == UIPanelShowState.On && visible) { return; }
-            if (showState == UIPanelShowState.Off && !visible) { return; }
+            if (showState == UIPanelShowState.On && visible) { return false; }
+            if (showState == UIPanelShowState.Off && !visible) { return false; }
 
             if (canvasGroup == null)
             {
@@ -92,6 +92,8 @@ namespace MFramework
             showState = visible ? UIPanelShowState.On : UIPanelShowState.Off;
 
             OnVisibleChanged(visible);
+
+            return true;
         }
 
         internal void SetFocus(bool focus)
@@ -99,15 +101,15 @@ namespace MFramework
             OnFocusChanged(focus);
         }
 
-        protected virtual void PlayOpenAnim(Action onFinish = null)
+        protected virtual bool PlayOpenAnim(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return;
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return false;
 
             if (panelBehaviour.openAnimMode == UIPanelOpenAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经打开的也无需再次执行)
                 if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Opened)
-                    return;
+                    return false;
 
                 animState = UIPanelAnimState.Opening;
                 panelBehaviour.PlayOpenAnim(() => { animState = UIPanelAnimState.Opened; onFinish?.Invoke(); });
@@ -117,16 +119,17 @@ namespace MFramework
                 MLog.Print($"UI：如果想使用SelfControl模式，请重写PlayOpenAnim()---{panelID}", MLogType.Warning);
                 onFinish?.Invoke();
             }
+            return true;
         }
-        protected virtual void PlayCloseAnim(Action onFinish = null)
+        protected virtual bool PlayCloseAnim(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return;
+            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return false;
 
             if (panelBehaviour.closeAnimMode == UIPanelCloseAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经关闭的也无需再次执行)
                 if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Closed)
-                    return;
+                    return false;
 
                 animState = UIPanelAnimState.Closing;
                 panelBehaviour.PlayCloseAnim(() => { animState = UIPanelAnimState.Closed; onFinish?.Invoke(); });
@@ -136,6 +139,7 @@ namespace MFramework
                 MLog.Print($"UI：如果想使用SelfControl模式，请重写PlayCloseAnim()---{panelID}", MLogType.Warning);
                 onFinish?.Invoke();
             }
+            return true;
         }
 
         #region 自身操作

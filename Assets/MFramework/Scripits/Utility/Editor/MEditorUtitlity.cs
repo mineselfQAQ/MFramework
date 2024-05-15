@@ -1,41 +1,44 @@
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-internal static class MEditorUtitlity
+namespace MFramework
 {
-    internal static Texture GetIcon(Type type)
+    internal static class MEditorUtitlity
     {
-        Texture systemIcon = EditorGUIUtility.ObjectContent(null, type).image;
-        Texture customIcon = null;
-        Texture csScriptIcon = EditorGUIUtility.IconContent("cs Script Icon").image;
+        internal static Texture GetIcon(Type type)
+        {
+            Texture systemIcon = EditorGUIUtility.ObjectContent(null, type).image;
+            Texture customIcon = null;
+            Texture csScriptIcon = EditorGUIUtility.IconContent("cs Script Icon").image;
 
-        if (type == typeof(TMPro.TMP_InputField))
-        {
-            customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Input Field Icon.psd");
-        }
-        else if (type == typeof(TMPro.TMP_Dropdown))
-        {
-            customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Dropdown Icon.psd");
-        }
-        else if (type == typeof(TMPro.TextMeshProUGUI))
-        {
-            customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd");
-        }
-        //...
+            if (type == typeof(TMPro.TMP_InputField))
+            {
+                customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Input Field Icon.psd");
+            }
+            else if (type == typeof(TMPro.TMP_Dropdown))
+            {
+                customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Dropdown Icon.psd");
+            }
+            else if (type == typeof(TMPro.TextMeshProUGUI))
+            {
+                customIcon = (Texture2D)EditorGUIUtility.Load("Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd");
+            }
 
-        return systemIcon ?? customIcon ?? csScriptIcon;
-    }
+            return systemIcon ?? customIcon ?? csScriptIcon;
+        }
 
-    /// <summary>
-    /// 深度优先遍历
-    /// </summary>
-    internal static void DFS(GameObject go, Action<GameObject> onDeal)
-    {
-        onDeal(go);
-        foreach (Transform child in go.transform)
+        internal static string ChangePath()
         {
-            DFS(child.gameObject, onDeal);
+            string guideFolder = Path.GetDirectoryName(Application.dataPath);
+            string newPath = EditorUtility.OpenFolderPanel("请选择路径", guideFolder, "");
+
+            if (newPath == "")
+            {
+                return null;
+            }
+            return newPath;
         }
     }
 }

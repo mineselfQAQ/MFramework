@@ -243,14 +243,15 @@ namespace MFramework
             code = code.Replace("{BINPath}", BINPath);
 
             //写入文件
-            using (FileStream fileStream = new FileStream(CSPath, FileMode.Create, FileAccess.Write))
-            {
-                //注意：指定了UTF8格式(用Excel打开.csv文件时可以正常显示，不指定会变成乱码)
-                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                {
-                    textWriter.Write(code);
-                }
-            }
+            MPathUtility.SaveFile(CSPath, code);
+            //using (FileStream fileStream = new FileStream(CSPath, FileMode.Create, FileAccess.Write))
+            //{
+            //    //注意：指定了UTF8格式(用Excel打开.csv文件时可以正常显示，不指定会变成乱码)
+            //    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+            //    {
+            //        textWriter.Write(code);
+            //    }
+            //}
 
             return true;
         }

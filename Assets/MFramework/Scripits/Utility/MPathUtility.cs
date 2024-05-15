@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace MFramework
 {
@@ -107,6 +108,28 @@ namespace MFramework
             }
 
             return name;
+        }
+
+        public static void SaveFile(string filePath, string code)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    textWriter.Write(code);
+                }
+            }
+        }
+
+        public static string ReadFile(string filePath)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (TextReader textReader = new StreamReader(fileStream, Encoding.UTF8))
+                {
+                    return textReader.ReadToEnd();
+                }
+            }
         }
     }
 }

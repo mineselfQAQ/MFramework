@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -63,15 +62,6 @@ namespace MFramework
             return uiRoot;
         }
 
-        internal void SetFocus(UIPanel newTopPanel)
-        {
-            UIPanel topPanel = newTopPanel.parentRoot.topPanel;
-            topPanel.SetFocus(false);
-            newTopPanel.SetFocus(true);
-            newTopPanel.SetSortingOrder(topPanel.sortingOrder + topPanel.panelBehaviour.thinkness);
-            newTopPanel.parentRoot.topPanel = newTopPanel;
-        }
-
         private void ClickDetect()
         {
             PointerEventData eventData = new PointerEventData(current);
@@ -111,6 +101,19 @@ namespace MFramework
             }
 
             return null;
+        }
+        private void SetFocus(UIPanel newTopPanel)
+        {
+            UIRoot root = newTopPanel.parentRoot;//ËùÔÚRoot
+            UIPanel topPanel = root.topPanel;//Ô­TopPanel
+            topPanel.SetFocus(false);
+            newTopPanel.SetFocus(true);
+
+            int order = topPanel.sortingOrder + topPanel.panelBehaviour.thickness;
+            newTopPanel.SetSortingOrder(order);
+            if (order > root.endOrder) UIPanelUtility.ResetOrder(root);
+
+            newTopPanel.parentRoot.topPanel = newTopPanel;
         }
     }
 }

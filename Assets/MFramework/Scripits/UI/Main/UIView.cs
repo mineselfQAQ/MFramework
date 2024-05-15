@@ -26,7 +26,8 @@ namespace MFramework
 
         protected void Create(string id, Transform parent, string prefabPath)
         {
-            InstantiateAndCollectFields(id, parent, prefabPath);
+            bool flag = InstantiateAndCollectFields(id, parent, prefabPath);
+            if (!flag) return;
 
             CreatingInternal();//内部创建
             OnBindCompsAndEvents();//绑定(由Base类完成)
@@ -46,7 +47,7 @@ namespace MFramework
             OnDestroyed();//删除后事件
         }
 
-        private void InstantiateAndCollectFields(string id, Transform parent, string prefabPath)
+        private bool InstantiateAndCollectFields(string id, Transform parent, string prefabPath)
         {
             //信息收集
             viewID = id;
@@ -58,7 +59,7 @@ namespace MFramework
             prefabPath = prefabPath.Replace('\\', '/');
             prefabPath = DealEditorPath(prefabPath);
             GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning);
+            if (prefab == null) { MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning); return false; }
 #else
             GameObject prefab = LoadPrefab(prefabPath);
             if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
@@ -66,12 +67,14 @@ namespace MFramework
             GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
             //检测
             UIViewBehaviour behaviour = go.GetComponent<UIViewBehaviour>();
-            if (behaviour == null) MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning);
+            if (behaviour == null) { MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning); return false; }
 
             //信息收集
             viewBehaviour = behaviour;
             trans = viewBehaviour.gameObject.GetComponent<RectTransform>();
             gameObject = viewBehaviour.gameObject;
+
+            return true;
         }
         /// <summary>
         /// 支持2种输入：完整路径/基于Assets的路径

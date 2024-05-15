@@ -27,8 +27,9 @@ namespace MFramework
         }
 
         #region Panel基础操作
-        //TODO:ID用路径中的文件名可能更好
-        //TODO:目前Focus逻辑混乱，而且需要调用panel.SetFocus()，需要封装函数
+        //Tip：
+        //无id函数为便捷用法，此时id为T类型的名称
+        //关键：这意味着此类函数一种T只能控制一个Panel，如有多个同类型Panel，请提供各自id
         public T CreatePanel<T>(string id, string prefabPath, int order) where T : UIPanel
         {
             if (panelDic.ContainsKey(id))
@@ -53,17 +54,18 @@ namespace MFramework
             panel.SetSortingOrder(order);//设置排序(Canvas之间的排序)
             panelDic.Add(panel.panelID, panel);//加入Panel字典
 
-            //维护topPanel
-            if (topPanel == null || order >= topOrder)
-            {
-                topPanel = panel;
-            }
+            MaintainTopPanel_Create(panel, order);
 
             return panel;
         }
         public T CreatePanel<T>(string id, string prefabPath) where T : UIPanel
         {
             int order = GetNextOrder();
+            if (order > endOrder)
+            {
+                UIPanelUtility.ResetOrder(this);
+            }
+
             return CreatePanel<T>(id, prefabPath, order);
         }
         public T CreatePanel<T>(string prefabPath, int order) where T : UIPanel
@@ -72,8 +74,7 @@ namespace MFramework
         }
         public T CreatePanel<T>(string prefabPath) where T : UIPanel
         {
-            int order = GetNextOrder();
-            return CreatePanel<T>(typeof(T).Name, prefabPath, order);
+            return CreatePanel<T>(typeof(T).Name, prefabPath);
         }
 
         public bool DestroyPanel(string id)
@@ -86,11 +87,7 @@ namespace MFramework
 
             UIPanel panel = panelDic[id];
             panelDic.Remove(id);
-            //维护topPanel
-            if (panel.sortingOrder == topOrder)
-            {
-                topPanel = FilterTopestPanel();
-            }
+            MaintainTopPanel_Destroy(panel);
             panel.Destroy();
 
             return true;
@@ -133,18 +130,8 @@ namespace MFramework
             }
 
             UIPanel panel = panelDic[id];
-            //维护topPanel
-            if (visible && pinToTop && panel.sortingOrder <= topOrder)//启用Panel且强制置顶
-            {
-                panel.SetSortingOrder(topOrder + topPanel.panelBehaviour.thinkness);
-                topPanel = panel;
-            }
-            else if (!visible)
-            {
-                topPanel = FilterTopestPanel((panel) =>
-                { return panel != topPanel && panel.sortingOrder <= topOrder; });
-            }
-            panel.SetVisible(visible);
+            bool flag = panel.SetVisible(visible);
+            if(flag) MaintainTopPanel_Visible(panel, visible, pinToTop);
         }
         public void SetPanelVisible<T>(bool visible, bool pinToTop = false)
         {
@@ -160,15 +147,20 @@ namespace MFramework
             }
 
             UIPanel panel = panelDic[id];
-            if (panel.showState == UIPanelShowState.On) return;//已经打开
-            //维护topPanel
-            if (pinToTop && panel.sortingOrder <= topOrder) panel.SetSortingOrder(topOrder + topPanel.panelBehaviour.thinkness);
-            topPanel = panel;
-            panel.Open(onFinish);
+            bool flag = panel.Open(onFinish);
+            if (flag) MaintainTopPanel_Open(panel, pinToTop);
+        }
+        public void OpenPanel(string id, bool pinToTop = false)
+        {
+            OpenPanel(id, null, pinToTop);
         }
         public void OpenPanel<T>(Action onFinish = null, bool pinToTop = false)
         {
             OpenPanel(typeof(T).Name, onFinish);
+        }
+        public void OpenPanel<T>(bool pinToTop = false)
+        {
+            OpenPanel(typeof(T).Name, pinToTop);
         }
 
         public void ClosePanel(string id, Action onFinish = null)
@@ -181,60 +173,79 @@ namespace MFramework
 
             UIPanel panel = panelDic[id];
             if (panel.showState == UIPanelShowState.Off) return;//已经关闭
-            //维护topPanel
-            topPanel = FilterTopestPanel((panel) =>
-                { return panel != topPanel && panel.sortingOrder <= topOrder; });
-            panel.Close(onFinish);
+            bool flag = panel.Close(onFinish);
+            if(flag) MaintainTopPanel_Close(panel);
         }
         public void ClosePanel<T>(Action onFinish = null)
         {
             ClosePanel(typeof(T).Name, onFinish);
         }
 
-
-        private int GetNextOrder()
+        private void MaintainTopPanel_Create<T>(T panel, int order) where T : UIPanel
         {
-            UIPanel topPanel = null;
-            foreach (var panel in panelDic.Values)
+            if (topPanel == null || order >= topOrder)
             {
-                if (topPanel == null || panel.canvas.sortingOrder > topPanel.canvas.sortingOrder)
+                topPanel = panel;
+            }
+            //创建时有Create回调，不需要Focus回调
+            //topPanel.SetFocus(true);
+        }
+        private void MaintainTopPanel_Destroy<T>(T panel) where T : UIPanel
+        {
+            panel.SetFocus(false);
+            if (panel.sortingOrder == topOrder)
+            {
+                topPanel = UIPanelUtility.FilterTopestPanel(this);
+            }
+            topPanel.SetFocus(true);
+        }
+        private void MaintainTopPanel_Visible<T>(T panel, bool visible, bool pinToTop) where T : UIPanel
+        {
+            if (visible && pinToTop)//启用Panel且强制置顶
+            {
+                MaintainTopPanel_Open(panel, pinToTop);
+            }
+            else if (!visible)//禁用Panel
+            {
+                MaintainTopPanel_Close(panel);
+            }
+        }
+        private void MaintainTopPanel_Open<T>(T panel, bool pinToTop) where T : UIPanel
+        {
+            int order = topOrder + topPanel.panelBehaviour.thickness;
+            if (pinToTop)
+            {
+                panel.SetSortingOrder(order);
+                if (order > endOrder) UIPanelUtility.ResetOrder(this);
+
+                topPanel.SetFocus(false);
+                panel.SetFocus(true);
+
+                topPanel = panel;
+            }
+            else
+            {
+                if (panel.sortingOrder >= topOrder)
                 {
                     topPanel = panel;
                 }
             }
+        }
+        private void MaintainTopPanel_Close<T>(T panel) where T : UIPanel
+        {
+            panel.SetFocus(false);
+            topPanel = UIPanelUtility.FilterTopestPanel(this, (panel) =>
+            { return panel != topPanel && panel.sortingOrder <= topOrder; });
+            topPanel.SetFocus(true);
+        }
 
+        private int GetNextOrder()
+        {
             //1.panelDic为空，得0(startOrder)
             //2.panelDic不为空，得topPanel+厚度
-            return topPanel == null ? startOrder : topPanel.canvas.sortingOrder + topPanel.panelBehaviour.thinkness;
+            return topPanel == null ? startOrder :
+                topPanel.canvas.sortingOrder + topPanel.panelBehaviour.thickness;
+            #endregion
         }
-
-        /// <summary>
-        /// 筛选Panel，如果不筛选就会获取所有的Panel
-        /// </summary>
-        private List<UIPanel> FilterPanels(Func<UIPanel, bool> filterFunc = null)
-        {
-            List<UIPanel> panels = new List<UIPanel>();
-
-            foreach (KeyValuePair<string, UIPanel> kvPair in panelDic)
-            {
-                if (filterFunc == null || filterFunc(kvPair.Value))
-                {
-                    panels.Add(kvPair.Value);
-                }
-            }
-            return panels;
-        }
-        /// <summary>
-        /// 筛选Panel并获取最上层Panel
-        /// </summary>
-        private UIPanel FilterTopestPanel(Func<UIPanel, bool> filterFunc = null)
-        {
-            List<UIPanel> panels = FilterPanels(filterFunc);
-
-            panels.Sort((a, b) => { return a.canvas.sortingOrder - b.canvas.sortingOrder; });
-
-            return panels.Count > 0 ? panels[panels.Count - 1] : null;
-        }
-        #endregion
     }
 }

@@ -12,7 +12,7 @@ namespace MFramework
         [SerializeField]
         private List<UICompCollection> compCollections;
 
-        protected List<UICompCollection> CompCollections { get { return compCollections; } }
+        public List<UICompCollection> CompCollections { get { return compCollections; } }
 
 #if UNITY_EDITOR
         private void Awake()

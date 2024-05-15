@@ -1,28 +1,23 @@
-using MFramework;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class TestPanel : TestPanelBase
 {
-    protected override void OnCreating()
+    public void Init()
     {
-        MLog.Print("OnCreating");
+        
     }
 
-    protected override void OnCreated()
-    {
-        MLog.Print("OnCreated");
-    }
+    protected override void OnClicked(Button button) { }
 
-    protected override void OnClicked(Button button)
-    {
-        if (button == m_Button1_Button)
-        {
-            MLog.Print("Button1");
-        }
-        else if (button == m_Button2_Button)
-        {
-            MLog.Print("Button2");
-            DestroySelf();
-        }
-    }
+    protected override void OnCreating() { }
+
+    protected override void OnCreated() { }
+
+    protected override void OnDestroying() { }
+
+    protected override void OnDestroyed() { }
+    
+    protected override void OnVisibleChanged(bool visible) { }
+    
+    protected override void OnFocusChanged(bool focus) { }
 }
