@@ -66,7 +66,7 @@ namespace MFramework
                 if (checkAnimator == null)
                 {
                     bool state = EditorUtility.DisplayDialog("提示",
-                    "启用动画功能需要Animator的支持，是否需要创建", "仅Animator", "全部");
+                    "启用动画功能需要Animator的支持，是否需要创建", "仅Animator", "不启用动画");
                     if (!state)//取消
                     {
                         animSwitchSP.enumValueIndex = 0;

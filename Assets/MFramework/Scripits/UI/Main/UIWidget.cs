@@ -2,18 +2,30 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class UIWidget : MonoBehaviour
+    public class UIWidget : UIView
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        protected string widgetID { get { return viewID; } }
 
+        protected UIView parentView;
+
+        public UIWidgetBehaviour widgetBehaviour { get { return (UIWidgetBehaviour)viewBehaviour; } }
+
+        protected internal void Create(string id, Transform parentTrans, string prefabPath, UIView parent)
+        {
+            parentView = parent;
+            base.Create(id, parentTrans, prefabPath);
         }
 
-        // Update is called once per frame
-        void Update()
+        protected void DestroySelf()
         {
+            
+        }
 
+        protected internal override void DestroyingInternal()
+        {
+            parentView = null;
+
+            base.DestroyingInternal();
         }
     }
 }

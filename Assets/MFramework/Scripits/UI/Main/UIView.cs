@@ -128,7 +128,7 @@ namespace MFramework
             //if (viewBehaviour != parentBehaviour) MLog.Print("UI：parent并非根物体");
 
             T widget = Activator.CreateInstance<T>() as T;
-            //widget.Create();
+            widget.Create(id, parent, prefabPath, this);
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
@@ -136,21 +136,67 @@ namespace MFramework
         }
         protected bool DestroyWidget(string id)
         {
+            if (widgetDic == null) 
+            {
+                MLog.Print($"UI：{viewID}下没有子Widget，删除失败，请检查", MLogType.Warning);
+                return false;
+            }
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：{viewID}下没有<{id}>，删除失败，请检查", MLogType.Warning);
+                return false;
+            } 
+
+
             UIWidget widget = widgetDic[id];
             widgetDic.Remove(id);
 
-            //widget.destroy();
+            widget.Destroy();
             return true;
         }
-        protected UIWidget GetWidget(string id)
+        protected void DestroyWidget<T>() where T : UIWidget
         {
-            if (widgetDic == null) return null;
-            return widgetDic[id];
+            DestroyWidget(typeof(T).Name);
+        }
+        protected void DestroyAllWidgets()
+        {
+            if (widgetDic == null || widgetDic.Count <= 0) { return; }
+
+            //删除一级内容(由于每一个Widget的Destroy()都会把自身删除所以不需要再去管子物体了)
+            foreach (var id in widgetDic.Keys)
+            {
+                DestroyWidget(id);
+            }
+
+            widgetDic = null;
+        }
+        protected T GetWidget<T>(string id) where T : UIWidget
+        {
+            if (widgetDic == null)
+            {
+                MLog.Print($"UI：{viewID}下没有子Widget，获取失败，请检查", MLogType.Warning);
+                return null;
+            }
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：{viewID}下没有<{id}>，获取失败，请检查", MLogType.Warning);
+                return null;
+            }
+
+            return (T)widgetDic[id];
+        }
+        protected T GetWidget<T>() where T : UIWidget
+        {
+            return GetWidget<T>(typeof(T).Name);
         }
         protected bool ExistWidget(string id)
         {
-            if (widgetDic == null) return false;
-            return widgetDic.ContainsKey(id);
+            if (widgetDic == null || !widgetDic.ContainsKey(id)) 
+            {
+                return false;
+            }
+
+            return true;
         }
         #endregion
 
