@@ -5,68 +5,80 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public static class CreateUIAnimatorController
+    internal static class CreateUIAnimatorController
     {
         [MenuItem("Assets/MCreate/UIAnimatorController", false, priority = 9, secondaryPriority = 1.0f)]
-        public static void Create()
+        internal static void Create()
         {
             if (CheckAvailability())
             {
                 var objName = Selection.objects[0].name;
 
-                //创建.controller文件
                 var guids = Selection.assetGUIDs;
                 string directoryPath = Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(guids[0]));
                 string acPath = Path.Combine(directoryPath, $"{objName}.controller");
                 string openClipPath = Path.Combine(directoryPath, $"{objName}_Open.anim");
                 string closeClipPath = Path.Combine(directoryPath, $"{objName}_Close.anim");
-                if (File.Exists(acPath) || File.Exists(openClipPath) || File.Exists(closeClipPath))
-                {
-                    MLog.Print($"{objName}中已存在.controller或.anim文件，如需重新创建，请全部删除后再次点击", MLogType.Warning);
-                    return;
-                } 
 
-                var controller = AnimatorController.CreateAnimatorControllerAtPath(acPath);
-
-                //添加参数
-                controller.AddParameter("Open", AnimatorControllerParameterType.Trigger);
-                controller.AddParameter("Close", AnimatorControllerParameterType.Trigger);
-
-                //添加状态
-                var rootStateMachine = controller.layers[0].stateMachine;
-                var defaultState = rootStateMachine.AddState("DefaultState");
-                rootStateMachine.defaultState = defaultState;
-                var openState = rootStateMachine.AddState("OpenState");
-                var closeState = rootStateMachine.AddState("CloseState");
-
-                //添加Clip
-                AnimationClip openClip = new AnimationClip();
-                AnimationUtility.GetAnimationClipSettings(openClip).loopTime = false;
-                AssetDatabase.CreateAsset(openClip, openClipPath);
-                openState.motion = openClip;
-
-                AnimationClip closeClip = new AnimationClip();
-                AnimationUtility.GetAnimationClipSettings(closeClip).loopTime = false;
-                AssetDatabase.CreateAsset(closeClip, closeClipPath);
-                closeState.motion = closeClip;
-
-                //添加过渡
-                var defaultToOpen = defaultState.AddTransition(openState);
-                defaultToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
-                defaultToOpen.duration = 0;
-
-                var openToClose = openState.AddTransition(closeState);
-                openToClose.AddCondition(AnimatorConditionMode.If, 0, "Close");
-                openToClose.duration = 0;
-
-                var closeToOpen = closeState.AddTransition(openState);
-                closeToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
-                closeToOpen.duration = 0;
-
-                //保存文件
-                AssetDatabase.SaveAssets();
-                MLog.Print($"已生成{objName}.controller文件");
+                CreateAnimatorController(objName, acPath, openClipPath, closeClipPath);
             }
+        }
+
+        internal static AnimatorController CreateAnimatorController(string objName, string acPath, string openClipPath, string closeClipPath)
+        {
+            //创建.controller文件
+            if (File.Exists(acPath) || File.Exists(openClipPath) || File.Exists(closeClipPath))
+            {
+                bool state = EditorUtility.DisplayDialog("警告",
+                    $"{objName}路径下已存在.controller或.anim文件，是否需要覆盖所有文件重新创建", "覆盖", "取消");
+                if (!state) 
+                {
+                    MLog.Print("已取消生成", MLogType.Warning);
+                    return AssetDatabase.LoadAssetAtPath<AnimatorController>(acPath);
+                }
+            }
+
+            AnimatorController controller = AnimatorController.CreateAnimatorControllerAtPath(acPath);
+
+            //添加参数
+            controller.AddParameter("Open", AnimatorControllerParameterType.Trigger);
+            controller.AddParameter("Close", AnimatorControllerParameterType.Trigger);
+
+            //添加状态
+            var rootStateMachine = controller.layers[0].stateMachine;
+            var defaultState = rootStateMachine.AddState("DefaultState");
+            rootStateMachine.defaultState = defaultState;
+            var openState = rootStateMachine.AddState("OpenState");
+            var closeState = rootStateMachine.AddState("CloseState");
+
+            //添加Clip
+            AnimationClip openClip = new AnimationClip();
+            AnimationUtility.GetAnimationClipSettings(openClip).loopTime = false;
+            AssetDatabase.CreateAsset(openClip, openClipPath);
+            openState.motion = openClip;
+
+            AnimationClip closeClip = new AnimationClip();
+            AnimationUtility.GetAnimationClipSettings(closeClip).loopTime = false;
+            AssetDatabase.CreateAsset(closeClip, closeClipPath);
+            closeState.motion = closeClip;
+
+            //添加过渡
+            var defaultToOpen = defaultState.AddTransition(openState);
+            defaultToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
+            defaultToOpen.duration = 0;
+
+            var openToClose = openState.AddTransition(closeState);
+            openToClose.AddCondition(AnimatorConditionMode.If, 0, "Close");
+            openToClose.duration = 0;
+
+            var closeToOpen = closeState.AddTransition(openState);
+            closeToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
+            closeToOpen.duration = 0;
+
+            AssetDatabase.SaveAssets();
+            MLog.Print($"已生成{objName}.controller文件及其Clip文件");
+
+            return controller;
         }
 
         private static bool CheckAvailability()

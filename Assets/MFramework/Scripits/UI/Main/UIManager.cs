@@ -72,7 +72,7 @@ namespace MFramework
             UIPanel newTopPanel = GetTopItemCanvas(results);
             //没有获取/当前Panel就是最上层Panel/不参与Focus检测
             if (newTopPanel == null || newTopPanel == newTopPanel.parentRoot.topPanel 
-                || newTopPanel.panelBehaviour.focusMode == UIPanelFocusMode.Disabled)
+                || newTopPanel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled)
             {
                 return;
             }
@@ -111,7 +111,7 @@ namespace MFramework
             topPanel.SetFocus(false);
             newTopPanel.SetFocus(true);
 
-            int order = topPanel.sortingOrder + topPanel.panelBehaviour.thickness;
+            int order = topPanel.sortingOrder + topPanel.panelBehaviour.Thickness;
             newTopPanel.SetSortingOrder(order);
             if (order > root.endOrder) UIPanelUtility.ResetOrder(root);
 

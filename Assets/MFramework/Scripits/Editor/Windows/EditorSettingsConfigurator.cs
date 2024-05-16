@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using static MFramework.EditorSettingsBase;
@@ -30,11 +31,11 @@ namespace MFramework
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
                 DrawPathWidget("Excel表生成路径：", EditorSettings.excelGenerationPath,
-                    GetPathName(PathName.ExcelGenerationPath));
+                    GetPathName(EditorPathName.ExcelGenerationPath));
                 DrawPathWidget("Excel表CS文件生成路径：", EditorSettings.excelCSGenerationPath,
-                    GetPathName(PathName.ExcelCSGenerationPath));
+                    GetPathName(EditorPathName.ExcelCSGenerationPath));
                 DrawPathWidget("Excel表BIN文件生成路径：", EditorSettings.excelBINGenerationPath,
-                    GetPathName(PathName.ExcelBINGenerationPath));
+                    GetPathName(EditorPathName.ExcelBINGenerationPath));
             }
             EditorGUILayout.EndScrollView();
 
@@ -54,7 +55,7 @@ namespace MFramework
             //scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             //{
             //    DrawPathWidget("Json路径存储：", EditorSettings.excelGenerationPath,
-            //        GetPathName(PathName.ExcelGenerationPath));
+            //        GetPathName(EditorPathName.ExcelGenerationPath));
             //}
             //EditorGUILayout.EndScrollView();
 
@@ -99,14 +100,7 @@ namespace MFramework
         {
             if (GUILayout.Button("重置为默认设置"))
             {
-                //TODO:应该重新创建，而非更改内容，当文件被删除或内容被手动更改时就会出现问题
-                //MPathUtility.CreateFolderIfNotExist(defaultExcelGenerationPath);
-                //MPathUtility.CreateFolderIfNotExist(defaultExcelCSGenerationPath);
-                //MPathUtility.CreateFolderIfNotExist(defaultExcelBINGenerationPath);
-                //ResetPath("excelGenerationPath", defaultExcelGenerationPath);
-                //ResetPath("excelCSGenerationPath", defaultExcelCSGenerationPath);
-                //ResetPath("excelBINGenerationPath", defaultExcelBINGenerationPath);
-
+                EnsureFolderExist();
                 RebuildAllEditorSettings();
 
                 AssetDatabase.Refresh();
@@ -123,25 +117,53 @@ namespace MFramework
 
             if (editorSettingsFilePath != null)
             {
-
+                File.WriteAllText(editorSettingsFilePath, code);
             }
             else
             {
-                //找个地方构建
+                MLog.Print("未找到EditorSettings文件，现在请选择文件夹重新创建", MLogType.Warning);
+                string newDirectoryPath = MEditorUtility.ChangePath();
+                string newFilePath = Path.Combine(newDirectoryPath, "EditorSettings.cs");
+                File.WriteAllText(newFilePath, code);
+            }
+        }
+
+        private void EnsureFolderExist()
+        {
+            foreach (var pair in pathDic)
+            {
+                MPathUtility.CreateFolderIfNotExist(pair.Value);
             }
         }
 
         private string GenerateSettings()
         {
-            return null;
+            StringBuilder res = new StringBuilder();
+
+            foreach (var pair in pathDic)
+            {
+                string tempLine = SETTINGSBASECODE;
+                tempLine = tempLine.Replace("{ConstantName}", pair.Key);
+                tempLine = tempLine.Replace("{Path}", pair.Value);
+
+                res.Append(tempLine + "\n\t");
+            }
+            string resStr = res.ToString();
+            resStr = resStr.TrimEnd('\t', '\n');
+
+            return resStr;
         }
 
         private void DrawCheckCSBtn()
         {
             if (GUILayout.Button("查看EditorSettings脚本"))
             {
-                string fullPath = MPathUtility.GetFullPathBaseProjectRoot(@"Assets\MFramework\EditorSettings.cs");
-                UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(fullPath, 3);
+                string editorSettingsFilePath = GetEditorSettingsFilePath();
+                if (editorSettingsFilePath == null)
+                {
+                    MLog.Print("EditorSettings脚本不存在，请检查", MLogType.Warning);
+                }
+                UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(editorSettingsFilePath, 3);
             }
         }
 
@@ -283,12 +305,10 @@ namespace MFramework
         }
 
         private const string EDITORSETTINGSCODE =
-    @"namespace MFramework;
-
-public static class EditorSettings
+@"public static class EditorSettings
 {
     {Settings}
 }";
-        private const string SETTINGSBASECODE = "public const string {ConstantName} = @\"{Path}\"";
+        private const string SETTINGSBASECODE = "public const string {ConstantName} = @\"{Path}\";";
     }
 }

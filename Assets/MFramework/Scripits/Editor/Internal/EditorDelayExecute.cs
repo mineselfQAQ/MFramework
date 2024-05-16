@@ -13,6 +13,11 @@ namespace MFramework
             EditorCoroutineUtility.StartCoroutine(DelayRefreshCoroutine(), this);
         }
 
+        public void DelayDo(IEnumerator enumerator)
+        {
+            EditorCoroutineUtility.StartCoroutine(enumerator, this);
+        }
+
         private IEnumerator DelayRefreshCoroutine()
         {
             yield return new EditorWaitForSeconds(0.2f);

@@ -25,8 +25,8 @@ namespace MFramework
 
     public enum UIPanelAnimSwitch
     {
-        Disabled,
-        Enabled
+        Off,
+        On
     }
 
     public enum UIPanelOpenAnimMode

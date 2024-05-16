@@ -67,7 +67,7 @@ MonoBehaviour:
     compList:
     - {fileID: 1869323519868161033}
   thickness: 10
-  getFocusMode: 1
+  focusMode: 1
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0

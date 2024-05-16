@@ -8,13 +8,19 @@ namespace MFramework
         internal UIPanel panel;//归属Panel
 
         //必须>=1
-        public int thickness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
+        [SerializeField] private int thickness = 10;//Panel的厚度(该Panel与下一Panel之间的sortingOrder距离)
 
-        public UIPanelFocusMode focusMode = UIPanelFocusMode.Enabled;
+        [SerializeField] private UIPanelFocusMode focusMode = UIPanelFocusMode.Enabled;
 
-        public UIPanelAnimSwitch animSwitch = UIPanelAnimSwitch.Disabled;
-        public UIPanelOpenAnimMode openAnimMode = UIPanelOpenAnimMode.AutoPlay;
-        public UIPanelCloseAnimMode closeAnimMode = UIPanelCloseAnimMode.AutoPlay;
+        [SerializeField] private UIPanelAnimSwitch animSwitch = UIPanelAnimSwitch.Off;
+        [SerializeField] private UIPanelOpenAnimMode openAnimMode = UIPanelOpenAnimMode.AutoPlay;
+        [SerializeField] private UIPanelCloseAnimMode closeAnimMode = UIPanelCloseAnimMode.AutoPlay;
+
+        public int Thickness { get { return thickness; } }
+        public UIPanelFocusMode FocusMode { get { return focusMode; } }
+        public UIPanelAnimSwitch AnimSwitch { get { return animSwitch; } }
+        public UIPanelOpenAnimMode OpenAnimMode { get { return openAnimMode; } }
+        public UIPanelCloseAnimMode CloseAnimMode { get { return closeAnimMode; } }
 
         internal void PlayOpenAnim(Action onFinish)
         {

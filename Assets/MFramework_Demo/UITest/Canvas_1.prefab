@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   compCollections: []
   thickness: 10
-  focusMode: 1
+  focusMode: 0
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0

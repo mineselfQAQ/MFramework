@@ -155,7 +155,7 @@ namespace MFramework
             }
             else//更改路径
             {
-                string pathName = EditorSettingsBase.GetPathName(EditorSettingsBase.PathName.ExcelGenerationPath);
+                string pathName = EditorSettingsBase.GetPathName(EditorPathName.ExcelGenerationPath);
                 bool flag = EditorSettingsConfigurator.ChangePath(pathName);
                 if (flag) MLog.Print($"已更改{pathName}路径.");
 

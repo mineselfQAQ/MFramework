@@ -9,6 +9,12 @@ namespace MFramework
     [CustomEditor(typeof(UIViewBehaviour))]
     public abstract class UIViewBehaviourEditor : Editor
     {
+        protected void DrawCompCollections()
+        {
+            SerializedProperty compCollectionsSP = serializedObject.FindProperty("compCollections");
+            EditorGUILayout.PropertyField(compCollectionsSP, true);
+        }
+
         #region 代码生成
         protected void DrawExportBtn()
         {
@@ -51,41 +57,11 @@ namespace MFramework
             }
         }
         
-        private string GetPrefabPath()
-        {
-            //大致就是：
-            //在不同状态下点击Inspector的Export按钮，使用同一方法并不都能获取到路径
-            //1---最普通的，就是点击Project面板下的Prefab，此时就是最常规的AssetDatabase.GetAssetPath()
-            //2---点击Hierarchy下的Prefab，此时只有通过PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot()才能获取
-            //3---在预制体面板中点击，prefabStage.assetPath可以获取
-
-            PrefabAssetType singlePrefabType = PrefabUtility.GetPrefabAssetType(target);
-            PrefabInstanceStatus singleInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(target);
-            string targetAssetPath = AssetDatabase.GetAssetPath(target);
-            string prefabAssetPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(target);
-            UnityEditor.SceneManagement.PrefabStage prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
-
-            //需要覆盖并正确判断这三种情况
-            string finalPrefabPath = null;
-            if (singlePrefabType == PrefabAssetType.Regular && !string.IsNullOrEmpty(targetAssetPath))
-            {
-                finalPrefabPath = targetAssetPath;//点击预设时
-            }
-            else if (singlePrefabType == PrefabAssetType.Regular && !string.IsNullOrEmpty(prefabAssetPath))
-            {
-                finalPrefabPath = prefabAssetPath;//预设拖入Hierarchy并选择时
-            }
-            else if (prefabStage != null)
-            {
-                finalPrefabPath = prefabStage.assetPath;//双击预设并在Hierarchy上选择时
-            }
-
-            return finalPrefabPath;
-        }
+        
 
         private void GenerateBaseAndMainCode()
         {
-            string prefabPath = GetPrefabPath();
+            string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
                 MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
@@ -130,7 +106,7 @@ namespace MFramework
 
         private void GenerateUIBaseCode()
         {
-            string prefabPath = GetPrefabPath();
+            string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
                 MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
@@ -352,7 +328,7 @@ namespace MFramework
 
         private void GenerateUIMainCode()
         {
-            string prefabPath = GetPrefabPath();
+            string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
                 MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);

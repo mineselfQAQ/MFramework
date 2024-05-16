@@ -34,7 +34,7 @@ namespace MFramework
 
         internal bool Open(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled) 
+            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.On) 
             {
                 return PlayOpenAnim(() =>
                 {
@@ -49,7 +49,7 @@ namespace MFramework
 
         internal bool Close(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Enabled)
+            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.On)
             {
                 return PlayCloseAnim(() =>
                 {
@@ -103,9 +103,9 @@ namespace MFramework
 
         protected virtual bool PlayOpenAnim(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return false;
+            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.Off) return false;
 
-            if (panelBehaviour.openAnimMode == UIPanelOpenAnimMode.AutoPlay)
+            if (panelBehaviour.OpenAnimMode == UIPanelOpenAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经打开的也无需再次执行)
                 if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Opened)
@@ -123,9 +123,9 @@ namespace MFramework
         }
         protected virtual bool PlayCloseAnim(Action onFinish = null)
         {
-            if (panelBehaviour.animSwitch == UIPanelAnimSwitch.Disabled) return false;
+            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.Off) return false;
 
-            if (panelBehaviour.closeAnimMode == UIPanelCloseAnimMode.AutoPlay)
+            if (panelBehaviour.CloseAnimMode == UIPanelCloseAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经关闭的也无需再次执行)
                 if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Closed)
