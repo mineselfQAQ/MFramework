@@ -18,7 +18,7 @@ namespace MFramework
 
         protected void DestroySelf()
         {
-            
+            parentView.DestroyWidget(widgetID);
         }
 
         protected internal override void DestroyingInternal()

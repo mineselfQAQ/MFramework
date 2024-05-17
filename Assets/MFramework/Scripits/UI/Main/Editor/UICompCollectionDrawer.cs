@@ -122,12 +122,12 @@ namespace MFramework
                 //on---true时为勾选状态，false时为非勾选状态
                 menu.AddItem(new GUIContent(comp.GetType().Name), savedIndex >= 0, (source) =>
                 {
-                    //点击Item时，若Item已存在执行移除，否则执行添加。
+                    //点击Item时，若Item已存在执行移除，否则执行添加
                     //其实就是多选列表的选择与取消
                     if (savedIndex >= 0)
                     {
                         //注意，删除元素前必须先将其置为null，
-                        //否则直接调用DeleteArrayElementAtIndex会使元素变为null而不是从列表中移除。
+                        //否则直接调用DeleteArrayElementAtIndex会使元素变为null而不是从列表中移除
                         componentListSP.GetArrayElementAtIndex(savedIndex).objectReferenceValue = null;
                         componentListSP.DeleteArrayElementAtIndex(savedIndex);
                     }
@@ -137,7 +137,7 @@ namespace MFramework
                         componentListSP.GetArrayElementAtIndex(componentListSP.arraySize - 1).objectReferenceValue = source as Component;
                     }
                     componentListSP.serializedObject.ApplyModifiedProperties();
-                    EditorApplication.RepaintHierarchyWindow(); //需要强刷Hierarchy
+                    EditorApplication.RepaintHierarchyWindow();//需要强刷Hierarchy
                 }, comp);
             }
 
@@ -186,8 +186,8 @@ namespace MFramework
             float leftPadding = 5;
             float iconSpacing = 5;
 
-            float iconX = selectRect.x + leftPadding + (iconWidth + iconSpacing) * posIndex;  //水平居左
-            float iconY = selectRect.y + (selectRect.height - iconHeight) / 2;  //竖直居中
+            float iconX = selectRect.x + leftPadding + (iconWidth + iconSpacing) * posIndex;//水平居左
+            float iconY = selectRect.y + (selectRect.height - iconHeight) / 2;//竖直居中
 
             Rect iconRect = new Rect(iconX, iconY, iconWidth, iconHeight);
 

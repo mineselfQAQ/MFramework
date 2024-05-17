@@ -121,7 +121,7 @@ namespace MFramework
         //对于Panel，就是创建第一个内部Widget，对于Widget，就是创建该Widget的子Widget
         //也就是说**UIPanel类和UIWidget类都需要操作Widget**
         #region Widget操作接口
-        protected T CreateWidget<T>(string id, Transform parent, string prefabPath) where T : UIWidget
+        public T CreateWidget<T>(string id, Transform parent, string prefabPath) where T : UIWidget
         {
             //parent必须是该View下的根物体才能创建，有点局限？
             //UIViewBehaviour parentBehaviour = parent.GetComponentInParent<UIViewBehaviour>();
@@ -134,7 +134,7 @@ namespace MFramework
             widgetDic.Add(id, widget);
             return widget;
         }
-        protected bool DestroyWidget(string id)
+        public bool DestroyWidget(string id)
         {
             if (widgetDic == null) 
             {
@@ -154,11 +154,11 @@ namespace MFramework
             widget.Destroy();
             return true;
         }
-        protected void DestroyWidget<T>() where T : UIWidget
+        public bool DestroyWidget<T>() where T : UIWidget
         {
-            DestroyWidget(typeof(T).Name);
+            return DestroyWidget(typeof(T).Name);
         }
-        protected void DestroyAllWidgets()
+        public void DestroyAllWidgets()
         {
             if (widgetDic == null || widgetDic.Count <= 0) { return; }
 
@@ -170,7 +170,7 @@ namespace MFramework
 
             widgetDic = null;
         }
-        protected T GetWidget<T>(string id) where T : UIWidget
+        public T GetWidget<T>(string id) where T : UIWidget
         {
             if (widgetDic == null)
             {
@@ -185,11 +185,11 @@ namespace MFramework
 
             return (T)widgetDic[id];
         }
-        protected T GetWidget<T>() where T : UIWidget
+        public T GetWidget<T>() where T : UIWidget
         {
             return GetWidget<T>(typeof(T).Name);
         }
-        protected bool ExistWidget(string id)
+        public bool ExistWidget(string id)
         {
             if (widgetDic == null || !widgetDic.ContainsKey(id)) 
             {

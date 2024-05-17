@@ -19,7 +19,8 @@ namespace MFramework
         public UIPanelShowState showState { protected set; get; } = UIPanelShowState.On;
         public UIPanelAnimState animState { protected set; get; } = UIPanelAnimState.Idle;
 
-        public static HashSet<string> panelPrefabSet = new HashSet<string>();//检测是否已经存放过某个prefab
+        //不太合理，prefab存在复用情况(如背包)，应该由用户决定
+        //public static HashSet<string> panelPrefabSet = new HashSet<string>();//检测是否已经存放过某个prefab
 
         public int sortingOrder => canvas.sortingOrder;
 
@@ -27,7 +28,7 @@ namespace MFramework
         {
             base.Create(id, UIManager.Instance.UICanvas.transform, prefabPath);
             parentRoot = root;
-            panelPrefabSet.Add(prefabName);
+            //panelPrefabSet.Add(prefabName);
 
             PlayOpenAnim();
         }
@@ -76,7 +77,8 @@ namespace MFramework
             canvas.sortingOrder = order;//更改所属Canvas的sortingOrder
         }
 
-        internal bool SetVisible(bool visible)
+        //TODO:可以加一个简单的过渡隐藏效果
+        internal bool SetVisible(bool visible, bool enableTransition = false)
         {
             if (showState == UIPanelShowState.On && visible) { return false; }
             if (showState == UIPanelShowState.Off && !visible) { return false; }
@@ -152,6 +154,15 @@ namespace MFramework
         public void SetVisibleSelf(bool visible)
         {
             SetVisible(visible);
+        }
+
+        public void OpenSelf(Action onFinish = null)
+        {
+            Open(onFinish);
+        }
+        public void CloseSelf(Action onFinish = null)
+        {
+            Close(onFinish);
         }
         #endregion
 

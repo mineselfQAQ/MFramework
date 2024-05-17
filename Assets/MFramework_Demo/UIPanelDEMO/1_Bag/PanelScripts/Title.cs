@@ -1,10 +1,11 @@
 ﻿using UnityEngine.UI;
 
-public class TestPanel : TestPanelBase
+public class Title : TitleBase
 {
-    public void Init()
+    public void Init(int id, string name)
     {
-        
+        m_ID_TMPText.text = $"ID:{id}";
+        m_Name_TMPText.text = $"Bag{name}";
     }
 
     protected override void OnClicked(Button button) { }
@@ -16,8 +17,4 @@ public class TestPanel : TestPanelBase
     protected override void OnDestroying() { }
 
     protected override void OnDestroyed() { }
-    
-    protected override void OnVisibleChanged(bool visible) { }
-    
-    protected override void OnFocusChanged(bool focus) { }
 }

@@ -42,12 +42,12 @@ namespace MFramework
                 MLog.Print($"UI：order-{order}不在<{id}>的[{startOrder},{endOrder}]区间，请重试", MLogType.Warning);
                 return null;
             }
-            string name = Path.GetFileNameWithoutExtension(prefabPath);
-            if (UIPanel.panelPrefabSet.Contains(name))
-            {
-                MLog.Print($"UI：{name}.prefab已创建，请勿重复创建", MLogType.Warning);
-                return null;
-            }
+            //string name = Path.GetFileNameWithoutExtension(prefabPath);
+            //if (UIPanel.panelPrefabSet.Contains(name))
+            //{
+            //    MLog.Print($"UI：{name}.prefab已创建，请勿重复创建", MLogType.Warning);
+            //    return null;
+            //}
 
             T panel = Activator.CreateInstance(typeof(T)) as T;//创建实例
             panel.Create(id, this, prefabPath);//创建Panel
@@ -70,10 +70,20 @@ namespace MFramework
         }
         public T CreatePanel<T>(string prefabPath, int order) where T : UIPanel
         {
+            if (panelDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
             return CreatePanel<T>(typeof(T).Name, prefabPath, order);
         }
         public T CreatePanel<T>(string prefabPath) where T : UIPanel
         {
+            if (panelDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
             return CreatePanel<T>(typeof(T).Name, prefabPath);
         }
 
@@ -244,6 +254,7 @@ namespace MFramework
             if (panel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled) return;
 
             panel.SetFocus(false);
+            if (topPanel != panel) return;//该Panel并非顶层panel
             topPanel = UIPanelUtility.FilterTopestPanel(this, (panel) =>
             { return panel != topPanel && panel.sortingOrder <= topOrder; });
             topPanel.SetFocus(true);
