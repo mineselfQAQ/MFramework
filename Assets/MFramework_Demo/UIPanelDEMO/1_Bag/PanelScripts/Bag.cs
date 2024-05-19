@@ -11,7 +11,7 @@ public class Bag : BagBase
         m_Background_Image.color = color;
         m_Bag_RectTransform.sizeDelta = size;
 
-        var title = CreateWidget<Title>("Title", trans, @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Title.prefab");
+        var title = CreateWidget<Title>("Title", rectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Title.prefab");
         title.Init(id, Random.Range(0, 100).ToString());
     }
 

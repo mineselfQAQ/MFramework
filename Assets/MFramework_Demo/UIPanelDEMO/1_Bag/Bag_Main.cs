@@ -30,6 +30,8 @@ public class Bag_Main : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Bag bag = bagRoot.CreatePanel<Bag>($"Bag{i + 1}", @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Bag.prefab");
+            var drager = DragEventListener.GetOrAdd(bag.gameObject);
+            drager.onDrag += (eventData) => { bag.rectTransform.anchoredPosition += eventData.delta; };
             bag.Init(i + 1, colors[i], sizes[i]);
             bagList.Add(bag);
         }
@@ -37,8 +39,6 @@ public class Bag_Main : MonoBehaviour
 
     private void Update()
     {
-        MLog.Print(bagRoot.topOrder);
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (bagList[0].showState == UIPanelShowState.On)

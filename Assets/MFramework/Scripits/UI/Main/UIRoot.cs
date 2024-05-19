@@ -49,7 +49,7 @@ namespace MFramework
             //    return null;
             //}
 
-            T panel = Activator.CreateInstance(typeof(T)) as T;//创建实例
+            T panel = Activator.CreateInstance(typeof(T)) as T;//创建实例(区别类实例与场景实例，这里是类实例)
             panel.Create(id, this, prefabPath);//创建Panel
             panel.SetSortingOrder(order);//设置排序(Canvas之间的排序)
             panelDic.Add(panel.panelID, panel);//加入Panel字典
@@ -207,10 +207,9 @@ namespace MFramework
             if (panel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled) return;
 
             panel.SetFocus(false);
-            if (panel.sortingOrder == topOrder)
-            {
-                topPanel = UIPanelUtility.FilterTopestPanel(this);
-            }
+            if (topPanel != panel) return;//该Panel并非顶层Panel
+            topPanel = UIPanelUtility.FilterTopestPanel(this);//该Panel已被移除，那么直接搜寻TopPanel即可
+            if (topPanel == null) return;//该Panel是唯一一个Panel
             topPanel.SetFocus(true);
         }
         private void MaintainTopPanel_Visible<T>(T panel, bool visible, bool pinToTop) where T : UIPanel
@@ -230,13 +229,23 @@ namespace MFramework
         {
             if (panel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled) return;
 
-            int order = topOrder + topPanel.panelBehaviour.Thickness;
+            int order;
+            if (topPanel == null)//未开启所有Panel情况(传入Panel是第一个Panel)
+            {
+                UIPanel top = UIPanelUtility.FilterTopestPanel(this);
+                order = top.sortingOrder + top.panelBehaviour.Thickness;
+            }
+            else//一般情况
+            {
+                order = topOrder + topPanel.panelBehaviour.Thickness;
+            }
+            
             if (pinToTop)
             {
                 panel.SetSortingOrder(order);
                 if (order > endOrder) UIPanelUtility.ResetOrder(this);
 
-                topPanel.SetFocus(false);
+                if (topPanel != null) topPanel.SetFocus(false);
                 panel.SetFocus(true);
 
                 topPanel = panel;
@@ -254,9 +263,10 @@ namespace MFramework
             if (panel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled) return;
 
             panel.SetFocus(false);
-            if (topPanel != panel) return;//该Panel并非顶层panel
+            if (topPanel != panel) return;//该Panel并非顶层Panel
             topPanel = UIPanelUtility.FilterTopestPanel(this, (panel) =>
             { return panel != topPanel && panel.sortingOrder <= topOrder; });
+            if (topPanel == null) return;//该Panel是唯一一个Panel
             topPanel.SetFocus(true);
         }
 

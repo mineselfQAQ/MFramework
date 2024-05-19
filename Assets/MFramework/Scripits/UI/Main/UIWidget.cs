@@ -15,6 +15,11 @@ namespace MFramework
             parentView = parent;
             base.Create(id, parentTrans, prefabPath);
         }
+        protected internal void Create(string id, Transform parentTrans, UIViewBehaviour behaviour, UIView parent)
+        {
+            parentView = parent;
+            base.Create(id, parentTrans, behaviour);
+        }
 
         protected void DestroySelf()
         {

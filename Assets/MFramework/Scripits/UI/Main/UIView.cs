@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 namespace MFramework
 {
@@ -15,9 +16,9 @@ namespace MFramework
     public class UIView
     {
         protected string viewID;//UI组件ID，或者说是它的名字
-        protected GameObject gameObject;//该物体GameObject
-        protected RectTransform trans;//该物体Transform
-        protected Transform parentTrans;//父物体Transform，用于设置自身的父亲
+        public GameObject gameObject;//该物体GameObject
+        public RectTransform rectTransform;//该物体Transform
+        public Transform parentTrans;//父物体Transform，用于设置自身的父亲
         protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
 
         public string prefabName { private set; get; }//预制体名字
@@ -26,7 +27,19 @@ namespace MFramework
 
         protected void Create(string id, Transform parent, string prefabPath)
         {
-            bool flag = InstantiateAndCollectFields(id, parent, prefabPath);
+            bool flag = InstantiateAndCollectFields(id, parent, prefabPath, null);
+            if (!flag) return;
+
+            CreatingInternal();//内部创建
+            OnBindCompsAndEvents();//绑定(由Base类完成)
+            OnCreating();//创建时事件
+
+            CreatedInternal();//内部构建
+            OnCreated();//创建后事件
+        }
+        protected void Create(string id, Transform parent, UIViewBehaviour behaviour)
+        {
+            bool flag = InstantiateAndCollectFields(id, parent, null, behaviour);
             if (!flag) return;
 
             CreatingInternal();//内部创建
@@ -47,32 +60,42 @@ namespace MFramework
             OnDestroyed();//删除后事件
         }
 
-        private bool InstantiateAndCollectFields(string id, Transform parent, string prefabPath)
+        private bool InstantiateAndCollectFields(string id, Transform parent, string prefabPath, UIViewBehaviour inputBehaviour)
         {
             //信息收集
             viewID = id;
             parentTrans = parent;
-            prefabName = Path.GetFileNameWithoutExtension(prefabPath);
 
+            UIViewBehaviour behaviour = null;
             //实例化
+            if (prefabPath != null)//提供路径模式
+            {
 #if UNITY_EDITOR
-            prefabPath = prefabPath.Replace('\\', '/');
-            prefabPath = DealEditorPath(prefabPath);
-            GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (prefab == null) { MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning); return false; }
+                prefabPath = prefabPath.Replace('\\', '/');
+                prefabPath = DealEditorPath(prefabPath);
+                GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                if (prefab == null) { MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning); return false; }
 #else
             GameObject prefab = LoadPrefab(prefabPath);
             if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
 #endif
-            GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
-            //检测
-            UIViewBehaviour behaviour = go.GetComponent<UIViewBehaviour>();
-            if (behaviour == null) { MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning); return false; }
+                GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
+                //检测
+                behaviour = go.GetComponent<UIViewBehaviour>();
+                if (behaviour == null) { MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning); return false; }
+            }
+            else if (inputBehaviour != null)//提供UIViewBehaviour模式
+            {
+                behaviour = inputBehaviour;
+            }
 
             //信息收集
             viewBehaviour = behaviour;
-            trans = viewBehaviour.gameObject.GetComponent<RectTransform>();
+            rectTransform = viewBehaviour.gameObject.GetComponent<RectTransform>();
             gameObject = viewBehaviour.gameObject;
+
+            if (prefabPath != null) prefabName = Path.GetFileNameWithoutExtension(prefabPath);
+            else prefabName = inputBehaviour.gameObject.name;//备用选项，物体名字
 
             return true;
         }
@@ -123,10 +146,6 @@ namespace MFramework
         #region Widget操作接口
         public T CreateWidget<T>(string id, Transform parent, string prefabPath) where T : UIWidget
         {
-            //parent必须是该View下的根物体才能创建，有点局限？
-            //UIViewBehaviour parentBehaviour = parent.GetComponentInParent<UIViewBehaviour>();
-            //if (viewBehaviour != parentBehaviour) MLog.Print("UI：parent并非根物体");
-
             T widget = Activator.CreateInstance<T>() as T;
             widget.Create(id, parent, prefabPath, this);
 
@@ -134,6 +153,63 @@ namespace MFramework
             widgetDic.Add(id, widget);
             return widget;
         }
+        public T CreateWidget<T>(string id, string prefabPath) where T : UIWidget
+        {
+            return CreateWidget<T>(id, rectTransform, prefabPath);
+        }
+        public T CreateWidget<T>(Transform parent, string prefabPath) where T : UIWidget
+        {
+            if (widgetDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
+            return CreateWidget<T>(typeof(T).Name, parent, prefabPath);
+        }
+        public T CreateWidget<T>(string prefabPath) where T : UIWidget
+        {
+            if (widgetDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
+            return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath);
+        }
+
+        //提供UIWidgetBehaviour形式，所以无需是一个Prefab才能执行
+        public T CreateWidget<T>(string id, Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
+        {
+            T widget = Activator.CreateInstance<T>() as T;
+            widget.Create(id, parent, behaviour, this);
+
+            if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
+            widgetDic.Add(id, widget);
+            return widget;
+        }
+        public T CreateWidget<T>(string id, UIWidgetBehaviour behaviour) where T : UIWidget
+        {
+            return CreateWidget<T>(id, rectTransform, behaviour);
+        }
+        public T CreateWidget<T>(Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
+        {
+            if (widgetDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
+            return CreateWidget<T>(typeof(T).Name, parent, behaviour);
+        }
+        public T CreateWidget<T>(UIWidgetBehaviour behaviour) where T : UIWidget
+        {
+            if (widgetDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                return null;
+            }
+            return CreateWidget<T>(typeof(T).Name, rectTransform, behaviour);
+        }
+
+
         public bool DestroyWidget(string id)
         {
             if (widgetDic == null) 
@@ -163,7 +239,13 @@ namespace MFramework
             if (widgetDic == null || widgetDic.Count <= 0) { return; }
 
             //删除一级内容(由于每一个Widget的Destroy()都会把自身删除所以不需要再去管子物体了)
-            foreach (var id in widgetDic.Keys)
+            //注意：由于foreach进行时数组不能发生变动，所以需要先将id取出才能进行
+            List<string> ids = new List<string>();
+            foreach (string id in widgetDic.Keys)
+            {
+                ids.Add(id);
+            }
+            foreach (string id in ids)
             {
                 DestroyWidget(id);
             }
@@ -207,7 +289,7 @@ namespace MFramework
             GameObject.Destroy(gameObject);
             viewID = null;
             gameObject = null;
-            trans = null;
+            rectTransform = null;
             parentTrans = null;
             viewBehaviour = null;
             widgetDic = null;

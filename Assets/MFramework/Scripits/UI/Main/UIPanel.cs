@@ -198,14 +198,14 @@ namespace MFramework
 
         private void SetRectStretchMode()
         {
-            trans.anchorMin = new Vector2(0f, 0f);
-            trans.anchorMax = new Vector2(1f, 1f);
-            trans.offsetMin = Vector2.zero;
-            trans.offsetMax = Vector2.zero;
-            trans.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMin = new Vector2(0f, 0f);
+            rectTransform.anchorMax = new Vector2(1f, 1f);
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.pivot = new Vector2(0.5f, 0.5f);
             
             //trans.sizeDelta = trans.parent.GetComponent<RectTransform>().sizeDelta;
-            trans.anchoredPosition = Vector2.zero;
+            rectTransform.anchoredPosition = Vector2.zero;
         }
         #endregion
 
