@@ -92,7 +92,7 @@ namespace MFramework
                 foreach (RaycastResult result in results)
                 {
                     Canvas canvas = result.gameObject.GetComponentInParent<Canvas>();
-                    if (canvas != null)
+                    if (canvas != null && canvas != UICanvas)
                     {
                         if (canvas.sortingOrder > maxSortingOrder)
                         {
@@ -102,6 +102,7 @@ namespace MFramework
                     }
                 }
 
+                if(topItemCanvas == null) return null;
                 return (UIPanel)topItemCanvas.GetComponent<UIPanelBehaviour>().view;
             }
 

@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 namespace MFramework
 {
@@ -22,12 +19,44 @@ namespace MFramework
         protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
 
         public string prefabName { private set; get; }//预制体名字
-        public CanvasGroup canvasGroup { internal set; get; }
+        public CanvasGroup canvasGroup { internal set; get; }//TODO:canvasGroup是不是必添加组件？如果是应该直接创建
 
         protected Dictionary<string, UIWidget> widgetDic { private set; get; }
 
-        public UIShowState showState { protected set; get; } = UIShowState.None;
-        public UIAnimState animState { protected set; get; } = UIAnimState.Idle;
+        private UIShowState showState = UIShowState.Off;
+        public UIShowState ShowState
+        {
+            protected set
+            {
+                showState = value;
+            }
+            get
+            {
+                if (viewBehaviour.AnimSwitch == UIAnimSwitch.On)
+                {
+                    MLog.Print($"UI：<{viewID}>已开启动画，请调用AnimState检查", MLogType.Warning);
+                    return UIShowState.None;
+                }
+                return showState;
+            }
+        }
+        private UIAnimState animState = UIAnimState.Idle;
+        public UIAnimState AnimState
+        {
+            protected set
+            {
+                animState = value;
+            }
+            get
+            {
+                if (viewBehaviour.AnimSwitch != UIAnimSwitch.On)
+                {
+                    MLog.Print($"UI：<{viewID}>未开启动画，请调用ShowState检查", MLogType.Warning);
+                    return UIAnimState.None;
+                }
+                return animState;
+            }
+        }
 
         protected void Create(string id, Transform parent, string prefabPath)
         {
@@ -152,68 +181,68 @@ namespace MFramework
         //不提供parent---使用该UIView的transform(这意味着将生成为一级物体)
         //提供prefabPath---Prefab路径形式
         //提供UIWidgetBehaviour---挂载GameObject形式
-        public T CreateWidget<T>(string id, Transform parent, string prefabPath) where T : UIWidget
+        public T CreateWidget<T>(string id, Transform parent, string prefabPath, bool autoEnter = false) where T : UIWidget
         {
             T widget = Activator.CreateInstance<T>() as T;
-            widget.Create(id, parent, prefabPath, this);
+            widget.Create(id, parent, prefabPath, this, autoEnter);
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
             return widget;
         }
-        public T CreateWidget<T>(string id, string prefabPath) where T : UIWidget
+        public T CreateWidget<T>(string id, string prefabPath, bool autoEnter = false) where T : UIWidget
         {
-            return CreateWidget<T>(id, rectTransform, prefabPath);
+            return CreateWidget<T>(id, rectTransform, prefabPath, autoEnter);
         }
-        public T CreateWidget<T>(Transform parent, string prefabPath) where T : UIWidget
+        public T CreateWidget<T>(Transform parent, string prefabPath, bool autoEnter = false) where T : UIWidget
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreateWidget<T>(typeof(T).Name, parent, prefabPath);
+            return CreateWidget<T>(typeof(T).Name, parent, prefabPath, autoEnter);
         }
-        public T CreateWidget<T>(string prefabPath) where T : UIWidget
+        public T CreateWidget<T>(string prefabPath, bool autoEnter = false) where T : UIWidget
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath);
+            return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath, autoEnter);
         }
 
-        public T CreateWidget<T>(string id, Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
+        public T CreateWidget<T>(string id, Transform parent, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
             T widget = Activator.CreateInstance<T>() as T;
-            widget.Create(id, parent, behaviour, this);
+            widget.Create(id, parent, behaviour, this, autoEnter);
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
             return widget;
         }
-        public T CreateWidget<T>(string id, UIWidgetBehaviour behaviour) where T : UIWidget
+        public T CreateWidget<T>(string id, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
-            return CreateWidget<T>(id, rectTransform, behaviour);
+            return CreateWidget<T>(id, rectTransform, behaviour, autoEnter);
         }
-        public T CreateWidget<T>(Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
+        public T CreateWidget<T>(Transform parent, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreateWidget<T>(typeof(T).Name, parent, behaviour);
+            return CreateWidget<T>(typeof(T).Name, parent, behaviour, autoEnter);
         }
-        public T CreateWidget<T>(UIWidgetBehaviour behaviour) where T : UIWidget
+        public T CreateWidget<T>(UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreateWidget<T>(typeof(T).Name, rectTransform, behaviour);
+            return CreateWidget<T>(typeof(T).Name, rectTransform, behaviour, autoEnter);
         }
 
         public bool DestroyWidget(string id)

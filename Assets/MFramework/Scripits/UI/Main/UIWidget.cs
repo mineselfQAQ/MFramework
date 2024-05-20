@@ -17,17 +17,63 @@ namespace MFramework
 
         public UIWidgetBehaviour widgetBehaviour { get { return (UIWidgetBehaviour)viewBehaviour; } }
 
-        protected internal void Create(string id, Transform parentTrans, string prefabPath, UIView parent)
+        protected internal void Create(string id, Transform parentTrans, string prefabPath, UIView parent, bool autoEnter)
         {
             parentView = parent;
             base.Create(id, parentTrans, prefabPath);
             panel = (UIPanel)gameObject.GetComponentInParent<UIPanelBehaviour>().view;
+
+            if (!autoEnter)
+            {
+                if (canvasGroup == null)
+                {
+                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+                }
+                canvasGroup.alpha = 0;
+
+                ShowState = UIShowState.Off;
+                AnimState = UIAnimState.Idle;
+            }
+            else
+            {
+                if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
+                {
+                    PlayOpenAnim();
+                }
+                else
+                {
+                    SetVisible(true);
+                }
+            }
         }
-        protected internal void Create(string id, Transform parentTrans, UIViewBehaviour behaviour, UIView parent)
+        protected internal void Create(string id, Transform parentTrans, UIViewBehaviour behaviour, UIView parent, bool autoEnter)
         {
             parentView = parent;
             base.Create(id, parentTrans, behaviour);
             panel = (UIPanel)gameObject.GetComponentInParent<UIPanelBehaviour>().view;
+
+            if (!autoEnter)
+            {
+                if (canvasGroup == null)
+                {
+                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+                }
+                canvasGroup.alpha = 0;
+
+                ShowState = UIShowState.Off;
+                AnimState = UIAnimState.Idle;
+            }
+            else
+            {
+                if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
+                {
+                    PlayOpenAnim();
+                }
+                else
+                {
+                    SetVisible(true);
+                }
+            }
         }
 
         internal void SetSibling(SiblingMode mode)
@@ -74,6 +120,8 @@ namespace MFramework
 
             if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
             {
+                if (canvasGroup.alpha == 0) canvasGroup.alpha = 1;//autoEnter导致的第一次进入
+
                 return PlayOpenAnim(() =>
                 {
                     onFinish?.Invoke();
@@ -107,8 +155,8 @@ namespace MFramework
 
         internal bool SetVisible(bool visible, bool enableTransition = false)
         {
-            if (showState == UIShowState.On && visible) { return false; }
-            if (showState == UIShowState.Off && !visible) { return false; }
+            if (ShowState == UIShowState.On && visible) { return false; }
+            if (ShowState == UIShowState.Off && !visible) { return false; }
 
             if (canvasGroup == null)
             {
@@ -118,7 +166,7 @@ namespace MFramework
             canvasGroup.interactable = visible;
             canvasGroup.blocksRaycasts = visible;
 
-            showState = visible ? UIShowState.On : UIShowState.Off;
+            ShowState = visible ? UIShowState.On : UIShowState.Off;
 
             OnVisibleChanged(visible);
 
@@ -132,11 +180,11 @@ namespace MFramework
             if (widgetBehaviour.OpenAnimMode == UIOpenAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经打开的也无需再次执行)
-                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Opened)
+                if (AnimState == UIAnimState.Opening || AnimState == UIAnimState.Closing || AnimState == UIAnimState.Opened)
                     return false;
 
-                animState = UIAnimState.Opening;
-                widgetBehaviour.PlayOpenAnim(() => { animState = UIAnimState.Opened; onFinish?.Invoke(); });
+                AnimState = UIAnimState.Opening;
+                widgetBehaviour.PlayOpenAnim(() => { AnimState = UIAnimState.Opened; onFinish?.Invoke(); });
             }
             else
             {
@@ -152,11 +200,11 @@ namespace MFramework
             if (widgetBehaviour.CloseAnimMode == UICloseAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经关闭的也无需再次执行)
-                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Closed)
+                if (AnimState == UIAnimState.Opening || AnimState == UIAnimState.Closing || AnimState == UIAnimState.Closed)
                     return false;
 
-                animState = UIAnimState.Closing;
-                widgetBehaviour.PlayCloseAnim(() => { animState = UIAnimState.Closed; onFinish?.Invoke(); });
+                AnimState = UIAnimState.Closing;
+                widgetBehaviour.PlayCloseAnim(() => { AnimState = UIAnimState.Closed; onFinish?.Invoke(); });
             }
             else
             {

@@ -9,7 +9,7 @@ public class FuncTest_Main : MonoBehaviour
     {
         root = UIManager.Instance.CreateRoot("Root", 0, 999);
 
-        var panel = root.CreatePanel<FuncTest_Panel>("Panel", @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_Panel.prefab");
+        var panel = root.CreatePanel<FuncTest_Panel>("Panel", @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_Panel.prefab", true);
         panel.Init();
     }
 

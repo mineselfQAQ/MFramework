@@ -17,6 +17,7 @@ namespace MFramework
 
     public enum UIAnimState
     {
+        None,//²»´æÔÚ
         Idle,//³õÊ¼×´Ì¬
         Opening,
         Opened,

@@ -24,19 +24,47 @@ namespace MFramework
 
         public int sortingOrder => canvas.sortingOrder;
 
-        internal void Create(string id, UIRoot root, string prefabPath)
+        internal void Create(string id, UIRoot root, string prefabPath, bool autoEnter)
         {
             base.Create(id, UIManager.Instance.UICanvas.transform, prefabPath);
             parentRoot = root;
             //panelPrefabSet.Add(prefabName);
 
-            PlayOpenAnim();
+            if (!autoEnter)
+            {
+                //gameObject.SetActive(false);//不可用，后续大概率是因为未开启导致空引用出现
+
+                //TODO:这个方法会导致动画模式也需要添加CanvasGroup，应该用其他方法
+                //动画模式本身并没有alpha，对于不自动启动模式来说，动画并不应该使用Close()，而是瞬切
+                //启用CanvasGroup并将Alpha设置为0
+                if (canvasGroup == null)
+                {
+                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+                }
+                canvasGroup.alpha = 0;
+
+                ShowState = UIShowState.Off;
+                AnimState = UIAnimState.Idle;
+            }
+            else
+            {
+                if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
+                {
+                    PlayOpenAnim();
+                }
+                else
+                {
+                    SetVisible(true);
+                }
+            }
         }
 
         internal bool Open(Action onFinish = null)
         {
             if (panelBehaviour.AnimSwitch == UIAnimSwitch.On) 
             {
+                if (canvasGroup.alpha == 0) canvasGroup.alpha = 1;//autoEnter导致的第一次进入
+
                 return PlayOpenAnim(() =>
                 {
                     onFinish?.Invoke();
@@ -80,8 +108,8 @@ namespace MFramework
         //TODO:可以加一个简单的过渡隐藏效果
         internal bool SetVisible(bool visible, bool enableTransition = false)
         {
-            if (showState == UIShowState.On && visible) { return false; }
-            if (showState == UIShowState.Off && !visible) { return false; }
+            if (ShowState == UIShowState.On && visible) { return false; }
+            if (ShowState == UIShowState.Off && !visible) { return false; }
 
             if (canvasGroup == null)
             {
@@ -91,7 +119,7 @@ namespace MFramework
             canvasGroup.interactable = visible;
             canvasGroup.blocksRaycasts = visible;
 
-            showState = visible ? UIShowState.On : UIShowState.Off;
+            ShowState = visible ? UIShowState.On : UIShowState.Off;
 
             OnVisibleChanged(visible);
 
@@ -110,11 +138,11 @@ namespace MFramework
             if (panelBehaviour.OpenAnimMode == UIOpenAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经打开的也无需再次执行)
-                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Opened)
+                if (AnimState == UIAnimState.Opening || AnimState == UIAnimState.Closing || AnimState == UIAnimState.Opened)
                     return false;
 
-                animState = UIAnimState.Opening;
-                panelBehaviour.PlayOpenAnim(() => { animState = UIAnimState.Opened; onFinish?.Invoke(); });
+                AnimState = UIAnimState.Opening;
+                panelBehaviour.PlayOpenAnim(() => { AnimState = UIAnimState.Opened; onFinish?.Invoke(); });
             }
             else
             {
@@ -130,11 +158,11 @@ namespace MFramework
             if (panelBehaviour.CloseAnimMode == UICloseAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经关闭的也无需再次执行)
-                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Closed)
+                if (AnimState == UIAnimState.Opening || AnimState == UIAnimState.Closing || AnimState == UIAnimState.Closed)
                     return false;
 
-                animState = UIAnimState.Closing;
-                panelBehaviour.PlayCloseAnim(() => { animState = UIAnimState.Closed; onFinish?.Invoke(); });
+                AnimState = UIAnimState.Closing;
+                panelBehaviour.PlayCloseAnim(() => { AnimState = UIAnimState.Closed; onFinish?.Invoke(); });
             }
             else
             {

@@ -13,17 +13,14 @@ public class Bag : BagBase
 
         var title = CreateWidget<Title>("Title", rectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Title.prefab");
         title.Init(id, Random.Range(0, 100).ToString());
+        title.Open();
     }
 
     protected override void OnClicked(Button button) { }
 
     protected override void OnCreating() { }
 
-    protected override void OnCreated() 
-    {
-        //SetVisibleSelf(false);
-        CloseSelf();
-    }
+    protected override void OnCreated() { }
 
     protected override void OnDestroying() { }
 

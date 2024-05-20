@@ -15,6 +15,7 @@ public class Bag_Main : MonoBehaviour
         bagRoot = UIManager.Instance.CreateRoot("Bag", 1000, 1200);
 
         EmptyPanel background = backgroundRoot.CreatePanel<EmptyPanel>("Background", @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Background.prefab");
+        background.Open();
 
         bagList = new List<Bag>();
         Color[] colors = new Color[3] {
@@ -41,40 +42,34 @@ public class Bag_Main : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (bagList[0].showState == UIShowState.On)
+            if (bagList[0].ShowState == UIShowState.On)
             {
-                //bagRoot.SetPanelVisible("Bag1", false, true);
                 bagRoot.ClosePanel("Bag1");
             }
             else
             {
-                //bagRoot.SetPanelVisible("Bag1", true, true);
                 bagRoot.OpenPanel("Bag1", true);
             }
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (bagList[1].showState == UIShowState.On)
+            if (bagList[1].ShowState == UIShowState.On)
             {
-                //bagRoot.SetPanelVisible("Bag2", false, true);
                 bagRoot.ClosePanel("Bag2");
             }
             else
             {
-                //bagRoot.SetPanelVisible("Bag2", true, true);
                 bagRoot.OpenPanel("Bag2", true);
             }
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (bagList[2].showState == UIShowState.On)
+            if (bagList[2].ShowState == UIShowState.On)
             {
-                //bagRoot.SetPanelVisible("Bag3", false, true);
                 bagRoot.ClosePanel("Bag3");
             }
             else
             {
-                //bagRoot.SetPanelVisible("Bag3", true, true);
                 bagRoot.OpenPanel("Bag3", true);
             }
         }

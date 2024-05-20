@@ -13,7 +13,14 @@ namespace MFramework
         public int startOrder;
         public int endOrder;
         public UIPanel topPanel { internal set; get; }
-        public int topOrder => topPanel.sortingOrder;
+        public int topOrder
+        {
+            get
+            {
+                if (topPanel == null) return -1;
+                return topPanel.sortingOrder;
+            }
+        }
 
         public Dictionary<string, UIPanel> panelDic { private set; get; }
 
@@ -30,7 +37,7 @@ namespace MFramework
         //Tip：
         //无id函数为便捷用法，此时id为T类型的名称
         //关键：这意味着此类函数一种T只能控制一个Panel，如有多个同类型Panel，请提供各自id
-        public T CreatePanel<T>(string id, string prefabPath, int order) where T : UIPanel
+        public T CreatePanel<T>(string id, string prefabPath, int order, bool autoEnter = false) where T : UIPanel
         {
             if (panelDic.ContainsKey(id))
             {
@@ -50,7 +57,7 @@ namespace MFramework
             //}
 
             T panel = Activator.CreateInstance(typeof(T)) as T;//创建实例(区别类实例与场景实例，这里是类实例)
-            panel.Create(id, this, prefabPath);//创建Panel
+            panel.Create(id, this, prefabPath, autoEnter);//创建Panel
             panel.SetSortingOrder(order);//设置排序(Canvas之间的排序)
             panelDic.Add(panel.panelID, panel);//加入Panel字典
 
@@ -58,7 +65,7 @@ namespace MFramework
 
             return panel;
         }
-        public T CreatePanel<T>(string id, string prefabPath) where T : UIPanel
+        public T CreatePanel<T>(string id, string prefabPath, bool autoEnter = false) where T : UIPanel
         {
             int order = GetNextOrder();
             if (order > endOrder)
@@ -66,25 +73,25 @@ namespace MFramework
                 UIPanelUtility.ResetOrder(this);
             }
 
-            return CreatePanel<T>(id, prefabPath, order);
+            return CreatePanel<T>(id, prefabPath, order, autoEnter);
         }
-        public T CreatePanel<T>(string prefabPath, int order) where T : UIPanel
+        public T CreatePanel<T>(string prefabPath, int order, bool autoEnter = false) where T : UIPanel
         {
             if (panelDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreatePanel<T>(typeof(T).Name, prefabPath, order);
+            return CreatePanel<T>(typeof(T).Name, prefabPath, order, autoEnter);
         }
-        public T CreatePanel<T>(string prefabPath) where T : UIPanel
+        public T CreatePanel<T>(string prefabPath, bool autoEnter = false) where T : UIPanel
         {
             if (panelDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreatePanel<T>(typeof(T).Name, prefabPath);
+            return CreatePanel<T>(typeof(T).Name, prefabPath, autoEnter);
         }
 
         public bool DestroyPanel(string id)
@@ -158,6 +165,7 @@ namespace MFramework
             }
 
             UIPanel panel = panelDic[id];
+            if (panel.AnimState == UIAnimState.Opened) return;//已经打开
             bool flag = panel.Open(onFinish);
             if (flag) MaintainTopPanel_Open(panel, pinToTop);
         }
@@ -183,7 +191,7 @@ namespace MFramework
             }
 
             UIPanel panel = panelDic[id];
-            if (panel.showState == UIShowState.Off) return;//已经关闭
+            if (panel.AnimState == UIAnimState.Closed) return;//已经关闭
             bool flag = panel.Close(onFinish);
             if(flag) MaintainTopPanel_Close(panel);
         }

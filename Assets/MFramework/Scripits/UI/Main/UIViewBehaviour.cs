@@ -12,12 +12,11 @@ namespace MFramework
     {
         [SerializeField]
         private List<UICompCollection> compCollections;
-
         public List<UICompCollection> CompCollections { get { return compCollections; } }
 
         internal UIView view;//归属View
 
-        //动画模式---是否开启动画，如开启动画会使用Animator进行播放，否则为顺切(CanvasGroup设0/1)
+        //动画模式---是否开启动画，如开启动画会使用Animator进行播放，否则为瞬切(CanvasGroup设0/1)
         [SerializeField] private UIAnimSwitch animSwitch = UIAnimSwitch.Off;
         [SerializeField] private UIOpenAnimMode openAnimMode = UIOpenAnimMode.AutoPlay;
         [SerializeField] private UICloseAnimMode closeAnimMode = UICloseAnimMode.AutoPlay;

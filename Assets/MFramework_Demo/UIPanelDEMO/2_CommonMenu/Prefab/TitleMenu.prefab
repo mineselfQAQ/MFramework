@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 6413121097764026609}
   - component: {fileID: 4484451087382721695}
   - component: {fileID: 145398079927965727}
-  - component: {fileID: 3346529441717724086}
+  - component: {fileID: 3269549044291012150}
   m_Layer: 5
   m_Name: TitleMenu
   m_TagString: Untagged
@@ -130,7 +130,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!225 &3346529441717724086
+--- !u!225 &3269549044291012150
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -724,7 +724,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6719473500375414094}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
