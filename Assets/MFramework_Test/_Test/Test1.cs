@@ -7,9 +7,26 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
+    public Transform a;
+    public Transform b;
+    public Transform c;
+
     private void Start()
     {
-        string path = Path.GetFullPath("A/B/C");
-        Debug.Log(path);
+        b.SetAsFirstSibling();
     }
+}
+
+namespace AAA
+{
+    public class A
+    {
+
+    }
+    public class B
+    {
+
+    }
+
+    
 }

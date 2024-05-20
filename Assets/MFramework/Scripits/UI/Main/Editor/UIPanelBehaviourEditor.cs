@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,8 +7,6 @@ namespace MFramework
     [CustomEditor(typeof(UIPanelBehaviour))]
     public class UIPanelBehaviourEditor : UIViewBehaviourEditor
     {
-        //TODO:在AnimSwitch切换至Enabled时，需要开启Open/Close Anim Mode且生成相应内容(在Prefab中添加Animator并生成相应文件)
-
         private UIPanelBehaviour behaviour;
 
         private SerializedProperty thicknessSP;
@@ -18,8 +14,6 @@ namespace MFramework
         private SerializedProperty animSwitchSP;
         private SerializedProperty openAnimModeSP;
         private SerializedProperty closeAnimModeSP;
-
-        private int lastAnimSwitch;
 
         protected void OnEnable()
         {
@@ -37,9 +31,7 @@ namespace MFramework
             serializedObject.Update();
 
             DrawUIPanelSettings();
-
             DrawCompCollections();
-
             DrawExportBtn();
 
             serializedObject.ApplyModifiedProperties();
@@ -47,16 +39,22 @@ namespace MFramework
 
         private void DrawUIPanelSettings()
         {
-            int value = EditorGUILayout.IntField("Thickness", thicknessSP.intValue);
+            GUIContent thicknessLabel = new GUIContent("Thickness", "Panel与下一Panel的间距");
+            GUIContent focusModeLabel = new GUIContent("Focus Mode", "点击Panel后是否响应");
+            GUIContent animationSwitchLabel = new GUIContent("Animation Switch", "动画开关");
+            GUIContent openAnimationModeLabel = new GUIContent("Open Animation Mode", "开启动画模式");
+            GUIContent closeAnimationModeLabel = new GUIContent("Close Animation Mode", "关闭动画模式");
+
+            int value = EditorGUILayout.IntField(thicknessLabel, thicknessSP.intValue);
             thicknessSP.intValue = Mathf.Clamp(value, 1, int.MaxValue);
 
-            Enum focusModeEnum = EditorGUILayout.EnumPopup("Focus Mode", (UIPanelFocusMode)focusModeSP.enumValueIndex);
+            Enum focusModeEnum = EditorGUILayout.EnumPopup(focusModeLabel, (UIPanelFocusMode)focusModeSP.enumValueIndex);
             UIPanelFocusMode focusMode = (UIPanelFocusMode)focusModeEnum;
             focusModeSP.enumValueIndex = (int)focusMode;
 
             int lastAnimSwitch = animSwitchSP.enumValueIndex;
-            Enum animSwitchEnum = EditorGUILayout.EnumPopup("Animation Switch", (UIPanelAnimSwitch)animSwitchSP.enumValueIndex);
-            UIPanelAnimSwitch animSwitch = (UIPanelAnimSwitch)animSwitchEnum;
+            Enum animSwitchEnum = EditorGUILayout.EnumPopup(animationSwitchLabel, (UIAnimSwitch)animSwitchSP.enumValueIndex);
+            UIAnimSwitch animSwitch = (UIAnimSwitch)animSwitchEnum;
             animSwitchSP.enumValueIndex = (int)animSwitch;
             if (animSwitch == 0) return;//不开启动画
             else//开启动画
@@ -109,12 +107,12 @@ namespace MFramework
 
                 EditorGUI.indentLevel++;
                 {
-                    Enum openAnimModeEnum = EditorGUILayout.EnumPopup("Open Animation Mode", (UIPanelOpenAnimMode)openAnimModeSP.enumValueIndex);
-                    UIPanelOpenAnimMode openAnimMode = (UIPanelOpenAnimMode)openAnimModeEnum;
+                    Enum openAnimModeEnum = EditorGUILayout.EnumPopup(openAnimationModeLabel, (UIOpenAnimMode)openAnimModeSP.enumValueIndex);
+                    UIOpenAnimMode openAnimMode = (UIOpenAnimMode)openAnimModeEnum;
                     openAnimModeSP.enumValueIndex = (int)openAnimMode;
 
-                    Enum closeAnimModeEnum = EditorGUILayout.EnumPopup("Close Animation Mode", (UIPanelCloseAnimMode)closeAnimModeSP.enumValueIndex);
-                    UIPanelCloseAnimMode closeAnimMode = (UIPanelCloseAnimMode)closeAnimModeEnum;
+                    Enum closeAnimModeEnum = EditorGUILayout.EnumPopup(closeAnimationModeLabel, (UICloseAnimMode)closeAnimModeSP.enumValueIndex);
+                    UICloseAnimMode closeAnimMode = (UICloseAnimMode)closeAnimModeEnum;
                     closeAnimModeSP.enumValueIndex = (int)closeAnimMode;
                 }
                 EditorGUI.indentLevel--;

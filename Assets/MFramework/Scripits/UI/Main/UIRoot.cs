@@ -131,22 +131,23 @@ namespace MFramework
             return panelDic.ContainsKey(typeof(T).Name);
         }
 
-        public void SetPanelVisible(string id, bool visible, bool pinToTop = false)
-        {
-            if (!panelDic.ContainsKey(id))
-            {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
-                return;
-            }
+        //不需要SetVisible()操作，Open()/Close()就包含了这一操作
+        //public void SetPanelVisible(string id, bool visible, bool pinToTop = false)
+        //{
+        //    if (!panelDic.ContainsKey(id))
+        //    {
+        //        MLog.Print($"UI：Root-{rootID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
+        //        return;
+        //    }
 
-            UIPanel panel = panelDic[id];
-            bool flag = panel.SetVisible(visible);
-            if(flag) MaintainTopPanel_Visible(panel, visible, pinToTop);
-        }
-        public void SetPanelVisible<T>(bool visible, bool pinToTop = false)
-        {
-            SetPanelVisible(typeof(T).Name, visible, pinToTop);
-        }
+        //    UIPanel panel = panelDic[id];
+        //    bool flag = panel.SetVisible(visible);
+        //    if(flag) MaintainTopPanel_Visible(panel, visible, pinToTop);
+        //}
+        //public void SetPanelVisible<T>(bool visible, bool pinToTop = false)
+        //{
+        //    SetPanelVisible(typeof(T).Name, visible, pinToTop);
+        //}
 
         public void OpenPanel(string id, Action onFinish = null, bool pinToTop = false)
         {
@@ -182,7 +183,7 @@ namespace MFramework
             }
 
             UIPanel panel = panelDic[id];
-            if (panel.showState == UIPanelShowState.Off) return;//已经关闭
+            if (panel.showState == UIShowState.Off) return;//已经关闭
             bool flag = panel.Close(onFinish);
             if(flag) MaintainTopPanel_Close(panel);
         }

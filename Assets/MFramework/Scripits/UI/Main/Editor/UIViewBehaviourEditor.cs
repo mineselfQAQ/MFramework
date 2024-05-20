@@ -11,8 +11,9 @@ namespace MFramework
     {
         protected void DrawCompCollections()
         {
+            GUIContent compCollectionsLabel = new GUIContent("Component Collections", "收集组件");
             SerializedProperty compCollectionsSP = serializedObject.FindProperty("compCollections");
-            EditorGUILayout.PropertyField(compCollectionsSP, true);
+            EditorGUILayout.PropertyField(compCollectionsSP, compCollectionsLabel);
         }
 
         #region 代码生成
@@ -56,8 +57,6 @@ namespace MFramework
                 GUIUtility.ExitGUI();
             }
         }
-        
-        
 
         private void GenerateBaseAndMainCode()
         {

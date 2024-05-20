@@ -15,15 +15,19 @@ namespace MFramework
     /// </summary>
     public class UIView
     {
-        protected string viewID;//UI组件ID，或者说是它的名字
+        internal string viewID;//UI组件ID，或者说是它的名字
         public GameObject gameObject;//该物体GameObject
         public RectTransform rectTransform;//该物体Transform
         public Transform parentTrans;//父物体Transform，用于设置自身的父亲
         protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
 
         public string prefabName { private set; get; }//预制体名字
+        public CanvasGroup canvasGroup { internal set; get; }
 
         protected Dictionary<string, UIWidget> widgetDic { private set; get; }
+
+        public UIShowState showState { protected set; get; } = UIShowState.None;
+        public UIAnimState animState { protected set; get; } = UIAnimState.Idle;
 
         protected void Create(string id, Transform parent, string prefabPath)
         {
@@ -144,6 +148,10 @@ namespace MFramework
         //对于Panel，就是创建第一个内部Widget，对于Widget，就是创建该Widget的子Widget
         //也就是说**UIPanel类和UIWidget类都需要操作Widget**
         #region Widget操作接口
+        //不提供id---使用T类型名(只可用于唯一Wdiget情况)
+        //不提供parent---使用该UIView的transform(这意味着将生成为一级物体)
+        //提供prefabPath---Prefab路径形式
+        //提供UIWidgetBehaviour---挂载GameObject形式
         public T CreateWidget<T>(string id, Transform parent, string prefabPath) where T : UIWidget
         {
             T widget = Activator.CreateInstance<T>() as T;
@@ -159,7 +167,7 @@ namespace MFramework
         }
         public T CreateWidget<T>(Transform parent, string prefabPath) where T : UIWidget
         {
-            if (widgetDic.ContainsKey(typeof(T).Name))
+            if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
@@ -168,7 +176,7 @@ namespace MFramework
         }
         public T CreateWidget<T>(string prefabPath) where T : UIWidget
         {
-            if (widgetDic.ContainsKey(typeof(T).Name))
+            if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
@@ -176,7 +184,6 @@ namespace MFramework
             return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath);
         }
 
-        //提供UIWidgetBehaviour形式，所以无需是一个Prefab才能执行
         public T CreateWidget<T>(string id, Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
         {
             T widget = Activator.CreateInstance<T>() as T;
@@ -192,7 +199,7 @@ namespace MFramework
         }
         public T CreateWidget<T>(Transform parent, UIWidgetBehaviour behaviour) where T : UIWidget
         {
-            if (widgetDic.ContainsKey(typeof(T).Name))
+            if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
@@ -201,14 +208,13 @@ namespace MFramework
         }
         public T CreateWidget<T>(UIWidgetBehaviour behaviour) where T : UIWidget
         {
-            if (widgetDic.ContainsKey(typeof(T).Name))
+            if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
             return CreateWidget<T>(typeof(T).Name, rectTransform, behaviour);
         }
-
 
         public bool DestroyWidget(string id)
         {
@@ -252,6 +258,7 @@ namespace MFramework
 
             widgetDic = null;
         }
+
         public T GetWidget<T>(string id) where T : UIWidget
         {
             if (widgetDic == null)
@@ -271,6 +278,7 @@ namespace MFramework
         {
             return GetWidget<T>(typeof(T).Name);
         }
+
         public bool ExistWidget(string id)
         {
             if (widgetDic == null || !widgetDic.ContainsKey(id)) 
@@ -279,6 +287,71 @@ namespace MFramework
             }
 
             return true;
+        }
+
+        //不需要SetVisible()操作，Open()/Close()就包含了这一操作
+        //public void SetPanelVisible(string id, bool visible)
+        //{
+        //    if (!widgetDic.ContainsKey(id))
+        //    {
+        //        MLog.Print($"UI：View-{viewID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
+        //        return;
+        //    }
+
+        //    UIWidget widget = widgetDic[id];
+        //    widget.SetVisible(visible);
+        //}
+        //public void SetPanelVisible<T>(bool visible)
+        //{
+        //    SetPanelVisible(typeof(T).Name, visible);
+        //}
+
+        public void OpenWidget(string id, Action onFinish = null)
+        {
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：View-{viewID}下没有<{id}>，打开失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIWidget widget = widgetDic[id];
+            widget.Open(onFinish);
+        }
+        public void OpenWidget<T>(Action onFinish = null)
+        {
+            OpenWidget(typeof(T).Name, onFinish);
+        }
+
+        public void CloseWidget(string id, Action onFinish = null)
+        {
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：View-{viewID}下没有<{id}>，关闭失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIWidget widget = widgetDic[id];
+            widget.Close(onFinish);
+        }
+        public void CloseWidget<T>(Action onFinish = null)
+        {
+            CloseWidget(typeof(T).Name, onFinish);
+        }
+
+        public void SetWidgetSibiling(string id, SiblingMode mode)
+        {
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：View-{viewID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIWidget widget = widgetDic[id];
+            widget.SetSibling(mode);
+        }
+        public void SetWidgetSibiling<T>(SiblingMode mode)
+        {
+            SetWidgetSibiling(typeof(T).Name, mode);
         }
         #endregion
 
@@ -314,6 +387,8 @@ namespace MFramework
         protected virtual void OnValueChanged(ScrollRect scrollRect, Vector2 value) { }
         protected virtual void OnValueChanged(TMP_Dropdown dropdown, int value) { }
         protected virtual void OnValueChanged(TMP_InputField inputField, string value) { }
+
+        protected virtual void OnVisibleChanged(bool visible) { }
         #endregion
 
         #region 组件事件绑定
@@ -414,5 +489,11 @@ namespace MFramework
             scrollRect.onValueChanged.RemoveAllListeners();
         }
         #endregion
+    }
+
+    public enum SiblingMode
+    {
+        Top,
+        Bottom
     }
 }

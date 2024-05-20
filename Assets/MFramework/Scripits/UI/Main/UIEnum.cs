@@ -1,13 +1,21 @@
 namespace MFramework
 {
-    //=====UIPanel=====
-    public enum UIPanelShowState
+    //=====UIWidget=====
+    public enum UIWidgetMode
     {
+        Simple,
+        Advanced
+    }
+
+    //=====UIPanel=====
+    public enum UIShowState
+    {
+        None,
         Off,
         On
     }
 
-    public enum UIPanelAnimState
+    public enum UIAnimState
     {
         Idle,//³õÊ¼×´Ì¬
         Opening,
@@ -23,18 +31,18 @@ namespace MFramework
         Enabled
     }
 
-    public enum UIPanelAnimSwitch
+    public enum UIAnimSwitch
     {
         Off,
         On
     }
 
-    public enum UIPanelOpenAnimMode
+    public enum UIOpenAnimMode
     {
         AutoPlay,
         SelfControl
     }
-    public enum UIPanelCloseAnimMode
+    public enum UICloseAnimMode
     {
         AutoPlay,
         SelfControl

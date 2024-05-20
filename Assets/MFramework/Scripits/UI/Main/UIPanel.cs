@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace MFramework
 {
+    /// <summary>
+    /// UI的基本组件，处于UICanvas下级
+    /// </summary>
     public class UIPanel : UIView
     {
         //UIView字段公开属性
@@ -14,10 +18,6 @@ namespace MFramework
         public UIRoot parentRoot { private set; get; }//UIPanel所在的UIRoot
         public Canvas canvas { private set; get; }
         public GraphicRaycaster graphicRaycaster { private set; get; }
-        public CanvasGroup canvasGroup { private set; get; }
-
-        public UIPanelShowState showState { protected set; get; } = UIPanelShowState.On;
-        public UIPanelAnimState animState { protected set; get; } = UIPanelAnimState.Idle;
 
         //不太合理，prefab存在复用情况(如背包)，应该由用户决定
         //public static HashSet<string> panelPrefabSet = new HashSet<string>();//检测是否已经存放过某个prefab
@@ -35,7 +35,7 @@ namespace MFramework
 
         internal bool Open(Action onFinish = null)
         {
-            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.On) 
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On) 
             {
                 return PlayOpenAnim(() =>
                 {
@@ -47,10 +47,9 @@ namespace MFramework
                 return SetVisible(true);
             }
         }
-
         internal bool Close(Action onFinish = null)
         {
-            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.On)
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
             {
                 return PlayCloseAnim(() =>
                 {
@@ -72,6 +71,7 @@ namespace MFramework
             });
         }
 
+        //Tip:不添加自身操作，防止Root管理出错
         internal void SetSortingOrder(int order)
         {
             canvas.sortingOrder = order;//更改所属Canvas的sortingOrder
@@ -80,8 +80,8 @@ namespace MFramework
         //TODO:可以加一个简单的过渡隐藏效果
         internal bool SetVisible(bool visible, bool enableTransition = false)
         {
-            if (showState == UIPanelShowState.On && visible) { return false; }
-            if (showState == UIPanelShowState.Off && !visible) { return false; }
+            if (showState == UIShowState.On && visible) { return false; }
+            if (showState == UIShowState.Off && !visible) { return false; }
 
             if (canvasGroup == null)
             {
@@ -91,7 +91,7 @@ namespace MFramework
             canvasGroup.interactable = visible;
             canvasGroup.blocksRaycasts = visible;
 
-            showState = visible ? UIPanelShowState.On : UIPanelShowState.Off;
+            showState = visible ? UIShowState.On : UIShowState.Off;
 
             OnVisibleChanged(visible);
 
@@ -105,16 +105,16 @@ namespace MFramework
 
         protected virtual bool PlayOpenAnim(Action onFinish = null)
         {
-            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.Off) return false;
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.Off) return false;
 
-            if (panelBehaviour.OpenAnimMode == UIPanelOpenAnimMode.AutoPlay)
+            if (panelBehaviour.OpenAnimMode == UIOpenAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经打开的也无需再次执行)
-                if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Opened)
+                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Opened)
                     return false;
 
-                animState = UIPanelAnimState.Opening;
-                panelBehaviour.PlayOpenAnim(() => { animState = UIPanelAnimState.Opened; onFinish?.Invoke(); });
+                animState = UIAnimState.Opening;
+                panelBehaviour.PlayOpenAnim(() => { animState = UIAnimState.Opened; onFinish?.Invoke(); });
             }
             else
             {
@@ -125,16 +125,16 @@ namespace MFramework
         }
         protected virtual bool PlayCloseAnim(Action onFinish = null)
         {
-            if (panelBehaviour.AnimSwitch == UIPanelAnimSwitch.Off) return false;
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.Off) return false;
 
-            if (panelBehaviour.CloseAnimMode == UIPanelCloseAnimMode.AutoPlay)
+            if (panelBehaviour.CloseAnimMode == UICloseAnimMode.AutoPlay)
             {
                 //正在操作的内容无法再次执行(已经关闭的也无需再次执行)
-                if (animState == UIPanelAnimState.Opening || animState == UIPanelAnimState.Closing || animState == UIPanelAnimState.Closed)
+                if (animState == UIAnimState.Opening || animState == UIAnimState.Closing || animState == UIAnimState.Closed)
                     return false;
 
-                animState = UIPanelAnimState.Closing;
-                panelBehaviour.PlayCloseAnim(() => { animState = UIPanelAnimState.Closed; onFinish?.Invoke(); });
+                animState = UIAnimState.Closing;
+                panelBehaviour.PlayCloseAnim(() => { animState = UIAnimState.Closed; onFinish?.Invoke(); });
             }
             else
             {
@@ -145,22 +145,22 @@ namespace MFramework
         }
 
         #region 自身操作
-        public void DestroySelf()
+        protected void DestroySelf()
         {
             parentRoot.panelDic.Remove(panelID);
             Destroy();
         }
 
-        public void SetVisibleSelf(bool visible)
-        {
-            SetVisible(visible);
-        }
+        //protected void SetVisibleSelf(bool visible)
+        //{
+        //    SetVisible(visible);
+        //}
 
-        public void OpenSelf(Action onFinish = null)
+        protected void OpenSelf(Action onFinish = null)
         {
             Open(onFinish);
         }
-        public void CloseSelf(Action onFinish = null)
+        protected void CloseSelf(Action onFinish = null)
         {
             Close(onFinish);
         }
@@ -180,7 +180,7 @@ namespace MFramework
             //使各个Panel可以正常排序(因为是嵌套的)
             canvas.overrideSorting = true;
 
-            panelBehaviour.panel = this;//捕获归属物
+            panelBehaviour.view = this;//捕获归属物
         }
         protected internal override void DestroyingInternal()
         {
@@ -210,7 +210,6 @@ namespace MFramework
         #endregion
 
         #region 子类生命周期
-        protected virtual void OnVisibleChanged(bool visible) { }
         protected virtual void OnFocusChanged(bool focus) { }
         #endregion
     }

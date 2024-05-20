@@ -41,7 +41,7 @@ public class Bag_Main : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (bagList[0].showState == UIPanelShowState.On)
+            if (bagList[0].showState == UIShowState.On)
             {
                 //bagRoot.SetPanelVisible("Bag1", false, true);
                 bagRoot.ClosePanel("Bag1");
@@ -54,7 +54,7 @@ public class Bag_Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (bagList[1].showState == UIPanelShowState.On)
+            if (bagList[1].showState == UIShowState.On)
             {
                 //bagRoot.SetPanelVisible("Bag2", false, true);
                 bagRoot.ClosePanel("Bag2");
@@ -67,7 +67,7 @@ public class Bag_Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (bagList[2].showState == UIPanelShowState.On)
+            if (bagList[2].showState == UIShowState.On)
             {
                 //bagRoot.SetPanelVisible("Bag3", false, true);
                 bagRoot.ClosePanel("Bag3");

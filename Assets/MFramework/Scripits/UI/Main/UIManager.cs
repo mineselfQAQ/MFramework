@@ -62,6 +62,9 @@ namespace MFramework
             return uiRoot;
         }
 
+        /// <summary>
+        /// 检测最上层Panel并设置Focus
+        /// </summary>
         private void ClickDetect()
         {
             PointerEventData eventData = new PointerEventData(current);
@@ -99,7 +102,7 @@ namespace MFramework
                     }
                 }
 
-                return topItemCanvas.GetComponent<UIPanelBehaviour>().panel;
+                return (UIPanel)topItemCanvas.GetComponent<UIPanelBehaviour>().view;
             }
 
             return null;
