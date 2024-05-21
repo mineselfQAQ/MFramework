@@ -200,6 +200,18 @@ namespace MFramework
             ClosePanel(typeof(T).Name, onFinish);
         }
 
+        public void SetPanelSibling(string id, SiblingMode mode)
+        {
+            if (!panelDic.ContainsKey(id))
+            {
+                MLog.Print($"UI：Root-{rootID}下没有<{id}>，更改失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIPanel panel = panelDic[id];
+            panel.SetPanelSibling(mode);
+        }
+
         private void MaintainTopPanel_Create<T>(T panel, int order) where T : UIPanel
         {
             if (panel.panelBehaviour.FocusMode == UIPanelFocusMode.Disabled) return;

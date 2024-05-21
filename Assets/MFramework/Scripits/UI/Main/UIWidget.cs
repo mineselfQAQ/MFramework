@@ -21,15 +21,10 @@ namespace MFramework
         {
             parentView = parent;
             base.Create(id, parentTrans, prefabPath);
-            panel = (UIPanel)gameObject.GetComponentInParent<UIPanelBehaviour>().view;
 
             if (!autoEnter)
             {
-                if (canvasGroup == null)
-                {
-                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-                }
-                canvasGroup.alpha = 0;
+                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
 
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
@@ -50,15 +45,10 @@ namespace MFramework
         {
             parentView = parent;
             base.Create(id, parentTrans, behaviour);
-            panel = (UIPanel)gameObject.GetComponentInParent<UIPanelBehaviour>().view;
 
             if (!autoEnter)
             {
-                if (canvasGroup == null)
-                {
-                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-                }
-                canvasGroup.alpha = 0;
+                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
 
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
@@ -74,20 +64,6 @@ namespace MFramework
                     SetVisible(true);
                 }
             }
-        }
-
-        internal void SetSibling(SiblingMode mode)
-        {
-            if (mode == SiblingMode.Top) SetToTop();
-            else if (mode == SiblingMode.Bottom) SetToBottom();
-        }
-        internal void SetToTop()
-        {
-            rectTransform.SetAsLastSibling();
-        }
-        internal void SetToBottom()
-        {
-            rectTransform.SetAsLastSibling();
         }
 
         #region 自身操作
@@ -109,27 +85,47 @@ namespace MFramework
         }
         #endregion
 
-        #region 高级模式操作
+        #region 核心操作
+        internal void SetSibling(SiblingMode mode)
+        {
+            if (mode == SiblingMode.Top) SetToTop();
+            else if (mode == SiblingMode.Bottom) SetToBottom();
+        }
+        internal void SetToTop()
+        {
+            rectTransform.SetAsLastSibling();
+        }
+        internal void SetToBottom()
+        {
+            rectTransform.SetAsLastSibling();
+        }
+
         internal bool Open(Action onFinish = null)
         {
             //Simple模式自动调用SetVisible()
             if (widgetBehaviour.WidgetMode == UIWidgetMode.Simple)
             {
-                return SetVisible(true);
+                bool flag = SetVisible(true);
+                if(flag) OnVisibleChanged(true);
+                return flag;
             }
 
             if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
             {
-                if (canvasGroup.alpha == 0) canvasGroup.alpha = 1;//autoEnter导致的第一次进入
+                if (CanvasGroup.alpha == 0) 
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);//autoEnter导致的第一次进入
 
                 return PlayOpenAnim(() =>
                 {
+                    OnVisibleChanged(true);
                     onFinish?.Invoke();
                 });
             }
             else
             {
-                return SetVisible(true);
+                bool flag = SetVisible(true);
+                if (flag) OnVisibleChanged(true);
+                return flag;
             }
         }
         internal bool Close(Action onFinish = null)
@@ -137,19 +133,24 @@ namespace MFramework
             //Simple模式自动调用SetVisible()
             if (widgetBehaviour.WidgetMode == UIWidgetMode.Simple)
             {
-                return SetVisible(false);
+                bool flag = SetVisible(false);
+                if (flag) OnVisibleChanged(false);
+                return flag;
             }
 
             if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
             {
                 return PlayCloseAnim(() =>
                 {
+                    OnVisibleChanged(false);
                     onFinish?.Invoke();
                 });
             }
             else
             {
-                return SetVisible(false);
+                bool flag = SetVisible(false);
+                if (flag) OnVisibleChanged(false);
+                return flag;
             }
         }
 
@@ -158,17 +159,11 @@ namespace MFramework
             if (ShowState == UIShowState.On && visible) { return false; }
             if (ShowState == UIShowState.Off && !visible) { return false; }
 
-            if (canvasGroup == null)
-            {
-                canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-            }
-            canvasGroup.alpha = visible ? 1 : 0;
-            canvasGroup.interactable = visible;
-            canvasGroup.blocksRaycasts = visible;
+            CanvasGroup.alpha = visible ? 1 : 0;
+            CanvasGroup.interactable = visible;
+            CanvasGroup.blocksRaycasts = visible;
 
             ShowState = visible ? UIShowState.On : UIShowState.Off;
-
-            OnVisibleChanged(visible);
 
             return true;
         }
@@ -221,10 +216,12 @@ namespace MFramework
             base.CreatingInternal();
 
             widgetBehaviour.view = this;//捕获归属物
+            panel = (UIPanel)gameObject.GetComponentInParent<UIPanelBehaviour>().view;
         }
         protected internal override void DestroyingInternal()
         {
             parentView = null;
+            panel = null;
 
             base.DestroyingInternal();
         }

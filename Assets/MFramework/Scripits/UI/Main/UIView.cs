@@ -19,7 +19,23 @@ namespace MFramework
         protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
 
         public string prefabName { private set; get; }//预制体名字
-        public CanvasGroup canvasGroup { internal set; get; }//TODO:canvasGroup是不是必添加组件？如果是应该直接创建
+
+        private CanvasGroup canvasGroup;
+        public CanvasGroup CanvasGroup 
+        {
+            internal set
+            {
+                canvasGroup = value;
+            }
+            get 
+            {
+                if (canvasGroup == null)
+                {
+                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+                }
+                return canvasGroup;
+            } 
+        }
 
         protected Dictionary<string, UIWidget> widgetDic { private set; get; }
 
@@ -58,10 +74,10 @@ namespace MFramework
             }
         }
 
+        #region 基类操作
         protected void Create(string id, Transform parent, string prefabPath)
         {
-            bool flag = InstantiateAndCollectFields(id, parent, prefabPath, null);
-            if (!flag) return;
+            InstantiateAndCollectFields(id, parent, prefabPath, null);
 
             CreatingInternal();//内部创建
             OnBindCompsAndEvents();//绑定(由Base类完成)
@@ -72,8 +88,7 @@ namespace MFramework
         }
         protected void Create(string id, Transform parent, UIViewBehaviour behaviour)
         {
-            bool flag = InstantiateAndCollectFields(id, parent, null, behaviour);
-            if (!flag) return;
+            InstantiateAndCollectFields(id, parent, null, behaviour);
 
             CreatingInternal();//内部创建
             OnBindCompsAndEvents();//绑定(由Base类完成)
@@ -109,8 +124,8 @@ namespace MFramework
                 GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
                 if (prefab == null) { MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning); return false; }
 #else
-            GameObject prefab = LoadPrefab(prefabPath);
-            if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
+                GameObject prefab = LoadPrefab(prefabPath);
+                if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
 #endif
                 GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
                 //检测
@@ -171,6 +186,7 @@ namespace MFramework
             GameObject prefab = Resources.Load<GameObject>(prefabPath);
             return prefab;
         }
+        #endregion
 
         //之所以需要将Widget的创建写在这里，是因为：
         //无论是Panel还是Widget，都是能创建/删除Widget的
@@ -213,27 +229,14 @@ namespace MFramework
             return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath, autoEnter);
         }
 
-        public T CreateWidget<T>(string id, Transform parent, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
+        public T CreateWidget<T>(string id, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
             T widget = Activator.CreateInstance<T>() as T;
-            widget.Create(id, parent, behaviour, this, autoEnter);
+            widget.Create(id, behaviour.transform.parent, behaviour, this, autoEnter);
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
             return widget;
-        }
-        public T CreateWidget<T>(string id, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
-        {
-            return CreateWidget<T>(id, rectTransform, behaviour, autoEnter);
-        }
-        public T CreateWidget<T>(Transform parent, UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
-        {
-            if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
-            {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
-                return null;
-            }
-            return CreateWidget<T>(typeof(T).Name, parent, behaviour, autoEnter);
         }
         public T CreateWidget<T>(UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
@@ -242,7 +245,7 @@ namespace MFramework
                 MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
                 return null;
             }
-            return CreateWidget<T>(typeof(T).Name, rectTransform, behaviour, autoEnter);
+            return CreateWidget<T>(typeof(T).Name, behaviour, autoEnter);
         }
 
         public bool DestroyWidget(string id)

@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class MText : MonoBehaviour
+namespace MFramework.UI
 {
-    // Start is called before the first frame update
-    void Start()
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(MLocalization))]
+    [AddComponentMenu("MFramework/MText")]
+    public class MText : TextMeshProUGUI
     {
-        
-    }
+        private MLocalization localization;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void Awake()
+        {
+            base.Awake();
+            Init();
+        }
+
+        private void Init()
+        {
+            localization = GetComponent<MLocalization>();
+        }
     }
 }

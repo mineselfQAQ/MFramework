@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4800228594018409347}
   - component: {fileID: 3522196860629786196}
+  - component: {fileID: 444138358876277186}
   m_Layer: 5
   m_Name: TitleGroup
   m_TagString: Untagged
@@ -65,6 +66,18 @@ MonoBehaviour:
   openAnimMode: 0
   closeAnimMode: 0
   widgetMode: 1
+--- !u!225 &444138358876277186
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2348627320315266159}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2532463037245882591
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,16 +32,7 @@ namespace MFramework
 
             if (!autoEnter)
             {
-                //gameObject.SetActive(false);//不可用，后续大概率是因为未开启导致空引用出现
-
-                //TODO:这个方法会导致动画模式也需要添加CanvasGroup，应该用其他方法
-                //动画模式本身并没有alpha，对于不自动启动模式来说，动画并不应该使用Close()，而是瞬切
-                //启用CanvasGroup并将Alpha设置为0
-                if (canvasGroup == null)
-                {
-                    canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-                }
-                canvasGroup.alpha = 0;
+                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
 
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
@@ -58,38 +49,6 @@ namespace MFramework
                 }
             }
         }
-
-        internal bool Open(Action onFinish = null)
-        {
-            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On) 
-            {
-                if (canvasGroup.alpha == 0) canvasGroup.alpha = 1;//autoEnter导致的第一次进入
-
-                return PlayOpenAnim(() =>
-                {
-                    onFinish?.Invoke();
-                });
-            }
-            else
-            {
-                return SetVisible(true);
-            }
-        }
-        internal bool Close(Action onFinish = null)
-        {
-            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
-            {
-                return PlayCloseAnim(() =>
-                {
-                    onFinish?.Invoke();
-                });
-            }
-            else
-            {
-                return SetVisible(false);
-            }
-        }
-
         internal void Destroy(Action onFinish = null)
         {
             PlayCloseAnim(() =>
@@ -99,10 +58,65 @@ namespace MFramework
             });
         }
 
+        internal bool Open(Action onFinish = null)
+        {
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On) 
+            {
+                if (CanvasGroup.alpha == 0)
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);//autoEnter导致的第一次进入
+
+                return PlayOpenAnim(() =>
+                {
+                    OnVisibleChanged(true);
+                    onFinish?.Invoke();
+                });
+            }
+            else
+            {
+                bool flag = SetVisible(true);
+                if (flag) OnVisibleChanged(true);
+                return flag;
+            }
+        }
+        internal bool Close(Action onFinish = null)
+        {
+            if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
+            {
+                return PlayCloseAnim(() =>
+                {
+                    OnVisibleChanged(false);
+                    onFinish?.Invoke();
+                });
+            }
+            else
+            {
+                bool flag = SetVisible(false);
+                if (flag) OnVisibleChanged(false);
+                return flag;
+            }
+        }
+
         //Tip:不添加自身操作，防止Root管理出错
         internal void SetSortingOrder(int order)
         {
             canvas.sortingOrder = order;//更改所属Canvas的sortingOrder
+        }
+        internal void SetPanelSibling(SiblingMode mode)
+        {
+            UIRoot root = parentRoot;
+            if (mode == SiblingMode.Top)
+            {
+                int order = root.topOrder + root.topPanel.panelBehaviour.Thickness;
+                SetSortingOrder(order);
+                if (order > root.endOrder) UIPanelUtility.ResetOrder(root);
+            }
+            else if (mode == SiblingMode.Bottom)
+            {
+                UIPanel bottomPanel = UIPanelUtility.FilterBottommostPanel(root);
+                int order = bottomPanel.sortingOrder - panelBehaviour.Thickness;
+                SetSortingOrder(order);
+                if (order < root.startOrder) UIPanelUtility.ResetOrder(root);
+            }
         }
 
         //TODO:可以加一个简单的过渡隐藏效果
@@ -111,17 +125,9 @@ namespace MFramework
             if (ShowState == UIShowState.On && visible) { return false; }
             if (ShowState == UIShowState.Off && !visible) { return false; }
 
-            if (canvasGroup == null)
-            {
-                canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-            }
-            canvasGroup.alpha = visible ? 1 : 0;
-            canvasGroup.interactable = visible;
-            canvasGroup.blocksRaycasts = visible;
+            UIPanelUtility.SetCanvasGroupActive(CanvasGroup, visible);
 
             ShowState = visible ? UIShowState.On : UIShowState.Off;
-
-            OnVisibleChanged(visible);
 
             return true;
         }
@@ -142,7 +148,11 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Opening;
-                panelBehaviour.PlayOpenAnim(() => { AnimState = UIAnimState.Opened; onFinish?.Invoke(); });
+                panelBehaviour.PlayOpenAnim(() => 
+                { 
+                    AnimState = UIAnimState.Opened;
+                    onFinish?.Invoke(); 
+                });
             }
             else
             {
@@ -162,7 +172,11 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Closing;
-                panelBehaviour.PlayCloseAnim(() => { AnimState = UIAnimState.Closed; onFinish?.Invoke(); });
+                panelBehaviour.PlayCloseAnim(() => 
+                { 
+                    AnimState = UIAnimState.Closed;
+                    onFinish?.Invoke(); 
+                });
             }
             else
             {
@@ -183,6 +197,10 @@ namespace MFramework
         //{
         //    SetVisible(visible);
         //}
+        protected void SetPanelSiblingSelf(SiblingMode mode)
+        {
+            SetPanelSibling(mode);
+        }
 
         protected void OpenSelf(Action onFinish = null)
         {
@@ -204,7 +222,7 @@ namespace MFramework
 
             canvas = panelBehaviour.gameObject.GetOrAddComponent<Canvas>();
             graphicRaycaster = gameObject.GetOrAddComponent<GraphicRaycaster>();
-
+            
             //使各个Panel可以正常排序(因为是嵌套的)
             canvas.overrideSorting = true;
 
@@ -212,9 +230,7 @@ namespace MFramework
         }
         protected internal override void DestroyingInternal()
         {
-            //UIBlocker.Instance.Unbind();
-
-            canvasGroup = null;
+            CanvasGroup = null;
             graphicRaycaster = null;
             canvas = null;
             parentRoot = null;

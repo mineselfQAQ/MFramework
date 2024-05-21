@@ -24,6 +24,15 @@ namespace MFramework
             }
             return comp;
         }
+
+        public static void SetParent(this GameObject go, GameObject parent)
+        {
+            go.transform.SetParent(parent.transform);
+        }
+        public static void SetParent(this GameObject go, Transform parent)
+        {
+            go.transform.SetParent(parent);
+        }
     }
 }
 

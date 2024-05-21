@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class Localization : MonoBehaviour
+    public class MLocalization : MonoBehaviour
     {
         public LocalizationMode mode = LocalizationMode.On;
         public int localID = -1;

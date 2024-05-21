@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4362531142120050471}
   - component: {fileID: 6369194045199747324}
+  - component: {fileID: 2397539303445511154}
   m_Layer: 5
   m_Name: SettingGroup
   m_TagString: Untagged
@@ -57,10 +58,25 @@ MonoBehaviour:
   - target: {fileID: 6764412994046968641}
     compList:
     - {fileID: 1995929026133070329}
+  - target: {fileID: 8830120871152505691}
+    compList:
+    - {fileID: 3563049563475112103}
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0
   widgetMode: 0
+--- !u!225 &2397539303445511154
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2198109261920163482}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5217298699749199337
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Language:xxx
+  m_text: Language:Chinese
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

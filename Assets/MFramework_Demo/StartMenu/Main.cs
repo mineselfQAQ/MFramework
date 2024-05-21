@@ -21,7 +21,7 @@ namespace MFramework.Demo
         public Button chineseBtn;
         public Button englishBtn;
 
-        public Localization loc;
+        public MLocalization loc;
 
         private void Start()
         {
@@ -70,9 +70,9 @@ namespace MFramework.Demo
             });
         }
 
-        private List<Localization> FindAllLoclization()
+        private List<MLocalization> FindAllLoclization()
         {
-            List<Localization> list = new List<Localization>();
+            List<MLocalization> list = new List<MLocalization>();
             list.Add(loc);
             return list;
         }

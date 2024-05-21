@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -71,17 +72,6 @@ namespace MFramework
             return panels;
         }
         /// <summary>
-        /// 筛选Panel并获取最上层Panel
-        /// </summary>
-        public static UIPanel FilterTopestPanel(UIRoot root, Func<UIPanel, bool> filterFunc = null)
-        {
-            List<UIPanel> panels = FilterPanels(root, filterFunc);
-
-            panels.Sort((a, b) => { return a.canvas.sortingOrder - b.canvas.sortingOrder; });
-
-            return panels.Count > 0 ? panels[panels.Count - 1] : null;
-        }
-        /// <summary>
         /// 筛选Panel并排序
         /// </summary>
         /// <param name="filterFunc"></param>
@@ -93,6 +83,38 @@ namespace MFramework
             panels.Sort((a, b) => { return a.canvas.sortingOrder - b.canvas.sortingOrder; });
 
             return panels;
+        }
+        /// <summary>
+        /// 筛选Panel并获取最上层Panel
+        /// </summary>
+        public static UIPanel FilterTopestPanel(UIRoot root, Func<UIPanel, bool> filterFunc = null)
+        {
+            List<UIPanel> panels = FilterPanels(root, filterFunc);
+
+            panels.Sort((a, b) => { return a.canvas.sortingOrder - b.canvas.sortingOrder; });
+
+            return panels.Count > 0 ? panels[panels.Count - 1] : null;
+        }
+        /// <summary>
+        /// 筛选Panel并获取最下层Panel
+        /// </summary>
+        public static UIPanel FilterBottommostPanel(UIRoot root, Func<UIPanel, bool> filterFunc = null)
+        {
+            List<UIPanel> panels = FilterPanels(root, filterFunc);
+
+            panels.Sort((a, b) => { return a.canvas.sortingOrder - b.canvas.sortingOrder; });
+
+            return panels.Count > 0 ? panels[0] : null;
+        }
+
+        public static bool SetCanvasGroupActive(CanvasGroup canvasGroup, bool active)
+        {
+            if (canvasGroup == null) return false;
+
+            canvasGroup.alpha = active ? 1 : 0;
+            canvasGroup.interactable = active;
+            canvasGroup.blocksRaycasts = active;
+            return true;
         }
     }
 }
