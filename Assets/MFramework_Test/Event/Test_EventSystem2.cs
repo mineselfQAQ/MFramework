@@ -5,13 +5,13 @@ public class Test_EventSystem2 : MonoBehaviour
 {
     private void Awake()
     {
-        EventSystem.AddListener(BuiltInEvent.AWAKE, (b) => { MLog.Print("AWAKE"); });
-        EventSystem.AddListener(BuiltInEvent.START, (b) => { MLog.Print("START"); });
-        EventSystem.AddListener(BuiltInEvent.UPDATE, () => { MLog.Print("UPDATE"); });
-        EventSystem.AddListener(BuiltInEvent.FIXEDUPDATE, () => { MLog.Print("FIXEDUPDATE"); });
-        EventSystem.AddListener(BuiltInEvent.LATEUPDATE, () => { MLog.Print("LATEUPDATE"); });
-        EventSystem.AddListener(BuiltInEvent.ONAPPLICATIONFOCUS, (b) => { MLog.Print($"ONAPPLICATIONFOCUS focus:{b}"); });
-        EventSystem.AddListener(BuiltInEvent.ONAPPLICATIONPAUSE, (b) => { MLog.Print($"ONAPPLICATIONPAUSE puase:{b}"); });
-        EventSystem.AddListener(BuiltInEvent.ONAPPLICATIONQUIT, () => { MLog.Print("ONAPPLICATIONQUIT"); });
+        MEventSystem.AddListener(BuiltInEvent.AWAKE, (b) => { MLog.Print("AWAKE"); });
+        MEventSystem.AddListener(BuiltInEvent.START, (b) => { MLog.Print("START"); });
+        MEventSystem.AddListener(BuiltInEvent.UPDATE, () => { MLog.Print("UPDATE"); });
+        MEventSystem.AddListener(BuiltInEvent.FIXEDUPDATE, () => { MLog.Print("FIXEDUPDATE"); });
+        MEventSystem.AddListener(BuiltInEvent.LATEUPDATE, () => { MLog.Print("LATEUPDATE"); });
+        MEventSystem.AddListener(BuiltInEvent.ONAPPLICATIONFOCUS, (b) => { MLog.Print($"ONAPPLICATIONFOCUS focus:{b}"); });
+        MEventSystem.AddListener(BuiltInEvent.ONAPPLICATIONPAUSE, (b) => { MLog.Print($"ONAPPLICATIONPAUSE puase:{b}"); });
+        MEventSystem.AddListener(BuiltInEvent.ONAPPLICATIONQUIT, () => { MLog.Print("ONAPPLICATIONQUIT"); });
     }
 }

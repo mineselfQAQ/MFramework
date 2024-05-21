@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 namespace MFramework
 {
-    public static class EventSystem
+    public static class MEventSystem
     {
         private static Dictionary<int, Action> eventDict = new Dictionary<int, Action>();
         //builtInEventDict---一般事件用

@@ -50,7 +50,7 @@ namespace MFramework
             {
                 if (viewBehaviour.AnimSwitch == UIAnimSwitch.On)
                 {
-                    MLog.Print($"UI：<{viewID}>已开启动画，请调用AnimState检查", MLogType.Warning);
+                    //MLog.Print($"UI：<{viewID}>已开启动画，请调用AnimState检查", MLogType.Warning);
                     return UIShowState.None;
                 }
                 return showState;
@@ -67,7 +67,7 @@ namespace MFramework
             {
                 if (viewBehaviour.AnimSwitch != UIAnimSwitch.On)
                 {
-                    MLog.Print($"UI：<{viewID}>未开启动画，请调用ShowState检查", MLogType.Warning);
+                    //MLog.Print($"UI：<{viewID}>未开启动画，请调用ShowState检查", MLogType.Warning);
                     return UIAnimState.None;
                 }
                 return animState;

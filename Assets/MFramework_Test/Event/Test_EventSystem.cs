@@ -14,7 +14,7 @@ public class Test_EventSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             MLog.Print($"发生事件：id-{EventID.WINDY}");
-            EventSystem.Dispatch(EventID.WINDY);
+            MEventSystem.Dispatch(EventID.WINDY);
         }
     }
 
@@ -22,14 +22,14 @@ public class Test_EventSystem : MonoBehaviour
     {
         public Player()
         {
-            EventSystem.AddListener(EventID.WINDY, () => { MLog.Print("Player: 刮风了"); });
+            MEventSystem.AddListener(EventID.WINDY, () => { MLog.Print("Player: 刮风了"); });
         }
     }
     public class Bird
     {
         public Bird()
         {
-            EventSystem.AddListener(EventID.WINDY, () => { MLog.Print("Bird: 刮风了"); });
+            MEventSystem.AddListener(EventID.WINDY, () => { MLog.Print("Bird: 刮风了"); });
         }
     }
 

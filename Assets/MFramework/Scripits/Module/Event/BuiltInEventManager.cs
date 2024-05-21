@@ -7,42 +7,42 @@ namespace MFramework
     {
         private void Awake()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.AWAKE);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.AWAKE);
         }
 
         private void Start()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.START);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.START);
         }
 
         private void FixedUpdate()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.FIXEDUPDATE);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.FIXEDUPDATE);
         }
 
         private void Update()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.UPDATE);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.UPDATE);
         }
 
         private void LateUpdate()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.LATEUPDATE);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.LATEUPDATE);
         }
 
         private void OnApplicationFocus(bool focus)
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONFOCUS, focus);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONFOCUS, focus);
         }
 
         private void OnApplicationPause(bool pause)
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONPAUSE, pause);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONPAUSE, pause);
         }
 
         private void OnApplicationQuit()
         {
-            EventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONQUIT);
+            MEventSystem.DispatchBuiltIn(BuiltInEvent.ONAPPLICATIONQUIT);
         }
     }
 }

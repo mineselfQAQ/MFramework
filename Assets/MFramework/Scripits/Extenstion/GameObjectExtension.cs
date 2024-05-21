@@ -27,10 +27,12 @@ namespace MFramework
 
         public static void SetParent(this GameObject go, GameObject parent)
         {
+            if (parent == null) return;
             go.transform.SetParent(parent.transform);
         }
         public static void SetParent(this GameObject go, Transform parent)
         {
+            if (parent == null) return;
             go.transform.SetParent(parent);
         }
     }
