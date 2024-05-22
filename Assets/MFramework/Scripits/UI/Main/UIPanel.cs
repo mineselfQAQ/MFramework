@@ -151,7 +151,9 @@ namespace MFramework
                 panelBehaviour.PlayOpenAnim(() => 
                 { 
                     AnimState = UIAnimState.Opened;
-                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);
+                    //对于开启情况，需要等动画结束后使整体激活，防止再次点击
+                    CanvasGroup.interactable = true;
+                    CanvasGroup.blocksRaycasts = true;
                     onFinish?.Invoke(); 
                 });
             }
@@ -173,10 +175,12 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Closing;
+                //对于关闭情况，需要提前使整体失活，防止再次点击
+                CanvasGroup.interactable = false;
+                CanvasGroup.blocksRaycasts = false;
                 panelBehaviour.PlayCloseAnim(() => 
                 { 
                     AnimState = UIAnimState.Closed;
-                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
                     onFinish?.Invoke(); 
                 });
             }
