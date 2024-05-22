@@ -1,6 +1,4 @@
 ﻿using MFramework;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class TitleGroup : TitleGroupBase
@@ -26,11 +24,7 @@ public class TitleGroup : TitleGroupBase
             panel.parentRoot.ClosePanel(panel.panelID, () => 
             {
                 MLog.Print("已退出游戏");
-#if UNITY_EDITOR
-                EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+                MUtility.QuitGame();
             });
             
         }

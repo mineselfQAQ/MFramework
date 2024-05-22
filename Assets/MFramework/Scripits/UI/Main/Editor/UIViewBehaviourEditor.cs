@@ -299,8 +299,11 @@ namespace MFramework
         {
             HashSet<string> set = new HashSet<string>()
             {
+                //===UGUI===
                 "Button", "Toggle", "Dropdown", "InputField", "Slider", "Scrollbar", "ScrollRect",
                 "TMP_Dropdown", "TMP_InputField",
+                //===MÀ©Õ¹===
+                "MButton"
             };
 
             if (!set.Contains(typeName))
@@ -368,6 +371,7 @@ namespace MFramework
 
         private const string UIBASECODE =
     @"using MFramework;
+using MFramework.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

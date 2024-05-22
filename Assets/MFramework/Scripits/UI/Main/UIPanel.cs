@@ -151,6 +151,7 @@ namespace MFramework
                 panelBehaviour.PlayOpenAnim(() => 
                 { 
                     AnimState = UIAnimState.Opened;
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);
                     onFinish?.Invoke(); 
                 });
             }
@@ -175,6 +176,7 @@ namespace MFramework
                 panelBehaviour.PlayCloseAnim(() => 
                 { 
                     AnimState = UIAnimState.Closed;
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
                     onFinish?.Invoke(); 
                 });
             }

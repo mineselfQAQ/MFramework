@@ -1,4 +1,5 @@
 using MFramework;
+using MFramework.UI;
 using System.IO;
 using System.Text;
 using TMPro;
@@ -7,26 +8,15 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
-    public Transform a;
-    public Transform b;
-    public Transform c;
+    public MButton myButton;  // 引用到Button组件
 
-    private void Start()
+    void Start()
     {
-        b.SetAsFirstSibling();
+        myButton.onClick.AddListener(() => { Debug.Log("LOG"); });
     }
-}
 
-namespace AAA
-{
-    public class A
+    public void Log()
     {
 
     }
-    public class B
-    {
-
-    }
-
-    
 }

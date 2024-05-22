@@ -159,9 +159,7 @@ namespace MFramework
             if (ShowState == UIShowState.On && visible) { return false; }
             if (ShowState == UIShowState.Off && !visible) { return false; }
 
-            CanvasGroup.alpha = visible ? 1 : 0;
-            CanvasGroup.interactable = visible;
-            CanvasGroup.blocksRaycasts = visible;
+            UIPanelUtility.SetCanvasGroupActive(CanvasGroup, visible);
 
             ShowState = visible ? UIShowState.On : UIShowState.Off;
 
@@ -179,7 +177,12 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Opening;
-                widgetBehaviour.PlayOpenAnim(() => { AnimState = UIAnimState.Opened; onFinish?.Invoke(); });
+                widgetBehaviour.PlayOpenAnim(() => 
+                {
+                    AnimState = UIAnimState.Opened;
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);
+                    onFinish?.Invoke(); 
+                });
             }
             else
             {
@@ -199,7 +202,12 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Closing;
-                widgetBehaviour.PlayCloseAnim(() => { AnimState = UIAnimState.Closed; onFinish?.Invoke(); });
+                widgetBehaviour.PlayCloseAnim(() => 
+                {
+                    AnimState = UIAnimState.Closed;
+                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
+                    onFinish?.Invoke(); 
+                });
             }
             else
             {

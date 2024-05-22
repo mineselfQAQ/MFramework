@@ -103,7 +103,7 @@ namespace MFramework
             foreach (var comp in comps)
             {
                 MonoScript monoScript = MonoScript.FromMonoBehaviour(comp as MonoBehaviour);
-                if (monoScript != null && monoScript.name == "UIPanelBehaviour")
+                if (monoScript != null && (monoScript.name == "UIPanelBehaviour" || monoScript.name == "UIWidgetBehaviour"))
                 {
                     flag = true;
                     break;
@@ -111,7 +111,7 @@ namespace MFramework
             }
             if (!flag)
             {
-                MLog.Print($"{objs[0].name}中没有UIPanelBehaviour脚本，无法进行创建操作，请重试", MLogType.Warning);
+                MLog.Print($"{objs[0].name}中没有UIPanelBehaviour或UIWidgetBehaviour脚本，无法进行创建操作，请重试", MLogType.Warning);
                 return false;
             }
 
