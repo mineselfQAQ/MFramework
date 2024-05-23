@@ -441,6 +441,7 @@ namespace MFramework
                 types[i] = sheet.Rows[2][i].ToString();
             }
             //data
+            int realCol = 0;//可能有不计数的none类型，需要减去相应位置
             for (int col = 0; col < colCount; col++)
             {
                 string colType = sheet.Rows[2][col].ToString();
@@ -448,7 +449,7 @@ namespace MFramework
                 {
                     if (colType == "byte")
                     {
-                        data[row][col] = Convert.ToByte(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToByte(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "byte[]")
                     {
@@ -462,11 +463,11 @@ namespace MFramework
                             resBytes[i] = Convert.ToByte(splitStrs[i]);
                         }
 
-                        data[row][col] = resBytes;
+                        data[row][realCol] = resBytes;
                     }
                     else if (colType == "short")
                     {
-                        data[row][col] = Convert.ToInt16(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToInt16(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "short[]")
                     {
@@ -480,11 +481,11 @@ namespace MFramework
                             resShorts[i] = Convert.ToInt16(splitStrs[i]);
                         }
 
-                        data[row][col] = resShorts;
+                        data[row][realCol] = resShorts;
                     }
                     else if (colType == "int")
                     {
-                        data[row][col] = Convert.ToInt32(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToInt32(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "int[]")
                     {
@@ -498,11 +499,11 @@ namespace MFramework
                             resInts[i] = Convert.ToInt32(splitStrs[i]);
                         }
 
-                        data[row][col] = resInts;
+                        data[row][realCol] = resInts;
                     }
                     else if (colType == "long")
                     {
-                        data[row][col] = Convert.ToUInt64(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToUInt64(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "long[]")
                     {
@@ -516,11 +517,11 @@ namespace MFramework
                             resLongs[i] = Convert.ToInt64(splitStrs[i]);
                         }
 
-                        data[row][col] = resLongs;
+                        data[row][realCol] = resLongs;
                     }
                     else if (colType == "float")
                     {
-                        data[row][col] = Convert.ToSingle(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToSingle(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "float[]")
                     {
@@ -534,11 +535,11 @@ namespace MFramework
                             resFloats[i] = Convert.ToSingle(splitStrs[i]);
                         }
 
-                        data[row][col] = resFloats;
+                        data[row][realCol] = resFloats;
                     }
                     else if (colType == "double")
                     {
-                        data[row][col] = Convert.ToDouble(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToDouble(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "double[]")
                     {
@@ -552,15 +553,15 @@ namespace MFramework
                             resDoubles[i] = Convert.ToDouble(splitStrs[i]);
                         }
 
-                        data[row][col] = resDoubles;
+                        data[row][realCol] = resDoubles;
                     }
                     else if (colType == "bool")
                     {
-                        data[row][col] = Convert.ToBoolean(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToBoolean(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "char")
                     {
-                        data[row][col] = Convert.ToChar(sheet.Rows[3 + row][col]);
+                        data[row][realCol] = Convert.ToChar(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "char[]")
                     {
@@ -574,22 +575,27 @@ namespace MFramework
                             resChars[i] = Convert.ToChar(splitStrs[i]);
                         }
 
-                        data[row][col] = resChars;
+                        data[row][realCol] = resChars;
                     }
                     else if (colType == "string")
                     {
-                        data[row][col] = sheet.Rows[3 + row][col].ToString();
+                        data[row][realCol] = sheet.Rows[3 + row][col].ToString();
                     }
                     else if (colType == "string[]")
                     {
                         string originStr = sheet.Rows[3 + row][col].ToString();
                         string[] resStr = originStr.Split("#");
-                        data[row][col] = resStr;
+                        data[row][realCol] = resStr;
+                    }
+                    else if (colType == "none")
+                    {
+                        break;
                     }
                     else
                     {
-                        MLog.Print("数据表中存在未知类型，请检查.", MLogType.Error);
+                        MLog.Print("数据表中存在未知类型，请检查.", MLogType.Warning);
                     }
+                    realCol++;
                 }
             }
         }
@@ -758,41 +764,38 @@ namespace MFramework
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Table
+[Serializable]
+public class {ClassName}
 {
-    [Serializable]
-    public class {ClassName}
-    {
-        {FieldsDefine}
+    {FieldsDefine}
         
-        {PropertiesDefine}
+    {PropertiesDefine}
 
-        {ConstructorDefine}
+    {ConstructorDefine}
 
-        public static {ClassName}[] LoadBytes()
+    public static {ClassName}[] LoadBytes()
+    {
+        string path = @""{BINPath}"";
+        if (!File.Exists(path)) return null;
+
+        using (FileStream stream = new FileStream(path, FileMode.Open))
         {
-            string path = @""{BINPath}"";
-            if (!File.Exists(path)) return null;
-
-            using (FileStream stream = new FileStream(path, FileMode.Open))
-            {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
-                {ClassName}[] res = table.items;
-                return res;
-            }
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
+            {ClassName}[] res = table.items;
+            return res;
         }
     }
+}
 
-    [Serializable]
-    internal class {CollectionClassName}
+[Serializable]
+internal class {CollectionClassName}
+{
+    public {ClassName}[] items;
+
+    private {CollectionClassName}({ClassName}[] items)
     {
-        public {ClassName}[] items;
-
-        private {CollectionClassName}({ClassName}[] items)
-        {
-            this.items = items;
-        }
+        this.items = items;
     }
 }";
         private const string FIELDBASECODE = "private {Type} {Name};";

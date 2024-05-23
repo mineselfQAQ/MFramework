@@ -39,7 +39,7 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
                 {
                     foreach (var item in table)
                     {
-                        if (item.ID == loc.localID)
+                        if (item.ID == loc.LocalID)
                         {
                             loc.GetComponent<MText>().text = item.ENGLISH;
                         }
@@ -55,7 +55,7 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
                 {
                     foreach (var item in table)
                     {
-                        if (item.ID == loc.localID)
+                        if (item.ID == loc.LocalID)
                         {
                             loc.GetComponent<MText>().text = item.CHINESE;
                         }

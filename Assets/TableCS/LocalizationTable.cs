@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Table
+namespace MFramework
 {
     [Serializable]
     public class LocalizationTable

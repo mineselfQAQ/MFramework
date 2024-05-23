@@ -8,7 +8,7 @@ namespace MFramework.UI
     [AddComponentMenu("MFramework/MText")]
     public class MText : TextMeshProUGUI
     {
-        private MLocalization localization;
+        private MLocalization mLocal;
 
         protected override void Awake()
         {
@@ -18,7 +18,7 @@ namespace MFramework.UI
 
         private void Init()
         {
-            localization = GetComponent<MLocalization>();
+            mLocal = GetComponent<MLocalization>();
         }
     }
 }
