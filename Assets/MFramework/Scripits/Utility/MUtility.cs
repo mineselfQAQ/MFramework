@@ -3,6 +3,7 @@ using MFramework.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -17,5 +18,14 @@ public static class MUtility
 #else
         Application.Quit();
 #endif
+    }
+
+    public static int CreateUndoGroup(string groupName)
+    {
+        Undo.IncrementCurrentGroup();
+        int undoGroup = Undo.GetCurrentGroup();
+        Undo.SetCurrentGroupName(groupName);
+
+        return undoGroup;
     }
 }

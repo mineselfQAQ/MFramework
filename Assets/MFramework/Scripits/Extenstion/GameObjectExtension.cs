@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
@@ -34,6 +36,29 @@ namespace MFramework
         {
             if (parent == null) return;
             go.transform.SetParent(parent);
+        }
+
+        /// <summary>
+        /// 置于物体上侧
+        /// </summary>
+        public static void PlaceAbove(this GameObject src, GameObject below)
+        {
+            src.transform.PlaceAbove(below.transform);
+        }
+        public static void PlaceAbove(this GameObject src, Transform below)
+        {
+            src.transform.PlaceAbove(below);
+        }
+        /// <summary>
+        /// 置于物体下侧
+        /// </summary>
+        public static void PlaceBelow(this GameObject src, GameObject above)
+        {
+            src.transform.PlaceBelow(above.transform);
+        }
+        public static void PlaceBelow(this GameObject src, Transform above)
+        {
+            src.transform.PlaceBelow(above);
         }
     }
 }

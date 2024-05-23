@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9a67dc983902249bda90209b7be5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logCallbackOn: 0
+  m_ExportLog: 0
 --- !u!4 &1685982624
 Transform:
   m_ObjectHideFlags: 0

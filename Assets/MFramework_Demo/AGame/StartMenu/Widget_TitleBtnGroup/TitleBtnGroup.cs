@@ -16,7 +16,6 @@ public class TitleBtnGroup : TitleBtnGroupBase
         }
         else if (button == m_OptionsBtn_MButton)
         {
-            Debug.Log("OK");
             CloseSelf();
             parentView.OpenWidget<OptionsBtnGroup>();
         }

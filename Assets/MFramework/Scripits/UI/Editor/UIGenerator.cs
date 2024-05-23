@@ -11,38 +11,80 @@ namespace MFramework
 {
     public static class UIGenerator
     {
-        [MenuItem("GameObject/MFramework/UI/MBackground", priority = 1, secondaryPriority = 0)]
+        [MenuItem("GameObject/MFramework/UI/MBackground", priority = 2, secondaryPriority = 0)]
         public static void GenerateMBackground()
         {
-            CommonGenerator(CreateUIType.MBackground, "MBackground", false);
+            int undoGroup = MUtility.CreateUndoGroup("Create MBackground");
+            GameObject go = CommonGenerator(CreateUIType.MBackground, "MBackground", false);
+            Selection.activeGameObject = go;//选择并进入改名状态
+            Undo.CollapseUndoOperations(undoGroup);
         }
 
-        [MenuItem("GameObject/MFramework/UI/MText", priority = 1, secondaryPriority = 100)]
+        [MenuItem("GameObject/MFramework/UI/MText", priority = 2, secondaryPriority = 100)]
         public static void GenerateMText()
         {
-            CommonGenerator(CreateUIType.MText);
+            int undoGroup = MUtility.CreateUndoGroup("Create MText");
+            GameObject go = CommonGenerator(CreateUIType.MText);
+            Selection.activeGameObject = go;//选择并进入改名状态
+            Undo.CollapseUndoOperations(undoGroup);
         }
 
-        [MenuItem("GameObject/MFramework/UI/MImage", priority = 1, secondaryPriority = 101)]
+        [MenuItem("GameObject/MFramework/UI/MImage", priority = 2, secondaryPriority = 101)]
         public static void GenerateMImage()
         {
-            CommonGenerator(CreateUIType.MImage);
+            int undoGroup = MUtility.CreateUndoGroup("Create MImage");
+            GameObject go = CommonGenerator(CreateUIType.MImage);
+            Selection.activeGameObject = go;//选择并进入改名状态
+            Undo.CollapseUndoOperations(undoGroup);
         }
 
-        [MenuItem("GameObject/MFramework/UI/MButton", priority = 1, secondaryPriority = 102)]
+        [MenuItem("GameObject/MFramework/UI/MButton", priority = 2, secondaryPriority = 102)]
         public static void GenerateMButton()
         {
-            CommonGenerator(CreateUIType.MButton);
+            int undoGroup = MUtility.CreateUndoGroup("Create MButton");
+            GameObject go = CommonGenerator(CreateUIType.MButton);
+            Selection.activeGameObject = go;//选择并进入改名状态
+            Undo.CollapseUndoOperations(undoGroup);
         }
 
-        [MenuItem("GameObject/MFramework/UI/MButton-WithMText", priority = 1, secondaryPriority = 103)]
+        [MenuItem("GameObject/MFramework/UI/MButton-WithMText", priority = 2, secondaryPriority = 103)]
         public static void GenerateMButton_WithMText()
         {
-            CommonGenerator(CreateUIType.MButton_WithMText);
+            int undoGroup = MUtility.CreateUndoGroup("Create MButton_WithText");
+            GameObject go = CommonGenerator(CreateUIType.MButton_WithMText);
+            Selection.activeGameObject = go;//选择并进入改名状态
+            Undo.CollapseUndoOperations(undoGroup);
         }
 
+        [MenuItem("GameObject/MFramework/UI/UICanvas", priority = 2, secondaryPriority = 200)]
+        public static void GenerateUICanvas()
+        {
+            GameObject checker = GameObject.Find(BuildSettings.uiCanvasName);
+            if (checker != null)
+            {
+                MLog.Print("UICanvas已存在，请勿重复创建", MLogType.Warning);
+                return;
+            }
 
+            int undoGroup = MUtility.CreateUndoGroup("Create UICanvas");
+            GameObject canvasGO = CreateUIGameObject(CreateUIType.Canvas_UI);
+            CreateUIGameObject(CreateUIType.EventSystem);
+            EditorGUIUtility.PingObject(canvasGO);//高亮物体
+            Undo.CollapseUndoOperations(undoGroup);
+        }
 
+        /// <summary>
+        /// 总体如下：
+        /// -选择0个物体：
+        /// ---如果场景中有UICanvas，放入其中
+        /// ---如果场景中没有UICanvas，创建UICanvas并放入其中
+        /// -选择1个物体：
+        /// ---如果物体是UICanvas下的物体，正常创建
+        /// ---如果是任意Canvas下的物体，正常创建
+        /// ---如果不是Canvas下的物体，创建基础Canvas并正常创建
+        /// -选择n个物体：
+        /// ---不允许创建
+        /// </summary>
         private static GameObject CommonGenerator(CreateUIType type, string name = null, bool isTop = true)
         {
             if (CheckAvailability())//合法情况
@@ -52,28 +94,33 @@ namespace MFramework
                 int selectedAmount = Selection.gameObjects.Length;
                 if (selectedAmount == 0)//未选择情况
                 {
-                    GameObject canvasGO = CheckRootCanvas();
+                    GameObject canvasGO = GameObject.Find(BuildSettings.uiCanvasName);
 
-                    if (canvasGO != null)//获取到Canvas组件
+                    if (canvasGO != null)//获取到UICanvas
                     {
                         resGO = CreateUIGameObject(type, name, canvasGO);
                     }
-                    else//未获取到Canvas组件
+                    else//未获取到UICanvas
                     {
-                        GameObject newCanvas = CreateUIGameObject(CreateUIType.Canvas);
-                        resGO = CreateUIGameObject(type, name, newCanvas);
+                        GameObject uiCanvas = CreateUIGameObject(CreateUIType.Canvas_UI);
+                        resGO = CreateUIGameObject(type, name, uiCanvas);
                     }
                 }
                 else if (selectedAmount == 1)//选择情况
                 {
                     GameObject go = Selection.gameObjects[0];
-                    if (CheckParentIsCanvas(go))//Canvas子物体情况
+                    int flag = CheckParentIsCanvas(go);
+                    if (flag == 2)//UICanvas子物体情况
                     {
                         resGO = CreateUIGameObject(type, name, go);
                     }
-                    else//非Canvas子物体情况
+                    else if (flag == 1)//Canvas子物体情况
                     {
-                        GameObject newCanvas = CreateUIGameObject(CreateUIType.Canvas, null, go);
+                        resGO = CreateUIGameObject(type, name, go);
+                    }
+                    else if(flag == -1)//非Canvas子物体情况
+                    {
+                        GameObject newCanvas = CreateUIGameObject(CreateUIType.Canvas_Common, null, go);
                         resGO = CreateUIGameObject(type, name, newCanvas);
                     }
                 }
@@ -85,8 +132,6 @@ namespace MFramework
 
                 AddEventSystemIfNotExist();
 
-                //EditorGUIUtility.PingObject(mText);//高亮物体
-                Selection.activeGameObject = resGO;//选择并进入改名状态
                 return resGO;
             }
             return null;
@@ -98,13 +143,75 @@ namespace MFramework
 
             switch (type)
             {
-                case CreateUIType.Canvas:
+                case CreateUIType.Camera_UI:
                     {
-                        GameObject canvasGO = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+                        GameObject cameraGO = new GameObject(BuildSettings.uiCameraName, typeof(Camera));
+                        cameraGO.SetParent(parent);
+
+                        var trans = cameraGO.transform;
+                        trans.position = new Vector3(0, 10000, 0);
+
+                        var camera = cameraGO.GetComponent<Camera>();
+                        int uiLayer = 1 << 5;
+                        camera.clearFlags = CameraClearFlags.Depth;
+                        camera.cullingMask = uiLayer;
+                        camera.orthographic = true;
+                        camera.orthographicSize = 1;
+                        camera.nearClipPlane = -1;
+                        camera.farClipPlane = 1;
+                        camera.depth = 10;
+
+                        Undo.RegisterCreatedObjectUndo(cameraGO, "Create UICamera");
+
+                        return cameraGO;
+                    }
+                case CreateUIType.Canvas_UI:
+                    {
+                        GameObject checker1 = GameObject.Find(BuildSettings.uiCanvasName);
+                        if (checker1 != null) return null;
+
+                        GameObject canvasGO = new GameObject(BuildSettings.uiCanvasName, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+                        canvasGO.SetParent(parent);
+                        canvasGO.layer = 5;
+
+                        var canvas = canvasGO.GetComponent<Canvas>();
+                        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                        //UICanvas依赖于UICamera，必须获取或者创建
+                        GameObject checker2 = GameObject.Find(BuildSettings.uiCameraName);
+                        if (checker2 != null) canvas.worldCamera = checker2.GetComponent<Camera>();
+                        else
+                        {
+                            GameObject uiCameraGO = CreateUIGameObject(CreateUIType.Camera_UI);
+                            uiCameraGO.PlaceAbove(canvasGO);
+                            canvas.worldCamera = uiCameraGO.GetComponent<Camera>();
+                        }
+                        canvas.planeDistance = 0;
+                        canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1 |
+                            AdditionalCanvasShaderChannels.Normal | AdditionalCanvasShaderChannels.Tangent;
+
+                        var canvasScaler = canvasGO.GetComponent<CanvasScaler>();
+                        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                        //TODO:根据平台设置默认分辨率
+                        canvasScaler.referenceResolution = new Vector2(1920, 1080);
+
+                        Undo.RegisterCreatedObjectUndo(canvasGO, "Create UICanvas");
+
+                        return canvasGO;
+                    }
+                case CreateUIType.Canvas_Common:
+                    {
+                        GameObject canvasGO = new GameObject(name, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
                         canvasGO.SetParent(parent);
 
                         var canvas = canvasGO.GetComponent<Canvas>();
                         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+                        var canvasScaler = canvasGO.GetComponent<CanvasScaler>();
+                        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                        //TODO:根据平台设置默认分辨率
+                        canvasScaler.referenceResolution = new Vector2(1920, 1080);
+
+                        Undo.RegisterCreatedObjectUndo(canvasGO, "Create Canvas");
 
                         return canvasGO;
                     }
@@ -112,6 +219,8 @@ namespace MFramework
                     {
                         GameObject eventSystemGO = new GameObject(name, typeof(EventSystem), typeof(StandaloneInputModule));
                         eventSystemGO.SetParent(parent);
+
+                        Undo.RegisterCreatedObjectUndo(eventSystemGO, "Create EventSystem");
 
                         return eventSystemGO;
                     }
@@ -128,6 +237,8 @@ namespace MFramework
                         text.fontSize = 72;
                         text.alignment = TMPro.TextAlignmentOptions.Top;
 
+                        Undo.RegisterCreatedObjectUndo(mTextGO, "Create MText");
+
                         return mTextGO;
                     }
                 case CreateUIType.MImage:
@@ -137,6 +248,8 @@ namespace MFramework
 
                         var trans = mImageGO.GetComponent<RectTransform>();
                         SetCenterMode(trans, new Vector2(300, 300));
+
+                        Undo.RegisterCreatedObjectUndo(mImageGO, "Create MImage");
 
                         return mImageGO;
                     }
@@ -151,6 +264,8 @@ namespace MFramework
                         var image = mBackgroundGO.GetComponent<MImage>();
                         image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(EditorResourcesPath.SampleWhitePath);
 
+                        Undo.RegisterCreatedObjectUndo(mBackgroundGO, "Create MBackground");
+
                         return mBackgroundGO;
                     }
                 case CreateUIType.MButton:
@@ -164,6 +279,8 @@ namespace MFramework
                         var image = mButtonGO.GetComponent<MImage>();
                         image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
                         image.type = Image.Type.Sliced;
+
+                        Undo.RegisterCreatedObjectUndo(mButtonGO, "Create MButton");
 
                         return mButtonGO;
                     }
@@ -193,6 +310,9 @@ namespace MFramework
                         text.fontSize = 36;
                         text.alignment = TMPro.TextAlignmentOptions.Center;
 
+                        Undo.RegisterCreatedObjectUndo(mButtonGO, "Create MButton");
+                        Undo.RegisterCreatedObjectUndo(mTextGO, "Create MText");
+
                         return mButtonGO;
                     }
                 default:
@@ -215,11 +335,23 @@ namespace MFramework
             return null;
         }
 
-        private static bool CheckParentIsCanvas(GameObject go)
+        /// <summary>
+        /// |-1|---不是Canvas
+        /// |1|---是一般Canvas
+        /// |2|---是UICanvas
+        /// </summary>
+        private static int CheckParentIsCanvas(GameObject go)
         {
-            Canvas canvas = go.GetComponentInParent<Canvas>();
-            if (canvas == null) return false;
-            return true;
+            Canvas[] canvas = go.GetComponentsInParent<Canvas>();
+            if (canvas.Length == 0) return -1;
+            foreach (var c in canvas)
+            {
+                if (c.name == BuildSettings.uiCanvasName)
+                {
+                    return 2;
+                }
+            }
+            return 1;
         }
 
         private static bool CheckAvailability()
@@ -265,7 +397,11 @@ namespace MFramework
         {
             switch (type)
             {
-                case CreateUIType.Canvas:
+                case CreateUIType.Camera_UI:
+                    return typeof(Camera);
+                case CreateUIType.Canvas_UI:
+                    return typeof(Canvas);
+                case CreateUIType.Canvas_Common:
                     return typeof(Canvas);
                 case CreateUIType.EventSystem:
                     return typeof(EventSystem);
@@ -286,7 +422,9 @@ namespace MFramework
 
         private enum CreateUIType
         {
-            Canvas,
+            Camera_UI,
+            Canvas_UI,
+            Canvas_Common,
             EventSystem,
 
             MText,
