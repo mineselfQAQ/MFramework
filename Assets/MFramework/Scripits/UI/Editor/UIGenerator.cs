@@ -11,6 +11,8 @@ namespace MFramework
 {
     public static class UIGenerator
     {
+        //Tip:Camera无法直接创建，UICanvas中创建的Camera是联动的，要创Camera直接用原始的即可
+
         [MenuItem("GameObject/MFramework/UI/MBackground", priority = 2, secondaryPriority = 0)]
         public static void GenerateMBackground()
         {

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace MFramework.UI
 {
@@ -8,7 +9,7 @@ namespace MFramework.UI
     [AddComponentMenu("MFramework/MText")]
     public class MText : TextMeshProUGUI
     {
-        private MLocalization mLocal;
+        public MLocalization mLocal;
 
         protected override void Awake()
         {
@@ -19,6 +20,13 @@ namespace MFramework.UI
         private void Init()
         {
             mLocal = GetComponent<MLocalization>();
+        }
+
+        private void ApplyLocalization(SupportLanguage language)
+        {
+            if (mLocal == null || mLocal.LocalID == -1) return;
+
+
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GetProjectFilePath
 {
-    [MenuItem("Assets/Get File Path", priority = 11)]
+    [MenuItem("Assets/Get File Path", priority = 2000)]
     public static void GetFilePath()
     {
         if (CheckAvailability())
@@ -17,7 +17,7 @@ public class GetProjectFilePath
         }
     }
 
-    [MenuItem("Assets/Get Root File Path", priority = 12)]
+    [MenuItem("Assets/Get Root File Path", priority = 2001)]
     public static void GetRootFilePath()
     {
         if (CheckAvailability())

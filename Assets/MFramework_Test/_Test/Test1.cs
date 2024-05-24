@@ -12,11 +12,15 @@ public class Test1 : MonoBehaviour
 
     void Start()
     {
-        myButton.onClick.AddListener(() => { Debug.Log("LOG"); });
+
     }
 
-    public void Log()
+    private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var go = GameObject.Find("StartBtn");
+            Debug.Log(go.GetComponent<MText>().mLocal);
+        }
     }
 }

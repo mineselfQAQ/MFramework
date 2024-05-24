@@ -135,7 +135,7 @@ public class Reporter : MonoBehaviour
 	//contains all collapsed logs
 	List<Log> collapsedLogs = new List<Log>();
 	//contain logs which should only appear to user , for example if you switch off show logs + switch off show warnings
-	//and your mode is collapse,then this list will contains only collapsed errors
+	//and your localMode is collapse,then this list will contains only collapsed errors
 	List<Log> currentLog = new List<Log>();
 
 	//used to check if the new coming logs is already exist or new one
@@ -317,7 +317,7 @@ public class Reporter : MonoBehaviour
 
     void OnEnable()
 	{
-		if (logs.Count == 0)//if recompile while in play mode
+		if (logs.Count == 0)//if recompile while in play localMode
 			clear();
 	}
 
@@ -1249,7 +1249,7 @@ public class Reporter : MonoBehaviour
 				content = warningContent;
 			else
 				content = errorContent;
-			//content.text = log.condition ;
+			//content.mText = log.condition ;
 
 			GUIStyle currentLogStyle = ((startIndex + index) % 2 == 0) ? evenLogStyle : oddLogStyle;
 			if (log == selectedLog) {

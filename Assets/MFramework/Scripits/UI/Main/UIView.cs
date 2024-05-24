@@ -205,6 +205,9 @@ namespace MFramework
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
+
+            MLocalizationManager.Instance.RefreshAllText();
+
             return widget;
         }
         public T CreateWidget<T>(string id, string prefabPath, bool autoEnter = false) where T : UIWidget
@@ -237,6 +240,9 @@ namespace MFramework
 
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
+
+            //Tip:由于已经挂载，应该最终会由UIPanel更新，无需再次调用MLocalizationManager.Instance.RefreshAllText()
+
             return widget;
         }
         public T CreateWidget<T>(UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget

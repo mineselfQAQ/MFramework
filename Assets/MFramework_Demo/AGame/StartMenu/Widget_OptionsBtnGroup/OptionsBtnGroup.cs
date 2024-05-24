@@ -1,7 +1,6 @@
 ﻿using MFramework;
 using MFramework.UI;
 using System.Collections.Generic;
-using Table;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,59 +8,33 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
 {
     public void Init()
     {
-        
+
     }
 
-    protected override void OnClicked(Button button) 
+    protected override void OnClicked(Button button)
     {
         if (button == m_SoundBtn_MButton)
         {
-            string info = GetOptionInfo(m_SoundText_MText.text, "Sound:");
-            if (info == "On")
+            if (m_SoundText_MText.text.Contains("On"))
             {
                 AudioListener.volume = 0;
-                m_SoundText_MText.text = "Sound:Off";
+                m_SoundText_MText.text = m_SoundText_MText.text.Replace("On", "Off");
             }
             else
             {
                 AudioListener.volume = 1;
-                m_SoundText_MText.text = "Sound:On";
+                m_SoundText_MText.text = m_SoundText_MText.text.Replace("Off", "On");
             }
         }
         else if (button == m_LanguageBtn_MButton)
         {
-            string info = GetOptionInfo(m_LanguageText_MText.text, "Language:");
-            if (info == "Chinese")
+            if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.CHINESE)
             {
-                var table = LocalizationTable.LoadBytes();
-                var loclizations = FindAllLoclization();
-                foreach (var loc in loclizations)
-                {
-                    foreach (var item in table)
-                    {
-                        if (item.ID == loc.LocalID)
-                        {
-                            loc.GetComponent<MText>().text = item.ENGLISH;
-                        }
-                    }
-                }
-                m_LanguageText_MText.text = "Language:English";
+                MLocalizationManager.Instance.RefreshAllText(SupportLanguage.ENGLISH);
             }
-            else if (info == "English")
+            else if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.ENGLISH)
             {
-                var table = LocalizationTable.LoadBytes();
-                var loclizations = FindAllLoclization();
-                foreach (var loc in loclizations)
-                {
-                    foreach (var item in table)
-                    {
-                        if (item.ID == loc.LocalID)
-                        {
-                            loc.GetComponent<MText>().text = item.CHINESE;
-                        }
-                    }
-                }
-                m_LanguageText_MText.text = "Language:Chinese";
+                MLocalizationManager.Instance.RefreshAllText(SupportLanguage.CHINESE);
             }
         }
     }
@@ -73,17 +46,4 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
     protected override void OnDestroying() { }
 
     protected override void OnDestroyed() { }
-    
-    private string GetOptionInfo(string fullText, string prefix)
-    {
-        string text = fullText.Substring(prefix.Length);
-
-        return text;
-    }
-
-    private List<MLocalization> FindAllLoclization()
-    {
-        List<MLocalization> list = new List<MLocalization>(GameObject.FindObjectsOfType<MLocalization>(true));
-        return list;
-    }
 }

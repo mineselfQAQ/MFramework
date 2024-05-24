@@ -63,6 +63,8 @@ namespace MFramework
 
             MaintainTopPanel_Create(panel, order);
 
+            MLocalizationManager.Instance.RefreshAllText();
+
             return panel;
         }
         public T CreatePanel<T>(string id, string prefabPath, bool autoEnter = false) where T : UIPanel

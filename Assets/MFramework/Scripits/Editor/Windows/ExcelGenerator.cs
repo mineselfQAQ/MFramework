@@ -232,11 +232,11 @@ namespace MFramework
             code = code.Replace("{ClassName}", className);
             code = code.Replace("{CollectionClassName}", collectionClassName);
 
-            string fieldsDefine = GenerateFieldsDefine(names, types);
+            //string fieldsDefine = GenerateFieldsDefine(names, types);
             string propertiesDefine = GeneratePropertiesDefine(names, types);
             string constructorDefine = GenerateConstructorDefine(className, names, types);
 
-            code = code.Replace("{FieldsDefine}", fieldsDefine);
+            //code = code.Replace("{FieldsDefine}", fieldsDefine);
             code = code.Replace("{PropertiesDefine}", propertiesDefine);
             code = code.Replace("{ConstructorDefine}", constructorDefine);
 
@@ -307,7 +307,7 @@ namespace MFramework
             Type[] types = assembly.GetTypes();
             foreach (var type in types)//1.创建所有小实例
             {
-                if (type.Namespace == "Table" && type.Name == className)
+                if (type.Name == className)
                 {
                     instances = Array.CreateInstance(type, rowLength);
 
@@ -329,7 +329,7 @@ namespace MFramework
             }
             foreach (var type in types)//2.通过小实例组成大实例
             {
-                if (type.Namespace == "Table" && type.Name == $"{className}s")
+                if (type.Name == $"{className}s")
                 {
                     var ctors = type.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
                     var ctor = ctors[0];//只有私有构造函数
@@ -349,6 +349,9 @@ namespace MFramework
             return true;
         }
 
+        /// <summary>
+        /// 注意：没有用到，多余内容
+        /// </summary>
         private string GenerateFieldsDefine(string[] names, string[] types)
         {
             StringBuilder res = new StringBuilder();
@@ -362,7 +365,7 @@ namespace MFramework
                 tempLine = tempLine.Replace("{Type}", types[i]);
                 tempLine = tempLine.Replace("{Name}", name);
 
-                if (i != n - 1) res.Append(tempLine + "\n\t\t");
+                if (i != n - 1) res.Append(tempLine + "\n\t");
                 else res.Append(tempLine);
             }
 
@@ -382,7 +385,7 @@ namespace MFramework
                 tempLine = tempLine.Replace("{Type}", types[i]);
                 tempLine = tempLine.Replace("{Name}", name);
 
-                if (i != n - 1) res.Append(tempLine + "\n\t\t");
+                if (i != n - 1) res.Append(tempLine + "\n\t");
                 else res.Append(tempLine);
             }
 
@@ -415,7 +418,7 @@ namespace MFramework
                 int n = names.Length;
                 for (int i = 0; i < n - 1; i++)
                 {
-                    sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t\t");
+                    sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t");
                 }
                 sb.Append($"{names[n - 1].ToUpper()} = {names[n - 1].ToLower()};");
 
@@ -428,28 +431,39 @@ namespace MFramework
             int rowCount = sheet.Rows.Count;
             int colCount = sheet.Columns.Count;
 
-            //初始化数组
-            names = new string[colCount];
-            types = new string[colCount];
-            data = new object[rowCount - 3][];
-            for (int i = 0; i < data.Length; i++) data[i] = new object[colCount];
-            //初始化数据
-            //names/types
+            //计算实际列数(去除类型为none的列)
+            int typeCount = 0;
             for (int i = 0; i < colCount; i++)
             {
-                names[i] = sheet.Rows[1][i].ToString();
-                types[i] = sheet.Rows[2][i].ToString();
+                if (sheet.Rows[2][i].ToString() == "none") continue;
+                typeCount++;
+            }
+
+            //初始化数组
+            names = new string[typeCount];
+            types = new string[typeCount];
+            data = new object[rowCount - 3][];
+            for (int i = 0; i < data.Length; i++) data[i] = new object[typeCount];
+            //初始化数据
+            //names/types
+            for (int i = 0, col = 0; i < typeCount; i++, col++)
+            {
+                while (sheet.Rows[2][col].ToString() == "none") col++;
+
+                names[i] = sheet.Rows[1][col].ToString();
+                types[i] = sheet.Rows[2][col].ToString();
             }
             //data
-            int realCol = 0;//可能有不计数的none类型，需要减去相应位置
-            for (int col = 0; col < colCount; col++)
+            for (int i = 0, col = 0; i < typeCount; i++, col++)
             {
+                while (sheet.Rows[2][col].ToString() == "none") col++;
                 string colType = sheet.Rows[2][col].ToString();
+
                 for (int row = 0; row < rowCount - 3; row++)
                 {
                     if (colType == "byte")
                     {
-                        data[row][realCol] = Convert.ToByte(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToByte(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "byte[]")
                     {
@@ -458,16 +472,16 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         byte[] resBytes = new byte[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resBytes[i] = Convert.ToByte(splitStrs[i]);
+                            resBytes[j] = Convert.ToByte(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resBytes;
+                        data[row][i] = resBytes;
                     }
                     else if (colType == "short")
                     {
-                        data[row][realCol] = Convert.ToInt16(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToInt16(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "short[]")
                     {
@@ -476,16 +490,16 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         short[] resShorts = new short[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resShorts[i] = Convert.ToInt16(splitStrs[i]);
+                            resShorts[j] = Convert.ToInt16(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resShorts;
+                        data[row][i] = resShorts;
                     }
                     else if (colType == "int")
                     {
-                        data[row][realCol] = Convert.ToInt32(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToInt32(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "int[]")
                     {
@@ -494,16 +508,16 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         int[] resInts = new int[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resInts[i] = Convert.ToInt32(splitStrs[i]);
+                            resInts[j] = Convert.ToInt32(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resInts;
+                        data[row][i] = resInts;
                     }
                     else if (colType == "long")
                     {
-                        data[row][realCol] = Convert.ToUInt64(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToUInt64(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "long[]")
                     {
@@ -512,16 +526,16 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         long[] resLongs = new long[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resLongs[i] = Convert.ToInt64(splitStrs[i]);
+                            resLongs[j] = Convert.ToInt64(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resLongs;
+                        data[row][i] = resLongs;
                     }
                     else if (colType == "float")
                     {
-                        data[row][realCol] = Convert.ToSingle(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToSingle(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "float[]")
                     {
@@ -530,16 +544,16 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         float[] resFloats = new float[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resFloats[i] = Convert.ToSingle(splitStrs[i]);
+                            resFloats[j] = Convert.ToSingle(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resFloats;
+                        data[row][i] = resFloats;
                     }
                     else if (colType == "double")
                     {
-                        data[row][realCol] = Convert.ToDouble(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToDouble(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "double[]")
                     {
@@ -548,20 +562,20 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         double[] resDoubles = new double[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resDoubles[i] = Convert.ToDouble(splitStrs[i]);
+                            resDoubles[j] = Convert.ToDouble(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resDoubles;
+                        data[row][i] = resDoubles;
                     }
                     else if (colType == "bool")
                     {
-                        data[row][realCol] = Convert.ToBoolean(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToBoolean(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "char")
                     {
-                        data[row][realCol] = Convert.ToChar(sheet.Rows[3 + row][col]);
+                        data[row][i] = Convert.ToChar(sheet.Rows[3 + row][col]);
                     }
                     else if (colType == "char[]")
                     {
@@ -570,22 +584,22 @@ namespace MFramework
                         int n = splitStrs.Length;
 
                         char[] resChars = new char[n];
-                        for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
                         {
-                            resChars[i] = Convert.ToChar(splitStrs[i]);
+                            resChars[j] = Convert.ToChar(splitStrs[j]);
                         }
 
-                        data[row][realCol] = resChars;
+                        data[row][i] = resChars;
                     }
                     else if (colType == "string")
                     {
-                        data[row][realCol] = sheet.Rows[3 + row][col].ToString();
+                        data[row][i] = sheet.Rows[3 + row][col].ToString();
                     }
                     else if (colType == "string[]")
                     {
                         string originStr = sheet.Rows[3 + row][col].ToString();
                         string[] resStr = originStr.Split("#");
-                        data[row][realCol] = resStr;
+                        data[row][i] = resStr;
                     }
                     else if (colType == "none")
                     {
@@ -595,7 +609,6 @@ namespace MFramework
                     {
                         MLog.Print("数据表中存在未知类型，请检查.", MLogType.Warning);
                     }
-                    realCol++;
                 }
             }
         }
@@ -767,8 +780,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 [Serializable]
 public class {ClassName}
 {
-    {FieldsDefine}
-        
     {PropertiesDefine}
 
     {ConstructorDefine}
@@ -802,9 +813,9 @@ internal class {CollectionClassName}
         private const string PROPERTIESBASECODE = "public {Type} {Name} { get; private set; }";
         private const string CONSTRUCTORBASECODE = 
 @"private {ClassName}({Parameter})
-        {
-            {AssignmentOperator}
-        }";
+    {
+        {AssignmentOperator}
+    }";
         #endregion
     }
 

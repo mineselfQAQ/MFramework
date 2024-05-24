@@ -117,7 +117,7 @@ public class JsonNetSample : MonoBehaviour
         WriteLine("* LinqToJson");
 
         JArray array = new JArray();
-        array.Add("Manual text");
+        array.Add("Manual mText");
         array.Add(new DateTime(2000, 5, 23));
 
         JObject o = new JObject();

@@ -18,8 +18,9 @@ namespace MFramework
 
         private void Awake()
         {
-            //触发BuiltInEventManager静态构造函数，使其加入场景
+            //触发静态构造函数，使单例提前激活
             var bem = BuiltInEventManager.Instance;
+            var mlm = MLocalizationManager.Instance;
 
             //TODO:这样反射很耗，考虑其他方案
             initList = GetInterfaceInstanceList<INeedInit>();
