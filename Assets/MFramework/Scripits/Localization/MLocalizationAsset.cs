@@ -16,24 +16,26 @@ public class MLocalizationAsset
 
     public int SupportLanguageCount => supportLanguages.Count;
 
-    internal Dictionary<int, List<string>> localDic;
+    internal Dictionary<int, List<string>> localDic;//TODO:更改为List<MLocalizationString>
 
     public MLocalizationAsset(LocalizationTable[] table)
     {
         if (table == null || table.Length == 0)
         {
-            MLog.Print($"MLocalization：xlsx表不存在或无数据，请检查", MLogType.Warning);
+            MLog.Print($"MLocalization：未获取到xlsx表在或xlsx表内无数据，请检查", MLogType.Warning);
             return;
         }
 
         items = table;
 
+        //可用语言选项
         Dictionary<string, SupportLanguage> supportLanguageDic = new Dictionary<string, SupportLanguage>()
         { 
             { "CHINESE" , SupportLanguage.CHINESE  },
             { "ENGLISH" , SupportLanguage.ENGLISH  },
             { "JAPENESE", SupportLanguage.JAPANESE } 
         };
+        //获取可用语言
         Type type = typeof(LocalizationTable);
         PropertyInfo[] properties = type.GetProperties();
         SupportLanguages = new List<SupportLanguage>();
@@ -44,7 +46,7 @@ public class MLocalizationAsset
                 supportLanguages.Add(supportLanguageDic[property.Name]);
             }
         }
-
+        //根据excel表建立|id--->各语言详情|的映射
         localDic = new Dictionary<int, List<string>>();
         foreach (var item in items)
         {
@@ -60,6 +62,14 @@ public class MLocalizationAsset
 
             localDic.Add(item.ID, textList);
         }
+
+        //此时应该获取到：
+        //5---|音量:{开|关}| |Sound:{On|Off}|
+        //需要继续处理：
+        //以中文为例：|音量:|+|开|
+        //List<string>
+        //Add("音量:") Add("开"or"关")
+        //ChangeState()--->将"开"替换为"关"
     }
 }
 

@@ -206,7 +206,8 @@ namespace MFramework
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
 
-            MLocalizationManager.Instance.RefreshAllText();
+            //对于路径形式，物体是在创建Panel后的某一刻创建的，需要更新
+            MLocalizationManager.Instance.UpdateNewText(widget.gameObject);//更新文字
 
             return widget;
         }

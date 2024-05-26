@@ -18,7 +18,7 @@ public class LocalizationTable
 
     public static LocalizationTable[] LoadBytes()
     {
-        string path = @"F:\MineselfDemo\MFramework\Assets\StreamingAssets\ExcelBIN\LocalizationTable.byte";
+        string path = @"F:\UnityProject\MFramework\Assets\StreamingAssets\ExcelBIN\LocalizationTable.byte";
         if (!File.Exists(path)) return null;
 
         using (FileStream stream = new FileStream(path, FileMode.Open))

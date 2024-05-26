@@ -14,7 +14,6 @@ namespace MFramework.Demo
             root = UIManager.Instance.CreateRoot("Root", 0, 999);
             var startPanel = root.CreatePanel<StartPanel>(@"Assets/MFramework_Demo/AGame/StartMenu/Panel_StartPanel/StartPanel.prefab", true);
             startPanel.Init(background, titleName);
-            MLocalizationManager.Instance.RefreshAllText();
         }
     }
 }

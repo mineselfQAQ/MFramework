@@ -1,9 +1,11 @@
 using MFramework.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MFramework
 {
+    [MonoSingletonSetting(HideFlags.NotEditable, "#MLocalizationManager#")]
     public class MLocalizationManager : MonoSingleton<MLocalizationManager>
     {
         private SupportLanguage currentLanguage = SupportLanguage.None;
@@ -28,23 +30,12 @@ namespace MFramework
             LocalizationTable[] table = LocalizationTable.LoadBytes();
             asset = new MLocalizationAsset(table);
 
-            RefreshAllText(SupportLanguage.CHINESE, true);
+            UpdateAllText(SupportLanguage.CHINESE, true);
         }
 
-        /// <summary>
-        /// 更新InfoDic(完全刷新)
-        /// Tip:由于场景中的物体是多变的(可能删除与创建)，当添加或删除时Info都会改变
-        /// </summary>
-        private void UpdateInfoDic()
+        public void UpdateAllText()
         {
-            infoDic = new Dictionary<int, List<MLocalizationInfo>>();
-            List<MLocalization> localizationList = MLocalizationUtility.FindAllLoclizations();
-
-            WriteInfo(localizationList);
-        }
-        public void RefreshAllText()
-        {
-            UpdateInfoDic();//需要更新但又没有更改语言，必然是场景数据发生变化
+            UpdateAllInfo();//需要更新但又没有更改语言，必然是场景数据发生变化
 
             foreach (var infos in infoDic.Values)
             {
@@ -54,7 +45,7 @@ namespace MFramework
                 }
             }
         }
-        public void RefreshAllText(SupportLanguage language, bool updateData = false)
+        public void UpdateAllText(SupportLanguage language, bool updateData = false)
         {
             if (!CheckLanguageValidity(language))
             {
@@ -63,7 +54,7 @@ namespace MFramework
             }
             if (language == CurrentLanguage) return;
 
-            if (updateData) UpdateInfoDic();
+            if (updateData) UpdateAllInfo();
 
             foreach (var infos in infoDic.Values)
             {
@@ -74,12 +65,35 @@ namespace MFramework
             }
             CurrentLanguage = language;
         }
-        private bool CheckLanguageValidity(SupportLanguage language)
+
+        /// <summary>
+        /// 添加新物体并更新新物体下文字的语言
+        /// </summary>
+        public void UpdateNewText(GameObject root)
         {
-            if (!asset.SupportLanguages.Contains(language)) return false;
-            return true;
+            if (infoDic == null) infoDic = new Dictionary<int, List<MLocalizationInfo>>();
+
+            List<MLocalization> localizationList = MLocalizationUtility.FindLoclizations(root);
+
+            UpdateInfoAndUpdateView(localizationList);
         }
-        private void WriteInfo(List<MLocalization> localizationList)
+
+        /// <summary>
+        /// 更新InfoDic(完全刷新)
+        /// Tip:由于场景中的物体是多变的(可能删除与创建)，当添加或删除时Info都会改变
+        /// </summary>
+        private void UpdateAllInfo()
+        {
+            infoDic = new Dictionary<int, List<MLocalizationInfo>>();
+            List<MLocalization> localizationList = MLocalizationUtility.FindAllLoclizations();
+
+            UpdateInfo(localizationList);
+        }
+        /// <summary>
+        /// 将信息写入infoDic
+        /// </summary>
+        /// <param name="localizationList"></param>
+        private void UpdateInfo(List<MLocalization> localizationList, Action<MLocalizationInfo> onFindInfo = null)
         {
             foreach (var localization in localizationList)
             {
@@ -89,37 +103,32 @@ namespace MFramework
                 //有对应数据
                 if (asset.localDic.ContainsKey(id))
                 {
+                    MLocalizationInfo info;
                     if (!infoDic.ContainsKey(id))//第一个数据
                     {
                         List<MLocalizationInfo> infos = new List<MLocalizationInfo>();
-                        MLocalizationInfo info = new MLocalizationInfo(id, asset.localDic[id], localization);
+                        info = new MLocalizationInfo(id, asset.localDic[id], localization);
                         infos.Add(info);
                         infoDic.Add(id, infos);
                     }
                     else//更多数据(相同id的MLocalization)
                     {
-                        MLocalizationInfo info = new MLocalizationInfo(id, asset.localDic[id], localization);
+                        info = new MLocalizationInfo(id, asset.localDic[id], localization);
                         infoDic[id].Add(info);
                     }
+                    onFindInfo?.Invoke(info);
                 }
             }
         }
-
-        /// <summary>
-        /// 添加新物体并更新新物体下文字的语言
-        /// </summary>
-        public void AddNewText(GameObject root)
+        private void UpdateInfoAndUpdateView(List<MLocalization> localizationList)
         {
-            if (infoDic == null) infoDic = new Dictionary<int, List<MLocalizationInfo>>();
-
-            List<MLocalization> localizationList = MLocalizationUtility.FindLoclizations(root);
-
-            WriteInfo(localizationList);
-            RefreshText(localizationList);
+            UpdateInfo(localizationList, (info) => { info.mText.text = info.textList[(int)CurrentLanguage]; });
         }
-        private void RefreshText(List<MLocalization> localizationList)
+
+        private bool CheckLanguageValidity(SupportLanguage language)
         {
-            //TODO:!!!!!!!!!!!!!!!!!!!!!
+            if (!asset.SupportLanguages.Contains(language)) return false;
+            return true;
         }
     }
 

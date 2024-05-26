@@ -22,10 +22,13 @@ namespace MFramework.UI
             mLocal = GetComponent<MLocalization>();
         }
 
-        private void ApplyLocalization(SupportLanguage language)
+        /// <summary>
+        /// 更改当前text的选项
+        /// </summary>
+        /// <param name="pos">{}位置</param>
+        /// <param name="state">选项</param>
+        public void ChangeState(int pos, int state)
         {
-            if (mLocal == null || mLocal.LocalID == -1) return;
-
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -63,7 +64,7 @@ namespace MFramework
 
             MaintainTopPanel_Create(panel, order);
 
-            MLocalizationManager.Instance.RefreshAllText();
+            MLocalizationManager.Instance.UpdateNewText(panel.gameObject);//更新文字
 
             return panel;
         }

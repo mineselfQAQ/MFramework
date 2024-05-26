@@ -18,23 +18,22 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
             if (m_SoundText_MText.text.Contains("On"))
             {
                 AudioListener.volume = 0;
-                m_SoundText_MText.text = m_SoundText_MText.text.Replace("On", "Off");
+                //TODO:!!!!
             }
             else
             {
                 AudioListener.volume = 1;
-                m_SoundText_MText.text = m_SoundText_MText.text.Replace("Off", "On");
             }
         }
         else if (button == m_LanguageBtn_MButton)
         {
             if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.CHINESE)
             {
-                MLocalizationManager.Instance.RefreshAllText(SupportLanguage.ENGLISH);
+                MLocalizationManager.Instance.UpdateAllText(SupportLanguage.ENGLISH);
             }
             else if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.ENGLISH)
             {
-                MLocalizationManager.Instance.RefreshAllText(SupportLanguage.CHINESE);
+                MLocalizationManager.Instance.UpdateAllText(SupportLanguage.CHINESE);
             }
         }
     }
