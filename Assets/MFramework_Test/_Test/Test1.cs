@@ -12,8 +12,6 @@ public class Test1 : MonoBehaviour
 
     void Start()
     {
-        MLocalizationString str = new MLocalizationString("{我|#你}是{牛逼|#傻逼|无敌}的人");
-        Debug.Log(str.formattedStr);
     }
 
     private void Update()

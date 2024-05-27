@@ -13,7 +13,7 @@ namespace MFramework
         }
         public int LocalID
         {
-            internal set { localID = value; }
+            /*internal*/ set { localID = value; }
             get { return localID; }
         }
     }

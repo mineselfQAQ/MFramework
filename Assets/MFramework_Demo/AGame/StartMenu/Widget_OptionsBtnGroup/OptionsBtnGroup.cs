@@ -1,28 +1,23 @@
 ﻿using MFramework;
 using MFramework.UI;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsBtnGroup : OptionsBtnGroupBase
 {
-    public void Init()
-    {
-
-    }
-
     protected override void OnClicked(Button button)
     {
         if (button == m_SoundBtn_MButton)
         {
-            if (m_SoundText_MText.text.Contains("On"))
+            if (m_SoundText_MText.GetCurState(0) == 0)//开--->关
             {
                 AudioListener.volume = 0;
-                //TODO:!!!!
+                m_SoundText_MText.ChangeState(0, 1);
             }
-            else
+            else//关--->开
             {
                 AudioListener.volume = 1;
+                m_SoundText_MText.ChangeState(0, 0);
             }
         }
         else if (button == m_LanguageBtn_MButton)

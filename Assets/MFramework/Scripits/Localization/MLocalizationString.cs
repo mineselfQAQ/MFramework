@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
-using UnityEngine.Windows;
 
 namespace MFramework
 {
@@ -15,19 +12,36 @@ namespace MFramework
         public string originStr;
         public string formattedStr;
 
+        public bool isFormatted;
+
+        public SupportLanguage language;
+
         public List<FormattedStr> formatStrList;
 
-        public MLocalizationString(string originStr)
+        public MLocalizationString(string originStr, SupportLanguage language)
         {
             this.originStr = originStr;
+            this.language = language;
 
             OriginStr2FormattedStr();
+        }
+
+        public void ChangeState(int pos, int state)
+        {
+            if (pos < 0 || pos >= formatStrList.Count) return;
+
+            formatStrList[pos].str = formatStrList[pos].texts[state];
+            formatStrList[pos].curState = state;
         }
 
         private void OriginStr2FormattedStr() 
         {
             formattedStr = DealStr(originStr);
-            formatStrList = ExtractStr(originStr);
+            if (formattedStr != originStr)
+            {
+                isFormatted = true;
+                formatStrList = ExtractStr(originStr);
+            }
         }
 
         private string DealStr(string str)
@@ -52,10 +66,30 @@ namespace MFramework
             return res;
         }
 
+        public override string ToString()
+        {
+            if (!isFormatted)//正常格式
+            {
+                return originStr;
+            }
+            else
+            {
+                string str = formattedStr;
+                for (int i = 0; i < formatStrList.Count; i++)
+                {
+                    var cur = formatStrList[i];
+                    str = str.Replace($"{{{i}}}", $"{cur}");
+                }
+                return str;
+            }
+        }
+
         public class FormattedStr
         {
-            private int curState;//当前选项
-            private string[] texts;//选项的具体文字
+            internal string str;
+
+            internal int curState = 0;//当前选项，默认使用第一个选项
+            internal string[] texts;//选项的具体文字
 
             public FormattedStr(string str)
             {
@@ -71,6 +105,12 @@ namespace MFramework
                 }
 
                 texts = strs;
+                this.str = texts[curState];
+            }
+
+            public override string ToString()
+            {
+                return str;
             }
         }
     }

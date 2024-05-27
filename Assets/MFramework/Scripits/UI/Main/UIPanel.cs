@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,15 +28,19 @@ namespace MFramework
             parentRoot = root;
             //panelPrefabSet.Add(prefabName);
 
+            //打开需要的默认设置(需要alpha0-1的话是动画中进行的，如果不改的话alpha就应该为1，interactable/blocksRaycasts会在动画执行完毕后更新)
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
             if (!autoEnter)
             {
-                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
-
+                //UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
+                CanvasGroup.alpha = 0;
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
             }
             else
             {
+                CanvasGroup.alpha = 1;
                 if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
                 {
                     PlayOpenAnim();
@@ -62,8 +64,8 @@ namespace MFramework
         {
             if (panelBehaviour.AnimSwitch == UIAnimSwitch.On) 
             {
-                if (CanvasGroup.alpha == 0)
-                    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);//autoEnter导致的第一次进入
+                //if (CanvasGroup.alpha == 0)
+                //    UIPanelUtility.SetCanvasGroupActive(CanvasGroup, true);//autoEnter导致的第一次进入
 
                 return PlayOpenAnim(() =>
                 {

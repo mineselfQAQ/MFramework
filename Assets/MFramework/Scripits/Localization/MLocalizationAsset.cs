@@ -7,18 +7,11 @@ public class MLocalizationAsset
 {
     private LocalizationTable[] items;
 
-    private List<SupportLanguage> supportLanguages;
-    public List<SupportLanguage> SupportLanguages
-    {
-        private set { supportLanguages = value; }
-        get { return supportLanguages; }
-    }
+    internal List<SupportLanguage> supportLanguages;
 
-    public int SupportLanguageCount => supportLanguages.Count;
+    internal Dictionary<int, List<MLocalizationString>> localDic;
 
-    internal Dictionary<int, List<string>> localDic;//TODO:更改为List<MLocalizationString>
-
-    public MLocalizationAsset(LocalizationTable[] table)
+    internal MLocalizationAsset(LocalizationTable[] table)
     {
         if (table == null || table.Length == 0)
         {
@@ -38,7 +31,7 @@ public class MLocalizationAsset
         //获取可用语言
         Type type = typeof(LocalizationTable);
         PropertyInfo[] properties = type.GetProperties();
-        SupportLanguages = new List<SupportLanguage>();
+        supportLanguages = new List<SupportLanguage>();
         foreach (var property in properties)
         {
             if (supportLanguageDic.ContainsKey(property.Name))//是类型中的一种
@@ -46,30 +39,24 @@ public class MLocalizationAsset
                 supportLanguages.Add(supportLanguageDic[property.Name]);
             }
         }
+
         //根据excel表建立|id--->各语言详情|的映射
-        localDic = new Dictionary<int, List<string>>();
+        localDic = new Dictionary<int, List<MLocalizationString>>();
         foreach (var item in items)
         {
             if (localDic.ContainsKey(item.ID)) continue;
 
-            List<string> textList = new List<string>();
-            for (int i = 0; i < SupportLanguageCount; i++)
+            List<MLocalizationString> textList = new List<MLocalizationString>();
+            for (int i = 0; i < supportLanguages.Count; i++)
             {
-                var info = type.GetProperty(SupportLanguages[i].ToString());
+                SupportLanguage language = supportLanguages[i];
+                var info = type.GetProperty(language.ToString());
                 string text = (string)info.GetValue(item);
-                textList.Add(text);
+                textList.Add(new MLocalizationString(text, language));
             }
 
             localDic.Add(item.ID, textList);
         }
-
-        //此时应该获取到：
-        //5---|音量:{开|关}| |Sound:{On|Off}|
-        //需要继续处理：
-        //以中文为例：|音量:|+|开|
-        //List<string>
-        //Add("音量:") Add("开"or"关")
-        //ChangeState()--->将"开"替换为"关"
     }
 }
 

@@ -22,15 +22,17 @@ namespace MFramework
             parentView = parent;
             base.Create(id, parentTrans, prefabPath);
 
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
             if (!autoEnter)
             {
-                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
-
+                CanvasGroup.alpha = 0;
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
             }
             else
             {
+                CanvasGroup.alpha = 1;
                 if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
                 {
                     PlayOpenAnim();
@@ -46,15 +48,17 @@ namespace MFramework
             parentView = parent;
             base.Create(id, parentTrans, behaviour);
 
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
             if (!autoEnter)
             {
-                UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
-
+                CanvasGroup.alpha = 0;
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
             }
             else
             {
+                CanvasGroup.alpha = 1;
                 if (widgetBehaviour.AnimSwitch == UIAnimSwitch.On)
                 {
                     PlayOpenAnim();

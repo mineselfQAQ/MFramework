@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4283147806250442572
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ CanvasGroup:
   m_GameObject: {fileID: 409996882905846432}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &8504736610045227536
@@ -477,11 +477,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1207707422241478903, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: localID
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1484070586798802535, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: localID
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3145116215070725378, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: mLocal
@@ -707,9 +707,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4283147806250442572}
     m_Modifications:
+    - target: {fileID: 41715801729247451, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Name
+      value: StartText
+      objectReference: {fileID: 0}
     - target: {fileID: 2562610008401726719, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2646539550423868779, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_Pivot.x
@@ -791,6 +795,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3454791023148553761, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Name
+      value: OptionsText
+      objectReference: {fileID: 0}
     - target: {fileID: 3743835404765311734, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: mLocal
       value: 
@@ -814,6 +822,10 @@ PrefabInstance:
     - target: {fileID: 3743835404765311734, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4390301004297584832, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Name
+      value: ExitText
       objectReference: {fileID: 0}
     - target: {fileID: 4711611263674131890, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_Controller
@@ -849,11 +861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6627106262847302844, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7658955484026383161, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7763922258243363121, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: mLocal

@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 namespace MFramework.UI
 {
@@ -21,15 +21,18 @@ namespace MFramework.UI
         {
             mLocal = GetComponent<MLocalization>();
         }
+    }
 
-        /// <summary>
-        /// 更改当前text的选项
-        /// </summary>
-        /// <param name="pos">{}位置</param>
-        /// <param name="state">选项</param>
-        public void ChangeState(int pos, int state)
+    public static class MTextExtension
+    {
+        public static void ChangeState(this MText text, int pos, int state)
         {
+            MLocalizationManager.Instance.ChangeState(text, pos, state);
+        }
 
+        public static int GetCurState(this MText text, int pos)
+        {
+            return MLocalizationManager.Instance.GetCurState(text, pos);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MFramework
 {
     public class ExcelGenerator : EditorWindow
     {
-        [MenuItem("MFramework/GenerateAllExcel _F8", false, 102)]
+        [MenuItem("MFramework/GenerateAllExcel _F8", priority = 109)]
         public static void GenerateAllExcel()
         {
             EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
@@ -22,7 +22,7 @@ namespace MFramework
             window.XLSX2PersistentData();
         }
 
-        [MenuItem("MFramework/ExcelGenerator", false, 101)]
+        [MenuItem("MFramework/ExcelGenerator", priority = 101)]
         public static void Init()
         {
             ExcelGenerator window = GetWindow<ExcelGenerator>(true, "ExcelGenerator", false);

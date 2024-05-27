@@ -1,10 +1,16 @@
 using MFramework.UI;
 using System;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace MFramework
 {
+    /// <summary>
+    /// 目前架构：
+    /// infoDic---存放id下的所有信息，一个id可能有多个信息
+    /// MLocalizationInfo---完整信息，拥有多种语言
+    /// </summary>
     [MonoSingletonSetting(HideFlags.NotEditable, "#MLocalizationManager#")]
     public class MLocalizationManager : MonoSingleton<MLocalizationManager>
     {
@@ -21,17 +27,59 @@ namespace MFramework
             }
         }
 
+        public List<SupportLanguage> SupportLanguages => asset.supportLanguages;
+        public int SupportLanguagesCount => asset.supportLanguages.Count;
+
         private MLocalizationAsset asset;//每个ID所对应的多语言文字列表
 
-        private Dictionary<int, List<MLocalizationInfo>> infoDic;//每个ID所对应的完整数据
+        internal Dictionary<int, List<MLocalizationInfo>> infoDic;//每个ID所对应的完整数据
 
         private void Awake()
         {
             LocalizationTable[] table = LocalizationTable.LoadBytes();
             asset = new MLocalizationAsset(table);
-
             UpdateAllText(SupportLanguage.CHINESE, true);
         }
+
+        public int GetCurState(MText text, int pos)
+        {
+            if (!infoDic.ContainsKey(text.mLocal.LocalID)) return -1;
+
+            List<MLocalizationInfo> infoList = infoDic[text.mLocal.LocalID];
+            var info = infoList[0];
+            return info.textList[0].formatStrList[pos].curState;
+        }
+
+        public void ChangeState(MText text, int pos, int state)
+        {
+            if (!infoDic.ContainsKey(text.mLocal.LocalID)) return;
+
+            List<MLocalizationInfo> infoList = infoDic[text.mLocal.LocalID];
+            foreach (var info in infoList)
+            {
+                foreach (var t in info.textList)
+                {
+                    t.ChangeState(pos, state);
+                }
+            }
+
+            UpdateText(text);
+        }
+        //public void ChangeState(int id, int pos, int state)
+        //{
+        //    if (!infoDic.ContainsKey(id)) return;
+
+        //    List<MLocalizationInfo> infoList = infoDic[id];
+        //    foreach (var info in infoList)
+        //    {
+        //        foreach (var t in info.textList)
+        //        {
+        //            t.ChangeState(pos, state);
+        //        }
+        //    }
+
+        //    UpdateAllText();//TODO:太耗
+        //}
 
         public void UpdateAllText()
         {
@@ -41,7 +89,7 @@ namespace MFramework
             {
                 foreach (var info in infos)
                 {
-                    info.mText.text = info.textList[(int)CurrentLanguage];
+                    info.mText.text = info.textList[(int)CurrentLanguage].ToString();
                 }
             }
         }
@@ -60,10 +108,19 @@ namespace MFramework
             {
                 foreach (var info in infos)
                 {
-                    info.mText.text = info.textList[(int)language];
+                    info.mText.text = info.textList[(int)language].ToString();
                 }
             }
             CurrentLanguage = language;
+        }
+
+        public void UpdateText(MText text)
+        {
+            if (infoDic == null) infoDic = new Dictionary<int, List<MLocalizationInfo>>();
+
+            List<MLocalization> localizationList = new List<MLocalization>() { text.mLocal };
+
+            UpdateInfo(localizationList, (info) => { info.mText.text = info.textList[(int)CurrentLanguage].ToString(); });
         }
 
         /// <summary>
@@ -122,12 +179,12 @@ namespace MFramework
         }
         private void UpdateInfoAndUpdateView(List<MLocalization> localizationList)
         {
-            UpdateInfo(localizationList, (info) => { info.mText.text = info.textList[(int)CurrentLanguage]; });
+            UpdateInfo(localizationList, (info) => { info.mText.text = info.textList[(int)CurrentLanguage].ToString(); });
         }
 
         private bool CheckLanguageValidity(SupportLanguage language)
         {
-            if (!asset.SupportLanguages.Contains(language)) return false;
+            if (!SupportLanguages.Contains(language)) return false;
             return true;
         }
     }
@@ -136,13 +193,13 @@ namespace MFramework
     {
         //数据
         public int id;
-        public List<string> textList;
+        public List<MLocalizationString> textList;//多语言
         //组件信息
         //public GameObject gameObject;
         //public MLocalization mLocal;
         public MText mText;
 
-        public MLocalizationInfo(int id, List<string> list, MLocalization local)
+        public MLocalizationInfo(int id, List<MLocalizationString> list, MLocalization local)
         {
             this.id = id;
             textList = list;

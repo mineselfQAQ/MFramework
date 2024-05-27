@@ -21,7 +21,10 @@ public class TitleBtnGroup : TitleBtnGroupBase
         }
         else if (button == m_ExitBtn_MButton)
         {
-            MUtility.QuitGame();
+            panel.parentRoot.ClosePanel(panel.panelID, () =>
+            {
+                MUtility.QuitGame();
+            });
         }
     }
 
