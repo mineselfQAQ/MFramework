@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4283147806250442572
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ CanvasGroup:
   m_GameObject: {fileID: 409996882905846432}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &8504736610045227536
@@ -477,11 +477,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1207707422241478903, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: localID
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1484070586798802535, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: localID
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3145116215070725378, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: mLocal
@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562610008401726719, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2646539550423868779, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_Pivot.x
@@ -861,11 +861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6627106262847302844, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7658955484026383161, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: localID
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7763922258243363121, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: mLocal

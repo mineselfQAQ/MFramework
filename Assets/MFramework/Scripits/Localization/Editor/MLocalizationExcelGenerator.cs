@@ -15,22 +15,34 @@ namespace MFramework
         private bool FirstOpen = true;
         private List<LocalizationTableInfo> infos;
 
+        private int pos;
+        private Vector2 scrollPos1;
+
         [MenuItem("MFramework/MLocalizationExcelGenerator", priority = 102)]
         public static void Init()
         {
             EditorWindow window = GetWindow<MLocalizationExcelGenerator>(true, "MLocalizationExcelGenerator", false);
-            window.minSize = new Vector2(500, 200);
+            window.minSize = new Vector2(300, 400);
             window.Show();
         }
 
         private void OnGUI()
         {
+            MGUIUtility.DrawH1("本地化生成器");
+
             DrawCreateBtn();
 
             MGUIUtility.DrawH2("查询场景中所有的MLocalization");
+            EditorGUILayout.LabelField("Tip:Prefab部分不得更改，请打开预制体进行修改", MGUIStyleUtility.ColorStyle(Color.red));
 
-            DrawResetSortBtn();
-            DrawAutoSortBtn();
+            EditorGUILayout.BeginHorizontal();
+            {
+                DrawResetSortBtn();
+                DrawAutoSortBtn();
+            }
+            EditorGUILayout.EndHorizontal();
+
+            DrawJumpToPosBtn();
             DrawMLocalizationChecker();
         }
 
@@ -39,11 +51,41 @@ namespace MFramework
             FirstOpen = true;
         }
 
+        private void DrawJumpToPosBtn()
+        {
+            EditorGUILayout.BeginHorizontal();
+            {
+                EditorGUILayout.LabelField("跳转至ID:", GUILayout.Width(60));
+                pos = EditorGUILayout.IntField(pos, GUILayout.Width(50));
+                EditorGUILayout.LabelField("处", GUILayout.Width(50));
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("跳转", GUILayout.Width(100)))
+                {
+                    GUI.FocusControl(null);//取消聚焦
+                    int index = FindPosIndex(pos);
+                    int y = index * 50;
+                    scrollPos1.y = y;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+        private int FindPosIndex(int pos)
+        {
+            for(int i = 0; i < infos.Count; i++)
+            {
+                if (infos[i].id == pos)
+                {
+                    return i;
+                }
+            }
+            MLog.Print($"MLocalization：未找到id为{pos}的物体，请检查", MLogType.Warning);
+            return -1;
+        }
         private void DrawAutoSortBtn()
         {
             if (GUILayout.Button("一键排序"))
             {
-
+                //TODO:收集所有场景以及所有Prefab中的MLocalization并进行初始化排序
             }
         }
         private void DrawResetSortBtn()
@@ -51,7 +93,7 @@ namespace MFramework
             if (GUILayout.Button("重置排序"))
             {
                 infos = GetMLocalizationTabelInfo(true); 
-                GUI.FocusControl(null);
+                GUI.FocusControl(null);//取消聚焦
                 return;
             }
         }
@@ -77,6 +119,7 @@ namespace MFramework
                     {
                         //TODO:未完成
                         MLog.Print("TODO", MLogType.Error);
+                        return;
                     }
                 }
 
@@ -117,7 +160,7 @@ namespace MFramework
             table.Rows.Add(new object[] { "int", "none", "none", "string", "string" });
             foreach (var info in infos)
             {
-                table.Rows.Add(new object[] { info.id, info.desc, "", "", "" });
+                table.Rows.Add(new object[] { info.id, info.go.name, "", "", "" });
             }
 
             return table;
@@ -125,34 +168,65 @@ namespace MFramework
 
         private void DrawMLocalizationChecker()
         {
+            //场景存在几种可能：
+            //1.最正常情况---所有物体都提前创建Hierarchy中，那么此时全部获取更改即可
+            //2.预制体情况，由于是预制体，所以必然在场景中没有物体，那么此时无法创建
+            //2.1.不可行方案---预制体必然会在运行时创建，但是预制体此时已经复制生成，无法更改数据
+            //2.2.可行方案---将预制体像正常一样拖入场景后进行操作，但是此时需要处理|物体的激活状态|预制体的保存|
+            //2.3.可行方案---如果是预制体，直接进入预制体界面更改
+
             List<MLocalization> mLocalList = MLocalizationUtility.FindAllLoclizations();
 
-            if (FirstOpen)
+            if (FirstOpen || infos == null)
             {
                 infos = GetMLocalizationTabelInfo(true);
                 FirstOpen = false;
             }
-            foreach (var info in infos)
+            scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
-                EditorGUILayout.BeginHorizontal();
+                foreach (var info in infos)
                 {
-                    //添加换行功能
-                    GUIStyle style = new GUIStyle(EditorStyles.label);
-                    style.wordWrap = true;
-
-                    EditorGUILayout.LabelField($"物体名：{info.desc}\n文字：{info.text}", style);
-                    int oldID = info.id;
-                    int newID = EditorGUILayout.IntField(oldID);
-                    if (newID != oldID)
+                    EditorGUILayout.BeginVertical();
                     {
-                        info.id = newID;
-                        info.mLocal.LocalID = newID;
-                    }
-                }
-                EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.LabelField($"文字：{info.text}");
 
-                EditorGUILayout.Space(10);
+                        EditorGUILayout.BeginHorizontal();
+                        {
+                            GUI.enabled = false;
+                            EditorGUILayout.ObjectField(info.go, typeof(GameObject), GUILayout.Width(175));
+                            GUI.enabled = true;
+
+                            GUILayout.FlexibleSpace();
+
+                            //TODO:即使在预制体模式下也无法更改
+                            PrefabInstanceStatus status = PrefabUtility.GetPrefabInstanceStatus(info.go);
+                            int oldID = info.id;
+                            int newID = -1;
+                            if (status != PrefabInstanceStatus.NotAPrefab)
+                            {
+                                GUI.enabled = false;
+                                newID = EditorGUILayout.IntField(oldID, GUILayout.Width(50));
+                                GUI.enabled = true;
+                            }
+                            else
+                            {
+                                newID = EditorGUILayout.IntField(oldID, GUILayout.Width(50));
+                            }
+
+                            if (newID != oldID)
+                            {
+                                info.id = newID;
+                                info.mLocal.LocalID = newID;
+                            }
+                        }
+                        EditorGUILayout.EndHorizontal();
+                    }
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Space(10);
+                }
             }
+            EditorGUILayout.EndScrollView();
         }
 
         /// <summary>
@@ -165,9 +239,9 @@ namespace MFramework
             List<MLocalization> mLocalList = MLocalizationUtility.FindAllLoclizations();
             foreach (var mLocal in mLocalList)
             {
-                if (mLocal.LocalMode == LocalizationMode.Off || mLocal.LocalID == -1) continue;
+                if (mLocal.LocalMode == LocalizationMode.Off) continue;//localID为-1也需要进行，因为可能是还没改
 
-                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject.name, mLocal.GetComponent<MText>().text);
+                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text);
                 infos.Add(info);
             }
 
@@ -180,14 +254,14 @@ namespace MFramework
         {
             public MLocalization mLocal;
             public int id;
-            public string desc;
+            public GameObject go;
             public string text;
 
-            public LocalizationTableInfo(MLocalization mLocal, int id, string desc, string text)
+            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text)
             {
                 this.mLocal = mLocal;
                 this.id = id;
-                this.desc = desc;
+                this.go = go;
                 this.text = text;
             }
         }

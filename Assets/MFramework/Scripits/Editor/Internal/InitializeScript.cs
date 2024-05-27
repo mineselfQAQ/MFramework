@@ -111,5 +111,18 @@ namespace MFramework
             }
         }
         #endregion
+
+        /// <summary>
+        /// 检测当前电脑是否为一台
+        /// </summary>
+        [InitializeOnLoadMethod]
+        public static void CheckComputerUniqueID()
+        {
+            string curID = EditorPrefs.GetString("DeviceUniqueID", SystemInfo.deviceUniqueIdentifier);
+            if (curID != SystemInfo.deviceUniqueIdentifier)
+            {
+                MLog.Print("注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Error);
+            }
+        }
     }
 }

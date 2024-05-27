@@ -5,7 +5,7 @@ namespace MFramework
 {
     public static class MGUIStyleUtility
     {
-        private static int ms_DefaultFontSize = 14;
+        private static int ms_DefaultFontSize = 13;
         private static Color ms_DefaultColor = EditorGUIUtility.isProSkin ? new Color(0.73f, 0.73f, 0.73f) : Color.black;
 
         private static GUIStyle m_defaultStyle;
@@ -104,6 +104,16 @@ namespace MFramework
 
                 return m_CenterStyle;
             }
+        }
+
+        public static GUIStyle ColorStyle(Color color)
+        {
+            GUIStyle style = new GUIStyle();
+
+            style.fontSize = ms_DefaultFontSize;
+            style.normal.textColor = color;
+
+            return style;
         }
     }
 }
