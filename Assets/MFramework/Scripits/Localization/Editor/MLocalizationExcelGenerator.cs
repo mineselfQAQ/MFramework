@@ -7,6 +7,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using MFramework.UI;
+using UnityEditor.SceneManagement;
 
 namespace MFramework
 {
@@ -38,7 +39,7 @@ namespace MFramework
             EditorGUILayout.BeginHorizontal();
             {
                 DrawResetSortBtn();
-                DrawAutoSortBtn();
+                //DrawAutoSortBtn();//TODO
             }
             EditorGUILayout.EndHorizontal();
 
@@ -110,16 +111,16 @@ namespace MFramework
                     int flag = EditorUtility.DisplayDialogComplex("Generating",
                         "本地化Excel文件已存在，是否需要进行何种操作", "覆盖", "取消", "更新");
                     if (flag == 1) return;//取消
-                    else if (flag == 0)//覆盖---删除重创
-                    {
-                        file.Delete();
-                        file = new FileInfo(filePath);
-                    }
                     else if (flag == 2)//更新
                     {
                         //TODO:未完成
                         MLog.Print("TODO", MLogType.Error);
                         return;
+                    }
+                    else if (flag == 0)//覆盖---删除重创
+                    {
+                        file.Delete();
+                        file = new FileInfo(filePath);
                     }
                 }
 
@@ -130,7 +131,7 @@ namespace MFramework
                 using (ExcelPackage package = new ExcelPackage(file))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");//创建表1
-                    worksheet.Cells["A1"].LoadFromDataTable(GetLocalizationTable(infos), true);//创建初始表内容
+                    worksheet.Cells["A1"].LoadFromDataTable(GetLocalizationTable(GetValidInfos(infos)), true);//创建初始表内容
 
                     int row = infos.Count + 3;
                     worksheet.Cells[$"A1:E{row}"].AutoFitColumns();//调整行宽
@@ -146,6 +147,19 @@ namespace MFramework
             }
         }
 
+        private List<LocalizationTableInfo> GetValidInfos(List<LocalizationTableInfo> infos)
+        {
+            List<LocalizationTableInfo> res = new List<LocalizationTableInfo>();
+            foreach (var info in infos)
+            {
+                if (info.mLocal.LocalMode == LocalizationMode.Off || info.mLocal.LocalID == -1)
+                {
+                    continue;
+                }
+                res.Add(info);
+            }
+            return res;
+        }
         private DataTable GetLocalizationTable(List<LocalizationTableInfo> infos)
         {
             DataTable table = new DataTable();
@@ -193,25 +207,39 @@ namespace MFramework
                         EditorGUILayout.BeginHorizontal();
                         {
                             GUI.enabled = false;
-                            EditorGUILayout.ObjectField(info.go, typeof(GameObject), GUILayout.Width(175));
+                            EditorGUILayout.ObjectField(info.go, typeof(GameObject), true, GUILayout.Width(175));
                             GUI.enabled = true;
 
-                            GUILayout.FlexibleSpace();
+                            if (info.prefabParent != null)
+                            {
+                                if (GUILayout.Button("跳转"))
+                                {
+                                    Selection.activeGameObject = info.prefabParent;
+                                }
+                                if (GUILayout.Button("进入Prefab"))
+                                {
+                                    string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(info.prefabParent);
+                                    PrefabStageUtility.OpenPrefab(prefabPath);
+                                }
+                            }
 
-                            //TODO:即使在预制体模式下也无法更改
+                            GUILayout.FlexibleSpace();
+                            if (info.id == -1)
+                            {
+                                if (GUILayout.Button("移除MLocalization"))
+                                {
+                                    info.go.GetComponent<MLocalization>().LocalMode = LocalizationMode.Off;
+                                    //infos.Remove(info);
+
+                                    infos = GetMLocalizationTabelInfo(true);
+                                    GUI.FocusControl(null);//取消聚焦
+                                }
+                            }
+
                             PrefabInstanceStatus status = PrefabUtility.GetPrefabInstanceStatus(info.go);
                             int oldID = info.id;
                             int newID = -1;
-                            if (status != PrefabInstanceStatus.NotAPrefab)
-                            {
-                                GUI.enabled = false;
-                                newID = EditorGUILayout.IntField(oldID, GUILayout.Width(50));
-                                GUI.enabled = true;
-                            }
-                            else
-                            {
-                                newID = EditorGUILayout.IntField(oldID, GUILayout.Width(50));
-                            }
+                            newID = EditorGUILayout.IntField(oldID, GUILayout.Width(50));
 
                             if (newID != oldID)
                             {
@@ -227,6 +255,13 @@ namespace MFramework
                 }
             }
             EditorGUILayout.EndScrollView();
+
+            SaveModify();
+        }
+
+        private void SaveModify()
+        {
+
         }
 
         /// <summary>
@@ -241,13 +276,34 @@ namespace MFramework
             {
                 if (mLocal.LocalMode == LocalizationMode.Off) continue;//localID为-1也需要进行，因为可能是还没改
 
-                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text);
+                GameObject parent = GetPrefabParent(mLocal);
+                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text, parent);
                 infos.Add(info);
             }
 
             if(isSort) infos = infos.OrderBy(info => info.id).ToList();//排序
 
             return infos;
+        }
+        private GameObject GetPrefabParent(MLocalization mLocal)
+        {
+            GameObject go = mLocal.gameObject;
+
+            GameObject curRoot = PrefabUtility.GetNearestPrefabInstanceRoot(go);
+            while (curRoot != null)
+            {
+                Transform rootParent = curRoot.transform.parent;
+                GameObject parentRoot = null;
+                if (rootParent != null)
+                {
+                    parentRoot = PrefabUtility.GetNearestPrefabInstanceRoot(rootParent.gameObject);
+                }
+
+                if (parentRoot == null) return curRoot;
+                curRoot = parentRoot;
+            }
+
+            return null;
         }
 
         private class LocalizationTableInfo
@@ -256,13 +312,15 @@ namespace MFramework
             public int id;
             public GameObject go;
             public string text;
+            public GameObject prefabParent;
 
-            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text)
+            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text, GameObject parent)
             {
                 this.mLocal = mLocal;
                 this.id = id;
                 this.go = go;
                 this.text = text;
+                this.prefabParent = parent;
             }
         }
     }

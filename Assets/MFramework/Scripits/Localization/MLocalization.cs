@@ -9,6 +9,7 @@ namespace MFramework
 
         public LocalizationMode LocalMode
         {
+            /*internal*/ set { localMode = value; }
             get { return localMode; }
         }
         public int LocalID

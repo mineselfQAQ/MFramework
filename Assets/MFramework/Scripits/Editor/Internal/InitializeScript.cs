@@ -118,11 +118,13 @@ namespace MFramework
         [InitializeOnLoadMethod]
         public static void CheckComputerUniqueID()
         {
-            string curID = EditorPrefs.GetString("DeviceUniqueID", SystemInfo.deviceUniqueIdentifier);
-            if (curID != SystemInfo.deviceUniqueIdentifier)
+            string curID = SystemInfo.deviceUniqueIdentifier;
+            string preID = EditorPrefs.GetString(EditorPrefsData.DeviceUniqueID, curID);
+            if (curID != preID)
             {
                 MLog.Print("注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Error);
             }
+            EditorPrefs.SetString(EditorPrefsData.DeviceUniqueID, curID);
         }
     }
 }
