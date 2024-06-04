@@ -153,7 +153,6 @@ namespace MFramework
 
 
 #if UNITY_EDITOR
-        //注意：必须将脚本挂上才有用
         //其中(0)必须添加，是优先级的含义，如果不添加有时不会触发
         [UnityEditor.Callbacks.OnOpenAsset(0)]
         public static bool OnOpenAsset(int instanceID, int line)

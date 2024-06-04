@@ -367,6 +367,8 @@ namespace MFramework
                 int endIndex = startIndex + bundle.Cells.Length - 1;
 
                 //防止越界(如果是最后一行就会发生)
+                //Tip：如果是最后一行，很有可能会发生5个空位只填入3个的情况，那么这会导致这一行的元素需要只显示3个，后2个需要隐藏
+                //如果在一个靠上的位置，不存在最后一行的话，自然所有行/列都是满的，就没有这种情况会发生了
                 if (endIndex >= datas.Count)
                 {
                     flag = true;

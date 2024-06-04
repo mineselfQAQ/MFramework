@@ -23,7 +23,7 @@ namespace MFramework
         public static void Init()
         {
             EditorWindow window = GetWindow<MLocalizationExcelGenerator>(true, "MLocalizationExcelGenerator", false);
-            window.minSize = new Vector2(300, 400);
+            window.minSize = new Vector2(400, 400);
             window.Show();
         }
 

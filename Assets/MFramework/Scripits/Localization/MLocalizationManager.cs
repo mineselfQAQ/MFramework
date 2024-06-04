@@ -1,6 +1,7 @@
 using MFramework.UI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEditor.VersionControl;
 using UnityEngine;
 
@@ -38,8 +39,27 @@ namespace MFramework
         {
             LocalizationTable[] table = LocalizationTable.LoadBytes();
             asset = new MLocalizationAsset(table);
-            UpdateAllText(SupportLanguage.CHINESE, true);
+            InitCurrentLanguage();
         }
+
+        private void InitCurrentLanguage()
+        {
+            string language = CultureInfo.CurrentCulture.DisplayName;
+
+            if (language == "Chinese (Simplified)") 
+            {
+                UpdateAllText(SupportLanguage.CHINESE, true);
+            }
+            else if (language == "TODO")//TODO:¿©≥‰∆‰À¸”Ô—‘
+            {
+                UpdateAllText(SupportLanguage.CHINESE, true);
+            }
+            else
+            {
+                UpdateAllText(SupportLanguage.ENGLISH, true);//ƒ¨»œ”¢”Ô
+            }
+        }
+
 
         public int GetCurState(MText text, int pos)
         {
