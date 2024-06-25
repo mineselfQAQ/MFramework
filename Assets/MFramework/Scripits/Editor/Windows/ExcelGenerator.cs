@@ -146,7 +146,7 @@ namespace MFramework
                 }
 
                 System.Diagnostics.Process.Start($"Explorer.exe", $@"/select,{path}");
-                if (isExist) MLog.Print(MLog.BoldWord($"已重新生成{fileName}."), MLogType.Warning);
+                if (isExist) MLog.Print($"已重新生成{fileName}.", MLogType.Warning);
                 else MLog.Print($"已生成{fileName}.");
             }
             else if (state == 1)//取消
@@ -200,7 +200,7 @@ namespace MFramework
 
                 if (!CheckTable(dataset))
                 {
-                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
+                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
                     continue;
                 }
                 GetDataFromTable(dataset.Tables[0],
@@ -217,7 +217,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print("有CS文件未成功生成，请检查", MLogType.Error);
+                MLog.Print("有CS文件未成功生成，请检查", MLogType.Warning);
                 return false;
             }
         }
@@ -273,7 +273,7 @@ namespace MFramework
 
                 if (!CheckTable(dataset))
                 {
-                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
+                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
                     continue;
                 }
                 GetDataFromTable(dataset.Tables[0],
@@ -289,7 +289,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print("有BIN文件未成功生成，请检查", MLogType.Error);
+                MLog.Print("有BIN文件未成功生成，请检查", MLogType.Warning);
                 return false;
             }
         }
@@ -732,14 +732,14 @@ namespace MFramework
         {
             if (dataSet.Tables.Count < 1)
             {
-                MLog.Print($"CrateCSV：{fileName}没有表存在，请检查.", MLogType.Error);
+                MLog.Print($"CrateCSV：{fileName}没有表存在，请检查.", MLogType.Warning);
                 return false;
             }
             DataTable mSheet = dataSet.Tables[0];//取首表
             //判断数据表内是否存在数据
             if (mSheet.Rows.Count < 1)
             {
-                MLog.Print($"CrateCSV：{fileName}中不存在数据，请检查.", MLogType.Error);
+                MLog.Print($"CrateCSV：{fileName}中不存在数据，请检查.", MLogType.Warning);
                 return false;
             }
 

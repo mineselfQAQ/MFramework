@@ -75,7 +75,7 @@ namespace MFramework
 
                             //按钮(铺在下方)
                             GUIContent guiContent = new GUIContent();
-                            guiContent.text = (compListSP.arraySize == 0) ? "None" : string.Empty;//按钮文本
+                            guiContent.text = (compListSP.arraySize == 0) ? "Default" : string.Empty;//按钮文本
                             if (GUI.Button(selectRect, guiContent, EditorStyles.popup))
                             {
                                 //创建下拉列表并展开
@@ -100,7 +100,7 @@ namespace MFramework
                         else
                         {
                             //不存在targetSP时的按钮
-                            if (GUI.Button(selectRect, "None", EditorStyles.popup)) { };
+                            if (GUI.Button(selectRect, "Default", EditorStyles.popup)) { };
                         }
                     }
                 }

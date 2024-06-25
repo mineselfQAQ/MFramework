@@ -15,6 +15,12 @@ namespace MFramework
         private SerializedProperty openAnimModeSP;
         private SerializedProperty closeAnimModeSP;
 
+        private static GUIContent thicknessLabel = new GUIContent("Thickness", "Panel与下一Panel的间距");
+        private static GUIContent focusModeLabel = new GUIContent("Focus Mode", "点击Panel后是否响应");
+        private static GUIContent animationSwitchLabel = new GUIContent("Animation Switch", "动画开关");
+        private static GUIContent openAnimationModeLabel = new GUIContent("Open Animation Mode", "开启动画模式");
+        private static GUIContent closeAnimationModeLabel = new GUIContent("Close Animation Mode", "关闭动画模式");
+
         protected void OnEnable()
         {
             behaviour = (UIPanelBehaviour)target;
@@ -39,12 +45,6 @@ namespace MFramework
 
         private void DrawUIPanelSettings()
         {
-            GUIContent thicknessLabel = new GUIContent("Thickness", "Panel与下一Panel的间距");
-            GUIContent focusModeLabel = new GUIContent("Focus Mode", "点击Panel后是否响应");
-            GUIContent animationSwitchLabel = new GUIContent("Animation Switch", "动画开关");
-            GUIContent openAnimationModeLabel = new GUIContent("Open Animation Mode", "开启动画模式");
-            GUIContent closeAnimationModeLabel = new GUIContent("Close Animation Mode", "关闭动画模式");
-
             int value = EditorGUILayout.IntField(thicknessLabel, thicknessSP.intValue);
             thicknessSP.intValue = Mathf.Clamp(value, 1, int.MaxValue);
 
@@ -83,9 +83,9 @@ namespace MFramework
                     //    string closeClipPath = Path.Combine(directoryPath, $"{objName}_Close.anim");
 
                     //    //注意：由于会出现第二个弹窗，这会导致面板问题，需要延迟执行
-                    //    EditorDelayExecute.Instance.DelayDo(Delay());
+                    //    EditorDelayExecute.Instance.DelayDo(DelayNoRecord());
 
-                    //    IEnumerator Delay()
+                    //    IEnumerator DelayNoRecord()
                     //    {
                     //        yield return null;
 

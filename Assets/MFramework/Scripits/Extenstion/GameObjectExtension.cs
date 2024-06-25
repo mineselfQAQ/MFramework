@@ -27,15 +27,15 @@ namespace MFramework
             return comp;
         }
 
-        public static void SetParent(this GameObject go, GameObject parent)
+        public static void SetParent(this GameObject go, GameObject parent, bool worldPositionStays = false)
         {
             if (parent == null) return;
-            go.transform.SetParent(parent.transform);
+            go.transform.SetParent(parent.transform, worldPositionStays);
         }
-        public static void SetParent(this GameObject go, Transform parent)
+        public static void SetParent(this GameObject go, Transform parent, bool worldPositionStays = false)
         {
             if (parent == null) return;
-            go.transform.SetParent(parent);
+            go.transform.SetParent(parent, worldPositionStays);
         }
 
         /// <summary>

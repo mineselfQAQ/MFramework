@@ -196,6 +196,9 @@ namespace MFramework
                         //TODO:根据平台设置默认分辨率
                         canvasScaler.referenceResolution = new Vector2(1920, 1080);
 
+                        GameObject backgroundGO = CreateUIGameObject(CreateUIType.MBackground, "MBackground");
+                        backgroundGO.SetParent(canvasGO, false);
+
                         Undo.RegisterCreatedObjectUndo(canvasGO, "Create UICanvas");
 
                         return canvasGO;
@@ -238,6 +241,7 @@ namespace MFramework
                         text.text = "XXX";
                         text.fontSize = 72;
                         text.alignment = TMPro.TextAlignmentOptions.Top;
+                        text.raycastTarget = false;
 
                         Undo.RegisterCreatedObjectUndo(mTextGO, "Create MText");
 

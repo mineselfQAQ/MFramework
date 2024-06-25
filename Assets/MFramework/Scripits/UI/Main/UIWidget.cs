@@ -192,7 +192,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"UI：如果想使用SelfControl模式，请重写PlayOpenAnim()---{widgetID}", MLogType.Warning);
+                MLog.Print($"{typeof(UIWidget)}：ID-<{widgetID}>重写PlayOpenAnim()后才能使用SelfControl模式，请检查", MLogType.Warning);
                 onFinish?.Invoke();
             }
             return true;
@@ -219,7 +219,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"UI：如果想使用SelfControl模式，请重写PlayCloseAnim()---{widgetID}", MLogType.Warning);
+                MLog.Print($"{typeof(UIWidget)}：ID-<{widgetID}>重写PlayCloseAnim()后才能使用SelfControl模式，请检查", MLogType.Warning);
                 onFinish?.Invoke();
             }
             return true;

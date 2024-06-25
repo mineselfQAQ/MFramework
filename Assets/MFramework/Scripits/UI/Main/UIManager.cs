@@ -18,17 +18,17 @@ namespace MFramework
             UICamera = GameObject.Find(BuildSettings.uiCameraName).GetComponent<Camera>();
             if (UICanvas == null && UICamera == null)
             {
-                MLog.Print($"UI：没有名为{BuildSettings.uiCanvasName}的Canvas，也没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIManager)}：没有名为{BuildSettings.uiCanvasName}的Canvas，也没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Error);
                 return;
             }
             else if (UICanvas == null)
             {
-                MLog.Print($"UI：没有名为{BuildSettings.uiCanvasName}的Canvas，请修改或创建后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIManager)}：没有名为{BuildSettings.uiCanvasName}的Canvas，请修改或创建后重试", MLogType.Error);
                 return;
             }
             else if (UICamera == null)
             {
-                MLog.Print($"UI：没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIManager)}：没有名为{BuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Error);
                 return;
             }
 
@@ -47,12 +47,12 @@ namespace MFramework
         {
             if (RootDic.ContainsKey(id)) 
             {
-                MLog.Print($"UI：Root-{id}已存在，请勿重复创建", MLogType.Warning);
+                MLog.Print($"{typeof(UIManager)}：Root-<{id}>已存在，请勿重复创建", MLogType.Warning);
                 return null;
             }
             if (start < 0 || end < start)
             {
-                MLog.Print($"UI：Root-{id}的StartOrder/EndOrder不符合要求，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIManager)}：Root-<{id}>的范围不正确([{start},[{end}])，请检查", MLogType.Warning);
                 return null;
             }
 

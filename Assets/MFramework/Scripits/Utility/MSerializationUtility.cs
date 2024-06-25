@@ -75,7 +75,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查", MLogType.Warning);
                 return null;
             }
 
@@ -89,14 +89,14 @@ namespace MFramework
 
                 XmlSerializer serializer = new XmlSerializer(type);
                 object instance = serializer.Deserialize(reader);
-                MLog.Print($"{fileName}.xml已获取成功.");
+                MLog.Print($"{fileName}.xml已获取成功");
 
                 stream.Close();
                 return instance;
             }
             catch
             {
-                MLog.Print($"文件{fullPath}序列化失败，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
                 if (stream != null) stream.Close();
                 return null;
             }
@@ -107,7 +107,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查", MLogType.Warning);
                 return default(T);
             }
 
@@ -121,14 +121,14 @@ namespace MFramework
 
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 T instance = (T)serializer.Deserialize(reader);
-                MLog.Print($"{fileName}.xml已获取成功.");
+                MLog.Print($"{fileName}.xml已获取成功");
 
                 stream.Close();
                 return instance;
             }
             catch
             {
-                MLog.Print($"文件{fullPath}序列化失败，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
                 if (stream != null) stream.Close();
                 return default(T);
             }
@@ -177,7 +177,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查", MLogType.Warning);
                 return null;
             }
 
@@ -187,12 +187,12 @@ namespace MFramework
             if (text.Length > 0)
             {
                 object result = JsonUtility.FromJson(text, type);
-                MLog.Print($"{fileName}.json已获取成功.");
+                MLog.Print($"{fileName}.json已获取成功");
                 return result;
             }
             else
             {
-                MLog.Print($"{fileName}.json不存在内容，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
                 return null;
             }
         }
@@ -202,7 +202,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查", MLogType.Warning);
                 return default(T);
             }
 
@@ -212,12 +212,12 @@ namespace MFramework
             if (text.Length > 0)
             {
                 T result = JsonUtility.FromJson<T>(text);
-                MLog.Print($"{fileName}.json已获取成功.");
+                MLog.Print($"{fileName}.json已获取成功");
                 return result;
             }
             else
             {
-                MLog.Print($"{fileName}.json不存在内容，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
                 return default(T);
             }
         }
@@ -269,7 +269,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查.", MLogType.Warning);
                 return null;
             }
 
@@ -278,7 +278,7 @@ namespace MFramework
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 object instance = binaryFormatter.Deserialize(fileStream);
-                MLog.Print($"{fileName}.byte已获取成功.");
+                MLog.Print($"{fileName}.byte已获取成功");
                 return instance;
             }
         }
@@ -288,7 +288,7 @@ namespace MFramework
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
-                MLog.Print($"文件{fullPath}不存在，请检查.", MLogType.Error);
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}不存在，请检查", MLogType.Warning);
                 return default(T);
             }
 
@@ -297,7 +297,7 @@ namespace MFramework
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 T instance = (T)binaryFormatter.Deserialize(fileStream);
-                MLog.Print($"{fileName}.byte已获取成功.");
+                MLog.Print($"{fileName}.byte已获取成功");
                 return instance;
             }
         }
@@ -369,7 +369,7 @@ namespace MFramework
             {
                 if (File.Exists(filePath))
                 {
-                    MLog.Print("已存在Byte文件，但为DontOverwrite模式，请检查", MLogType.Warning);
+                    MLog.Print($"{typeof(MSerializationUtility)}：{filePath}已存在Byte文件，但为DontOverwrite模式，请检查", MLogType.Warning);
                     return -1;
                 }
             }

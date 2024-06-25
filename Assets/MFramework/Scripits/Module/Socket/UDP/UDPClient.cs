@@ -33,7 +33,7 @@ namespace MFramework
             {
                 if (selfIP == null)
                 {
-                    MLog.Print("未连接至服务器，无法获取本机IP", MLogType.Error);
+                    MLog.Print($"{typeof(UDPClient)}：未连接至服务器，无法获取本机IP", MLogType.Warning);
                     return null;
                 }
                 return selfIP;
@@ -45,7 +45,7 @@ namespace MFramework
             {
                 if (selfPort == -1)
                 {
-                    MLog.Print("未连接至服务器，无法获取本机Port", MLogType.Error);
+                    MLog.Print($"{typeof(UDPClient)}：未连接至服务器，无法获取本机Port", MLogType.Warning);
                     return -1;
                 }
                 return selfPort;
@@ -70,7 +70,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            CoroutineManager.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
+            MCoroutineManager.Instance.BeginCoroutineNoRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Init(IPEndPoint serverEP, float interval = 5.0f, bool enableThread = true)
@@ -80,7 +80,7 @@ namespace MFramework
             //开启线程，注意点：
             //1.服务端必须已经存在
             //2.必须向服务端先发送信息后才能连接
-            CoroutineManager.Instance.BeginCoroutineAndNotRecord(TryConnectServer(interval, enableThread));
+            MCoroutineManager.Instance.BeginCoroutineNoRecord(TryConnectServer(interval, enableThread));
         }
 
         internal void Quit()
@@ -136,7 +136,7 @@ namespace MFramework
                 return true;
             }
 
-            MLog.Print($"服务器连接失败，将在{interval}秒后重试", MLogType.Warning);
+            MLog.Print($"{typeof(UDPClient)}：服务器连接失败，将在{interval}秒后重试", MLogType.Warning);
             return false;
         }
 
@@ -144,7 +144,7 @@ namespace MFramework
         {
             if (selfEP == null)
             {
-                MLog.Print("服务器未创建，无法获取EP", MLogType.Error);
+                MLog.Print($"{typeof(UDPClient)}：服务器未创建，无法获取EP，请检查", MLogType.Warning);
                 return null;
             }
 
@@ -161,7 +161,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print("未连接，无法发送消息", MLogType.Warning);
+                MLog.Print($"{typeof(UDPClient)}：未连接，无法发送消息", MLogType.Warning);
             }
         }
 
@@ -178,7 +178,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print("未连接，无法发送消息", MLogType.Warning);
+                MLog.Print($"{typeof(UDPClient)}：未连接，无法发送消息", MLogType.Warning);
             }
         }
 

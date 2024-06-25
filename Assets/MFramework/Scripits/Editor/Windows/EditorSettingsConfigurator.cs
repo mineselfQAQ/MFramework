@@ -121,7 +121,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print("未找到EditorSettings文件，现在请选择文件夹重新创建", MLogType.Warning);
+                MLog.Print($"未找到EditorSettings文件，现在请选择文件夹重新创建", MLogType.Warning);
                 string newDirectoryPath = MEditorUtility.ChangePath();
                 string newFilePath = Path.Combine(newDirectoryPath, "EditorSettings.cs");
                 File.WriteAllText(newFilePath, code);
@@ -190,11 +190,11 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else { MLog.Print("ChangePath：未替换成功", MLogType.Error); return false; }
+                else { MLog.Print("未替换成功", MLogType.Warning); return false; }
             }
             else
             {
-                MLog.Print("ChangePath：未找到路径", MLogType.Error);
+                MLog.Print("未找到路径", MLogType.Warning);
                 return false;
             }
             return true;
@@ -221,13 +221,13 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else { MLog.Print("ChangePath：未替换成功", MLogType.Error); return false; }
+                else { MLog.Print("未替换成功", MLogType.Warning); return false; }
 
                 AssetDatabase.Refresh();
             }
             else
             {
-                MLog.Print("ChangePath：未找到路径", MLogType.Error);
+                MLog.Print("未找到路径", MLogType.Warning);
                 return false;
             }
             return true;

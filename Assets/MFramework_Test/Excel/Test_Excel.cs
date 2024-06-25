@@ -85,7 +85,7 @@ public class Test_Excel : MonoBehaviour
     public void UpdateExcel(string path)
     {
         FileInfo file = new FileInfo(path);
-        if (!file.Exists) MLog.Print("UpdateExcel---未找到excel文件");
+        if (!file.Exists) MLog.Print("UpdateExcel：未找到excel文件");
 
         //填充数据
         using (ExcelPackage package = new ExcelPackage(file))

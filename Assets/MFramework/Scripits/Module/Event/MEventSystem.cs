@@ -15,12 +15,12 @@ namespace MFramework
         {
             if (!eventDict.ContainsKey(id))//没有调用过AddListener()情况
             {
-                MLog.Print($"Event：id{id}内没有Action不能分发，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能分发，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
             if (eventDict[id] == null)//调用过AddListener()但是Action已完全移除
             {
-                MLog.Print($"Event：id{id}内没有Action不能分发，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能分发，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace MFramework
         {
             if (e == BuiltInEvent.ONAPPLICATIONFOCUS || e == BuiltInEvent.ONAPPLICATIONPAUSE)
             {
-                MLog.Print($"Event：{typeof(BuiltInEvent).Name}.{e}请使用Action<bool>而非Action", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：{typeof(BuiltInEvent).Name}.{e}请使用Action<bool>而非Action", MLogType.Warning);
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace MFramework
         {
             if (e != BuiltInEvent.ONAPPLICATIONFOCUS && e != BuiltInEvent.ONAPPLICATIONPAUSE)
             {
-                MLog.Print($"Event：{typeof(BuiltInEvent).Name}.{e}请使用Action而非Action<bool>", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：{typeof(BuiltInEvent).Name}.{e}请使用Action而非Action<bool>", MLogType.Warning);
                 return;
             }
 
@@ -108,12 +108,12 @@ namespace MFramework
         {
             if (!eventDict.ContainsKey(id))//没有调用过AddListener()情况
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
             if(eventDict[id] == null)//调用过AddListener()但是Action已完全移除
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
 
@@ -123,7 +123,7 @@ namespace MFramework
         {
             if (e == BuiltInEvent.ONAPPLICATIONFOCUS || e == BuiltInEvent.ONAPPLICATIONPAUSE)
             {
-                MLog.Print($"Event：{typeof(BuiltInEvent).Name}.{e}请使用Action<bool>而非Action", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：{typeof(BuiltInEvent).Name}.{e}请使用Action<bool>而非Action", MLogType.Warning);
                 return;
             }
 
@@ -131,12 +131,12 @@ namespace MFramework
 
             if (!builtInEventDict.ContainsKey(id))//没有调用过AddListener()情况
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
             if (builtInEventDict[id] == null)//调用过AddListener()但是Action已完全移除
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace MFramework
         {
             if (e != BuiltInEvent.ONAPPLICATIONFOCUS && e != BuiltInEvent.ONAPPLICATIONPAUSE)
             {
-                MLog.Print($"Event：{typeof(BuiltInEvent).Name}.{e}请使用Action而非Action<bool>", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：{typeof(BuiltInEvent).Name}.{e}请使用Action而非Action<bool>", MLogType.Warning);
                 return;
             }
 
@@ -154,12 +154,12 @@ namespace MFramework
 
             if (!builtInEventDict2.ContainsKey(id))//没有调用过AddListener()情况
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
             if (builtInEventDict2[id] == null)//调用过AddListener()但是Action已完全移除
             {
-                MLog.Print($"Event：id{id}内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
+                MLog.Print($"{typeof(MEventSystem)}：id-<{id}>内没有Action不能移除，请先调用AddListener()后使用", MLogType.Warning);
                 return;
             }
 

@@ -37,7 +37,7 @@ public class GetProjectFilePath
 
         if (objs.Length != 1)
         {
-            MLog.Print("请选择一个物体，请重试", MLogType.Warning);
+            MLog.Print("请选择一个物体", MLogType.Warning);
             return false;
         }
 

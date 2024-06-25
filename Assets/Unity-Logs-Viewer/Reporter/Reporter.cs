@@ -144,7 +144,7 @@ public class Reporter : MonoBehaviour
 	Dictionary<string, string> cachedString = new Dictionary<string, string>();
 
 	[HideInInspector]
-	//show hide In Game Logs
+	//show hide Increment Game Logs
 	public bool show = false;
 	//collapse logs
 	bool collapse;
@@ -227,7 +227,7 @@ public class Reporter : MonoBehaviour
 		Graph,
 	}
 
-	//used to check if you have In Game Logs multiple time in different scene
+	//used to check if you have Increment Game Logs multiple time in different scene
 	//only one should work and other should be deleted
 	static bool created = false;
 	//public delegate void OnLogHandler( string condition, string stack-trace, LogType type );

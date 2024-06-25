@@ -31,9 +31,11 @@ public class Bag_Main : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Bag bag = bagRoot.CreatePanel<Bag>($"Bag{i + 1}", @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Bag.prefab");
-            var drager = DragEventListener.GetOrAdd(bag.gameObject);
-            drager.onDrag += (eventData) => { bag.rectTransform.anchoredPosition += eventData.delta; };
+            //var drager = DragEventListener.GetOrAdd(bag.gameObject);
+            //drager.onDrag += (eventData) => { bag.rectTransform.anchoredPosition += eventData.delta; };
             bag.Init(i + 1, colors[i], sizes[i]);
+            //Tip:Init()后才能SetBound()，因为Init()中设置了物体的size，之后进行才是准确的
+            bag.gameObject.GetComponent<MDragger>().SetBound(background.rectTransform);
             bagList.Add(bag);
         }
     }

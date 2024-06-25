@@ -1,3 +1,4 @@
+using MFramework.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace MFramework
         {
             if (datas == null)
             {
-                MLog.Print("没有数据用于初始化，请检查", MLogType.Error);
+                MLog.Print($"{typeof(CyclicScrollView<Cell,Data>)}没有数据用于初始化，请检查", MLogType.Warning);
                 return;
             }
 
@@ -269,8 +270,11 @@ namespace MFramework
                 int index = bundle.index - 1;
 
                 if (index < 0) break;
-                if (caculatedIndex != index)
-                    MLog.Print($"计算索引:{caculatedIndex},计数索引{index}计算出的索引和计数的索引值不相等", MLogType.Error);
+                if (caculatedIndex != index)//核验
+                {
+                    MLog.Print($"{typeof(CyclicScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
+                    break;
+                } 
 
                 bundle = GetViewBundle(index, newHeadBundlePos, CellSize, cellSpace);
                 cellBundles.AddFirst(bundle);
@@ -299,7 +303,10 @@ namespace MFramework
 
                 if (index >= ItemCount) break;
                 if (caculatedIndex != index)//核验
-                    MLog.Print($"计算索引:{caculatedIndex},计数索引{index}计算出的索引和计数的索引值不相等", MLogType.Error);
+                {
+                    MLog.Print($"{typeof(CyclicScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
+                    break;
+                }
 
                 bundle = GetViewBundle(index, newTailBundlePos, CellSize, cellSpace);
                 cellBundles.AddLast(bundle);

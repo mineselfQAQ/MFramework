@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 8867697477468621265}
   - component: {fileID: 3188404300323838093}
   - component: {fileID: 96760241273448599}
+  - component: {fileID: 5937242043599532031}
   m_Layer: 5
   m_Name: Bag
   m_TagString: Untagged
@@ -173,8 +174,40 @@ MonoBehaviour:
   - target: {fileID: 1617370187997432558}
     compList:
     - {fileID: 4364838796144704534}
-  thickness: 10
-  focusMode: 1
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0
+  thickness: 10
+  focusMode: 1
+--- !u!114 &5937242043599532031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5531188520044669887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee7e0330baaa464cb5e9dc1d57f5d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggerID: -1
+  centerMove: 0
+  bound: {fileID: 0}
+  selfBound: {fileID: 0}
+  onBeginDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onExitBound:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnterBound:
+    m_PersistentCalls:
+      m_Calls: []
+  isDragging: 0

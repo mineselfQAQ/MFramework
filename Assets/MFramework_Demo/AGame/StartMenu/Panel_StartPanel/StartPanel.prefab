@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de4a343577588c40b76a1da4141ac90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localMode: 0
+  localMode: 1
   localID: -1
 --- !u!222 &247971352965273065
 CanvasRenderer:
@@ -455,6 +455,7 @@ MonoBehaviour:
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   mLocal: {fileID: 4404539954042853156}
+  mAnimator: {fileID: 0}
 --- !u!225 &1869430947099825739
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -490,6 +491,10 @@ PrefabInstance:
     - target: {fileID: 3145116215070725378, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: m_text
       value: Language:English
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145116215070725378, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3145116215070725378, guid: 45b00ed0ebfcd7e43b364dd6f3c21ef8, type: 3}
       propertyPath: m_fontSize
@@ -804,6 +809,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4875982434467624663}
     - target: {fileID: 3743835404765311734, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743835404765311734, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_fontSize
       value: 40
       objectReference: {fileID: 0}
@@ -840,6 +849,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4306274680628467348}
     - target: {fileID: 5578527607025404580, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5578527607025404580, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_fontSize
       value: 40
       objectReference: {fileID: 0}
@@ -871,6 +884,10 @@ PrefabInstance:
       propertyPath: mLocal
       value: 
       objectReference: {fileID: 752333573183623441}
+    - target: {fileID: 7763922258243363121, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7763922258243363121, guid: 654880594ed885c42a7b55e25e2b1f7a, type: 3}
       propertyPath: m_fontSize
       value: 40

@@ -25,7 +25,7 @@ namespace MFramework
                 {
                     if (Application.isPlaying)
                     {
-                        MLog.Print("UI：请在非运行时导出", MLogType.Warning); 
+                        MLog.Print($"{typeof(UIViewBehaviourEditor)}：请在非运行时导出", MLogType.Warning); 
                         return; 
                     }
                     GenerateUIBaseCode();
@@ -36,7 +36,7 @@ namespace MFramework
                 {
                     if (Application.isPlaying)
                     {
-                        MLog.Print("UI：请在非运行时导出", MLogType.Warning);
+                        MLog.Print($"{typeof(UIViewBehaviourEditor)}：请在非运行时导出", MLogType.Warning);
                         return;
                     }
                     GenerateUIMainCode();
@@ -49,7 +49,7 @@ namespace MFramework
             {
                 if (Application.isPlaying)
                 {
-                    MLog.Print("UI：请在非运行时导出", MLogType.Warning);
+                    MLog.Print($"{typeof(UIViewBehaviourEditor)}：请在非运行时导出", MLogType.Warning);
                     return;
                 }
 
@@ -63,7 +63,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
                 return;
             }
             string fullPrefabPath = Path.GetFullPath(prefabPath);
@@ -108,7 +108,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
                 return;
             }
             string fullPrefabPath = Path.GetFullPath(prefabPath);
@@ -161,7 +161,7 @@ namespace MFramework
 
                 if (targetSet.Contains(collection.Target.name))
                 {
-                    MLog.Print("自动生成不能同时存在同名Target，请重试", MLogType.Error);
+                    MLog.Print($"{typeof(UIViewBehaviourEditor)}：自动生成不能同时存在同名Target，请重试", MLogType.Warning);
                     fieldsDefine = null; bindComps = null; bindEvents = null; unbindEvents = null; unbindComps = null;
                     return false;
                 }
@@ -333,7 +333,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print("该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
                 return;
             }
 
@@ -347,7 +347,7 @@ namespace MFramework
 
             if (File.Exists(filePath))
             {
-                MLog.Print($"{fileName}已存在，如需重新创建，请删除后再试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：{fileName}已存在，如需重新创建，请删除后再试", MLogType.Warning);
                 return;
             }
 

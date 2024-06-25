@@ -98,7 +98,7 @@ namespace MFramework
         {
             if (server != null)
             {
-                MLog.Print("服务端只能有唯一一个，不能多次创建", MLogType.Warning);
+                MLog.Print($"{typeof(UDPManager)}：服务端只能有唯一一个，不能多次创建，请检查", MLogType.Warning);
                 return null;
             }
             server = new T();
@@ -111,7 +111,7 @@ namespace MFramework
         {
             if (server != null)
             {
-                MLog.Print("服务端只能有唯一一个，不能多次创建", MLogType.Warning);
+                MLog.Print($"{typeof(UDPManager)}：服务端只能有唯一一个，不能多次创建，请检查", MLogType.Warning);
                 return null;
             }
             server = new T();
@@ -124,7 +124,7 @@ namespace MFramework
         {
             if (server != null)
             {
-                MLog.Print("服务端只能有唯一一个，不能多次创建", MLogType.Warning);
+                MLog.Print($"{typeof(UDPManager)}：服务端只能有唯一一个，不能多次创建，请检查", MLogType.Warning);
                 return null;
             }
             server = new T();

@@ -1,3 +1,4 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +50,8 @@ namespace MFramework
         {
             if (prefabDic.ContainsKey(prefab))//prefab已经入池，无需再次Warm()
             {
-                MLog.Print($"Pool：{prefab.name}已创建，请检查", MLogType.Error);
+                MLog.Print($"{typeof(PoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
+                return;
             }
 
             //正常情况---创建对象池，并存入prefabDic中
@@ -103,7 +105,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"Pool：{clone.name}不存在于池中，请检查", MLogType.Error);
+                MLog.Print($"{typeof(PoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
             }
         }
 

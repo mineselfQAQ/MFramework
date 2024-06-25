@@ -24,11 +24,11 @@ public class OptionsBtnGroup : OptionsBtnGroupBase
         {
             if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.CHINESE)
             {
-                MLocalizationManager.Instance.UpdateAllText(SupportLanguage.ENGLISH);
+                MLocalizationManager.Instance.SetLanguage(SupportLanguage.ENGLISH);
             }
             else if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.ENGLISH)
             {
-                MLocalizationManager.Instance.UpdateAllText(SupportLanguage.CHINESE);
+                MLocalizationManager.Instance.SetLanguage(SupportLanguage.CHINESE);
             }
         }
     }

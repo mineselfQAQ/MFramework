@@ -123,15 +123,15 @@ namespace MFramework
                 prefabPath = prefabPath.Replace('\\', '/');
                 prefabPath = DealEditorPath(prefabPath);
                 GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-                if (prefab == null) { MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径是否正确", MLogType.Warning); return false; }
+                if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查", MLogType.Error); return false; }
 #else
                 GameObject prefab = LoadPrefab(prefabPath);
-                if (prefab == null) MLog.Print($"UI：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确");
+                if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确", MLogType.Error); return false; }
 #endif
                 GameObject go = GameObject.Instantiate(prefab, parentTrans, false);
                 //检测
                 behaviour = go.GetComponent<UIViewBehaviour>();
-                if (behaviour == null) { MLog.Print($"UI：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Warning); return false; }
+                if (behaviour == null) { MLog.Print($"{typeof(UIView)}：\"{id}\"上未挂载Behaviour组件，请检查", MLogType.Error); return false; }
             }
             else if (inputBehaviour != null)//提供UIViewBehaviour模式
             {
@@ -166,7 +166,7 @@ namespace MFramework
             {
                 if (!path.StartsWith("Assets"))//非基于Assets的路径
                 {
-                    MLog.Print($"UI：路径{path}不正确，请提供|完整路径/基于Assets的路径|其中之一", MLogType.Warning);
+                    MLog.Print($"{typeof(UIView)}：路径{path}不正确，请提供|完整路径/基于Assets的路径|其中之一", MLogType.Warning);
                     return null;
                 }
             }
@@ -207,7 +207,7 @@ namespace MFramework
             widgetDic.Add(id, widget);
 
             //对于路径形式，物体是在创建Panel后的某一刻创建的，需要更新
-            MLocalizationManager.Instance.UpdateNewText(widget.gameObject);//更新文字
+            //MText.UpdateAllInfo();
 
             return widget;
         }
@@ -219,7 +219,7 @@ namespace MFramework
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                MLog.Print($"{typeof(UIView)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
                 return null;
             }
             return CreateWidget<T>(typeof(T).Name, parent, prefabPath, autoEnter);
@@ -228,7 +228,7 @@ namespace MFramework
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                MLog.Print($"{typeof(UIView)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
                 return null;
             }
             return CreateWidget<T>(typeof(T).Name, rectTransform, prefabPath, autoEnter);
@@ -242,15 +242,13 @@ namespace MFramework
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
 
-            //Tip:由于已经挂载，应该最终会由UIPanel更新，无需再次调用MLocalizationManager.Instance.RefreshAllText()
-
             return widget;
         }
         public T CreateWidget<T>(UIWidgetBehaviour behaviour, bool autoEnter = false) where T : UIWidget
         {
             if (widgetDic != null && widgetDic.ContainsKey(typeof(T).Name))
             {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                MLog.Print($"{typeof(UIView)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
                 return null;
             }
             return CreateWidget<T>(typeof(T).Name, behaviour, autoEnter);
@@ -260,12 +258,12 @@ namespace MFramework
         {
             if (widgetDic == null) 
             {
-                MLog.Print($"UI：{viewID}下没有子Widget，删除失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子Widget，删除失败，请检查", MLogType.Warning);
                 return false;
             }
             if (!widgetDic.ContainsKey(id))
             {
-                MLog.Print($"UI：{viewID}下没有<{id}>，删除失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，删除失败，请检查", MLogType.Warning);
                 return false;
             } 
 
@@ -303,12 +301,12 @@ namespace MFramework
         {
             if (widgetDic == null)
             {
-                MLog.Print($"UI：{viewID}下没有子Widget，获取失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子Widget，获取失败，请检查", MLogType.Warning);
                 return null;
             }
             if (!widgetDic.ContainsKey(id))
             {
-                MLog.Print($"UI：{viewID}下没有<{id}>，获取失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，获取失败，请检查", MLogType.Warning);
                 return null;
             }
 
@@ -350,7 +348,7 @@ namespace MFramework
         {
             if (!widgetDic.ContainsKey(id))
             {
-                MLog.Print($"UI：View-{viewID}下没有<{id}>，打开失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，打开失败，请检查", MLogType.Warning);
                 return;
             }
 
@@ -366,7 +364,7 @@ namespace MFramework
         {
             if (!widgetDic.ContainsKey(id))
             {
-                MLog.Print($"UI：View-{viewID}下没有<{id}>，关闭失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，关闭失败，请检查", MLogType.Warning);
                 return;
             }
 
@@ -382,7 +380,7 @@ namespace MFramework
         {
             if (!widgetDic.ContainsKey(id))
             {
-                MLog.Print($"UI：View-{viewID}下没有<{id}>，设置失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，设置失败，请检查", MLogType.Warning);
                 return;
             }
 

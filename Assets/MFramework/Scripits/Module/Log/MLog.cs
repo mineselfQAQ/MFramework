@@ -8,7 +8,7 @@ namespace MFramework
     public class MLog : INeedInit, INeedQuit
     {
         private static FileStream fs;
-        private static string path = $@"{Application.dataPath}\..\LogCallBack.txt";
+        private static string path = $@"{Application.dataPath}/../LogCallBack.txt";
 
         //TODO:目前并没有检测core是否存在的机制，如果MCore发生意外被删除了就会导致错误
         private static MCore core = GameObject.Find("MCore").GetComponent<MCore>();
@@ -93,7 +93,7 @@ namespace MFramework
             return message.ToString();
 #endif
         }
-        public static string ColorWord(object message, Color color, bool isBold = false, bool isItalic = false)
+        public static string ColorWord(object message, Color color, bool isBold, bool isItalic)
         {
 #if UNITY_EDITOR
             string resultStr = AddColor(message, color);

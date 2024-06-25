@@ -81,9 +81,9 @@ namespace MFramework
                             //    string closeClipPath = Path.Combine(directoryPath, $"{objName}_Close.anim");
 
                             //    //注意：由于会出现第二个弹窗，这会导致面板问题，需要延迟执行
-                            //    EditorDelayExecute.Instance.DelayDo(Delay());
+                            //    EditorDelayExecute.Instance.DelayDo(DelayNoRecord());
 
-                            //    IEnumerator Delay()
+                            //    IEnumerator DelayNoRecord()
                             //    {
                             //        yield return null;
 

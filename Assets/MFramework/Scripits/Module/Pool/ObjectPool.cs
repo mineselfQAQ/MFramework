@@ -92,7 +92,7 @@ namespace MFramework
             }
             else//只有在表中的物体才是可被释放物体
             {
-                MLog.Print($"Pool：已没有可释放{item}，请检查", MLogType.Error);
+                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{item}，请检查", MLogType.Warning);
             }
         }
 

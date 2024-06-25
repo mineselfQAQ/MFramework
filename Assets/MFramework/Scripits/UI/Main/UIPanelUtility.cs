@@ -48,7 +48,7 @@ namespace MFramework
                 int order = panels[i - 1].sortingOrder + panels[i - 1].panelBehaviour.Thickness;
                 if (order > root.endOrder)
                 {
-                    MLog.Print($"{root.rootID}“—≥¨»›£¨«Î¿©»›ªÚºı…ŸThickness", MLogType.Error);
+                    MLog.Print($"{typeof(UIPanelUtility)}.{nameof(ResetOrder)}£∫RootID-<{root.rootID}>“—≥¨»›£¨«Î¿©»›ªÚºı…ŸThickness", MLogType.Error);
                     break;
                 }
                 panels[i].SetSortingOrder(order);

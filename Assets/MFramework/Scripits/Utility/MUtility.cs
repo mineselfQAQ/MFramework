@@ -1,8 +1,3 @@
-using MFramework;
-using MFramework.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,5 +22,16 @@ public static class MUtility
         Undo.SetCurrentGroupName(groupName);
 
         return undoGroup;
+    }
+
+    public static Vector2 ScreenMidPos => new Vector2(Screen.width / 2, Screen.height / 2);
+    
+    public static float Random(float min, float max)
+    {
+        return UnityEngine.Random.Range(min, max);
+    }
+    public static Vector3 RandomVector2()
+    {
+        return new Vector2(Random(-1f, 1f), Random(-1f, 1f));
     }
 }

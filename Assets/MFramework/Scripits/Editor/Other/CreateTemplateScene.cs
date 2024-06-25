@@ -7,16 +7,18 @@ namespace MFramework
 {
     public class CreateTemplateScene
     {
+        private const string SCENEFILEPATH = "Assets/MFramework/TemplateScenes/UITemplateScene/UITemplateScene.scenetemplate";
+
         [MenuItem("Assets/MCreate/UITemplateScene", priority = 9, secondaryPriority = 1.0f)]
         public static void CreateUITemplateScene()
         {
             if (CheckAvailability())
             {
-                SceneTemplateAsset sceneTemplate = AssetDatabase.LoadAssetAtPath<SceneTemplateAsset>("Assets/MFramework/TemplateScenes/UITemplateScene/UITemplateScene.scenetemplate");
+                SceneTemplateAsset sceneTemplate = AssetDatabase.LoadAssetAtPath<SceneTemplateAsset>(SCENEFILEPATH);
 
                 if (sceneTemplate == null)
                 {
-                    MLog.Print("未找到UI场景模板，无法创建", MLogType.Warning);
+                    MLog.Print($"路径{SCENEFILEPATH}未找到UI场景模板，无法创建", MLogType.Warning);
                     return;
                 }
 
@@ -54,7 +56,7 @@ namespace MFramework
 
             if (objs.Length != 1)
             {
-                MLog.Print("请选择一个物体", MLogType.Warning);
+                MLog.Print($"请选择一个物体", MLogType.Warning);
                 return false;
             }
 

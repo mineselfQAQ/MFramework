@@ -55,13 +55,13 @@ namespace MFramework
             Animator animator = GetComponent<Animator>();
             if (animator == null)
             {
-                MLog.Print($"{view}中不存在Animator组件，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviour)}：<{view}>中不存在Animator组件，请检查", MLogType.Warning);
                 onFinish();
                 return;
             }
             if (animator.runtimeAnimatorController == null)
             {
-                MLog.Print($"{view.viewID}中不存在Controller，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviour)}：ID-<{view.viewID}>中不存在Controller，请检查", MLogType.Warning);
                 onFinish();
                 return;
             }
@@ -80,12 +80,13 @@ namespace MFramework
             }
             if (!flag)
             {
-                MLog.Print($"{view.viewID}中的Animator未找到合适的Clip，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviour)}：ID-<{view.viewID}>中的Animator未找到合适的Clip，请检查", MLogType.Warning);
                 onFinish();
                 return;
             }
 
-            StartCoroutine(CoroutineUtility.Delay(onFinish, length));
+            MCoroutineManager.Instance.DelayNoRecord(onFinish, length);
+            //StartCoroutine(MCoroutineUtility.Delay(onFinish, length));
         }
         #endregion
     }

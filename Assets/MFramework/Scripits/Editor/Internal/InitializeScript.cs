@@ -52,7 +52,7 @@ namespace MFramework
             {
                 if (go.name == "MCore")
                 {
-                    MLog.Print("核心组件MCore不处于表层，请检查", MLogType.Warning);
+                    MLog.Print($"{typeof(InitializeScript)}.{nameof(CheckMCoreExist)}：核心组件MCore不处于表层，请检查", MLogType.Warning);
                     return;
                 }
             }
@@ -75,16 +75,16 @@ namespace MFramework
         public static void InitializeFolder()
         {
             //Resources
-            bool flag = MPathUtility.CreateFolderIfNotExist($@"{Application.dataPath}\Resources");
+            bool flag = MPathUtility.CreateFolderIfNotExist($@"{Application.dataPath}/Resources");
             if (flag)
             {
-                MLog.Print("已初始化生成Resources文件夹.", MLogType.Warning);
+                MLog.Print("已初始化生成Resources文件夹");
             }
             //StreamingAssets
             if (!Directory.Exists(Application.streamingAssetsPath))
             {
                 Directory.CreateDirectory(Application.streamingAssetsPath);
-                MLog.Print("已初始化生成StreamingAssets文件夹.", MLogType.Warning);
+                MLog.Print("已初始化生成StreamingAssets文件夹");
             }
         }
         #endregion
@@ -122,7 +122,7 @@ namespace MFramework
             string preID = EditorPrefs.GetString(EditorPrefsData.DeviceUniqueID, curID);
             if (curID != preID)
             {
-                MLog.Print("注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Error);
+                MLog.Print($"{typeof(InitializeScript)}.{nameof(CheckComputerUniqueID)}：注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Error);
             }
             EditorPrefs.SetString(EditorPrefsData.DeviceUniqueID, curID);
         }

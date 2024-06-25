@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MFramework.UI;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -42,12 +43,12 @@ namespace MFramework
         {
             if (panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：{rootID}中已创建id-{id}，请勿重复创建", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}：RootID-<{rootID}>中已创建id-<{id}>，请勿重复创建", MLogType.Warning);
                 return null;
             }
             if (order < startOrder || order > endOrder)
             {
-                MLog.Print($"UI：order-{order}不在<{id}>的[{startOrder},{endOrder}]区间，请重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}：order-<{order}>不在id-<{id}>的[{startOrder},{endOrder}]区间，请检查", MLogType.Warning);
                 return null;
             }
             //string name = Path.GetFileNameWithoutExtension(prefabPath);
@@ -63,8 +64,6 @@ namespace MFramework
             panelDic.Add(panel.panelID, panel);//加入Panel字典
 
             MaintainTopPanel_Create(panel, order);
-
-            MLocalizationManager.Instance.UpdateNewText(panel.gameObject);//更新文字
 
             return panel;
         }
@@ -82,7 +81,7 @@ namespace MFramework
         {
             if (panelDic.ContainsKey(typeof(T).Name))
             {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(CreatePanel)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
                 return null;
             }
             return CreatePanel<T>(typeof(T).Name, prefabPath, order, autoEnter);
@@ -91,7 +90,7 @@ namespace MFramework
         {
             if (panelDic.ContainsKey(typeof(T).Name))
             {
-                MLog.Print($"UI：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Error);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(CreatePanel)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
                 return null;
             }
             return CreatePanel<T>(typeof(T).Name, prefabPath, autoEnter);
@@ -101,7 +100,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，无法删除，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(DestroyPanel)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
                 return false;
             }
 
@@ -121,7 +120,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，获取失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(GetPanel)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
                 return default(T);
             };
 
@@ -163,7 +162,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，打开失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(OpenPanel)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
                 return;
             }
 
@@ -189,7 +188,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，关闭失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(ClosePanel)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
                 return;
             }
 
@@ -207,7 +206,7 @@ namespace MFramework
         {
             if (!panelDic.ContainsKey(id))
             {
-                MLog.Print($"UI：Root-{rootID}下没有<{id}>，更改失败，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(UIRoot)}.{nameof(SetPanelSibling)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
                 return;
             }
 
