@@ -7,43 +7,6 @@ using UnityEngine.UI;
 
 namespace MFramework
 {
-    /// <summary>
-    /// 输出结构，其中包含了需要的信息
-    /// </summary>
-    //info---输出内容，可以认为是提示信息
-    //sceneAsset---场景所对应的Project中资源
-    //之所以获取以下几个而不是GameObject和Scene是因为场景切换会导致引用丢失
-    //gameObjectName---符合要求的物体名称
-    //gameObjectIndex---符合要求的物体索引
-    //sceneName---物体所在场景名
-    public class OutputInfo
-    {
-        public string info;
-        public string gameObjectName;
-        public Vector3 gameObjectIndex;
-        public string sceneName;
-        public SceneAsset sceneAsset;
-    }
-
-    //要知道有哪些内容可以被放入，只要是Project中的内容基本上都是可以放入的，但是种类繁多，需要挑选最重要的一些：
-    //1.Script
-    //2.Shader
-    //3.Material
-    //4.Prefab
-    //5.Texture
-    //6.Sprite
-    //7.Model(没做，好像有点麻烦)
-    public enum ObjectMode
-    {
-        Script,
-        Prefab,
-        Shader,
-        Material,
-        Texture,
-        Sprite,
-        None
-    }
-
     public class FindProjectAssets : EditorWindow
     {
         public Object obj = null;
@@ -68,7 +31,7 @@ namespace MFramework
         private List<string> scenePaths = new List<string>();
         private List<string> sceneNames = new List<string>();
 
-        [MenuItem("MFramework/FindProjectAssets", false, 1002)]
+        [MenuItem("MFramework/Find Project Assets", false, 903)]
         public static void Init()
         {
             EditorWindow window = GetWindow<FindProjectAssets>(true, "FindProjectAssets", false);
@@ -544,5 +507,43 @@ namespace MFramework
 
             return style;
         }
+    }
+
+
+    /// <summary>
+    /// 输出结构，其中包含了需要的信息
+    /// </summary>
+    //info---输出内容，可以认为是提示信息
+    //sceneAsset---场景所对应的Project中资源
+    //之所以获取以下几个而不是GameObject和Scene是因为场景切换会导致引用丢失
+    //gameObjectName---符合要求的物体名称
+    //gameObjectIndex---符合要求的物体索引
+    //sceneName---物体所在场景名
+    public class OutputInfo
+    {
+        public string info;
+        public string gameObjectName;
+        public Vector3 gameObjectIndex;
+        public string sceneName;
+        public SceneAsset sceneAsset;
+    }
+
+    //要知道有哪些内容可以被放入，只要是Project中的内容基本上都是可以放入的，但是种类繁多，需要挑选最重要的一些：
+    //1.Script
+    //2.Shader
+    //3.Material
+    //4.Prefab
+    //5.Texture
+    //6.Sprite
+    //7.Model(没做，好像有点麻烦)
+    public enum ObjectMode
+    {
+        Script,
+        Prefab,
+        Shader,
+        Material,
+        Texture,
+        Sprite,
+        None
     }
 }

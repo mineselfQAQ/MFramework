@@ -19,7 +19,7 @@ namespace MFramework
         private int pos;
         private Vector2 scrollPos1;
 
-        [MenuItem("MFramework/MLocalizationExcelGenerator", priority = 102)]
+        [MenuItem("MFramework/MLocalizationExcelGenerator", priority = 203)]
         public static void Init()
         {
             EditorWindow window = GetWindow<MLocalizationExcelGenerator>(true, "MLocalizationExcelGenerator", false);
@@ -102,10 +102,10 @@ namespace MFramework
         {
             if (GUILayout.Button("创建Excel文件"))
             {
-                string fileName = "LocalizationTable.xlsx";
-                string filePath = Path.Combine(EditorSettings.excelGenerationPath, fileName);
+                string fileName = MSettings.LocalizationTableName;
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
-                FileInfo file = new FileInfo(filePath);
+                FileInfo file = new FileInfo(fileName);
                 if (file.Exists)
                 {
                     int flag = EditorUtility.DisplayDialogComplex("Generating",
@@ -114,13 +114,13 @@ namespace MFramework
                     else if (flag == 2)//更新
                     {
                         //TODO:未完成
-                        MLog.Print("TODO", MLogType.Error);
+                        MLog.Print("TODO", MLogType.Warning);
                         return;
                     }
                     else if (flag == 0)//覆盖---删除重创
                     {
                         file.Delete();
-                        file = new FileInfo(filePath);
+                        file = new FileInfo(fileName);
                     }
                 }
 
@@ -141,7 +141,7 @@ namespace MFramework
                     package.Save();
                 }
 
-                System.Diagnostics.Process.Start(filePath);
+                System.Diagnostics.Process.Start(fileName);
 
                 return;
             }

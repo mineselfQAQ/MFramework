@@ -7,7 +7,7 @@ public class WelcomePage : EditorWindow
     private Texture2D LOGOTex;
     private bool showState;
 
-    [MenuItem("MFramework/WelcomePage", false, 0)]
+    [MenuItem("MFramework/WelcomePage", false, 1)]
     public static void Init()
     {
         WelcomePage window = GetWindow<WelcomePage>(true, "MFramework", false);

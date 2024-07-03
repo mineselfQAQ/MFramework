@@ -26,9 +26,9 @@ namespace MFramework
         private ResourceManager() { }
 
         private const string MANIFEST_NAME = "manifest.ab";
-        private static readonly string RESOURCEASSET_NAME = MBuildSettings.resourceAssetName;
-        private static readonly string BUNDLEASSET_NAME = MBuildSettings.bundleAssetName;
-        private static readonly string DEPENDENCYASSET_NAME = MBuildSettings.dependencyAssetName;
+        private static readonly string RESOURCEASSET_NAME = MSettings.ResourceAssetName;
+        private static readonly string BUNDLEASSET_NAME = MSettings.BundleAssetName;
+        private static readonly string DEPENDENCYASSET_NAME = MSettings.DependencyAssetName;
 
         public void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
         {

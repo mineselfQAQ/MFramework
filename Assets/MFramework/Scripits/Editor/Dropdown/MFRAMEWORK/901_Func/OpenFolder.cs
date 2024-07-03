@@ -6,14 +6,14 @@ namespace MFramework
 {
     public class OpenFolder
     {
-        [MenuItem("MFramework/OpenFolder/OpenPersistentDataPath", false, 1000)]
+        [MenuItem("MFramework/OpenFolder/OpenPersistentDataPath", false, 901)]
         public static void OpenPersistentDataPath()
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
             MLog.Print($"PersistentDataPath路径：{Application.persistentDataPath}");
         }
 
-        [MenuItem("MFramework/OpenFolder/OpenStreamingAssetsPath", false, 1000)]
+        [MenuItem("MFramework/OpenFolder/OpenStreamingAssetsPath", false, 901)]
         public static void OpenStreamingAssetsPath()
         {
             string streamingAssetsPath = Application.streamingAssetsPath;
@@ -26,21 +26,21 @@ namespace MFramework
             MLog.Print(streamingAssetsPath);
         }
 
-        [MenuItem("MFramework/OpenFolder/OpenDataPath", false, 1000)]
+        [MenuItem("MFramework/OpenFolder/OpenDataPath", false, 901)]
         public static void OpenDataPath()
         {
             EditorUtility.RevealInFinder(Application.dataPath);
             MLog.Print($"DataPath路径：{Application.dataPath}");
         }
 
-        [MenuItem("MFramework/OpenFolder/OpenTemporaryCachePath", false, 1000)]
+        [MenuItem("MFramework/OpenFolder/OpenTemporaryCachePath", false, 901)]
         public static void OpenTemporaryCachePath()
         {
             EditorUtility.RevealInFinder(Application.temporaryCachePath);
             MLog.Print($"TemporaryCachePath路径：{Application.temporaryCachePath}");
         }
 
-        [MenuItem("MFramework/OpenFolder/OpenConsoleLogPath", false, 1000)]
+        [MenuItem("MFramework/OpenFolder/OpenConsoleLogPath", false, 901)]
         public static void OpenConsoleLogPath()
         {
             //注意：

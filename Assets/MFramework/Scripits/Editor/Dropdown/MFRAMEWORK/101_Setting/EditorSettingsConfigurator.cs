@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using static MFramework.EditorSettingsBase;
+using static MFramework.MConfigurableSettingsBase;
 
 namespace MFramework
 {
@@ -11,7 +11,7 @@ namespace MFramework
         private Vector2 scrollPos1;
         private Vector2 scrollPos2;
 
-        [MenuItem("MFramework/EditorSettingsConfigurator", false, 100)]
+        [MenuItem("MFramework/EditorSettingsConfigurator", false, 101)]
         public static void Init()
         {
             EditorSettingsConfigurator window = GetWindow<EditorSettingsConfigurator>();
@@ -30,36 +30,14 @@ namespace MFramework
             //TODO:使用下拉列表选择需要显示的部分(Excel部分/Json部分)，并显示相应内容(节省空间)
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
-                DrawPathWidget("Excel表生成路径：", EditorSettings.excelGenerationPath,
-                    GetPathName(EditorPathName.ExcelGenerationPath));
-                DrawPathWidget("Excel表CS文件生成路径：", EditorSettings.excelCSGenerationPath,
-                    GetPathName(EditorPathName.ExcelCSGenerationPath));
-                DrawPathWidget("Excel表BIN文件生成路径：", EditorSettings.excelBINGenerationPath,
-                    GetPathName(EditorPathName.ExcelBINGenerationPath));
+                DrawPathWidget("Excel表生成路径：", MConfigurableSettings.ExcelPath,
+                    GetPathName(MConfigurableName.ExcelGenerationPath));
+                DrawPathWidget("Excel表CS文件生成路径：", MConfigurableSettings.ExcelCSPath,
+                    GetPathName(MConfigurableName.ExcelCSGenerationPath));
             }
             EditorGUILayout.EndScrollView();
 
             EditorGUILayout.Space(10);
-
-            //==========UIPanel==========
-            //MGUIUtility.DrawH2("UIPanel部分");
-            //scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
-            //{
-            //    //...
-            //}
-            //EditorGUILayout.EndScrollView();
-
-            //==========Json==========
-            //应该不需要
-            //MGUIUtility.DrawH2("Json部分");
-            //scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
-            //{
-            //    DrawPathWidget("Json路径存储：", EditorSettings.excelGenerationPath,
-            //        GetPathName(EditorPathName.ExcelGenerationPath));
-            //}
-            //EditorGUILayout.EndScrollView();
-
-            //EditorGUILayout.Space(20);
 
             //==========功能==========
             EditorGUILayout.BeginHorizontal();
@@ -123,7 +101,7 @@ namespace MFramework
             {
                 MLog.Print($"未找到EditorSettings文件，现在请选择文件夹重新创建", MLogType.Warning);
                 string newDirectoryPath = MEditorUtility.ChangePath();
-                string newFilePath = Path.Combine(newDirectoryPath, "EditorSettings.cs");
+                string newFilePath = Path.Combine(newDirectoryPath, "MConfigurableSettings.cs");
                 File.WriteAllText(newFilePath, code);
             }
         }
@@ -289,13 +267,13 @@ namespace MFramework
 
         private static string GetEditorSettingsFilePath()
         {
-            string[] guids = AssetDatabase.FindAssets("EditorSettings");
+            string[] guids = AssetDatabase.FindAssets("MConfigurableSettings");
             foreach (string guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(MonoScript));
                 //Tip：FindAssets()只要名字部分匹配即可,如"EditorSettings2"也可以匹配，需要重新验证名字
-                if (obj && obj.name == "EditorSettings")
+                if (obj && obj.name == "MConfigurableSettings")
                 {
                     string resPath = AssetDatabase.GetAssetPath(obj);
                     return resPath;
@@ -305,7 +283,7 @@ namespace MFramework
         }
 
         private const string EDITORSETTINGSCODE =
-@"public static class EditorSettings
+@"public static class MConfigurableSettings
 {
     {Settings}
 }";

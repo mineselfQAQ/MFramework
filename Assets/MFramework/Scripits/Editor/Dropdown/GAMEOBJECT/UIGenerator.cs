@@ -61,7 +61,7 @@ namespace MFramework
         [MenuItem("GameObject/MFramework/UI/UICanvas", priority = 2, secondaryPriority = 200)]
         public static void GenerateUICanvas()
         {
-            GameObject checker = GameObject.Find(MBuildSettings.uiCanvasName);
+            GameObject checker = GameObject.Find(MSettings.UICanvasName);
             if (checker != null)
             {
                 MLog.Print("UICanvas已存在，请勿重复创建", MLogType.Warning);
@@ -96,7 +96,7 @@ namespace MFramework
                 int selectedAmount = Selection.gameObjects.Length;
                 if (selectedAmount == 0)//未选择情况
                 {
-                    GameObject canvasGO = GameObject.Find(MBuildSettings.uiCanvasName);
+                    GameObject canvasGO = GameObject.Find(MSettings.UICanvasName);
 
                     if (canvasGO != null)//获取到UICanvas
                     {
@@ -147,7 +147,7 @@ namespace MFramework
             {
                 case CreateUIType.Camera_UI:
                     {
-                        GameObject cameraGO = new GameObject(MBuildSettings.uiCameraName, typeof(Camera));
+                        GameObject cameraGO = new GameObject(MSettings.UICameraName, typeof(Camera));
                         cameraGO.SetParent(parent);
 
                         var trans = cameraGO.transform;
@@ -169,17 +169,17 @@ namespace MFramework
                     }
                 case CreateUIType.Canvas_UI:
                     {
-                        GameObject checker1 = GameObject.Find(MBuildSettings.uiCanvasName);
+                        GameObject checker1 = GameObject.Find(MSettings.UICanvasName);
                         if (checker1 != null) return null;
 
-                        GameObject canvasGO = new GameObject(MBuildSettings.uiCanvasName, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+                        GameObject canvasGO = new GameObject(MSettings.UICanvasName, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
                         canvasGO.SetParent(parent);
                         canvasGO.layer = 5;
 
                         var canvas = canvasGO.GetComponent<Canvas>();
                         canvas.renderMode = RenderMode.ScreenSpaceCamera;
                         //UICanvas依赖于UICamera，必须获取或者创建
-                        GameObject checker2 = GameObject.Find(MBuildSettings.uiCameraName);
+                        GameObject checker2 = GameObject.Find(MSettings.UICameraName);
                         if (checker2 != null) canvas.worldCamera = checker2.GetComponent<Camera>();
                         else
                         {
@@ -352,7 +352,7 @@ namespace MFramework
             if (canvas.Length == 0) return -1;
             foreach (var c in canvas)
             {
-                if (c.name == MBuildSettings.uiCanvasName)
+                if (c.name == MSettings.UICanvasName)
                 {
                     return 2;
                 }

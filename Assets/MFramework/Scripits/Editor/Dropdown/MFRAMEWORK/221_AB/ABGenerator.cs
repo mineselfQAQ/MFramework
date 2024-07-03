@@ -52,7 +52,12 @@ namespace MFramework
             if (GUILayout.Button("生成默认XML"))
             {
                 DrawDefaultGenerator();
+                MLog.Print("创建完成");
                 AssetDatabase.Refresh();
+            }
+            if (GUILayout.Button("生成CS"))
+            {
+                ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, MSettings.LocalizationBYTEName);
             }
             EditorGUILayout.LabelField("自定义生成：");
             if (GUILayout.Button("生成"))
@@ -132,7 +137,7 @@ namespace MFramework
         }
         private void CreateDefaultXML(string abPath)
         {
-            string filePath = MEditorPersistentSettings.XMLBuildSettingPath;
+            string filePath = MSettings.ABBuildSettingName;
 
             string code = ABXMLCODE;
 

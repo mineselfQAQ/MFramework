@@ -103,8 +103,8 @@ namespace MFramework
             {
                 EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, false);
 
-                string BINFolder = EditorSettings.excelBINGenerationPath;//默认.byte文件存放位置---Resources文件夹内部
-                List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+                string BINFolder = MSettings.ExcelBINPath;//默认.byte文件存放位置---StreamingAssets文件夹内部
+                List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
 
                 ExcelGenerator.CreateAllBIN(BINFolder, fileList);
                 EditorDelayExecute.Instance.DelayRefresh();//延迟执行Refresh(否则无法刷新成功)

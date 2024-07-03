@@ -48,7 +48,7 @@ namespace MFramework
         public const string BUNDLE_MANIFEST_SUFFIX = ".manifest";
         public const string MANIFEST = "manifest";
 
-        public static readonly string TempPath = $"{MEditorPersistentSettings.TempAssetBasePath}/AB";
+        public static readonly string TempPath = $"{MSettings.TempAssetPath}/AB";
         public static readonly string ResourceTXTPath = $"{TempPath}/Resource.txt";
         public static readonly string ResourceBYTEPath = $"{TempPath}/Resource.bytes";
         public static readonly string BundleTXTPath = $"{TempPath}/Bundle.txt";
@@ -77,7 +77,7 @@ namespace MFramework
         /// <summary>
         /// 打包路径
         /// </summary>
-        public static readonly string BuildSettingPath = MEditorPersistentSettings.XMLBuildSettingPath;
+        public static readonly string BuildSettingPath = MSettings.ABBuildSettingName;
 
         /// <summary>
         /// 打包设置信息
@@ -551,10 +551,10 @@ namespace MFramework
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildManifest)}", "将Manifest打包成AssetBundle", min);
 
-            string TempBuildPath = MEditorPersistentSettings.TempABBuildPath;
+            string TempBuildPath = $"{MSettings.TempRootPath}/AB";
             if (!Directory.Exists(TempBuildPath)) Directory.CreateDirectory(TempBuildPath);
 
-            string prefix = MEditorPersistentSettings.RootPath + "/";
+            string prefix = MSettings.RootPath + "/";
             //创建manifest文件
             AssetBundleBuild manifest = new AssetBundleBuild();
             manifest.assetBundleName = $"{MANIFEST}{BUNDLE_SUFFIX}";

@@ -14,21 +14,21 @@ namespace MFramework
 
         private void Awake()
         {
-            UICanvas = GameObject.Find(MBuildSettings.uiCanvasName).GetComponent<Canvas>();
-            UICamera = GameObject.Find(MBuildSettings.uiCameraName).GetComponent<Camera>();
+            UICanvas = GameObject.Find(MSettings.UICanvasName).GetComponent<Canvas>();
+            UICamera = GameObject.Find(MSettings.UICameraName).GetComponent<Camera>();
             if (UICanvas == null && UICamera == null)
             {
-                MLog.Print($"{typeof(UIManager)}：没有名为{MBuildSettings.uiCanvasName}的Canvas，也没有名为{MBuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Error);
+                MLog.Print($"{typeof(UIManager)}：没有名为{MSettings.UICanvasName}的Canvas，也没有名为{MSettings.UICameraName}的Camera，请修改或创建后重试", MLogType.Error);
                 return;
             }
             else if (UICanvas == null)
             {
-                MLog.Print($"{typeof(UIManager)}：没有名为{MBuildSettings.uiCanvasName}的Canvas，请修改或创建后重试", MLogType.Error);
+                MLog.Print($"{typeof(UIManager)}：没有名为{MSettings.UICanvasName}的Canvas，请修改或创建后重试", MLogType.Error);
                 return;
             }
             else if (UICamera == null)
             {
-                MLog.Print($"{typeof(UIManager)}：没有名为{MBuildSettings.uiCameraName}的Camera，请修改或创建后重试", MLogType.Error);
+                MLog.Print($"{typeof(UIManager)}：没有名为{MSettings.UICameraName}的Camera，请修改或创建后重试", MLogType.Error);
                 return;
             }
 

@@ -13,7 +13,7 @@ public class TypewriterDEMO : MonoBehaviour
 
     private void Awake()
     {
-        uiCanvas = GameObject.Find(MBuildSettings.uiCanvasName);
+        uiCanvas = GameObject.Find(MSettings.UICanvasName);
         animators = uiCanvas.GetComponentsInChildren<MTextAnimator>();
     }
 

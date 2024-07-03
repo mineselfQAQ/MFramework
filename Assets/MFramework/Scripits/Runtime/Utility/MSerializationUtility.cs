@@ -10,13 +10,17 @@ namespace MFramework
 {
     public static class MSerializationUtility
     {
+        //TIP:
+        //所有文件默认路径：
+        //根目录下文件类型文件夹---如"项目名/XmlSettings/..."
+
         //=====Xml序列化操作====
         //默认在根目录下存储(编辑器与发布皆是)
         public static UTF8Encoding UTF8 = new UTF8Encoding(false);
 
         public static void SaveToXml<T>(string filePath, T instance)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultXMLPath, "xml");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultXMLPath, "xml");
 
             int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
             if (isOverwrite == -1) return;
@@ -42,7 +46,7 @@ namespace MFramework
         }
         public static void SaveToXml<T>(string filePath, T instance, bool isPrettyPrint = false, SaveMode mode = SaveMode.Overwrite)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultXMLPath, "xml");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultXMLPath, "xml");
 
             int isOverwrite = CheckOverwrite(fullPath, mode);
             if (isOverwrite == -1) return;
@@ -70,7 +74,7 @@ namespace MFramework
 
         public static object ReadFromXml(string filePath, Type type)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultXMLPath, "xml");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultXMLPath, "xml");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -102,7 +106,7 @@ namespace MFramework
         }
         public static T ReadFromXml<T>(string filePath)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultXMLPath, "xml");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultXMLPath, "xml");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -142,7 +146,7 @@ namespace MFramework
         {
             string text = JsonUtility.ToJson(instance, false);
 
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultJSONPath, "json");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultJSONPath, "json");
 
             int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
             if (isOverwrite == -1) return;
@@ -157,7 +161,7 @@ namespace MFramework
         {
             string text = JsonUtility.ToJson(instance, false);
 
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultJSONPath, "json");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultJSONPath, "json");
 
             int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
             if (isOverwrite == -1) return;
@@ -171,7 +175,7 @@ namespace MFramework
 
         public static object ReadFromJson(string filePath, Type type)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultJSONPath, "json");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultJSONPath, "json");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -196,7 +200,7 @@ namespace MFramework
         }
         public static T ReadFromJson<T>(string filePath)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultJSONPath, "json");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultJSONPath, "json");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -226,7 +230,7 @@ namespace MFramework
         //---文件流系---
         public static void SaveToByte(object instance, string filePath)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultBYTEPath, "byte");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultBYTEPath, "byte");
 
             int isOverwrite = CheckOverwrite(fullPath, SaveMode.Overwrite);
             if (isOverwrite == -1) return;
@@ -243,7 +247,7 @@ namespace MFramework
         }
         public static void SaveToByte(object instance, string filePath, SaveMode mode = SaveMode.Overwrite)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultBYTEPath, "byte");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultBYTEPath, "byte");
 
             int isOverwrite = CheckOverwrite(fullPath, mode);
             if (isOverwrite == -1) return;
@@ -261,7 +265,7 @@ namespace MFramework
 
         public static object ReadFromByte(string filePath)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultBYTEPath, "byte");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultBYTEPath, "byte");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -280,7 +284,7 @@ namespace MFramework
         }
         public static T ReadFromByte<T>(string filePath)
         {
-            string fullPath = GetFullPath(filePath, MEditorPersistentSettings.DefaultBYTEPath, "byte");
+            string fullPath = GetFullPath(filePath, MSettings.DefaultBYTEPath, "byte");
             //检测文件是否存在
             if (!File.Exists(fullPath))
             {
@@ -375,6 +379,9 @@ namespace MFramework
         //---文件系---
         public static void SaveFile(string filePath, string code)
         {
+            string directoryPath = Path.GetDirectoryName(filePath);
+            Directory.CreateDirectory(directoryPath);
+
             using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))

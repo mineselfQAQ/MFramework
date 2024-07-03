@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ShowBuiltInControl : EditorWindow
 {
-    [MenuItem("Tools/GUIStyles Preview", priority = 4)]
+    [MenuItem("MFramework/GUIStyles Preview", false, 904)]
     public static void ShowWindow()
     {
         ShowBuiltInControl w = GetWindow<ShowBuiltInControl>("GUIStyles Preview");

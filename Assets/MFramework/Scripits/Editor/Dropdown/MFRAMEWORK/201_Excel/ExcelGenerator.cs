@@ -14,7 +14,7 @@ namespace MFramework
 {
     public class ExcelGenerator : EditorWindow
     {
-        [MenuItem("MFramework/GenerateAllExcel _F8", priority = 109)]
+        [MenuItem("MFramework/GenerateAllExcel _F8", priority = 202)]
         public static void GenerateAllExcel()
         {
             EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
@@ -22,7 +22,7 @@ namespace MFramework
             window.XLSX2PersistentData();
         }
 
-        [MenuItem("MFramework/ExcelGenerator", priority = 101)]
+        [MenuItem("MFramework/ExcelGenerator", priority = 201)]
         public static void Init()
         {
             ExcelGenerator window = GetWindow<ExcelGenerator>(true, "ExcelGenerator", false);
@@ -65,9 +65,9 @@ namespace MFramework
             {
                 if (GUILayout.Button("1.创建.cs文件"))
                 {
-                    string BINFolder = EditorSettings.excelBINGenerationPath;
-                    string CSFolder = EditorSettings.excelCSGenerationPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+                    string BINFolder = MSettings.ExcelBINPath;
+                    string CSFolder = MConfigurableSettings.ExcelCSPath;
+                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
 
                     bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CS);
                     if (!haveFile) return;
@@ -77,9 +77,9 @@ namespace MFramework
                 }
                 if (GUILayout.Button("2.创建.byte文件"))
                 {
-                    string BINFolder = EditorSettings.excelBINGenerationPath;
-                    string CSFolder = EditorSettings.excelCSGenerationPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+                    string BINFolder = MSettings.ExcelBINPath;
+                    string CSFolder = MConfigurableSettings.ExcelCSPath;
+                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
 
                     bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.BIN);
                     if (!haveFile) return;
@@ -108,11 +108,11 @@ namespace MFramework
         private void CreateExcelFile()
         {
             int state = EditorUtility.DisplayDialogComplex("Generating",
-                    $"确定文件将生成在{EditorSettings.excelGenerationPath}处吗？", "确认", "取消", "更改路径");
+                    $"确定文件将生成在{MConfigurableSettings.ExcelPath}处吗？", "确认", "取消", "更改路径");
             if (state == 0)//确认
             {
-                string path = EditorUtility.SaveFilePanel("保存", EditorSettings.excelGenerationPath, "Sheet", "xlsx");
-                path = path.Replace("/", "\\");//Process.Start()只接受\而非/
+                string path = EditorUtility.SaveFilePanel("保存", MConfigurableSettings.ExcelPath, "Sheet", "xlsx");
+                path = path.ReplaceSlash(false);//Process.Start()只接受\而非/
 
                 if (path == "")
                 {
@@ -155,7 +155,7 @@ namespace MFramework
             }
             else//更改路径
             {
-                string pathName = EditorSettingsBase.GetPathName(EditorPathName.ExcelGenerationPath);
+                string pathName = MConfigurableSettingsBase.GetPathName(MConfigurableName.ExcelGenerationPath);
                 bool flag = EditorSettingsConfigurator.ChangePath(pathName);
                 if (flag) MLog.Print($"已更改{pathName}路径.");
 
@@ -165,9 +165,9 @@ namespace MFramework
 
         private void XLSX2PersistentData()
         {
-            string BINFolder = EditorSettings.excelBINGenerationPath;//默认.byte文件存放位置---Resources文件夹内部
-            string CSFolder = EditorSettings.excelCSGenerationPath;
-            List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+            string BINFolder = MSettings.ExcelBINPath;//默认.byte文件存放位置---StreamingAssets文件夹内部
+            string CSFolder = MConfigurableSettings.ExcelCSPath;
+            List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
 
             bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CSAndBIN);
             if (!haveFile) return;
@@ -181,6 +181,28 @@ namespace MFramework
             //CreateAllBIN(BINFolder, fileList);
         }
 
+        public static bool CreateSingleCS(string ExcelName, string CSFolder, string BINFolder)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(ExcelName);
+            string CSPath = $"{CSFolder}/{fileName}.cs".ReplaceSlash();
+            string BINPath = $"{BINFolder}/{fileName}.byte".ReplaceSlash();
+
+            FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            DataSet dataset = excelReader.AsDataSet();
+
+            if (!CheckTable(dataset))
+            {
+                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                return false;
+            }
+            GetDataFromTable(dataset.Tables[0],
+                out string[] names, out string[] types, out object[][] data);
+
+            bool isSucceed = CreateCS(CSPath, BINPath, names, types);
+            return isSucceed;
+        }
+
         private bool CreateAllCS(string BINFolder, string CSFolder, List<string> fileList)
         {
             bool flag = true;
@@ -188,10 +210,8 @@ namespace MFramework
             foreach (string path in fileList)
             {
                 string fileName = Path.GetFileNameWithoutExtension(path);
-                string CSPath = $@"{CSFolder}\{fileName}.cs";
-                CSPath = CSPath.Replace("/", "\\");
-                string BINPath = $@"{BINFolder}\{fileName}.byte";
-                BINPath = BINPath.Replace("/", "\\");
+                string CSPath = $"{CSFolder}/{fileName}.cs".ReplaceSlash();
+                string BINPath = $"{BINFolder}/{fileName}.byte".ReplaceSlash();
 
                 //获取dataset
                 FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read);
@@ -222,7 +242,7 @@ namespace MFramework
             }
         }
 
-        private bool CreateCS(string CSPath, string BINPath, string[] names, string[] types)
+        private static bool CreateCS(string CSPath, string BINPath, string[] names, string[] types)
         {
             string code = CSBASECODE;
 
@@ -232,11 +252,9 @@ namespace MFramework
             code = code.Replace("{ClassName}", className);
             code = code.Replace("{CollectionClassName}", collectionClassName);
 
-            //string fieldsDefine = GenerateFieldsDefine(names, types);
             string propertiesDefine = GeneratePropertiesDefine(names, types);
             string constructorDefine = GenerateConstructorDefine(className, names, types);
 
-            //code = code.Replace("{FieldsDefine}", fieldsDefine);
             code = code.Replace("{PropertiesDefine}", propertiesDefine);
             code = code.Replace("{ConstructorDefine}", constructorDefine);
 
@@ -244,14 +262,6 @@ namespace MFramework
 
             //写入文件
             MSerializationUtility.SaveFile(CSPath, code);
-            //using (FileStream fileStream = new FileStream(CSPath, FileMode.Create, FileAccess.Write))
-            //{
-            //    //注意：指定了UTF8格式(用Excel打开.csv文件时可以正常显示，不指定会变成乱码)
-            //    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-            //    {
-            //        textWriter.Write(code);
-            //    }
-            //}
 
             return true;
         }
@@ -372,7 +382,7 @@ namespace MFramework
             return res.ToString();
         }
 
-        private string GeneratePropertiesDefine(string[] names, string[] types)
+        private static string GeneratePropertiesDefine(string[] names, string[] types)
         {
             StringBuilder res = new StringBuilder();
 
@@ -392,7 +402,7 @@ namespace MFramework
             return res.ToString();
         }
 
-        private string GenerateConstructorDefine(string className, string[] names, string[] types)
+        private static string GenerateConstructorDefine(string className, string[] names, string[] types)
         {
             string constructorBaseCode = CONSTRUCTORBASECODE;
             constructorBaseCode = constructorBaseCode.Replace("{ClassName}", className);
@@ -654,7 +664,7 @@ namespace MFramework
 
             if (fileList.Count == 0)
             {
-                MLog.Print($"{EditorSettings.excelGenerationPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
+                MLog.Print($"{MConfigurableSettings.ExcelPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
                 return false;
             }
             return true;
@@ -682,7 +692,7 @@ namespace MFramework
         /// </summary>
         private void XLSX2CSV()
         {
-            string CSVFolder = $@"{EditorSettings.excelGenerationPath}/CSVTemp";//CSV临时文件存放位置
+            string CSVFolder = $@"{MConfigurableSettings.ExcelPath}/CSVTemp";//CSV临时文件存放位置
             if (!Directory.Exists(CSVFolder))
             {
                 Directory.CreateDirectory(CSVFolder);
@@ -696,10 +706,10 @@ namespace MFramework
                 Directory.CreateDirectory(CSVFolder);
             }
 
-            List<string> fileList = MPathUtility.GetFolderFiles(EditorSettings.excelGenerationPath, ".xlsx");//获取所有文件名
+            List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
             if (fileList.Count == 0)
             {
-                MLog.Print($"{EditorSettings.excelGenerationPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
+                MLog.Print($"{MConfigurableSettings.ExcelPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
                 return;
             }
 
