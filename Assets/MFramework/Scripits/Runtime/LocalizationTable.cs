@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 [Serializable]
 public class LocalizationTable
@@ -18,7 +19,7 @@ public class LocalizationTable
 
     public static LocalizationTable[] LoadBytes()
     {
-        string path = @"F:\___MYPROJECT___\UnityProject\MFramework\Assets\StreamingAssets\ExcelBIN\LocalizationTable.byte";
+        string path = $"{Application.streamingAssetsPath}/ExcelBIN/LocalizationTable.byte";
         if (!File.Exists(path)) return null;
 
         using (FileStream stream = new FileStream(path, FileMode.Open))

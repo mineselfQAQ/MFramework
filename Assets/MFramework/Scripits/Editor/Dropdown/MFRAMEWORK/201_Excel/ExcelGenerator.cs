@@ -47,6 +47,48 @@ namespace MFramework
             DrawCheckPathBtn();
         }
 
+        public static bool CreateSingleCS(string excelName, string CSName, string BINLoadPath)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(excelName);
+            string CSPath = CSName;
+            string BINPath = BINLoadPath;
+
+            FileStream stream = File.Open(excelName, FileMode.Open, FileAccess.Read);
+            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            DataSet dataset = excelReader.AsDataSet();
+
+            if (!CheckTable(dataset))
+            {
+                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                return false;
+            }
+            GetDataFromTable(dataset.Tables[0],
+                out string[] names, out string[] types, out object[][] data);
+
+            bool isSucceed = CreateCS(CSPath, BINPath, names, types);
+            return isSucceed;
+        }
+        public static bool CreateSingleBIN(string excelName, string BINName)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(excelName);
+
+            //获取dataset
+            FileStream stream = File.Open(excelName, FileMode.Open, FileAccess.Read);
+            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            DataSet dataset = excelReader.AsDataSet();
+
+            if (!CheckTable(dataset))
+            {
+                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                return false;
+            }
+            GetDataFromTable(dataset.Tables[0],
+                out string[] names, out string[] types, out object[][] data);
+
+            bool isSucceed = CreateBIN(BINName, fileName, data);
+            return isSucceed;
+        }
+
         private void DrawGenerateExcelPart()
         {
             MGUIUtility.DrawH2("生成Excel文件");
@@ -181,28 +223,6 @@ namespace MFramework
             //CreateAllBIN(BINFolder, fileList);
         }
 
-        public static bool CreateSingleCS(string ExcelName, string CSFolder, string BINFolder)
-        {
-            string fileName = Path.GetFileNameWithoutExtension(ExcelName);
-            string CSPath = $"{CSFolder}/{fileName}.cs".ReplaceSlash();
-            string BINPath = $"{BINFolder}/{fileName}.byte".ReplaceSlash();
-
-            FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-            DataSet dataset = excelReader.AsDataSet();
-
-            if (!CheckTable(dataset))
-            {
-                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
-                return false;
-            }
-            GetDataFromTable(dataset.Tables[0],
-                out string[] names, out string[] types, out object[][] data);
-
-            bool isSucceed = CreateCS(CSPath, BINPath, names, types);
-            return isSucceed;
-        }
-
         private bool CreateAllCS(string BINFolder, string CSFolder, List<string> fileList)
         {
             bool flag = true;
@@ -241,7 +261,6 @@ namespace MFramework
                 return false;
             }
         }
-
         private static bool CreateCS(string CSPath, string BINPath, string[] names, string[] types)
         {
             string code = CSBASECODE;
@@ -273,8 +292,7 @@ namespace MFramework
             foreach (string path in fileList)
             {
                 string fileName = Path.GetFileNameWithoutExtension(path);
-                string BINPath = $@"{BINFolder}\{fileName}.byte";
-                BINPath = BINPath.Replace("/", "\\");
+                string BINPath = $"{BINFolder}/{fileName}.byte".ReplaceSlash();
 
                 //获取dataset
                 FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read);
@@ -303,7 +321,6 @@ namespace MFramework
                 return false;
             }
         }
-
         public static bool CreateBIN(string BINPath, string className, object[][] data)
         {
             string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/Assembly-CSharp.dll";
@@ -350,11 +367,6 @@ namespace MFramework
             }
 
             MSerializationUtility.SaveToByte(resInstance, BINPath);
-            //using (FileStream fileStream = new FileStream(BINPath, FileMode.Create))
-            //{
-            //    BinaryFormatter binaryFormatter = new BinaryFormatter();
-            //    binaryFormatter.Serialize(fileStream, resInstance);
-            //}
 
             return true;
         }
@@ -685,107 +697,12 @@ namespace MFramework
             return true;
         }
 
-        #region 遗弃部分
-        /// <summary>
-        /// <para>.xlsx转.csv</para>
-        /// 设计失误，应该直接使用.xlsx转二进制文件即可
-        /// </summary>
-        private void XLSX2CSV()
-        {
-            string CSVFolder = $@"{MConfigurableSettings.ExcelPath}/CSVTemp";//CSV临时文件存放位置
-            if (!Directory.Exists(CSVFolder))
-            {
-                Directory.CreateDirectory(CSVFolder);
-            }
-            //确定是否已经有CSV临时文件，如果存在就全部重新生成
-            bool isDelete = false;
-            if (Directory.GetFiles(CSVFolder).Length != 0)
-            {
-                isDelete = true;
-                MPathUtility.DeleteFolderFilesSurface(CSVFolder);
-                Directory.CreateDirectory(CSVFolder);
-            }
-
-            List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
-            if (fileList.Count == 0)
-            {
-                MLog.Print($"{MConfigurableSettings.ExcelPath}中发现0个Excel文件，请检查路径是否正确.", MLogType.Warning);
-                return;
-            }
-
-            bool flag = true;
-            //遍历所有文件，在CSVFolder中创建相应的临时文件
-            foreach (string path in fileList)
-            {
-                string fileName = Path.GetFileNameWithoutExtension(path);
-                string CSVPath = $@"{CSVFolder}\{fileName}_Temp.csv";
-
-                //获取dataset
-                FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read);
-                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                DataSet dataset = excelReader.AsDataSet();
-
-                bool createState = CreateCSV(dataset, CSVPath, $" {fileName} ");
-                if (!createState) flag = false;
-            }
-            if (flag)
-            {
-                string dstFolder = CSVFolder.Replace("/", "\\");
-                System.Diagnostics.Process.Start(dstFolder);
-                AssetDatabase.Refresh();
-
-                if (isDelete) MLog.Print("已重新生成所有CSV文件");
-                else MLog.Print("已生成所有CSV文件");
-            }
-        }
-        private bool CreateCSV(DataSet dataSet, string CSVPath, string fileName = "")
-        {
-            if (dataSet.Tables.Count < 1)
-            {
-                MLog.Print($"CrateCSV：{fileName}没有表存在，请检查.", MLogType.Warning);
-                return false;
-            }
-            DataTable mSheet = dataSet.Tables[0];//取首表
-            //判断数据表内是否存在数据
-            if (mSheet.Rows.Count < 1)
-            {
-                MLog.Print($"CrateCSV：{fileName}中不存在数据，请检查.", MLogType.Warning);
-                return false;
-            }
-
-            int rowCount = mSheet.Rows.Count;
-            int colCount = mSheet.Columns.Count;
-            StringBuilder sb = new StringBuilder();
-            //读取数据
-            for (int i = 0; i < rowCount; i++)
-            {
-                for (int j = 0; j < colCount; j++)
-                {
-                    //使用","分割每一个数值
-                    sb.Append(mSheet.Rows[i][j] + ",");
-                }
-                sb.Append("\r\n");//换行
-            }
-
-            //写入文件
-            using (FileStream fileStream = new FileStream(CSVPath, FileMode.Create, FileAccess.Write))
-            {
-                //注意：指定了UTF8格式(用Excel打开.csv文件时可以正常显示，不指定会变成乱码)
-                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                {
-                    textWriter.Write(sb.ToString());
-                }
-            }
-
-            return true;
-        }
-        #endregion
-
         #region 预设初始代码
         private const string CSBASECODE =
       @"using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 [Serializable]
 public class {ClassName}
@@ -796,7 +713,7 @@ public class {ClassName}
 
     public static {ClassName}[] LoadBytes()
     {
-        string path = @""{BINPath}"";
+        string path = $""{BINPath}"";
         if (!File.Exists(path)) return null;
 
         using (FileStream stream = new FileStream(path, FileMode.Open))

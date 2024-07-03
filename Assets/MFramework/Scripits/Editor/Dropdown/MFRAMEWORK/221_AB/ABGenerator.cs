@@ -57,7 +57,20 @@ namespace MFramework
             }
             if (GUILayout.Button("生成CS"))
             {
-                ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, MSettings.LocalizationBYTEName);
+                string BINName = $"{{Application.streamingAssetsPath}}/ExcelBIN/LocalizationTable.byte";
+                bool flag = ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, BINName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
+            }
+            if (GUILayout.Button("生成BIN"))
+            {
+                bool flag = ExcelGenerator.CreateSingleBIN(MSettings.LocalizationTableName, MSettings.LocalizationBYTEName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
             }
             EditorGUILayout.LabelField("自定义生成：");
             if (GUILayout.Button("生成"))
