@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 4c4fc98e387de0b4aadca7197f1fd381
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: zihun35hao-jindianyahei
+  fontNames:
+  - zihun35hao-jindianyahei
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 237c377d96584254e8214835b3dad926, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

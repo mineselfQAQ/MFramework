@@ -1,0 +1,94 @@
+﻿assets/assetbundle/common/model.rendertexture.ab
+	Assets/AssetBundle/Common/Model.renderTexture
+assets/assetbundle/atlas/role.ab
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_000.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_001.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_002.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_003.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_004.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_005.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_006.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_007.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_008.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_009.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_010.png
+	Assets/AssetBundle/Atlas/Role/Hog_Attack_011.png
+assets/assetbundle/background/1.png.ab
+	Assets/AssetBundle/Background/1.png
+assets/assetbundle/background/2.png.ab
+	Assets/AssetBundle/Background/2.png
+assets/assetbundle/background/3.png.ab
+	Assets/AssetBundle/Background/3.png
+assets/assetbundle/background/4.png.ab
+	Assets/AssetBundle/Background/4.png
+assets/assetbundle/background/5.png.ab
+	Assets/AssetBundle/Background/5.png
+assets/assetbundle/background/6.png.ab
+	Assets/AssetBundle/Background/6.png
+assets/assetbundle/background/7.png.ab
+	Assets/AssetBundle/Background/7.png
+assets/assetbundle/icon.ab
+	Assets/AssetBundle/Icon/1.png
+	Assets/AssetBundle/Icon/10.png
+	Assets/AssetBundle/Icon/11.png
+	Assets/AssetBundle/Icon/12.png
+	Assets/AssetBundle/Icon/13.png
+	Assets/AssetBundle/Icon/14.png
+	Assets/AssetBundle/Icon/15.png
+	Assets/AssetBundle/Icon/16.png
+	Assets/AssetBundle/Icon/17.png
+	Assets/AssetBundle/Icon/18.png
+	Assets/AssetBundle/Icon/19.png
+	Assets/AssetBundle/Icon/2.png
+	Assets/AssetBundle/Icon/20.png
+	Assets/AssetBundle/Icon/3.png
+	Assets/AssetBundle/Icon/4.png
+	Assets/AssetBundle/Icon/5.png
+	Assets/AssetBundle/Icon/6.png
+	Assets/AssetBundle/Icon/7.png
+	Assets/AssetBundle/Icon/8.png
+	Assets/AssetBundle/Icon/9.png
+assets/assetbundle/model.ab
+	Assets/AssetBundle/Model/Ji.prefab
+	Assets/AssetBundle/Model/ji_02.controller
+assets/assetbundle/shader.ab
+	Assets/AssetBundle/Shader/DoubleSided.shader
+assets/assetbundle/ui/testui.prefab.ab
+	Assets/AssetBundle/UI/TestUI.prefab
+assets/assetbundle/ui/uiroot.prefab.ab
+	Assets/AssetBundle/UI/UIRoot.prefab
+assets/assetbundle/model/ji.ab
+	Assets/AssetBundle/Model/ji/ji_02.fbx
+assets/assetbundle/model/ji/cai.ab
+	Assets/AssetBundle/Model/ji/cai/CAIXUK.png
+	Assets/AssetBundle/Model/ji/cai/lambert2.mat
+assets/assetbundle/model/animations/movement.ab
+	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Fall01.fbx
+	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Jump01.fbx
+	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Walk01.fbx
+assets/assetbundle/model/animations/social.ab
+	Assets/AssetBundle/Model/Animations/Social/BasicMotions@Cheer01.fbx
+assets/assetbundle/model/animations/orc.ab
+	Assets/AssetBundle/Model/Animations/Orc/Attack01_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/Attack02_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/Die_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/Dizzy_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/GetHit_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/IdleBattle_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/IdleNormal_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/RunFWD_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/SenseSomethingRPT_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/SenseSomethingST_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/Taunting_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/Victory_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/WalkBWD_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/WalkFWD_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/WalkLeft_Orc_Anim.fbx
+	Assets/AssetBundle/Model/Animations/Orc/WalkRight_Orc_Anim.fbx
+assets/assetbundle/model/animations/idles.ab
+	Assets/AssetBundle/Model/Animations/Idles/BasicMotions@Idle01.fbx
+	Assets/AssetBundle/Model/Animations/Idles/BasicMotions@Idle02.fbx
+assets/assetbundle/model/animators.ab
+	Assets/AssetBundle/Model/Animators/Orc.controller
+assets/assetbundle/model/meshes.ab
+	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx

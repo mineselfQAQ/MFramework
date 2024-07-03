@@ -1,0 +1,21 @@
+﻿Assets/AssetBundle/Model/Ji.prefab	Assets/AssetBundle/Model/ji/ji_02.fbx	Assets/AssetBundle/Model/ji/cai/lambert2.mat	Assets/AssetBundle/Model/ji_02.controller
+Assets/AssetBundle/UI/TestUI.prefab	Assets/AssetBundle/Atlas/Role/Hog_Attack_011.png	Assets/AssetBundle/Common/Model.renderTexture	Assets/AssetBundle/Icon/1.png	Assets/AssetBundle/Background/6.png
+Assets/AssetBundle/Model/ji/cai/lambert2.mat	Assets/AssetBundle/Model/ji/cai/CAIXUK.png
+Assets/AssetBundle/Model/ji_02.controller	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Jump01.fbx	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Fall01.fbx	Assets/AssetBundle/Model/Animations/Social/BasicMotions@Cheer01.fbx	Assets/AssetBundle/Model/Animations/Movement/BasicMotions@Walk01.fbx	Assets/AssetBundle/Model/Animations/Orc/Attack01_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Idles/BasicMotions@Idle02.fbx	Assets/AssetBundle/Model/Animations/Orc/Attack02_Orc_Anim.fbx	Assets/AssetBundle/Model/Animators/Orc.controller	Assets/AssetBundle/Model/Animations/Idles/BasicMotions@Idle01.fbx
+Assets/AssetBundle/Model/Animations/Orc/Attack01_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/Attack02_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animators/Orc.controller	Assets/AssetBundle/Model/Animations/Orc/Victory_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/WalkBWD_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/WalkRight_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/GetHit_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/Dizzy_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/RunFWD_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/IdleNormal_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/SenseSomethingST_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/Taunting_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/WalkLeft_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/Die_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/Attack01_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/IdleBattle_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/SenseSomethingRPT_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/Attack02_Orc_Anim.fbx	Assets/AssetBundle/Model/Animations/Orc/WalkFWD_Orc_Anim.fbx
+Assets/AssetBundle/Model/Animations/Orc/Victory_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/WalkBWD_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/WalkRight_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/GetHit_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/Dizzy_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/RunFWD_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/IdleNormal_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/SenseSomethingST_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/Taunting_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/WalkLeft_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/Die_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/IdleBattle_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/SenseSomethingRPT_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
+Assets/AssetBundle/Model/Animations/Orc/WalkFWD_Orc_Anim.fbx	Assets/AssetBundle/Model/Meshes/OrcMesh.fbx
