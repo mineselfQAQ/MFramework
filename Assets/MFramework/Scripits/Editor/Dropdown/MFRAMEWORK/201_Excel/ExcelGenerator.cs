@@ -47,6 +47,14 @@ namespace MFramework
             DrawCheckPathBtn();
         }
 
+        #region 公开函数
+        public static void CreateCSBIN(string excelName, string CSName, string BINName, string BINLoadPath)
+        {
+            CreateSingleBIN(excelName, BINName);
+
+            AssetDatabase.Refresh();
+            EditorUtility.RequestScriptReload();
+        }
         public static bool CreateSingleCS(string excelName, string CSName, string BINLoadPath)
         {
             string fileName = Path.GetFileNameWithoutExtension(excelName);
@@ -88,7 +96,9 @@ namespace MFramework
             bool isSucceed = CreateBIN(BINName, fileName, data);
             return isSucceed;
         }
+        #endregion
 
+        #region Excel部分
         private void DrawGenerateExcelPart()
         {
             MGUIUtility.DrawH2("生成Excel文件");
@@ -96,54 +106,6 @@ namespace MFramework
             if (GUILayout.Button("生成"))
             {
                 CreateExcelFile();
-            }
-        }
-
-        private void DrawGeneratePersistentDataPart()
-        {
-            MGUIUtility.DrawH2("生成持久化数据");
-
-            EditorGUILayout.BeginHorizontal();
-            {
-                if (GUILayout.Button("1.创建.cs文件"))
-                {
-                    string BINFolder = MSettings.ExcelBINPath;
-                    string CSFolder = MConfigurableSettings.ExcelCSPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
-
-                    bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CS);
-                    if (!haveFile) return;
-
-                    CreateAllCS(BINFolder, CSFolder, fileList);
-                    AssetDatabase.Refresh();
-                }
-                if (GUILayout.Button("2.创建.byte文件"))
-                {
-                    string BINFolder = MSettings.ExcelBINPath;
-                    string CSFolder = MConfigurableSettings.ExcelCSPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
-
-                    bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.BIN);
-                    if (!haveFile) return;
-
-                    CreateAllBIN(BINFolder, fileList);
-                    AssetDatabase.Refresh();
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            if (GUILayout.Button("一键生成(F8)"))
-            {
-                EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
-                XLSX2PersistentData();
-            }
-        }
-
-        private void DrawCheckPathBtn()
-        {
-            if (GUILayout.Button("检查路径配置器"))
-            {
-                EditorSettingsConfigurator.Init();
             }
         }
 
@@ -205,6 +167,69 @@ namespace MFramework
             }
         }
 
+        private DataTable GetDefaultTable()
+        {
+            DataTable table = new DataTable();
+
+            //必须先创列，才能添加行
+            table.Columns.Add("编号");
+            table.Columns.Add("名字");
+            table.Columns.Add("描述");
+            //table.Rows.Add(new object[] { "编号", "名字", "描述" });
+            table.Rows.Add(new object[] { "ID", "NAME", "DESC" });
+            table.Rows.Add(new object[] { "int", "string", "string[]" });
+            table.Rows.Add(new object[] { 1, "苹果", "红色#甜" });
+            table.Rows.Add(new object[] { 2, "香蕉", "黄色#甜" });
+            table.Rows.Add(new object[] { 3, "橘子", "橙色#酸" });
+
+            return table;
+        }
+        #endregion
+
+        #region CS/BIN部分
+        private void DrawGeneratePersistentDataPart()
+        {
+            MGUIUtility.DrawH2("生成持久化数据");
+
+            EditorGUILayout.BeginHorizontal();
+            {
+                if (GUILayout.Button("1.创建.cs文件"))
+                {
+                    string BINFolder = MSettings.ExcelBINPath;
+                    string CSFolder = MConfigurableSettings.ExcelCSPath;
+                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
+
+                    bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CS);
+                    if (!haveFile) return;
+
+                    CreateAllCS(BINFolder, CSFolder, fileList);
+                    AssetDatabase.Refresh();
+                }
+                if (GUILayout.Button("2.创建.byte文件"))
+                {
+                    string BINFolder = MSettings.ExcelBINPath;
+                    string CSFolder = MConfigurableSettings.ExcelCSPath;
+                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
+
+                    bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.BIN);
+                    if (!haveFile) return;
+
+                    CreateAllBIN(BINFolder, fileList);
+                    AssetDatabase.Refresh();
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("一键生成(F8)"))
+            {
+                EditorPrefs.SetBool(EditorPrefsData.ExcelBINGenerationState, true);
+                XLSX2PersistentData();
+            }
+        }
+
+        /// <summary>
+        /// 完成.cs生成后立刻进行.byte生成
+        /// </summary>
         private void XLSX2PersistentData()
         {
             string BINFolder = MSettings.ExcelBINPath;//默认.byte文件存放位置---StreamingAssets文件夹内部
@@ -321,7 +346,7 @@ namespace MFramework
                 return false;
             }
         }
-        public static bool CreateBIN(string BINPath, string className, object[][] data)
+        private static bool CreateBIN(string BINPath, string className, object[][] data)
         {
             string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/Assembly-CSharp.dll";
             Assembly assembly = Assembly.LoadFile(CSAssemblyPath);
@@ -371,29 +396,6 @@ namespace MFramework
             return true;
         }
 
-        /// <summary>
-        /// 注意：没有用到，多余内容
-        /// </summary>
-        private string GenerateFieldsDefine(string[] names, string[] types)
-        {
-            StringBuilder res = new StringBuilder();
-
-            int n = names.Length;
-            for (int i = 0; i < n; i++)
-            {
-                string name = names[i].ToLower();
-
-                string tempLine = FIELDBASECODE;
-                tempLine = tempLine.Replace("{Type}", types[i]);
-                tempLine = tempLine.Replace("{Name}", name);
-
-                if (i != n - 1) res.Append(tempLine + "\n\t");
-                else res.Append(tempLine);
-            }
-
-            return res.ToString();
-        }
-
         private static string GeneratePropertiesDefine(string[] names, string[] types)
         {
             StringBuilder res = new StringBuilder();
@@ -407,13 +409,12 @@ namespace MFramework
                 tempLine = tempLine.Replace("{Type}", types[i]);
                 tempLine = tempLine.Replace("{Name}", name);
 
-                if (i != n - 1) res.Append(tempLine + "\n\t");
+                if (i != n - 1) res.Append(tempLine + "\n\t\t");
                 else res.Append(tempLine);
             }
 
             return res.ToString();
         }
-
         private static string GenerateConstructorDefine(string className, string[] names, string[] types)
         {
             string constructorBaseCode = CONSTRUCTORBASECODE;
@@ -440,7 +441,7 @@ namespace MFramework
                 int n = names.Length;
                 for (int i = 0; i < n - 1; i++)
                 {
-                    sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t");
+                    sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t\t");
                 }
                 sb.Append($"{names[n - 1].ToUpper()} = {names[n - 1].ToLower()};");
 
@@ -635,24 +636,6 @@ namespace MFramework
             }
         }
 
-        private DataTable GetDefaultTable()
-        {
-            DataTable table = new DataTable();
-
-            //必须先创列，才能添加行
-            table.Columns.Add("编号");
-            table.Columns.Add("名字");
-            table.Columns.Add("描述");
-            //table.Rows.Add(new object[] { "编号", "名字", "描述" });
-            table.Rows.Add(new object[] { "ID", "NAME", "DESC" });
-            table.Rows.Add(new object[] { "int", "string", "string[]" });
-            table.Rows.Add(new object[] { 1, "苹果", "红色#甜" });
-            table.Rows.Add(new object[] { 2, "香蕉", "黄色#甜" });
-            table.Rows.Add(new object[] { 3, "橘子", "橙色#酸" });
-
-            return table;
-        }
-
         private bool CheckAllFolder(string BINFolder, string CSFolder, List<string> fileList, CreateMode mode)
         {
             //检查文件夹是否存在，如果不存在就创建
@@ -681,7 +664,6 @@ namespace MFramework
             }
             return true;
         }
-
         public static bool CheckTable(DataSet dataSet)
         {
             if (dataSet.Tables.Count < 1)//是否存在表
@@ -696,6 +678,18 @@ namespace MFramework
             }
             return true;
         }
+        #endregion
+
+        #region 打开路径配置按钮
+        private void DrawCheckPathBtn()
+        {
+            if (GUILayout.Button("检查路径配置器"))
+            {
+                EditorSettingsConfigurator.Init();
+            }
+        }
+        #endregion
+
 
         #region 预设初始代码
         private const string CSBASECODE =
@@ -704,45 +698,48 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-[Serializable]
-public class {ClassName}
+namespace MFramework
 {
-    {PropertiesDefine}
-
-    {ConstructorDefine}
-
-    public static {ClassName}[] LoadBytes()
+    [Serializable]
+    public class {ClassName}
     {
-        string path = $""{BINPath}"";
-        if (!File.Exists(path)) return null;
+        {PropertiesDefine}
 
-        using (FileStream stream = new FileStream(path, FileMode.Open))
+        {ConstructorDefine}
+
+        public static {ClassName}[] LoadBytes()
         {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
-            {ClassName}[] res = table.items;
-            return res;
+            string path = $""{BINPath}"";
+            if (!File.Exists(path)) return null;
+
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
+                {ClassName}[] res = table.items;
+                return res;
+            }
         }
     }
-}
 
-[Serializable]
-internal class {CollectionClassName}
-{
-    public {ClassName}[] items;
-
-    private {CollectionClassName}({ClassName}[] items)
+    [Serializable]
+    internal class {CollectionClassName}
     {
-        this.items = items;
+        public {ClassName}[] items;
+
+        private {CollectionClassName}({ClassName}[] items)
+        {
+            this.items = items;
+        }
     }
 }";
         private const string FIELDBASECODE = "private {Type} {Name};";
         private const string PROPERTIESBASECODE = "public {Type} {Name} { get; private set; }";
         private const string CONSTRUCTORBASECODE = 
 @"private {ClassName}({Parameter})
-    {
-        {AssignmentOperator}
-    }";
+        {
+            {AssignmentOperator}
+        }";
         #endregion
     }
 

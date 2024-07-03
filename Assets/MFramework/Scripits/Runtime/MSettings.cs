@@ -19,6 +19,7 @@ namespace MFramework
         #region 基础路径
         public static readonly string RootPath = Application.dataPath.CD();
         public static readonly string AssetPath = Application.dataPath;
+        public static readonly string StreamingAssetsPath = Application.streamingAssetsPath;
 
         public static readonly string CorePath = @$"{RootPath}/CORE";
         #endregion
@@ -36,9 +37,11 @@ namespace MFramework
 
         #region 具体文件路径
         public static readonly string ABBuildSettingName = $"{CorePath}/AB/ABBuildSetting.xml";
+
         public static readonly string LocalizationTableName = $"{CorePath}/Localization/LocalizationTable.xlsx";
         public static readonly string LocalizationCSName = $"{AssetPath}/MFramework/Scripits/Runtime/LocalizationTable.cs";
-        public static readonly string LocalizationBYTEName = $"{ExcelBINPath}/LocalizationTable.cs";
+        public static readonly string LocalizationBYTEName = $"{StreamingAssetsPath}/LocalizationTable.cs";
+        public const string LocalizationLoadBINName = "{Application.streamingAssetsPath}/LocalizationTable.byte";
         #endregion
     }
 }

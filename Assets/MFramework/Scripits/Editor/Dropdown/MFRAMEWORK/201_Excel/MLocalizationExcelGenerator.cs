@@ -32,6 +32,22 @@ namespace MFramework
             MGUIUtility.DrawH1("本地化生成器");
 
             DrawCreateBtn();
+            if (GUILayout.Button("生成CS"))
+            {
+                bool flag = ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, MSettings.LocalizationLoadBINName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
+            }
+            if (GUILayout.Button("生成BIN"))
+            {
+                bool flag = ExcelGenerator.CreateSingleBIN(MSettings.LocalizationTableName, MSettings.LocalizationBYTEName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
+            }
 
             MGUIUtility.DrawH2("查询场景中所有的MLocalization");
             EditorGUILayout.LabelField("Tip:Prefab部分不得更改，请打开预制体进行修改", MGUIStyleUtility.ColorStyle(Color.red));
