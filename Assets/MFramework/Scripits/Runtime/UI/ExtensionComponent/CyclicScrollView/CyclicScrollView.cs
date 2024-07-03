@@ -66,7 +66,7 @@ namespace MFramework
         {
             if (datas == null)
             {
-                MLog.Print($"{typeof(CyclicScrollView<Cell,Data>)}没有数据用于初始化，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(CyclicScrollView<Cell,Data>)}没有数据用于初始化，请检查", MLogType.Error);
                 return;
             }
 

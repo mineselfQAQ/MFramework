@@ -47,7 +47,7 @@ namespace MFramework
                 {
                     if (!Directory.Exists(buildItem.assetPath))
                     {
-                        MLog.Print($"{typeof(BuildSetting)}.{nameof(Init)}：不存在资源路径-<{buildItem.assetPath}>，请检查路径后重试", MLogType.Warning);
+                        MLog.Print($"{typeof(BuildSetting)}.{nameof(Init)}：不存在资源路径-<{buildItem.assetPath}>，请检查路径后重试", MLogType.Error);
                         return;
                     }
                 }
@@ -66,7 +66,7 @@ namespace MFramework
                 //意外情况---出现两个相同的assetPath的文件
                 if (itemDic.ContainsKey(buildItem.assetPath))
                 {
-                    MLog.Print($"{typeof(BuildSetting)}.{nameof(Init)}：重复的资源路径-<{buildItem.assetPath}>，请重试", MLogType.Warning);
+                    MLog.Print($"{typeof(BuildSetting)}.{nameof(Init)}：重复的资源路径-<{buildItem.assetPath}>，请重试", MLogType.Error);
                     return;
                 }
 
@@ -192,7 +192,7 @@ namespace MFramework
                     name = $"{assetUrl}{Builder.BUNDLE_SUFFIX}".ToLowerInvariant();
                     break;
                 default:
-                    MLog.Print($"{typeof(BuildSetting)}：无法获取{assetUrl}的BundleName", MLogType.Warning);
+                    MLog.Print($"{typeof(BuildSetting)}：无法获取{assetUrl}的BundleName", MLogType.Error);
                     return null;
             }
 

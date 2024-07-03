@@ -64,7 +64,7 @@ namespace MFramework
             GameObject checker = GameObject.Find(MSettings.UICanvasName);
             if (checker != null)
             {
-                MLog.Print("UICanvas已存在，请勿重复创建", MLogType.Warning);
+                MLog.Print("UICanvas已存在，请勿重复创建", MLogType.Error);
                 return;
             }
 

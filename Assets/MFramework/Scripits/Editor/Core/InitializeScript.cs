@@ -122,7 +122,7 @@ namespace MFramework
             string preID = EditorPrefs.GetString(EditorPrefsData.DeviceUniqueID, curID);
             if (curID != preID)
             {
-                MLog.Print($"{typeof(InitializeScript)}.{nameof(CheckComputerUniqueID)}：注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Error);
+                MLog.Print($"{typeof(InitializeScript)}.{nameof(CheckComputerUniqueID)}：注意！当前设备已切换，请打开EditorSettingsConfigurator查看路径是否配置正确", MLogType.Warning);
             }
             EditorPrefs.SetString(EditorPrefsData.DeviceUniqueID, curID);
         }

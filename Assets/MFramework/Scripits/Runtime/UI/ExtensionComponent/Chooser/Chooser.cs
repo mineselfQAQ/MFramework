@@ -275,6 +275,8 @@ namespace MFramework
                 float firstScale = node.Value.scale;
                 float firstAlpha = node.Value.alpha;
 
+                Image img;
+
                 while (node.Next != null)
                 {
                     LinkedListNode<Node> nextNode = node.Next;
@@ -282,7 +284,14 @@ namespace MFramework
                     node.Value.pos = nextNode.Value.pos;
                     node.Value.go.transform.DOScale(nextNode.Value.scale, duration);
                     node.Value.scale = nextNode.Value.scale;
-                    node.Value.go.GetComponent<Image>().DOFade(nextNode.Value.alpha, duration);
+                    img = node.Value.go.GetComponent<Image>();
+                    MTween.DoTween01((f) =>
+                    {
+                        Color dst = img.color;
+                        Color src = new Color(img.color.r, img.color.g, img.color.b, nextNode.Value.alpha);
+
+                        img.color = Color32.Lerp(dst, src, f);
+                    }, MCurve.Linear, duration);
                     node.Value.alpha = nextNode.Value.alpha;
 
                     node = nextNode;
@@ -291,7 +300,14 @@ namespace MFramework
                 node.Value.pos = firstPos;
                 node.Value.go.transform.DOScale(firstScale, duration);
                 node.Value.scale = firstScale;
-                node.Value.go.GetComponent<Image>().DOFade(firstAlpha, duration);
+                img = node.Value.go.GetComponent<Image>();
+                MTween.DoTween01((f) =>
+                {
+                    Color dst = img.color;
+                    Color src = new Color(img.color.r, img.color.g, img.color.b, firstAlpha);
+
+                    img.color = Color32.Lerp(dst, src, f);
+                }, MCurve.Linear, duration);
                 node.Value.alpha = firstAlpha;
             }
             else//Ïòºó
@@ -301,6 +317,8 @@ namespace MFramework
                 float lastScale = node.Value.scale;
                 float lastAlpha = node.Value.alpha;
 
+                Image img;
+
                 while (node.Previous != null)
                 {
                     LinkedListNode<Node> previousNode = node.Previous;
@@ -308,7 +326,14 @@ namespace MFramework
                     node.Value.pos = previousNode.Value.pos;
                     node.Value.go.transform.DOScale(previousNode.Value.scale, duration);
                     node.Value.scale = previousNode.Value.scale;
-                    node.Value.go.GetComponent<Image>().DOFade(previousNode.Value.alpha, duration);
+                    img = node.Value.go.GetComponent<Image>();
+                    MTween.DoTween01((f) =>
+                    {
+                        Color dst = img.color;
+                        Color src = new Color(img.color.r, img.color.g, img.color.b, previousNode.Value.alpha);
+
+                        img.color = Color32.Lerp(dst, src, f);
+                    }, MCurve.Linear, duration);
                     node.Value.alpha = previousNode.Value.alpha;
 
                     node = previousNode;
@@ -317,7 +342,14 @@ namespace MFramework
                 node.Value.pos = lastPos;
                 node.Value.go.transform.DOScale(lastScale, duration);
                 node.Value.scale = lastScale;
-                node.Value.go.GetComponent<Image>().DOFade(lastAlpha, duration);
+                img = node.Value.go.GetComponent<Image>();
+                MTween.DoTween01((f) =>
+                {
+                    Color dst = img.color;
+                    Color src = new Color(img.color.r, img.color.g, img.color.b, lastAlpha);
+
+                    img.color = Color32.Lerp(dst, src, f);
+                }, MCurve.Linear, duration);
                 node.Value.alpha = lastAlpha;
             }
         }

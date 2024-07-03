@@ -26,7 +26,7 @@ namespace MFramework
 
         public string ReceiveStr { get { return receiveStr; } }
 
-        internal UDPServer()
+        public UDPServer()
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

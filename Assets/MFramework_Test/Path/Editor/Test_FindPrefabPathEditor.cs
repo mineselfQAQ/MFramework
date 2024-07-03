@@ -44,7 +44,7 @@ public class Test_FindPrefabPathEditor : Editor
             }
             else
             {
-                MLog.Print($"不是{MLog.BoldWord("Prefab")}，无法获取", MLogType.Error);
+                MLog.Print($"不是Prefab，无法获取", MLogType.Warning);
                 return null;
             }
         }

@@ -67,7 +67,7 @@ namespace MFramework
 
             if (!CheckTable(dataset))
             {
-                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
                 return false;
             }
             GetDataFromTable(dataset.Tables[0],
@@ -87,7 +87,7 @@ namespace MFramework
 
             if (!CheckTable(dataset))
             {
-                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
                 return false;
             }
             GetDataFromTable(dataset.Tables[0],
@@ -265,7 +265,7 @@ namespace MFramework
 
                 if (!CheckTable(dataset))
                 {
-                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
                     continue;
                 }
                 GetDataFromTable(dataset.Tables[0],
@@ -326,7 +326,7 @@ namespace MFramework
 
                 if (!CheckTable(dataset))
                 {
-                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Warning);
+                    MLog.Print($"{fileName}表存在问题，请检查.", MLogType.Error);
                     continue;
                 }
                 GetDataFromTable(dataset.Tables[0],
@@ -348,7 +348,9 @@ namespace MFramework
         }
         private static bool CreateBIN(string BINPath, string className, object[][] data)
         {
-            string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/Assembly-CSharp.dll";
+            //注意！！！
+            //打成dll后不再是原来的Assembly-CSharp的程序集，而是自己创建的dll的程序集
+            string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/MFramework.Runtime.dll";
             Assembly assembly = Assembly.LoadFile(CSAssemblyPath);
 
             int rowLength = data.Length;

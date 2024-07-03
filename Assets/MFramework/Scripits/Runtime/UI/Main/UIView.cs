@@ -1,4 +1,3 @@
-using MFramework.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -166,7 +165,7 @@ namespace MFramework
             {
                 if (!path.StartsWith("Assets"))//非基于Assets的路径
                 {
-                    MLog.Print($"{typeof(UIView)}：路径{path}不正确，请提供|完整路径/基于Assets的路径|其中之一", MLogType.Warning);
+                    MLog.Print($"{typeof(UIView)}：路径{path}不正确，请提供|完整路径/基于Assets的路径|其中之一", MLogType.Error);
                     return null;
                 }
             }

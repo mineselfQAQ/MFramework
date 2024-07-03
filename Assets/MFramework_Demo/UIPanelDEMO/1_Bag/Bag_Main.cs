@@ -15,7 +15,7 @@ public class Bag_Main : MonoBehaviour
         bagRoot = UIManager.Instance.CreateRoot("Bag", 1000, 1200);
 
         EmptyPanel background = backgroundRoot.CreatePanel<EmptyPanel>("Background", @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Background.prefab");
-        background.Open();
+        background.OpenSelf();
 
         bagList = new List<Bag>();
         Color[] colors = new Color[3] {

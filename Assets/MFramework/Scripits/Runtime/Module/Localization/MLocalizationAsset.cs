@@ -23,7 +23,7 @@ public class MLocalizationAsset
     {
         if (table == null || table.Length == 0)
         {
-            MLog.Print($"{typeof(MLocalizationAsset)}：未获取到xlsx表在或xlsx表内无数据，请检查", MLogType.Warning);
+            MLog.Print($"{typeof(MLocalizationAsset)}：未获取到xlsx表在或xlsx表内无数据，请检查", MLogType.Error);
             return;
         }
 

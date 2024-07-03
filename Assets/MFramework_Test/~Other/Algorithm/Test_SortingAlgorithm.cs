@@ -1,7 +1,7 @@
 using MFramework;
 using UnityEditor;
 using UnityEngine;
-using static MFramework.SortingAlgorithm;
+using static MFramework.DLC.SortingAlgorithm;
 
 public class Test_SortingAlgorithm : MonoBehaviour
 {

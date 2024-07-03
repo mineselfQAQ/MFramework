@@ -14,6 +14,6 @@ public class Menu_Main : MonoBehaviour
 
         var titleMenu = root.CreatePanel<TitleMenu>(@"Assets\MFramework_Demo\UIPanelDEMO\2_CommonMenu\Prefab\TitleMenu.prefab");
         titleMenu.Init(background, title);
-        titleMenu.Open();
+        titleMenu.OpenSelf();
     }
 }

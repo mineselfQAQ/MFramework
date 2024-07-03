@@ -1,0 +1,16 @@
+{
+    "name": "MFramework.DLC",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2c9e5308de33d734fa8f53d89bd546e0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

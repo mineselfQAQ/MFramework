@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using MFramework;
 using System.Linq;
+using MFramework;
+using MFramework.DLC;
 
 public class Test_MDictionary : MonoBehaviour
 {

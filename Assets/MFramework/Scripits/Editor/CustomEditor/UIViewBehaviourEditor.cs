@@ -63,8 +63,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
-                return;
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Error);
             }
             string fullPrefabPath = Path.GetFullPath(prefabPath);
             string directoryPath = Path.GetDirectoryName(fullPrefabPath);
@@ -108,7 +107,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Error);
                 return;
             }
             string fullPrefabPath = Path.GetFullPath(prefabPath);
@@ -138,8 +137,7 @@ namespace MFramework
             code = code.Replace("{BaseClassName}", baseClassName);
 
             string fieldsDefine, bindComps, bindEvents, unbindEvents, unbindComps;
-            bool flag = GenerateAllBaseCodePart(out fieldsDefine, out bindComps, out bindEvents, out unbindEvents, out unbindComps);
-            if (!flag) return null;
+            GenerateAllBaseCodePart(out fieldsDefine, out bindComps, out bindEvents, out unbindEvents, out unbindComps);
 
             code = code.Replace("{FieldsDefine}", fieldsDefine);
             code = code.Replace("{BindComps}", bindComps);
@@ -150,7 +148,7 @@ namespace MFramework
             return code;
         }
 
-        private bool GenerateAllBaseCodePart(out string fieldsDefine, out string bindComps, out string bindEvents, out string unbindEvents, out string unbindComps)
+        private void GenerateAllBaseCodePart(out string fieldsDefine, out string bindComps, out string bindEvents, out string unbindEvents, out string unbindComps)
         {
             UIViewBehaviour behaviour = (UIViewBehaviour)target;
             HashSet<string> targetSet = new HashSet<string>();
@@ -161,9 +159,9 @@ namespace MFramework
 
                 if (targetSet.Contains(collection.Target.name))
                 {
-                    MLog.Print($"{typeof(UIViewBehaviourEditor)}：自动生成不能同时存在同名Target，请重试", MLogType.Warning);
+                    MLog.Print($"{typeof(UIViewBehaviourEditor)}：自动生成不能同时存在同名Target，请重试", MLogType.Error);
                     fieldsDefine = null; bindComps = null; bindEvents = null; unbindEvents = null; unbindComps = null;
-                    return false;
+                    return;
                 }
                 targetSet.Add(collection.Target.name);
             }
@@ -174,7 +172,7 @@ namespace MFramework
             unbindEvents = GenerateUnbindEvents(behaviour);
             unbindComps = GenerateUnbindComps(behaviour);
 
-            return true;
+            return;
         }
 
         private string GenerateFieldsDefine(UIViewBehaviour target)
@@ -333,7 +331,7 @@ namespace MFramework
             string prefabPath = UIPanelUtility.GetPrefabPath(target);
             if (string.IsNullOrEmpty(prefabPath))
             {
-                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：该物体并非Prefab，请先设置为Prefab后重试", MLogType.Error);
                 return;
             }
 
@@ -347,7 +345,7 @@ namespace MFramework
 
             if (File.Exists(filePath))
             {
-                MLog.Print($"{typeof(UIViewBehaviourEditor)}：{fileName}已存在，如需重新创建，请删除后再试", MLogType.Warning);
+                MLog.Print($"{typeof(UIViewBehaviourEditor)}：{fileName}已存在，如需重新创建，请删除后再试", MLogType.Error);
                 return;
             }
 

@@ -11,7 +11,7 @@ public class TitleMenu : TitleMenuBase
         var titleGroup = CreateWidget<TitleGroup>(m_TitleGroup_UIWidgetBehaviour);
         var settingGroup = CreateWidget<SettingGroup>(m_SettingGroup_UIWidgetBehaviour);
 
-        titleGroup.Open();
+        titleGroup.OpenSelf();
     }
 
     protected override void OnClicked(Button button) { }

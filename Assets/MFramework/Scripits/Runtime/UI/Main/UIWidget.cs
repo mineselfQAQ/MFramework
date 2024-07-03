@@ -71,19 +71,19 @@ namespace MFramework
         }
 
         #region ×ÔÉí²Ù×÷
-        protected void DestroySelf()
+        public void DestroySelf()
         {
             parentView.DestroyWidget(widgetID);
         }
-        protected void SetSiblingSelf(SiblingMode mode)
+        public void SetSiblingSelf(SiblingMode mode)
         {
             parentView.SetWidgetSibiling(widgetID, mode);
         }
-        protected void OpenSelf()
+        public void OpenSelf()
         {
             parentView.OpenWidget(widgetID);
         }
-        protected void CloseSelf()
+        public void CloseSelf()
         {
             parentView.CloseWidget(widgetID);
         }

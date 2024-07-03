@@ -67,7 +67,7 @@ namespace MFramework
     /// 特性会通过反射获取这两个属性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    internal class MonoSingletonSetting : Attribute
+    public class MonoSingletonSetting : Attribute
     {
         private HideFlags m_HideFlags;
         private string m_NameInHierarchy;//null或""时默认使用类名

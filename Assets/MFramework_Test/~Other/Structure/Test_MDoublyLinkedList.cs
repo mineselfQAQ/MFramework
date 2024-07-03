@@ -1,4 +1,5 @@
 using MFramework;
+using MFramework.DLC;
 using UnityEngine;
 
 public class Test_MDoublyLinkedList : MonoBehaviour
@@ -22,7 +23,7 @@ public class Test_MDoublyLinkedList : MonoBehaviour
         MLog.Print("第二个节点值: " + list.First.Next.Value);
         MLog.Print("是否存在3: " + list.Find(3));
         MLog.Print("是否存在3: " + list.Contains(3));
-        MLog.Print("第二个节点所属链表: " + tempNode.list);
+        MLog.Print("第二个节点所属链表: " + tempNode.List);
 
         MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 

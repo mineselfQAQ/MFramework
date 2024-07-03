@@ -5,7 +5,7 @@ public class FuncTest_Widget2 : FuncTest_Widget2Base
     public void Init()
     {
         var childWidget = CreateWidget<FuncTest_ChildWidget>("ChildWidget", rectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_ChildWidget.prefab");
-        childWidget.Open();
+        childWidget.OpenSelf();
     }
 
     protected override void OnClicked(Button button) { }

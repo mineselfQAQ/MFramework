@@ -140,6 +140,7 @@ namespace MFramework
                 if (editorSettingsFilePath == null)
                 {
                     MLog.Print("EditorSettings脚本不存在，请检查", MLogType.Warning);
+                    return;
                 }
                 UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(editorSettingsFilePath, 3);
             }
@@ -168,11 +169,11 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else { MLog.Print("未替换成功", MLogType.Warning); return false; }
+                else { MLog.Print("未替换成功", MLogType.Error); return false; }
             }
             else
             {
-                MLog.Print("未找到路径", MLogType.Warning);
+                MLog.Print("未找到路径", MLogType.Error);
                 return false;
             }
             return true;
@@ -199,13 +200,13 @@ namespace MFramework
                 string str = File.ReadAllText(editorSettingsFilePath);
                 string newStr = ReplacePath(str, originName, newPath);
                 if (newStr != null) File.WriteAllText(editorSettingsFilePath, newStr);
-                else { MLog.Print("未替换成功", MLogType.Warning); return false; }
+                else { MLog.Print("未替换成功", MLogType.Error); return false; }
 
                 AssetDatabase.Refresh();
             }
             else
             {
-                MLog.Print("未找到路径", MLogType.Warning);
+                MLog.Print("未找到路径", MLogType.Error);
                 return false;
             }
             return true;

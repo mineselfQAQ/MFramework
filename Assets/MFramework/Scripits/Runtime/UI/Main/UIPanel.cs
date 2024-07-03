@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -195,7 +196,7 @@ namespace MFramework
         }
 
         #region ×ÔÉí²Ù×÷
-        protected void DestroySelf()
+        public void DestroySelf()
         {
             parentRoot.panelDic.Remove(panelID);
             Destroy();
@@ -205,16 +206,16 @@ namespace MFramework
         //{
         //    SetVisible(visible);
         //}
-        protected void SetPanelSiblingSelf(SiblingMode mode)
+        public void SetPanelSiblingSelf(SiblingMode mode)
         {
             SetPanelSibling(mode);
         }
 
-        protected void OpenSelf(Action onFinish = null)
+        public void OpenSelf(Action onFinish = null)
         {
             Open(onFinish);
         }
-        protected void CloseSelf(Action onFinish = null)
+        public void CloseSelf(Action onFinish = null)
         {
             Close(onFinish);
         }

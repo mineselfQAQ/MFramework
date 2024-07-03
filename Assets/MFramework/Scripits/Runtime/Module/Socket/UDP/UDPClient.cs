@@ -55,7 +55,7 @@ namespace MFramework
         public bool Connected { get { return isConnect; } }
         public string ReceiveStr { get { return receiveStr; } }
 
-        internal UDPClient()
+        public UDPClient()
         {
             //Ipv4，使用的是数据报，也就是UDP
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

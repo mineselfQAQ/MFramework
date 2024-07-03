@@ -13,7 +13,7 @@ public class Bag : BagBase
 
         var title = CreateWidget<Title>("Title", rectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\1_Bag\Prefab\Title.prefab");
         title.Init(id, Random.Range(0, 100).ToString());
-        title.Open();
+        title.OpenSelf();
     }
 
     protected override void OnClicked(Button button) { }
