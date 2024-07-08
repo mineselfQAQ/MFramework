@@ -11,7 +11,7 @@ namespace MFramework
         private static string path = $@"{Application.dataPath}/../LogCallBack.txt";
 
         //TODO:目前并没有检测core是否存在的机制，如果MCore发生意外被删除了就会导致错误
-        private static MCore core = GameObject.Find("MCore").GetComponent<MCore>();
+        private static MCore core = GameObject.Find(MSettings.MCoreName).GetComponent<MCore>();
 
         public void Init()
         {

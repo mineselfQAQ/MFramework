@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -63,6 +61,18 @@ namespace MFramework
                 MLog.Print("TODO", MLogType.Warning);
                 AssetDatabase.Refresh();
             }
+
+            if (GUILayout.Button("查看XML"))
+            {
+                string fileName = MSettings.ABBuildSettingName;
+                if (!File.Exists(fileName))
+                {
+                    MLog.Print("ABBuildSetting.xml为创建，请先创建后再查看", MLogType.Warning);
+                    return;
+                }
+
+                EditorUtility.RevealInFinder(fileName);
+            }
         }
 
         private void DrawABGenerator()
@@ -103,15 +113,9 @@ namespace MFramework
 
         private void DrawDefaultGenerator()
         {
-            string defaultSavePath = Path.GetDirectoryName(Application.dataPath);
-            string savePath = EditorUtility.OpenFolderPanel("请选择AB资源存放路径", defaultSavePath, "Assets");
-            if (string.IsNullOrEmpty(savePath) || !savePath.Contains("Assets"))
-            {
-                MLog.Print("请选择正确路径", MLogType.Warning);
-                return;
-            }
+            string defaultSavePath = Application.dataPath.CD();
 
-            string abPath = $"{savePath}/AssetBundle";
+            string abPath = $"{defaultSavePath}/AssetBundle";
             CreateABDirectoryIfNotExist(abPath);
 
             string projectPath = Application.dataPath;
@@ -144,7 +148,8 @@ namespace MFramework
             string buildItemsCode = GenerateBuildItemsCode(abPath);
             code = code.Replace("{BUILDITEM}", buildItemsCode);
 
-            MSerializationUtility.SaveFile(filePath, code);
+            MSerializationUtility.SaveToFile(filePath, code);
+            EditorUtility.RevealInFinder(filePath);
         }
         private string GenerateBuildItemsCode(string abPath)
         {
@@ -156,7 +161,7 @@ namespace MFramework
             AppendBuildItem(res, $"{abPath}/Icon/",       "Direct",  "Directory",  ".png");
             AppendBuildItem(res, $"{abPath}/Model/",      "Direct",  "Directory",  ".prefab");
             AppendBuildItem(res, $"{abPath}/Shader/",     "Direct",  "Directory",  ".shader");
-            AppendBuildItem(res, $"{abPath}/UI/",         "Direct",  "File",       ".prefab");
+            AppendBuildItem(res, $"{abPath}/UI/",         "Direct",  "File",       ".prefab", false);
 
             return res.ToString();
         }

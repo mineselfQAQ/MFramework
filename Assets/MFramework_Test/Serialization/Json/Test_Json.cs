@@ -1,5 +1,5 @@
 using MFramework;
-using System;
+using System.IO;
 using UnityEngine;
 
 public class Test_Json : MonoBehaviour
@@ -18,6 +18,8 @@ public class Test_Json : MonoBehaviour
         MLog.Print(jt1Ret.i + " " + jt1Ret.f + " " + jt1Ret.s);
         JTest jt2Ret = MSerializationUtility.ReadFromJson<JTest>(@"Jtest\jt2");
         MLog.Print(jt2Ret.i + " " + jt2Ret.f + " " + jt2Ret.s);
+
+        File.Delete("F:/___MYPROJECT___/UnityProject/MFramework/JsonSettings/Jtest/jt1.json");
     }
 }
 

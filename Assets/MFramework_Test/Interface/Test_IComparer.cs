@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using MFramework;
-using MFramework.IComparerTest;
 
 public class Test_IComparer : MonoBehaviour
 {
@@ -35,10 +34,7 @@ public class Test_IComparer : MonoBehaviour
             MLog.Print($"{a.name} > {b.name}");
         }
     }
-}
 
-namespace MFramework.IComparerTest
-{
     public class A : IComparer
     {
         public static IComparer Default = new A();
@@ -46,7 +42,7 @@ namespace MFramework.IComparerTest
         public string name;
         public int num;
 
-        public A(){ }
+        public A() { }
         public A(string name, int num)
         {
             this.name = name;
@@ -77,3 +73,5 @@ namespace MFramework.IComparerTest
         }
     }
 }
+
+   

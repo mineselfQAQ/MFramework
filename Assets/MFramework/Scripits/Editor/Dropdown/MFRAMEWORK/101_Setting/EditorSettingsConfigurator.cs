@@ -16,7 +16,7 @@ namespace MFramework
         {
             EditorSettingsConfigurator window = GetWindow<EditorSettingsConfigurator>();
             window.minSize = new Vector2(600, 300);
-            window.maxSize = new Vector2(600, 300);
+            window.maxSize = new Vector2(1000, 300);
             window.Show();
         }
 
@@ -61,11 +61,12 @@ namespace MFramework
             EditorGUILayout.BeginHorizontal();
             {
                 EditorGUILayout.LabelField(path);
-                if (GUILayout.Button("查看"))
+                //GUILayout.FlexibleSpace();
+                if (GUILayout.Button("查看", GUILayout.Width(50)))
                 {
                     System.Diagnostics.Process.Start(path);
                 }
-                if (GUILayout.Button("更改"))
+                if (GUILayout.Button("更改", GUILayout.Width(50)))
                 {
                     ChangePath(originName);
                     AssetDatabase.Refresh();
@@ -150,11 +151,11 @@ namespace MFramework
         {
             EditorGUILayout.BeginHorizontal();
             {
-                bool flag = EditorPrefs.GetBool(EditorPrefsData.EnableCheckMCoreExist, true);
+                bool flag = EditorPrefs.GetBool(EditorPrefsData.EnableCheckMCore, true);
                 EditorGUILayout.LabelField($"是否强制添加MCore:  {flag}");
                 if (GUILayout.Button("更改"))
                 {
-                    EditorPrefs.SetBool(EditorPrefsData.EnableCheckMCoreExist, !flag);
+                    EditorPrefs.SetBool(EditorPrefsData.EnableCheckMCore, !flag);
                 }
             }
             EditorGUILayout.EndHorizontal();

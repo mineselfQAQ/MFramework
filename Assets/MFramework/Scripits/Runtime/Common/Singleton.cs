@@ -3,9 +3,12 @@ using System;
 
 namespace MFramework
 {
+    /// <summary>
+    /// ±ê×¼Singleton
+    /// </summary>
     public abstract class Singleton<T> where T : Singleton<T>
     {
-        static private T sm_Instance;
+        private static T sm_Instance;
 
         static Singleton()
         {

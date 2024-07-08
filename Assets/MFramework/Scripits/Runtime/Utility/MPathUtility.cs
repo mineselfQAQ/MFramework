@@ -17,7 +17,7 @@ namespace MFramework
 
             for (int i = 0; i < files.Length; ++i)
             {
-                string file = files[i].Replace('\\', '/');
+                string file = files[i].ReplaceSlash();
 
                 if (prefix != null && !file.StartsWith(prefix, StringComparison.InvariantCulture))
                 {
@@ -48,27 +48,6 @@ namespace MFramework
         }
 
         /// <summary>
-        /// 获取文件夹中所有带有某后缀的文件路径
-        /// </summary>
-        public static List<string> GetFolderFiles(string folder, string extension)
-        {
-            List<string> res = new List<string>();
-            if (Directory.Exists(folder))
-            {
-                DirectoryInfo info = new DirectoryInfo(folder);
-                FileInfo[] files = info.GetFiles("*");
-                foreach (var file in files)
-                {
-                    if (file.Name.EndsWith(extension))
-                    {
-                        res.Add(file.FullName);
-                    }
-                }
-            }
-            return res;
-        }
-
-        /// <summary>
         /// 保证文件夹的创建
         /// </summary>
         public static bool CreateFolderIfNotExist(string path)
@@ -76,6 +55,19 @@ namespace MFramework
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 如果文件已存在，就删除文件
+        /// </summary>
+        public static bool DeleteFileIfExist(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
                 return true;
             }
             return false;
@@ -117,19 +109,6 @@ namespace MFramework
         {
             string fullPath = Path.GetFullPath(secondPath);
             return fullPath;
-        }
-
-        /// <summary>
-        /// 如果文件已存在，就删除文件
-        /// </summary>
-        public static bool DeleteFileIfExist(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-                return true;
-            }
-            return false;
         }
 
         /// <summary>

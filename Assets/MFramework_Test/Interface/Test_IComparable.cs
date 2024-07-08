@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using MFramework.IComparableTest;
 using MFramework;
 
 public class Test_IComparable : MonoBehaviour
@@ -34,10 +33,7 @@ public class Test_IComparable : MonoBehaviour
             MLog.Print($"{a.name} > {b.name}");
         }
     }
-}
 
-namespace MFramework.IComparableTest
-{
     public class A : IComparable
     {
         public string name;
@@ -64,7 +60,7 @@ namespace MFramework.IComparableTest
             {
                 return 0;
             }
-            else if(num > num2)
+            else if (num > num2)
             {
                 return 1;
             }
@@ -73,3 +69,5 @@ namespace MFramework.IComparableTest
         }
     }
 }
+
+    

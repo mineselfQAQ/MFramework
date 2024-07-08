@@ -46,7 +46,7 @@ namespace MFramework
 
             //添加状态
             var rootStateMachine = controller.layers[0].stateMachine;
-            var defaultState = rootStateMachine.AddState("DefaultState");
+            var defaultState = rootStateMachine.AddState("Idle");
             rootStateMachine.defaultState = defaultState;
             var openState = rootStateMachine.AddState("OpenState");
             var closeState = rootStateMachine.AddState("CloseState");
@@ -63,17 +63,26 @@ namespace MFramework
             closeState.motion = closeClip;
 
             //添加过渡
-            var defaultToOpen = defaultState.AddTransition(openState);
-            defaultToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
-            defaultToOpen.duration = 0;
+            var anyStateToOpen = rootStateMachine.AddAnyStateTransition(openState);
+            anyStateToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
+            anyStateToOpen.duration = 0;
 
-            var openToClose = openState.AddTransition(closeState);
-            openToClose.AddCondition(AnimatorConditionMode.If, 0, "Close");
-            openToClose.duration = 0;
+            var anyStateToClose = rootStateMachine.AddAnyStateTransition(closeState);
+            anyStateToClose.AddCondition(AnimatorConditionMode.If, 0, "Close");
+            anyStateToClose.duration = 0;
 
-            var closeToOpen = closeState.AddTransition(openState);
-            closeToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
-            closeToOpen.duration = 0;
+
+            //var defaultToOpen = defaultState.AddTransition(openState);
+            //defaultToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
+            //defaultToOpen.duration = 0;
+
+            //var openToClose = openState.AddTransition(closeState);
+            //openToClose.AddCondition(AnimatorConditionMode.If, 0, "Close");
+            //openToClose.duration = 0;
+
+            //var closeToOpen = closeState.AddTransition(openState);
+            //closeToOpen.AddCondition(AnimatorConditionMode.If, 0, "Open");
+            //closeToOpen.duration = 0;
 
             AssetDatabase.SaveAssets();
             MLog.Print($"已生成{objName}.controller文件及其Clip文件");

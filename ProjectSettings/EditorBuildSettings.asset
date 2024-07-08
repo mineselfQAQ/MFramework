@@ -11,7 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MFramework_Test/Serialization/Xml/Test_Xml.unity
     guid: ac0c3bb7fb322004093d19d8e7075467
-  - enabled: 1
-    path: Assets/MFramework_Test/_Test/MainTest.unity
+  - enabled: 0
+    path: Assets/_Test/MainTest.unity
     guid: a8c2f23ea19094c41b1b0db064a0d4eb
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_TitleScreen.unity
+    guid: d651fba688b8e4248a7fb69ff40f2fbe
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1.unity
+    guid: 7f10b690d2844e648bd5cfa4326a7799
   m_configObjects: {}

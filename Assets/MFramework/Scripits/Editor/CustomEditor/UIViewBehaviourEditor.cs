@@ -93,10 +93,10 @@ namespace MFramework
 
             string baseCode = GetBaseCode(baseClassName, baseBaseClassName);
             if (baseCode == null) return;
-            MSerializationUtility.SaveFile(baseFilePath, baseCode);
+            MSerializationUtility.SaveToFile(baseFilePath, baseCode);
             string mainCode = GetMainCode(mainClassName);
             if (baseCode == null) return;
-            MSerializationUtility.SaveFile(mainFilePath, mainCode);
+            MSerializationUtility.SaveToFile(mainFilePath, mainCode);
             AssetDatabase.Refresh();
 
             MLog.Print($"已成功生成{baseFileName}与{mainFileName}文件");
@@ -123,7 +123,7 @@ namespace MFramework
             string code = GetBaseCode(className, baseClassName);
             if (code == null) return;
 
-            MSerializationUtility.SaveFile(filePath, code);
+            MSerializationUtility.SaveToFile(filePath, code);
             AssetDatabase.Refresh();
 
             MLog.Print($"已成功生成{fileName}文件");
@@ -351,7 +351,7 @@ namespace MFramework
 
             string code = GetMainCode(className);
 
-            MSerializationUtility.SaveFile(filePath, code);
+            MSerializationUtility.SaveToFile(filePath, code);
             AssetDatabase.Refresh();
 
             MLog.Print($"已成功生成{fileName}文件");

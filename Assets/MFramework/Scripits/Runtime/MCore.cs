@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MFramework
 {
-    public class MCore : MonoBehaviour
+    public class MCore : ComponentSingleton<MCore>
     {
         [SerializeField]
         private bool m_ExportLog;//在发布版本中输出Log文件
@@ -16,8 +16,11 @@ namespace MFramework
         public bool GetExportLog() => m_ExportLog;
         public bool SetExportLog(bool b) => m_ExportLog = b;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+
             //触发静态构造函数，使单例提前激活
             var bem = BuiltInEventManager.Instance;
             var mlm = MLocalizationManager.Instance;//TODO:我不用就不应该触发

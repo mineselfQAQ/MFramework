@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace MFramework
 {
+    /// <summary>
+    /// ManagerΩ≈±æ”√
+    /// </summary>
     [DisallowMultipleComponent]
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {

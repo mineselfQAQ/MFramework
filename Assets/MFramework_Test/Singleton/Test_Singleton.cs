@@ -1,4 +1,4 @@
-using MFramework.Test;
+using MFramework;
 using UnityEngine;
 
 public class Test_Singleton : MonoBehaviour
@@ -18,10 +18,7 @@ public class Test_Singleton : MonoBehaviour
         //为了在编辑器下获得更好的显示，需要使用[MonoSingletonSetting]特性
         MonoClass.Instance.Print();
     }
-}
 
-namespace MFramework.Test
-{
     public class SingletonClass : Singleton<SingletonClass>
     {
         private int x;
@@ -38,7 +35,6 @@ namespace MFramework.Test
             MLog.Print($"{x}, {y}");
         }
     }
-
     public class SingletonClass2 : Singleton<SingletonClass>
     {
         private int x;

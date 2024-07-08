@@ -33,43 +33,43 @@ public class Test_Action : MonoBehaviour
     {
         text.text = $"HP: {hp}";
     }
-}
 
-public class ActionExecute
-{
-    public static List<IOnPressE> onPressEList = new List<IOnPressE>();
-
-    public static void ExecutePressE()
+    public class ActionExecute
     {
-        foreach (var item in onPressEList)
+        public static List<IOnPressE> onPressEList = new List<IOnPressE>();
+
+        public static void ExecutePressE()
         {
-            item.OnPressE();
+            foreach (var item in onPressEList)
+            {
+                item.OnPressE();
+            }
         }
     }
-}
 
-public class Player : IOnPressE
-{
-    public Player(int hp)
+    public class Player : IOnPressE
     {
-        this.hp = hp;
-        Register();
+        public Player(int hp)
+        {
+            this.hp = hp;
+            Register();
+        }
+
+        public int hp;
+
+        public void OnPressE()
+        {
+            hp += 5;
+        }
+
+        public void Register()
+        {
+            ActionExecute.onPressEList.Add(this);
+        }
     }
 
-    public int hp;
-
-    public void OnPressE()
+    public interface IOnPressE : IEventBase
     {
-        hp += 5;
+        void OnPressE();
     }
-
-    public void Register()
-    {
-        ActionExecute.onPressEList.Add(this);
-    }
-}
-
-public interface IOnPressE : IEventBase
-{
-    void OnPressE();
 }

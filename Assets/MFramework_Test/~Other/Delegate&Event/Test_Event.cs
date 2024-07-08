@@ -16,23 +16,23 @@ public class Test_Event : MonoBehaviour
             Publisher.Execute();
         }
     }
-}
 
-class Publisher
-{
-    public static event MyDel_Event mydel;
-
-    //注意：必须有该函数进行调用，因为事件只能在自己的类中调用
-    public static void Execute()
+    class Publisher
     {
-        mydel();
+        public static event MyDel_Event mydel;
+
+        //注意：必须有该函数进行调用，因为事件只能在自己的类中调用
+        public static void Execute()
+        {
+            mydel();
+        }
     }
-}
 
-class Subscriber
-{
-    public static void Print()
+    class Subscriber
     {
-        Debug.Log("Subscriber类订阅了");
+        public static void Print()
+        {
+            Debug.Log("Subscriber类订阅了");
+        }
     }
 }

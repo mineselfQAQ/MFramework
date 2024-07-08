@@ -48,13 +48,13 @@ namespace MFramework
         }
 
         #region 公开函数
-        public static void CreateCSBIN(string excelName, string CSName, string BINName, string BINLoadPath)
-        {
-            CreateSingleBIN(excelName, BINName);
+        //public static void CreateCSBIN(string excelName, string CSName, string BINName, string BINLoadPath)
+        //{
+        //    CreateSingleBIN(excelName, BINName);
 
-            AssetDatabase.Refresh();
-            EditorUtility.RequestScriptReload();
-        }
+        //    AssetDatabase.Refresh();
+        //    EditorUtility.RequestScriptReload();
+        //}
         public static bool CreateSingleCS(string excelName, string CSName, string BINLoadPath)
         {
             string fileName = Path.GetFileNameWithoutExtension(excelName);
@@ -73,7 +73,7 @@ namespace MFramework
             GetDataFromTable(dataset.Tables[0],
                 out string[] names, out string[] types, out object[][] data);
 
-            bool isSucceed = CreateCS(CSPath, BINPath, names, types);
+            bool isSucceed = CreateCS(CSPath, BINPath, names, types, "MFramework");
             return isSucceed;
         }
         public static bool CreateSingleBIN(string excelName, string BINName)
@@ -93,7 +93,7 @@ namespace MFramework
             GetDataFromTable(dataset.Tables[0],
                 out string[] names, out string[] types, out object[][] data);
 
-            bool isSucceed = CreateBIN(BINName, fileName, data);
+            bool isSucceed = CreateBIN(BINName, fileName, data, "MFramework.Runtime.dll");
             return isSucceed;
         }
         #endregion
@@ -197,7 +197,7 @@ namespace MFramework
                 {
                     string BINFolder = MSettings.ExcelBINPath;
                     string CSFolder = MConfigurableSettings.ExcelCSPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
+                    List<string> fileList = MPathUtility.GetFiles(MConfigurableSettings.ExcelPath, null, ".xlsx");//获取所有文件名
 
                     bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CS);
                     if (!haveFile) return;
@@ -209,7 +209,7 @@ namespace MFramework
                 {
                     string BINFolder = MSettings.ExcelBINPath;
                     string CSFolder = MConfigurableSettings.ExcelCSPath;
-                    List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
+                    List<string> fileList = MPathUtility.GetFiles(MConfigurableSettings.ExcelPath, null, ".xlsx");//获取所有文件名
 
                     bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.BIN);
                     if (!haveFile) return;
@@ -234,7 +234,7 @@ namespace MFramework
         {
             string BINFolder = MSettings.ExcelBINPath;//默认.byte文件存放位置---StreamingAssets文件夹内部
             string CSFolder = MConfigurableSettings.ExcelCSPath;
-            List<string> fileList = MPathUtility.GetFolderFiles(MConfigurableSettings.ExcelPath, ".xlsx");//获取所有文件名
+            List<string> fileList = MPathUtility.GetFiles(MConfigurableSettings.ExcelPath, null, ".xlsx");//获取所有文件名
 
             bool haveFile = CheckAllFolder(BINFolder, CSFolder, fileList, CreateMode.CSAndBIN);
             if (!haveFile) return;
@@ -244,7 +244,7 @@ namespace MFramework
             //此处需要进行域重新加载，完成后才能生成BIN文件  Tip:必须先Refresh()再Reload()才可以
             AssetDatabase.Refresh();
             EditorUtility.RequestScriptReload();
-            //"延迟执行"，在InitializeScript中---InitializeAfterAssemblyReload()
+            //"延迟执行"，在ExcelDelayDo中---InitializeAfterAssemblyReload()
             //CreateAllBIN(BINFolder, fileList);
         }
 
@@ -286,9 +286,22 @@ namespace MFramework
                 return false;
             }
         }
-        private static bool CreateCS(string CSPath, string BINPath, string[] names, string[] types)
+        private static bool CreateCS(string CSPath, string BINPath, string[] names, string[] types, string nameSpace = "")
         {
-            string code = CSBASECODE;
+            string code;
+            bool haveNamespace;
+            if (nameSpace == "")
+            {
+                code = CSBASECODE;
+                haveNamespace = false;
+            }
+            else
+            {
+                code = CSBASECODEWITHNAMESPACE;
+                haveNamespace = true;
+            }
+
+            code = code.Replace("{NameSpace}", nameSpace);
 
             string className = Path.GetFileNameWithoutExtension(CSPath);
             string collectionClassName = $"{className}s";
@@ -296,8 +309,8 @@ namespace MFramework
             code = code.Replace("{ClassName}", className);
             code = code.Replace("{CollectionClassName}", collectionClassName);
 
-            string propertiesDefine = GeneratePropertiesDefine(names, types);
-            string constructorDefine = GenerateConstructorDefine(className, names, types);
+            string propertiesDefine = GeneratePropertiesDefine(names, types, haveNamespace);
+            string constructorDefine = GenerateConstructorDefine(className, names, types, haveNamespace);
 
             code = code.Replace("{PropertiesDefine}", propertiesDefine);
             code = code.Replace("{ConstructorDefine}", constructorDefine);
@@ -305,7 +318,7 @@ namespace MFramework
             code = code.Replace("{BINPath}", BINPath);
 
             //写入文件
-            MSerializationUtility.SaveFile(CSPath, code);
+            MSerializationUtility.SaveToFile(CSPath, code);
 
             return true;
         }
@@ -346,11 +359,11 @@ namespace MFramework
                 return false;
             }
         }
-        private static bool CreateBIN(string BINPath, string className, object[][] data)
+        private static bool CreateBIN(string BINPath, string className, object[][] data, string dllName = "Assembly-CSharp.dll")
         {
             //注意！！！
             //打成dll后不再是原来的Assembly-CSharp的程序集，而是自己创建的dll的程序集
-            string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/MFramework.Runtime.dll";
+            string CSAssemblyPath = $"{Application.dataPath}/../Library/ScriptAssemblies/{dllName}";
             Assembly assembly = Assembly.LoadFile(CSAssemblyPath);
 
             int rowLength = data.Length;
@@ -393,12 +406,13 @@ namespace MFramework
                 }
             }
 
-            MSerializationUtility.SaveToByte(resInstance, BINPath);
+            bool flag = MSerializationUtility.SaveToByte(resInstance, BINPath);
+            if (!flag) MLog.Print($"{typeof(ExcelGenerator)}：序列化失败", MLogType.Error);
 
             return true;
         }
 
-        private static string GeneratePropertiesDefine(string[] names, string[] types)
+        private static string GeneratePropertiesDefine(string[] names, string[] types, bool haveNamespace)
         {
             StringBuilder res = new StringBuilder();
 
@@ -411,15 +425,19 @@ namespace MFramework
                 tempLine = tempLine.Replace("{Type}", types[i]);
                 tempLine = tempLine.Replace("{Name}", name);
 
-                if (i != n - 1) res.Append(tempLine + "\n\t\t");
+                if (i != n - 1)
+                {
+                    if(haveNamespace) res.Append(tempLine + "\n\t\t");
+                    else res.Append(tempLine + "\n\t");
+                }
                 else res.Append(tempLine);
             }
 
             return res.ToString();
         }
-        private static string GenerateConstructorDefine(string className, string[] names, string[] types)
+        private static string GenerateConstructorDefine(string className, string[] names, string[] types, bool haveNamespace)
         {
-            string constructorBaseCode = CONSTRUCTORBASECODE;
+            string constructorBaseCode = haveNamespace ? CONSTRUCTORBASECODEWITHNAMESPACE : CONSTRUCTORBASECODE;
             constructorBaseCode = constructorBaseCode.Replace("{ClassName}", className);
             constructorBaseCode = constructorBaseCode.Replace("{Parameter}", GetParameter(names, types));
             constructorBaseCode = constructorBaseCode.Replace("{AssignmentOperator}", GetAssignmentOperator(names));
@@ -443,7 +461,8 @@ namespace MFramework
                 int n = names.Length;
                 for (int i = 0; i < n - 1; i++)
                 {
-                    sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t\t");
+                    if(haveNamespace) sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t\t");
+                    else sb.Append($"{names[i].ToUpper()} = {names[i].ToLower()};\n\t\t");
                 }
                 sb.Append($"{names[n - 1].ToUpper()} = {names[n - 1].ToLower()};");
 
@@ -694,13 +713,13 @@ namespace MFramework
 
 
         #region 预设初始代码
-        private const string CSBASECODE =
+        private const string CSBASECODEWITHNAMESPACE =
       @"using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace MFramework
+namespace {NameSpace}
 {
     [Serializable]
     public class {ClassName}
@@ -735,13 +754,56 @@ namespace MFramework
         }
     }
 }";
+        private const string CSBASECODE =
+      @"using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+
+[Serializable]
+public class {ClassName}
+{
+    {PropertiesDefine}
+
+    {ConstructorDefine}
+
+    public static {ClassName}[] LoadBytes()
+    {
+        string path = $""{BINPath}"";
+        if (!File.Exists(path)) return null;
+
+        using (FileStream stream = new FileStream(path, FileMode.Open))
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            {CollectionClassName} table = binaryFormatter.Deserialize(stream) as {CollectionClassName};
+            {ClassName}[] res = table.items;
+            return res;
+        }
+    }
+}
+
+[Serializable]
+internal class {CollectionClassName}
+{
+    public {ClassName}[] items;
+
+    private {CollectionClassName}({ClassName}[] items)
+    {
+        this.items = items;
+    }
+}";
         private const string FIELDBASECODE = "private {Type} {Name};";
         private const string PROPERTIESBASECODE = "public {Type} {Name} { get; private set; }";
-        private const string CONSTRUCTORBASECODE = 
+        private const string CONSTRUCTORBASECODEWITHNAMESPACE = 
 @"private {ClassName}({Parameter})
         {
             {AssignmentOperator}
-        }";
+        }"; 
+        private const string CONSTRUCTORBASECODE =
+@"private {ClassName}({Parameter})
+    {
+        {AssignmentOperator}
+    }";
         #endregion
     }
 
