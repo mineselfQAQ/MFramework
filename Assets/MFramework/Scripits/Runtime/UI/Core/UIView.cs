@@ -205,9 +205,6 @@ namespace MFramework
             if (widgetDic == null) widgetDic = new Dictionary<string, UIWidget>();
             widgetDic.Add(id, widget);
 
-            //对于路径形式，物体是在创建Panel后的某一刻创建的，需要更新
-            //MText.UpdateAllInfo();
-
             return widget;
         }
         public T CreateWidget<T>(string id, string prefabPath, bool autoEnter = false) where T : UIWidget
