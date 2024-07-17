@@ -5,7 +5,7 @@ public class AB_Await : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
         Initialize();
     }
@@ -31,11 +31,5 @@ public class AB_Await : MonoBehaviour
     private void LateUpdate()
     {
         ResourceManager.Instance.LateUpdate();
-    }
-
-
-    private string GetFileUrl(string fileName)
-    {
-        return $"F:/___MYPROJECT___/UnityProject/MFramework_AssetBundle/WINDOWS/{fileName}";
     }
 }

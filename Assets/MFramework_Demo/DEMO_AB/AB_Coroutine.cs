@@ -6,7 +6,7 @@ public class AB_Coroutine : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
         MCoroutineManager.Instance.BeginCoroutine(InitAsync(), "StartLoad",() => { MLog.Print("初始化完成"); });
     }
@@ -30,10 +30,5 @@ public class AB_Coroutine : MonoBehaviour
         IResource testResource = ResourceManager.Instance.Load("Assets/AssetBundle/UI/TestUI.prefab", true);
         yield return testResource;
         testResource.Instantiate(uiParent, false);//UIRoot下的Canvas下创建TestUI
-    }
-
-    private string GetFileUrl(string fileName)
-    {
-        return $"F:/___MYPROJECT___/UnityProject/MFramework_AssetBundle/WINDOWS/{fileName}";
     }
 }
