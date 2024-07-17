@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 提供场景切换功能类
+/// </summary>
 public class GameLoader : ComponentSingleton<GameLoader>
 {
     public UnityEvent OnLoadStart;

@@ -2,11 +2,14 @@ using MFramework;
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// 提供保存删除(使用JSON)功能类
+/// </summary>
 public class GameSaver : ComponentSingleton<GameSaver>
 {
     public string fileName = "Save";
 
-    protected static readonly int TotalSlots = 5;
+    protected const int TotalSlots = 5;
 
     public virtual void Save(GameData data, int index)
     {
@@ -18,6 +21,10 @@ public class GameSaver : ComponentSingleton<GameSaver>
         MSerializationUtility.SaveToJson<GameData>(path, data);
     }
 
+    /// <summary>
+    /// 加载所有GameData(空存档处为null)
+    /// </summary>
+    /// <returns></returns>
     public virtual GameData[] LoadList()
     {
         var list = new GameData[TotalSlots];

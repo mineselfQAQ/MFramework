@@ -460,12 +460,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ccfdb1a69e6da94297a23ee1ccdf189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialRetries: 3
+  initRetries: 3
   levels:
   - locked: 0
-    scene: 3DGame_Level1
-    name: Level1
-    image: {fileID: 21300000, guid: 5bd031e3828cd4a4fa21a02a02beac6e, type: 3}
+    scene: 3DGame_SampleLevel
+    name: Sample
+    previewImage: {fileID: 21300000, guid: 5bd031e3828cd4a4fa21a02a02beac6e, type: 3}
   OnRetriesSet:
     m_PersistentCalls:
       m_Calls: []

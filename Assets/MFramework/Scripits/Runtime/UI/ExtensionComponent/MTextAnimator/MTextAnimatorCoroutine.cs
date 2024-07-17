@@ -22,13 +22,9 @@ namespace MFramework
             IDs[text].Add(s);
             return s;
         }
-        internal static void Begin(string name, TMP_Text text, Action action, Action onFinish = null)
+        internal static void BeginIEnumerator(string name, TMP_Text text, IEnumerator enumerator)
         {
-            BeginCoroutine(MCoroutineUtility.Begin(action), name, text, dic_TextAnimator, onFinish);
-        }
-        internal static void BeginIEnumerator(string name, TMP_Text text, IEnumerator fun, Action onFinish = null)
-        {
-            BeginCoroutine(fun, name, text, dic_TextAnimator, onFinish);
+            BeginCoroutine(enumerator, name, text, dic_TextAnimator);
         }
         internal static void Delay(string name, TMP_Text text, Action action, float interval)
         {

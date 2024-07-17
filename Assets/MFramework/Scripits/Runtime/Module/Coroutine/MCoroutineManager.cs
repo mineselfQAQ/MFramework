@@ -96,10 +96,6 @@ namespace MFramework
         {
             StartCoroutine(enumerator);
         }
-        public void BeginNoRecord(Action action)
-        {
-            StartCoroutine(MCoroutineUtility.Begin(action));
-        }
         /// <summary>
         /// 等待后执行
         /// 延迟<interval>秒后执行操作
@@ -135,10 +131,6 @@ namespace MFramework
             StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval));
         }
         
-        public void BeginCoroutine(string name, Action action)
-        {
-            BeginCoroutine(MCoroutineUtility.Begin(action), name);
-        }
         public void Delay(string name, Action action, float interval)
         {
             BeginCoroutine(MCoroutineUtility.Delay(action, interval), name);

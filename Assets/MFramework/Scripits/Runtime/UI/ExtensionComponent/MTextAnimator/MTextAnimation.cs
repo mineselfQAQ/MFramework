@@ -620,33 +620,30 @@ namespace MFramework
         #region 动画---细节(单个字符)
         private void AnimShow_Char(TMP_Text text, MTextCharData data, bool typewriter = false, MTextData textData = null)
         {
-            MCoroutineManager.Instance.BeginNoRecord(() =>
+            ColorCharVertices(data, new Color32(255, 255, 255, 255));
+            UpdateCharData(data, text);
+            text.UpdateVertexData();
+
+            if (typewriter)//在打字机动画情况下
             {
-                ColorCharVertices(data, new Color32(255, 255, 255, 255));
-                UpdateCharData(data, text);
-                text.UpdateVertexData();
+                curTypeWriterStartIndex = data.index;//记录进度(注意：如果除了渐变还有其他操作，这里并不能表示具体的进度，这里的index只能说明该index的alpha已经变为1但有可能还在旋转/波动等操作中)
+                curTypeWriterFinishIndex = data.index;
 
-                if (typewriter)//在打字机动画情况下
+                //最后一个字符执行完毕
+                if (data.index == textData.charData.Length - 1)
                 {
-                    curTypeWriterStartIndex = data.index;//记录进度(注意：如果除了渐变还有其他操作，这里并不能表示具体的进度，这里的index只能说明该index的alpha已经变为1但有可能还在旋转/波动等操作中)
-                    curTypeWriterFinishIndex = data.index;
+                    animator.onTypeWriterFinished?.Invoke();//触发事件
+                    animator.typewriterPlaying = false;
+                    curTypeWriterStartIndex = -1;
+                    curTypeWriterFinishIndex = -1;
 
-                    //最后一个字符执行完毕
-                    if (data.index == textData.charData.Length - 1)
+                    if (animator.inlineEffectsAutoDo)
                     {
-                        animator.onTypeWriterFinished?.Invoke();//触发事件
-                        animator.typewriterPlaying = false;
-                        curTypeWriterStartIndex = -1;
-                        curTypeWriterFinishIndex = -1;
-
-                        if (animator.inlineEffectsAutoDo)
-                        {
-                            MText mText = text as MText;
-                            mText?.GetCurParsedText().ApplyEffects(this);
-                        }
+                        MText mText = text as MText;
+                        mText?.GetCurParsedText().ApplyEffects(this);
                     }
                 }
-            });
+            }
         }
         private void AnimColor_Char(TMP_Text text, MTextCharData data, Color32 color, float time, MCurve curve, bool typewriter = false, MTextData textData = null)
         {

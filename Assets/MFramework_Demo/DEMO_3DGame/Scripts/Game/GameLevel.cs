@@ -7,23 +7,40 @@ using UnityEngine;
 [Serializable]
 public class GameLevel
 {
-    public bool locked;
+    //---固有信息---
+    public bool locked;//既是固有信息又是可变信息
+
     public string scene;
     public string name;
-    public Sprite image;
+    public Sprite previewImage;
 
+    //---可变信息---
     public int coins { get; set; }
     public float time { get; set; }
     public bool[] stars { get; set; } = new bool[StarsPerLevel];
 
     public static readonly int StarsPerLevel = 3;
 
+    /// <summary>
+    /// 根据选择LevelData，加载信息
+    /// </summary>
     public virtual void LoadState(LevelData data)
     {
         locked = data.locked;
         coins = data.coins;
         time = data.time;
         stars = data.stars;
+    }
+
+    public virtual LevelData ToData()
+    {
+        return new LevelData()
+        {
+            locked = this.locked,
+            coins = this.coins,
+            time = this.time,
+            stars = this.stars
+        };
     }
 
     public static string FormattedTime(float time)

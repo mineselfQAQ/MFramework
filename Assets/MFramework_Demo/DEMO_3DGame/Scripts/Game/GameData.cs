@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 
+/// <summary>
+/// 游戏数据(JSON文件)
+/// </summary>
 public class GameData
 {
     public int retries;
@@ -15,10 +18,11 @@ public class GameData
     {
         return new GameData()
         {
-            retries = Game.Instance.initialRetries,
+            retries = Game.Instance.initRetries,
             createdTime = DateTime.UtcNow.ToString(),
             updatedTime = DateTime.UtcNow.ToString(),
 
+            //通过Game中的GameLevel中的locked信息创建LevelData
             levels = Game.Instance.levels.Select((level) =>
             {
                 return new LevelData()
