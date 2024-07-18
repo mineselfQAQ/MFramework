@@ -1,9 +1,11 @@
+using MFramework;
 using UnityEngine;
 using UnityEngine.Splines;
 
 /// <summary>
 /// 实体泛型类，生物的基类
 /// </summary>
+[RequireComponent(typeof(CharacterController))]
 public abstract class Entity<T> : Entity where T : Entity<T>
 {
     protected IEntityContact[] m_contacts;
@@ -12,9 +14,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 
     protected virtual void Awake()
     {
-        InitializeController();
-        InitializePenetratorCollider();
-        InitializeStateManager();
+        InitializeController();//初始化CharacterController
+        InitializePenetratorCollider();//初始化BoxCollider
+        InitializeStateManager();//获取EntityStateManager
     }
 
     protected virtual void Update()
@@ -42,11 +44,6 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     protected virtual void InitializeController()
     {
         controller = GetComponent<CharacterController>();
-
-        if (!controller)
-        {
-            controller = gameObject.AddComponent<CharacterController>();
-        }
 
         controller.skinWidth = 0.005f;
         controller.minMoveDistance = 0;
@@ -78,19 +75,26 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         m_rigidbody.isKinematic = true;
     }
 
-    protected virtual void InitializeStateManager() => states = GetComponent<EntityStateManager<T>>();
+    protected virtual void InitializeStateManager()
+    {
+        states = GetComponent<EntityStateManager<T>>();
+    }
 
-    protected virtual void HandleStates() => states.Step();
+    protected virtual void HandleStates()
+    {
+        states.Step();
+    }
 
     protected virtual void HandleController()
     {
         if (controller.enabled)
         {
             controller.Move(velocity * Time.deltaTime);
-            return;
         }
-
-        transform.position += velocity * Time.deltaTime;
+        else
+        {
+            transform.position += velocity * Time.deltaTime;
+        }
     }
 
     protected virtual void HandleSpline()
@@ -117,9 +121,10 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 
         var distance = (height * 0.5f) + m_groundOffset;
 
+        //射到东西
         if (SphereCast(Vector3.down, distance, out var hit) && verticalVelocity.y <= 0)
         {
-            if (!isGrounded)
+            if (!isGrounded)//当前不在地面
             {
                 if (EvaluateLanding(hit))
                 {
@@ -130,7 +135,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
                     HandleHighLedge(hit);
                 }
             }
-            else if (IsPointUnderStep(hit.point))
+            else if (IsPointUnderStep(hit.point))//物体过低？？？
             {
                 UpdateGround(hit);
 
@@ -144,29 +149,33 @@ public abstract class Entity<T> : Entity where T : Entity<T>
                 HandleHighLedge(hit);
             }
         }
-        else
+        else//没有射到
         {
+            //说明下方没有物体，也就是离开地面
             ExitGround();
         }
     }
 
     protected virtual void HandleContacts()
     {
-        var overlaps = OverlapEntity(m_contactBuffer);
+        int overlapNum = OverlapEntity(m_contactBuffer);//更新m_contactBuffer
 
-        for (int i = 0; i < overlaps; i++)
+        for (int i = 0; i < overlapNum; i++)
         {
+            //接触物体必须是物体(非触发器)且不是该Entity
             if (!m_contactBuffer[i].isTrigger && m_contactBuffer[i].transform != transform)
             {
+                //状态机(EntityStateManager)中的状态(EntityState)处理交互
                 OnContact(m_contactBuffer[i]);
 
+                //具有IEntityContact功能的物体的交互处理
                 var listeners = m_contactBuffer[i].GetComponents<IEntityContact>();
-
                 foreach (var contact in listeners)
                 {
                     contact.OnEntityContact((T)this);
                 }
 
+                //TODO:??????????????????????????????????
                 if (m_contactBuffer[i].bounds.min.y > controller.bounds.max.y)
                 {
                     verticalVelocity = Vector3.Min(verticalVelocity, Vector3.zero);
@@ -177,8 +186,8 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 
     protected virtual void HandlePosition()
     {
-        positionDelta = (position - lastPosition).magnitude;
-        lastPosition = position;
+        positionDelta = (position - lastPosition).magnitude;//两帧移动距离
+        lastPosition = position;//更新
     }
 
     protected virtual void HandlePenetration()
@@ -187,10 +196,10 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         var ySize = (height - controller.stepOffset * 0.5f) * 0.5f;
         var origin = position + Vector3.up * controller.stepOffset * 0.5f;
         var halfExtents = new Vector3(xzSize, ySize, xzSize);
-        var overlaps = Physics.OverlapBoxNonAlloc(origin, halfExtents, m_penetrationBuffer,
+        var overlapNum = Physics.OverlapBoxNonAlloc(origin, halfExtents, m_penetrationBuffer,
             Quaternion.identity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
 
-        for (int i = 0; i < overlaps; i++)
+        for (int i = 0; i < overlapNum; i++)
         {
             if (!m_penetrationBuffer[i].isTrigger && m_penetrationBuffer[i].transform != transform &&
                 (lateralVelocity.sqrMagnitude == 0 || m_penetrationBuffer[i].CompareTag(GameTags.Platform)))
@@ -407,6 +416,9 @@ public abstract class Entity : MonoBehaviour
 
     #region 公开属性
     public CharacterController controller { get; protected set; }
+    public float height => controller.height;
+    public float radius => controller.radius;
+    public Vector3 center => controller.center;
 
     public Vector3 velocity { get; set; }
     public Vector3 lateralVelocity
@@ -419,6 +431,7 @@ public abstract class Entity : MonoBehaviour
         get { return new Vector3(0, velocity.y, 0); }
         set { velocity = new Vector3(velocity.x, value.y, velocity.z); }
     }
+
     public Vector3 lastPosition { get; set; }
     public Vector3 position => transform.position + center;
     public Vector3 unsizedPosition => position - transform.up * height * 0.5f + transform.up * originalHeight * 0.5f;
@@ -441,11 +454,11 @@ public abstract class Entity : MonoBehaviour
     public Vector3 groundNormal { get; protected set; }
     public Vector3 localSlopeDirection { get; protected set; }
     public float originalHeight { get; protected set; }
-    public float height => controller.height;
-    public float radius => controller.radius;
-    public Vector3 center => controller.center;
     #endregion
 
+    /// <summary>
+    /// 该点是否会在楼梯下(不能自动?)
+    /// </summary>
     public virtual bool IsPointUnderStep(Vector3 point) => stepPosition.y > point.y;
 
     public virtual bool OnSlopingGround()
@@ -502,13 +515,17 @@ public abstract class Entity : MonoBehaviour
             out hit, castDistance, layer, queryTriggerInteraction);
     }
 
-    public virtual int OverlapEntity(Collider[] result, float skinOffset = 0)
+    /// <summary>
+    /// 获取所有与Entity重叠的物体
+    /// </summary>
+    /// Tip：result是接收值
+    public virtual int OverlapEntity(Collider[] result, float inputOffset = 0)
     {
-        var contactOffset = skinOffset + controller.skinWidth + Physics.defaultContactOffset;
-        var overlapsRadius = radius + contactOffset;
-        var offset = (height + contactOffset) * 0.5f - overlapsRadius;
-        var top = position + Vector3.up * offset;
-        var bottom = position + Vector3.down * offset;
+        float contactOffset = inputOffset + controller.skinWidth + Physics.defaultContactOffset;
+        float overlapsRadius = radius + contactOffset;//半径
+        float offset = (height + contactOffset) * 0.5f - overlapsRadius;
+        Vector3 top = position + Vector3.up * offset;//上侧圆心
+        Vector3 bottom = position + Vector3.down * offset;//下侧圆心
         return Physics.OverlapCapsuleNonAlloc(top, bottom, overlapsRadius, result);
     }
 

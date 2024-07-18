@@ -8,27 +8,59 @@ using UnityEngine;
 public abstract class EntityStateManager<T> : EntityStateManager where T : Entity<T>
 {
     protected List<EntityState<T>> m_list = new List<EntityState<T>>();
-
     protected Dictionary<Type, EntityState<T>> m_states = new Dictionary<Type, EntityState<T>>();
 
     public EntityState<T> current { get; protected set; }
-
     public EntityState<T> last { get; protected set; }
-
-    public int index => m_list.IndexOf(current);
-
-    public int lastIndex => m_list.IndexOf(last);
 
     public T entity { get; protected set; }
 
+    public int index => m_list.IndexOf(current);
+    public int lastIndex => m_list.IndexOf(last);
+
+    /// <summary>
+    /// 获取所有状态
+    /// </summary>
+    /// <returns>类型实例列表</returns>
     protected abstract List<EntityState<T>> GetStateList();
 
-    protected virtual void InitializeEntity() => entity = GetComponent<T>();
+    protected virtual void Start()
+    {
+        InitializeEntity();
+        InitializeStates();
+    }
 
+    /// <summary>
+    /// 状态的Update
+    /// </summary>
+    public virtual void Step()
+    {
+        if (current != null && Time.timeScale > 0)
+        {
+            current.Step(entity);
+        }
+    }
+
+    /// <summary>
+    /// 状态下的接触事件
+    /// </summary>
+    public virtual void OnContact(Collider other)
+    {
+        if (current != null && Time.timeScale > 0)
+        {
+            current.OnContact(entity, other);
+        }
+    }
+
+    protected virtual void InitializeEntity()
+    {
+        entity = GetComponent<T>();
+    }
     protected virtual void InitializeStates()
     {
-        m_list = GetStateList();
+        m_list = GetStateList();//获取所有状态实例列表
 
+        //将状态实例列表转存为字典
         foreach (var state in m_list)
         {
             var type = state.GetType();
@@ -41,10 +73,13 @@ public abstract class EntityStateManager<T> : EntityStateManager where T : Entit
 
         if (m_list.Count > 0)
         {
-            current = m_list[0];
+            current = m_list[0];//获取当前状态
         }
     }
 
+    /// <summary>
+    /// 切换状态(使用Inspector中顺序索引)
+    /// </summary>
     public virtual void Change(int to)
     {
         if (to >= 0 && to < m_list.Count)
@@ -52,7 +87,9 @@ public abstract class EntityStateManager<T> : EntityStateManager where T : Entit
             Change(m_list[to]);
         }
     }
-
+    /// <summary>
+    /// 切换状态(泛型)
+    /// </summary>
     public virtual void Change<TState>() where TState : EntityState<T>
     {
         var type = typeof(TState);
@@ -63,10 +100,14 @@ public abstract class EntityStateManager<T> : EntityStateManager where T : Entit
         }
     }
 
+    /// <summary>
+    /// 切换状态(使用目标状态)
+    /// </summary>
     public virtual void Change(EntityState<T> to)
     {
         if (to != null && Time.timeScale > 0)
         {
+            //退出上一状态
             if (current != null)
             {
                 current.Exit(entity);
@@ -74,6 +115,7 @@ public abstract class EntityStateManager<T> : EntityStateManager where T : Entit
                 last = current;
             }
 
+            //进入新状态
             current = to;
             current.Enter(entity);
             events.onEnter.Invoke(current.GetType());
@@ -91,32 +133,17 @@ public abstract class EntityStateManager<T> : EntityStateManager where T : Entit
         return current.GetType() == type;
     }
 
-    public virtual bool ContainsStateOfType(Type type) => m_states.ContainsKey(type);
-
-    public virtual void Step()
+    public virtual bool ContainsStateOfType(Type type)
     {
-        if (current != null && Time.timeScale > 0)
-        {
-            current.Step(entity);
-        }
-    }
-
-    public virtual void OnContact(Collider other)
-    {
-        if (current != null && Time.timeScale > 0)
-        {
-            current.OnContact(entity, other);
-        }
-    }
-
-    protected virtual void Start()
-    {
-        InitializeEntity();
-        InitializeStates();
+        return m_states.ContainsKey(type);
     }
 }
 
 public abstract class EntityStateManager : MonoBehaviour
 {
+    /// <summary>
+    /// 公有可添加事件(所有状态可执行(可根据传入Type限制))
+    /// </summary>
+    /// Tip：内部使用更多，Inspector可直接传入，EntityStateManagerListener也可传入
     public EntityStateManagerEvents events;
 }
