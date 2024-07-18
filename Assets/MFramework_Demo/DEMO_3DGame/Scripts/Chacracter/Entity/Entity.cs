@@ -1,4 +1,3 @@
-using MFramework;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -23,12 +22,12 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     {
         if (controller.enabled || m_collider != null)
         {
-            HandleStates();
-            HandleController();
-            HandleSpline();
-            HandleGround();
-            HandleContacts();
-            OnUpdate();
+            HandleStates();//状态机
+            HandleController();//CharacterController
+            HandleSpline();//轨道
+            HandleGround();//地面检测
+            HandleContacts();//交互
+            OnUpdate();//其它事件
         }
     }
 
@@ -36,11 +35,12 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     {
         if (controller.enabled)
         {
-            HandlePosition();
-            HandlePenetration();
+            HandlePosition();//位置信息
+            HandlePenetration();//重叠处理
         }
     }
 
+    #region 初始化操作
     protected virtual void InitializeController()
     {
         controller = GetComponent<CharacterController>();
@@ -79,7 +79,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     {
         states = GetComponent<EntityStateManager<T>>();
     }
+    #endregion
 
+    #region 逐帧更新操作
     protected virtual void HandleStates()
     {
         states.Step();
@@ -204,6 +206,8 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             if (!m_penetrationBuffer[i].isTrigger && m_penetrationBuffer[i].transform != transform &&
                 (lateralVelocity.sqrMagnitude == 0 || m_penetrationBuffer[i].CompareTag(GameTags.Platform)))
             {
+                //大致就是：
+                //Entity可能穿插到某个物体中，需要将其拉回来
                 if (Physics.ComputePenetration(m_penetratorCollider, position, Quaternion.identity,
                     m_penetrationBuffer[i], m_penetrationBuffer[i].transform.position,
                     m_penetrationBuffer[i].transform.rotation, out var direction, out float distance))
@@ -215,6 +219,19 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    protected virtual void OnContact(Collider other)
+    {
+        if (other)
+        {
+            states.OnContact(other);
+        }
+    }
+
+    protected virtual bool EvaluateLanding(RaycastHit hit)
+    {
+        return IsPointUnderStep(hit.point) && Vector3.Angle(hit.normal, Vector3.up) < controller.slopeLimit;
+    }
+
     protected virtual void EnterGround(RaycastHit hit)
     {
         if (!isGrounded)
@@ -224,7 +241,17 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             entityEvents.OnGroundEnter?.Invoke();
         }
     }
-
+    protected virtual void UpdateGround(RaycastHit hit)
+    {
+        if (isGrounded)
+        {
+            groundHit = hit;
+            groundNormal = groundHit.normal;
+            groundAngle = Vector3.Angle(Vector3.up, groundHit.normal);
+            localSlopeDirection = new Vector3(groundNormal.x, 0, groundNormal.z).normalized;
+            transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+        }
+    }
     protected virtual void ExitGround()
     {
         if (isGrounded)
@@ -246,7 +273,6 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             entityEvents.OnRailsEnter.Invoke();
         }
     }
-
     public virtual void ExitRail()
     {
         if (onRails)
@@ -256,56 +282,33 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
-    protected virtual void UpdateGround(RaycastHit hit)
-    {
-        if (isGrounded)
-        {
-            groundHit = hit;
-            groundNormal = groundHit.normal;
-            groundAngle = Vector3.Angle(Vector3.up, groundHit.normal);
-            localSlopeDirection = new Vector3(groundNormal.x, 0, groundNormal.z).normalized;
-            transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
-        }
-    }
-
-    protected virtual bool EvaluateLanding(RaycastHit hit)
-    {
-        return IsPointUnderStep(hit.point) && Vector3.Angle(hit.normal, Vector3.up) < controller.slopeLimit;
-    }
-
     protected virtual void HandleSlopeLimit(RaycastHit hit) { }
-
     protected virtual void HandleHighLedge(RaycastHit hit) { }
-
     protected virtual void OnUpdate() { }
-
-    protected virtual void OnContact(Collider other)
-    {
-        if (other)
-        {
-            states.OnContact(other);
-        }
-    }
+    #endregion
 
     public virtual void Accelerate(Vector3 direction, float turningDrag, float acceleration, float topSpeed)
     {
-        if (direction.sqrMagnitude > 0)
+        //Tip: direction应该是归一化的
+        if (direction.sqrMagnitude > 0)//有输入
         {
-            var speed = Vector3.Dot(direction, lateralVelocity);
-            var velocity = direction * speed;
-            var turningVelocity = lateralVelocity - velocity;
-            var turningDelta = turningDrag * turningDragMultiplier * Time.deltaTime;
-            var targetTopSpeed = topSpeed * topSpeedMultiplier;
+            var speed = Vector3.Dot(direction, lateralVelocity);//方向越一致，速度越快
+            var velocity = direction * speed;//输入速度(带方向)=路程*速度
+            var turningVelocity = lateralVelocity - velocity;//补正速度(带方向)
+            var turningDelta = turningDrag * turningDragMultiplier * Time.deltaTime;//每帧的补正的修正(为了减小值的大小)
+            var targetTopSpeed = topSpeed * topSpeedMultiplier;//目标最大速度
 
+            //方向不正确，速度要慢慢地起来，一直到达最高速度
             if (lateralVelocity.magnitude < targetTopSpeed || speed < 0)
             {
                 speed += acceleration * accelerationMultiplier * Time.deltaTime;
                 speed = Mathf.Clamp(speed, -targetTopSpeed, targetTopSpeed);
             }
 
-            velocity = direction * speed;
+            velocity = direction * speed;//重计算速度
+            //重计算补正速度(将turningVelocity向原点拉回(由turningDelta限制大小，默认情况变化可以忽略不计))
             turningVelocity = Vector3.MoveTowards(turningVelocity, Vector3.zero, turningDelta);
-            lateralVelocity = velocity + turningVelocity;
+            lateralVelocity = velocity + turningVelocity;//更新速度(大致为输入方向靠上帧方向偏移)
         }
     }
 
@@ -482,12 +485,17 @@ public abstract class Entity : MonoBehaviour
         controller.center += Vector3.up * delta * 0.5f;
     }
 
+    /// <summary>
+    /// 投射胶囊形检测(不输出RaycastHit)
+    /// </summary>
     public virtual bool CapsuleCast(Vector3 direction, float distance, int layer = Physics.DefaultRaycastLayers,
         QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore)
     {
         return CapsuleCast(direction, distance, out _, layer, queryTriggerInteraction);
     }
-
+    /// <summary>
+    /// 投射胶囊形检测
+    /// </summary>
     public virtual bool CapsuleCast(Vector3 direction, float distance,
         out RaycastHit hit, int layer = Physics.DefaultRaycastLayers,
         QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore)
@@ -499,13 +507,17 @@ public abstract class Entity : MonoBehaviour
         return Physics.CapsuleCast(top, bottom, radius, direction,
             out hit, distance + radius, layer, queryTriggerInteraction);
     }
-
+    /// <summary>
+    /// 投射球形检测(不输出RaycastHit)
+    /// </summary>
     public virtual bool SphereCast(Vector3 direction, float distance, int layer = Physics.DefaultRaycastLayers,
         QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore)
     {
         return SphereCast(direction, distance, out _, layer, queryTriggerInteraction);
     }
-
+    /// <summary>
+    /// 投射球形检测
+    /// </summary>
     public virtual bool SphereCast(Vector3 direction, float distance,
         out RaycastHit hit, int layer = Physics.DefaultRaycastLayers,
         QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore)
