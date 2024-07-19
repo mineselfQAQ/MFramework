@@ -7,7 +7,7 @@ namespace MFramework
 {
     public class CreateTemplateScene
     {
-        [MenuItem("Assets/MCreate/UITemplateScene", priority = 9, secondaryPriority = 1.0f)]
+        [MenuItem("Assets/MCreate/TemplateScene/UITemplateScene", priority = 1, secondaryPriority = 1.0f)]
         public static void CreateUITemplateScene()
         {
             if (CheckAvailability())

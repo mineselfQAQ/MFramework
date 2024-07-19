@@ -1,5 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerInputManager))]
+[RequireComponent(typeof(PlayerStatsManager))]
+[RequireComponent(typeof(PlayerStateManager))]
+[RequireComponent(typeof(Health))]
 public class Player : Entity<Player>
 {
     public PlayerEvents playerEvents;
@@ -45,98 +49,66 @@ public class Player : Entity<Player>
 
     protected const float k_waterExitOffset = 0.25f;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        InitializeInputs();
+        InitializeStats();
+        InitializeHealth();
+        InitializeTag();
+        InitializeRespawn();
+
+        entityEvents.OnGroundEnter.AddListener(() =>
+        {
+            ResetJumps();
+            ResetAirSpins();
+            ResetAirDash();
+        });
+
+        entityEvents.OnRailsEnter.AddListener(() =>
+        {
+            ResetJumps();
+            ResetAirSpins();
+            ResetAirDash();
+            //StartGrind();
+        });
+    }
+
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        //if (other.CompareTag(GameTags.VolumeWater))
+        //{
+        //    if (!onWater && other.bounds.Contains(unsizedPosition))
+        //    {
+        //        EnterWater(other);
+        //    }
+        //    else if (onWater)
+        //    {
+        //        var exitPoint = position + Vector3.down * k_waterExitOffset;
+
+        //        if (!other.bounds.Contains(exitPoint))
+        //        {
+        //            ExitWater();
+        //        }
+        //    }
+        //}
+    }
+
     protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
     protected virtual void InitializeStats() => stats = GetComponent<PlayerStatsManager>();
     protected virtual void InitializeHealth() => health = GetComponent<Health>();
     protected virtual void InitializeTag() => tag = GameTags.Player;
-
     protected virtual void InitializeRespawn()
     {
         m_respawnPosition = transform.position;
         m_respawnRotation = transform.rotation;
     }
-
     protected virtual void InitializeSkin()
     {
         if (skin)
         {
             m_skinInitialPosition = skin.localPosition;
             m_skinInitialRotation = skin.localRotation;
-        }
-    }
-
-    public virtual void Respawn()
-    {
-        health.Reset();
-        transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
-        states.Change<IdlePlayerState>();
-    }
-
-    public virtual void SetRespawn(Vector3 position, Quaternion rotation)
-    {
-        m_respawnPosition = position;
-        m_respawnRotation = rotation;
-    }
-
-    public override void ApplyDamage(int amount, Vector3 origin)
-    {
-        if (!health.isEmpty && !health.recovering)
-        {
-            health.Damage(amount);
-            var damageDir = origin - transform.position;
-            damageDir.y = 0;
-            damageDir = damageDir.normalized;
-            FaceDirection(damageDir);
-            lateralVelocity = -transform.forward * stats.current.hurtBackwardsForce;
-
-            if (!onWater)
-            {
-                verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;
-                states.Change<HurtPlayerState>();
-            }
-
-            playerEvents.OnHurt?.Invoke();
-
-            if (health.isEmpty)
-            {
-                Throw();
-                playerEvents.OnDie?.Invoke();
-            }
-        }
-    }
-
-    public virtual void Die()
-    {
-        health.Set(0);
-        playerEvents.OnDie?.Invoke();
-    }
-
-    public virtual void EnterWater(Collider water)
-    {
-        if (!onWater && !health.isEmpty)
-        {
-            Throw();
-            onWater = true;
-            this.water = water;
-            states.Change<SwimPlayerState>();
-        }
-    }
-
-    public virtual void ExitWater()
-    {
-        if (onWater)
-        {
-            onWater = false;
-        }
-    }
-
-    public virtual void GrabPole(Collider other)
-    {
-        if (stats.current.canPoleClimb && velocity.y <= 0
-            && !holding && other.TryGetComponent(out Pole pole))
-        {
-            this.pole = pole;
-            states.Change<PoleClimbingPlayerState>();
         }
     }
 
@@ -162,6 +134,81 @@ public class Player : Entity<Player>
         var edgePushDirection = Vector3.Cross(edgeNormal, Vector3.Cross(edgeNormal, Vector3.up));
         controller.Move(edgePushDirection * stats.current.gravity * Time.deltaTime);
     }
+
+    //public virtual void Respawn()
+    //{
+    //    health.Reset();
+    //    transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
+    //    states.Change<IdlePlayerState>();
+    //}
+
+    public virtual void SetRespawn(Vector3 position, Quaternion rotation)
+    {
+        m_respawnPosition = position;
+        m_respawnRotation = rotation;
+    }
+
+    //public override void ApplyDamage(int amount, Vector3 origin)
+    //{
+    //    if (!health.isEmpty && !health.recovering)
+    //    {
+    //        health.Damage(amount);
+    //        var damageDir = origin - transform.position;
+    //        damageDir.y = 0;
+    //        damageDir = damageDir.normalized;
+    //        FaceDirection(damageDir);
+    //        lateralVelocity = -transform.forward * stats.current.hurtBackwardsForce;
+
+    //        if (!onWater)
+    //        {
+    //            verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;
+    //            states.Change<HurtPlayerState>();
+    //        }
+
+    //        playerEvents.OnHurt?.Invoke();
+
+    //        if (health.isEmpty)
+    //        {
+    //            Throw();
+    //            playerEvents.OnDie?.Invoke();
+    //        }
+    //    }
+    //}
+
+    public virtual void Die()
+    {
+        health.Set(0);
+        playerEvents.OnDie?.Invoke();
+    }
+
+    //public virtual void EnterWater(Collider water)
+    //{
+    //    if (!onWater && !health.isEmpty)
+    //    {
+    //        Throw();
+    //        onWater = true;
+    //        this.water = water;
+    //        states.Change<SwimPlayerState>();
+    //    }
+    //}
+
+    public virtual void ExitWater()
+    {
+        if (onWater)
+        {
+            onWater = false;
+        }
+    }
+
+    //public virtual void GrabPole(Collider other)
+    //{
+    //    if (stats.current.canPoleClimb && velocity.y <= 0
+    //        && !holding && other.TryGetComponent(out Pole pole))
+    //    {
+    //        this.pole = pole;
+    //        states.Change<PoleClimbingPlayerState>();
+    //    }
+    //}
 
     public virtual void Accelerate(Vector3 direction)
     {
@@ -230,41 +277,40 @@ public class Player : Entity<Player>
 
     public virtual void WaterFaceDirection(Vector3 direction) => FaceDirection(direction, stats.current.waterRotationSpeed);
 
-    public virtual void Fall()
-    {
-        if (!isGrounded)
-        {
-            states.Change<FallPlayerState>();
-        }
-    }
+    //public virtual void Fall()
+    //{
+    //    if (!isGrounded)
+    //    {
+    //        states.Change<FallPlayerState>();
+    //    }
+    //}
 
-    public virtual void Jump()
-    {
-        var canMultiJump = (jumpCounter > 0) && (jumpCounter < stats.current.multiJumps);
-        var canCoyoteJump = (jumpCounter == 0) && (Time.time < lastGroundTime + stats.current.coyoteJumpThreshold);
-        var holdJump = !holding || stats.current.canJumpWhileHolding;
+    //public virtual void Jump()
+    //{
+    //    var canMultiJump = (jumpCounter > 0) && (jumpCounter < stats.current.multiJumps);
+    //    var canCoyoteJump = (jumpCounter == 0) && (Time.time < lastGroundTime + stats.current.coyoteJumpThreshold);
+    //    var holdJump = !holding || stats.current.canJumpWhileHolding;
 
-        if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
-        {
-            if (inputs.GetJumpDown())
-            {
-                Jump(stats.current.maxJumpHeight);
-            }
-        }
+    //    if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
+    //    {
+    //        if (inputs.GetJumpDown())
+    //        {
+    //            Jump(stats.current.maxJumpHeight);
+    //        }
+    //    }
 
-        if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
-        {
-            verticalVelocity = Vector3.up * stats.current.minJumpHeight;
-        }
-    }
-
-    public virtual void Jump(float height)
-    {
-        jumpCounter++;
-        verticalVelocity = Vector3.up * height;
-        states.Change<FallPlayerState>();
-        playerEvents.OnJump?.Invoke();
-    }
+    //    if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
+    //    {
+    //        verticalVelocity = Vector3.up * stats.current.minJumpHeight;
+    //    }
+    //}
+    //public virtual void Jump(float height)
+    //{
+    //    jumpCounter++;
+    //    verticalVelocity = Vector3.up * height;
+    //    states.Change<FallPlayerState>();
+    //    playerEvents.OnJump?.Invoke();
+    //}
 
     public virtual void DirectionalJump(Vector3 direction, float height, float distance)
     {
@@ -274,42 +320,29 @@ public class Player : Entity<Player>
         playerEvents.OnJump?.Invoke();
     }
 
-    /// <summary>
-    /// Sets the air dash counter to zero.
-    /// </summary>
     public virtual void ResetAirDash() => airDashCounter = 0;
 
-    /// <summary>
-    /// Sets the jump counter to zero affecting further jump evaluations.
-    /// </summary>
     public virtual void ResetJumps() => jumpCounter = 0;
 
-    /// <summary>
-    /// Sets the jump couter to a specific value.
-    /// </summary>
-    /// <param name="amount">The amount of jumps.</param>
     public virtual void SetJumps(int amount) => jumpCounter = amount;
 
-    /// <summary>
-    /// Sets the air spin counter back to zero.
-    /// </summary>
     public virtual void ResetAirSpins() => airSpinCounter = 0;
 
-    public virtual void Spin()
-    {
-        var canAirSpin = (isGrounded || stats.current.canAirSpin) && airSpinCounter < stats.current.allowedAirSpins;
+    //public virtual void Spin()
+    //{
+    //    var canAirSpin = (isGrounded || stats.current.canAirSpin) && airSpinCounter < stats.current.allowedAirSpins;
 
-        if (stats.current.canSpin && canAirSpin && !holding && inputs.GetSpinDown())
-        {
-            if (!isGrounded)
-            {
-                airSpinCounter++;
-            }
+    //    if (stats.current.canSpin && canAirSpin && !holding && inputs.GetSpinDown())
+    //    {
+    //        if (!isGrounded)
+    //        {
+    //            airSpinCounter++;
+    //        }
 
-            states.Change<SpinPlayerState>();
-            playerEvents.OnSpin?.Invoke();
-        }
-    }
+    //        states.Change<SpinPlayerState>();
+    //        playerEvents.OnSpin?.Invoke();
+    //    }
+    //}
 
     public virtual void PickAndThrow()
     {
@@ -366,81 +399,77 @@ public class Player : Entity<Player>
         }
     }
 
-    public virtual void AirDive()
-    {
-        if (stats.current.canAirDive && !isGrounded && !holding && inputs.GetAirDiveDown())
-        {
-            states.Change<AirDivePlayerState>();
-            playerEvents.OnAirDive?.Invoke();
-        }
-    }
+    //public virtual void AirDive()
+    //{
+    //    if (stats.current.canAirDive && !isGrounded && !holding && inputs.GetAirDiveDown())
+    //    {
+    //        states.Change<AirDivePlayerState>();
+    //        playerEvents.OnAirDive?.Invoke();
+    //    }
+    //}
 
-    public virtual void StompAttack()
-    {
-        if (!isGrounded && !holding && stats.current.canStompAttack && inputs.GetStompDown())
-        {
-            states.Change<StompPlayerState>();
-        }
-    }
+    //public virtual void StompAttack()
+    //{
+    //    if (!isGrounded && !holding && stats.current.canStompAttack && inputs.GetStompDown())
+    //    {
+    //        states.Change<StompPlayerState>();
+    //    }
+    //}
 
-    public virtual void LedgeGrab()
-    {
-        if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
-            states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
-            DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
-        {
-            if (!(hit.collider is CapsuleCollider) && !(hit.collider is SphereCollider))
-            {
-                var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
-                var lateralOffset = transform.forward * ledgeDistance;
-                var verticalOffset = Vector3.down * height * 0.5f - center;
-                velocity = Vector3.zero;
-                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
-                transform.position = hit.point - lateralOffset + verticalOffset;
-                states.Change<LedgeHangingPlayerState>();
-                playerEvents.OnLedgeGrabbed?.Invoke();
-            }
-        }
-    }
+    //public virtual void LedgeGrab()
+    //{
+    //    if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
+    //        states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+    //        DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
+    //    {
+    //        if (!(hit.collider is CapsuleCollider) && !(hit.collider is SphereCollider))
+    //        {
+    //            var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
+    //            var lateralOffset = transform.forward * ledgeDistance;
+    //            var verticalOffset = Vector3.down * height * 0.5f - center;
+    //            velocity = Vector3.zero;
+    //            transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+    //            transform.position = hit.point - lateralOffset + verticalOffset;
+    //            states.Change<LedgeHangingPlayerState>();
+    //            playerEvents.OnLedgeGrabbed?.Invoke();
+    //        }
+    //    }
+    //}
 
-    public virtual void Backflip(float force)
-    {
-        if (stats.current.canBackflip && !holding)
-        {
-            verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;
-            lateralVelocity = -transform.forward * force;
-            states.Change<BackflipPlayerState>();
-            playerEvents.OnBackflip.Invoke();
-        }
-    }
+    //public virtual void Backflip(float force)
+    //{
+    //    if (stats.current.canBackflip && !holding)
+    //    {
+    //        verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;
+    //        lateralVelocity = -transform.forward * force;
+    //        states.Change<BackflipPlayerState>();
+    //        playerEvents.OnBackflip.Invoke();
+    //    }
+    //}
 
-    public virtual void Dash()
-    {
-        var canAirDash = stats.current.canAirDash && !isGrounded &&
-            airDashCounter < stats.current.allowedAirDashes;
-        var canGroundDash = stats.current.canGroundDash && isGrounded &&
-            Time.time - lastDashTime > stats.current.groundDashCoolDown;
+    //public virtual void Dash()
+    //{
+    //    var canAirDash = stats.current.canAirDash && !isGrounded &&
+    //        airDashCounter < stats.current.allowedAirDashes;
+    //    var canGroundDash = stats.current.canGroundDash && isGrounded &&
+    //        Time.time - lastDashTime > stats.current.groundDashCoolDown;
 
-        if (inputs.GetDashDown() && (canAirDash || canGroundDash))
-        {
-            if (!isGrounded) airDashCounter++;
+    //    if (inputs.GetDashDown() && (canAirDash || canGroundDash))
+    //    {
+    //        if (!isGrounded) airDashCounter++;
 
-            lastDashTime = Time.time;
-            states.Change<DashPlayerState>();
-        }
-    }
+    //        lastDashTime = Time.time;
+    //        states.Change<DashPlayerState>();
+    //    }
+    //}
 
-    public virtual void Glide()
-    {
-        if (!isGrounded && inputs.GetGlide() &&
-            verticalVelocity.y <= 0 && stats.current.canGlide)
-            states.Change<GlidingPlayerState>();
-    }
+    //public virtual void Glide()
+    //{
+    //    if (!isGrounded && inputs.GetGlide() &&
+    //        verticalVelocity.y <= 0 && stats.current.canGlide)
+    //        states.Change<GlidingPlayerState>();
+    //}
 
-    /// <summary>
-    /// Sets the Skin parent to a given transform.
-    /// </summary>
-    /// <param name="parent">The transform you want to parent the skin to.</param>
     public virtual void SetSkinParent(Transform parent)
     {
         if (skin)
@@ -449,9 +478,6 @@ public class Player : Entity<Player>
         }
     }
 
-    /// <summary>
-    /// Resets the Skin parenting to its initial one, with original position and rotation.
-    /// </summary>
     public virtual void ResetSkinParent()
     {
         if (skin)
@@ -462,22 +488,22 @@ public class Player : Entity<Player>
         }
     }
 
-    public virtual void WallDrag(Collider other)
-    {
-        if (stats.current.canWallDrag && velocity.y <= 0 &&
-            !holding && !other.TryGetComponent<Rigidbody>(out _))
-        {
-            if (CapsuleCast(transform.forward, 0.25f, out var hit,
-                stats.current.wallDragLayers) && !DetectingLedge(0.25f, height, out _))
-            {
-                if (hit.collider.CompareTag(GameTags.Platform))
-                    transform.parent = hit.transform;
+    //public virtual void WallDrag(Collider other)
+    //{
+    //    if (stats.current.canWallDrag && velocity.y <= 0 &&
+    //        !holding && !other.TryGetComponent<Rigidbody>(out _))
+    //    {
+    //        if (CapsuleCast(transform.forward, 0.25f, out var hit,
+    //            stats.current.wallDragLayers) && !DetectingLedge(0.25f, height, out _))
+    //        {
+    //            if (hit.collider.CompareTag(GameTags.Platform))
+    //                transform.parent = hit.transform;
 
-                lastWallNormal = hit.normal;
-                states.Change<WallDragPlayerState>();
-            }
-        }
-    }
+    //            lastWallNormal = hit.normal;
+    //            states.Change<WallDragPlayerState>();
+    //        }
+    //    }
+    //}
 
     public virtual void PushRigidbody(Collider other)
     {
@@ -513,50 +539,5 @@ public class Player : Entity<Player>
             stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore);
     }
 
-    public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
-
-    protected override void Awake()
-    {
-        base.Awake();
-        InitializeInputs();
-        InitializeStats();
-        InitializeHealth();
-        InitializeTag();
-        InitializeRespawn();
-
-        entityEvents.OnGroundEnter.AddListener(() =>
-        {
-            ResetJumps();
-            ResetAirSpins();
-            ResetAirDash();
-        });
-
-        entityEvents.OnRailsEnter.AddListener(() =>
-        {
-            ResetJumps();
-            ResetAirSpins();
-            ResetAirDash();
-            StartGrind();
-        });
-    }
-
-    protected virtual void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag(GameTags.VolumeWater))
-        {
-            if (!onWater && other.bounds.Contains(unsizedPosition))
-            {
-                EnterWater(other);
-            }
-            else if (onWater)
-            {
-                var exitPoint = position + Vector3.down * k_waterExitOffset;
-
-                if (!other.bounds.Contains(exitPoint))
-                {
-                    ExitWater();
-                }
-            }
-        }
-    }
+    //public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
 }

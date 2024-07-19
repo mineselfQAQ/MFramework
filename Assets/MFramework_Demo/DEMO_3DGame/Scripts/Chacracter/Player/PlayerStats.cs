@@ -1,7 +1,29 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 public class PlayerStats : EntityStats<PlayerStats>
 {
+    [MenuItem("Assets/MCreate/3DGame/PlayerStats", false, priority = 1, secondaryPriority = 1.0f)]
+    internal static void Create()
+    {
+        var asset = ScriptableObject.CreateInstance<PlayerStats>();
+
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (Path.GetExtension(path) != "")//选中的是文件
+        {
+            path = path.Replace(Path.GetFileName(path), "");
+        }
+        path = $"{path}/New{typeof(PlayerStats)}.asset";
+
+        AssetDatabase.CreateAsset(asset, path);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = asset;
+    }
+
     [Header("General Stats")]
     public float pushForce = 4f;
     public float snapForce = 15f;
