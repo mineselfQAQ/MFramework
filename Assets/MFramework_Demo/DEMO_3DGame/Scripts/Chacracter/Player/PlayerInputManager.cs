@@ -30,6 +30,34 @@ public class PlayerInputManager : MonoBehaviour
 
     protected const float k_jumpBuffer = 0.15f;
 
+    protected virtual void Awake()
+    {
+        CacheActions();
+    }
+
+    protected virtual void Start()
+    {
+        m_camera = Camera.main;
+        actions.Enable();
+    }
+
+    protected virtual void Update()
+    {
+        if (m_jump.WasPressedThisFrame())
+        {
+            m_lastJumpTime = Time.time;
+        }
+    }
+
+    protected virtual void OnEnable()
+    {
+        actions?.Enable();
+    }
+    protected virtual void OnDisable()
+    {
+        actions?.Disable();
+    }
+
     protected virtual void CacheActions()
     {
         m_movement = actions["Movement"];
@@ -83,11 +111,6 @@ public class PlayerInputManager : MonoBehaviour
         return direction;
     }
 
-    /// <summary>
-    /// Remaps a given axis considering the Input System's default deadzone.
-    /// This method uses a cross shape instead of a circle one to evaluate the deadzone range.
-    /// </summary>
-    /// <param name="axis">The axis you want to remap.</param>
     public virtual Vector3 GetAxisWithCrossDeadZone(Vector2 axis)
     {
         var deadzone = InputSystem.settings.defaultDeadzoneMin;
@@ -134,38 +157,10 @@ public class PlayerInputManager : MonoBehaviour
     public virtual bool GetGrindBrake() => m_grindBrake.IsPressed();
     public virtual bool GetPauseDown() => m_pause.WasPressedThisFrame();
 
-    /// <summary>
-    /// Remaps a value to a 0-1 range considering a given deadzone.
-    /// </summary>
-    /// <param name="value">The value you wants to remap.</param>
-    /// <param name="deadzone">The minimun deadzone value.</param>
     protected float RemapToDeadzone(float value, float deadzone) => (value - deadzone) / (1 - deadzone);
 
-    /// <summary>
-    /// Temporally locks the movement direction input.
-    /// </summary>
-    /// <param name="duration">The duration of the locking state in seconds.</param>
     public virtual void LockMovementDirection(float duration = 0.25f)
     {
         m_movementDirectionUnlockTime = Time.time + duration;
     }
-
-    protected virtual void Awake() => CacheActions();
-
-    protected virtual void Start()
-    {
-        m_camera = Camera.main;
-        actions.Enable();
-    }
-
-    protected virtual void Update()
-    {
-        if (m_jump.WasPressedThisFrame())
-        {
-            m_lastJumpTime = Time.time;
-        }
-    }
-
-    protected virtual void OnEnable() => actions?.Enable();
-    protected virtual void OnDisable() => actions?.Disable();
 }

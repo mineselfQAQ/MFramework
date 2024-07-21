@@ -208,6 +208,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             {
                 //大致就是：
                 //Entity可能穿插到某个物体中，需要将其拉回来
+                //注意：处理的是平面上移动速度过快的情况
                 if (Physics.ComputePenetration(m_penetratorCollider, position, Quaternion.identity,
                     m_penetrationBuffer[i], m_penetrationBuffer[i].transform.position,
                     m_penetrationBuffer[i].transform.rotation, out var direction, out float distance))
