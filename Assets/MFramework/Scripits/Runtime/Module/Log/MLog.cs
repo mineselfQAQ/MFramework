@@ -11,7 +11,19 @@ namespace MFramework
         private static string path = $@"{Application.dataPath}/../LogCallBack.txt";
 
         //TODO:目前并没有检测core是否存在的机制，如果MCore发生意外被删除了就会导致错误
-        private static MCore core = GameObject.Find(MSettings.MCoreName).GetComponent<MCore>();
+        private static MCore core;
+        private static MCore Core 
+        {
+            get
+            {
+                if (core == null)
+                {
+                    core = GameObject.Find(MSettings.MCoreName).GetComponent<MCore>();
+                }
+
+                return core;
+            }
+        }
 
         public void Init()
         {
@@ -49,13 +61,13 @@ namespace MFramework
                     throw new System.Exception("发生错误，请检查后继续执行");
 #else
                 case MLogType.Log:
-                    if (core.GetExportLog()) Debug.Log($"Log: {message}", context);
+                    if (Core.GetExportLog()) Debug.Log($"Log: {message}", context);
                     break;
                 case MLogType.Warning:
-                    if (core.GetExportLog()) Debug.LogWarning($"Warning: {message}", context);
+                    if (Core.GetExportLog()) Debug.LogWarning($"Warning: {message}", context);
                     break;
                 case MLogType.Error:
-                    if (core.GetExportLog()) Debug.LogError($"Error: {message}", context);
+                    if (Core.GetExportLog()) Debug.LogError($"Error: {message}", context);
                     throw new System.Exception("发生错误，请检查后继续执行");
 #endif
             }

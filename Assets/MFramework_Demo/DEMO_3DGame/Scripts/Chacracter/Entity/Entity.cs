@@ -338,6 +338,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         lateralVelocity += localSlopeDirection * delta;
     }
 
+    /// <summary>
+    /// 贴在地上(地面状态遇到下陷，使其快速紧贴地面)
+    /// </summary>
     public virtual void SnapToGround(float force)
     {
         if (isGrounded && (verticalVelocity.y <= 0))

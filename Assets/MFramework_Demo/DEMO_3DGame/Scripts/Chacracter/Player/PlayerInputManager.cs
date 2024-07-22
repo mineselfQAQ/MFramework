@@ -134,6 +134,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public virtual bool GetJumpDown()
     {
+        //Tip：按下跳跃键后Update()中会设置新的m_lastJumpTime，在k_jumpBuffer限期内可进入执行Jump()
         if (m_lastJumpTime != null &&
             Time.time - m_lastJumpTime < k_jumpBuffer)
         {

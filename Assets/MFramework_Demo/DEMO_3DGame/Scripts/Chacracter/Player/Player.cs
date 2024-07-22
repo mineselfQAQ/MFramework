@@ -259,18 +259,25 @@ public class Player : Entity<Player>
             Decelerate(stats.current.friction);
     }
 
+    /// <summary>
+    /// 施加重力，verticalVelocity不断达到极限
+    /// </summary>
     public virtual void Gravity()
     {
+        //当不在地面时(跳起或下落)，只要摔落速度没有达到最大就还需要进行调整
         if (!isGrounded && verticalVelocity.y > -stats.current.gravityTopSpeed)
         {
             var speed = verticalVelocity.y;
             var force = verticalVelocity.y > 0 ? stats.current.gravity : stats.current.fallGravity;
-            speed -= force * gravityMultiplier * Time.deltaTime;
-            speed = Mathf.Max(speed, -stats.current.gravityTopSpeed);
+            speed -= force * gravityMultiplier * Time.deltaTime;//向下的速度越来越快
+            speed = Mathf.Max(speed, -stats.current.gravityTopSpeed);//限制在-gravityTopSpeed
             verticalVelocity = new Vector3(0, speed, 0);
         }
     }
 
+    /// <summary>
+    /// 贴在地上(地面状态遇到下陷，使其快速紧贴地面)
+    /// </summary>
     public virtual void SnapToGround() => SnapToGround(stats.current.snapForce);
 
     public virtual void FaceDirectionSmooth(Vector3 direction) => FaceDirection(direction, stats.current.rotationSpeed);
@@ -285,32 +292,43 @@ public class Player : Entity<Player>
     //    }
     //}
 
-    //public virtual void Jump()
-    //{
-    //    var canMultiJump = (jumpCounter > 0) && (jumpCounter < stats.current.multiJumps);
-    //    var canCoyoteJump = (jumpCounter == 0) && (Time.time < lastGroundTime + stats.current.coyoteJumpThreshold);
-    //    var holdJump = !holding || stats.current.canJumpWhileHolding;
+    /// <summary>
+    /// 跳跃，提供一个向上的verticalVelocity
+    /// </summary>
+    public virtual void Jump()
+    {
+        //多段跳
+        //要求：第n次跳跃且在multiJumps次数内
+        bool canMultiJump = (jumpCounter > 0) && (jumpCounter < stats.current.multiJumps);
+        //土狼跳(腾空跳)
+        //要求：第一次跳跃且离开地面coyoteJumpThreshold时间内
+        bool canCoyoteJump = (jumpCounter == 0) && (Time.time < lastGroundTime + stats.current.coyoteJumpThreshold);
+        //持物跳跃
+        //要求：不能持物，除非开启canJumpWhileHolding
+        bool holdJump = !holding || stats.current.canJumpWhileHolding;
 
-    //    if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
-    //    {
-    //        if (inputs.GetJumpDown())
-    //        {
-    //            Jump(stats.current.maxJumpHeight);
-    //        }
-    //    }
+        //在不持物状态下，满足跳跃条件
+        if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
+        {
+            if (inputs.GetJumpDown())
+            {
+                Jump(stats.current.maxJumpHeight);
+            }
+        }
 
-    //    if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
-    //    {
-    //        verticalVelocity = Vector3.up * stats.current.minJumpHeight;
-    //    }
-    //}
-    //public virtual void Jump(float height)
-    //{
-    //    jumpCounter++;
-    //    verticalVelocity = Vector3.up * height;
-    //    states.Change<FallPlayerState>();
-    //    playerEvents.OnJump?.Invoke();
-    //}
+        //快速连续跳跃
+        if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
+        {
+            verticalVelocity = Vector3.up * stats.current.minJumpHeight;
+        }
+    }
+    public virtual void Jump(float height)
+    {
+        jumpCounter++;
+        verticalVelocity = Vector3.up * height;
+        states.Change<FallPlayerState>();
+        playerEvents.OnJump?.Invoke();
+    }
 
     public virtual void DirectionalJump(Vector3 direction, float height, float distance)
     {
