@@ -276,7 +276,7 @@ public class Player : Entity<Player>
     }
 
     /// <summary>
-    /// 贴在地上(地面状态遇到下陷，使其快速紧贴地面)
+    /// 保证在地面情况下贴在地上
     /// </summary>
     public virtual void SnapToGround() => SnapToGround(stats.current.snapForce);
 
@@ -316,7 +316,7 @@ public class Player : Entity<Player>
             }
         }
 
-        //快速连续跳跃
+        //TODO:???????????感觉没意义
         if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
         {
             verticalVelocity = Vector3.up * stats.current.minJumpHeight;

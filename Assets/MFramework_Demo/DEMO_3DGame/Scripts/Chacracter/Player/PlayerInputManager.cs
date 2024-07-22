@@ -79,8 +79,12 @@ public class PlayerInputManager : MonoBehaviour
 
     public virtual Vector3 GetMovementDirection()
     {
+        //限制移动启动时间(没到时间不可以进行移动操作)
         if (Time.time < m_movementDirectionUnlockTime) return Vector3.zero;
-
+        
+        //获取移动向量,取值范围---归一化向量((0,0)为原点，半径为1的圆)
+        //如果是键盘，只有(-1,0)(1,0)(0,1)(0,-1)(0.71,0,71)(0.71,-0.71)(-0.71,0.71)(-0.71,-0.71)共8种可能
+        //如果是手柄，那么在圆范围内都是可能的
         var value = m_movement.ReadValue<Vector2>();
         return GetAxisWithCrossDeadZone(value);
     }
@@ -101,8 +105,12 @@ public class PlayerInputManager : MonoBehaviour
     {
         var direction = GetMovementDirection();
 
-        if (direction.sqrMagnitude > 0)
+        if (direction.sqrMagnitude > 0)//有输入(因为添加过死区，手柄必须输入一定量才能进入)
         {
+            //进行摄像头偏移旋转(人物的移动以摄像头的方向为准)
+            //大致就是：
+            //理论上摄像头应该和人物视线是同一方向的，但是如果摄像头看向右侧，其实就是人物看向左侧，
+            //此时如果还是一样的输出的话，向前走人物会越走越远，但是如果以摄像机为准的话，人物还是向前走(摄像机的前)
             var rotation = Quaternion.AngleAxis(m_camera.transform.eulerAngles.y, Vector3.up);
             direction = rotation * direction;
             direction = direction.normalized;
@@ -113,6 +121,9 @@ public class PlayerInputManager : MonoBehaviour
 
     public virtual Vector3 GetAxisWithCrossDeadZone(Vector2 axis)
     {
+        //用于手柄：
+        //大概率是手柄可能会漂移，那么会导致如(0.02,-0.01)的输入，
+        //那么如果能够设置一个半径大约0.1的圆为死区，就不会发生这种事情
         var deadzone = InputSystem.settings.defaultDeadzoneMin;
         axis.x = Mathf.Abs(axis.x) > deadzone ? RemapToDeadzone(axis.x, deadzone) : 0;
         axis.y = Mathf.Abs(axis.y) > deadzone ? RemapToDeadzone(axis.y, deadzone) : 0;
@@ -158,7 +169,12 @@ public class PlayerInputManager : MonoBehaviour
     public virtual bool GetGrindBrake() => m_grindBrake.IsPressed();
     public virtual bool GetPauseDown() => m_pause.WasPressedThisFrame();
 
-    protected float RemapToDeadzone(float value, float deadzone) => (value - deadzone) / (1 - deadzone);
+    protected float RemapToDeadzone(float value, float deadzone)
+    {
+        //取值范围[0.125,1]--->[0,1]
+        //Tip: axis.x和axis.y虽然可以取[0,1]，但是由于死区的限制，小于0.125直接设为0，所以变为[0.125,1]
+        return (value - deadzone) / (1 - deadzone);
+    }
 
     public virtual void LockMovementDirection(float duration = 0.25f)
     {

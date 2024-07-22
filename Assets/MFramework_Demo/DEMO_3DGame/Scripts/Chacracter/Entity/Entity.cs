@@ -339,7 +339,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     }
 
     /// <summary>
-    /// 贴在地上(地面状态遇到下陷，使其快速紧贴地面)
+    /// 保证在地面情况下贴在地上
     /// </summary>
     public virtual void SnapToGround(float force)
     {
