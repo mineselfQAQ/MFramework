@@ -253,7 +253,27 @@ MonoBehaviour:
     onChange:
       m_PersistentCalls:
         m_Calls: []
-  states: []
+  states:
+  - IdlePlayerState
+  - AirDivePlayerState
+  - BackflipPlayerState
+  - BrakePlayerState
+  - CrawlingPlayerState
+  - CrouchPlayerState
+  - DashPlayerState
+  - DiePlayerState
+  - FallPlayerState
+  - GlidingPlayerState
+  - HurtPlayerState
+  - LedgeClimbingPlayerState
+  - LedgeHangingPlayerState
+  - PoleClimbingPlayerState
+  - RailGrindPlayerState
+  - SpinPlayerState
+  - StompPlayerState
+  - SwimPlayerState
+  - WalkPlayerState
+  - WallDragPlayerState
 --- !u!114 &1056287841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: e0668a0f100bdd34486cf53624c944f7, type: 2}
 --- !u!114 &1056287842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +686,7 @@ Transform:
   m_GameObject: {fileID: 1981684447}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 1.2, z: -2}
+  m_LocalPosition: {x: 0, y: 2, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

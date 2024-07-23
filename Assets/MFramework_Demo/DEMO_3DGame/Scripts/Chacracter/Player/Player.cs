@@ -18,7 +18,6 @@ public class Player : Entity<Player>
     protected Quaternion m_skinInitialRotation;
 
     public PlayerInputManager inputs { get; protected set; }
-
     public PlayerStatsManager stats { get; protected set; }
 
     public Health health { get; protected set; }
@@ -37,11 +36,9 @@ public class Player : Entity<Player>
 
     public Vector3 lastWallNormal { get; protected set; }
 
-    //public Pole pole { get; protected set; }
-
-    public Collider water { get; protected set; }
-
-    public Pickable pickable { get; protected set; }
+    public Pole pole { get; protected set; }//当前所抱柱子
+    public Collider water { get; protected set; }//当前所在水体
+    public Pickable pickable { get; protected set; }//当前所持物体
 
     public virtual bool isAlive => !health.isEmpty;
 
@@ -70,28 +67,28 @@ public class Player : Entity<Player>
             ResetJumps();
             ResetAirSpins();
             ResetAirDash();
-            //StartGrind();
+            StartGrind();
         });
     }
 
     protected virtual void OnTriggerStay(Collider other)
     {
-        //if (other.CompareTag(GameTags.VolumeWater))
-        //{
-        //    if (!onWater && other.bounds.Contains(unsizedPosition))
-        //    {
-        //        EnterWater(other);
-        //    }
-        //    else if (onWater)
-        //    {
-        //        var exitPoint = position + Vector3.down * k_waterExitOffset;
+        if (other.CompareTag(GameTags.VolumeWater))
+        {
+            if (!onWater && other.bounds.Contains(unsizedPosition))
+            {
+                EnterWater(other);
+            }
+            else if (onWater)
+            {
+                var exitPoint = position + Vector3.down * k_waterExitOffset;
 
-        //        if (!other.bounds.Contains(exitPoint))
-        //        {
-        //            ExitWater();
-        //        }
-        //    }
-        //}
+                if (!other.bounds.Contains(exitPoint))
+                {
+                    ExitWater();
+                }
+            }
+        }
     }
 
     protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
@@ -135,12 +132,12 @@ public class Player : Entity<Player>
         controller.Move(edgePushDirection * stats.current.gravity * Time.deltaTime);
     }
 
-    //public virtual void Respawn()
-    //{
-    //    health.Reset();
-    //    transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
-    //    states.Change<IdlePlayerState>();
-    //}
+    public virtual void Respawn()
+    {
+        health.Reset();
+        transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
+        states.Change<IdlePlayerState>();
+    }
 
     public virtual void SetRespawn(Vector3 position, Quaternion rotation)
     {
@@ -148,32 +145,32 @@ public class Player : Entity<Player>
         m_respawnRotation = rotation;
     }
 
-    //public override void ApplyDamage(int amount, Vector3 origin)
-    //{
-    //    if (!health.isEmpty && !health.recovering)
-    //    {
-    //        health.Damage(amount);
-    //        var damageDir = origin - transform.position;
-    //        damageDir.y = 0;
-    //        damageDir = damageDir.normalized;
-    //        FaceDirection(damageDir);
-    //        lateralVelocity = -transform.forward * stats.current.hurtBackwardsForce;
+    public override void ApplyDamage(int amount, Vector3 origin)
+    {
+        if (!health.isEmpty && !health.recovering)
+        {
+            health.Damage(amount);
+            var damageDir = origin - transform.position;
+            damageDir.y = 0;
+            damageDir = damageDir.normalized;
+            FaceDirection(damageDir);
+            lateralVelocity = -transform.forward * stats.current.hurtBackwardsForce;
 
-    //        if (!onWater)
-    //        {
-    //            verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;
-    //            states.Change<HurtPlayerState>();
-    //        }
+            if (!onWater)
+            {
+                verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;
+                states.Change<HurtPlayerState>();
+            }
 
-    //        playerEvents.OnHurt?.Invoke();
+            playerEvents.OnHurt?.Invoke();
 
-    //        if (health.isEmpty)
-    //        {
-    //            Throw();
-    //            playerEvents.OnDie?.Invoke();
-    //        }
-    //    }
-    //}
+            if (health.isEmpty)
+            {
+                Throw();
+                playerEvents.OnDie?.Invoke();
+            }
+        }
+    }
 
     public virtual void Die()
     {
@@ -181,16 +178,16 @@ public class Player : Entity<Player>
         playerEvents.OnDie?.Invoke();
     }
 
-    //public virtual void EnterWater(Collider water)
-    //{
-    //    if (!onWater && !health.isEmpty)
-    //    {
-    //        Throw();
-    //        onWater = true;
-    //        this.water = water;
-    //        states.Change<SwimPlayerState>();
-    //    }
-    //}
+    public virtual void EnterWater(Collider water)
+    {
+        if (!onWater && !health.isEmpty)
+        {
+            Throw();
+            onWater = true;
+            this.water = water;
+            states.Change<SwimPlayerState>();
+        }
+    }
 
     public virtual void ExitWater()
     {
@@ -200,15 +197,15 @@ public class Player : Entity<Player>
         }
     }
 
-    //public virtual void GrabPole(Collider other)
-    //{
-    //    if (stats.current.canPoleClimb && velocity.y <= 0
-    //        && !holding && other.TryGetComponent(out Pole pole))
-    //    {
-    //        this.pole = pole;
-    //        states.Change<PoleClimbingPlayerState>();
-    //    }
-    //}
+    public virtual void GrabPole(Collider other)
+    {
+        if (stats.current.canPoleClimb && velocity.y <= 0
+            && !holding && other.TryGetComponent(out Pole pole))
+        {
+            this.pole = pole;
+            states.Change<PoleClimbingPlayerState>();
+        }
+    }
 
     public virtual void Accelerate(Vector3 direction)
     {
@@ -234,7 +231,9 @@ public class Player : Entity<Player>
     public virtual void RegularSlopeFactor()
     {
         if (stats.current.applySlopeFactor)
+        {
             SlopeFactor(stats.current.slopeUpwardForce, stats.current.slopeDownwardForce);
+        }
     }
 
     public virtual void WaterAcceleration(Vector3 direction) =>
@@ -251,11 +250,14 @@ public class Player : Entity<Player>
 
     public virtual void Decelerate() => Decelerate(stats.current.deceleration);
 
+    /// <summary>
+    /// 摩擦力
+    /// </summary>
     public virtual void Friction()
     {
-        if (OnSlopingGround())
+        if (OnSlopingGround())//斜坡时
             Decelerate(stats.current.slopeFriction);
-        else
+        else//非斜坡时
             Decelerate(stats.current.friction);
     }
 
@@ -284,13 +286,16 @@ public class Player : Entity<Player>
 
     public virtual void WaterFaceDirection(Vector3 direction) => FaceDirection(direction, stats.current.waterRotationSpeed);
 
-    //public virtual void Fall()
-    //{
-    //    if (!isGrounded)
-    //    {
-    //        states.Change<FallPlayerState>();
-    //    }
-    //}
+    /// <summary>
+    /// 坠落
+    /// </summary>
+    public virtual void Fall()
+    {
+        if (!isGrounded)
+        {
+            states.Change<FallPlayerState>();
+        }
+    }
 
     /// <summary>
     /// 跳跃，提供一个向上的verticalVelocity
@@ -307,7 +312,9 @@ public class Player : Entity<Player>
         //要求：不能持物，除非开启canJumpWhileHolding
         bool holdJump = !holding || stats.current.canJumpWhileHolding;
 
-        //在不持物状态下，满足跳跃条件
+        //跳跃条件：
+        //1.满足holdJump
+        //2.在地面 或 在轨道 或 满足canMultiJump 或 满足 canCoyoteJump
         if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
         {
             if (inputs.GetJumpDown())
@@ -329,7 +336,6 @@ public class Player : Entity<Player>
         states.Change<FallPlayerState>();
         playerEvents.OnJump?.Invoke();
     }
-
     public virtual void DirectionalJump(Vector3 direction, float height, float distance)
     {
         jumpCounter++;
@@ -346,68 +352,86 @@ public class Player : Entity<Player>
 
     public virtual void ResetAirSpins() => airSpinCounter = 0;
 
-    //public virtual void Spin()
-    //{
-    //    var canAirSpin = (isGrounded || stats.current.canAirSpin) && airSpinCounter < stats.current.allowedAirSpins;
+    /// <summary>
+    /// 旋转动作
+    /// </summary>
+    public virtual void Spin()
+    {
+        //空中旋转要求：
+        //1.!canAirSpin---需要在地上 canAirSpin---地上空中都可以
+        //2.没有达到最高空中旋转次数
+        var canAirSpin = (isGrounded || stats.current.canAirSpin) && airSpinCounter < stats.current.allowedAirSpins;
 
-    //    if (stats.current.canSpin && canAirSpin && !holding && inputs.GetSpinDown())
-    //    {
-    //        if (!isGrounded)
-    //        {
-    //            airSpinCounter++;
-    //        }
+        //是否可以旋转要求：
+        //1.按下旋转键
+        //2.开启canSpin
+        //3.不能持物
+        //4.必须满足canAirSpin
+        if (stats.current.canSpin && canAirSpin && !holding && inputs.GetSpinDown())
+        {
+            if (!isGrounded)
+            {
+                airSpinCounter++;//空中旋转计数
+            }
 
-    //        states.Change<SpinPlayerState>();
-    //        playerEvents.OnSpin?.Invoke();
-    //    }
-    //}
+            states.Change<SpinPlayerState>();
+            playerEvents.OnSpin?.Invoke();
+        }
+    }
 
+    /// <summary>
+    /// 拾取或丢弃
+    /// </summary>
     public virtual void PickAndThrow()
     {
+        //基础要求：
+        //1.开启canPickUp
+        //2.按下拾取丢弃键
         if (stats.current.canPickUp && inputs.GetPickAndDropDown())
         {
-            if (!holding)
+            if (!holding)//无物即拾取
             {
-                if (CapsuleCast(transform.forward,
-                    stats.current.pickDistance, out var hit))
+                if (CapsuleCast(transform.forward, stats.current.pickDistance, out var hit))//检测前方物体
                 {
-                    if (hit.transform.TryGetComponent(out Pickable pickable))
+                    if (hit.transform.TryGetComponent(out Pickable pickable))//必须为Pickable物体
                     {
                         PickUp(pickable);
                     }
                 }
             }
-            else
+            else//有物即丢弃
             {
                 Throw();
             }
         }
     }
-
     public virtual void PickUp(Pickable pickable)
     {
+        //拾取条件：
+        //1.无物
+        //2.!canPickUpOnAir时只可在地面，canPickUpOnAir可在地面空中
         if (!holding && (isGrounded || stats.current.canPickUpOnAir))
         {
             holding = true;
             this.pickable = pickable;
             pickable.PickUp(pickableSlot);
-            pickable.onRespawn.AddListener(RemovePickable);
+            pickable.onRespawn.AddListener(RemovePickable);//重置时不再拾取
             playerEvents.OnPickUp?.Invoke();
         }
     }
-
     public virtual void Throw()
     {
+        //丢弃条件：
+        //1.持物
         if (holding)
         {
-            var force = lateralVelocity.magnitude * stats.current.throwVelocityMultiplier;
-            pickable.Release(transform.forward, force);
+            float force = lateralVelocity.magnitude * stats.current.throwVelocityMultiplier;
+            pickable.Release(transform.forward, force);//向前丢出
             pickable = null;
             holding = false;
             playerEvents.OnThrow?.Invoke();
         }
     }
-
     public virtual void RemovePickable()
     {
         if (holding)
@@ -417,76 +441,76 @@ public class Player : Entity<Player>
         }
     }
 
-    //public virtual void AirDive()
-    //{
-    //    if (stats.current.canAirDive && !isGrounded && !holding && inputs.GetAirDiveDown())
-    //    {
-    //        states.Change<AirDivePlayerState>();
-    //        playerEvents.OnAirDive?.Invoke();
-    //    }
-    //}
+    public virtual void AirDive()
+    {
+        if (stats.current.canAirDive && !isGrounded && !holding && inputs.GetAirDiveDown())
+        {
+            states.Change<AirDivePlayerState>();
+            playerEvents.OnAirDive?.Invoke();
+        }
+    }
 
-    //public virtual void StompAttack()
-    //{
-    //    if (!isGrounded && !holding && stats.current.canStompAttack && inputs.GetStompDown())
-    //    {
-    //        states.Change<StompPlayerState>();
-    //    }
-    //}
+    public virtual void StompAttack()
+    {
+        if (!isGrounded && !holding && stats.current.canStompAttack && inputs.GetStompDown())
+        {
+            states.Change<StompPlayerState>();
+        }
+    }
 
-    //public virtual void LedgeGrab()
-    //{
-    //    if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
-    //        states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
-    //        DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
-    //    {
-    //        if (!(hit.collider is CapsuleCollider) && !(hit.collider is SphereCollider))
-    //        {
-    //            var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
-    //            var lateralOffset = transform.forward * ledgeDistance;
-    //            var verticalOffset = Vector3.down * height * 0.5f - center;
-    //            velocity = Vector3.zero;
-    //            transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
-    //            transform.position = hit.point - lateralOffset + verticalOffset;
-    //            states.Change<LedgeHangingPlayerState>();
-    //            playerEvents.OnLedgeGrabbed?.Invoke();
-    //        }
-    //    }
-    //}
+    public virtual void LedgeGrab()
+    {
+        if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
+            states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+            DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
+        {
+            if (!(hit.collider is CapsuleCollider) && !(hit.collider is SphereCollider))
+            {
+                var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
+                var lateralOffset = transform.forward * ledgeDistance;
+                var verticalOffset = Vector3.down * height * 0.5f - center;
+                velocity = Vector3.zero;
+                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+                transform.position = hit.point - lateralOffset + verticalOffset;
+                states.Change<LedgeHangingPlayerState>();
+                playerEvents.OnLedgeGrabbed?.Invoke();
+            }
+        }
+    }
 
-    //public virtual void Backflip(float force)
-    //{
-    //    if (stats.current.canBackflip && !holding)
-    //    {
-    //        verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;
-    //        lateralVelocity = -transform.forward * force;
-    //        states.Change<BackflipPlayerState>();
-    //        playerEvents.OnBackflip.Invoke();
-    //    }
-    //}
+    public virtual void Backflip(float force)
+    {
+        if (stats.current.canBackflip && !holding)
+        {
+            verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;
+            lateralVelocity = -transform.forward * force;
+            states.Change<BackflipPlayerState>();
+            playerEvents.OnBackflip.Invoke();
+        }
+    }
 
-    //public virtual void Dash()
-    //{
-    //    var canAirDash = stats.current.canAirDash && !isGrounded &&
-    //        airDashCounter < stats.current.allowedAirDashes;
-    //    var canGroundDash = stats.current.canGroundDash && isGrounded &&
-    //        Time.time - lastDashTime > stats.current.groundDashCoolDown;
+    public virtual void Dash()
+    {
+        var canAirDash = stats.current.canAirDash && !isGrounded &&
+            airDashCounter < stats.current.allowedAirDashes;
+        var canGroundDash = stats.current.canGroundDash && isGrounded &&
+            Time.time - lastDashTime > stats.current.groundDashCoolDown;
 
-    //    if (inputs.GetDashDown() && (canAirDash || canGroundDash))
-    //    {
-    //        if (!isGrounded) airDashCounter++;
+        if (inputs.GetDashDown() && (canAirDash || canGroundDash))
+        {
+            if (!isGrounded) airDashCounter++;
 
-    //        lastDashTime = Time.time;
-    //        states.Change<DashPlayerState>();
-    //    }
-    //}
+            lastDashTime = Time.time;
+            states.Change<DashPlayerState>();
+        }
+    }
 
-    //public virtual void Glide()
-    //{
-    //    if (!isGrounded && inputs.GetGlide() &&
-    //        verticalVelocity.y <= 0 && stats.current.canGlide)
-    //        states.Change<GlidingPlayerState>();
-    //}
+    public virtual void Glide()
+    {
+        if (!isGrounded && inputs.GetGlide() &&
+            verticalVelocity.y <= 0 && stats.current.canGlide)
+            states.Change<GlidingPlayerState>();
+    }
 
     public virtual void SetSkinParent(Transform parent)
     {
@@ -506,22 +530,22 @@ public class Player : Entity<Player>
         }
     }
 
-    //public virtual void WallDrag(Collider other)
-    //{
-    //    if (stats.current.canWallDrag && velocity.y <= 0 &&
-    //        !holding && !other.TryGetComponent<Rigidbody>(out _))
-    //    {
-    //        if (CapsuleCast(transform.forward, 0.25f, out var hit,
-    //            stats.current.wallDragLayers) && !DetectingLedge(0.25f, height, out _))
-    //        {
-    //            if (hit.collider.CompareTag(GameTags.Platform))
-    //                transform.parent = hit.transform;
+    public virtual void WallDrag(Collider other)
+    {
+        if (stats.current.canWallDrag && velocity.y <= 0 &&
+            !holding && !other.TryGetComponent<Rigidbody>(out _))
+        {
+            if (CapsuleCast(transform.forward, 0.25f, out var hit,
+                stats.current.wallDragLayers) && !DetectingLedge(0.25f, height, out _))
+            {
+                if (hit.collider.CompareTag(GameTags.Platform))
+                    transform.parent = hit.transform;
 
-    //            lastWallNormal = hit.normal;
-    //            states.Change<WallDragPlayerState>();
-    //        }
-    //    }
-    //}
+                lastWallNormal = hit.normal;
+                states.Change<WallDragPlayerState>();
+            }
+        }
+    }
 
     public virtual void PushRigidbody(Collider other)
     {
@@ -557,5 +581,5 @@ public class Player : Entity<Player>
             stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore);
     }
 
-    //public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
+    public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
 }

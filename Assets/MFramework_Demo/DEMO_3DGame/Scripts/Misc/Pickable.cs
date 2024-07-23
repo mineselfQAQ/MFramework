@@ -24,19 +24,8 @@ public class Pickable : MonoBehaviour
 
     [Space(15)]
 
-    /// <summary>
-    /// Called when this object is Picked.
-    /// </summary>
     public UnityEvent onPicked;
-
-    /// <summary>
-    /// Called when this object is Released.
-    /// </summary>
     public UnityEvent onReleased;
-
-    /// <summary>
-    /// Called when this object is respawned.
-    /// </summary>
     public UnityEvent onRespawn;
 
     protected Collider m_collider;

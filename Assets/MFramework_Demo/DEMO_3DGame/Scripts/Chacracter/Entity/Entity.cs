@@ -313,10 +313,13 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    /// <summary>
+    /// 减速
+    /// </summary>
     public virtual void Decelerate(float deceleration)
     {
         var delta = deceleration * decelerationMultiplier * Time.deltaTime;
-        lateralVelocity = Vector3.MoveTowards(lateralVelocity, Vector3.zero, delta);
+        lateralVelocity = Vector3.MoveTowards(lateralVelocity, Vector3.zero, delta);//向原点拉回delta
     }
 
     public virtual void Gravity(float gravity)
@@ -327,14 +330,16 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    //TODO:???????????????????????
     public virtual void SlopeFactor(float upwardForce, float downwardForce)
     {
+        //必须在斜坡上
         if (!isGrounded || !OnSlopingGround()) return;
 
-        var factor = Vector3.Dot(Vector3.up, groundNormal);
-        var downwards = Vector3.Dot(localSlopeDirection, lateralVelocity) > 0;
-        var multiplier = downwards ? downwardForce : upwardForce;
-        var delta = factor * multiplier * Time.deltaTime;
+        float factor = Vector3.Dot(Vector3.up, groundNormal);//越平越大
+        bool downwards = Vector3.Dot(localSlopeDirection, lateralVelocity) > 0;
+        float multiplier = downwards ? downwardForce : upwardForce;
+        float delta = factor * multiplier * Time.deltaTime;
         lateralVelocity += localSlopeDirection * delta;
     }
 
@@ -428,11 +433,17 @@ public abstract class Entity : MonoBehaviour
     public Vector3 center => controller.center;
 
     public Vector3 velocity { get; set; }
+    /// <summary>
+    /// 横向速度
+    /// </summary>
     public Vector3 lateralVelocity
     {
         get { return new Vector3(velocity.x, 0, velocity.z); }
         set { velocity = new Vector3(value.x, velocity.y, value.z); }
     }
+    /// <summary>
+    /// 纵向速度
+    /// </summary>
     public Vector3 verticalVelocity
     {
         get { return new Vector3(0, velocity.y, 0); }
@@ -468,14 +479,20 @@ public abstract class Entity : MonoBehaviour
     /// </summary>
     public virtual bool IsPointUnderStep(Vector3 point) => stepPosition.y > point.y;
 
+    /// <summary>
+    /// 是否在斜坡上
+    /// </summary>
     public virtual bool OnSlopingGround()
     {
+        //基础要求：
+        //1.在地面上
+        //2.地面角度大于m_slopingGroundAngle(说明这是一个斜坡)
         if (isGrounded && groundAngle > m_slopingGroundAngle)
         {
             if (Physics.Raycast(transform.position, -transform.up, out var hit, height * 2f,
                 Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
                 return Vector3.Angle(hit.normal, Vector3.up) > m_slopingGroundAngle;
-            else
+            else//过斜可能射不到，必是
                 return true;
         }
 

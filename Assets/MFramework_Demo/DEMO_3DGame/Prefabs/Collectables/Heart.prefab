@@ -71,7 +71,7 @@ MonoBehaviour:
   collectOnContact: 1
   times: 1
   ghostingDuration: 0.5
-  model: {fileID: 0}
+  model: {fileID: 5369921657357868717}
   clip: {fileID: 8300000, guid: 7ef55b15281e988459be4b38e36962d9, type: 3}
   particle: {fileID: 4019565981003579037}
   hidden: 0

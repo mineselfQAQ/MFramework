@@ -4,8 +4,6 @@ public class FallPlayerState : PlayerState
 {
     protected override void OnEnter(Player player) { }
 
-    protected override void OnExit(Player player) { }
-
     protected override void OnStep(Player player)
     {
         player.Gravity();
@@ -26,6 +24,8 @@ public class FallPlayerState : PlayerState
             player.states.Change<IdlePlayerState>();
         }
     }
+
+    protected override void OnExit(Player player) { }
 
     public override void OnContact(Player player, Collider other)
     {
