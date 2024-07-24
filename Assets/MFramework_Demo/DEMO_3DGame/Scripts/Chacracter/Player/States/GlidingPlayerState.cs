@@ -12,16 +12,19 @@ public class GlidingPlayerState : PlayerState
     {
         var inputDirection = player.inputs.GetMovementCameraDirection();
 
-        HandleGlidingGravity(player);
+        GlidingGravity(player);
         player.FaceDirection(player.lateralVelocity);
         player.Accelerate(inputDirection, player.stats.current.glidingTurningDrag,
             player.stats.current.airAcceleration, player.stats.current.topSpeed);
+
         player.LedgeGrab();
 
+        //落地进入Idle
         if (player.isGrounded)
         {
             player.states.Change<IdlePlayerState>();
         }
+        //松开滑翔键进入Fall
         else if (!player.inputs.GetGlide())
         {
             player.states.Change<FallPlayerState>();
@@ -37,7 +40,7 @@ public class GlidingPlayerState : PlayerState
         player.GrabPole(other);
     }
 
-    protected virtual void HandleGlidingGravity(Player player)
+    protected virtual void GlidingGravity(Player player)
     {
         var yVelocity = player.verticalVelocity.y;
         yVelocity -= player.stats.current.glidingGravity * Time.deltaTime;

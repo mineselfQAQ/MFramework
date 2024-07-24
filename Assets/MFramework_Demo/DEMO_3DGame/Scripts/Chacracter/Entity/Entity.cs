@@ -288,16 +288,19 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     protected virtual void OnUpdate() { }
     #endregion
 
+    /// <summary>
+    /// 加速
+    /// </summary>
     public virtual void Accelerate(Vector3 direction, float turningDrag, float acceleration, float topSpeed)
     {
         //Tip: direction应该是归一化的
         if (direction.sqrMagnitude > 0)//有输入
         {
-            var speed = Vector3.Dot(direction, lateralVelocity);//方向越一致，速度越快
-            var velocity = direction * speed;//输入速度(带方向)=路程*速度
-            var turningVelocity = lateralVelocity - velocity;//补正速度(带方向)
-            var turningDelta = turningDrag * turningDragMultiplier * Time.deltaTime;//每帧的补正的修正(为了减小值的大小)
-            var targetTopSpeed = topSpeed * topSpeedMultiplier;//目标最大速度
+            float speed = Vector3.Dot(direction, lateralVelocity);//方向越一致，速度越快
+            Vector3 velocity = direction * speed;//输入速度(带方向)=路程*速度
+            Vector3 turningVelocity = lateralVelocity - velocity;//补正速度(带方向)
+            float turningDelta = turningDrag * turningDragMultiplier * Time.deltaTime;//每帧的补正的修正(为了减小值的大小)
+            float targetTopSpeed = topSpeed * topSpeedMultiplier;//目标最大速度
 
             //方向不正确，速度要慢慢地起来，一直到达最高速度
             if (lateralVelocity.magnitude < targetTopSpeed || speed < 0)
@@ -354,6 +357,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    /// <summary>
+    /// 将Entity直接转向direction
+    /// </summary>
     public virtual void FaceDirection(Vector3 direction)
     {
         if (direction.sqrMagnitude > 0)
@@ -362,13 +368,15 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             transform.rotation = rotation;
         }
     }
-
+    /// <summary>
+    /// 将Entity慢慢转向direction
+    /// </summary>
     public virtual void FaceDirection(Vector3 direction, float degreesPerSecond)
     {
         if (direction != Vector3.zero)
         {
             var rotation = transform.rotation;
-            var rotationDelta = degreesPerSecond * Time.deltaTime;
+            float rotationDelta = degreesPerSecond * Time.deltaTime;
             var target = Quaternion.LookRotation(direction, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(rotation, target, rotationDelta);
         }
@@ -434,7 +442,7 @@ public abstract class Entity : MonoBehaviour
 
     public Vector3 velocity { get; set; }
     /// <summary>
-    /// 横向速度
+    /// 横向速度(Entity面向方向为正)
     /// </summary>
     public Vector3 lateralVelocity
     {
@@ -453,6 +461,9 @@ public abstract class Entity : MonoBehaviour
     public Vector3 lastPosition { get; set; }
     public Vector3 position => transform.position + center;
     public Vector3 unsizedPosition => position - transform.up * height * 0.5f + transform.up * originalHeight * 0.5f;
+    /// <summary>
+    /// 阶梯可允许位置(高于该位置的Entity不可直接走上去)
+    /// </summary>
     public Vector3 stepPosition => position - transform.up * (height * 0.5f - controller.stepOffset);
 
     public float positionDelta { get; protected set; }
@@ -475,8 +486,9 @@ public abstract class Entity : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// 该点是否会在楼梯下(不能自动?)
+    /// 确定该点在楼梯允许范围下还是上
     /// </summary>
+    /// <returns>True为点在阶梯下，False为点在阶梯上</returns>
     public virtual bool IsPointUnderStep(Vector3 point) => stepPosition.y > point.y;
 
     /// <summary>

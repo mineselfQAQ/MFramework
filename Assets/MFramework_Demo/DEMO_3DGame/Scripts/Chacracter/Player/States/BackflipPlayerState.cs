@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackflipPlayerState : PlayerState
 {
     protected override void OnEnter(Player player)
     {
-        player.SetJumps(1);
+        player.SetJumps(1);//jumpCounter = 1
         player.playerEvents.OnJump.Invoke();
 
+        //锁定后空翻移动
         if (player.stats.current.backflipLockMovement)
         {
             player.inputs.LockMovementDirection();
@@ -20,12 +19,12 @@ public class BackflipPlayerState : PlayerState
         player.Gravity(player.stats.current.backflipGravity);
         player.BackflipAcceleration();
 
-        if (player.isGrounded)
+        if (player.isGrounded)//落地
         {
             player.lateralVelocity = Vector3.zero;
             player.states.Change<IdlePlayerState>();
         }
-        else if (player.verticalVelocity.y < 0)
+        else if (player.verticalVelocity.y < 0)//下落
         {
             player.Spin();
             player.AirDive();

@@ -8,6 +8,10 @@ public class BrakePlayerState : PlayerState
     {
         var inputDirection = player.inputs.GetMovementCameraDirection();
 
+        //反向空翻要求：
+        //1.开启canBackflip
+        //2.输入跳跃键
+        //3.输入方向和玩家方向是反向的
         if (player.stats.current.canBackflip &&
             Vector3.Dot(inputDirection, player.transform.forward) < 0 &&
             player.inputs.GetJumpDown())
@@ -19,8 +23,9 @@ public class BrakePlayerState : PlayerState
             player.SnapToGround();
             player.Jump();
             player.Fall();
-            player.Decelerate();
+            player.Decelerate();//关键---减速
 
+            //当速度将至0时，切换至Idle
             if (player.lateralVelocity.sqrMagnitude == 0)
             {
                 player.states.Change<IdlePlayerState>();

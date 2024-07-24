@@ -10,15 +10,17 @@ public class StompPlayerState : PlayerState
 
     protected override void OnEnter(Player player)
     {
-        m_landed = m_falling = false;
-        m_airTimer = m_groundTimer = 0;
+        m_landed = false;
+        m_falling = false;
+        m_airTimer = 0;
+        m_groundTimer = 0;
         player.velocity = Vector3.zero;
         player.playerEvents.OnStompStarted?.Invoke();
     }
 
     protected override void OnStep(Player player)
     {
-        if (!m_falling)
+        if (!m_falling)//½×¶Î1---ÖÍ¿Õ
         {
             m_airTimer += Time.deltaTime;
 
@@ -28,7 +30,7 @@ public class StompPlayerState : PlayerState
                 player.playerEvents.OnStompFalling.Invoke();
             }
         }
-        else
+        else//½×¶Î2---ÏÂÔÒ
         {
             player.verticalVelocity += Vector3.down * player.stats.current.stompDownwardForce;
         }
@@ -41,12 +43,12 @@ public class StompPlayerState : PlayerState
                 player.playerEvents.OnStompLanding?.Invoke();
             }
 
-            if (m_groundTimer >= player.stats.current.stompGroundTime)
+            if (m_groundTimer >= player.stats.current.stompGroundTime)//½×¶Î4---µ¯Æð
             {
                 player.verticalVelocity = Vector3.up * player.stats.current.stompGroundLeapHeight;
                 player.states.Change<FallPlayerState>();
             }
-            else
+            else//½×¶Î3---ÂäµØ
             {
                 m_groundTimer += Time.deltaTime;
             }

@@ -13,7 +13,7 @@ public class SwimPlayerState : PlayerState
             var inputDirection = player.inputs.GetMovementCameraDirection();
 
             player.WaterAcceleration(inputDirection);
-            player.WaterFaceDirection(player.lateralVelocity);
+            player.WaterFaceDirectionSmooth(player.lateralVelocity);
 
             if (player.position.y < player.water.bounds.max.y)
             {

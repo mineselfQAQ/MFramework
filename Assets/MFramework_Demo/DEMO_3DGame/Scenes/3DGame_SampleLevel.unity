@@ -874,14 +874,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1499818796981120004, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: m_SkinWidth
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 1499818796981120004, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: m_MinMoveDistance
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3662566797740874337, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -922,17 +914,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6352794462855827089, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 7912140184573707170, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
       propertyPath: m_Name
       value: Lily
-      objectReference: {fileID: 0}
-    - target: {fileID: 7912140184573707170, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

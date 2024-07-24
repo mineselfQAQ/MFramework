@@ -77,6 +77,10 @@ public class PlayerInputManager : MonoBehaviour
         m_grindBrake = actions["Grind Brake"];
     }
 
+    /// <summary>
+    /// 输入方向
+    /// </summary>
+    /// <returns></returns>
     public virtual Vector3 GetMovementDirection()
     {
         //限制移动启动时间(没到时间不可以进行移动操作)
@@ -101,6 +105,9 @@ public class PlayerInputManager : MonoBehaviour
         return GetAxisWithCrossDeadZone(value);
     }
 
+    /// <summary>
+    /// 根据Camera输入方向
+    /// </summary>
     public virtual Vector3 GetMovementCameraDirection()
     {
         var direction = GetMovementDirection();
@@ -176,6 +183,9 @@ public class PlayerInputManager : MonoBehaviour
         return (value - deadzone) / (1 - deadzone);
     }
 
+    /// <summary>
+    /// 禁止方向输入一定时间
+    /// </summary>
     public virtual void LockMovementDirection(float duration = 0.25f)
     {
         m_movementDirectionUnlockTime = Time.time + duration;

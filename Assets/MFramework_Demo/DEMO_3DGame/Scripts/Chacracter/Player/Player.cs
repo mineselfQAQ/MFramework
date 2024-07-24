@@ -207,12 +207,19 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 加速
+    /// </summary>
     public virtual void Accelerate(Vector3 direction)
     {
-        var turningDrag = isGrounded && inputs.GetRun() ? stats.current.runningTurningDrag : stats.current.turningDrag;
-        var acceleration = isGrounded && inputs.GetRun() ? stats.current.runningAcceleration : stats.current.acceleration;
-        var finalAcceleration = isGrounded ? acceleration : stats.current.airAcceleration;
-        var topSpeed = inputs.GetRun() ? stats.current.runningTopSpeed : stats.current.topSpeed;
+        //旋转牵引---如果在地面跑步，就会使用runningTurnningDrag，否则为turningDrag
+        float turningDrag = isGrounded && inputs.GetRun() ? stats.current.runningTurningDrag : stats.current.turningDrag;
+        //最高速度---如果在跑步，就会使用runningTopSpeed，否则为topSpeed
+        float topSpeed = inputs.GetRun() ? stats.current.runningTopSpeed : stats.current.topSpeed;
+        //加速度---如果在地面跑步，就会使用runningAcceleration，否则为acceleration
+        float acceleration = isGrounded && inputs.GetRun() ? stats.current.runningAcceleration : stats.current.acceleration;
+        //最终加速度---如果在地面，就会使用acceleration，否则为airAcceleration
+        float finalAcceleration = isGrounded ? acceleration : stats.current.airAcceleration;
 
         Accelerate(direction, turningDrag, finalAcceleration, topSpeed);
 
@@ -221,7 +228,9 @@ public class Player : Entity<Player>
             lateralVelocity = Vector3.ClampMagnitude(lateralVelocity, topSpeed);
         }
     }
-
+    /// <summary>
+    /// 根据输入加速
+    /// </summary>
     public virtual void AccelerateToInputDirection()
     {
         var inputDirection = inputs.GetMovementCameraDirection();
@@ -242,6 +251,9 @@ public class Player : Entity<Player>
     public virtual void CrawlingAccelerate(Vector3 direction) =>
         Accelerate(direction, stats.current.crawlingTurningSpeed, stats.current.crawlingAcceleration, stats.current.crawlingTopSpeed);
 
+    /// <summary>
+    /// 后空翻时的输入方向
+    /// </summary>
     public virtual void BackflipAcceleration()
     {
         var direction = inputs.GetMovementCameraDirection();
@@ -282,9 +294,14 @@ public class Player : Entity<Player>
     /// </summary>
     public virtual void SnapToGround() => SnapToGround(stats.current.snapForce);
 
+    /// <summary>
+    /// 将Player慢慢转向direction
+    /// </summary>
     public virtual void FaceDirectionSmooth(Vector3 direction) => FaceDirection(direction, stats.current.rotationSpeed);
-
-    public virtual void WaterFaceDirection(Vector3 direction) => FaceDirection(direction, stats.current.waterRotationSpeed);
+    /// <summary>
+    /// 将Player慢慢转向direction(水中)
+    /// </summary>
+    public virtual void WaterFaceDirectionSmooth(Vector3 direction) => FaceDirection(direction, stats.current.waterRotationSpeed);
 
     /// <summary>
     /// 坠落
@@ -322,8 +339,7 @@ public class Player : Entity<Player>
                 Jump(stats.current.maxJumpHeight);
             }
         }
-
-        //TODO:???????????感觉没意义
+        //控制跳跃高度(按下就松就会由原来的maxJumpHeight变为minJumpHeight)
         if (inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
         {
             verticalVelocity = Vector3.up * stats.current.minJumpHeight;
@@ -441,8 +457,13 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 空中俯冲
+    /// </summary>
     public virtual void AirDive()
     {
+        //空中俯冲要求：
+        //1.开启canAirDive 2.在空中 3.未持物 4.按下空中俯冲按键
         if (stats.current.canAirDive && !isGrounded && !holding && inputs.GetAirDiveDown())
         {
             states.Change<AirDivePlayerState>();
@@ -450,16 +471,28 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 重踩攻击
+    /// </summary>
     public virtual void StompAttack()
     {
-        if (!isGrounded && !holding && stats.current.canStompAttack && inputs.GetStompDown())
+        //重踩攻击要求：
+        //1.开启canStompAttack 2.在空中 3.未持物 4.按下重踩攻击键
+        if (stats.current.canStompAttack && !isGrounded && !holding && inputs.GetStompDown())
         {
             states.Change<StompPlayerState>();
         }
     }
 
+    /// <summary>
+    /// 抓住边缘
+    /// </summary>
     public virtual void LedgeGrab()
     {
+        //抓沿要求：
+        //1.开启canLedgeHang 2.在下降 3.未持物
+        //4.添加了LedgeHangingPlayerState
+        //5.TODO:......................
         if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
             states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
             DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
@@ -478,22 +511,34 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 后空翻
+    /// </summary>
     public virtual void Backflip(float force)
     {
+        //后空翻要求：
+        //1.开启canBackflip 2.不能持物
         if (stats.current.canBackflip && !holding)
         {
-            verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;
-            lateralVelocity = -transform.forward * force;
+            verticalVelocity = Vector3.up * stats.current.backflipJumpHeight;//向上
+            lateralVelocity = -transform.forward * force;//向后
             states.Change<BackflipPlayerState>();
             playerEvents.OnBackflip.Invoke();
         }
     }
 
+    /// <summary>
+    /// 冲刺
+    /// </summary>
     public virtual void Dash()
     {
-        var canAirDash = stats.current.canAirDash && !isGrounded &&
+        //空中冲刺条件：
+        //1.开启canAirDash 2.在空中 3.空中冲刺次数未达到allowedAirDashes
+        bool canAirDash = stats.current.canAirDash && !isGrounded &&
             airDashCounter < stats.current.allowedAirDashes;
-        var canGroundDash = stats.current.canGroundDash && isGrounded &&
+        //地面冲刺条件：
+        //1.开启canGroundDash 2.在地面 3.冷却时间已过
+        bool canGroundDash = stats.current.canGroundDash && isGrounded &&
             Time.time - lastDashTime > stats.current.groundDashCoolDown;
 
         if (inputs.GetDashDown() && (canAirDash || canGroundDash))
@@ -505,10 +550,17 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 滑翔
+    /// </summary>
     public virtual void Glide()
     {
-        if (!isGrounded && inputs.GetGlide() &&
-            verticalVelocity.y <= 0 && stats.current.canGlide)
+        //滑翔条件：
+        //1.开启canGlide
+        //2.按下滑翔按键
+        //3.在空中
+        //4.在下落
+        if (stats.current.canGlide && !isGrounded && verticalVelocity.y <= 0 && inputs.GetGlide()) 
             states.Change<GlidingPlayerState>();
     }
 
@@ -530,8 +582,13 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 抓墙(抓着墙不断滑落)
+    /// </summary>
     public virtual void WallDrag(Collider other)
     {
+        //抓墙条件：
+        //1.开启canWallDrag 2.下落中 3.未持物 4.碰撞物体非Rigidbody物体(要是墙这种大型物体，不能是箱子这种)
         if (stats.current.canWallDrag && velocity.y <= 0 &&
             !holding && !other.TryGetComponent<Rigidbody>(out _))
         {
@@ -547,12 +604,17 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 推动其它Rigidbody物体
+    /// </summary>
     public virtual void PushRigidbody(Collider other)
     {
+        //要求：物体比脚高(否则就应该踩上去了)
         if (!IsPointUnderStep(other.bounds.max) &&
             other.TryGetComponent(out Rigidbody rigidbody))
         {
-            var force = lateralVelocity * stats.current.pushForce;
+            //提供朝向lateralVelocity方向的力
+            Vector3 force = lateralVelocity * stats.current.pushForce;
             rigidbody.velocity += force / rigidbody.mass * Time.deltaTime;
         }
     }
