@@ -145,20 +145,27 @@ public class Player : Entity<Player>
         m_respawnRotation = rotation;
     }
 
+    /// <summary>
+    /// 造成伤害
+    /// </summary>
+    /// <param name="origin">造成伤害物体的原点</param>
     public override void ApplyDamage(int amount, Vector3 origin)
     {
+        //Player还活着且未进入无敌状态
         if (!health.isEmpty && !health.recovering)
         {
             health.Damage(amount);
-            var damageDir = origin - transform.position;
+
+            Vector3 damageDir = origin - transform.position;//击退方向
             damageDir.y = 0;
             damageDir = damageDir.normalized;
             FaceDirection(damageDir);
+
             lateralVelocity = -transform.forward * stats.current.hurtBackwardsForce;
 
-            if (!onWater)
+            if (!onWater)//不在水中
             {
-                verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;
+                verticalVelocity = Vector3.up * stats.current.hurtUpwardForce;//向上击退
                 states.Change<HurtPlayerState>();
             }
 
@@ -197,8 +204,13 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 抓杆
+    /// </summary>
     public virtual void GrabPole(Collider other)
     {
+        //抓杆条件：
+        //1.开启canPoleClimb 2.在下降 3.未持物 4.碰撞物体为杆子
         if (stats.current.canPoleClimb && velocity.y <= 0
             && !holding && other.TryGetComponent(out Pole pole))
         {
@@ -352,6 +364,10 @@ public class Player : Entity<Player>
         states.Change<FallPlayerState>();
         playerEvents.OnJump?.Invoke();
     }
+
+    /// <summary>
+    /// 起跳(不经过额外判断)
+    /// </summary>
     public virtual void DirectionalJump(Vector3 direction, float height, float distance)
     {
         jumpCounter++;
@@ -592,9 +608,11 @@ public class Player : Entity<Player>
         if (stats.current.canWallDrag && velocity.y <= 0 &&
             !holding && !other.TryGetComponent<Rigidbody>(out _))
         {
-            if (CapsuleCast(transform.forward, 0.25f, out var hit,
-                stats.current.wallDragLayers) && !DetectingLedge(0.25f, height, out _))
+            //物体靠近墙面且没有抓住边缘，即可进入WallDrag状态
+            if (CapsuleCast(transform.forward, 0.25f, out var hit, stats.current.wallDragLayers)
+                && !DetectingLedge(0.25f, height, out _))
             {
+                //对于Platform需要将父物体设置为它  TODO:WHY???
                 if (hit.collider.CompareTag(GameTags.Platform))
                     transform.parent = hit.transform;
 

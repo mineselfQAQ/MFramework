@@ -19,9 +19,10 @@ public class Pole : MonoBehaviour
     /// 获取归一化的物体到杆子的水平方向
     /// </summary>
     public Vector3 GetDirectionToPole(Transform other) => GetDirectionToPole(other, out _);
-    /// <summary>
+    ///<summary>
     /// 获取归一化的物体到杆子的水平方向
     /// </summary>
+    /// <param name="distance">物体到杆子的长度</param>
     public Vector3 GetDirectionToPole(Transform other, out float distance)
     {
         Vector3 target = new Vector3(center.x, other.position.y, center.z) - other.position;//物体到杆子的水平向量
@@ -34,9 +35,9 @@ public class Pole : MonoBehaviour
     /// </summary>
     public Vector3 ClampPointToPoleHeight(Vector3 point, float offset)
     {
-        var minHeight = collider.bounds.min.y + offset;
-        var maxHeight = collider.bounds.max.y - offset;
-        var clampedHeight = Mathf.Clamp(point.y, minHeight, maxHeight);
+        float minHeight = collider.bounds.min.y + offset;
+        float maxHeight = collider.bounds.max.y - offset;
+        float clampedHeight = Mathf.Clamp(point.y, minHeight, maxHeight);
         return new Vector3(point.x, clampedHeight, point.z);
     }
 }

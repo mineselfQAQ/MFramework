@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrawlingPlayerState : PlayerState
@@ -17,10 +15,10 @@ public class CrawlingPlayerState : PlayerState
         player.Fall();
 
         var inputDirection = player.inputs.GetMovementCameraDirection();
-
+        //当 人物按住下蹲爬行键 或 根本爬不起来
         if (player.inputs.GetCrouchAndCraw() || !player.canStandUp)
         {
-            if (inputDirection.sqrMagnitude > 0)
+            if (inputDirection.sqrMagnitude > 0)//有输入
             {
                 player.CrawlingAccelerate(inputDirection);
                 player.FaceDirectionSmooth(player.lateralVelocity);
@@ -30,7 +28,7 @@ public class CrawlingPlayerState : PlayerState
                 player.Decelerate(player.stats.current.crawlingFriction);
             }
         }
-        else
+        else//爬得起来就Idle状态
         {
             player.states.Change<IdlePlayerState>();
         }

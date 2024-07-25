@@ -4,8 +4,10 @@ public class SpinPlayerState : PlayerState
 {
     protected override void OnEnter(Player player)
     {
+        //空转情况
         if (!player.isGrounded)
         {
+            //上旋
             player.verticalVelocity = Vector3.up * player.stats.current.airSpinUpwardForce;
         }
     }
@@ -16,15 +18,17 @@ public class SpinPlayerState : PlayerState
         player.SnapToGround();
         player.AirDive();
         player.StompAttack();
+
         player.AccelerateToInputDirection();
 
+        //旋转时间已过
         if (timeSinceEntered >= player.stats.current.spinDuration)
         {
-            if (player.isGrounded)
+            if (player.isGrounded)//已落地
             {
                 player.states.Change<IdlePlayerState>();
             }
-            else
+            else//还在空中
             {
                 player.states.Change<FallPlayerState>();
             }

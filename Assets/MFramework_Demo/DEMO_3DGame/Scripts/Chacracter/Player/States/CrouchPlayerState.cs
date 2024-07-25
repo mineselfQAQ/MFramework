@@ -12,27 +12,29 @@ public class CrouchPlayerState : PlayerState
         player.Gravity();
         player.SnapToGround();
         player.Fall();
+
         player.Decelerate(player.stats.current.crouchFriction);
 
-        var inputDirection = player.inputs.GetMovementDirection();
-
+        Vector3 inputDirection = player.inputs.GetMovementDirection();
+        //当 人物按住下蹲爬行键 或 根本爬不起来
         if (player.inputs.GetCrouchAndCraw() || !player.canStandUp)
         {
+            //输入后，如果人物 未持物 且 没在动，进入爬行状态
             if (inputDirection.sqrMagnitude > 0 && !player.holding)
             {
-                var speedMagnitude = player.lateralVelocity.sqrMagnitude;
-
+                float speedMagnitude = player.lateralVelocity.sqrMagnitude;
                 if (player.lateralVelocity.sqrMagnitude == 0)
                 {
                     player.states.Change<CrawlingPlayerState>();
                 }
             }
+            //输入跳跃键即可后空翻
             else if (player.inputs.GetJumpDown())
             {
                 player.Backflip(player.stats.current.backflipBackwardForce);
             }
         }
-        else
+        else//爬得起来就Idle状态
         {
             player.states.Change<IdlePlayerState>();
         }

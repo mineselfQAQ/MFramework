@@ -511,9 +511,15 @@ public abstract class Entity : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 重计算Collider大小
+    /// </summary>
     public virtual void ResizeCollider(float height)
     {
+        //偏移量
+        //当当前高度>height，为负(下降)，反之
         var delta = height - this.height;
+
         controller.height = height;
         controller.center += Vector3.up * delta * 0.5f;
     }
