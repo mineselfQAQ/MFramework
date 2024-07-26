@@ -1,3 +1,4 @@
+using MFramework;
 using System.Collections;
 using UnityEngine;
 
@@ -11,9 +12,10 @@ public class LedgeHangingPlayerState : PlayerState
     protected override void OnEnter(Player player)
     {
         if (m_clearParentRoutine != null)
-            player.StopCoroutine(m_clearParentRoutine);
+            MCoroutineManager.Instance.StopCoroutine(m_clearParentRoutine);
 
         m_keepParent = false;
+        //人物模型偏移
         player.skin.position += player.transform.rotation * player.stats.current.ledgeHangingSkinOffset;
         player.ResetJumps();
         player.ResetAirSpins();
@@ -22,24 +24,24 @@ public class LedgeHangingPlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
-        var ledgeTopMaxDistance = player.radius + player.stats.current.ledgeMaxForwardDistance;
-        var ledgeTopHeightOffset = player.height * 0.5f + player.stats.current.ledgeMaxDownwardDistance;
-        var topOrigin = player.position + Vector3.up * ledgeTopHeightOffset + player.transform.forward * ledgeTopMaxDistance;
-        var sideOrigin = player.position + Vector3.up * player.height * 0.5f + Vector3.down * player.stats.current.ledgeSideHeightOffset;
-        var rayDistance = player.radius + player.stats.current.ledgeSideMaxDistance;
-        var rayRadius = player.stats.current.ledgeSideCollisionRadius;
+        float ledgeTopMaxDistance = player.radius + player.stats.current.ledgeMaxForwardDistance;
+        float ledgeTopHeightOffset = player.height * 0.5f + player.stats.current.ledgeMaxDownwardDistance;
+        Vector3 topOrigin = player.position + Vector3.up * ledgeTopHeightOffset + player.transform.forward * ledgeTopMaxDistance;
+        Vector3 sideOrigin = player.position + Vector3.up * player.height * 0.5f + Vector3.down * player.stats.current.ledgeSideHeightOffset;
+        float rayDistance = player.radius + player.stats.current.ledgeSideMaxDistance;
+        float rayRadius = player.stats.current.ledgeSideCollisionRadius;
 
         if (Physics.SphereCast(sideOrigin, rayRadius, player.transform.forward, out var sideHit,
             rayDistance, player.stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore) &&
             Physics.Raycast(topOrigin, Vector3.down, out var topHit, player.height,
             player.stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore))
         {
-            var inputDirection = player.inputs.GetMovementDirection();
-            var ledgeSideOrigin = sideOrigin + player.transform.right * Mathf.Sign(inputDirection.x) * player.radius;
-            var ledgeHeight = topHit.point.y - player.height * 0.5f;
-            var sideForward = -new Vector3(sideHit.normal.x, 0, sideHit.normal.z).normalized;
-            var destinationHeight = player.height * 0.5f + Physics.defaultContactOffset;
-            var climbDestination = topHit.point + Vector3.up * destinationHeight +
+            Vector3 inputDirection = player.inputs.GetMovementDirection();
+            Vector3 ledgeSideOrigin = sideOrigin + player.transform.right * Mathf.Sign(inputDirection.x) * player.radius;
+            float ledgeHeight = topHit.point.y - player.height * 0.5f;
+            Vector3 sideForward = -new Vector3(sideHit.normal.x, 0, sideHit.normal.z).normalized;
+            float destinationHeight = player.height * 0.5f + Physics.defaultContactOffset;
+            Vector3 climbDestination = topHit.point + Vector3.up * destinationHeight +
                 player.transform.forward * player.radius;
 
             player.FaceDirection(sideForward);
@@ -83,7 +85,8 @@ public class LedgeHangingPlayerState : PlayerState
 
     protected override void OnExit(Player player)
     {
-        m_clearParentRoutine = player.StartCoroutine(ClearParentRoutine(player));
+        m_clearParentRoutine = MCoroutineManager.Instance.BeginCoroutineNoRecord(ClearParentRoutine(player));
+        //人物模型偏移
         player.skin.position -= player.transform.rotation * player.stats.current.ledgeHangingSkinOffset;
     }
 

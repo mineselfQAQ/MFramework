@@ -73,12 +73,16 @@ public class Player : Entity<Player>
 
     protected virtual void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(GameTags.VolumeWater))
+        if (other.CompareTag(GameTags.VolumeWater))//碰到体积水
         {
+            //入水条件：
+            //1.还不在水中 2.Player在水的范围中
             if (!onWater && other.bounds.Contains(unsizedPosition))
             {
                 EnterWater(other);
             }
+            //出水条件：
+            //1.在水中 2.Player不在水的范围中
             else if (onWater)
             {
                 var exitPoint = position + Vector3.down * k_waterExitOffset;
@@ -185,8 +189,13 @@ public class Player : Entity<Player>
         playerEvents.OnDie?.Invoke();
     }
 
+    /// <summary>
+    /// 入水
+    /// </summary>
     public virtual void EnterWater(Collider water)
     {
+        //入水条件：
+        //1.还没在水中 2.还活着
         if (!onWater && !health.isEmpty)
         {
             Throw();
@@ -195,7 +204,9 @@ public class Player : Entity<Player>
             states.Change<SwimPlayerState>();
         }
     }
-
+    /// <summary>
+    /// 出水
+    /// </summary>
     public virtual void ExitWater()
     {
         if (onWater)
@@ -508,19 +519,20 @@ public class Player : Entity<Player>
         //抓沿要求：
         //1.开启canLedgeHang 2.在下降 3.未持物
         //4.添加了LedgeHangingPlayerState
-        //5.TODO:......................
+        //5.是否在边缘
         if (stats.current.canLedgeHang && velocity.y < 0 && !holding &&
             states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
             DetectingLedge(stats.current.ledgeMaxForwardDistance, stats.current.ledgeMaxDownwardDistance, out var hit))
         {
             if (!(hit.collider is CapsuleCollider) && !(hit.collider is SphereCollider))
             {
-                var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
-                var lateralOffset = transform.forward * ledgeDistance;
-                var verticalOffset = Vector3.down * height * 0.5f - center;
+                float ledgeDistance = radius + stats.current.ledgeMaxForwardDistance;
+                Vector3 lateralOffset = transform.forward * ledgeDistance;
+                Vector3 verticalOffset = Vector3.down * height * 0.5f - center;
+
                 velocity = Vector3.zero;
                 transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
-                transform.position = hit.point - lateralOffset + verticalOffset;
+                transform.position = hit.point - lateralOffset + verticalOffset;//碰撞点向后向下
                 states.Change<LedgeHangingPlayerState>();
                 playerEvents.OnLedgeGrabbed?.Invoke();
             }
@@ -637,14 +649,19 @@ public class Player : Entity<Player>
         }
     }
 
+    /// <summary>
+    /// 检测是否在边缘
+    /// </summary>
+    /// <param name="ledgeHit">边缘检测点(边缘上侧)</param>
     protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
     {
-        var contactOffset = Physics.defaultContactOffset + positionDelta;
-        var ledgeMaxDistance = radius + forwardDistance;
-        var ledgeHeightOffset = height * 0.5f + contactOffset;
-        var upwardOffset = transform.up * ledgeHeightOffset;
-        var forwardOffset = transform.forward * ledgeMaxDistance;
+        float contactOffset = Physics.defaultContactOffset + positionDelta;
+        float ledgeHeightOffset = height * 0.5f + contactOffset;//上间隔
+        float ledgeMaxDistance = radius + forwardDistance;//前间隔
+        Vector3 upwardOffset = transform.up * ledgeHeightOffset;
+        Vector3 forwardOffset = transform.forward * ledgeMaxDistance;
 
+        //如果Player位置加上偏移还是能射到，说明Player离墙面太远或者过低抓不到边缘
         if (Physics.Raycast(position + upwardOffset, transform.forward, ledgeMaxDistance,
             Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) ||
             Physics.Raycast(position + forwardOffset * .01f, transform.up, ledgeHeightOffset,
@@ -654,12 +671,15 @@ public class Player : Entity<Player>
             return false;
         }
 
-        var origin = position + upwardOffset + forwardOffset;
-        var distance = downwardDistance + contactOffset;
-
+        Vector3 origin = position + upwardOffset + forwardOffset;
+        float distance = downwardDistance + contactOffset;
+        //在边缘的上方向下检测
         return Physics.Raycast(origin, Vector3.down, out ledgeHit, distance,
             stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore);
     }
 
-    public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
+    public virtual void StartGrind()
+    {
+        states.Change<RailGrindPlayerState>();
+    }
 }

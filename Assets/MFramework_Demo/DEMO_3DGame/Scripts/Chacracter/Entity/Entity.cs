@@ -436,7 +436,13 @@ public abstract class Entity : MonoBehaviour
 
     #region 公开属性
     public CharacterController controller { get; protected set; }
+    /// <summary>
+    /// Entity胶囊体高度
+    /// </summary>
     public float height => controller.height;
+    /// <summary>
+    /// Entity胶囊体半径
+    /// </summary>
     public float radius => controller.radius;
     public Vector3 center => controller.center;
 
@@ -460,6 +466,9 @@ public abstract class Entity : MonoBehaviour
 
     public Vector3 lastPosition { get; set; }
     public Vector3 position => transform.position + center;
+    /// <summary>
+    /// 原始position(即使蹲下也能得到站着的位置)
+    /// </summary>
     public Vector3 unsizedPosition => position - transform.up * height * 0.5f + transform.up * originalHeight * 0.5f;
     /// <summary>
     /// 阶梯可允许位置(高于该位置的Entity不可直接走上去)

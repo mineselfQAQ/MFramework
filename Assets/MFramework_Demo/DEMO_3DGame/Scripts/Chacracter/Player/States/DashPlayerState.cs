@@ -4,8 +4,10 @@ public class DashPlayerState : PlayerState
 {
     protected override void OnEnter(Player player)
     {
+        //前冲
         player.verticalVelocity = Vector3.zero;
         player.lateralVelocity = player.transform.forward * player.stats.current.dashForce;
+
         player.playerEvents.OnDashStarted.Invoke();
     }
 
@@ -13,11 +15,12 @@ public class DashPlayerState : PlayerState
     {
         player.Jump();
 
+        //冲刺动画时间已过
         if (timeSinceEntered > player.stats.current.dashDuration)
         {
-            if (player.isGrounded)
+            if (player.isGrounded)//已落地
                 player.states.Change<WalkPlayerState>();
-            else
+            else//在空中
                 player.states.Change<FallPlayerState>();
         }
     }

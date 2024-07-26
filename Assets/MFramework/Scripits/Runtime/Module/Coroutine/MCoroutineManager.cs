@@ -92,10 +92,15 @@ namespace MFramework
             }
         }
 
-        public void BeginCoroutineNoRecord(IEnumerator enumerator)
+        public Coroutine BeginCoroutineNoRecord(IEnumerator enumerator)
         {
-            StartCoroutine(enumerator);
+            return StartCoroutine(enumerator);
         }
+        public new void StopCoroutine(Coroutine coroutine)
+        {
+            StopCoroutine(coroutine);
+        }
+
         /// <summary>
         /// 等待后执行
         /// 延迟<interval>秒后执行操作

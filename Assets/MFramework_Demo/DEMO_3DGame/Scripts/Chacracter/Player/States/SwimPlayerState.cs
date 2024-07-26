@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SwimPlayerState : PlayerState
 {
-    protected override void OnEnter(Player player) => player.velocity *= player.stats.current.waterConversion;
+    protected override void OnEnter(Player player)
+    {
+        //应用阻力
+        player.velocity *= player.stats.current.waterConversion;
+    }
 
     protected override void OnStep(Player player)
     {
@@ -45,7 +47,7 @@ public class SwimPlayerState : PlayerState
                 player.Decelerate(player.stats.current.swimDeceleration);
             }
         }
-        else
+        else//出水进入Walk
         {
             player.states.Change<WalkPlayerState>();
         }
