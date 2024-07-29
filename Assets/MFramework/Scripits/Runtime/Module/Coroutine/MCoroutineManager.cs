@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace MFramework
@@ -33,12 +32,24 @@ namespace MFramework
             }
         }
 
-        public void BeginCoroutine(IEnumerator fun, string name, Action onFinish = null)
+        #region 无记录携程(用于无MonoBehaviour脚本)
+        public Coroutine BeginCoroutineNoRecord(IEnumerator enumerator)
         {
-            StartCoroutine(BeginCoroutinueInternal(fun, name, onFinish));
+            return StartCoroutine(enumerator);
+        }
+        public new void StopCoroutine(Coroutine coroutine)
+        {
+            StopCoroutine(coroutine);
+        }
+        #endregion
+
+        #region 自我管理携程
+        public void StartCoroutine(IEnumerator fun, string name, Action onFinish = null)
+        {
+            StartCoroutine(StartCoroutinueRoutine(fun, name, onFinish));
         }
 
-        public bool EndCoroutine(string name)
+        public new bool StopCoroutine(string name)
         {
             if (!dic.ContainsKey(name))
             {
@@ -53,7 +64,7 @@ namespace MFramework
             return true;
         }
 
-        public void EndAllCoroutine()
+        public new void StopAllCoroutines()
         {
             foreach (var value in dic.Values)
             {
@@ -63,7 +74,7 @@ namespace MFramework
             count = 0;
         }
 
-        private IEnumerator BeginCoroutinueInternal(IEnumerator enumerator, string name, Action onFinish)
+        private IEnumerator StartCoroutinueRoutine(IEnumerator enumerator, string name, Action onFinish)
         {
             if (dic.ContainsKey(name))
             {
@@ -77,13 +88,13 @@ namespace MFramework
 
             yield return coroutine;
 
-            OnCoroutineFinished(name);
+            OnCoroutineFinishedInternal(name);
             onFinish?.Invoke();
 
             yield break;
         }
 
-        private void OnCoroutineFinished(string name)
+        private void OnCoroutineFinishedInternal(string name)
         {
             if (dic.ContainsKey(name))
             {
@@ -91,72 +102,84 @@ namespace MFramework
                 count--;
             }
         }
+        #endregion
 
-        public Coroutine BeginCoroutineNoRecord(IEnumerator enumerator)
+        #region 特殊携程
+        /// <summary>
+        /// 等待后执行(不记录)
+        /// </summary>
+        public Coroutine DelayNoRecord(Action action, float interval)
         {
-            return StartCoroutine(enumerator);
+            return StartCoroutine(MCoroutineUtility.Delay(action, interval));
         }
-        public new void StopCoroutine(Coroutine coroutine)
+        /// <summary>
+        /// 重复执行(不记录)
+        /// </summary>
+        public Coroutine RepeatNoRecord(Action action, bool startDo, int count, float interval, Action onFinish = null)
         {
-            StopCoroutine(coroutine);
+            return StartCoroutine(MCoroutineUtility.Repeat(action, startDo, count, interval, onFinish));
+        }
+        /// <summary>
+        /// 等待后重复执行(不记录)
+        /// </summary>
+        public Coroutine DelayRepeatNoRecord(Action action, float startInterval, int repeatCount, float repeatInterval, Action onFinish = null)
+        {
+            return StartCoroutine(MCoroutineUtility.DelayRepeat(action, startInterval, repeatCount, repeatInterval, onFinish));
+        }
+        /// <summary>
+        /// 持续执行操作(不记录)
+        /// </summary>
+        public Coroutine LoopNoRecord(Action action, float startInterval, float repeatInterval)
+        {
+            return StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval));
         }
 
         /// <summary>
         /// 等待后执行
-        /// 延迟<interval>秒后执行操作
         /// </summary>
-        public void DelayNoRecord(Action action, float interval)
+        public void Delay(string name, Action action, float interval)
         {
-            StartCoroutine(MCoroutineUtility.Delay(action, interval));
+            StartCoroutine(MCoroutineUtility.Delay(action, interval), name);
         }
         /// <summary>
         /// 重复执行
-        /// 每过<interval>秒后执行操作，共执行count次(startDo会调用后直接执行一次)
         /// </summary>
-        public void RepeatNoRecord(Action action, bool startDo, int count, float interval, Action onFinish = null)
+        public void Repeat(string name, Action action, bool startDo, int count, float interval, Action onFinish = null)
         {
-            StartCoroutine(MCoroutineUtility.Repeat(action, startDo, count, interval, onFinish));
+            StartCoroutine(MCoroutineUtility.Repeat(action, startDo, count, interval, onFinish), name);
         }
         /// <summary>
         /// 等待后重复执行
-        /// 经过<startInterval>秒后执行第一次操作，
-        /// 然后每过<interval>秒后执行操作，共执行count-1次
         /// </summary>
-        public void DelayRepeatNoRecord(Action action, float startInterval, int repeatCount, float repeatInterval, Action onFinish = null)
+        public void DelayRepeat(string name, Action action, float startInterval, int repeatCount, float repeatInterval, Action onFinish = null)
         {
-            StartCoroutine(MCoroutineUtility.DelayRepeat(action, startInterval, repeatCount, repeatInterval, onFinish));
+            StartCoroutine(MCoroutineUtility.DelayRepeat(action, startInterval, repeatCount, repeatInterval, onFinish), name);
         }
         /// <summary>
         /// 持续执行操作
-        /// 经过<startInterval>秒后执行第一次操作，
-        /// 然后每过<interval>秒后执行操作，无限执行
         /// </summary>
-        public void LoopNoRecord(Action action, float startInterval, float repeatInterval)
+        public void Loop(string name, Action action, float startInterval, float repeatInterval)
         {
-            StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval));
-        }
-        
-        public void Delay(string name, Action action, float interval)
-        {
-            BeginCoroutine(MCoroutineUtility.Delay(action, interval), name);
-        }
-        public void Repeat(string name, Action action, bool startDo, int count, float interval, Action onFinish = null)
-        {
-            BeginCoroutine(MCoroutineUtility.Repeat(action, startDo, count, interval, onFinish), name);
-        }
-        public void DelayRepeat(string name, Action action, float startInterval, int repeatCount, float repeatInterval, Action onFinish = null)
-        {
-            BeginCoroutine(MCoroutineUtility.DelayRepeat(action, startInterval, repeatCount, repeatInterval, onFinish), name);
+            StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval), name);
         }
 
-        //=====MTween=====
+        /// <summary>
+        /// 补间动画操作(不记录)
+        /// </summary>
+        internal Coroutine TweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        {
+            return StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish));
+        }
+        /// <summary>
+        /// 补间动画操作
+        /// </summary>
+        //internal void Tween(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        //{
+        //    StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
+        //}
+
         internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();
-
-        internal void TweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
-        {
-            StartCoroutine(Tween(action, curve, duration, startValue, endValue, onFinish));
-        }
-        internal IEnumerator Tween(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
         {
             float step = duration / Time.fixedDeltaTime;//执行次数
             float length = endValue - startValue;//区间长度
@@ -174,5 +197,6 @@ namespace MFramework
 
             onFinish?.Invoke(curValue);
         }
+        #endregion
     }
 }

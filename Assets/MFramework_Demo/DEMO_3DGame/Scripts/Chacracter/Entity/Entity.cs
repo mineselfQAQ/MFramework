@@ -101,17 +101,20 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 
     protected virtual void HandleSpline()
     {
-        var distance = (height * 0.5f) + height * 0.5f;
+        float distance = height;
 
+        //下方为轨道
         if (SphereCast(-transform.up, distance, out var hit) &&
             hit.collider.CompareTag(GameTags.InteractiveRail))
         {
+            //上轨条件：
+            //1.还没在轨道上 2.下降
             if (!onRails && verticalVelocity.y <= 0)
             {
                 EnterRail(hit.collider.GetComponent<SplineContainer>());
             }
         }
-        else
+        else//从非闭合轨道上摔落
         {
             ExitRail();
         }
@@ -119,41 +122,31 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 
     protected virtual void HandleGround()
     {
-        if (onRails) return;
+        if (onRails) return;//在轨道上无需检测
 
         var distance = (height * 0.5f) + m_groundOffset;
-
-        //射到东西
+        //下方有东西(已落地) 且 没有上升(跳跃)
         if (SphereCast(Vector3.down, distance, out var hit) && verticalVelocity.y <= 0)
         {
+            
             if (!isGrounded)//当前不在地面
             {
-                if (EvaluateLanding(hit))
+                if (EvaluateLanding(hit))//符合落地条件
                 {
                     EnterGround(hit);
                 }
-                else
+                else//斜坡情况
                 {
                     HandleHighLedge(hit);
                 }
             }
-            else if (IsPointUnderStep(hit.point))//物体过低？？？
+            else if (IsPointUnderStep(hit.point))//维持地面情况
             {
                 UpdateGround(hit);
-
-                if (Vector3.Angle(hit.normal, Vector3.up) >= controller.slopeLimit)
-                {
-                    HandleSlopeLimit(hit);
-                }
-            }
-            else
-            {
-                HandleHighLedge(hit);
             }
         }
-        else//没有射到
+        else//没有东西
         {
-            //说明下方没有物体，也就是离开地面
             ExitGround();
         }
     }
@@ -177,10 +170,10 @@ public abstract class Entity<T> : Entity where T : Entity<T>
                     contact.OnEntityContact((T)this);
                 }
 
-                //TODO:??????????????????????????????????
+                //头顶物体
                 if (m_contactBuffer[i].bounds.min.y > controller.bounds.max.y)
                 {
-                    verticalVelocity = Vector3.Min(verticalVelocity, Vector3.zero);
+                    verticalVelocity = Vector3.Min(verticalVelocity, Vector3.zero);//速度归零(或维持下降)
                 }
             }
         }
@@ -228,11 +221,20 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    /// <summary>
+    /// 判断是否落地
+    /// </summary>
+    /// <returns>落地条件：1.台阶足够低 2.坡度没有过斜</returns>
     protected virtual bool EvaluateLanding(RaycastHit hit)
     {
+        //落地条件：
+        //1.台阶足够低 2.坡度没有过斜
         return IsPointUnderStep(hit.point) && Vector3.Angle(hit.normal, Vector3.up) < controller.slopeLimit;
     }
 
+    /// <summary>
+    /// 落地
+    /// </summary>
     protected virtual void EnterGround(RaycastHit hit)
     {
         if (!isGrounded)
@@ -242,6 +244,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             entityEvents.OnGroundEnter?.Invoke();
         }
     }
+    /// <summary>
+    /// 更新地面信息
+    /// </summary>
     protected virtual void UpdateGround(RaycastHit hit)
     {
         if (isGrounded)
@@ -253,6 +258,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
         }
     }
+    /// <summary>
+    /// 离开地面
+    /// </summary>
     protected virtual void ExitGround()
     {
         if (isGrounded)
@@ -265,6 +273,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    /// <summary>
+    /// 上轨
+    /// </summary>
     protected virtual void EnterRail(SplineContainer rails)
     {
         if (!onRails)
@@ -274,6 +285,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             entityEvents.OnRailsEnter.Invoke();
         }
     }
+    /// <summary>
+    /// 下轨
+    /// </summary>
     public virtual void ExitRail()
     {
         if (onRails)
@@ -283,8 +297,11 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
-    protected virtual void HandleSlopeLimit(RaycastHit hit) { }
+    /// <summary>
+    /// 处理斜坡情况(提供一个向前下方的力)
+    /// </summary>
     protected virtual void HandleHighLedge(RaycastHit hit) { }
+
     protected virtual void OnUpdate() { }
     #endregion
 
@@ -325,6 +342,9 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         lateralVelocity = Vector3.MoveTowards(lateralVelocity, Vector3.zero, delta);//向原点拉回delta
     }
 
+    /// <summary>
+    /// 重力下降
+    /// </summary>
     public virtual void Gravity(float gravity)
     {
         if (!isGrounded)
@@ -333,13 +353,17 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
-    //TODO:???????????????????????
+    /// <summary>
+    /// 斜坡控制(遇到斜坡根据移动方向加速减速)
+    /// </summary>
     public virtual void SlopeFactor(float upwardForce, float downwardForce)
     {
         //必须在斜坡上
         if (!isGrounded || !OnSlopingGround()) return;
 
         float factor = Vector3.Dot(Vector3.up, groundNormal);//越平越大
+        //是否下行：
+        //斜坡方向与人物运动方向一致，必然是在下坡，反之
         bool downwards = Vector3.Dot(localSlopeDirection, lateralVelocity) > 0;
         float multiplier = downwards ? downwardForce : upwardForce;
         float delta = factor * multiplier * Time.deltaTime;
@@ -382,18 +406,25 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         }
     }
 
+    /// <summary>
+    /// 检查Player在position处是否符合要求(无碰撞)
+    /// </summary>
+    /// <returns>True---无碰撞 False---有碰撞</returns>
     public virtual bool FitsIntoPosition(Vector3 position)
     {
         var bounds = controller.bounds;
         var radius = controller.radius - controller.skinWidth;
         var offset = height * 0.5f - radius;
-        var top = position + Vector3.up * offset;
-        var bottom = position - Vector3.up * offset;
+        var top = position + Vector3.up * offset;//上圆心
+        var bottom = position - Vector3.up * offset;//下圆心
 
         return !Physics.CheckCapsule(top, bottom, radius,
             Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
     }
 
+    /// <summary>
+    /// 使用Collider+Rigidbody替代CharacterController
+    /// </summary>
     public virtual void UseCustomCollision(bool value)
     {
         controller.enabled = !value;
@@ -444,8 +475,15 @@ public abstract class Entity : MonoBehaviour
     /// Entity胶囊体半径
     /// </summary>
     public float radius => controller.radius;
+    /// <summary>
+    /// Entity胶囊体中心偏移
+    /// </summary>
     public Vector3 center => controller.center;
+    public float originalHeight { get; protected set; }
 
+    /// <summary>
+    /// 速度
+    /// </summary>
     public Vector3 velocity { get; set; }
     /// <summary>
     /// 横向速度(Entity面向方向为正)
@@ -464,7 +502,6 @@ public abstract class Entity : MonoBehaviour
         set { velocity = new Vector3(velocity.x, value.y, velocity.z); }
     }
 
-    public Vector3 lastPosition { get; set; }
     public Vector3 position => transform.position + center;
     /// <summary>
     /// 原始position(即使蹲下也能得到站着的位置)
@@ -474,11 +511,18 @@ public abstract class Entity : MonoBehaviour
     /// 阶梯可允许位置(高于该位置的Entity不可直接走上去)
     /// </summary>
     public Vector3 stepPosition => position - transform.up * (height * 0.5f - controller.stepOffset);
-
+    public Vector3 lastPosition { get; set; }
     public float positionDelta { get; protected set; }
+
+    public SplineContainer rails { get; protected set; }
+    public bool onRails { get; set; }
+
     public float lastGroundTime { get; protected set; }
     public bool isGrounded { get; protected set; } = true;
-    public bool onRails { get; set; }
+    public float groundAngle { get; protected set; }
+    public Vector3 groundNormal { get; protected set; }
+
+    public RaycastHit groundHit;
 
     public float accelerationMultiplier { get; set; } = 1f;
     public float gravityMultiplier { get; set; } = 1f;
@@ -486,18 +530,13 @@ public abstract class Entity : MonoBehaviour
     public float turningDragMultiplier { get; set; } = 1f;
     public float decelerationMultiplier { get; set; } = 1f;
 
-    public RaycastHit groundHit;
-    public SplineContainer rails { get; protected set; }
-    public float groundAngle { get; protected set; }
-    public Vector3 groundNormal { get; protected set; }
     public Vector3 localSlopeDirection { get; protected set; }
-    public float originalHeight { get; protected set; }
     #endregion
 
     /// <summary>
     /// 确定该点在楼梯允许范围下还是上
     /// </summary>
-    /// <returns>True为点在阶梯下，False为点在阶梯上</returns>
+    /// <returns>True为点在阶梯允许范围内(Entity可以踩上去)，False为不在阶梯允许范围内</returns>
     public virtual bool IsPointUnderStep(Vector3 point) => stepPosition.y > point.y;
 
     /// <summary>

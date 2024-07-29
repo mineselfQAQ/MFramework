@@ -13,20 +13,22 @@ public class SwimPlayerState : PlayerState
         if (player.onWater)
         {
             var inputDirection = player.inputs.GetMovementCameraDirection();
-
-            player.WaterAcceleration(inputDirection);
+            //水中移动
+            player.WaterAccelerate(inputDirection);
             player.WaterFaceDirectionSmooth(player.lateralVelocity);
 
-            if (player.position.y < player.water.bounds.max.y)
+            //Tip：进入该状态必然执行过EnterWater()，那么在水中是必然的
+            if (player.position.y < player.water.bounds.max.y)//还在入水中
             {
-                if (player.isGrounded)
+                if (player.isGrounded)//水中落地
                 {
                     player.verticalVelocity = Vector3.zero;
                 }
 
+                //水中浮力(Player漂浮在水面)
                 player.verticalVelocity += Vector3.up * player.stats.current.waterUpwardsForce * Time.deltaTime;
             }
-            else
+            else//出水
             {
                 player.verticalVelocity = Vector3.zero;
 
@@ -37,17 +39,19 @@ public class SwimPlayerState : PlayerState
                 }
             }
 
+            //下潜要求：
+            //1.还没沉底 2.按下俯冲键
             if (!player.isGrounded && player.inputs.GetDive())
             {
                 player.verticalVelocity += Vector3.down * player.stats.current.swimDiveForce * Time.deltaTime;
             }
-
+            //无输入，慢慢减速
             if (inputDirection.sqrMagnitude == 0)
             {
                 player.Decelerate(player.stats.current.swimDeceleration);
             }
         }
-        else//出水进入Walk
+        else//出水进入Walk(Tip：此时大概为岸边走出水情况)
         {
             player.states.Change<WalkPlayerState>();
         }

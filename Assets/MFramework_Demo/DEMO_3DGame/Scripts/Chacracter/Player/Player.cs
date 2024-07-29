@@ -118,21 +118,18 @@ public class Player : Entity<Player>
         return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring);
     }
 
-    protected override void HandleSlopeLimit(RaycastHit hit)
-    {
-        if (onWater) return;
-
-        var slopeDirection = Vector3.Cross(hit.normal, Vector3.Cross(hit.normal, Vector3.up));
-        slopeDirection = slopeDirection.normalized;
-        controller.Move(slopeDirection * stats.current.slideForce * Time.deltaTime);
-    }
-
+    /// <summary>
+    /// 处理斜坡情况(提供一个向前下方的力)
+    /// </summary>
     protected override void HandleHighLedge(RaycastHit hit)
     {
         if (onWater) return;
 
-        var edgeNormal = hit.point - position;
-        var edgePushDirection = Vector3.Cross(edgeNormal, Vector3.Cross(edgeNormal, Vector3.up));
+        //计算滑落方向
+        //Tip：由于使用的是SphereCast()，所以hit点在斜坡情况必然不在Player正下方而是斜一点的位置
+        Vector3 edgeNormal = hit.point - position;
+        Vector3 edgePushDirection = Vector3.Cross(edgeNormal, Vector3.Cross(edgeNormal, Vector3.up));
+
         controller.Move(edgePushDirection * stats.current.gravity * Time.deltaTime);
     }
 
@@ -260,30 +257,46 @@ public class Player : Entity<Player>
         Accelerate(inputDirection);
     }
 
+    /// <summary>
+    /// 水中加速
+    /// </summary>
+    public virtual void WaterAccelerate(Vector3 direction)
+    {
+        Accelerate(direction, stats.current.waterTurningDrag,
+            stats.current.swimAcceleration, stats.current.swimTopSpeed);
+    }
+    /// <summary>
+    /// 爬行时加速
+    /// </summary>
+    public virtual void CrawlingAccelerate(Vector3 direction)
+    {
+        Accelerate(direction, stats.current.crawlingTurningSpeed,
+            stats.current.crawlingAcceleration, stats.current.crawlingTopSpeed);
+    }
+    /// <summary>
+    /// 后空翻时加速
+    /// </summary>
+    public virtual void BackflipAccelerate(Vector3 direction)
+    {
+        Accelerate(direction, stats.current.backflipTurningDrag,
+            stats.current.backflipAirAcceleration, stats.current.backflipTopSpeed);
+    }
+
+    /// <summary>
+    /// 减速
+    /// </summary>
+    public virtual void Decelerate() => Decelerate(stats.current.deceleration);
+
+    /// <summary>
+    /// 应用斜坡控制
+    /// </summary>
     public virtual void RegularSlopeFactor()
     {
-        if (stats.current.applySlopeFactor)
+        if (stats.current.applySlopeFactor)//需要开启才能使用
         {
             SlopeFactor(stats.current.slopeUpwardForce, stats.current.slopeDownwardForce);
         }
     }
-
-    public virtual void WaterAcceleration(Vector3 direction) =>
-        Accelerate(direction, stats.current.waterTurningDrag, stats.current.swimAcceleration, stats.current.swimTopSpeed);
-
-    public virtual void CrawlingAccelerate(Vector3 direction) =>
-        Accelerate(direction, stats.current.crawlingTurningSpeed, stats.current.crawlingAcceleration, stats.current.crawlingTopSpeed);
-
-    /// <summary>
-    /// 后空翻时的输入方向
-    /// </summary>
-    public virtual void BackflipAcceleration()
-    {
-        var direction = inputs.GetMovementCameraDirection();
-        Accelerate(direction, stats.current.backflipTurningDrag, stats.current.backflipAirAcceleration, stats.current.backflipTopSpeed);
-    }
-
-    public virtual void Decelerate() => Decelerate(stats.current.deceleration);
 
     /// <summary>
     /// 摩擦力
@@ -592,6 +605,9 @@ public class Player : Entity<Player>
             states.Change<GlidingPlayerState>();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public virtual void SetSkinParent(Transform parent)
     {
         if (skin)
@@ -599,7 +615,9 @@ public class Player : Entity<Player>
             skin.parent = parent;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public virtual void ResetSkinParent()
     {
         if (skin)

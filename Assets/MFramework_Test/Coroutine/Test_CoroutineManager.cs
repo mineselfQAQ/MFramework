@@ -6,7 +6,7 @@ public class Test_CoroutineManager : MonoBehaviour
 {
     private void Start()
     {
-        MCoroutineManager.Instance.BeginCoroutine(TestCoroutine(), "Coroutine1");
+        MCoroutineManager.Instance.StartCoroutine(TestCoroutine(), "Coroutine1");
     }
 
     private void Update()
@@ -14,7 +14,7 @@ public class Test_CoroutineManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             MLog.Print(MCoroutineManager.Instance.Count);
-            MCoroutineManager.Instance.EndCoroutine("Coroutine1");
+            MCoroutineManager.Instance.StopCoroutine("Coroutine1");
         }
     }
 

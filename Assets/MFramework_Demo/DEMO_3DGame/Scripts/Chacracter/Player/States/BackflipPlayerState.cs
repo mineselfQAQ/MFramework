@@ -17,7 +17,9 @@ public class BackflipPlayerState : PlayerState
     protected override void OnStep(Player player)
     {
         player.Gravity(player.stats.current.backflipGravity);
-        player.BackflipAcceleration();
+
+        Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
+        player.BackflipAccelerate(inputDirection);
 
         if (player.isGrounded)//ÂäµØ
         {

@@ -14,13 +14,13 @@ public class AirDivePlayerState : PlayerState
         player.Gravity();
         player.Jump();
 
-        //TODO:???????????????????
+        //飞扑到坡上
         if (player.stats.current.applyDiveSlopeFactor)
             player.SlopeFactor(player.stats.current.slopeUpwardForce,
                 player.stats.current.slopeDownwardForce);
 
         player.FaceDirection(player.lateralVelocity);
-        
+
         //落地
         if (player.isGrounded)
         {
@@ -31,12 +31,11 @@ public class AirDivePlayerState : PlayerState
             //通过rotation旋转量旋转Player
             player.lateralVelocity = Quaternion.Euler(0, rotation, 0) * player.lateralVelocity;
 
-            //TODO:???????????????????
-            if (player.OnSlopingGround())
+            if (player.OnSlopingGround())//斜坡
             {
                 player.Decelerate(player.stats.current.airDiveSlopeFriction);
             }
-            else
+            else//非斜坡
             {
                 player.Decelerate(player.stats.current.airDiveFriction);
 
