@@ -5,9 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerStateManager))]
 [RequireComponent(typeof(PlayerAnimator))]
 [RequireComponent(typeof(PlayerAudio))]
-[RequireComponent(typeof(PlayerLevelPause))]
 [RequireComponent(typeof(PlayerTilt))]
 [RequireComponent(typeof(PlayerFootsteps))]
+[RequireComponent(typeof(PlayerParticles))]
+[RequireComponent(typeof(PlayerHurt))]
+[RequireComponent(typeof(PlayerLevelPause))]
 [RequireComponent(typeof(Health))]
 public class Player : Entity<Player>
 {

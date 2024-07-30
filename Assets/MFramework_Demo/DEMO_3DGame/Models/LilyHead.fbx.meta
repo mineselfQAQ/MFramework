@@ -3,7 +3,12 @@ guid: aca0cb803114483448256e972af15d71
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lily
+    second: {fileID: 2100000, guid: 23e648500a525fd4292724bbac9359a9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

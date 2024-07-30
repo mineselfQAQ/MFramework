@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 718824958}
   - component: {fileID: 718824957}
   m_Layer: 0
-  m_Name: Game
+  m_Name: GAME
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 1947476197}
   - component: {fileID: 1947476198}
   m_Layer: 0
-  m_Name: Level
+  m_Name: LEVEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -97,17 +97,6 @@ public class PlayerAudio : MonoBehaviour
         });
     }
 
-    protected virtual void PlayRandom(AudioClip[] clips)
-    {
-        if (clips != null && clips.Length > 0)
-        {
-            var index = Random.Range(0, clips.Length);
-
-            if (clips[index])
-                Play(clips[index]);
-        }
-    }
-
     protected virtual void Play(AudioClip audio, bool stopPrevious = true)
     {
         if (audio == null)
@@ -117,5 +106,16 @@ public class PlayerAudio : MonoBehaviour
             m_audio.Stop();
 
         m_audio.PlayOneShot(audio);
+    }
+
+    protected virtual void PlayRandom(AudioClip[] clips)
+    {
+        if (clips != null && clips.Length > 0)
+        {
+            var index = Random.Range(0, clips.Length);
+
+            if (clips[index])
+                Play(clips[index]);
+        }
     }
 }

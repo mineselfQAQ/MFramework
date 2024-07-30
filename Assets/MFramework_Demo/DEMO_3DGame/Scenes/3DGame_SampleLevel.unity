@@ -123,6 +123,134 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &171155297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 171155299}
+  - component: {fileID: 171155298}
+  m_Layer: 0
+  m_Name: '#MUSIC_SAMPLELEVEL#'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &171155298
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171155297}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b0a292b136471f74fa41ac702c3424c5, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &171155299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171155297}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &209309923 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 209459201426688007, guid: 6d8eff46bd58dc744996357eadb87680, type: 3}
@@ -599,8 +727,16 @@ PrefabInstance:
       value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 4778170945660451974, guid: 426311843f7bd164eb4fe422599086b6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778170945660451974, guid: 426311843f7bd164eb4fe422599086b6, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4887322676184112164, guid: 426311843f7bd164eb4fe422599086b6, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -874,6 +1010,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 174811329766568551, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: m_NearClipPlane
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3662566797740874337, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -914,85 +1054,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4308768681751525105, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7912140184573707170, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
       propertyPath: m_Name
       value: Lily
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[1]
-      value: WalkPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[2]
-      value: BrakePlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[3]
-      value: FallPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[4]
-      value: HurtPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[5]
-      value: DiePlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[6]
-      value: WallDragPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[7]
-      value: PoleClimbingPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[8]
-      value: SwimPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[9]
-      value: CrouchPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[10]
-      value: CrawlingPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[11]
-      value: SpinPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[12]
-      value: AirDivePlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[13]
-      value: StompPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[14]
-      value: LedgeHangingPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[15]
-      value: LedgeClimbingPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[16]
-      value: BackflipPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[17]
-      value: GlidingPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[18]
-      value: DashPlayerState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
-      propertyPath: states.Array.data[19]
-      value: RailGrindPlayerState
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1126,6 +1194,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1618901385}
+  - {fileID: 171155299}
   - {fileID: 542264016}
   - {fileID: 1209181260}
   - {fileID: 4182249057843524185}
