@@ -918,6 +918,82 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lily
       objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[1]
+      value: WalkPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[2]
+      value: BrakePlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[3]
+      value: FallPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[4]
+      value: HurtPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[5]
+      value: DiePlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[6]
+      value: WallDragPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[7]
+      value: PoleClimbingPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[8]
+      value: SwimPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[9]
+      value: CrouchPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[10]
+      value: CrawlingPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[11]
+      value: SpinPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[12]
+      value: AirDivePlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[13]
+      value: StompPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[14]
+      value: LedgeHangingPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[15]
+      value: LedgeClimbingPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[16]
+      value: BackflipPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[17]
+      value: GlidingPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[18]
+      value: DashPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326843434012916841, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: states.Array.data[19]
+      value: RailGrindPlayerState
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

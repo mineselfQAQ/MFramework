@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -73,7 +74,7 @@ public class RailGrindPlayerState : PlayerState
         out Vector3 forward, out Vector3 upward, out float t)
     {
         //player原点(以rails为基准)
-        var origin = player.rails.transform.InverseTransformPoint(player.transform.position);
+        Vector3 origin = player.rails.transform.InverseTransformPoint(player.transform.position);
 
         //获取最近点(所需的落脚点)
         //Tip：内部计算使用局部坐标
@@ -92,7 +93,7 @@ public class RailGrindPlayerState : PlayerState
         //1.开启canGrindBrake 2.按住GrindBrake键
         if (player.stats.current.canGrindBrake && player.inputs.GetGrindBrake())
         {
-            var decelerationDelta = player.stats.current.grindBrakeDeceleration * Time.deltaTime;
+            float decelerationDelta = player.stats.current.grindBrakeDeceleration * Time.deltaTime;
             m_speed = Mathf.MoveTowards(m_speed, 0, decelerationDelta);
         }
     }

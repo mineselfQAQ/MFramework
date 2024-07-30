@@ -14,6 +14,21 @@ public class ClassTypeNameDrawer : PropertyDrawer
 
     protected bool m_initialized = false;
 
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        if (!m_initialized)
+        {
+            m_initialized = true;
+            Initialize();
+        }
+
+        if (m_names.Count > 0)
+        {
+            InitializeProperty(property);
+            HandleGUI(position, property, label);
+        }
+    }
+
     protected virtual void Initialize()
     {
         m_classTypeName = (ClassTypeName)attribute;
@@ -48,20 +63,5 @@ public class ClassTypeNameDrawer : PropertyDrawer
         position = EditorGUI.PrefixLabel(position, label);
         var selected = EditorGUI.Popup(position, current, m_formatedNames.ToArray());
         property.stringValue = m_names[selected];
-    }
-
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        if (!m_initialized)
-        {
-            m_initialized = true;
-            Initialize();
-        }
-
-        if (m_names.Count > 0)
-        {
-            InitializeProperty(property);
-            HandleGUI(position, property, label);
-        }
     }
 }

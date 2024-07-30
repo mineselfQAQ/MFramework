@@ -106,7 +106,7 @@ public class PlayerInputManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 根据Camera输入方向
+    /// 根据Camera输入方向(归一化过)
     /// </summary>
     public virtual Vector3 GetMovementCameraDirection()
     {

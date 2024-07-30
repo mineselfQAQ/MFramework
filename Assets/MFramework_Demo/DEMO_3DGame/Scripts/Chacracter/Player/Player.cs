@@ -3,6 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputManager))]
 [RequireComponent(typeof(PlayerStatsManager))]
 [RequireComponent(typeof(PlayerStateManager))]
+[RequireComponent(typeof(PlayerAnimator))]
+[RequireComponent(typeof(PlayerAudio))]
+[RequireComponent(typeof(PlayerLevelPause))]
+[RequireComponent(typeof(PlayerTilt))]
+[RequireComponent(typeof(PlayerFootsteps))]
 [RequireComponent(typeof(Health))]
 public class Player : Entity<Player>
 {
@@ -27,9 +32,7 @@ public class Player : Entity<Player>
     public bool holding { get; protected set; }
 
     public int jumpCounter { get; protected set; }
-
     public int airSpinCounter { get; protected set; }
-
     public int airDashCounter { get; protected set; }
 
     public float lastDashTime { get; protected set; }

@@ -14,7 +14,7 @@ public class CrawlingPlayerState : PlayerState
         player.Jump();
         player.Fall();
 
-        var inputDirection = player.inputs.GetMovementCameraDirection();
+        Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
         //当 人物按住下蹲爬行键 或 根本爬不起来
         if (player.inputs.GetCrouchAndCraw() || !player.canStandUp)
         {

@@ -6,7 +6,7 @@ public class BrakePlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
-        var inputDirection = player.inputs.GetMovementCameraDirection();
+        Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
 
         //反向空翻要求：
         //1.开启canBackflip

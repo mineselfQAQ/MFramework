@@ -12,12 +12,14 @@ namespace MFramework
 
         public Canvas UICanvas { private set; get; }
         public Camera UICamera { private set; get; }
+        public GameObject EventSystem { private set; get; }
         public Dictionary<string, UIRoot> RootDic { private set; get; }
 
         private void Awake()
         {
             UICanvas = GameObject.Find(MSettings.UICanvasName).GetComponent<Canvas>();
             UICamera = GameObject.Find(MSettings.UICameraName).GetComponent<Camera>();
+            EventSystem = GameObject.Find("EventSystem");
             if (UICanvas == null && UICamera == null)
             {
                 MLog.Print($"{typeof(UIManager)}：没有名为{MSettings.UICanvasName}的Canvas，也没有名为{MSettings.UICameraName}的Camera，请修改或创建后重试", MLogType.Error);
@@ -53,6 +55,8 @@ namespace MFramework
             GameObject go = new GameObject("#UIPanel#");
             UICamera.gameObject.SetParent(go);
             UICanvas.gameObject.SetParent(go);
+            EventSystem.SetParent(go);
+
             DontDestroyOnLoad(go);
         }
 

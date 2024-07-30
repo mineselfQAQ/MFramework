@@ -10,7 +10,7 @@ public class GlidingPlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
-        var inputDirection = player.inputs.GetMovementCameraDirection();
+        Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
 
         GlidingGravity(player);
         player.FaceDirection(player.lateralVelocity);
@@ -42,7 +42,7 @@ public class GlidingPlayerState : PlayerState
 
     protected virtual void GlidingGravity(Player player)
     {
-        var yVelocity = player.verticalVelocity.y;
+        float yVelocity = player.verticalVelocity.y;
         yVelocity -= player.stats.current.glidingGravity * Time.deltaTime;
         yVelocity = Mathf.Max(yVelocity, -player.stats.current.glidingMaxFallSpeed);
         player.verticalVelocity = new Vector3(0, yVelocity, 0);

@@ -17,6 +17,8 @@ namespace MFramework
 
         public UIWidgetBehaviour widgetBehaviour { get { return (UIWidgetBehaviour)viewBehaviour; } }
 
+        private bool firstEnter;
+
         protected internal void Create(string id, Transform parentTrans, string prefabPath, UIView parent, bool autoEnter)
         {
             parentView = parent;
@@ -26,6 +28,8 @@ namespace MFramework
             CanvasGroup.blocksRaycasts = false;
             if (!autoEnter)
             {
+                firstEnter = true;
+
                 CanvasGroup.alpha = 0;
                 ShowState = UIShowState.Off;
                 AnimState = UIAnimState.Idle;
@@ -181,13 +185,18 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Opening;
+                //Tip：只有第一次进入时才会设置alpha值，alpha值应该由Animation设置
+                if (firstEnter)
+                {
+                    firstEnter = false;
+                    CanvasGroup.alpha = 1;
+                }
                 widgetBehaviour.PlayOpenAnim(() => 
                 {
                     AnimState = UIAnimState.Opened;
                     //对于开启情况，需要等动画结束后使整体激活，防止再次点击
                     CanvasGroup.interactable = true;
                     CanvasGroup.blocksRaycasts = true;
-                    CanvasGroup.alpha = 1;
                     onFinish?.Invoke(); 
                 });
             }
@@ -214,7 +223,6 @@ namespace MFramework
                 CanvasGroup.blocksRaycasts = false;
                 widgetBehaviour.PlayCloseAnim(() =>
                 {
-                    CanvasGroup.alpha = 0;
                     AnimState = UIAnimState.Closed;
                     onFinish?.Invoke(); 
                 });

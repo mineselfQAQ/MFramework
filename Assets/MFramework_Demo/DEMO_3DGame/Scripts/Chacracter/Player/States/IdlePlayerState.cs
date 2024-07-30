@@ -6,14 +6,14 @@ public class IdlePlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
-        player.Gravity();//空中情况(!isGrounded)
-        player.SnapToGround();//地面情况(isGrounded)
-        player.Jump();//跳跃
-        player.Fall();//离地即坠落
-        player.Spin();//旋转动作
-        player.PickAndThrow();//拾取与丢弃
-        player.RegularSlopeFactor();//斜坡因子？？？
-        player.Friction();//摩擦力
+        player.Gravity();
+        player.SnapToGround();
+        player.Jump();
+        player.Fall();
+        player.Spin();
+        player.PickAndThrow();
+        player.RegularSlopeFactor();
+        player.Friction();
 
         Vector3 inputDirection = player.inputs.GetMovementDirection();
         //如果玩家有速度，切换至Walk状态

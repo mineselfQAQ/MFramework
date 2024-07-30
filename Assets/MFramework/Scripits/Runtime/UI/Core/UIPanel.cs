@@ -23,6 +23,8 @@ namespace MFramework
 
         public int sortingOrder => canvas.sortingOrder;
 
+        private bool firstEnter;
+
         internal void Create(string id, UIRoot root, string prefabPath, bool autoEnter)
         {
             base.Create(id, UIManager.Instance.UICanvas.transform, prefabPath);
@@ -34,6 +36,8 @@ namespace MFramework
             CanvasGroup.blocksRaycasts = false;
             if (!autoEnter)
             {
+                firstEnter = true;
+
                 //UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
                 CanvasGroup.alpha = 0;
                 ShowState = UIShowState.Off;
@@ -151,13 +155,18 @@ namespace MFramework
                     return false;
 
                 AnimState = UIAnimState.Opening;
+                //Tip：只有第一次进入时才会设置alpha值，alpha值应该由Animation设置
+                if (firstEnter)
+                {
+                    firstEnter = false;
+                    CanvasGroup.alpha = 1;
+                }
                 panelBehaviour.PlayOpenAnim(() => 
                 { 
                     AnimState = UIAnimState.Opened;
                     //对于开启情况，需要等动画结束后使整体激活，防止再次点击
                     CanvasGroup.interactable = true;
                     CanvasGroup.blocksRaycasts = true;
-                    CanvasGroup.alpha = 1;
                     onFinish?.Invoke(); 
                 });
             }
@@ -184,7 +193,7 @@ namespace MFramework
                 CanvasGroup.blocksRaycasts = false;
                 panelBehaviour.PlayCloseAnim(() =>
                 {
-                    CanvasGroup.alpha = 0;
+                    //CanvasGroup.alpha = 0;
                     AnimState = UIAnimState.Closed;
                     onFinish?.Invoke(); 
                 });

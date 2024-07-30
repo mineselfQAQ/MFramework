@@ -11,6 +11,12 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string panelPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels";
     public static readonly string widgetPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets";
 
+    public static readonly string loadPanelName = "LOADING";
+    public static readonly string pausePanelName = "PAUSE";
+    public static readonly string titleScreenPanelName = "TITLESCREEN";
+    public static readonly string fileSelectPanelName = "FILESELECT";
+    public static readonly string levelSelectPanelName = "LEVELSELECT";
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,9 +28,10 @@ public class UIController : ComponentSingleton<UIController>
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
         //用于切换场景过渡用
-        CreatePanel<LoadingPanel>(topRoot, "Loading", $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
-        
-        CreatePanel<TitleScreenPanel>(bottomRoot, "TitleScreen", $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
+        CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
+        CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
+
+        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
     }
 
     private void Update()
@@ -40,40 +47,49 @@ public class UIController : ComponentSingleton<UIController>
         return panel;
     }
 
+    public void OpenPausePanel()
+    {
+        topRoot.OpenPanel(pausePanelName);
+    }
+    public void ClosePausePanel()
+    {
+        topRoot.ClosePanel(pausePanelName);
+    }
+
     public void TitleScreenToFileSelect()
     {
-        bottomRoot.ClosePanel("TitleScreen");
+        bottomRoot.ClosePanel(titleScreenPanelName);
 
-        if (!panelDic.ContainsKey("FileSelect"))
+        if (!panelDic.ContainsKey(fileSelectPanelName))
         {
-            FileSelectPanel fileSelect = (FileSelectPanel)CreatePanel<FileSelectPanel>(bottomRoot, "FileSelect", $"{panelPrepath}/FileSelect/FileSelectPanel.prefab", true);
+            FileSelectPanel fileSelect = (FileSelectPanel)CreatePanel<FileSelectPanel>(bottomRoot, fileSelectPanelName, $"{panelPrepath}/FileSelectPanel/FileSelectPanel.prefab", true);
             fileSelect.Init();
         }
         else
         {
-            bottomRoot.OpenPanel("FileSelect");
+            bottomRoot.OpenPanel(fileSelectPanelName);
         }
     }
 
     public void FileSelectToLevelSelect()
     {
-        bottomRoot.ClosePanel("FileSelect");
+        bottomRoot.ClosePanel(fileSelectPanelName);
 
 
-        if (!panelDic.ContainsKey("LevelSelect"))
+        if (!panelDic.ContainsKey(levelSelectPanelName))
         {
-            LevelSelectPanel levelSelect = (LevelSelectPanel)CreatePanel<LevelSelectPanel>(bottomRoot, "LevelSelect", $"{panelPrepath}/LevelSelect/LevelSelectPanel.prefab", true);
+            LevelSelectPanel levelSelect = (LevelSelectPanel)CreatePanel<LevelSelectPanel>(bottomRoot, levelSelectPanelName, $"{panelPrepath}/LevelSelectPanel/LevelSelectPanel.prefab", true);
             levelSelect.Init();
         }
         else
         {
-            bottomRoot.OpenPanel("LevelSelect");
+            bottomRoot.OpenPanel(levelSelectPanelName);
         }
     }
 
     public void LevelSelectBackToFileSelect()
     {
-        bottomRoot.ClosePanel("LevelSelect");
-        bottomRoot.OpenPanel("FileSelect");
+        bottomRoot.ClosePanel(levelSelectPanelName);
+        bottomRoot.OpenPanel(fileSelectPanelName);
     }
 }

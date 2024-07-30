@@ -15,7 +15,7 @@ public class WalkPlayerState : PlayerState
         player.Dash();
         player.RegularSlopeFactor();
 
-        var inputDirection = player.inputs.GetMovementCameraDirection();
+        Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
         if (inputDirection.sqrMagnitude > 0)//有输入
         {
             float dot = Vector3.Dot(inputDirection, player.lateralVelocity);//输入与原方向越相似越大

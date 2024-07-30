@@ -12,7 +12,7 @@ public class Menu_Main : MonoBehaviour
     {
         root = UIManager.Instance.CreateRoot("Root", 1, 999);
 
-        var titleMenu = root.CreatePanel<TitleMenu>(@"Assets\MFramework_Demo\UIPanelDEMO\2_CommonMenu\Prefab\TitleMenu.prefab");
+        var titleMenu = root.CreatePanel<TitleMenu>(@"Assets\MFramework_Demo\DEMO_UIPanel\2_CommonMenu\Prefab\TitleMenu.prefab");
         titleMenu.Init(background, title);
         titleMenu.OpenSelf();
     }

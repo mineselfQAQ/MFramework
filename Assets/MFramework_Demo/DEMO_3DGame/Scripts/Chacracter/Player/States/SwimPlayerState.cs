@@ -12,7 +12,7 @@ public class SwimPlayerState : PlayerState
     {
         if (player.onWater)
         {
-            var inputDirection = player.inputs.GetMovementCameraDirection();
+            Vector3 inputDirection = player.inputs.GetMovementCameraDirection();
             //Ë®ÖÐÒÆ¶¯
             player.WaterAccelerate(inputDirection);
             player.WaterFaceDirectionSmooth(player.lateralVelocity);

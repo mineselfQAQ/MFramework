@@ -7,6 +7,8 @@ using UnityEngine;
 /// <summary>
 /// 游戏信息核心类
 /// </summary>
+[RequireComponent(typeof(GameLoader))]
+[RequireComponent(typeof(GameSaver))]
 public class Game : ComponentSingleton<Game>
 {
     [Header("GameInfo")]

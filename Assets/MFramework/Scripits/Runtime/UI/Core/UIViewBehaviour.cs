@@ -66,6 +66,7 @@ namespace MFramework
                 return;
             }
 
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;//暂停(TimeScale=0)时可用
             animator.SetTrigger(operationName);
 
             float length = 0;
