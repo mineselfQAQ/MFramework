@@ -12,35 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34dffaff60b96bc4db4d2807928a8722, type: 3}
   m_Name: DefaultPlayerStats
   m_EditorClassIdentifier: 
-  pushForce: 4
+  pushForce: 0
   snapForce: 15
   slideForce: 10
   rotationSpeed: 970
-  gravity: 38
+  gravity: 49
   fallGravity: 65
   gravityTopSpeed: 50
   canPickUp: 1
   canPickUpOnAir: 0
   canJumpWhileHolding: 1
-  pickDistance: 0.5
+  pickDistance: 0.25
   throwVelocityMultiplier: 1.5
   applySlopeFactor: 1
-  acceleration: 13
-  deceleration: 28
+  acceleration: 16
+  deceleration: 30
   friction: 28
   slopeFriction: 18
-  topSpeed: 6
-  turningDrag: 28
+  topSpeed: 7.5
+  turningDrag: 30
   airAcceleration: 32
   brakeThreshold: -0.8
   slopeUpwardForce: 25
   slopeDownwardForce: 28
-  runningAcceleration: 16
-  runningTopSpeed: 7.5
+  runningAcceleration: 20
+  runningTopSpeed: 9
   runningTurningDrag: 14
   multiJumps: 1
   coyoteJumpThreshold: 0.15
-  maxJumpHeight: 17
+  maxJumpHeight: 19
   minJumpHeight: 10
   crouchHeight: 1
   crouchFriction: 10
@@ -52,11 +52,11 @@ MonoBehaviour:
   wallJumpLockMovement: 1
   wallDragLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3585
   wallDragSkinOffset: {x: 0, y: 0, z: 0}
   wallDragGravity: 12
   wallJumpDistance: 8
-  wallJumpHeight: 15
+  wallJumpHeight: 16
   canPoleClimb: 1
   poleClimbSkinOffset: {x: 0, y: 0, z: 0}
   climbUpSpeed: 3
@@ -76,10 +76,10 @@ MonoBehaviour:
   canSpin: 1
   canAirSpin: 1
   spinDuration: 0.5
-  airSpinUpwardForce: 10
+  airSpinUpwardForce: 12
   allowedAirSpins: 1
-  hurtUpwardForce: 10
-  hurtBackwardsForce: 5
+  hurtUpwardForce: 13
+  hurtBackwardsForce: 8
   canAirDive: 1
   applyDiveSlopeFactor: 1
   airDiveForwardForce: 16
@@ -92,12 +92,12 @@ MonoBehaviour:
   canStompAttack: 1
   stompDownwardForce: 20
   stompAirTime: 0.8
-  stompGroundTime: 0.5
+  stompGroundTime: 0.25
   stompGroundLeapHeight: 10
   canLedgeHang: 1
   ledgeHangingLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 10753
   ledgeHangingSkinOffset: {x: 0, y: 0, z: 0}
   ledgeMaxForwardDistance: 0.25
   ledgeMaxDownwardDistance: 0.25
@@ -108,7 +108,7 @@ MonoBehaviour:
   canClimbLedges: 1
   ledgeClimbingLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8705
   ledgeClimbingSkinOffset: {x: 0, y: 0, z: 0}
   ledgeClimbingDuration: 1
   canBackflip: 1

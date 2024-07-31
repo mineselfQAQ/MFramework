@@ -89,13 +89,13 @@ public class PlayerInputManager : MonoBehaviour
         //获取移动向量,取值范围---归一化向量((0,0)为原点，半径为1的圆)
         //如果是键盘，只有(-1,0)(1,0)(0,1)(0,-1)(0.71,0,71)(0.71,-0.71)(-0.71,0.71)(-0.71,-0.71)共8种可能
         //如果是手柄，那么在圆范围内都是可能的
-        var value = m_movement.ReadValue<Vector2>();
+        Vector2 value = m_movement.ReadValue<Vector2>();
         return GetAxisWithCrossDeadZone(value);
     }
 
     public virtual Vector3 GetLookDirection()
     {
-        var value = m_look.ReadValue<Vector2>();
+        Vector2 value = m_look.ReadValue<Vector2>();
 
         if (IsLookingWithMouse())
         {
@@ -110,7 +110,7 @@ public class PlayerInputManager : MonoBehaviour
     /// </summary>
     public virtual Vector3 GetMovementCameraDirection()
     {
-        var direction = GetMovementDirection();
+        Vector3 direction = GetMovementDirection();
 
         if (direction.sqrMagnitude > 0)//有输入(因为添加过死区，手柄必须输入一定量才能进入)
         {
@@ -131,7 +131,7 @@ public class PlayerInputManager : MonoBehaviour
         //用于手柄：
         //大概率是手柄可能会漂移，那么会导致如(0.02,-0.01)的输入，
         //那么如果能够设置一个半径大约0.1的圆为死区，就不会发生这种事情
-        var deadzone = InputSystem.settings.defaultDeadzoneMin;
+        float deadzone = InputSystem.settings.defaultDeadzoneMin;
         axis.x = Mathf.Abs(axis.x) > deadzone ? RemapToDeadzone(axis.x, deadzone) : 0;
         axis.y = Mathf.Abs(axis.y) > deadzone ? RemapToDeadzone(axis.y, deadzone) : 0;
         return new Vector3(axis.x, 0, axis.y);
@@ -152,7 +152,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public virtual bool GetJumpDown()
     {
-        //Tip：按下跳跃键后Update()中会设置新的m_lastJumpTime，在k_jumpBuffer限期内可进入执行Jump()
         if (m_lastJumpTime != null &&
             Time.time - m_lastJumpTime < k_jumpBuffer)
         {
