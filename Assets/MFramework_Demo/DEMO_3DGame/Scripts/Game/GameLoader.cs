@@ -45,7 +45,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
     {
         OnLoadStart?.Invoke();
         isLoading = true;
-        root.OpenPanel("Loading");
+        root.OpenPanel(UIController.loadPanelName);
 
         yield return new WaitForSeconds(startDelay);
 
@@ -63,7 +63,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
         yield return new WaitForSeconds(finishDelay);
 
         isLoading = false;
-        root.ClosePanel("Loading");//Tip：此时背景另一个Scene已经加载完成
+        root.ClosePanel(UIController.loadPanelName);//Tip：此时背景另一个Scene已经加载完成
         OnLoadFinish?.Invoke();
         onLoadFinishInternal?.Invoke();
     }

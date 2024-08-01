@@ -52,7 +52,7 @@ namespace MFramework
             if (dontDestroyOnLoad) return;//已完成，无需再次进行
 
             dontDestroyOnLoad = true;
-            GameObject go = new GameObject("#UIPanel#");
+            GameObject go = new GameObject("#UIPANEL#");
             UICamera.gameObject.SetParent(go);
             UICanvas.gameObject.SetParent(go);
             EventSystem.SetParent(go);

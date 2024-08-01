@@ -5,7 +5,7 @@ namespace MFramework
 {
     public class MSettings
     {
-        public const string MCoreName = "#MCore#";
+        public const string MCoreName = "#MCORE#";
         public const string UICanvasName = "UICanvas";
         public const string UICameraName = "UICamera";
 

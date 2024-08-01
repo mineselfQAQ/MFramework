@@ -60,6 +60,9 @@ public class PlayerCamera : MonoBehaviour
         MoveTarget();
     }
 
+    /// <summary>
+    /// 将相机重置
+    /// </summary>
     public virtual void ResetCamera()
     {
         m_cameraDistance = maxDistance;

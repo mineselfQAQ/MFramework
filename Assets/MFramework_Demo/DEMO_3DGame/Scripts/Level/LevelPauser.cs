@@ -16,7 +16,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
     {
         if (paused != value)
         {
-            if (!paused)
+            if (!paused)//ÔÝÍ£
             {
                 if (canPause)
                 {
@@ -27,7 +27,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
                     OnPause?.Invoke();
                 }
             }
-            else
+            else//½â³ýÔÝÍ£
             {
                 Game.LockCursor();
                 paused = false;

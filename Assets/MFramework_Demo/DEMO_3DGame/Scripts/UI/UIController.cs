@@ -1,5 +1,6 @@
 using MFramework;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 
 public class UIController : ComponentSingleton<UIController>
 {
@@ -17,26 +18,33 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string fileSelectPanelName = "FILESELECT";
     public static readonly string levelSelectPanelName = "LEVELSELECT";
 
+    protected static readonly string titleScreenSceneName = "3DGame_TitleScreen";
+
     protected override void Awake()
     {
         base.Awake();
-        UIManager.Instance.SetDontDestroyOnLoad();
+        //UIManager.Instance.SetDontDestroyOnLoad();
 
         panelDic = new Dictionary<string, UIPanel>();
 
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
+
         //用于切换场景过渡用
         CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
 
-        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
-    }
+        //其它场景直接启动(用于测试)不创建TitleScreenPanel
+#if UNITY_EDITOR
+        if (EditorSceneManager.GetActiveScene().name != titleScreenSceneName)
+        {
+            return;
+        }
+#endif
 
-    private void Update()
-    {
-        
+        //初始进入TitleScreenPanel
+        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
     }
 
     public UIPanel CreatePanel<T>(UIRoot root, string id, string prefabPath, bool autoEnter) where T : UIPanel

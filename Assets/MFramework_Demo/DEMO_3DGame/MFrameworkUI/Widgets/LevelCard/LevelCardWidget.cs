@@ -34,7 +34,7 @@ public class LevelCardWidget : LevelCardWidgetBase
     {
         GameLoader.Instance.Load(scene, () =>
         {
-            UIController.Instance.bottomRoot.ClosePanel("LevelSelect");
+            UIController.Instance.bottomRoot.ClosePanel(UIController.levelSelectPanelName);
         });
     }
 

@@ -14,7 +14,7 @@ namespace MFramework
         {
             if (Instance != null && Instance != this)//用于新场景新组件
             {
-                Destroy(gameObject);
+                DestroyImmediate(gameObject);
                 if (typeof(T) == typeof(MCore)) return;//MCore不需要提示
 
                 MLog.Print($"{typeof(ComponentSingleton<T>)}：{typeof(T)}作为ComponentSingleton脚本再次挂载，请检查是否正确", MLogType.Warning);

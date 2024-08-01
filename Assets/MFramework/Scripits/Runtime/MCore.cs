@@ -19,6 +19,8 @@ namespace MFramework
         protected override void Awake()
         {
             base.Awake();
+            if (this == null) return;//物体已被删除(因为已存在)
+
             DontDestroyOnLoad(gameObject);
 
             //触发静态构造函数，使单例提前激活

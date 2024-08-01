@@ -61,7 +61,7 @@ namespace MFramework
             }
 
             //添加MCore
-            GameObject MCore = new GameObject("#MCore#");
+            GameObject MCore = new GameObject(MSettings.MCoreName);
             MCore.transform.SetAsFirstSibling();
             MCore.AddComponent<MCore>();
             GameObjectUtility.SetParentAndAlign(MCore, null);
@@ -69,7 +69,7 @@ namespace MFramework
             EditorUtility.SetDirty(MCore);
             EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
             EditorGUIUtility.PingObject(MCore);
-            MLog.Print($"已为{scene.name}添加核心组件MCore");
+            MLog.Print($"已为{scene.name}添加核心组件{MSettings.MCoreName}");
         }
         #endregion
 

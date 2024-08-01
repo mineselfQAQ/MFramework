@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 179329332}
   - component: {fileID: 179329331}
   m_Layer: 0
-  m_Name: MCore
+  m_Name: '#MCORE#'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

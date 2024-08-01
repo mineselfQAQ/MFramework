@@ -20,11 +20,11 @@ public class UISaveCard : ComponentSingleton<UISaveCard>
     //public GameObject emptyContainer;
 
     //[Header("UI Elements")]
-    //public MText retries;
+    //public MText m_retries;
     //public MText stars;
     //public MText coins;
-    //public MText createdTime;
-    //public MText updatedTime;
+    //public MText m_createdTime;
+    //public MText m_updatedTime;
     //public MButton loadBtn;
     //public MButton deleteBtn;
     //public MButton newGameBtn;
@@ -60,11 +60,11 @@ public class UISaveCard : ComponentSingleton<UISaveCard>
     //    if (data != null)
     //    {
     //        m_data = data;
-    //        retries.text = data.retries.ToString(retriesFormat);
+    //        m_retries.text = data.m_retries.ToString(retriesFormat);
     //        stars.text = data.TotalStars().ToString(starsFormat);
     //        coins.text = data.TotalCoins().ToString(coinsFormat);
-    //        createdTime.text = DateTime.Parse(data.createdTime).ToLocalTime().ToString(dateFormat);
-    //        updatedTime.text = DateTime.Parse(data.updatedTime).ToLocalTime().ToString(dateFormat);
+    //        m_createdTime.text = DateTime.Parse(data.m_createdTime).ToLocalTime().ToString(dateFormat);
+    //        m_updatedTime.text = DateTime.Parse(data.m_updatedTime).ToLocalTime().ToString(dateFormat);
     //    }
     //}
 
