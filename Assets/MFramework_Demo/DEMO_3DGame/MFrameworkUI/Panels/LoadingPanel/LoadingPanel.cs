@@ -2,7 +2,7 @@
 
 public class LoadingPanel : LoadingPanelBase
 {
-    public void Init()
+    public override void Init()
     {
         
     }

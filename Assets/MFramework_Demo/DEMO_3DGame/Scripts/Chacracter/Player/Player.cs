@@ -138,14 +138,19 @@ public class Player : Entity<Player>
         controller.Move(edgePushDirection * stats.current.gravity * Time.deltaTime);
     }
 
+    /// <summary>
+    /// 重生
+    /// </summary>
     public virtual void Respawn()
     {
         health.Reset();
         transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
         states.Change<IdlePlayerState>();
     }
-
-    public virtual void SetRespawn(Vector3 position, Quaternion rotation)
+    /// <summary>
+    /// 设置重生位置
+    /// </summary>
+    public virtual void SetRespawnPos(Vector3 position, Quaternion rotation)
     {
         m_respawnPosition = position;
         m_respawnRotation = rotation;

@@ -2,7 +2,7 @@
 
 public class FuncTest_ChildWidget : FuncTest_ChildWidgetBase
 {
-    public void Init()
+    public override void Init()
     {
         
     }

@@ -2,7 +2,7 @@
 
 public class SettingGroup : SettingGroupBase
 {
-    public void Init()
+    public override void Init()
     {
         
     }

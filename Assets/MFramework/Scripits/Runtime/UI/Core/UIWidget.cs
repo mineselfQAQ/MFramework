@@ -114,7 +114,11 @@ namespace MFramework
             if (widgetBehaviour.WidgetMode == UIWidgetMode.Simple)
             {
                 bool flag = SetVisible(true);
-                if(flag) OnVisibleChanged(true);
+                if (flag)
+                {
+                    isOpen = true;
+                    OnVisibleChanged(true);
+                }
                 return flag;
             }
 
@@ -125,12 +129,14 @@ namespace MFramework
 
                 return PlayOpenAnim(() =>
                 {
+                    isOpen = true;
                     OnVisibleChanged(true);
                     onFinish?.Invoke();
                 });
             }
             else
             {
+                isOpen = true;
                 bool flag = SetVisible(true);
                 if (flag) OnVisibleChanged(true);
                 return flag;
@@ -142,7 +148,12 @@ namespace MFramework
             if (widgetBehaviour.WidgetMode == UIWidgetMode.Simple)
             {
                 bool flag = SetVisible(false);
-                if (flag) OnVisibleChanged(false);
+                if (flag)
+                {
+                    isOpen = false;
+                    OnVisibleChanged(false);
+                } 
+
                 return flag;
             }
 
@@ -150,12 +161,14 @@ namespace MFramework
             {
                 return PlayCloseAnim(() =>
                 {
+                    isOpen = false;
                     OnVisibleChanged(false);
                     onFinish?.Invoke();
                 });
             }
             else
             {
+                isOpen = false;
                 bool flag = SetVisible(false);
                 if (flag) OnVisibleChanged(false);
                 return flag;

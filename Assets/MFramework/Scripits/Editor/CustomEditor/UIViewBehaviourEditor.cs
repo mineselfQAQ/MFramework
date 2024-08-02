@@ -402,12 +402,20 @@ public class {ClassName} : {BaseClassName}
 
 public class {ClassName} : {BaseClassName}
 {
-    public void Init()
+    public override void Init()
     {
         
     }
 
-    protected override void OnClicked(Button button) { }
+    public override void Update()
+    {
+        
+    }
+
+    protected override void OnClicked(Button button) 
+    {
+        
+    }
 
     protected override void OnCreating() { }
 

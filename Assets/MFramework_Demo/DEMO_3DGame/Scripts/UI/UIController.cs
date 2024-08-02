@@ -1,9 +1,15 @@
 using MFramework;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
 public class UIController : ComponentSingleton<UIController>
 {
+    [Header("HUD Settings")]
+    public string HUDRetriesFormat = "00";
+    public string HUDCoinsFormat = "000";
+    public string HUDHealthFormat = "0";
+
     public UIRoot bottomRoot;
     public UIRoot topRoot;
 
@@ -14,11 +20,12 @@ public class UIController : ComponentSingleton<UIController>
 
     public static readonly string loadPanelName = "LOADING";
     public static readonly string pausePanelName = "PAUSE";
+    public static readonly string HUDPanelName = "HUD";
     public static readonly string titleScreenPanelName = "TITLESCREEN";
     public static readonly string fileSelectPanelName = "FILESELECT";
     public static readonly string levelSelectPanelName = "LEVELSELECT";
 
-    protected static readonly string titleScreenSceneName = "3DGame_TitleScreen";
+    public static readonly string titleScreenSceneName = "3DGame_TitleScreen";
 
     protected override void Awake()
     {
@@ -47,9 +54,18 @@ public class UIController : ComponentSingleton<UIController>
         CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
     }
 
+    protected void Update()
+    {
+        foreach (var panel in panelDic.Values)
+        {
+            panel.Update();
+        }
+    }
+
     public UIPanel CreatePanel<T>(UIRoot root, string id, string prefabPath, bool autoEnter) where T : UIPanel
     {
         UIPanel panel = root.CreatePanel<T>(id, prefabPath, autoEnter);
+        panel.Init();
         panelDic.Add(id, panel);
 
         return panel;
@@ -64,14 +80,22 @@ public class UIController : ComponentSingleton<UIController>
         topRoot.ClosePanel(pausePanelName);
     }
 
+    public void CreateHUD()
+    {
+        CreatePanel<HUDPanel>(topRoot, HUDPanelName, $"{panelPrepath}/HUDPanel/HUDPanel.prefab", true);
+    }
+    public void DestroyHUD()
+    {
+        topRoot.DestroyPanel(HUDPanelName);
+    }
+
     public void TitleScreenToFileSelect()
     {
         bottomRoot.ClosePanel(titleScreenPanelName);
 
         if (!panelDic.ContainsKey(fileSelectPanelName))
         {
-            FileSelectPanel fileSelect = (FileSelectPanel)CreatePanel<FileSelectPanel>(bottomRoot, fileSelectPanelName, $"{panelPrepath}/FileSelectPanel/FileSelectPanel.prefab", true);
-            fileSelect.Init();
+            var fileSelect = (FileSelectPanel)CreatePanel<FileSelectPanel>(bottomRoot, fileSelectPanelName, $"{panelPrepath}/FileSelectPanel/FileSelectPanel.prefab", true);
         }
         else
         {
@@ -86,8 +110,7 @@ public class UIController : ComponentSingleton<UIController>
 
         if (!panelDic.ContainsKey(levelSelectPanelName))
         {
-            LevelSelectPanel levelSelect = (LevelSelectPanel)CreatePanel<LevelSelectPanel>(bottomRoot, levelSelectPanelName, $"{panelPrepath}/LevelSelectPanel/LevelSelectPanel.prefab", true);
-            levelSelect.Init();
+            var levelSelect = (LevelSelectPanel)CreatePanel<LevelSelectPanel>(bottomRoot, levelSelectPanelName, $"{panelPrepath}/LevelSelectPanel/LevelSelectPanel.prefab", true);
         }
         else
         {

@@ -19,6 +19,7 @@ namespace MFramework
         protected UIViewBehaviour viewBehaviour;//通过Inspector挂载收集的信息
 
         public string prefabName { private set; get; }//预制体名字
+        public bool isOpen { protected set; get; }//Panel/Widget开启状态
 
         private CanvasGroup canvasGroup;
         public CanvasGroup CanvasGroup 
@@ -401,11 +402,17 @@ namespace MFramework
             viewBehaviour = null;
             widgetDic = null;
         }
-        protected internal virtual void CreatedInternal() { }
+        protected internal virtual void CreatedInternal() 
+        {
+            isOpen = true;
+        }
         protected internal virtual void DestroyedInternal() { }
         #endregion
 
         #region 子类生命周期
+        public virtual void Init() { }
+        public virtual void Update() { }
+
         protected virtual void OnCreating() { }
         protected virtual void OnCreated() { }
         protected virtual void OnDestroying() { }

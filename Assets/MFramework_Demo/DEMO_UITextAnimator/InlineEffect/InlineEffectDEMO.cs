@@ -10,11 +10,11 @@ public class InlineEffectDEMO : MonoBehaviour
     {
         fadeInBtn.onClick.AddListener(() =>
         {
-            GameObject.Find("FadeIn").GetComponent<MText>().ApplyEffects();
+            GameObject.Find("BlackIn").GetComponent<MText>().ApplyEffects();
         });
         fadeOutBtn.onClick.AddListener(() =>
         {
-            GameObject.Find("FadeOut").GetComponent<MText>().ApplyEffects();
+            GameObject.Find("BlackOut").GetComponent<MText>().ApplyEffects();
         });
     }
 }

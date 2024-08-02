@@ -1,8 +1,9 @@
+using MFramework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LevelStarter : MonoBehaviour
+public class LevelStarter : ComponentSingleton<LevelStarter>
 {
     public float enablePlayerDelay = 1f;
 
@@ -19,6 +20,8 @@ public class LevelStarter : MonoBehaviour
 
     protected virtual IEnumerator StartRoutine()
     {
+        UIController.Instance.CreateHUD();
+
         Game.LockCursor();
         m_level.player.controller.enabled = false;
         m_level.player.inputs.enabled = false;

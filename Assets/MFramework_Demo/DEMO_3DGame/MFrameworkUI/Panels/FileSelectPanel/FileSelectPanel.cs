@@ -5,7 +5,7 @@ public class FileSelectPanel : FileSelectPanelBase
 {
     protected List<SaveCardWidget> m_cardList = new List<SaveCardWidget>();//存档列表
 
-    public void Init()
+    public override void Init()
     {
         //获取JSON中存储的GameData数据
         var data = GameSaver.Instance.LoadList();

@@ -5,13 +5,15 @@ using UnityEngine.Events;
 public class LevelPauser : ComponentSingleton<LevelPauser>
 {
     public UnityEvent OnPause;
-
     public UnityEvent OnUnpause;
 
-    public bool canPause { get; set; } = true;
-
+    public bool canPause { get; set; }
     public bool paused { get; protected set; }
 
+    /// <summary>
+    /// ÔÝÍ£
+    /// </summary>
+    /// <param name="value">True---ÔÝÍ£ False---È¡ÏûÔÝÍ£</param>
     public virtual void Pause(bool value)
     {
         if (paused != value)

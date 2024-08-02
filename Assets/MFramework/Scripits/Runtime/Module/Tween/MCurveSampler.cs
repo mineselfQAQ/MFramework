@@ -148,7 +148,7 @@ namespace MFramework
                 (x)=>{ return x<0.5 ? 0.5f * (1.0f - Mathf.Sqrt(1.0f - 4.0f * x * x)) :
                     0.5f * (Mathf.Sqrt(1.0f - (x*2-2) * (x*2-2)) + 1 ); }
             },
-            //=====BackIn=====
+            //=====BlackIn=====
             {
                 CurveType.BackIn, 
                 (x)=>{ return x * x * (2.70158f * x - 1.70158f); }

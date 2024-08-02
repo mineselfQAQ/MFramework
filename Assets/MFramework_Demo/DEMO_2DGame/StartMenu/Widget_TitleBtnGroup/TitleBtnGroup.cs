@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class TitleBtnGroup : TitleBtnGroupBase
 {
-    public void Init()
+    public override void Init()
     {
         
     }

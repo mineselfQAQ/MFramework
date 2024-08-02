@@ -6,7 +6,7 @@ public class LevelSelectPanel : LevelSelectPanelBase
 {
     protected List<LevelCardWidget> m_cardList = new List<LevelCardWidget>();
 
-    public void Init()
+    public override void Init()
     {
         var levels = Game.Instance.levels;
 

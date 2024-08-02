@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TitleScreenPanel : TitleScreenPanelBase
 {
-    public void Init()
+    public override void Init()
     {
         
     }

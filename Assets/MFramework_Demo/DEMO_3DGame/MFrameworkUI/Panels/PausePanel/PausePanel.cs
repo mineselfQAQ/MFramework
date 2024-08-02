@@ -2,28 +2,28 @@
 
 public class PausePanel : PausePanelBase
 {
-    public void Init()
+    public override void Init()
     {
-        
+
     }
 
     protected override void OnClicked(Button button) 
     {
-        if (button == m_ResumeBtn_MButton)
+        if (button == m_ResumeBtn_MButton)//取消暂停
         {
-
+            LevelPauser.Instance.Pause(false);
         }
-        else if (button == m_CheckpointBtn_MButton)
+        else if (button == m_CheckpointBtn_MButton)//重开
         {
-
+            LevelRespawner.Instance.Respawn(false);
         }
-        else if (button == m_RestartBtn_MButton)
+        else if (button == m_RestartBtn_MButton)//重开
         {
-
+            LevelRespawner.Instance.Restart();
         }
-        else if (button == m_ExitBtn_MButton)
+        else if (button == m_ExitBtn_MButton)//退出
         {
-
+            LevelFinisher.Instance.Exit();
         }
     }
 

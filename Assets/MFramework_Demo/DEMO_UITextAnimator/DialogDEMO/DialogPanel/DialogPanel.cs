@@ -24,7 +24,7 @@ public class DialogPanel : DialogPanelBase
         m_Text_MText.text = dialogues[0];
     }
 
-    public void Update()
+    public override void Update()
     {
         if (curIndex == dialogues.Count)
         {

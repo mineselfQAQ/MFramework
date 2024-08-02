@@ -6,10 +6,10 @@ using UnityEngine.Events;
 
 public class LevelRespawner : ComponentSingleton<LevelRespawner>
 {
-    public float respawnFadeOutDelay = 1f;
-    public float respawnFadeInDelay = 0.5f;
-    public float gameOverFadeOutDelay = 5f;
-    public float restartFadeOutDelay = 0.5f;
+    public float respawnStartDelay = 1f;
+    public float respawnEndDelay = 0.5f;
+    public float gameOverDelay = 5f;
+    public float restartDelay = 0.5f;
 
     public UnityEvent OnRespawn;
     public UnityEvent OnGameOver;
@@ -20,8 +20,6 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
     protected LevelScore m_score => LevelScore.Instance;
     protected LevelPauser m_pauser => LevelPauser.Instance;
     protected Game m_game => Game.Instance;
-
-    protected Fader m_fader => Fader.Instance;//TODO:替换成我的形式
 
     protected virtual void Start()
     {
@@ -52,16 +50,18 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
             yield break;
         }
 
-        yield return new WaitForSeconds(respawnFadeOutDelay);
+        yield return new WaitForSeconds(respawnStartDelay);
 
         //重生
-        //目前操作：黑屏后执行RespawnRoutine()，完成后取消黑屏
-        m_fader.FadeOut(() => StartCoroutine(RespawnRoutine(consumeRetries)));
+        MUIUtitlity.BlackIn(() => 
+        {
+            StartCoroutine(RespawnRoutine(consumeRetries)); 
+        });
     }
     protected virtual IEnumerator GameOverRoutine()
     {
         m_score.stopTime = true;
-        yield return new WaitForSeconds(gameOverFadeOutDelay);
+        yield return new WaitForSeconds(gameOverDelay);
         GameLoader.Instance.Reload();
         OnGameOver?.Invoke();
     }
@@ -77,9 +77,9 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         ResetCameras();
         OnRespawn?.Invoke();
 
-        yield return new WaitForSeconds(respawnFadeInDelay);
+        yield return new WaitForSeconds(respawnEndDelay);
 
-        m_fader.FadeIn(() =>
+        MUIUtitlity.BlackOut(() =>
         {
             m_pauser.canPause = true;
             m_level.player.inputs.enabled = true;
@@ -91,7 +91,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_pauser.Pause(false);
         m_pauser.canPause = false;
         m_level.player.inputs.enabled = false;
-        yield return new WaitForSeconds(restartFadeOutDelay);
+        yield return new WaitForSeconds(restartDelay);
         GameLoader.Instance.Reload();
     }
 

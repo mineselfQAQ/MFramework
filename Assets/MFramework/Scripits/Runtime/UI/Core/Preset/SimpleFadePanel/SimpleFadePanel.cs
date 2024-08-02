@@ -1,11 +1,10 @@
 ﻿using UnityEngine.UI;
 
-public class FuncTest_Widget2 : FuncTest_Widget2Base
+public class SimpleFadePanel : SimpleFadePanelBase
 {
     public override void Init()
     {
-        var childWidget = CreateWidget<FuncTest_ChildWidget>("ChildWidget", rectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_ChildWidget.prefab");
-        childWidget.OpenSelf();
+        
     }
 
     protected override void OnClicked(Button button) { }
@@ -18,5 +17,7 @@ public class FuncTest_Widget2 : FuncTest_Widget2Base
 
     protected override void OnDestroyed() { }
     
+    protected override void OnVisibleChanged(bool visible) { }
     
+    protected override void OnFocusChanged(bool focus) { }
 }

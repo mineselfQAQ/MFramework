@@ -9,7 +9,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
     public string nextScene;
     public float loadingDelay = 1f;
 
-    public UnityEvent OnFinish;
+    public UnityEvent<bool> OnFinish;//True---返回选关界面 False---前往下一关
     public UnityEvent OnExit;
 
     protected Game m_game => Game.Instance;
@@ -48,17 +48,26 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
             m_game.UnlockNextLevel();
         }
 
-        Game.LockCursor(false);
         m_score.Save();
         if (string.IsNullOrEmpty(nextScene))//无下一个场景(最后一个场景)
         {
-            //TODO:回到选关界面
+            m_loader.Load(UIController.titleScreenSceneName, () =>
+            {
+                UIController.Instance.DestroyHUD();
+
+                UIController.Instance.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+                Game.LockCursor(false);
+                OnFinish?.Invoke(true);
+            });
         }
         else
         {
-            m_loader.Load(nextScene);
+            m_loader.Load(nextScene, () =>
+            {
+                Game.LockCursor(false);
+                OnFinish?.Invoke(false);
+            });
         }
-        OnFinish?.Invoke();
     }
 
     protected virtual IEnumerator ExitRoutine()
@@ -69,8 +78,14 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
         yield return new WaitForSeconds(loadingDelay);
 
-        Game.LockCursor(false);
-        //TODO:回到选关界面
-        OnExit?.Invoke();
+        m_loader.Load(UIController.titleScreenSceneName, () =>
+        {
+            UIController.Instance.DestroyHUD();
+
+            UIController.Instance.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+
+            Game.LockCursor(false);
+            OnExit?.Invoke();
+        });
     }
 }

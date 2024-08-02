@@ -2,7 +2,7 @@
 
 public class FuncTest_Panel : FuncTest_PanelBase
 {
-    public void Init()
+    public override void Init()
     {
         var widget11 = CreateWidget<FuncTest_Widget1>("Widget11", m_Widget1Group_RectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_Widget1.prefab", true);
         var widget12 = CreateWidget<FuncTest_Widget1>("Widget12", m_Widget1Group_RectTransform, @"Assets\MFramework_Demo\UIPanelDEMO\0_FuncTest\Prefab\FuncTest_Widget1.prefab", true);
