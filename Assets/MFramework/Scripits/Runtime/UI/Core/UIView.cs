@@ -269,6 +269,7 @@ namespace MFramework
             widgetDic.Remove(id);
 
             widget.Destroy();
+            widget = null;
             return true;
         }
         public bool DestroyWidget<T>() where T : UIWidget
@@ -387,6 +388,22 @@ namespace MFramework
         public void SetWidgetSibiling<T>(SiblingMode mode)
         {
             SetWidgetSibiling(typeof(T).Name, mode);
+        }
+
+        public void SetSortingOrder(string id, int order)
+        {
+            if (!widgetDic.ContainsKey(id))
+            {
+                MLog.Print($"{typeof(UIView)}：ID-<{viewID}>下没有子ID-<{id}>，设置失败，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIWidget widget = widgetDic[id];
+            widget.SetSortingOrder(id, order);
+        }
+        public void SetSortingOrder<T>(int order)
+        {
+            SetSortingOrder(typeof(T).Name, order);
         }
         #endregion
 

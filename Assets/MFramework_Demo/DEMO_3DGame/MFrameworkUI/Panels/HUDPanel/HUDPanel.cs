@@ -1,5 +1,4 @@
-﻿using MFramework;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HUDPanel : HUDPanelBase
 {

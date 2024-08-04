@@ -92,6 +92,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_pauser.canPause = false;
         m_level.player.inputs.enabled = false;
         yield return new WaitForSeconds(restartDelay);
+        //UIController.Instance.DestroyHUD();
         GameLoader.Instance.Reload();
     }
 

@@ -108,6 +108,7 @@ namespace MFramework
             panelDic.Remove(id);
             MaintainTopPanel_Destroy(panel);
             panel.Destroy();
+            panel = null;
 
             return true;
         }
@@ -216,6 +217,26 @@ namespace MFramework
 
             UIPanel panel = panelDic[id];
             panel.SetPanelSibling(mode);
+        }
+        public void SetPanelSibling<T>(SiblingMode mode)
+        {
+            SetPanelSibling(typeof(T).Name, mode);
+        }
+
+        public void SetSortingOrder(string id, int order)
+        {
+            if (!panelDic.ContainsKey(id))
+            {
+                MLog.Print($"{typeof(UIRoot)}.{nameof(SetSortingOrder)}：Root-<{rootID}>下没有id-<{id}>，请检查", MLogType.Warning);
+                return;
+            }
+
+            UIPanel panel = panelDic[id];
+            panel.SetSortingOrder(order);
+        }
+        public void SetSortingOrder<T>(int order)
+        {
+            SetSortingOrder(typeof(T).Name, order);
         }
 
         private void MaintainTopPanel_Create<T>(T panel, int order) where T : UIPanel

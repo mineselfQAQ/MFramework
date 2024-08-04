@@ -189,7 +189,11 @@ namespace MFramework
 
         protected virtual bool PlayOpenAnim(Action onFinish = null)
         {
-            if (widgetBehaviour.AnimSwitch == UIAnimSwitch.Off) return false;
+            if (widgetBehaviour.AnimSwitch == UIAnimSwitch.Off)
+            {
+                onFinish?.Invoke();
+                return false;
+            } 
 
             if (widgetBehaviour.OpenAnimMode == UIOpenAnimMode.AutoPlay)
             {
@@ -222,7 +226,11 @@ namespace MFramework
         }
         protected virtual bool PlayCloseAnim(Action onFinish = null)
         {
-            if (widgetBehaviour.AnimSwitch == UIAnimSwitch.Off) return false;
+            if (widgetBehaviour.AnimSwitch == UIAnimSwitch.Off) 
+            {
+                onFinish?.Invoke();
+                return false;
+            }
 
             if (widgetBehaviour.CloseAnimMode == UICloseAnimMode.AutoPlay)
             {

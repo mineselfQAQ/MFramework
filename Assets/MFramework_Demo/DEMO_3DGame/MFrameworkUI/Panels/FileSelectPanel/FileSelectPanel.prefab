@@ -262,7 +262,7 @@ MonoBehaviour:
   openAnimMode: 0
   closeAnimMode: 0
   thickness: 10
-  focusMode: 1
+  focusMode: 0
 --- !u!1 &4461345350983560615
 GameObject:
   m_ObjectHideFlags: 0

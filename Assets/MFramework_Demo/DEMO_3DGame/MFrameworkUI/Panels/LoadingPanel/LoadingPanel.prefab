@@ -283,7 +283,7 @@ MonoBehaviour:
   openAnimMode: 0
   closeAnimMode: 0
   thickness: 10
-  focusMode: 1
+  focusMode: 0
 --- !u!95 &1848037015951192517
 Animator:
   serializedVersion: 5

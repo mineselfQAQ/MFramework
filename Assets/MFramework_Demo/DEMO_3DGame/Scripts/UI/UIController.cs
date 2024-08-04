@@ -40,7 +40,9 @@ public class UIController : ComponentSingleton<UIController>
 
         //用于切换场景过渡用
         CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
+        topRoot.SetSortingOrder(loadPanelName, 1998);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
+        topRoot.SetSortingOrder(pausePanelName, 1999);
 
         //其它场景直接启动(用于测试)不创建TitleScreenPanel
 #if UNITY_EDITOR
@@ -64,11 +66,26 @@ public class UIController : ComponentSingleton<UIController>
 
     public UIPanel CreatePanel<T>(UIRoot root, string id, string prefabPath, bool autoEnter) where T : UIPanel
     {
+        if (panelDic.ContainsKey(id)) 
+        {
+            root.DestroyPanel(id);
+            panelDic.Remove(id);
+        }
+
         UIPanel panel = root.CreatePanel<T>(id, prefabPath, autoEnter);
         panel.Init();
         panelDic.Add(id, panel);
 
         return panel;
+    }
+
+    public void DestroyPanel(UIRoot root, string id)
+    {
+        if (panelDic.ContainsKey(id))
+        {
+            root.DestroyPanel(id);
+            panelDic.Remove(id);
+        }
     }
 
     public void OpenPausePanel()
@@ -86,7 +103,7 @@ public class UIController : ComponentSingleton<UIController>
     }
     public void DestroyHUD()
     {
-        topRoot.DestroyPanel(HUDPanelName);
+        DestroyPanel(topRoot, HUDPanelName);
     }
 
     public void TitleScreenToFileSelect()
