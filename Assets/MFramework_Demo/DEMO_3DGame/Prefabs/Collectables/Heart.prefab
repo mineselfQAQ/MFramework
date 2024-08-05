@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4494071930030380138}
   - component: {fileID: 5934499162350707832}
-  - component: {fileID: 1578164981866477427}
+  - component: {fileID: 417668900142054463}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -56,7 +56,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1578164981866477427
+--- !u!114 &417668900142054463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4108669300722335234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f664e656ad2b5a846931df0b99695179, type: 3}
+  m_Script: {fileID: 11500000, guid: 8aad85720fd2eeb4c93a0a89953a9d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collectOnContact: 1
@@ -89,9 +89,6 @@ MonoBehaviour:
   randomizeInitialDirection: 1
   initialVelocity: {x: 0, y: 12, z: 0}
   collisionClip: {fileID: 8300000, guid: 1ab74491ecd5e8a498cf5d6b1a3ffa0b, type: 3}
-  onCollect:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5063350664427676668
 PrefabInstance:
   m_ObjectHideFlags: 0

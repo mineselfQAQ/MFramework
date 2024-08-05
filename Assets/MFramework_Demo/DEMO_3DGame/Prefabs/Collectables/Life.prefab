@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 209459201426688007}
   - component: {fileID: 9168560202944055254}
-  - component: {fileID: 3267419188762912876}
+  - component: {fileID: 8574536583823359187}
   m_Layer: 0
   m_Name: Life
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34355171537738623}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56,7 +56,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.61922735
   m_Center: {x: 0, y: 0, z: -0.11922735}
---- !u!114 &3267419188762912876
+--- !u!114 &8574536583823359187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 34355171537738623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f664e656ad2b5a846931df0b99695179, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ee61975c46f314da6b926af59c1bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collectOnContact: 1
@@ -89,9 +89,7 @@ MonoBehaviour:
   randomizeInitialDirection: 1
   initialVelocity: {x: 0, y: 12, z: 0}
   collisionClip: {fileID: 8300000, guid: 1ab74491ecd5e8a498cf5d6b1a3ffa0b, type: 3}
-  onCollect:
-    m_PersistentCalls:
-      m_Calls: []
+  amount: 1
 --- !u!1001 &1989646628231190011
 PrefabInstance:
   m_ObjectHideFlags: 0

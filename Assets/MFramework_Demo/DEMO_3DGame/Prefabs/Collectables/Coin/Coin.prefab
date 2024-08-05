@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9025247002417480013}
   - component: {fileID: 1886517954204648112}
-  - component: {fileID: 8578476591073796615}
+  - component: {fileID: 8065399376711082969}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -56,7 +56,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8578476591073796615
+--- !u!114 &8065399376711082969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2945622593233297038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f664e656ad2b5a846931df0b99695179, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f60f80ec3a653c45b91b51c48ef66e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collectOnContact: 1
@@ -89,9 +89,7 @@ MonoBehaviour:
   randomizeInitialDirection: 1
   initialVelocity: {x: 0, y: 12, z: 0}
   collisionClip: {fileID: 8300000, guid: 1ab74491ecd5e8a498cf5d6b1a3ffa0b, type: 3}
-  onCollect:
-    m_PersistentCalls:
-      m_Calls: []
+  amount: 1
 --- !u!1001 &6031178958304852295
 PrefabInstance:
   m_ObjectHideFlags: 0
