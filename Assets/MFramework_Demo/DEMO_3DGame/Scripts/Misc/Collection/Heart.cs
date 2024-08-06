@@ -1,6 +1,6 @@
 public class Heart : Collectable
 {
-    protected override void OnCollect(Player player)
+    protected override void OnCollectInternal(Player player)
     {
         AddHealth(player, 1);
     }

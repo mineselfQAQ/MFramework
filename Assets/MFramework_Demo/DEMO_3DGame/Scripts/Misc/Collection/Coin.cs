@@ -7,7 +7,7 @@ public class Coin : Collectable
 
     protected LevelScore m_score => LevelScore.Instance;
 
-    protected override void OnCollect(Player player)
+    protected override void OnCollectInternal(Player player)
     {
         AddCoins(amount);
     }

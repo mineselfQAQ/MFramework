@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 564846260272948544}
     m_Modifications:
+    - target: {fileID: 1072252478423145897, guid: 6f428e6b3e4bdaa4689be528ef64c009, type: 3}
+      propertyPath: usePhysics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1072252478423145897, guid: 6f428e6b3e4bdaa4689be528ef64c009, type: 3}
+      propertyPath: hasLifeTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8675540084279491077, guid: 6f428e6b3e4bdaa4689be528ef64c009, type: 3}
       propertyPath: m_Name
       value: BouncyLife

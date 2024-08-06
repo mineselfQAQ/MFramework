@@ -29,7 +29,7 @@ public class Test_SerializationByReflection : MonoBehaviour
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
 
-            T obj = Activator.CreateInstance<T>();//创建实例
+            T obj = System.Activator.CreateInstance<T>();//创建实例
 
             object instance = JsonConvert.DeserializeObject(json, type);
             foreach (PropertyInfo property in properties)

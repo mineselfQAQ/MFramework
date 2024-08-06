@@ -21,7 +21,7 @@ public class Star : Collectable
         });
     }
 
-    protected override void OnCollect(Player player)
+    protected override void OnCollectInternal(Player player)
     {
         m_score.CollectStar(index);
     }

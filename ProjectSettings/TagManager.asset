@@ -8,13 +8,13 @@ TagManager:
   - Hazard
   - Platform
   - Pole
-  - Panel
   - Spring
   - Surface/Grass
   - Surface/Wood
   - Surface/Metal
   - Volume/Water
   - Interactive/Rail
+  - Activator
   layers:
   - Default
   - TransparentFX

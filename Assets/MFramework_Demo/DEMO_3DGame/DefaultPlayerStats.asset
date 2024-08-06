@@ -102,7 +102,7 @@ MonoBehaviour:
   ledgeMaxForwardDistance: 0.25
   ledgeMaxDownwardDistance: 0.25
   ledgeSideMaxDistance: 0.5
-  ledgeSideHeightOffset: 0.15
+  ledgeSideHeightOffset: 0.25
   ledgeSideCollisionRadius: 0.25
   ledgeMovementSpeed: 1.5
   canClimbLedges: 1

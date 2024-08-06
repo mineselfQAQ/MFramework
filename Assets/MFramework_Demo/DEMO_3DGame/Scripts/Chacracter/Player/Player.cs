@@ -610,8 +610,9 @@ public class Player : Entity<Player>
         //1.开启canGlide
         //2.按下滑翔按键
         //3.在空中
-        //4.在下落
-        if (stats.current.canGlide && !isGrounded && verticalVelocity.y <= 0 && inputs.GetGlide()) 
+        //4.未持物
+        //5.在下落
+        if (stats.current.canGlide && !isGrounded && !holding && verticalVelocity.y <= 0 && inputs.GetGlide()) 
             states.Change<GlidingPlayerState>();
     }
 

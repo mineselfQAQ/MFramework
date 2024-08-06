@@ -36,6 +36,9 @@ public abstract class Collectable : MonoBehaviour
     public Vector3 initialVelocity = new Vector3(0, 12, 0);
     public AudioClip collisionClip;
 
+    [Space(15)]
+    public PlayerEvent onCollect;
+
 
 
     protected Collider m_collider;
@@ -231,7 +234,8 @@ public abstract class Collectable : MonoBehaviour
         {
             m_audio.Stop();
             m_audio.PlayOneShot(clip);
-            OnCollect(player);//执行拾取回调
+            onCollect?.Invoke(player);//执行拾取回调
+            OnCollectInternal(player);//执行拾取回调
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -276,5 +280,5 @@ public abstract class Collectable : MonoBehaviour
         }
     }
 
-    protected abstract void OnCollect(Player player);
+    protected abstract void OnCollectInternal(Player player);
 }

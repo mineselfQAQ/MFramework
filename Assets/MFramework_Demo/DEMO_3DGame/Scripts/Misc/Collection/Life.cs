@@ -7,7 +7,7 @@ public class Life : Collectable
 
     protected Game m_game => Game.Instance;
 
-    protected override void OnCollect(Player player)
+    protected override void OnCollectInternal(Player player)
     {
         AddRetries(amount);
     }

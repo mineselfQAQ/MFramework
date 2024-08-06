@@ -5,7 +5,7 @@ public class GameTags
     public const string Hazard = "Hazard";
     public const string Platform = "Platform";
     public const string Pole = "Pole";
-    public const string Panel = "Panel";
+    public const string Activator = "Activator";
     public const string Spring = "Spring";
     public const string SurfaceGrass = "Surface/Grass";
     public const string SurfaceWood = "Surface/Wood";

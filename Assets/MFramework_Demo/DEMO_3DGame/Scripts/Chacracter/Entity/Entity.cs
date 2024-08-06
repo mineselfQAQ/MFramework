@@ -537,7 +537,10 @@ public abstract class Entity : MonoBehaviour
     /// 确定该点在楼梯允许范围下还是上
     /// </summary>
     /// <returns>True为点在阶梯允许范围内(Entity可以踩上去)，False为不在阶梯允许范围内</returns>
-    public virtual bool IsPointUnderStep(Vector3 point) => stepPosition.y > point.y;
+    public virtual bool IsPointUnderStep(Vector3 point)
+    {
+        return stepPosition.y > point.y;
+    }
 
     /// <summary>
     /// 是否在斜坡上
