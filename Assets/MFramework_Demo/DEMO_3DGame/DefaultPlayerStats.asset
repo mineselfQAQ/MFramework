@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34dffaff60b96bc4db4d2807928a8722, type: 3}
   m_Name: DefaultPlayerStats
   m_EditorClassIdentifier: 
-  pushForce: 0
+  pushForce: 4
   snapForce: 15
   slideForce: 10
   rotationSpeed: 970

@@ -12,7 +12,7 @@ public class LedgeHangingPlayerState : PlayerState
     protected override void OnEnter(Player player)
     {
         if (m_clearParentRoutine != null)
-            MCoroutineManager.Instance.StopCoroutine(m_clearParentRoutine);
+            MCoroutineManager.Instance.EndCoroutine(m_clearParentRoutine);
 
         m_keepParent = false;
         //人物模型偏移

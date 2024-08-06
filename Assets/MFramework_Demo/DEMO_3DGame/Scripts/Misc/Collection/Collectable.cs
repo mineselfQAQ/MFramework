@@ -109,7 +109,7 @@ public abstract class Collectable : MonoBehaviour
     }
     protected virtual void InitializeTransform()
     {
-        transform.parent = null;
+        //transform.parent = null;//TODO:???
         transform.rotation = Quaternion.identity;
     }
     protected virtual void InitializeDisplay()

@@ -99,7 +99,7 @@ namespace MFramework
         {
             if (dic.ContainsKey(name))
             {
-                MCoroutineManager.Instance.StopCoroutine(dic[name]);
+                MCoroutineManager.Instance.EndCoroutine(dic[name]);
                 dic.Remove(name);
                 return true;
             }

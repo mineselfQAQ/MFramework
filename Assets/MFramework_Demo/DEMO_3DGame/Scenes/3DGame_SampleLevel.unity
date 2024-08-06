@@ -1009,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '#MUSIC_SAMPLELEVEL#'
       objectReference: {fileID: 0}
+    - target: {fileID: 7379284296906654462, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8617085956033023163, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: m_audioClip
       value: 

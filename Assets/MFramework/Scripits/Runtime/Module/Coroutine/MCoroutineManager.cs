@@ -37,7 +37,7 @@ namespace MFramework
         {
             return StartCoroutine(enumerator);
         }
-        public new void StopCoroutine(Coroutine coroutine)
+        public void EndCoroutine(Coroutine coroutine)
         {
             StopCoroutine(coroutine);
         }
@@ -49,7 +49,7 @@ namespace MFramework
             StartCoroutine(StartCoroutinueRoutine(fun, name, onFinish));
         }
 
-        public new bool StopCoroutine(string name)
+        public bool EndCoroutine(string name)
         {
             if (!dic.ContainsKey(name))
             {
@@ -64,7 +64,7 @@ namespace MFramework
             return true;
         }
 
-        public new void StopAllCoroutines()
+        public void EndAllCoroutines()
         {
             foreach (var value in dic.Values)
             {

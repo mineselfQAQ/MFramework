@@ -64,7 +64,11 @@ public class LevelScore : ComponentSingleton<LevelScore>
             m_stars = (bool[])m_level.stars.Clone();
         }
 
-        OnScoreLoaded?.Invoke();
+        //延迟调用，保证OnScoreLoaded回调添加完毕
+        MCoroutineManager.Instance.DelayNoRecord(() =>
+        {
+            OnScoreLoaded?.Invoke();
+        }, 0.1f);
     }
 
     protected virtual void Update()

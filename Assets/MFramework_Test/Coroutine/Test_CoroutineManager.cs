@@ -14,7 +14,7 @@ public class Test_CoroutineManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             MLog.Print(MCoroutineManager.Instance.Count);
-            MCoroutineManager.Instance.StopCoroutine("Coroutine1");
+            MCoroutineManager.Instance.EndCoroutine("Coroutine1");
         }
     }
 
