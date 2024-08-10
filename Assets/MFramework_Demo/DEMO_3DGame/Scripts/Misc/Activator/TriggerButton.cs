@@ -1,15 +1,31 @@
 using UnityEngine;
 
-//TODO:触发略有问题，连跳会导致刺不正常弹出
 public class TriggerButton : Activator
 {
     [Header("TriggerButton Settings")]
+    /// <summary>
+    /// 该触发器所控制的物体
+    /// </summary>
     public Toggle[] toggles;
-    public Mover mover;
+
+    protected const string BUTTONNAME = "Button";
+
+    protected Mover m_mover;
+    protected Mover Mover
+    {
+        get
+        {
+            if (m_mover == null)
+            {
+                m_mover = transform.Find(BUTTONNAME).GetComponent<Mover>();
+            }
+            return m_mover;
+        }
+    }
 
     public override void OnActivateInternal()
     {
-        mover.Apply();
+        Mover.Apply();
         foreach (var toggle in toggles)
         {
             toggle.Set(false);
@@ -18,7 +34,7 @@ public class TriggerButton : Activator
 
     public override void OnDeactivateInternal()
     {
-        mover.Undo();
+        Mover.Undo();
         foreach (var toggle in toggles)
         {
             toggle.Set(true);

@@ -50,7 +50,7 @@ public class Checkpoint : MonoBehaviour
     {
         Vector3 from = flag.position;
         Vector3 to = from + Vector3.up * 0.5f;
-        MTween.DoTween01((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
            flag.position = Vector3.Lerp(from, to, f);
         }, MCurve.Linear, 0.5f);

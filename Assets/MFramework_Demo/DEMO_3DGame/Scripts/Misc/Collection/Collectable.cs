@@ -8,7 +8,6 @@ using UnityEngine;
 public abstract class Collectable : MonoBehaviour
 {
     [Header("General Settings")]
-    public bool collectOnContact = true;
     public int times = 1;//触发次数
     public float ghostingDuration = 0.5f;//进场后的"不可拾取时间"
     public GameObject model;
@@ -40,6 +39,10 @@ public abstract class Collectable : MonoBehaviour
     public PlayerEvent onCollect;
 
 
+    /// <summary>
+    /// 是否可以通过触碰自动拾取
+    /// </summary>
+    internal bool autoCollect = true;
 
     protected Collider m_collider;
     protected AudioSource m_audio;
@@ -80,7 +83,7 @@ public abstract class Collectable : MonoBehaviour
     }
     protected virtual void OnTriggerStay(Collider other)
     {
-        if (collectOnContact && other.CompareTag(GameTags.Player))
+        if (autoCollect && other.CompareTag(GameTags.Player))
         {
             if (other.TryGetComponent<Player>(out var player))
             {

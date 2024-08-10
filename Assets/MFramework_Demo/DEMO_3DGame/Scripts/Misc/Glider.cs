@@ -43,7 +43,7 @@ public class Glider : MonoBehaviour
     protected virtual void ShowGlider()
     {
         //Ëõ·Å0->1
-        MTween.DoTween01((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
             Vector3 scale = Vector3.Lerp(Vector3.zero, Vector3.one, f);
             transform.transform.localScale = scale;
@@ -56,7 +56,7 @@ public class Glider : MonoBehaviour
     protected virtual void HideGlider()
     {
         //Ëõ·Å1->0
-        MTween.DoTween01((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
             Vector3 scale = Vector3.Lerp(Vector3.one, Vector3.zero, f);
             transform.transform.localScale = scale;

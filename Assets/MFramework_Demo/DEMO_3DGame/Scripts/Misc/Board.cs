@@ -76,7 +76,7 @@ public class Board : MonoBehaviour
             onShow?.Invoke();
 
             //Ëõ·Å0->1
-            MTween.DoTween01((f) =>
+            MTween.DoTween01NoRecord((f) =>
             {
                 Vector3 scale = Vector3.Lerp(Vector3.zero, m_initialScale, f);
                 canvas.transform.localScale = scale;
@@ -93,7 +93,7 @@ public class Board : MonoBehaviour
 
             //Ëõ·Å1->0
             Vector3 from = canvas.transform.localScale;
-            MTween.DoTween01((f) =>
+            MTween.DoTween01NoRecord((f) =>
             {
                 Vector3 scale = Vector3.Lerp(from, Vector3.zero, f);
                 canvas.transform.localScale = scale;

@@ -53,7 +53,7 @@ namespace MFramework
         {
             if (!dic.ContainsKey(name))
             {
-                MLog.Print($"{typeof(MCoroutineManager)}:字典中没有名为{name}的Coroutine，请检查.", MLogType.Warning);
+                //MLog.Print($"{typeof(MCoroutineManager)}:字典中没有名为{name}的Coroutine，请检查.", MLogType.Warning);
                 return false;
             }
 
@@ -173,10 +173,10 @@ namespace MFramework
         /// <summary>
         /// 补间动画操作
         /// </summary>
-        //internal void Tween(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
-        //{
-        //    StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
-        //}
+        internal void Tween(string name, Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        {
+            StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
+        }
 
         internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();
         internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
