@@ -1,3 +1,5 @@
+using MFramework;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections;
 using UnityEngine;
 
@@ -247,7 +249,6 @@ public abstract class Collectable : MonoBehaviour
     /// </summary>
     protected virtual IEnumerator QuickShowRoutine()
     {
-        var elapsedTime = 0f;
         var initialPosition = transform.position;
         var targetPosition = initialPosition + Vector3.up * quickShowHeight;
 
@@ -255,16 +256,12 @@ public abstract class Collectable : MonoBehaviour
         model.SetActive(true);
         m_collider.enabled = false;
 
-        //物体耗费<quickShowDuration>秒从<initialPosition>移动至<targetPosition>(向上移动)
-        while (elapsedTime < quickShowDuration)
+        //initialPosition->targetPosition(向上移动)
+        MTween.DoTween01NoRecord((f) =>
         {
-            var t = elapsedTime / quickShowDuration;
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, f);
+        }, MCurve.Linear, quickShowDuration);
 
-        transform.position = targetPosition;
         //等待<hideDuration>秒
         yield return new WaitForSeconds(hideDuration);
         //复原

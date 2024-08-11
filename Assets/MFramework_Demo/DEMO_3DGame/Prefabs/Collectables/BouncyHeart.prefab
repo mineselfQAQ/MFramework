@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 417668900142054463, guid: 5d3c04c6812afff42a48fd4cf322f668, type: 3}
+      propertyPath: usePhysics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 417668900142054463, guid: 5d3c04c6812afff42a48fd4cf322f668, type: 3}
+      propertyPath: hasLifeTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1578164981866477427, guid: 5d3c04c6812afff42a48fd4cf322f668, type: 3}
       propertyPath: usePhysics
       value: 1

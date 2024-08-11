@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+//TODO:BUG：在侧面蹭上去的话会触发多次OnEntityContact()
+//TODO:改进：下砸应该也可以获取物体
 [RequireComponent(typeof(BoxCollider))]
-public class ItemBox : MonoBehaviour, IEntityContact
+public class ItemCube : MonoBehaviour, IEntityContact
 {
-    public Collectable[] collectables;
-    public MeshRenderer itemBoxRenderer;
-    public Material emptyItemBoxMaterial;
+    public Material emptyItemCubeMaterial;
+
 
     [Space(15)]
     public UnityEvent onCollect;
@@ -15,11 +16,15 @@ public class ItemBox : MonoBehaviour, IEntityContact
     protected int m_index;
     protected bool m_enabled = true;
 
+    protected Collectable[] m_collectables;
     protected BoxCollider m_collider;
+    protected MeshRenderer m_itemCubeRenderer;
 
     protected virtual void Start()
     {
         m_collider = GetComponent<BoxCollider>();
+        m_itemCubeRenderer = transform.Find("ItemCubeModel").GetComponent<MeshRenderer>();
+
         InitializeCollectables();
     }
 
@@ -36,11 +41,14 @@ public class ItemBox : MonoBehaviour, IEntityContact
 
     protected virtual void InitializeCollectables()
     {
-        foreach (var collectable in collectables)
+        Transform items = transform.Find("Items");
+        m_collectables = items.GetComponentsInChildren<Collectable>(true);
+
+        foreach (var collectable in m_collectables)
         {
             //策略：
-            //·对于不隐藏物体，先隐藏，拾取时显示
-            //·对于隐藏物体，不可通过Collectable脚本控制拾取，必须通过OnEntityContact()进行拾取
+            //·对于不隐藏物体(顶开即弹出)，先隐藏，拾取时显示
+            //·对于隐藏物体(顶开即获取)，不可通过Collectable脚本控制拾取，必须通过OnEntityContact()自动拾取
             if (!collectable.hidden)
             {
                 collectable.gameObject.SetActive(false);
@@ -56,22 +64,22 @@ public class ItemBox : MonoBehaviour, IEntityContact
     {
         if (m_enabled)
         {
-            if (m_index < collectables.Length)
+            if (m_index < m_collectables.Length)
             {
-                if (collectables[m_index].hidden)
+                if (!m_collectables[m_index].hidden)
                 {
-                    collectables[m_index].Collect(player);
+                    m_collectables[m_index].gameObject.SetActive(true);
                 }
                 else
                 {
-                    collectables[m_index].gameObject.SetActive(true);
+                    m_collectables[m_index].Collect(player);
                 }
 
                 m_index++;
                 onCollect?.Invoke();
             }
 
-            if (m_index == collectables.Length)
+            if (m_index == m_collectables.Length)
             {
                 Disable();
             }
@@ -83,7 +91,7 @@ public class ItemBox : MonoBehaviour, IEntityContact
         if (m_enabled)
         {
             m_enabled = false;
-            itemBoxRenderer.sharedMaterial = emptyItemBoxMaterial;
+            m_itemCubeRenderer.sharedMaterial = emptyItemCubeMaterial;
             onDisable?.Invoke();
         }
     }

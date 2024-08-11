@@ -45,5 +45,4 @@ public class Breakable : MonoBehaviour
             OnBreak?.Invoke();
         }
     }
-
 }
