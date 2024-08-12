@@ -674,7 +674,7 @@ namespace MFramework
                                 indexSet2.Add(data.index);
                             }
                         }
-                    }, curve, 0.001f, (f) =>
+                    }, curve, 0.001f, () =>
                     {
                         if (typewriter)//在打字机动画情况下
                         {
@@ -714,7 +714,7 @@ namespace MFramework
                         indexSet.Add(data.index);
                     }
                 }
-            }, curve, time, (f) =>
+            }, curve, time, () =>
             {
                 if (typewriter)//在打字机动画情况下
                 {
@@ -859,7 +859,7 @@ namespace MFramework
                         UpdateCharData(data, text);
                         text.UpdateVertexData();
                     }
-                }, curve, interval, (f) => 
+                }, curve, interval, () => 
                 {
                     string id3 = MTextAnimatorCoroutine.GetAndAddID(text);
                     MTextAnimatorCoroutine.Tween01(id3, text, (f) =>

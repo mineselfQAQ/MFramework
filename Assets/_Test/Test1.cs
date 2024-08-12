@@ -5,23 +5,19 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
+    public Transform player;
     private void Start()
     {
 
     }
 
-    void Update()
+    void LateUpdate()
     {
-        RaycastHit hit;
-        Vector3 origin = transform.position;
-        float radius = 0.5f;
-        float maxDistance = 1f;
-
-        if (Physics.SphereCast(origin, radius, Vector3.down, out hit, maxDistance))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            Debug.Log("Hit " + hit.point);
-            // 在场景中绘制SphereCast的轨迹
-            Debug.DrawLine(origin, hit.point, Color.red);
+            Debug.Log(player.position);
+            player.position = Vector3.zero;
+            Debug.Log(player.position);
         }
     }
 }

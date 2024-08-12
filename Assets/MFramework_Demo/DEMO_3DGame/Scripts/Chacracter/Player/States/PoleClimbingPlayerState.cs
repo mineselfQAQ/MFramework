@@ -25,7 +25,8 @@ public class PoleClimbingPlayerState : PlayerState
 
         player.FaceDirection(poleDirection);//面向杆子
 
-        //绕杆爬   TODO:有一个内容可以吸住物体(FaceDirection()去掉后还是会吸在杆子上)，不知道是哪个
+        //绕杆爬
+        //TODO:有一个内容可以吸住物体(FaceDirection()去掉后还是会吸在杆子上)，不知道是哪个
         //Tip:这里只是简单的左右，需要配合FaceDirection()以及？？？完成
         player.lateralVelocity = player.transform.right * inputDirection.x * player.stats.current.climbRotationSpeed;
         //上下爬

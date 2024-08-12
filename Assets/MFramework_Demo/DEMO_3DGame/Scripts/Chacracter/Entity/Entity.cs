@@ -255,7 +255,8 @@ public abstract class Entity<T> : Entity where T : Entity<T>
             groundNormal = groundHit.normal;
             groundAngle = Vector3.Angle(Vector3.up, groundHit.normal);
             localSlopeDirection = new Vector3(groundNormal.x, 0, groundNormal.z).normalized;
-            transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+            //transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+            onPlatform = hit.collider.CompareTag(GameTags.Platform) ? true : false;
         }
     }
     /// <summary>
@@ -516,6 +517,8 @@ public abstract class Entity : MonoBehaviour
 
     public SplineContainer rails { get; protected set; }
     public bool onRails { get; set; }
+
+    public bool onPlatform { get; set; }
 
     public float lastGroundTime { get; protected set; }
     public bool isGrounded { get; protected set; } = true;

@@ -1,6 +1,4 @@
 using MFramework;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -47,43 +45,33 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
             if (!activated)
             {
                 activated = true;
-                StartCoroutine(Routine());
+
+                //·0.5*FallDelay后开始震动
+                //·1*FallDelay后坠落
+                //·坠落后1*resetDelay后重置物体
+                MTween.DoTween01NoRecord((f) =>
+                {
+                    if (shake && (f >= 0.5f))
+                    {
+                        float shake = Mathf.Sin(Time.time * speed) * height;//随机震动
+                        transform.position = m_initialPosition + Vector3.up * shake;
+                    }
+                }, MCurve.Linear, fallDelay, () =>
+                {
+                    Fall();
+
+                    if (autoReset)
+                    {
+                        MCoroutineManager.Instance.DelayNoRecord(() =>
+                        {
+                            Restart();
+                        }, resetDelay);
+                    }
+                });
             }
         }
     }
 
-    protected IEnumerator Routine()
-    {
-        //var timer = fallDelay;
-        //while (timer >= 0)
-        //{
-        //    if (shake && (timer <= fallDelay / 2f))
-        //    {
-        //        var shake = Mathf.Sin(Time.time * speed) * height;
-        //        transform.position = m_initialPosition + Vector3.up * shake;
-        //    }
-
-        //    timer -= Time.deltaTime;
-        //    yield return null;
-        //}
-
-        MTween.DoTween01NoRecord((f) =>
-        {
-            if (shake && (f >= 0.5f))
-            {
-                float shake = Mathf.Sin(Time.time * speed) * height;
-                transform.position = m_initialPosition + Vector3.up * shake;
-            }
-        }, MCurve.Linear, fallDelay);
-
-        Fall();
-
-        if (autoReset)
-        {
-            yield return new WaitForSeconds(resetDelay);
-            Restart();
-        }
-    }
     public virtual void Fall()
     {
         falling = true;
@@ -92,27 +80,32 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
 
     public virtual void Restart()
     {
-        activated = falling = false;
+        activated = false;
+        falling = false;
         transform.position = m_initialPosition;
         m_collider.isTrigger = false;
         OffsetPlayer();
     }
 
+    /// <summary>
+    /// 如果Player在物体Collider中，偏移至平台上方
+    /// </summary>
     protected virtual void OffsetPlayer()
     {
-        var center = m_collider.bounds.center;
-        var extents = m_collider.bounds.extents;
-        var maxY = m_collider.bounds.max.y;
-        var overlaps = Physics.OverlapBoxNonAlloc(center, extents, m_overlaps);
+        //检测是否碰撞
+        Vector3 center = m_collider.bounds.center;
+        Vector3 extents = m_collider.bounds.extents;
+        float maxY = m_collider.bounds.max.y;
+        int overlaps = Physics.OverlapBoxNonAlloc(center, extents, m_overlaps);
 
         for (int i = 0; i < overlaps; i++)
         {
-            if (!m_overlaps[i].CompareTag(GameTags.Player))
-                continue;
+            if (!m_overlaps[i].CompareTag(GameTags.Player)) continue;
 
-            var distance = maxY - m_overlaps[i].transform.position.y;
-            var height = m_overlaps[i].GetComponent<Player>().height;
-            var offset = Vector3.up * (distance + height * 0.5f);
+            //计算与应用
+            float distance = maxY - m_overlaps[i].transform.position.y;
+            float height = m_overlaps[i].GetComponent<Player>().height;
+            Vector3 offset = Vector3.up * (distance + height * 0.5f);
 
             m_overlaps[i].transform.position += offset;
         }

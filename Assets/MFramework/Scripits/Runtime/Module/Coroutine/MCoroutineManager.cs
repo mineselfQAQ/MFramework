@@ -166,20 +166,20 @@ namespace MFramework
         /// <summary>
         /// 补间动画操作(不记录)
         /// </summary>
-        internal Coroutine TweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        internal Coroutine TweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             return StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish));
         }
         /// <summary>
         /// 补间动画操作
         /// </summary>
-        internal void Tween(string name, Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        internal void Tween(string name, Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
         }
 
         internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();
-        internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action<float> onFinish)
+        internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             float step = duration / Time.fixedDeltaTime;//执行次数
             float length = endValue - startValue;//区间长度
@@ -195,7 +195,7 @@ namespace MFramework
             curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
             action.Invoke(curValue);
 
-            onFinish?.Invoke(curValue);
+            onFinish?.Invoke();
         }
         #endregion
     }

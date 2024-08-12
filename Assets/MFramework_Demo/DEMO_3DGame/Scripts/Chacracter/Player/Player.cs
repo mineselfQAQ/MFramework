@@ -554,7 +554,8 @@ public class Player : Entity<Player>
                 Vector3 verticalOffset = Vector3.down * height * 0.5f - center;
 
                 velocity = Vector3.zero;
-                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+                //transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
+                onPlatform = hit.collider.CompareTag(GameTags.Platform) ? true : false;
                 transform.position = hit.point - lateralOffset + verticalOffset;//碰撞点向后向下
                 states.Change<LedgeHangingPlayerState>();
                 playerEvents.OnLedgeGrabbed?.Invoke();
@@ -653,9 +654,9 @@ public class Player : Entity<Player>
             if (CapsuleCast(transform.forward, 0.25f, out var hit, stats.current.wallDragLayers)
                 && !DetectingLedge(0.25f, height, out _))
             {
-                //对于Platform需要将父物体设置为它  TODO:WHY???
                 if (hit.collider.CompareTag(GameTags.Platform))
-                    transform.parent = hit.transform;
+                    onPlatform = true;
+                    //transform.parent = hit.transform;
 
                 lastWallNormal = hit.normal;
                 states.Change<WallDragPlayerState>();
