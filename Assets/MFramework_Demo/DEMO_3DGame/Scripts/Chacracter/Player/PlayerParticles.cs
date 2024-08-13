@@ -75,9 +75,13 @@ public class PlayerParticles : MonoBehaviour
     protected virtual void HandleRailParticle()
     {
         if (m_player.onRails)
+        {
             Play(grindTrails);
+        }
         else
+        {
             Stop(grindTrails, true);
+        }
     }
 
     protected virtual void HandleLandParticle()
