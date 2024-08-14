@@ -426,6 +426,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: HazardPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 2520841335856572166, guid: 24a78dcf4288484429afba229bf58578, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233701520214502569, guid: 24a78dcf4288484429afba229bf58578, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8295049424279326862, guid: 24a78dcf4288484429afba229bf58578, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
