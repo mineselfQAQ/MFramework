@@ -370,6 +370,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a17bc5637867b46b208c2e432a52bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  trails: []
+  scaleDuration: 0.7
+  openAudio: {fileID: 0}
+  closeAudio: {fileID: 0}
 --- !u!82 &4461813302015707979
 AudioSource:
   m_ObjectHideFlags: 0

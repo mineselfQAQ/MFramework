@@ -1,15 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class GravityLift : MonoBehaviour
 {
     public float force = 75f;
 
-    protected Transform m_colliderController;
     protected Collider m_collider;
 
     protected virtual void Start()
     {
-        m_collider = transform.Find("Collider").GetComponent<Collider>();
+        m_collider = transform.GetComponent<Collider>();
         m_collider.isTrigger = true;
     }
 

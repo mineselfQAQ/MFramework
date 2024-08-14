@@ -59,6 +59,7 @@ MonoBehaviour:
   OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
+  hideObj: {fileID: 0}
 --- !u!114 &1535481688184065663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,8 +73,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: -1.9, z: 0}
-  duration: 0
-  resetDuration: 0
+  applyDuration: 0.25
+  undoDuration: 0.25
 --- !u!65 &6967294424909580043
 BoxCollider:
   m_ObjectHideFlags: 0

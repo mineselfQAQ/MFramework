@@ -10,6 +10,9 @@ public class UIController : ComponentSingleton<UIController>
     public string HUDCoinsFormat = "000";
     public string HUDHealthFormat = "0";
 
+    [Header("Flash Settings")]
+    public float flashDuration = 1.0f;
+
     public UIRoot bottomRoot;
     public UIRoot topRoot;
 
@@ -25,7 +28,11 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string fileSelectPanelName = "FILESELECT";
     public static readonly string levelSelectPanelName = "LEVELSELECT";
 
+    public static readonly string flashEffectName = "FLASHEFFECT";
+
     public static readonly string titleScreenSceneName = "3DGame_TitleScreen";
+
+    protected FlashEffect flashEffect;
 
     protected override void Awake()
     {
@@ -39,6 +46,8 @@ public class UIController : ComponentSingleton<UIController>
 
 
         //用于切换场景过渡用
+        flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
+        topRoot.SetSortingOrder(flashEffectName, 1997);
         CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
         topRoot.SetSortingOrder(loadPanelName, 1998);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
@@ -139,5 +148,15 @@ public class UIController : ComponentSingleton<UIController>
     {
         bottomRoot.ClosePanel(levelSelectPanelName);
         bottomRoot.OpenPanel(fileSelectPanelName);
+    }
+
+    public void TriggerFlash()
+    {
+        topRoot.OpenPanel(flashEffectName);
+
+        flashEffect.Flash(flashDuration, () =>
+        {
+            topRoot.ClosePanel(flashEffectName);
+        });
     }
 }

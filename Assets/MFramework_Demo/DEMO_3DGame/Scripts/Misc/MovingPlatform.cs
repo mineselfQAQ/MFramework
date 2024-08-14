@@ -25,7 +25,7 @@ public class MovingPlatform : MonoBehaviour
         transform.position = newPosition;
 
         //Player上板后的偏移量
-        //TODO:应该有更好的方法
+        //TODO:应该有更好的方法，而且会导致其它具有Platform物体进行同步操作
         if (m_level.player.onPlatform)
         {
             Vector3 offset = newPosition - oldPosition;

@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3933931451607451862, guid: cf098dcae0949464e9ab50ade446fe6d, type: 3}
       propertyPath: m_Name
-      value: ButtonActivatedSpike
+      value: ActivatedSpike
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -82,7 +82,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 1
   delay: 0
-  multiTrigger: []
   onActivate:
     m_PersistentCalls:
       m_Calls: []

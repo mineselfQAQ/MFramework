@@ -243,7 +243,6 @@ MonoBehaviour:
       m_Calls: []
   toggles:
   - {fileID: 0}
-  mover: {fileID: 3928700036935028589}
 --- !u!64 &2949981152978701396
 MeshCollider:
   m_ObjectHideFlags: 0
