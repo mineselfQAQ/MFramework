@@ -63,7 +63,6 @@ public class PlayerAnimator : MonoBehaviour
         m_player = GetComponent<Player>();
         m_player.states.events.onChange.AddListener(HandleForcedTransitions);
     }
-
     protected virtual void InitializeForcedTransitions()
     {
         m_forcedTransitions = new Dictionary<int, ForcedTransition>();
@@ -76,16 +75,13 @@ public class PlayerAnimator : MonoBehaviour
             }
         }
     }
-
     protected virtual void InitializeAnimatorTriggers()
     {
         m_player.states.events.onChange.AddListener(() => animator.SetTrigger(m_onStateChangedHash));
     }
-
     protected virtual void InitializeParametersHash()
     {
         //为了提升性能与内存开销，使用hash是更好的
-
         m_stateHash = Animator.StringToHash(stateName);
         m_lastStateHash = Animator.StringToHash(lastStateName);
         m_lateralSpeedHash = Animator.StringToHash(lateralSpeedName);

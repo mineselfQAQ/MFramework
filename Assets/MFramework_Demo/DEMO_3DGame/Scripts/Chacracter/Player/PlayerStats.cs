@@ -33,7 +33,7 @@ public class PlayerStats : EntityStats<PlayerStats>
     public float fallGravity = 65f;
     public float gravityTopSpeed = 50f;
 
-    [Header("Pick'n Throw Stats")]
+    [Header("Pick Throw Stats")]
     public bool canPickUp = true;
     public bool canPickUpOnAir = false;
     public bool canJumpWhileHolding = true;

@@ -24,7 +24,6 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
 
     protected virtual void Start()
     {
-        tag = GameTags.Platform;
         m_collider = GetComponent<Collider>();
         m_initialPosition = transform.position;
     }

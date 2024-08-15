@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Enemy
   - Hazard
-  - Platform
   - Pole
   - Spring
   - Surface/Grass
@@ -15,6 +14,8 @@ TagManager:
   - Volume/Water
   - Interactive/Rail
   - Activator
+  - Volume/Mud
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

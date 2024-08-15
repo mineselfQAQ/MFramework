@@ -105,6 +105,11 @@ namespace MFramework
         #endregion
 
         #region 特殊携程
+        public Coroutine DelayWithTimeScaleNoRecord(Action action, float interval)
+        {
+            return StartCoroutine(MCoroutineUtility.DelayWithTimeScale(action, interval));
+        }
+
         /// <summary>
         /// 等待后执行(不记录)
         /// </summary>

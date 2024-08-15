@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerTilt))]
 [RequireComponent(typeof(PlayerFootsteps))]
 [RequireComponent(typeof(PlayerParticles))]
-[RequireComponent(typeof(PlayerHurt))]
+[RequireComponent(typeof(HurtEffect))]
 [RequireComponent(typeof(PlayerLevelPause))]
 [RequireComponent(typeof(Health))]
 public class Player : Entity<Player>
@@ -554,9 +554,10 @@ public class Player : Entity<Player>
                 Vector3 verticalOffset = Vector3.down * height * 0.5f - center;
 
                 velocity = Vector3.zero;
-                //transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : null;
-                onPlatform = hit.collider.CompareTag(GameTags.Platform) ? true : false;
+                //transform.parent = hit.collider.CompareTag(GameTags.MovingPlatform) ? hit.transform : null;
+                onPlatform = hit.collider.CompareTag(GameTags.MovingPlatform) ? true : false;
                 transform.position = hit.point - lateralOffset + verticalOffset;//碰撞点向后向下
+                Debug.Log(transform.position);
                 states.Change<LedgeHangingPlayerState>();
                 playerEvents.OnLedgeGrabbed?.Invoke();
             }
@@ -654,7 +655,7 @@ public class Player : Entity<Player>
             if (CapsuleCast(transform.forward, 0.25f, out var hit, stats.current.wallDragLayers)
                 && !DetectingLedge(0.25f, height, out _))
             {
-                if (hit.collider.CompareTag(GameTags.Platform))
+                if (hit.collider.CompareTag(GameTags.MovingPlatform))
                     onPlatform = true;
                     //transform.parent = hit.transform;
 

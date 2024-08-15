@@ -44,7 +44,7 @@ public class WallDragPlayerState : PlayerState
         //人物模型偏移
         player.skin.position -= player.transform.rotation * player.stats.current.wallDragSkinOffset;
 
-        //Platform Tag情况需要还原
+        //MovingPlatform Tag情况需要还原
         if (!player.isGrounded && player.transform.parent != null)
             player.transform.parent = null;
     }
