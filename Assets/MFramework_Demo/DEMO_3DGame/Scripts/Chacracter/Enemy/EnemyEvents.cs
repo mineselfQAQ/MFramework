@@ -9,5 +9,6 @@ public class EnemyEvents
     public UnityEvent OnPlayerContact;
     public UnityEvent OnDamage;
     public UnityEvent OnDie;
+    public UnityEvent OnDead;
     public UnityEvent OnRevive;
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerParticles : MonoBehaviour
+public class PlayerParticles : EntityParticles
 {
     public float walkDustMinSpeed = 3.5f;
     public float landingParticleMinSpeed = 5f;
@@ -28,29 +28,6 @@ public class PlayerParticles : MonoBehaviour
     {
         HandleWalkParticle();
         HandleRailParticle();
-    }
-
-    /// <summary>
-    /// ²¥·ÅÁ£×Ó
-    /// </summary>
-    public virtual void Play(ParticleSystem particle)
-    {
-        if (!particle.isPlaying)
-        {
-            particle.Play();
-        }
-    }
-    /// <summary>
-    /// Í£Ö¹Á£×Ó
-    /// </summary>
-    public virtual void Stop(ParticleSystem particle, bool clear = false)
-    {
-        if (particle.isPlaying)
-        {
-            var mode = clear ? ParticleSystemStopBehavior.StopEmittingAndClear :
-                ParticleSystemStopBehavior.StopEmitting;
-            particle.Stop(true, mode);
-        }
     }
 
     protected virtual void HandleWalkParticle()

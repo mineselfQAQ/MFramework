@@ -31,4 +31,26 @@ public class FileSelectPanel : FileSelectPanelBase
             }
         }
     }
+
+    public void Refresh()
+    {
+        var data = GameSaver.Instance.LoadList();
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            m_cardList[i].Init(i, data[i]);
+        }
+
+        if (UISaveCard.Instance.focusFirstElement)
+        {
+            if (m_cardList[0].isFilled)
+            {
+                EventSystem.current.SetSelectedGameObject(m_cardList[0].m_LoadBtn_MButton.gameObject);
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(m_cardList[0].m_NewGameBtn_MButton.gameObject);
+            }
+        }
+    }
 }

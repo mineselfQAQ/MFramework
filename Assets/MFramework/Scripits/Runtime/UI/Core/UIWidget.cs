@@ -118,6 +118,7 @@ namespace MFramework
                 {
                     isOpen = true;
                     OnVisibleChanged(true);
+                    onFinish?.Invoke();
                 }
                 return flag;
             }
@@ -139,6 +140,7 @@ namespace MFramework
                 isOpen = true;
                 bool flag = SetVisible(true);
                 if (flag) OnVisibleChanged(true);
+                onFinish?.Invoke();
                 return flag;
             }
         }
@@ -152,6 +154,7 @@ namespace MFramework
                 {
                     isOpen = false;
                     OnVisibleChanged(false);
+                    onFinish?.Invoke();
                 } 
 
                 return flag;
@@ -171,6 +174,7 @@ namespace MFramework
                 isOpen = false;
                 bool flag = SetVisible(false);
                 if (flag) OnVisibleChanged(false);
+                onFinish?.Invoke();
                 return flag;
             }
         }

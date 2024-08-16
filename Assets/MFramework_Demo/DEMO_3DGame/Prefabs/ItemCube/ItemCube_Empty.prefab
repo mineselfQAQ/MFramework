@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2468909354021428028}
   - component: {fileID: 1319200225789305190}
   - component: {fileID: 1525923841255607748}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ItemCube_Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563f085f70140eb4ca9268d0cf08a472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectables: []
   emptyItemCubeMaterial: {fileID: 2100000, guid: 753d1c7c047a3554086dafd8df1c5738, type: 2}
   onCollect:
     m_PersistentCalls:

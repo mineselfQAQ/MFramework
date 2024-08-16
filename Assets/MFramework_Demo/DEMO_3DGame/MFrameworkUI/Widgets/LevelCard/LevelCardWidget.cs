@@ -21,6 +21,10 @@ public class LevelCardWidget : LevelCardWidgetBase
     {
         Fill(level);
     }
+    public void Refresh(GameLevel level)
+    {
+        Fill(level);
+    }
 
     protected override void OnClicked(Button button)
     {

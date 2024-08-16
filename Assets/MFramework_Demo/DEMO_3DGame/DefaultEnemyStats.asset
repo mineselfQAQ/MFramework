@@ -18,6 +18,8 @@ MonoBehaviour:
   deceleration: 28
   friction: 16
   turningDrag: 28
+  cleanCorpse: 1
+  cleanDuration: 2
   canAttackOnContact: 1
   contactPushback: 1
   contactOffset: 0.15

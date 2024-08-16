@@ -18,6 +18,8 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
     protected LevelScore m_score => LevelScore.Instance;
     protected LevelPauser m_pauser => LevelPauser.Instance;
 
+    protected UIController m_controller => UIController.Instance;
+
     /// <summary>
     /// Í¨¹Ø
     /// </summary>
@@ -53,9 +55,13 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
         {
             m_loader.Load(UIController.titleScreenSceneName, () =>
             {
-                UIController.Instance.DestroyHUD();
+                m_controller.DestroyHUD();
 
-                UIController.Instance.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+                var levelSelectPanel = m_controller.bottomRoot.
+                    GetPanel<LevelSelectPanel>(UIController.levelSelectPanelName);
+                m_controller.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+
+                levelSelectPanel.Refresh();
                 Game.LockCursor(false);
                 OnFinish?.Invoke(true);
             });
@@ -80,9 +86,9 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
         m_loader.Load(UIController.titleScreenSceneName, () =>
         {
-            UIController.Instance.DestroyHUD();
+            m_controller.DestroyHUD();
 
-            UIController.Instance.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+            m_controller.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
 
             Game.LockCursor(false);
             OnExit?.Invoke();

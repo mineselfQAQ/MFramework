@@ -557,6 +557,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8870920860751458803}
+  - component: {fileID: 2205808081198234948}
+  - component: {fileID: 3363922546944658990}
   - component: {fileID: 2310259564698701579}
   - component: {fileID: 5896014468032763083}
   m_Layer: 5
@@ -588,6 +590,32 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -100.40039}
   m_SizeDelta: {x: -200, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2205808081198234948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3844738557713893487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6ebc8e232fbd34d96045980535709a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusFirstElement: 1
+--- !u!114 &3363922546944658990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3844738557713893487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf5774f73c6ae84baefc6b82cbccbaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollDuration: 0.25
 --- !u!222 &2310259564698701579
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -912,7 +940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.002867384, y: 0.22001316}
+  m_AnchoredPosition: {x: -0.0002302553, y: 0.22001316}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &531913036932335891

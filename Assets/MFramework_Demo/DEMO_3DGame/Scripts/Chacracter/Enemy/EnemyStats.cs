@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStats : EntityStats<EnemyStats>
 {
-    [MenuItem("Assets/MCreate/3DGame/EnemyStats", false, priority = 1, secondaryPriority = 1.0f)]
+    [MenuItem("Assets/MCreate/3DGame/EnemyStats", false, priority = 2, secondaryPriority = 1.0f)]
     internal static void Create()
     {
         var asset = ScriptableObject.CreateInstance<EnemyStats>();
@@ -34,7 +34,7 @@ public class EnemyStats : EntityStats<EnemyStats>
 
     [Header("Dead Stats")]
     public bool cleanCorpse = true;
-    public float cleanDuration = 5.0f;
+    public float cleanDuration = 2.0f;
 
     [Header("Contact Attack Stats")]
     public bool canAttackOnContact = true;

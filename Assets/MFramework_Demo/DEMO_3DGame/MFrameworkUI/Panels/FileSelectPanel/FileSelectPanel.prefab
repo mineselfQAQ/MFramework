@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0012889575, y: 0.22001316}
+  m_AnchoredPosition: {x: 0.000019793728, y: 0.22001316}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8751723240898351666
@@ -437,9 +437,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1484477543347429602}
+  - component: {fileID: 6705009245220695148}
+  - component: {fileID: 5796010141692347315}
   - component: {fileID: 7522390271853967910}
   - component: {fileID: 1446814234000948273}
-  - component: {fileID: 6705009245220695148}
   m_Layer: 5
   m_Name: FileScrollView
   m_TagString: Untagged
@@ -469,6 +470,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: -200, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6705009245220695148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987933442089848597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa85fd6e4d3606e409eddfa52e2b81cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusFirstElement: 1
+  retriesFormat: 00
+  starsFormat: 00
+  coinsFormat: 000
+  dateFormat: MM/dd/y hh:mm
+--- !u!114 &5796010141692347315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987933442089848597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf5774f73c6ae84baefc6b82cbccbaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollDuration: 0.25
 --- !u!222 &7522390271853967910
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -507,23 +538,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6705009245220695148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4987933442089848597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa85fd6e4d3606e409eddfa52e2b81cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  focusFirstElement: 1
-  retriesFormat: 00
-  starsFormat: 00
-  coinsFormat: 000
-  dateFormat: MM/dd/y hh:mm
 --- !u!1 &5185546696866916605
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,22 @@ public class LevelSelectPanel : LevelSelectPanelBase
             m_cardList.Add(levelCard);
         }
 
-        if (true)
+        if (UILevelCard.Instance.focusFirstElement)
+        {
+            EventSystem.current.SetSelectedGameObject(m_cardList[0].m_PlayBtn_MButton.gameObject);
+        }
+    }
+
+    public void Refresh()
+    {
+        var levels = Game.Instance.levels;
+
+        for (int i = 0; i < levels.Count; i++)
+        {
+            m_cardList[i].Init(levels[i]);
+        }
+
+        if (UILevelCard.Instance.focusFirstElement)
         {
             EventSystem.current.SetSelectedGameObject(m_cardList[0].m_PlayBtn_MButton.gameObject);
         }

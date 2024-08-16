@@ -16,6 +16,10 @@ public class SaveCardWidget : SaveCardWidgetBase
     {
         Fill(index, data);
     }
+    public void Refresh(int index, GameData data)
+    {
+        Fill(index, data);
+    }
 
     protected override void OnClicked(Button button)
     {

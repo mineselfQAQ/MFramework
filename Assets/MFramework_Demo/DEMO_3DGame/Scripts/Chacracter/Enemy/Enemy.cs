@@ -1,19 +1,26 @@
 using MFramework;
-using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyStatsManager))]
 [RequireComponent(typeof(EnemyStateManager))]
 [RequireComponent(typeof(EnemyAudio))]
 [RequireComponent(typeof(EnemyAnimator))]
+[RequireComponent(typeof(EnemyParticles))]
 [RequireComponent(typeof(Waypoint))]
 [RequireComponent(typeof(Health))]
 public class Enemy : Entity<Enemy>
 {
+    [Header("Editor Settings")]
+    public bool drawDetectGizmos = true;
+
+    [Space(10)]
+
     public EnemyEvents enemyEvents;
 
     protected Collider[] m_sightOverlaps = new Collider[1024];
     protected Collider[] m_contactAttackOverlaps = new Collider[1024];
+
+    protected GameObject m_skin;
 
     public EnemyStatsManager stats { get; protected set; }
     public Waypoint waypoints { get; protected set; }
@@ -30,6 +37,8 @@ public class Enemy : Entity<Enemy>
         stats = GetComponent<EnemyStatsManager>();
         waypoints = GetComponent<Waypoint>();
         health = GetComponent<Health>();
+
+        m_skin = transform.Find("Skin").gameObject;
     }
 
     protected override void OnUpdate()
@@ -40,10 +49,15 @@ public class Enemy : Entity<Enemy>
 
     protected void OnDrawGizmos()
     {
-        if (EditorApplication.isPlaying)
+        if (Application.isPlaying && drawDetectGizmos)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(position, stats.current.spotRange);
+            if (states.ContainsStateOfType(typeof(FollowEnemyState)))//具有追踪功能
+            {
+                if(player == null) Gizmos.color = Color.yellow;
+                else Gizmos.color = Color.red;
+
+                Gizmos.DrawWireSphere(position, stats.current.spotRange);
+            }
         }
     }
 
@@ -64,8 +78,8 @@ public class Enemy : Entity<Enemy>
 
                 MCoroutineManager.Instance.DelayWithTimeScaleNoRecord(() =>
                 {
-                    gameObject.SetActive(false);
-                    //TODO:创建LandingSmokeParticle
+                    m_skin.SetActive(false);
+                    enemyEvents.OnDead?.Invoke();
                 }, stats.current.cleanDuration);
             }
         }

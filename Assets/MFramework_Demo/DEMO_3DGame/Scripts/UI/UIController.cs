@@ -121,7 +121,7 @@ public class UIController : ComponentSingleton<UIController>
 
         if (!panelDic.ContainsKey(fileSelectPanelName))
         {
-            var fileSelect = (FileSelectPanel)CreatePanel<FileSelectPanel>(bottomRoot, fileSelectPanelName, $"{panelPrepath}/FileSelectPanel/FileSelectPanel.prefab", true);
+            CreatePanel<FileSelectPanel>(bottomRoot, fileSelectPanelName, $"{panelPrepath}/FileSelectPanel/FileSelectPanel.prefab", true);
         }
         else
         {
@@ -136,11 +136,12 @@ public class UIController : ComponentSingleton<UIController>
 
         if (!panelDic.ContainsKey(levelSelectPanelName))
         {
-            var levelSelect = (LevelSelectPanel)CreatePanel<LevelSelectPanel>(bottomRoot, levelSelectPanelName, $"{panelPrepath}/LevelSelectPanel/LevelSelectPanel.prefab", true);
+            CreatePanel<LevelSelectPanel>(bottomRoot, levelSelectPanelName, $"{panelPrepath}/LevelSelectPanel/LevelSelectPanel.prefab", true);
         }
         else
         {
             bottomRoot.OpenPanel(levelSelectPanelName);
+            ((LevelSelectPanel)panelDic[levelSelectPanelName]).Refresh();
         }
     }
 
@@ -148,6 +149,7 @@ public class UIController : ComponentSingleton<UIController>
     {
         bottomRoot.ClosePanel(levelSelectPanelName);
         bottomRoot.OpenPanel(fileSelectPanelName);
+        ((FileSelectPanel)panelDic[fileSelectPanelName]).Refresh();
     }
 
     public void TriggerFlash()

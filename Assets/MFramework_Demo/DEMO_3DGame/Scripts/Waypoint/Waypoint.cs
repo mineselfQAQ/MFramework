@@ -15,6 +15,11 @@ public class Waypoint : MonoBehaviour
     public float waitTime;
     public List<Transform> waypoints;
 
+#if UNITY_EDITOR
+    [Header("Editor Settings")]
+    public bool drawGizmos = true;
+#endif
+
     protected Transform m_current;
 
     protected bool m_pong;
@@ -36,6 +41,23 @@ public class Waypoint : MonoBehaviour
     }
 
     public int index => waypoints.IndexOf(current);
+
+#if UNITY_EDITOR
+    protected void OnDrawGizmos()
+    {
+        if (drawGizmos)
+        {
+            Vector3[] waypointsPos = new Vector3[waypoints.Count];
+            for (int i = 0; i < waypoints.Count; i++)
+            {
+                waypointsPos[i] = waypoints[i].position;
+            }
+
+            if(mode == WaypointMode.Loop) Gizmos.DrawLineStrip(waypointsPos, true);
+            else Gizmos.DrawLineStrip(waypointsPos, false);
+        }
+    }
+#endif
 
     public virtual void Next()
     {
