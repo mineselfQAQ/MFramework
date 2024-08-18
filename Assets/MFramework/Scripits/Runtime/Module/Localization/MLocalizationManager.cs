@@ -40,20 +40,17 @@ namespace MFramework
 
         private void InitCurrentLanguage()
         {
-            string language = CultureInfo.CurrentCulture.DisplayName;
+            string language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
-            if (language == "Chinese (Simplified)") 
+            if (language == "zh") 
             {
                 currentLanguage = SupportLanguage.CHINESE;
             }
-            else if (language == "TODO")//TODO:¿©≥‰∆‰À¸”Ô—‘
+            else if (language == "en")
             {
-                currentLanguage = SupportLanguage.CHINESE;
+                currentLanguage = SupportLanguage.ENGLISH;
             }
-            else
-            {
-                currentLanguage = SupportLanguage.ENGLISH;//ƒ¨»œ”¢”Ô
-            }
+            //TODO:¿©≥‰∆‰À¸”Ô—‘
         }
 
         public void SetLanguage(SupportLanguage language)

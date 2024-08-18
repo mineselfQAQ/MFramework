@@ -616,6 +616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollDuration: 0.25
+  btnNames:
+  - PlayBtn
 --- !u!222 &2310259564698701579
 CanvasRenderer:
   m_ObjectHideFlags: 0

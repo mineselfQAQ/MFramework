@@ -500,6 +500,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollDuration: 0.25
+  btnNames:
+  - LoadBtn
+  - NewGameBtn
 --- !u!222 &7522390271853967910
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -862,7 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 3
 --- !u!222 &6175485855453539375
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -893,8 +896,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: File Select
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 842ef9be09a9ca14fa373a019208a569, type: 2}
+  m_sharedMaterial: {fileID: 6412632045071943108, guid: 842ef9be09a9ca14fa373a019208a569, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

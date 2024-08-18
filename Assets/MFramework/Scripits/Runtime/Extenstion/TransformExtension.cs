@@ -5,6 +5,25 @@ namespace MFramework
 {
     public static class TransformExtension
     {
+        public static Transform FindChildByName(this Transform parent, string name)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.name == name)
+                {
+                    return child;
+                }
+
+                //递归查找子对象
+                var found = FindChildByName(child, name);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+            return null;
+        }
+
         public static void DeleteAllChild(this Transform root, bool includeSelf = false)
         {
             int count = root.childCount;

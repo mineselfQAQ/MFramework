@@ -14,6 +14,20 @@ public class TitleScreenPanel : TitleScreenPanelBase
         {
             UIController.Instance.TitleScreenToFileSelect();
         }
+        else if (button == m_CNBtn_MButton)
+        {
+            if (MLocalizationManager.Instance.CurrentLanguage != SupportLanguage.CHINESE)
+            {
+                MLocalizationManager.Instance.SetLanguage(SupportLanguage.CHINESE);
+            }
+        }
+        else if (button == m_ENBtn_MButton)
+        {
+            if (MLocalizationManager.Instance.CurrentLanguage != SupportLanguage.ENGLISH)
+            {
+                MLocalizationManager.Instance.SetLanguage(SupportLanguage.ENGLISH);
+            }
+        }
     }
 
     protected override void OnCreating() { }

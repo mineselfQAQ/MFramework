@@ -1,5 +1,4 @@
 using MFramework;
-using MFramework.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +9,7 @@ using UnityEngine.UI;
 public class UIManualScroll : MonoBehaviour
 {
     public float scrollDuration = 0.25f;
+    public List<string> btnNames;
 
     protected int m_currentChild;
     protected int m_totalChildren;
@@ -18,7 +18,7 @@ public class UIManualScroll : MonoBehaviour
     protected float m_moveInitTime;
     protected float m_moveRepeatTime;
 
-    protected List<MButton> m_btns = new List<MButton>();
+    protected List<List<GameObject>> widgetsBtnNames = new List<List<GameObject>>();
 
     protected ScrollRect m_scrollRect;
     protected InputSystemUIInputModule m_input;
@@ -31,15 +31,22 @@ public class UIManualScroll : MonoBehaviour
         m_input = EventSystem.current.GetComponent<InputSystemUIInputModule>();
         m_totalChildren = m_scrollRect.content.childCount;
 
-        m_scrollRect.content.GetComponentsInChildren<MButton>(false, m_btns);
-        for (int i = 0; i < m_btns.Count; i++)
+        //获取所有Widget下的对应Btns
+        List<Transform> childs = new List<Transform>();
+        foreach (Transform child in m_scrollRect.content)
         {
-            var btn = m_btns[i];
-            if (btn.name != "LoadBtn" || btn.name != "NewGameBtn")
+            List<GameObject> gos = new List<GameObject>();
+            foreach (string name in btnNames)
             {
-                m_btns.Remove(btn);
+                var go = child.FindChildByName(name).gameObject;
+                gos.Add(go);
             }
+            widgetsBtnNames.Add(gos);
         }
+
+        //特殊处理---解决默认会有-1输入的问题
+        m_input.move.action.Disable();
+        m_input.move.action.Enable();
     }
 
     protected virtual void Update()
@@ -48,10 +55,11 @@ public class UIManualScroll : MonoBehaviour
 
         if (horizontal != 0)//按住
         {
-            //TODO:需要在未选中时进入选中
             if (EventSystem.current.currentSelectedGameObject == null)
             {
-                EventSystem.current.SetSelectedGameObject(m_btns[m_currentChild].gameObject);
+                //选择第一个按钮
+                EventSystem.current.SetSelectedGameObject(GetActiveGo(widgetsBtnNames[0]));
+                m_currentChild = -1;//-1的话无论如何都会变为0
             }
 
             //第一次触发间隔---moveRepeatDelay(EventSystem中可设置)
@@ -91,5 +99,14 @@ public class UIManualScroll : MonoBehaviour
         {
             m_scrollRect.horizontalNormalizedPosition = Mathf.Lerp(from, to, f);
         }, MCurve.Linear, scrollDuration);
+    }
+
+    protected virtual GameObject GetActiveGo(List<GameObject> gos)
+    {
+        foreach (GameObject go in gos) 
+        {
+            if (go.activeSelf == true) return go;
+        }
+        return null;
     }
 }

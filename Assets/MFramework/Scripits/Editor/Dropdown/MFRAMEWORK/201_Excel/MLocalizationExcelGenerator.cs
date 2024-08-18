@@ -283,7 +283,6 @@ namespace MFramework
         /// <summary>
         /// 获取排序并筛选后的MLocalization信息
         /// </summary>
-        /// <returns></returns>
         private List<LocalizationTableInfo> GetMLocalizationTabelInfo(bool isSort)
         {
             List<LocalizationTableInfo> infos = new List<LocalizationTableInfo>();
