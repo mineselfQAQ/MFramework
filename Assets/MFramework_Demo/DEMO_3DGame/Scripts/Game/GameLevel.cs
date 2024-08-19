@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MFramework;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +13,22 @@ public class GameLevel
     public bool locked;//既是固有信息又是可变信息
 
     public string scene;
-    public string name;
+    public List<string> names;//0
+    public string Name 
+    {
+        get
+        {
+            if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.ENGLISH)
+            {
+                return names[0];
+            }
+            else if (MLocalizationManager.Instance.CurrentLanguage == SupportLanguage.CHINESE)
+            {
+                return names[1];
+            }
+            return null;
+        }
+    }
     public Sprite previewImage;
 
     //---可变信息---

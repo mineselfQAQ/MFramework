@@ -6,6 +6,25 @@ namespace MFramework
 {
     public static class GameObjectExtension
     {
+        public static GameObject FindChildByName(this GameObject parent, string name)
+        {
+            foreach (Transform child in parent.transform)
+            {
+                if (child.name == name)
+                {
+                    return child.gameObject;
+                }
+
+                //递归查找子对象
+                var found = FindChildByName(child.gameObject, name);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+            return null;
+        }
+
         public static void DeleteAllChild(this GameObject root, bool includeSelf = false)
         {
             int count = root.transform.childCount;

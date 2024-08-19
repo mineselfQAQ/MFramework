@@ -22,7 +22,7 @@ public class Pole : MonoBehaviour
     ///<summary>
     /// 获取归一化的物体到杆子的水平方向
     /// </summary>
-    /// <param name="distance">物体到杆子的长度</param>
+    /// <param Name="distance">物体到杆子的长度</param>
     public Vector3 GetDirectionToPole(Transform other, out float distance)
     {
         Vector3 target = new Vector3(center.x, other.position.y, center.z) - other.position;//物体到杆子的水平向量

@@ -68,6 +68,7 @@ MonoBehaviour:
     OnRailsExit:
       m_PersistentCalls:
         m_Calls: []
+  drawDetectGizmos: 1
   enemyEvents:
     OnPlayerSpotted:
       m_PersistentCalls:

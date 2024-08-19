@@ -68,7 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f60f80ec3a653c45b91b51c48ef66e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectOnContact: 1
   times: 1
   ghostingDuration: 0.5
   model: {fileID: 8327269657180984131}
@@ -89,6 +88,9 @@ MonoBehaviour:
   randomizeInitialDirection: 1
   initialVelocity: {x: 0, y: 12, z: 0}
   collisionClip: {fileID: 8300000, guid: 1ab74491ecd5e8a498cf5d6b1a3ffa0b, type: 3}
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
   amount: 1
 --- !u!1001 &6031178958304852295
 PrefabInstance:

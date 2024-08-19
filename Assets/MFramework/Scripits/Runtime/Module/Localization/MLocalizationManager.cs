@@ -1,6 +1,6 @@
 using MFramework.UI;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using UnityEngine;
 
 namespace MFramework
@@ -30,6 +30,19 @@ namespace MFramework
 
         internal MLocalizationAsset asset;//每个ID所对应的多语言文字列表
 
+        public Dictionary<string, SupportLanguage> StrToSupportLanguageDic = new Dictionary<string, SupportLanguage>()
+        {
+            { "en", SupportLanguage.ENGLISH },
+            { "zh", SupportLanguage.CHINESE }
+            //TODO:扩充其它语言
+        };
+        public Dictionary<SupportLanguage, string> SupportLanguageToStrDic = new Dictionary<SupportLanguage, string>()
+        {
+            { SupportLanguage.ENGLISH, "en" },
+            { SupportLanguage.CHINESE, "zh" }
+            //TODO:扩充其它语言
+        };
+
         private void Awake()
         {
             LocalizationTable[] table = LocalizationTable.LoadBytes();
@@ -40,17 +53,16 @@ namespace MFramework
 
         private void InitCurrentLanguage()
         {
-            string language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            string settingsPath = $"{MSettings.PersistentDataPath}/CoreSettings.json";
+            if (!File.Exists(settingsPath))
+            {
+                MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, new CoreSettings(), true);
+                MLog.Print($"{typeof(MLocalizationManager)}：已初始化CoreSettings文件，路径:<{settingsPath}>");
+            }
+            var settings = MSerializationUtility.ReadFromJson<CoreSettings>(settingsPath);
 
-            if (language == "zh") 
-            {
-                currentLanguage = SupportLanguage.CHINESE;
-            }
-            else if (language == "en")
-            {
-                currentLanguage = SupportLanguage.ENGLISH;
-            }
-            //TODO:扩充其它语言
+            string language = settings.language;
+            currentLanguage = StrToSupportLanguageDic[language];
         }
 
         public void SetLanguage(SupportLanguage language)
@@ -64,7 +76,17 @@ namespace MFramework
 
             currentLanguage = language;
 
+            string settingsPath = $"{MSettings.PersistentDataPath}/CoreSettings.json";
+            SaveLanguageJson(settingsPath, currentLanguage);
+
             MText.UpdateAllInfo();
+        }
+
+        private void SaveLanguageJson(string settingsPath, SupportLanguage language)
+        {
+            var settings = MSerializationUtility.ReadFromJson<CoreSettings>(settingsPath);
+            settings.language = SupportLanguageToStrDic[language];
+            MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, settings);
         }
 
         private bool CheckLanguageValidity(SupportLanguage language)

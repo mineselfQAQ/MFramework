@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MFramework
 {
@@ -25,7 +26,7 @@ namespace MFramework
 
             //触发静态构造函数，使单例提前激活
             var bem = BuiltInEventManager.Instance;
-            var mlm = MLocalizationManager.Instance;//TODO:我不用就不应该触发
+            var mlm = MLocalizationManager.Instance;
 
             //TODO:这样反射很耗，考虑其他方案
             initList = GetInterfaceInstanceList<INeedInit>();

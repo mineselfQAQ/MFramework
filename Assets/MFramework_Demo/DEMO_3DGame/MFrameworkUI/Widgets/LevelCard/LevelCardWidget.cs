@@ -48,7 +48,7 @@ public class LevelCardWidget : LevelCardWidgetBase
         {
             locked = level.locked;
             scene = level.scene;
-            m_LevelName_MText.text = level.name;
+            m_LevelName_MText.text = level.Name;
             m_BestTime_MText.text = GameLevel.FormattedTime(level.time);
             m_Coins_MText.text = level.coins.ToString("000");
             m_LevelImage_MImage.sprite = level.previewImage;

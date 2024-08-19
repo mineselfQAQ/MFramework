@@ -111,7 +111,7 @@ public class Pickable : MonoBehaviour
     /// <summary>
     /// 击中敌人时造成伤害
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param Name="entity"></param>
     public void OnEnemyHit(Entity entity)
     {
         //要求：1.是Enemy 2.开启可攻击敌人 3.速度大于最低限度

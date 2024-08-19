@@ -159,7 +159,7 @@ public class Player : Entity<Player>
     /// <summary>
     /// 造成伤害
     /// </summary>
-    /// <param name="origin">造成伤害物体的原点</param>
+    /// <param Name="origin">造成伤害物体的原点</param>
     public override void ApplyDamage(int amount, Vector3 origin)
     {
         //Player还活着且未进入无敌状态
@@ -683,7 +683,7 @@ public class Player : Entity<Player>
     /// <summary>
     /// 检测是否在边缘
     /// </summary>
-    /// <param name="ledgeHit">边缘检测点(边缘上侧)</param>
+    /// <param Name="ledgeHit">边缘检测点(边缘上侧)</param>
     protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
     {
         float contactOffset = Physics.defaultContactOffset + positionDelta;

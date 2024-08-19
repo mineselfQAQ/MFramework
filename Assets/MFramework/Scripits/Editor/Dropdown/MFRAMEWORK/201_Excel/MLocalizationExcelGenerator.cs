@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MFramework.UI;
 using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
@@ -18,6 +19,8 @@ namespace MFramework
 
         private int pos;
         private Vector2 scrollPos1;
+
+        private Object folderObj;
 
         [MenuItem("MFramework/MLocalizationExcelGenerator", priority = 203)]
         public static void Init()
@@ -32,25 +35,11 @@ namespace MFramework
             MGUIUtility.DrawH1("本地化生成器");
 
             DrawCreateBtn();
-            if (GUILayout.Button("生成CS"))
-            {
-                bool flag = ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, MSettings.LocalizationLoadBINName);
-                if (!flag) return;
-
-                MLog.Print("创建完成");
-                AssetDatabase.Refresh();
-            }
-            if (GUILayout.Button("生成BIN"))
-            {
-                bool flag = ExcelGenerator.CreateSingleBIN(MSettings.LocalizationTableName, MSettings.LocalizationBYTEName);
-                if (!flag) return;
-
-                MLog.Print("创建完成");
-                AssetDatabase.Refresh();
-            }
+            DrawCSBtn();
+            DrawBINBtn();
 
             MGUIUtility.DrawH2("查询场景中所有的MLocalization");
-            EditorGUILayout.LabelField("Tip:Prefab部分不得更改，请打开预制体进行修改", MGUIStyleUtility.ColorStyle(Color.red));
+            EditorGUILayout.LabelField("Tip:Prefab部分的更改为局部更改，如需全局更改请打开预制体后进行修改", MGUIStyleUtility.ColorStyle(Color.red));
 
             EditorGUILayout.BeginHorizontal();
             {
@@ -68,6 +57,85 @@ namespace MFramework
             FirstOpen = true;
         }
 
+        private void DrawCreateBtn()
+        {
+            if (GUILayout.Button("创建Excel文件"))
+            {
+                string fileName = MSettings.LocalizationTableName;
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+                FileInfo file = new FileInfo(fileName);
+                if (file.Exists)
+                {
+                    int flag = EditorUtility.DisplayDialogComplex("Generating",
+                        "本地化Excel文件已存在，是否需要进行何种操作", "覆盖", "取消", "更新");
+                    if (flag == 1) return;//取消
+                    else if (flag == 2)//更新
+                    {
+                        //TODO:未完成
+                        MLog.Print("TODO", MLogType.Warning);
+                        return;
+                    }
+                    else if (flag == 0)//覆盖---删除重创
+                    {
+                        file.Delete();
+                        file = new FileInfo(fileName);
+                    }
+                }
+
+                //寻找所有MLocalization脚本
+                List<LocalizationTableInfo> infos = GetMLocalizationTabelInfo(true, false);
+
+                //创建Excel文件
+                using (ExcelPackage package = new ExcelPackage(file))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");//创建表1
+                    worksheet.Cells["A1"].LoadFromDataTable(GetLocalizationTable(GetValidInfos(infos)), true);//创建初始表内容
+
+                    int row = infos.Count + 3;
+                    worksheet.Cells[$"A1:E{row}"].AutoFitColumns();//调整行宽
+                    worksheet.Cells[$"A1:E{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//居中
+                    worksheet.Cells["A1:E3"].Style.Font.Bold = true;//加粗
+
+                    package.Save();
+                }
+
+                System.Diagnostics.Process.Start(fileName);
+
+                return;
+            }
+        }
+        private void DrawCSBtn()
+        {
+            if (GUILayout.Button("生成CS"))
+            {
+                bool flag = ExcelGenerator.CreateSingleCS(MSettings.LocalizationTableName, MSettings.LocalizationCSName, MSettings.LocalizationLoadBINName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
+            }
+        }
+        private void DrawBINBtn()
+        {
+            if (GUILayout.Button("生成BIN"))
+            {
+                bool flag = ExcelGenerator.CreateSingleBIN(MSettings.LocalizationTableName, MSettings.LocalizationBYTEName);
+                if (!flag) return;
+
+                MLog.Print("创建完成");
+                AssetDatabase.Refresh();
+            }
+        }
+        private void DrawResetSortBtn()
+        {
+            if (GUILayout.Button("重置排序"))
+            {
+                infos = GetMLocalizationTabelInfo(true);
+                GUI.FocusControl(null);//取消聚焦
+                return;
+            }
+        }
         private void DrawJumpToPosBtn()
         {
             EditorGUILayout.BeginHorizontal();
@@ -105,76 +173,36 @@ namespace MFramework
                 //TODO:收集所有场景以及所有Prefab中的MLocalization并进行初始化排序
             }
         }
-        private void DrawResetSortBtn()
-        {
-            if (GUILayout.Button("重置排序"))
-            {
-                infos = GetMLocalizationTabelInfo(true); 
-                GUI.FocusControl(null);//取消聚焦
-                return;
-            }
-        }
-        private void DrawCreateBtn()
-        {
-            if (GUILayout.Button("创建Excel文件"))
-            {
-                string fileName = MSettings.LocalizationTableName;
-                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-
-                FileInfo file = new FileInfo(fileName);
-                if (file.Exists)
-                {
-                    int flag = EditorUtility.DisplayDialogComplex("Generating",
-                        "本地化Excel文件已存在，是否需要进行何种操作", "覆盖", "取消", "更新");
-                    if (flag == 1) return;//取消
-                    else if (flag == 2)//更新
-                    {
-                        //TODO:未完成
-                        MLog.Print("TODO", MLogType.Warning);
-                        return;
-                    }
-                    else if (flag == 0)//覆盖---删除重创
-                    {
-                        file.Delete();
-                        file = new FileInfo(fileName);
-                    }
-                }
-
-                //寻找所有MLocalization脚本
-                List<LocalizationTableInfo> infos = GetMLocalizationTabelInfo(true);
-
-                //创建Excel文件
-                using (ExcelPackage package = new ExcelPackage(file))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");//创建表1
-                    worksheet.Cells["A1"].LoadFromDataTable(GetLocalizationTable(GetValidInfos(infos)), true);//创建初始表内容
-
-                    int row = infos.Count + 3;
-                    worksheet.Cells[$"A1:E{row}"].AutoFitColumns();//调整行宽
-                    worksheet.Cells[$"A1:E{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//居中
-                    worksheet.Cells["A1:E3"].Style.Font.Bold = true;//加粗
-
-                    package.Save();
-                }
-
-                System.Diagnostics.Process.Start(fileName);
-
-                return;
-            }
-        }
 
         private List<LocalizationTableInfo> GetValidInfos(List<LocalizationTableInfo> infos)
         {
-            List<LocalizationTableInfo> res = new List<LocalizationTableInfo>();
+            //获取所有具有ID的内容(排除LocalizationMode.Off情况与LocalID=-1情况)
+            List<LocalizationTableInfo> validList = new List<LocalizationTableInfo>();
             foreach (var info in infos)
             {
                 if (info.mLocal.LocalMode == LocalizationMode.Off || info.mLocal.LocalID == -1)
                 {
                     continue;
                 }
-                res.Add(info);
+                validList.Add(info);
             }
-            return res;
+
+            //排除重复ID
+            Dictionary<int, LocalizationTableInfo> resDic = new Dictionary<int, LocalizationTableInfo>();
+            foreach (var info in validList)
+            {
+                if (!resDic.ContainsKey(info.id))
+                {
+                    resDic.Add(info.id, info);
+                }
+                else
+                {
+                    //resDic[info.id].go = null;
+                    resDic[info.id].isMulti = true;//标记为null(代表具有多个物体)
+                }
+            }
+
+            return new List<LocalizationTableInfo>(resDic.Values);
         }
         private DataTable GetLocalizationTable(List<LocalizationTableInfo> infos)
         {
@@ -182,15 +210,18 @@ namespace MFramework
 
             //必须先创列，才能添加行
             table.Columns.Add("编号");
+            table.Columns.Add("场景名");
+            table.Columns.Add("预制体名");
             table.Columns.Add("物体名");
             table.Columns.Add("描述");
             table.Columns.Add("中文");
             table.Columns.Add("英文");
-            table.Rows.Add(new object[] { "ID", "GOName", "Desc", "Chinese", "English" });
-            table.Rows.Add(new object[] { "int", "none", "none", "string", "string" });
+            table.Rows.Add(new object[] { "ID", "SceneName", "PrefabName","GOName", "Desc", "Chinese", "English" });
+            table.Rows.Add(new object[] { "int", "none", "none", "none", "none", "string", "string" });
             foreach (var info in infos)
             {
-                table.Rows.Add(new object[] { info.id, info.go.name, "", "", "" });
+                string name = info.isMulti ? $"{info.go.name}(M)" : info.go.name ;
+                table.Rows.Add(new object[] { info.id, info.sceneName, info.prefabParent.nam, name, "", "", "" });
             }
 
             return table;
@@ -236,6 +267,14 @@ namespace MFramework
                                 {
                                     string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(info.prefabParent);
                                     PrefabStageUtility.OpenPrefab(prefabPath);
+
+                                    var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                                    GameObject prefabRoot = prefabStage.prefabContentsRoot;
+                                    GameObject targetObject = prefabRoot.FindChildByName(info.go.name);
+                                    if (targetObject != null)
+                                    {
+                                        Selection.activeGameObject = targetObject;
+                                    }
                                 }
                             }
 
@@ -265,7 +304,7 @@ namespace MFramework
                         }
                         EditorGUILayout.EndHorizontal();
                     }
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
 
                     EditorGUILayout.Space(10);
                 }
@@ -283,17 +322,46 @@ namespace MFramework
         /// <summary>
         /// 获取排序并筛选后的MLocalization信息
         /// </summary>
-        private List<LocalizationTableInfo> GetMLocalizationTabelInfo(bool isSort)
+        private List<LocalizationTableInfo> GetMLocalizationTabelInfo(bool isSort, bool onlyCurScene = true)
         {
             List<LocalizationTableInfo> infos = new List<LocalizationTableInfo>();
-            List<MLocalization> mLocalList = MLocalizationUtility.FindAllLoclizations();
+
+            List<MLocalization> mLocalList = new List<MLocalization>();
+            List<string> sceneNameList = new List<string>();
+            if (onlyCurScene)//只考虑当前场景
+            {
+                mLocalList = MLocalizationUtility.FindAllLoclizations();
+            }
+            else//选择BuildingSettings中开启的所有场景
+            {
+                EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+                foreach (var scene in scenes)
+                {
+                    if (scene.enabled)
+                    {
+                        Scene loadedScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Additive);
+                        string sceneName = loadedScene.name;
+                        GameObject[] rootObjects = loadedScene.GetRootGameObjects();
+                        foreach (GameObject rootObject in rootObjects)
+                        {
+                            var list = MLocalizationUtility.FindLoclizations(rootObject);
+                            mLocalList.AddRange(list);
+                            for(int i = 0; i < list.Count; i++) sceneNameList.Add(sceneName);
+                        }
+                    }
+                }
+            }
+
+            int j = 0;
             foreach (var mLocal in mLocalList)
             {
                 if (mLocal.LocalMode == LocalizationMode.Off) continue;//localID为-1也需要进行，因为可能是还没改
 
                 GameObject parent = GetPrefabParent(mLocal);
-                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text, parent);
+                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text, parent, sceneNameList[j]);
                 infos.Add(info);
+
+                j++;
             }
 
             if(isSort) infos = infos.OrderBy(info => info.id).ToList();//排序
@@ -304,22 +372,31 @@ namespace MFramework
         {
             GameObject go = mLocal.gameObject;
 
-            GameObject curRoot = PrefabUtility.GetNearestPrefabInstanceRoot(go);
-            while (curRoot != null)
-            {
-                Transform rootParent = curRoot.transform.parent;
-                GameObject parentRoot = null;
-                if (rootParent != null)
-                {
-                    parentRoot = PrefabUtility.GetNearestPrefabInstanceRoot(rootParent.gameObject);
-                }
-
-                if (parentRoot == null) return curRoot;
-                curRoot = parentRoot;
-            }
+            GameObject root = PrefabUtility.GetNearestPrefabInstanceRoot(go);
+            if (root != null) return root;
 
             return null;
         }
+        //private GameObject GetPrefabParent(MLocalization mLocal)
+        //{
+        //    GameObject go = mLocal.gameObject;
+
+        //    GameObject curRoot = PrefabUtility.GetNearestPrefabInstanceRoot(go);
+        //    while (curRoot != null)
+        //    {
+        //        Transform rootParent = curRoot.transform.parent;
+        //        GameObject parentRoot = null;
+        //        if (rootParent != null)
+        //        {
+        //            parentRoot = PrefabUtility.GetNearestPrefabInstanceRoot(rootParent.gameObject);
+        //        }
+
+        //        if (parentRoot == null) return curRoot;
+        //        curRoot = parentRoot;
+        //    }
+
+        //    return null;
+        //}
 
         private class LocalizationTableInfo
         {
@@ -327,15 +404,20 @@ namespace MFramework
             public int id;
             public GameObject go;
             public string text;
-            public GameObject prefabParent;
+            public GameObject prefabParent;//所属Prefab
+            public string sceneName;//所在场景
+            public bool isMulti;//是否存在多个物体
 
-            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text, GameObject parent)
+            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text, GameObject parent, string sceneName)
             {
                 this.mLocal = mLocal;
                 this.id = id;
                 this.go = go;
                 this.text = text;
                 this.prefabParent = parent;
+                this.sceneName = sceneName;
+
+                isMulti = false;//默认为false
             }
         }
     }

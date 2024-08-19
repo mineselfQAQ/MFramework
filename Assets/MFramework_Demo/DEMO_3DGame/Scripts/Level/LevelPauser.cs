@@ -13,7 +13,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
     /// <summary>
     /// днЭЃ
     /// </summary>
-    /// <param name="value">True---днЭЃ False---ШЁЯћднЭЃ</param>
+    /// <param Name="value">True---днЭЃ False---ШЁЯћднЭЃ</param>
     public virtual void Pause(bool value)
     {
         if (paused != value)

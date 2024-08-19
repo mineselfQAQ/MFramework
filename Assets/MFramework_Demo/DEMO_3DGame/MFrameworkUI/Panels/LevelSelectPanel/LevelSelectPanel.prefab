@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 7
 --- !u!222 &5645921601244957606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -232,8 +232,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Level Select
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 8168654735201738328}
   mAnimator: {fileID: 0}
 --- !u!1 &2057081167780742551
 GameObject:

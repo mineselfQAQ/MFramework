@@ -23,7 +23,7 @@ public class Fader : ComponentSingleton<Fader>
     /// <summary>
     /// Fades in with callback.
     /// </summary>
-    /// <param name="onFinished">The action that will be invoked in the end of the routine.</param>
+    /// <param Name="onFinished">The action that will be invoked in the end of the routine.</param>
     public void FadeOut(Action onFinished)
     {
         StopAllCoroutines();
@@ -33,7 +33,7 @@ public class Fader : ComponentSingleton<Fader>
     /// <summary>
     /// Fades in with callback.
     /// </summary>
-    /// <param name="onFinished">The action that will be invoked in the end of the routine.</param>
+    /// <param Name="onFinished">The action that will be invoked in the end of the routine.</param>
     public void FadeIn(Action onFinished)
     {
         StopAllCoroutines();
@@ -43,7 +43,7 @@ public class Fader : ComponentSingleton<Fader>
     /// <summary>
     /// Set the fader alpha to a given value.
     /// </summary>
-    /// <param name="alpha">The desired alpha value.</param>
+    /// <param Name="alpha">The desired alpha value.</param>
     public virtual void SetAlpha(float alpha)
     {
         var color = m_image.color;

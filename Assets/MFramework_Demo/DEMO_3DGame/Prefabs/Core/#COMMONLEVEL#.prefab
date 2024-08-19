@@ -116,10 +116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effc5c1bc4b8a354ab65e78e5f5882b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnFadeOutDelay: 1
-  respawnFadeInDelay: 0.5
-  gameOverFadeOutDelay: 5
-  restartFadeOutDelay: 0.5
+  respawnStartDelay: 1
+  respawnEndDelay: 0.5
+  gameOverDelay: 5
+  restartDelay: 0.5
   OnRespawn:
     m_PersistentCalls:
       m_Calls: []

@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 11
 --- !u!222 &5341648618484181244
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -203,8 +203,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: RESTART
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 3085831681761488790}
   mAnimator: {fileID: 0}
 --- !u!1 &2299833703982758253
 GameObject:
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 12
 --- !u!222 &8615818364937919455
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -475,8 +475,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: EXIT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 1252372150571603824}
   mAnimator: {fileID: 0}
 --- !u!1 &3816531623164353066
 GameObject:
@@ -595,7 +595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 9
 --- !u!222 &6433530893781835260
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -626,8 +626,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: RESUME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -693,7 +693,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 8492400667718047026}
   mAnimator: {fileID: 0}
 --- !u!1 &5192255336188656105
 GameObject:
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 10
 --- !u!222 &4730754722346114527
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -962,8 +962,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: RESUME FROM LAST CHECKPOINT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 2517992010802545485}
   mAnimator: {fileID: 0}
 --- !u!1 &7418716776141762016
 GameObject:
@@ -1082,7 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 8
 --- !u!222 &7548928882030088439
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1113,8 +1113,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PAUSED
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
+  m_sharedMaterial: {fileID: 3087739928998390997, guid: 6e03cb1cc6807b244a066eb29fa16c63, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1180,7 +1180,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  mLocal: {fileID: 0}
+  mLocal: {fileID: 2768492093096056803}
   mAnimator: {fileID: 0}
 --- !u!1 &7834661620403658376
 GameObject:
