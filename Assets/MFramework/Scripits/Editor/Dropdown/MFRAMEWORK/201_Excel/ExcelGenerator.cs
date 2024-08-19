@@ -472,6 +472,16 @@ namespace MFramework
 
         public static void GetDataFromTable(DataTable sheet, out string[] names, out string[] types, out object[][] data)
         {
+            //±‹√‚∂‡”‡––
+            //int actualRowCount = 0;
+            //foreach (DataRow row in sheet.Rows)
+            //{
+            //    if (!row.IsNull(0))
+            //    {
+            //        actualRowCount++;
+            //    }
+            //}
+
             int rowCount = sheet.Rows.Count;
             int colCount = sheet.Columns.Count;
 

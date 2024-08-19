@@ -1370,6 +1370,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 595022156}
     m_Modifications:
+    - target: {fileID: 2094757622158307675, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
+      propertyPath: m_Name
+      value: SaveCardWidget
+      objectReference: {fileID: 0}
     - target: {fileID: 2555103356937026909, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1409,6 +1413,10 @@ PrefabInstance:
     - target: {fileID: 2555103356937026909, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664772291537812145, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
+      propertyPath: m_Name
+      value: SaveCardWidget
       objectReference: {fileID: 0}
     - target: {fileID: 8413693777240490368, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_Name

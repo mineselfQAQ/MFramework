@@ -4,40 +4,40 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 [Serializable]
-public class Table1
+public class Sheet
 {
     public int ID { get; private set; }
 	public string NAME { get; private set; }
 	public string[] DESC { get; private set; }
 
-    private Table1(int id, string name, string[] desc)
+    private Sheet(int id, string name, string[] desc)
     {
         ID = id;
 		NAME = name;
 		DESC = desc;
     }
 
-    public static Table1[] LoadBytes()
+    public static Sheet[] LoadBytes()
     {
-        string path = $"D:/___UnityProject___/MFramework/Assets/StreamingAssets/ExcelBIN/Table1.byte";
+        string path = $"D:/___UnityProject___/MFramework/Assets/StreamingAssets/ExcelBIN/Sheet.byte";
         if (!File.Exists(path)) return null;
 
         using (FileStream stream = new FileStream(path, FileMode.Open))
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
-            Table1s table = binaryFormatter.Deserialize(stream) as Table1s;
-            Table1[] res = table.items;
+            Sheets table = binaryFormatter.Deserialize(stream) as Sheets;
+            Sheet[] res = table.items;
             return res;
         }
     }
 }
 
 [Serializable]
-internal class Table1s
+internal class Sheets
 {
-    public Table1[] items;
+    public Sheet[] items;
 
-    private Table1s(Table1[] items)
+    private Sheets(Sheet[] items)
     {
         this.items = items;
     }

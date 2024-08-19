@@ -93,9 +93,9 @@ namespace MFramework
                     worksheet.Cells["A1"].LoadFromDataTable(GetLocalizationTable(GetValidInfos(infos)), true);//创建初始表内容
 
                     int row = infos.Count + 3;
-                    worksheet.Cells[$"A1:E{row}"].AutoFitColumns();//调整行宽
-                    worksheet.Cells[$"A1:E{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//居中
-                    worksheet.Cells["A1:E3"].Style.Font.Bold = true;//加粗
+                    worksheet.Cells[$"A1:G{row}"].AutoFitColumns();//调整行宽
+                    worksheet.Cells[$"A1:G{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//居中
+                    worksheet.Cells["A1:G3"].Style.Font.Bold = true;//加粗
 
                     package.Save();
                 }
@@ -197,8 +197,19 @@ namespace MFramework
                 }
                 else
                 {
-                    //resDic[info.id].go = null;
-                    resDic[info.id].isMulti = true;//标记为null(代表具有多个物体)
+                    //标记该id具有多个物体
+                    //resDic[info.id].go = null;//标记为null
+                    resDic[info.id].isMulti = true;
+                    //存在于多场景
+                    if (!resDic[info.id].sceneNames.Contains(info.sceneName))
+                    {
+                        resDic[info.id].sceneNames.Add(info.sceneName);
+                    }
+                    //存在于多Prefab
+                    if (!resDic[info.id].prefabNames.Contains(info.prefabParent.name))
+                    {
+                        resDic[info.id].prefabNames.Add(info.prefabParent.name);
+                    }
                 }
             }
 
@@ -220,8 +231,23 @@ namespace MFramework
             table.Rows.Add(new object[] { "int", "none", "none", "none", "none", "string", "string" });
             foreach (var info in infos)
             {
-                string name = info.isMulti ? $"{info.go.name}(M)" : info.go.name ;
-                table.Rows.Add(new object[] { info.id, info.sceneName, info.prefabParent.nam, name, "", "", "" });
+                string name = info.isMulti ? $"{info.go.name}(Multi)" : info.go.name;
+
+                string prefabStr = "";
+                for (int i = 0; i < info.prefabNames.Count - 1; i++)
+                {
+                    prefabStr += $"{info.prefabNames[i]}|";
+                }
+                prefabStr += info.prefabNames[info.prefabNames.Count - 1];
+
+                string sceneStr = "";
+                for (int i = 0; i < info.sceneNames.Count - 1; i++)
+                {
+                    sceneStr += $"{info.sceneNames[i]}|";
+                }
+                sceneStr += info.sceneNames[info.sceneNames.Count - 1];
+
+                table.Rows.Add(new object[] { info.id, sceneStr, prefabStr, name, "", "", "" });
             }
 
             return table;
@@ -330,7 +356,8 @@ namespace MFramework
             List<string> sceneNameList = new List<string>();
             if (onlyCurScene)//只考虑当前场景
             {
-                mLocalList = MLocalizationUtility.FindAllLoclizations();
+                mLocalList = MLocalizationUtility.FindAllLoclizations(); 
+                for (int i = 0; i < mLocalList.Count; i++) sceneNameList.Add("");
             }
             else//选择BuildingSettings中开启的所有场景
             {
@@ -358,7 +385,7 @@ namespace MFramework
                 if (mLocal.LocalMode == LocalizationMode.Off) continue;//localID为-1也需要进行，因为可能是还没改
 
                 GameObject parent = GetPrefabParent(mLocal);
-                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text, parent, sceneNameList[j]);
+                LocalizationTableInfo info = new LocalizationTableInfo(mLocal, mLocal.LocalID, mLocal.gameObject, mLocal.GetComponent<MText>().text, parent, sceneNameList[j], new List<string>() { sceneNameList[j] }, new List<string>() { parent.name });
                 infos.Add(info);
 
                 j++;
@@ -404,18 +431,25 @@ namespace MFramework
             public int id;
             public GameObject go;
             public string text;
-            public GameObject prefabParent;//所属Prefab
-            public string sceneName;//所在场景
-            public bool isMulti;//是否存在多个物体
+            public GameObject prefabParent;
+            public string sceneName;
 
-            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text, GameObject parent, string sceneName)
+            //Excel所需组合数据
+            public bool isMulti;//是否存在多个物体
+            public List<string> sceneNames;//所在场景
+            public List<string> prefabNames;//所在Prefab
+
+            public LocalizationTableInfo(MLocalization mLocal, int id, GameObject go, string text, GameObject prefabParent, string sceneName, List<string> sceneNames = null, List<string> prefabNames = null)
             {
                 this.mLocal = mLocal;
                 this.id = id;
                 this.go = go;
                 this.text = text;
-                this.prefabParent = parent;
+                this.prefabParent = prefabParent;
                 this.sceneName = sceneName;
+
+                this.sceneNames = sceneNames;
+                this.prefabNames = prefabNames;
 
                 isMulti = false;//默认为false
             }
