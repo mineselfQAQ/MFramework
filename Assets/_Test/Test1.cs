@@ -5,19 +5,9 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
-    public Transform player;
+    public Transform t;
     private void Start()
     {
-
-    }
-
-    void LateUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Debug.Log(player.position);
-            player.position = Vector3.zero;
-            Debug.Log(player.position);
-        }
+        transform.SinScaleLoop(MCurve.QuartInOut);
     }
 }

@@ -135,7 +135,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
                 {
                     EnterGround(hit);
                 }
-                else//斜坡情况
+                else//斜坡情况(指陡坡)
                 {
                     HandleHighLedge(hit);
                 }

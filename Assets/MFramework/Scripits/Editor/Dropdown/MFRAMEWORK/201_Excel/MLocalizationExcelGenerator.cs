@@ -20,7 +20,7 @@ namespace MFramework
         private int pos;
         private Vector2 scrollPos1;
 
-        private Object folderObj;
+        private Scene curScene;
 
         [MenuItem("MFramework/MLocalizationExcelGenerator", priority = 203)]
         public static void Init()
@@ -34,6 +34,7 @@ namespace MFramework
         {
             MGUIUtility.DrawH1("本地化生成器");
 
+            DrawCheckBtn();
             DrawCreateBtn();
             DrawCSBtn();
             DrawBINBtn();
@@ -57,6 +58,21 @@ namespace MFramework
             FirstOpen = true;
         }
 
+        private void DrawCheckBtn()
+        {
+            if (GUILayout.Button("查看Excel文件"))
+            {
+                string fileName = MSettings.LocalizationTableName;
+                if (!File.Exists(fileName)) 
+                {
+                    MLog.Print($"{typeof(MLocalizationExcelGenerator)}：请先创建Excel后查看");
+                    return;
+                }
+
+                MLog.Print($"地址：<{fileName}>");
+                System.Diagnostics.Process.Start(fileName);
+            }
+        }
         private void DrawCreateBtn()
         {
             if (GUILayout.Button("创建Excel文件"))
@@ -85,6 +101,7 @@ namespace MFramework
 
                 //寻找所有MLocalization脚本
                 List<LocalizationTableInfo> infos = GetMLocalizationTabelInfo(true, false);
+                Scene curScene = EditorSceneManager.GetActiveScene();
 
                 //创建Excel文件
                 using (ExcelPackage package = new ExcelPackage(file))
@@ -101,6 +118,7 @@ namespace MFramework
                 }
 
                 System.Diagnostics.Process.Start(fileName);
+                EditorSceneManager.OpenScene(curScene.path, OpenSceneMode.Single);
 
                 return;
             }
@@ -231,21 +249,22 @@ namespace MFramework
             table.Rows.Add(new object[] { "int", "none", "none", "none", "none", "string", "string" });
             foreach (var info in infos)
             {
-                string name = info.isMulti ? $"{info.go.name}(Multi)" : info.go.name;
-
-                string prefabStr = "";
-                for (int i = 0; i < info.prefabNames.Count - 1; i++)
-                {
-                    prefabStr += $"{info.prefabNames[i]}|";
-                }
-                prefabStr += info.prefabNames[info.prefabNames.Count - 1];
-
+                //所有场景名
                 string sceneStr = "";
                 for (int i = 0; i < info.sceneNames.Count - 1; i++)
                 {
                     sceneStr += $"{info.sceneNames[i]}|";
                 }
                 sceneStr += info.sceneNames[info.sceneNames.Count - 1];
+                //所有预制体名
+                string prefabStr = "";
+                for (int i = 0; i < info.prefabNames.Count - 1; i++)
+                {
+                    prefabStr += $"{info.prefabNames[i]}|";
+                }
+                prefabStr += info.prefabNames[info.prefabNames.Count - 1];
+                //物体名(标注是否具有多个物体)
+                string name = info.isMulti ? $"{info.go.name}(Multi)" : info.go.name;
 
                 table.Rows.Add(new object[] { info.id, sceneStr, prefabStr, name, "", "", "" });
             }
@@ -264,11 +283,15 @@ namespace MFramework
 
             List<MLocalization> mLocalList = MLocalizationUtility.FindAllLoclizations();
 
-            if (FirstOpen || infos == null)
+            //重置要求：
+            //1.首次进入 2.infos消失 3.场景切换
+            if (FirstOpen || infos == null || curScene != EditorSceneManager.GetActiveScene())
             {
                 infos = GetMLocalizationTabelInfo(true);
+                curScene = EditorSceneManager.GetActiveScene();
                 FirstOpen = false;
             }
+
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
                 foreach (var info in infos)
