@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class LedgeHangingPlayerState : PlayerState
 {
-    protected bool m_keepParent;
-    protected Coroutine m_clearParentRoutine;
-
     protected const float k_clearParentDelay = 0.25f;
 
     protected override void OnEnter(Player player)
     {
-        if (m_clearParentRoutine != null)
-            MCoroutineManager.Instance.EndCoroutine(m_clearParentRoutine);
-
-        m_keepParent = false;
         //人物模型偏移
         player.skin.position += player.transform.rotation * player.stats.current.ledgeHangingSkinOffset;
         player.ResetJumps();
@@ -24,6 +17,7 @@ public class LedgeHangingPlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
+        Debug.Log(player.transform.position.y);
         float ledgeTopMaxDistance = player.radius + player.stats.current.ledgeMaxForwardDistance;
         float ledgeTopHeightOffset = player.height * 0.5f + player.stats.current.ledgeMaxDownwardDistance;
         //顶面原点---抓住边缘点前上方
@@ -86,7 +80,6 @@ public class LedgeHangingPlayerState : PlayerState
                     ((1 << topHit.collider.gameObject.layer) & player.stats.current.ledgeClimbingLayers) != 0 &&
                     player.FitsIntoPosition(climbDestination))
             {
-                m_keepParent = true;
                 player.states.Change<LedgeClimbingPlayerState>();
                 player.playerEvents.OnLedgeClimbing?.Invoke();
             }
@@ -99,19 +92,9 @@ public class LedgeHangingPlayerState : PlayerState
 
     protected override void OnExit(Player player)
     {
-        m_clearParentRoutine = MCoroutineManager.Instance.BeginCoroutineNoRecord(ClearParentRoutine(player));
         //人物模型偏移
         player.skin.position -= player.transform.rotation * player.stats.current.ledgeHangingSkinOffset;
     }
 
     public override void OnContact(Player player, Collider other) { }
-
-    protected virtual IEnumerator ClearParentRoutine(Player player)
-    {
-        if (m_keepParent) yield break;
-
-        yield return new WaitForSeconds(k_clearParentDelay);
-
-        player.transform.parent = null;
-    }
 }

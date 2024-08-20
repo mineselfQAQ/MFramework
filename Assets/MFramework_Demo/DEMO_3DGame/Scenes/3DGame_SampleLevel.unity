@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c56e28e54cac24b04ae3dd957d214534, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.37336826, g: 0.6107016, b: 0.8628783, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2253,22 +2253,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1472996793}
     m_Modifications:
-    - target: {fileID: 358315879290371600, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176376549625663740, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1357837084088688872, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1381775245067447986, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 1404918626635400176, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.499998
@@ -2309,65 +2293,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1405942541321332478, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_TagString
-      value: Volume/Mud
-      objectReference: {fileID: 0}
-    - target: {fileID: 2377446394499178929, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2825419751596523599, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840277947837052378, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274176992151653671, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6148354963875969667, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6178897515709386399, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6601516760248215057, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7631903787043530964, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8213161685239712358, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8245601524125476272, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_TagString
-      value: MovingPlatform
-      objectReference: {fileID: 0}
-    - target: {fileID: 8917228304416341861, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 9196017369064063623, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
       propertyPath: m_Name
       value: ---Terrain---
-      objectReference: {fileID: 0}
-    - target: {fileID: 9196017369064063623, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9196017369064063623, guid: 88c90e4cfb26333409fb649a4a74586f, type: 3}
-      propertyPath: m_TagString
-      value: MovingPlatform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
