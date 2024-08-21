@@ -1,7 +1,9 @@
 using MFramework;
-using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 平移操作(可去可回)
+/// </summary>
 public class Mover : MonoBehaviour
 {
     public static int num = 0;
@@ -9,6 +11,8 @@ public class Mover : MonoBehaviour
     public Vector3 offset;
     public float applyDuration = 0.25f;
     public float undoDuration = 0.25f;
+
+    public CurveType curveType = CurveType.Linear;
 
     protected Vector3 m_initialPosition;
 
@@ -32,7 +36,7 @@ public class Mover : MonoBehaviour
         MTween.DoTween01(m_applyTweenName, (f) =>
         {
             transform.localPosition = Vector3.Lerp(from, to, f);
-        }, MCurve.Linear, applyDuration);
+        }, MCurve.GetMCurve(curveType), applyDuration);
     }
 
     /// <summary>
@@ -47,6 +51,6 @@ public class Mover : MonoBehaviour
         MTween.DoTween01(m_undoTweenName, (f) =>
         {
             transform.localPosition = Vector3.Lerp(from, to, f);
-        }, MCurve.Linear, undoDuration);
+        }, MCurve.GetMCurve(curveType), undoDuration);
     }
 }

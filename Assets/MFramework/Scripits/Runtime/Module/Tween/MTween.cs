@@ -64,6 +64,26 @@ namespace MFramework
                 t.SinScaleLoop(curve, scaleMultipler, frequency);
             });
         }
+
+        public static void SinLoop(Action<float> action, MCurve curve, float scaleMultipler = 1, float frequency = 1, bool random = false)
+        {
+            float from = 0, to = 1;
+            if (random)
+            {
+                from = UnityEngine.Random.Range(0f, 1f);
+                to = from + 1;
+            }
+
+            DoTweenNoRecord((f) =>
+            {
+                //y=0.5sin(2¦Ðx)
+                float y = 0.5f * scaleMultipler * Mathf.Sin(2 * Mathf.PI * f);
+                action.Invoke(y);
+            }, curve, 1 / frequency, from, to, () =>
+            {
+                SinLoop(action, curve, scaleMultipler, frequency);
+            });
+        }
         #endregion
     }
 }

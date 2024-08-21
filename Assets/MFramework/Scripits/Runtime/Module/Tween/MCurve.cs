@@ -156,6 +156,77 @@ namespace MFramework
             this.func = func;
             this.curveDir = curveDir;
         }
+
+        public static MCurve GetMCurve(CurveType type)
+        {
+            switch (type)
+            {
+                case CurveType.Linear:
+                    return MCurve.Linear;
+                case CurveType.QuadIn:
+                    return MCurve.QuadIn;
+                case CurveType.QuadOut:
+                    return MCurve.QuadOut;
+                case CurveType.QuadInOut:
+                    return MCurve.QuadInOut;
+                case CurveType.CubicIn:
+                    return MCurve.CubicIn;
+                case CurveType.CubicOut:
+                    return MCurve.CubicOut;
+                case CurveType.CubicInOut:
+                    return MCurve.CubicInOut;
+                case CurveType.QuartIn:
+                    return MCurve.QuartIn;
+                case CurveType.QuartOut:
+                    return MCurve.QuartOut;
+                case CurveType.QuartInOut:
+                    return MCurve.QuartInOut;
+                case CurveType.QuintIn:
+                    return MCurve.QuintIn;
+                case CurveType.QuintOut:
+                    return MCurve.QuintOut;
+                case CurveType.QuintInOut:
+                    return MCurve.QuintInOut;
+                case CurveType.SineIn:
+                    return MCurve.SineIn;
+                case CurveType.SineOut:
+                    return MCurve.SineOut;
+                case CurveType.SineInOut:
+                    return MCurve.SineInOut;
+                case CurveType.ExpoIn:
+                    return MCurve.ExpoIn;
+                case CurveType.ExpoOut:
+                    return MCurve.ExpoOut;
+                case CurveType.ExpoInOut:
+                    return MCurve.ExpoInOut;
+                case CurveType.ElasticIn:
+                    return MCurve.ElasticIn;
+                case CurveType.ElasticOut:
+                    return MCurve.ElasticOut;
+                case CurveType.ElasticInOut:
+                    return MCurve.ElasticInOut;
+                case CurveType.CircIn:
+                    return MCurve.CircIn;
+                case CurveType.CircOut:
+                    return MCurve.CircOut;
+                case CurveType.CircInOut:
+                    return MCurve.CircInOut;
+                case CurveType.BackIn:
+                    return MCurve.BackIn;
+                case CurveType.BackOut:
+                    return MCurve.BackOut;
+                case CurveType.BackInOut:
+                    return MCurve.BackInOut;
+                case CurveType.BounceIn:
+                    return MCurve.BounceIn;
+                case CurveType.BounceOut:
+                    return MCurve.BounceOut;
+                case CurveType.BounceInOut:
+                    return MCurve.BounceInOut;
+                default:
+                    return null;
+            }
+        }
     }
 
     public static class MCurveExtension

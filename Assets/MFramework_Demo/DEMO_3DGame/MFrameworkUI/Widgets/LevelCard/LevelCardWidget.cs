@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelCardWidget : LevelCardWidgetBase
 {
@@ -54,6 +55,7 @@ public class LevelCardWidget : LevelCardWidgetBase
             m_BestTime_MText.text = GameLevel.FormattedTime(level.time);
             m_Coins_MText.text = level.coins.ToString("000");
             m_LevelImage_MImage.sprite = level.previewImage;
+            m_LevelImage_MImage.color = Color.white;//将默认灰色设置为白色(显示图片原色)
 
             m_Star0_MImage.enabled = level.stars[0];
             m_Star1_MImage.enabled = level.stars[1];
