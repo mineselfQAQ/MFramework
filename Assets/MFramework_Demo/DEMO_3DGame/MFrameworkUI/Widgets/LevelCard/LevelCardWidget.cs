@@ -14,6 +14,8 @@ public class LevelCardWidget : LevelCardWidgetBase
         {
             m_locked = value;
             m_PlayBtn_MButton.interactable = !m_locked;
+            m_LeftLocked_RectTransform.gameObject.SetActive(m_locked);
+            m_RightLocked_RectTransform.gameObject.SetActive(m_locked);
         }
     }
 

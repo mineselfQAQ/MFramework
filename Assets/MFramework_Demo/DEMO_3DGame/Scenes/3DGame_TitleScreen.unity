@@ -511,10 +511,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898135657}
     m_Modifications:
-    - target: {fileID: 94885985679353326, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 436810038917546602, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -528,22 +524,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 436810038917546602, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1660553064487947162, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1660553064487947162, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1660553064487947162, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1660553064487947162, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -555,15 +535,7 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2094757622158307675, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_Name
-      value: SaveCardWidget
-      objectReference: {fileID: 0}
     - target: {fileID: 2187098604535590141, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2509290259567591647, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -623,57 +595,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3872673350360727853, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872673350360727853, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872673350360727853, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00011224568
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016367606337221778, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 4.9991455
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016367606337221778, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
+    - target: {fileID: 7411224210081751360, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -60.220016
+      value: -255
       objectReference: {fileID: 0}
-    - target: {fileID: 4063319639085779421, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
+    - target: {fileID: 7518207100690399674, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -142.04999
-      objectReference: {fileID: 0}
-    - target: {fileID: 6994578591275135143, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_VerticalAlignment
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 7157230721736942663, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7157230721736942663, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7157230721736942663, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7157230721736942663, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7664772291537812145, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_Name
-      value: SaveCardWidget
-      objectReference: {fileID: 0}
-    - target: {fileID: 7793943305521265176, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_Color.a
-      value: 0
+      value: -227.28998
       objectReference: {fileID: 0}
     - target: {fileID: 8161493762562247040, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -699,10 +627,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9207703800993088303, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -716,6 +640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898135657}
     m_Modifications:
+    - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
+      propertyPath: levels.Array.data[1].locked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
       propertyPath: levels.Array.data[0].names.Array.size
       value: 2

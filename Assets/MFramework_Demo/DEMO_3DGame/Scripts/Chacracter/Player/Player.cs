@@ -557,7 +557,6 @@ public class Player : Entity<Player>
                 //transform.parent = hit.collider.CompareTag(GameTags.MovingPlatform) ? hit.transform : null;
                 onPlatform = hit.collider.CompareTag(GameTags.MovingPlatform) ? true : false;
                 transform.position = hit.point - lateralOffset + verticalOffset;//碰撞点向后向下
-                Debug.Log(transform.position);
                 states.Change<LedgeHangingPlayerState>();
                 playerEvents.OnLedgeGrabbed?.Invoke();
             }

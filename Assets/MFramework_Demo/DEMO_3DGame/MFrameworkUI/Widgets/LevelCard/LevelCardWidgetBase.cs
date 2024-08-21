@@ -13,7 +13,9 @@ public class LevelCardWidgetBase : UIWidget
 	protected MText m_Coins_MText;
 	protected MText m_BestTime_MText;
 	protected MImage m_LevelImage_MImage;
-	internal MButton m_PlayBtn_MButton;
+	public MButton m_PlayBtn_MButton;
+	protected RectTransform m_LeftLocked_RectTransform;
+	protected RectTransform m_RightLocked_RectTransform;
 
     protected override void OnBindCompsAndEvents()
     {
@@ -25,6 +27,8 @@ public class LevelCardWidgetBase : UIWidget
 		m_BestTime_MText = (MText)viewBehaviour.GetComp(5, 0);
 		m_LevelImage_MImage = (MImage)viewBehaviour.GetComp(6, 0);
 		m_PlayBtn_MButton = (MButton)viewBehaviour.GetComp(7, 0);
+		m_LeftLocked_RectTransform = (RectTransform)viewBehaviour.GetComp(8, 0);
+		m_RightLocked_RectTransform = (RectTransform)viewBehaviour.GetComp(9, 0);
 		
         BindEvent(m_PlayBtn_MButton);
     }
@@ -41,5 +45,7 @@ public class LevelCardWidgetBase : UIWidget
 		m_BestTime_MText = null;
 		m_LevelImage_MImage = null;
 		m_PlayBtn_MButton = null;
+		m_LeftLocked_RectTransform = null;
+		m_RightLocked_RectTransform = null;
     }
 }

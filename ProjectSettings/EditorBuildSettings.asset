@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel.unity
     guid: 7f10b690d2844e648bd5cfa4326a7799
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1.unity
+    guid: 4e669f8948421a1448cb8e4b357d1c74
   m_configObjects: {}

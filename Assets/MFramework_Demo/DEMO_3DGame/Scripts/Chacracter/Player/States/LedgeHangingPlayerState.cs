@@ -17,7 +17,6 @@ public class LedgeHangingPlayerState : PlayerState
 
     protected override void OnStep(Player player)
     {
-        Debug.Log(player.transform.position.y);
         float ledgeTopMaxDistance = player.radius + player.stats.current.ledgeMaxForwardDistance;
         float ledgeTopHeightOffset = player.height * 0.5f + player.stats.current.ledgeMaxDownwardDistance;
         //顶面原点---抓住边缘点前上方

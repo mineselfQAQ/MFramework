@@ -19,6 +19,7 @@ public class GameData
         return new GameData()
         {
             retries = Game.Instance.initRetries,
+            //格式：21/8/2024 - 10:00
             createdTime = DateTime.UtcNow.ToString(),
             updatedTime = DateTime.UtcNow.ToString(),
 
