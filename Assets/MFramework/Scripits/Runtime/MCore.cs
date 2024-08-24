@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
@@ -31,6 +32,8 @@ namespace MFramework
             //TODO:这样反射很耗，考虑其他方案
             initList = GetInterfaceInstanceList<INeedInit>();
             quitList = GetInterfaceInstanceList<INeedQuit>();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void Start()
@@ -47,6 +50,14 @@ namespace MFramework
             {
                 instance.Quit();
             }
+        }
+
+        /// <summary>
+        /// 切换场景时关闭所有携程(防止切换时携程还在执行)
+        /// </summary>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            StopAllCoroutines();
         }
 
         private List<T> GetInterfaceInstanceList<T>()

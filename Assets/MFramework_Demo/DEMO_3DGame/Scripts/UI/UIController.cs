@@ -127,6 +127,8 @@ public class UIController : ComponentSingleton<UIController>
         {
             bottomRoot.OpenPanel(fileSelectPanelName);
         }
+
+        GameObject.Find("#CAMERA#").SetActive(false);//关闭主摄像机(只使用UICamera)
     }
 
     public void FileSelectToLevelSelect()
