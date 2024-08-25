@@ -25,6 +25,10 @@ public class PausePanel : PausePanelBase
         {
             LevelFinisher.Instance.Exit();
         }
+        else if (button == m_SettingBtn_MButton)//设置
+        {
+            //TODO:UI创建SettingWidget
+        }
     }
 
     protected override void OnCreating() { }

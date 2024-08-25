@@ -8,6 +8,6 @@ public class Test1 : MonoBehaviour
     public Transform t;
     private void Start()
     {
-        transform.SinScaleLoop(MCurve.QuartInOut);
+        transform.SinScaleLoopNoRecord(MCurve.QuartInOut);
     }
 }

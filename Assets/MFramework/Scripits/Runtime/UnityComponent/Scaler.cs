@@ -9,7 +9,7 @@ namespace MFramework
 
         protected void Start()
         {
-            transform.SinScaleLoop(MCurve.Linear, scaleMultipler, frequency);
+            transform.SinScaleLoopNoRecord(MCurve.Linear, scaleMultipler, frequency);
         }
     }
 }

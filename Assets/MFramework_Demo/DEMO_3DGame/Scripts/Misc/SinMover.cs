@@ -9,11 +9,18 @@ public class SinMover : MonoBehaviour
     public Vector3 offset;
     public float frequency = 1.0f;
 
+    protected string name;
     protected Vector3 m_initialPosition;
+
+    protected static int i = 0;
+    protected string Name => $"SinMover_{i++}";
 
     protected virtual void Start()
     {
+        GameLoader.Instance.OnLoadStart.AddListener(StopMove);
+
         m_initialPosition = transform.localPosition;
+        name = Name;
 
         if(autoPlay)
         {
@@ -24,7 +31,7 @@ public class SinMover : MonoBehaviour
     public void StartMove()
     {
         Vector3 from = m_initialPosition;
-        MTween.SinLoop((f) =>
+        MTween.SinLoop(name, (f) =>
         {
             transform.localPosition = from + f * offset;
         }, MCurve.Linear, 1, frequency, randomStart);
@@ -32,6 +39,6 @@ public class SinMover : MonoBehaviour
 
     public void StopMove()
     {
-        //TODO:需要先添加SinLoop()的记录版本
+        MCoroutineManager.Instance.EndCoroutine(name);
     }
 }
