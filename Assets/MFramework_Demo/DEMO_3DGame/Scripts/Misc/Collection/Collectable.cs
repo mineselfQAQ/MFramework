@@ -7,6 +7,7 @@ using UnityEngine;
 /// 可获取功能
 /// </summary>
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(AudioSource))]
 public abstract class Collectable : MonoBehaviour
 {
     [Header("General Settings")]
@@ -105,10 +106,7 @@ public abstract class Collectable : MonoBehaviour
 
     protected virtual void InitializeAudio()
     {
-        if (!TryGetComponent(out m_audio))
-        {
-            m_audio = gameObject.AddComponent<AudioSource>();
-        }
+        m_audio = GetComponent<AudioSource>();
     }
     protected virtual void InitializeCollider()
     {

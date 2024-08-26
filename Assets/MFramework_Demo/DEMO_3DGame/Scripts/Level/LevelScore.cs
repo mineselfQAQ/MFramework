@@ -108,7 +108,7 @@ public class LevelScore : ComponentSingleton<LevelScore>
             //ÐÇÊý
             m_level.stars = stars;
 
-            m_game.RequestSaving();
+            m_game.SaveState();
         }
     }
 }

@@ -59,6 +59,12 @@ public class Game : ComponentSingleton<Game>
         }
     }
 
+    public virtual void SaveState()
+    {
+        GameSaver.Instance.Save(ToData(), m_dataIndex);
+        OnSavingRequested?.Invoke();
+    }
+
     /// <summary>
     /// Ëø¶¨¹â±ê
     /// </summary>
@@ -93,12 +99,6 @@ public class Game : ComponentSingleton<Game>
     {
         var scene = GameLoader.Instance.currentScene;
         return levels.FindIndex((level) => level.scene == scene);
-    }
-
-    public virtual void RequestSaving()
-    {
-        GameSaver.Instance.Save(ToData(), m_dataIndex);
-        OnSavingRequested?.Invoke();
     }
 
     public virtual GameData ToData()

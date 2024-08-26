@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(AudioSource))]
 public class Life : Collectable
 {
     [Header("Life Settings")]

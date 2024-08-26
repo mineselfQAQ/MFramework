@@ -1,3 +1,7 @@
+using UnityEngine;
+
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(AudioSource))]
 public class Heart : Collectable
 {
     protected override void OnCollectInternal(Player player)

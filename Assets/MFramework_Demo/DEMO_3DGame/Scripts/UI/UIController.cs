@@ -1,7 +1,10 @@
 using MFramework;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 public class UIController : ComponentSingleton<UIController>
 {

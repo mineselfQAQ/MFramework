@@ -10,6 +10,8 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
     public bool canPause { get; set; }
     public bool paused { get; protected set; }
 
+    protected int pauseLevel = 0;
+
     /// <summary>
     /// ÔÝÍ£
     /// </summary>
@@ -22,6 +24,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
             {
                 if (canPause)
                 {
+                    Debug.Log("ÔÝÍ£");
                     Game.LockCursor(false);
                     paused = true;
                     Time.timeScale = 0;
@@ -31,6 +34,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
             }
             else//½â³ýÔÝÍ£
             {
+                Debug.Log("½â³ýÔÝÍ£");
                 Game.LockCursor();
                 paused = false;
                 Time.timeScale = 1;

@@ -1,9 +1,12 @@
 ﻿using System.IO;
-using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class PlayerStats : EntityStats<PlayerStats>
 {
+#if UNITY_EDITOR
     [MenuItem("Assets/MCreate/3DGame/PlayerStats", false, priority = 1, secondaryPriority = 1.0f)]
     internal static void Create()
     {
@@ -23,6 +26,7 @@ public class PlayerStats : EntityStats<PlayerStats>
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = asset;
     }
+#endif
 
     [Header("General Stats")]
     public float pushForce = 4f;

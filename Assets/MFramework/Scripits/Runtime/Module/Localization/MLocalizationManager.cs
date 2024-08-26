@@ -53,14 +53,7 @@ namespace MFramework
 
         private void InitCurrentLanguage()
         {
-            string settingsPath = $"{MSettings.PersistentDataPath}/CoreSettings.json";
-            if (!File.Exists(settingsPath))
-            {
-                MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, new CoreSettings(), true);
-                MLog.Print($"{typeof(MLocalizationManager)}：已初始化CoreSettings文件，路径:<{settingsPath}>");
-            }
-            var settings = MSerializationUtility.ReadFromJson<CoreSettings>(settingsPath);
-
+            var settings = MSerializationManager.Instance.coreSettings;
             string language = settings.language;
             currentLanguage = StrToSupportLanguageDic[language];
         }
@@ -80,6 +73,10 @@ namespace MFramework
             SaveLanguageJson(settingsPath, currentLanguage);
 
             MText.UpdateAllInfo();
+        }
+        public void SetLanguage(string language)
+        {
+            SetLanguage(StrToSupportLanguageDic[language]);
         }
 
         private void SaveLanguageJson(string settingsPath, SupportLanguage language)

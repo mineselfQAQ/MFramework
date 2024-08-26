@@ -1,5 +1,4 @@
-﻿using MFramework;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class TitleScreenPanel : TitleScreenPanelBase
 {
@@ -13,20 +12,6 @@ public class TitleScreenPanel : TitleScreenPanelBase
         if (button == m_StartBtn_MButton)
         {
             UIController.Instance.TitleScreenToFileSelect();
-        }
-        else if (button == m_CNBtn_MButton)
-        {
-            if (MLocalizationManager.Instance.CurrentLanguage != SupportLanguage.CHINESE)
-            {
-                MLocalizationManager.Instance.SetLanguage(SupportLanguage.CHINESE);
-            }
-        }
-        else if (button == m_ENBtn_MButton)
-        {
-            if (MLocalizationManager.Instance.CurrentLanguage != SupportLanguage.ENGLISH)
-            {
-                MLocalizationManager.Instance.SetLanguage(SupportLanguage.ENGLISH);
-            }
         }
     }
 

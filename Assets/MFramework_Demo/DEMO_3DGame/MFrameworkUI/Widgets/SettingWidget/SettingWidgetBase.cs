@@ -12,6 +12,7 @@ public class SettingWidgetBase : UIWidget
 	protected Slider m_MusicSlider_Slider;
 	protected MText m_LanguageText_MText;
 	protected MImage m_LanguageIcon_MImage;
+	protected LanguageInfos m_SettingWidget_LanguageInfos;
 
     protected override void OnBindCompsAndEvents()
     {
@@ -21,6 +22,7 @@ public class SettingWidgetBase : UIWidget
 		m_MusicSlider_Slider = (Slider)viewBehaviour.GetComp(3, 0);
 		m_LanguageText_MText = (MText)viewBehaviour.GetComp(4, 0);
 		m_LanguageIcon_MImage = (MImage)viewBehaviour.GetComp(5, 0);
+		m_SettingWidget_LanguageInfos = (LanguageInfos)viewBehaviour.GetComp(6, 0);
 		
         BindEvent(m_CloseBtn_MButton);
 		BindEvent(m_LanguageBtn_MButton);
@@ -41,5 +43,6 @@ public class SettingWidgetBase : UIWidget
 		m_MusicSlider_Slider = null;
 		m_LanguageText_MText = null;
 		m_LanguageIcon_MImage = null;
+		m_SettingWidget_LanguageInfos = null;
     }
 }

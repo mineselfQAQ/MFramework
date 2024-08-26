@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0.18431373
       objectReference: {fileID: 0}
+    - target: {fileID: 4562923624456234007, guid: c0d884f9812329f419265c1663ea404f, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 8470696077433227335, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
     - target: {fileID: 7309716903788839567, guid: c0d884f9812329f419265c1663ea404f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

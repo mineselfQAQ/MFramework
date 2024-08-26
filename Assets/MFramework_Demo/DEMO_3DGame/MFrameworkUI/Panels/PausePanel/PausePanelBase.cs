@@ -11,6 +11,7 @@ public class PausePanelBase : UIPanel
 	protected MButton m_RestartBtn_MButton;
 	protected MButton m_ExitBtn_MButton;
 	protected MButton m_SettingBtn_MButton;
+	protected RectTransform m_PausePanel_RectTransform;
 
     protected override void OnBindCompsAndEvents()
     {
@@ -19,6 +20,7 @@ public class PausePanelBase : UIPanel
 		m_RestartBtn_MButton = (MButton)viewBehaviour.GetComp(2, 0);
 		m_ExitBtn_MButton = (MButton)viewBehaviour.GetComp(3, 0);
 		m_SettingBtn_MButton = (MButton)viewBehaviour.GetComp(4, 0);
+		m_PausePanel_RectTransform = (RectTransform)viewBehaviour.GetComp(5, 0);
 		
         BindEvent(m_ResumeBtn_MButton);
 		BindEvent(m_CheckpointBtn_MButton);
@@ -40,5 +42,6 @@ public class PausePanelBase : UIPanel
 		m_RestartBtn_MButton = null;
 		m_ExitBtn_MButton = null;
 		m_SettingBtn_MButton = null;
+		m_PausePanel_RectTransform = null;
     }
 }

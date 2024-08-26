@@ -2,9 +2,15 @@
 
 public class PausePanel : PausePanelBase
 {
+    protected SettingWidget settingWidget;
+
+    public static readonly string settingWdigetName = "SETTING";
+
     public override void Init()
     {
-
+        settingWidget = CreateWidget<SettingWidget>(settingWdigetName, m_PausePanel_RectTransform,
+                $"{UIController.widgetPrepath}/SettingWidget/SettingWidget.prefab", false);
+        settingWidget.Init();
     }
 
     protected override void OnClicked(Button button) 
@@ -27,7 +33,7 @@ public class PausePanel : PausePanelBase
         }
         else if (button == m_SettingBtn_MButton)//设置
         {
-            //TODO:UI创建SettingWidget
+            OpenWidget("SETTING");
         }
     }
 

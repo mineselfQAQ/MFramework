@@ -2,6 +2,7 @@ using MFramework;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(AudioSource))]
 public class BouncingPlatform : MonoBehaviour, IEntityContact
 {
     public float force = 25f;
@@ -14,7 +15,7 @@ public class BouncingPlatform : MonoBehaviour, IEntityContact
     {
         tag = GameTags.Spring;
         m_collider = GetComponent<Collider>();
-        m_audio = gameObject.GetOrAddComponent<AudioSource>();
+        m_audio = GetComponent<AudioSource>();
     }
 
     public void OnEntityContact(Entity entity)
