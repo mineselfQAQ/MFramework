@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerAudio : MonoBehaviour
 {
     [Header("Voices")]
@@ -41,10 +42,7 @@ public class PlayerAudio : MonoBehaviour
 
     protected virtual void InitializeAudio()
     {
-        if (!TryGetComponent(out m_audio))
-        {
-            m_audio = gameObject.AddComponent<AudioSource>();
-        }
+        m_audio = GetComponent<AudioSource>();
     }
 
     protected virtual void InitializeCallbacks()

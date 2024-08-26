@@ -99,10 +99,10 @@ public class Pickable : MonoBehaviour
     public virtual void Respawn()
     {
         //将一切设置为初始状态
-        m_rigidBody.velocity = Vector3.zero;
         transform.parent = m_initialParent;
         transform.SetPositionAndRotation(m_initialPosition, m_initialRotation);
         m_rigidBody.isKinematic = false;
+        m_rigidBody.velocity = Vector3.zero;
         m_collider.isTrigger = false;
         beingHold = false;
         onRespawn?.Invoke();

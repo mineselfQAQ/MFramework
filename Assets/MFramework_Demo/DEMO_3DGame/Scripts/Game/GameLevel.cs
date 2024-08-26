@@ -9,6 +9,8 @@ using UnityEngine;
 [Serializable]
 public class GameLevel
 {
+    protected bool levelLocked;//关卡默认解锁信息
+
     //---固有信息---
     public bool locked;//既是固有信息又是可变信息
 

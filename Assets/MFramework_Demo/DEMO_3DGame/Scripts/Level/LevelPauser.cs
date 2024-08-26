@@ -12,33 +12,37 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
 
     protected int pauseLevel = 0;
 
+    protected bool canDo = true;
+
     /// <summary>
     /// ÔÝÍ£
     /// </summary>
     /// <param Name="value">True---ÔÝÍ£ False---È¡ÏûÔÝÍ£</param>
     public virtual void Pause(bool value)
     {
-        if (paused != value)
+        if (paused != value && canDo)
         {
             if (!paused)//ÔÝÍ£
             {
                 if (canPause)
                 {
-                    Debug.Log("ÔÝÍ£");
+                    canDo = false;
+
                     Game.LockCursor(false);
                     paused = true;
                     Time.timeScale = 0;
-                    UIController.Instance.OpenPausePanel();
+                    UIController.Instance.OpenPausePanel(() => { canDo = true; });
                     OnPause?.Invoke();
                 }
             }
             else//½â³ýÔÝÍ£
             {
-                Debug.Log("½â³ýÔÝÍ£");
+                canDo = false;
+
                 Game.LockCursor();
                 paused = false;
                 Time.timeScale = 1;
-                UIController.Instance.ClosePausePanel();
+                UIController.Instance.ClosePausePanel(() => { canDo = true; });
                 OnUnpause?.Invoke();
             }
         }

@@ -1,6 +1,5 @@
 ﻿using MFramework;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingWidget : SettingWidgetBase
@@ -24,9 +23,12 @@ public class SettingWidget : SettingWidgetBase
         }
         RefreshLanguageView();
 
-        //音量初始化
-        m_SFXSlider_Slider.value = sound.curSFX;
-        m_MusicSlider_Slider.value = sound.curMusic;
+        //音量初始化(延迟执行，等待SoundController初始化完成)
+        MCoroutineManager.Instance.DelayNoRecord(() =>
+        {
+            m_SFXSlider_Slider.value = sound.CurSFX;
+            m_MusicSlider_Slider.value = sound.CurMusic;
+        }, 0.1f);
     }
 
     protected override void OnClicked(Button button) 
@@ -48,13 +50,11 @@ public class SettingWidget : SettingWidgetBase
     {
         if (slider == m_SFXSlider_Slider)
         {
-            sound.mixer.SetFloat(sound.SFX, MMath.LinearToDecibel(value));
-            sound.curSFX = value;
+            sound.CurSFX = value;
         }
         else if (slider == m_MusicSlider_Slider)
         {
-            sound.mixer.SetFloat(sound.MUSIC, MMath.LinearToDecibel(value));
-            sound.curMusic = value;
+            sound.CurMusic = value;
         }
     }
 

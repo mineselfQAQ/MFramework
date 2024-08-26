@@ -11,18 +11,36 @@ public class SoundController : ComponentSingleton<SoundController>
     public string MUSIC = "MUSIC";
     public string SFX = "SFX";
 
-    public float curMusic { get; set; }
-    public float curSFX { get; set; }
+    protected float curMusic;
+    public float CurMusic 
+    {
+        get { return curMusic; }
+        set
+        {
+            curMusic = value;
+            mixer.SetFloat(MUSIC, MMath.LinearToDecibel(curMusic));
+        }
+    }
+    protected float curSFX;
+    public float CurSFX
+    {
+        get { return curSFX; }
+        set
+        {
+            curSFX = value;
+            mixer.SetFloat(SFX, MMath.LinearToDecibel(curSFX));
+        }
+    }
 
     protected string settingsPath => MSerializationManager.Instance.settingsPath;
 
     protected override void Awake()
     {
         base.Awake();
-
+        
         var settings = MSerializationManager.Instance.coreSettings;
-        curMusic = settings.MusicSound;
-        curSFX = settings.SFXSound;
+        CurMusic = settings.MusicSound;
+        CurSFX = settings.SFXSound;
     }
 
     protected void OnApplicationQuit()
@@ -33,8 +51,8 @@ public class SoundController : ComponentSingleton<SoundController>
     public void SaveSoundJson()
     {
         var settings = MSerializationManager.Instance.coreSettings;
-        settings.MusicSound = curMusic;
-        settings.SFXSound = curSFX;
+        settings.MusicSound = CurMusic;
+        settings.SFXSound = CurSFX;
         MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, settings);
     }
 }

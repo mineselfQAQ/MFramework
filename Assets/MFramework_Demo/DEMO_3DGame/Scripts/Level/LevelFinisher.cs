@@ -2,6 +2,7 @@ using MFramework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class LevelFinisher : ComponentSingleton<LevelFinisher>
 {
@@ -89,6 +90,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
             m_controller.DestroyHUD();
 
             m_controller.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
+            m_controller.bottomRoot.GetPanel<LevelSelectPanel>(UIController.levelSelectPanelName).Refresh();
 
             Game.LockCursor(false);
             OnExit?.Invoke();

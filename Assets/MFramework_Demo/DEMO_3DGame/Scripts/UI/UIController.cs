@@ -1,6 +1,8 @@
 using MFramework;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -100,13 +102,13 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
-    public void OpenPausePanel()
+    public void OpenPausePanel(Action onFinish = null)
     {
-        topRoot.OpenPanel(pausePanelName);
+        topRoot.OpenPanel(pausePanelName, onFinish);
     }
-    public void ClosePausePanel()
+    public void ClosePausePanel(Action onFinish = null)
     {
-        topRoot.ClosePanel(pausePanelName);
+        topRoot.ClosePanel(pausePanelName, onFinish);
     }
 
     public void CreateHUD()

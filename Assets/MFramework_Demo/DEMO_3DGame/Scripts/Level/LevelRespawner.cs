@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class LevelRespawner : ComponentSingleton<LevelRespawner>
 {
@@ -72,6 +73,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
             m_game.retries--;
         }
 
+        if(m_level.player.pickable) m_level.player.pickable.Respawn();
         m_level.player.Respawn();
         m_score.coins = 0;
         ResetCameras();
