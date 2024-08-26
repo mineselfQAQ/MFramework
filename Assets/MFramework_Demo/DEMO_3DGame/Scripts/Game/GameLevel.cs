@@ -9,10 +9,8 @@ using UnityEngine;
 [Serializable]
 public class GameLevel
 {
-    protected bool levelLocked;//关卡默认解锁信息
-
     //---固有信息---
-    public bool locked;//既是固有信息又是可变信息
+    public bool levelLocked;//关卡默认解锁信息
 
     public string scene;
     public List<string> names;//0
@@ -34,6 +32,7 @@ public class GameLevel
     public Sprite previewImage;
 
     //---可变信息---
+    public bool locked { get; set; }
     public int coins { get; set; }
     public float time { get; set; }
     public bool[] stars { get; set; } = new bool[StarsPerLevel];

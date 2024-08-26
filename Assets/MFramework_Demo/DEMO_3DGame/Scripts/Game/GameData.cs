@@ -28,7 +28,7 @@ public class GameData
             {
                 return new LevelData()
                 {
-                    locked = level.locked//获取locked信息
+                    locked = level.levelLocked//获取locked信息
                 };
             }).ToArray()
         };

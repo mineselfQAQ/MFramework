@@ -1687,6 +1687,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
+      propertyPath: levels.Array.data[1].levelLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
       propertyPath: levels.Array.data[0].previewImage
       value: 
       objectReference: {fileID: 21300000, guid: 2c6c37fc7b5daf14b899876b540f769a, type: 3}
