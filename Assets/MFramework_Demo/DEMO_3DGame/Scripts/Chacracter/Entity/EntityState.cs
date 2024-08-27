@@ -7,10 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class EntityState<T> where T : Entity<T>
 {
-    //TODO:能删？
-    public UnityEvent onEnter;
-    public UnityEvent onExit;
-
     /// <summary>
     /// 进入该状态后的计时
     /// </summary>
@@ -19,7 +15,6 @@ public abstract class EntityState<T> where T : Entity<T>
     public void Enter(T entity)
     {
         timeSinceEntered = 0;
-        onEnter?.Invoke();
         OnEnter(entity);
     }
     public void Step(T entity)
@@ -29,7 +24,6 @@ public abstract class EntityState<T> where T : Entity<T>
     }
     public void Exit(T entity)
     {
-        onExit?.Invoke();
         OnExit(entity);
     }
 

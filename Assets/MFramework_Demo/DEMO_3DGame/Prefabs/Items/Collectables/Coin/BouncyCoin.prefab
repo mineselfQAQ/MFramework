@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1886517954204648112, guid: 4d9cc0013261337419591b9a8a893dfb, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2945622593233297038, guid: 4d9cc0013261337419591b9a8a893dfb, type: 3}
       propertyPath: m_Name
       value: BouncyCoin

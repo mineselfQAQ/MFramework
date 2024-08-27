@@ -29,7 +29,6 @@ public abstract class Collectable : MonoBehaviour
 
     [Header("Physics Settings")]
     public bool usePhysics;
-    public float minForceToStopPhysics = 3f;
     public float collisionRadius = 0.5f;
     public float gravity = 30f;
     public float bounciness = 0.98f;
@@ -115,7 +114,6 @@ public abstract class Collectable : MonoBehaviour
     }
     protected virtual void InitializeTransform()
     {
-        //transform.parent = null;
         transform.rotation = Quaternion.identity;
     }
     protected virtual void InitializeDisplay()
@@ -199,9 +197,6 @@ public abstract class Collectable : MonoBehaviour
                 m_velocity.y = Mathf.Min(m_velocity.y, maxBounceYVelocity);
                 m_audio.Stop();
                 m_audio.PlayOneShot(collisionClip);
-
-                if (m_velocity.y <= minForceToStopPhysics)
-                    usePhysics = false;
             }
         }
 
