@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using System;
+using UnityEngine.UI;
 
 public class PausePanel : PausePanelBase
 {
@@ -33,19 +34,18 @@ public class PausePanel : PausePanelBase
         }
         else if (button == m_SettingBtn_MButton)//设置
         {
-            OpenWidget("SETTING");
+            OpenSettingWidget();
         }
     }
 
-    protected override void OnCreating() { }
-
-    protected override void OnCreated() { }
-
-    protected override void OnDestroying() { }
-
-    protected override void OnDestroyed() { }
-    
-    protected override void OnVisibleChanged(bool visible) { }
-    
-    protected override void OnFocusChanged(bool focus) { }
+    public void OpenSettingWidget(Action onFinish = null)
+    {
+        OpenWidget(settingWdigetName, onFinish);
+        LevelPauser.Instance.IncreaseLevel();
+    }
+    public void CloseSettingWidget(Action onFinish = null)
+    {
+        CloseWidget(settingWdigetName, onFinish);
+        LevelPauser.Instance.DecreaseLevel();
+    }
 }

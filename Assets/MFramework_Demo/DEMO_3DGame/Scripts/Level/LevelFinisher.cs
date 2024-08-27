@@ -39,7 +39,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
     protected virtual IEnumerator FinishRoutine()
     {
-        m_pauser.Pause(false);//保证解除暂停
+        m_pauser.Pause(false);//退出暂停界面
         m_pauser.canPause = false;
         m_score.stopTime = true;
         m_level.player.inputs.enabled = false;

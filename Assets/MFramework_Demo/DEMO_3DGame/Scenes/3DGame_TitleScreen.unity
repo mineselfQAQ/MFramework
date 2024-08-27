@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: c56e28e54cac24b04ae3dd957d214534, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 67d6e78e4fccefb4f82c05bc03452759, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 9eff8348a3cdf4642acaf701cc7ec7b4, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: b5819758015870c4094d88bdc77a6c00, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -480,6 +480,8 @@ PrefabInstance:
     - {fileID: 1798004081179095605, guid: 184fb6a2041a825419208168b788104f, type: 3}
     - {fileID: 7237142013787147759, guid: 184fb6a2041a825419208168b788104f, type: 3}
     - {fileID: 7059058993163487220, guid: 184fb6a2041a825419208168b788104f, type: 3}
+    - {fileID: 3267220307843254630, guid: 184fb6a2041a825419208168b788104f, type: 3}
+    - {fileID: 6025229665814279464, guid: 184fb6a2041a825419208168b788104f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -27,6 +27,7 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
                 if (canPause)
                 {
                     canDo = false;
+                    pauseLevel++;
 
                     Game.LockCursor(false);
                     paused = true;
@@ -37,14 +38,34 @@ public class LevelPauser : ComponentSingleton<LevelPauser>
             }
             else//½â³ýÔÝÍ£
             {
-                canDo = false;
+                if (pauseLevel == 1)
+                {
+                    canDo = false;
+                    pauseLevel--;
 
-                Game.LockCursor();
-                paused = false;
-                Time.timeScale = 1;
-                UIController.Instance.ClosePausePanel(() => { canDo = true; });
-                OnUnpause?.Invoke();
+                    Game.LockCursor();
+                    paused = false;
+                    Time.timeScale = 1;
+                    UIController.Instance.ClosePausePanel(() => { canDo = true; });
+                    OnUnpause?.Invoke();
+                }
+                else if (pauseLevel == 2)
+                {
+                    canDo = false;
+
+                    PausePanel pausePanel = (PausePanel)UIController.Instance.panelDic[UIController.pausePanelName];
+                    pausePanel.CloseSettingWidget(() => { canDo = true; });//°üº¬pauseLevel--
+                }
             }
         }
+    }
+
+    public void IncreaseLevel()
+    {
+        pauseLevel++;
+    }
+    public void DecreaseLevel()
+    {
+        pauseLevel--;
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class EntityState<T> where T : Entity<T>
 {
+    //TODO:能删？
     public UnityEvent onEnter;
     public UnityEvent onExit;
 

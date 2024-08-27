@@ -2,6 +2,7 @@ using MFramework;
 using System.Collections;
 using UnityEngine;
 
+//TODO:不支持斜向物体
 public class LedgeClimbingPlayerState : PlayerState
 {
     protected override void OnEnter(Player player)

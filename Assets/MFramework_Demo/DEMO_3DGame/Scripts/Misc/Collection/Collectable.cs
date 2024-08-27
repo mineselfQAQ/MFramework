@@ -31,7 +31,7 @@ public abstract class Collectable : MonoBehaviour
     public bool usePhysics;
     public float minForceToStopPhysics = 3f;
     public float collisionRadius = 0.5f;
-    public float gravity = 15f;
+    public float gravity = 30f;
     public float bounciness = 0.98f;
     public float maxBounceYVelocity = 10f;
     public bool randomizeInitialDirection = true;

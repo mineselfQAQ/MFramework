@@ -42,6 +42,7 @@ public class SettingWidget : SettingWidgetBase
         else if (button == m_CloseBtn_MButton)
         {
             CloseSelf();
+            LevelPauser.Instance.DecreaseLevel();
             sound.SaveSoundJson();
         }
     }

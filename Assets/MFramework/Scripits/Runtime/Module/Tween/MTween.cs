@@ -85,9 +85,11 @@ namespace MFramework
             });
         }
 
+        //TODO:有一定时间限制，为68年，主要问题为精度问题
         public static void SinLoop(string name, Action<float> action, MCurve curve, float scaleMultipler = 1, float frequency = 1, bool random = false)
         {
-            float from = 0, to = float.MaxValue;
+            float from = 0;
+            int to = int.MaxValue;
             if (random)
             {
                 from = UnityEngine.Random.Range(0f, 1f);
@@ -96,7 +98,7 @@ namespace MFramework
             DoTween(name, (f) =>
             {
                 //y=0.5sin(2πx)
-                float y = 0.5f * scaleMultipler * Mathf.Sin(2 * Mathf.PI * f);
+                float y = 0.5f * scaleMultipler * Mathf.Sin(frequency * 2 * Mathf.PI * f);
                 action.Invoke(y);
             }, curve, to - from, from, to);
         }
