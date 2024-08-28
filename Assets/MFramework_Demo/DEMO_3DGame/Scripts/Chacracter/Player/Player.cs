@@ -143,7 +143,7 @@ public class Player : Entity<Player>
     /// </summary>
     public virtual void Respawn()
     {
-        health.Reset();
+        health.SetToInit();
         transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
         states.Change<IdlePlayerState>();
     }

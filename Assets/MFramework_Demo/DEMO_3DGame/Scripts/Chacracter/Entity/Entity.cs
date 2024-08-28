@@ -128,7 +128,6 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         //下方有东西(已落地) 且 没有上升(跳跃)
         if (SphereCast(Vector3.down, distance, out var hit) && verticalVelocity.y <= 0)
         {
-            
             if (!isGrounded)//当前不在地面
             {
                 if (EvaluateLanding(hit))//符合落地条件
@@ -226,11 +225,11 @@ public abstract class Entity<T> : Entity where T : Entity<T>
     /// <summary>
     /// 判断是否落地
     /// </summary>
-    /// <returns>落地条件：1.台阶足够低 2.坡度没有过斜</returns>
+    /// <returns>落地条件：1.Entity在地面上 2.坡度没有过斜</returns>
     protected virtual bool EvaluateLanding(RaycastHit hit)
     {
         //落地条件：
-        //1.台阶足够低 2.坡度没有过斜
+        //1.Entity在地面上 2.坡度没有过斜
         return IsPointUnderStep(hit.point) && Vector3.Angle(hit.normal, Vector3.up) < controller.slopeLimit;
     }
 

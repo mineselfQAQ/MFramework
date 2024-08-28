@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
-    public Transform t;
-    private void Start()
+    [ClassTypeName(typeof(PlayerState))]
+    public string[] states;
+
+    private void Update()
     {
-        transform.SinScaleLoopNoRecord(MCurve.QuartInOut);
+
     }
 }

@@ -24,7 +24,7 @@ MonoBehaviour:
   canJumpWhileHolding: 1
   pickDistance: 0.25
   throwVelocityMultiplier: 1.5
-  applySlopeFactor: 0
+  applySlopeFactor: 1
   acceleration: 16
   deceleration: 30
   friction: 28

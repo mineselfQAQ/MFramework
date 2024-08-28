@@ -29,12 +29,12 @@ public class Health : MonoBehaviour
         }
     }
 
-    public virtual void Reset()
+    protected virtual void Awake()
     {
         current = initial;
     }
 
-    protected virtual void Awake()
+    public virtual void SetToInit()
     {
         current = initial;
     }
@@ -45,7 +45,7 @@ public class Health : MonoBehaviour
     public virtual bool isEmpty => current == 0;
 
     /// <summary>
-    /// 恢复状态(不可收到攻击)
+    /// 正在恢复状态(不可收到攻击)
     /// </summary>
     public virtual bool recovering => Time.time < m_lastDamageTime + coolDown;
 
