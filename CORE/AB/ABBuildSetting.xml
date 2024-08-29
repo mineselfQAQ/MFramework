@@ -7,5 +7,6 @@
 	<BuildItem AssetPath="Assets/AssetBundle/Model/" ResourceType="Direct" BundleType="Directory" Suffix=".prefab" />
 	<BuildItem AssetPath="Assets/AssetBundle/Shader/" ResourceType="Direct" BundleType="Directory" Suffix=".shader" />
 	<BuildItem AssetPath="Assets/AssetBundle/UI/" ResourceType="Direct" BundleType="File" Suffix=".prefab" />
-	
+	<BuildItem AssetPath="Assets/_Test/Mix/" ResourceType="Direct" BundleType="File" Suffix=".mixer" />
+	<BuildItem AssetPath="Assets/_Test/MUI/" ResourceType="Direct" BundleType="File" Suffix=".prefab" />
 </BuildSetting>

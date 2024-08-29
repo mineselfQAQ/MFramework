@@ -1,1 +1,1 @@
-﻿Assets/AssetBundle/UI/TestUI.prefab	Assets/AssetBundle/Atlas/Role/Hog_Attack_011.png	Assets/AssetBundle/Common/Model.renderTexture	Assets/AssetBundle/Icon/1.png	Assets/AssetBundle/Background/6.png
+﻿Assets/AssetBundle/UI/TestUI.prefab	Assets/_Test/MUI/NewAudioMixer.mixer	Assets/AssetBundle/Common/Model.renderTexture

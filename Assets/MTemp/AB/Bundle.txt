@@ -23,10 +23,6 @@ assets/assetbundle/background/4.png.ab
 	Assets/AssetBundle/Background/4.png
 assets/assetbundle/background/5.png.ab
 	Assets/AssetBundle/Background/5.png
-assets/assetbundle/background/6.png.ab
-	Assets/AssetBundle/Background/6.png
-assets/assetbundle/background/7.png.ab
-	Assets/AssetBundle/Background/7.png
 assets/assetbundle/icon.ab
 	Assets/AssetBundle/Icon/1.png
 	Assets/AssetBundle/Icon/10.png
@@ -54,3 +50,7 @@ assets/assetbundle/ui/testui.prefab.ab
 	Assets/AssetBundle/UI/TestUI.prefab
 assets/assetbundle/ui/uiroot.prefab.ab
 	Assets/AssetBundle/UI/UIRoot.prefab
+assets/_test/mix/3dgameaudiomixer.mixer.ab
+	Assets/_Test/Mix/3DGameAudioMixer.mixer
+assets/_test/mui/newaudiomixer.mixer.ab
+	Assets/_Test/MUI/NewAudioMixer.mixer

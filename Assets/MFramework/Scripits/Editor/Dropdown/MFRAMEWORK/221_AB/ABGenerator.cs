@@ -115,7 +115,7 @@ namespace MFramework
         {
             string defaultSavePath = Application.dataPath.CD();
 
-            string abPath = $"{defaultSavePath}/AssetBundle";
+            string abPath = $"{defaultSavePath}/Assets/AssetBundle";
             CreateABDirectoryIfNotExist(abPath);
 
             string projectPath = Application.dataPath;
