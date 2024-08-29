@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class LevelRespawner : ComponentSingleton<LevelRespawner>
 {
@@ -21,6 +20,8 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
     protected LevelScore m_score => LevelScore.Instance;
     protected LevelPauser m_pauser => LevelPauser.Instance;
     protected Game m_game => Game.Instance;
+    protected GameLoader m_loader => GameLoader.Instance;
+    protected UIController m_controller => UIController.Instance;
 
     protected virtual void Start()
     {
@@ -45,7 +46,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_level.player.inputs.enabled = false;
 
         //无命可用时，游戏结束
-        if (consumeRetries && m_game.retries == 0)
+        if (consumeRetries && m_game.retries == 1)
         {
             StartCoroutine(GameOverRoutine());
             yield break;
@@ -63,7 +64,23 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
     {
         m_score.stopTime = true;
         yield return new WaitForSeconds(gameOverDelay);
-        GameLoader.Instance.Reload();
+
+        //方案1：直接加载(无限续命)
+        //GameLoader.Instance.Reload();
+        //方案2：返回选关界面
+        m_score.GameOverSave();
+        m_loader.Load(UIController.titleScreenSceneName, () =>
+        {
+            m_controller.CloseHUD();
+
+            var fileSelectPanel = m_controller.bottomRoot.
+                GetPanel<FileSelectPanel>(UIController.fileSelectPanelName);
+            m_controller.bottomRoot.OpenPanel(UIController.fileSelectPanelName);
+
+            fileSelectPanel.Refresh();
+            Game.LockCursor(false);
+        });
+
         OnGameOver?.Invoke();
     }
     protected virtual IEnumerator RespawnRoutine(bool consumeRetries)
@@ -75,7 +92,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
 
         if(m_level.player.pickable) m_level.player.pickable.Respawn();
         m_level.player.Respawn();
-        m_score.coins = 0;
+        //m_score.coins = 0;
         ResetCameras();
         OnRespawn?.Invoke();
 
@@ -94,7 +111,6 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_pauser.canPause = false;
         m_level.player.inputs.enabled = false;
         yield return new WaitForSeconds(restartDelay);
-        //UIController.Instance.DestroyHUD();
         GameLoader.Instance.Reload();
     }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -21,11 +22,13 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
     public string currentScene => SceneManager.GetActiveScene().name;
 
-    private UIRoot root;
+    protected UIController m_controller => UIController.Instance;
+
+    protected UIRoot root;
 
     protected void Start()
     {
-        root = UIController.Instance.topRoot;
+        root = m_controller.topRoot;
     }
 
     public virtual void Load(string scene, Action onLoadFinishInternal = null)
@@ -64,6 +67,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
         isLoading = false;
         root.ClosePanel(UIController.loadPanelName);//Tip：此时背景另一个Scene已经加载完成
+        if (scene == UIController.titleScreenSceneName) m_controller.Disable3DScene();//关闭3D渲染
         OnLoadFinish?.Invoke();
         onLoadFinishInternal?.Invoke();
     }

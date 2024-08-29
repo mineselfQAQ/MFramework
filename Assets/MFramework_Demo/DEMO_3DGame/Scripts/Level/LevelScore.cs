@@ -91,7 +91,7 @@ public class LevelScore : ComponentSingleton<LevelScore>
     /// <summary>
     /// 更新数据
     /// </summary>
-    public virtual void Save()
+    public virtual void FullSave()
     {
         if (m_level != null)
         {
@@ -106,9 +106,20 @@ public class LevelScore : ComponentSingleton<LevelScore>
                 m_level.coins = coins;
             }
             //星数
-            m_level.stars = stars;
+            m_level.stars = (bool[])stars.Clone();
 
             m_game.SaveState();
+        }
+    }
+
+    /// <summary>
+    /// 死亡时更新数据
+    /// </summary>
+    public virtual void GameOverSave()
+    {
+        if (m_level != null)
+        {
+            m_game.SaveState();//更新命数
         }
     }
 }

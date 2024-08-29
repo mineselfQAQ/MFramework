@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class FinishZone : Activator
 {
-    protected Rotator rotator => GetComponent<Rotator>();
+    protected Rotator m_rotator => GetComponent<Rotator>();
     protected LevelFinisher m_finisher => LevelFinisher.Instance;
 
     public override void OnActivateInternal()
     {
-        rotator.enabled = false;
+        m_rotator.enabled = false;
         m_finisher.Finish();
     }
 

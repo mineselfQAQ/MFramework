@@ -13,6 +13,14 @@ public class HUDPanel : HUDPanelBase
 
     public override void Init()
     {
+        //执行ResetPanel()代替
+    }
+
+    /// <summary>
+    /// 重置HUDPanel
+    /// </summary>
+    public virtual void ResetPanel()
+    {
         m_game = Game.Instance;
         m_score = LevelScore.Instance;
         m_player = Object.FindObjectOfType<Player>();

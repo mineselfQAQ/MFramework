@@ -2,7 +2,6 @@ using MFramework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 
 public class LevelFinisher : ComponentSingleton<LevelFinisher>
 {
@@ -51,12 +50,12 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
             m_game.UnlockNextLevel();
         }
 
-        m_score.Save();
+        m_score.FullSave();
         if (string.IsNullOrEmpty(nextScene))//无下一个场景(最后一个场景)
         {
             m_loader.Load(UIController.titleScreenSceneName, () =>
             {
-                m_controller.DestroyHUD();
+                m_controller.CloseHUD();
 
                 var levelSelectPanel = m_controller.bottomRoot.
                     GetPanel<LevelSelectPanel>(UIController.levelSelectPanelName);
@@ -71,7 +70,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
         {
             m_loader.Load(nextScene, () =>
             {
-                Game.LockCursor(false);
+                Game.LockCursor();
                 OnFinish?.Invoke(false);
             });
         }
@@ -87,7 +86,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
         m_loader.Load(UIController.titleScreenSceneName, () =>
         {
-            m_controller.DestroyHUD();
+            m_controller.CloseHUD();
 
             m_controller.bottomRoot.OpenPanel(UIController.levelSelectPanelName);
             m_controller.bottomRoot.GetPanel<LevelSelectPanel>(UIController.levelSelectPanelName).Refresh();

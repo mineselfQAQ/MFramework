@@ -1,6 +1,6 @@
-using UnityEngine;
+using MFramework;
 
-public class LevelController : MonoBehaviour
+public class LevelController : ComponentSingleton<LevelController>
 {
     protected LevelFinisher m_finisher => LevelFinisher.Instance;
     protected LevelRespawner m_respawner => LevelRespawner.Instance;
@@ -15,7 +15,7 @@ public class LevelController : MonoBehaviour
 
     public virtual void AddCoins(int amount) => m_score.coins += amount;
     public virtual void CollectStar(int index) => m_score.CollectStar(index);
-    public virtual void SaveScore() => m_score.Save();
+    public virtual void SaveScore() => m_score.FullSave();
 
     public virtual void Pause(bool value) => m_pauser.Pause(value);
 }

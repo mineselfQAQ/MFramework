@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7222697501090851269}
   m_Layer: 0
   m_Name: SquareFallingPlatform
-  m_TagString: Untagged
+  m_TagString: Surface/Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

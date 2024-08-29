@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
@@ -111,13 +110,26 @@ public class UIController : ComponentSingleton<UIController>
         topRoot.ClosePanel(pausePanelName, onFinish);
     }
 
-    public void CreateHUD()
+
+
+    public void CreateOrOpenHUD(Action onFinish = null)
     {
-        CreatePanel<HUDPanel>(topRoot, HUDPanelName, $"{panelPrepath}/HUDPanel/HUDPanel.prefab", true);
+        if (!topRoot.ExistPanel(HUDPanelName))
+        {
+            CreatePanel<HUDPanel>(topRoot, HUDPanelName, $"{panelPrepath}/HUDPanel/HUDPanel.prefab", true);
+        }
+        else
+        {
+            topRoot.OpenPanel(HUDPanelName, onFinish);
+        }
     }
-    public void DestroyHUD()
+    public void CloseHUD(Action onFinish = null)
     {
-        DestroyPanel(topRoot, HUDPanelName);
+        topRoot.ClosePanel(HUDPanelName, onFinish);
+    }
+    public void RefreshHUD()
+    {
+        topRoot.GetPanel<HUDPanel>(HUDPanelName).ResetPanel();
     }
 
     public void TitleScreenToFileSelect()
@@ -133,7 +145,7 @@ public class UIController : ComponentSingleton<UIController>
             bottomRoot.OpenPanel(fileSelectPanelName);
         }
 
-        GameObject.Find("#CAMERA#").SetActive(false);//关闭主摄像机(只使用UICamera)
+        Disable3DScene();
     }
 
     public void FileSelectToLevelSelect()
@@ -167,5 +179,14 @@ public class UIController : ComponentSingleton<UIController>
         {
             topRoot.ClosePanel(flashEffectName);
         });
+    }
+
+    /// <summary>
+    /// 不再显示场景中的3D物体
+    /// </summary>
+    public void Disable3DScene()
+    {
+        GameObject.Find("#SCENE#").SetActive(false);
+        GameObject.Find("#CAMERA#").SetActive(false);
     }
 }

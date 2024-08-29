@@ -266,7 +266,7 @@ namespace MFramework
                 //物体名(标注是否具有多个物体)
                 string name = info.isMulti ? $"{info.go.name}(Multi)" : info.go.name;
 
-                table.Rows.Add(new object[] { info.id, sceneStr, prefabStr, name, "", "", "" });
+                table.Rows.Add(new object[] { info.id, sceneStr, prefabStr, name, info.text, "", "" });
             }
 
             return table;

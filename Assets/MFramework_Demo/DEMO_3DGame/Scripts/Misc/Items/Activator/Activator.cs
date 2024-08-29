@@ -8,7 +8,11 @@ using UnityEngine.Events;
 [RequireComponent(typeof(AudioSource))]
 public abstract class Activator : MonoBehaviour, IEntityContact
 {
+    /// <summary>
+    /// 离开时自动关闭
+    /// </summary>
     public bool autoToggle;
+
     public bool requireStomp;
     public bool requirePlayer;
     public AudioClip activateClip;

@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 17
 --- !u!114 &2310135954838910973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 16
 --- !u!114 &4955762764979587598
 MonoBehaviour:
   m_ObjectHideFlags: 0

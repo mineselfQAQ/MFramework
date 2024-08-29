@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(AudioSource))]
 public class Checkpoint : MonoBehaviour
 {
     public Transform respawn;
@@ -18,7 +19,7 @@ public class Checkpoint : MonoBehaviour
 
     protected virtual void Awake()
     {
-        m_audio = gameObject.GetOrAddComponent<AudioSource>();
+        m_audio = GetComponent<AudioSource>();
 
         m_collider = GetComponent<Collider>();
         m_collider.isTrigger = true;
