@@ -286,7 +286,7 @@ namespace MFramework
                 EditorUtility.DisplayProgressBar($"{nameof(CollectBundle)}", "搜集bundle信息", min + (max - min) * ((float)index / assetDic.Count));
             }
 
-            //外部资源不可用
+            //外部资源不可用(即不在ABBuildSetting.xml中的资源)
             if (notInRuleList.Count > 0)
             {
                 string message = string.Empty;
@@ -295,7 +295,7 @@ namespace MFramework
                     message += "\n" + notInRuleList[i];
                 }
                 EditorUtility.ClearProgressBar();
-                MLog.Print($"{typeof(Builder)}：存在意外或后缀不匹配的资源{message}", MLogType.Error);
+                MLog.Print($"{typeof(Builder)}：存在意外或后缀不匹配的资源：   {MLog.ColorWord("Tip：如果是Prefab，需要先获取其引用", Color.red)}{message}", MLogType.Error);
             }
 
             //将内部理顺(也就是排序)

@@ -1,1 +1,1 @@
-﻿Assets/AssetBundle/UI/TestUI.prefab	Assets/_Test/MUI/NewAudioMixer.mixer	Assets/AssetBundle/Common/Model.renderTexture
+﻿Assets/AssetBundle/Test/GameObject.prefab	Assets/AssetBundle/Test/Alarm.aif
