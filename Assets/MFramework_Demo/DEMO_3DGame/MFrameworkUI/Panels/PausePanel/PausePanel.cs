@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MFramework;
+using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PausePanel : PausePanelBase
@@ -47,5 +49,10 @@ public class PausePanel : PausePanelBase
     {
         CloseWidget(settingWdigetName, onFinish);
         LevelPauser.Instance.DecreaseLevel();
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

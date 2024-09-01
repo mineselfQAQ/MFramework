@@ -6,7 +6,7 @@ public class AB_Coroutine : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
         MCoroutineManager.Instance.StartCoroutine(InitAsync(), "StartLoad", () => { MLog.Print("初始化完成"); });
     }

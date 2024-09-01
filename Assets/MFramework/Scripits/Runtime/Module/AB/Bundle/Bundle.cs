@@ -24,6 +24,7 @@ namespace MFramework
             //加载文件(由Unity提供)
             assetBundle = AssetBundle.LoadFromFile(file, 0, BundleManager.Instance.offset);
             isStreamedSceneAssetBundle = assetBundle.isStreamedSceneAssetBundle;
+            if(isStreamedSceneAssetBundle)
 
             done = true;//说明该bundle已完成加载
         }

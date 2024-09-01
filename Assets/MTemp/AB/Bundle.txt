@@ -1,3 +1,1614 @@
-﻿assets/assetbundle/test.ab
-	Assets/AssetBundle/Test/Alarm.aif
-	Assets/AssetBundle/Test/GameObject.prefab
+﻿assets/mframework_demo/demo_3dgame/animations.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_AirDive.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Backflip.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Brake.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_ClimbDown.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_ClimbIdle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_ClimbUp.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Crawl.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_CrawlIdle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Crouch.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Dash.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Default.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Die.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Fall.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Gliding.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Grind.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Hold.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Hurt.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Idle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Jump.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_LedgeClimbing.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_LedgeHangingIdle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_LedgeHangingMoving.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Run.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Spin.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Stomp.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Swim.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_SwimIdle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Throw.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_Walk.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/PlayerClips/Player_WallSlide.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/SlimeClips/Slime_Default.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/SlimeClips/Slime_Die.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/SlimeClips/Slime_Idle.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Clip/SlimeClips/Slime_Walk.anim
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Controller/Player.controller
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/Controller/Slime.controller
+	Assets/MFramework_Demo/DEMO_3DGame/Animations/UpperBody.mask
+assets/mframework_demo/demo_3dgame/audios/effects/air_dive.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/air_dive.wav
+assets/mframework_demo/demo_3dgame/audios/effects/alarm.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Alarm.aif
+assets/mframework_demo/demo_3dgame/audios/effects/attack_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/attack_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/attack_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/attack_3.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_3.wav
+assets/mframework_demo/demo_3dgame/audios/effects/attack_4.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_4.wav
+assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/bouncy_item.wav
+assets/mframework_demo/demo_3dgame/audios/effects/break.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/break.wav
+assets/mframework_demo/demo_3dgame/audios/effects/close_glider.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/close_glider.wav
+assets/mframework_demo/demo_3dgame/audios/effects/coin01.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Coin01.aif
+assets/mframework_demo/demo_3dgame/audios/effects/dash.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/dash.wav
+assets/mframework_demo/demo_3dgame/audios/effects/downer01.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Downer01.aif
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_grass_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_grass_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_grass_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_metal_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_metal_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_metal_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_regular_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_regular_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_regular_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_wood_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_wood_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_wood_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/fx01.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/FX01.aif
+assets/mframework_demo/demo_3dgame/audios/effects/fx02.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/FX02.aif
+assets/mframework_demo/demo_3dgame/audios/effects/hurt_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/hurt_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/hurt_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/hurt_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/hurt_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/hurt_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/hurt_3.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/hurt_3.wav
+assets/mframework_demo/demo_3dgame/audios/effects/hurt_4.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/hurt_4.wav
+assets/mframework_demo/demo_3dgame/audios/effects/jump_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/jump_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/jump_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/jump_3.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_3.wav
+assets/mframework_demo/demo_3dgame/audios/effects/jump_4.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_4.wav
+assets/mframework_demo/demo_3dgame/audios/effects/lift_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/lift_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/lift_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/lift_3.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_3.wav
+assets/mframework_demo/demo_3dgame/audios/effects/lift_4.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_4.wav
+assets/mframework_demo/demo_3dgame/audios/effects/maneuver_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/maneuver_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/maneuver_2.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_2.wav
+assets/mframework_demo/demo_3dgame/audios/effects/maneuver_3.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_3.wav
+assets/mframework_demo/demo_3dgame/audios/effects/maneuver_4.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_4.wav
+assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/mud_splash_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/mud_splash_1.wav
+assets/mframework_demo/demo_3dgame/audios/effects/open_glider.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/open_glider.wav
+assets/mframework_demo/demo_3dgame/audios/effects/pick.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/pick.wav
+assets/mframework_demo/demo_3dgame/audios/effects/rail_grind.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/rail_grind.wav
+assets/mframework_demo/demo_3dgame/audios/effects/rise01.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise01.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise02.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise02.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise03.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise03.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise04.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise04.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise05.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise05.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise06.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise06.aif
+assets/mframework_demo/demo_3dgame/audios/effects/rise07.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise07.aif
+assets/mframework_demo/demo_3dgame/audios/effects/short_spin.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/short_spin.wav
+assets/mframework_demo/demo_3dgame/audios/effects/spin.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/spin.wav
+assets/mframework_demo/demo_3dgame/audios/effects/spring.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/spring.wav
+assets/mframework_demo/demo_3dgame/audios/effects/squish.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/squish.wav
+assets/mframework_demo/demo_3dgame/audios/effects/start_rail_grind.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/start_rail_grind.wav
+assets/mframework_demo/demo_3dgame/audios/effects/stomp.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/stomp.wav
+assets/mframework_demo/demo_3dgame/audios/effects/teleport.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/teleport.wav
+assets/mframework_demo/demo_3dgame/audios/effects/throw.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/throw.wav
+assets/mframework_demo/demo_3dgame/audios/effects/upper01.aif.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Upper01.aif
+assets/mframework_demo/demo_3dgame/audios/effects/water_splash_0.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/water_splash_0.wav
+assets/mframework_demo/demo_3dgame/audios/effects/water_splash_1.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/water_splash_1.wav
+assets/mframework_demo/demo_3dgame/audios/musics/8bit bossa.wav.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Audios/Musics/8bit Bossa.wav
+assets/mframework_demo/demo_3dgame/fonts.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF BlackOutline.asset
+	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF BlackOutlinex2.asset
+	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF Header.asset
+	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset
+	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular.otf
+assets/mframework_demo/demo_3dgame/materials/blueslime.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/BlueSlime.mat
+assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing equirect.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing Equirect.mat
+assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing.mat
+assets/mframework_demo/demo_3dgame/materials/player.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Player.mat
+assets/mframework_demo/demo_3dgame/materials/redslime.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/RedSlime.mat
+assets/mframework_demo/demo_3dgame/materials/items/bluecoin.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/BlueCoin.mat
+assets/mframework_demo/demo_3dgame/materials/items/board.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Board.mat
+assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_Black.mat
+assets/mframework_demo/demo_3dgame/materials/items/checker_brown.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_Brown.mat
+assets/mframework_demo/demo_3dgame/materials/items/checker_gray.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_Gray.mat
+assets/mframework_demo/demo_3dgame/materials/items/checker_green.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_Green.mat
+assets/mframework_demo/demo_3dgame/materials/items/checker_white.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_White.mat
+assets/mframework_demo/demo_3dgame/materials/items/circlebouncingplatform.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/CircleBouncingPlatform.mat
+assets/mframework_demo/demo_3dgame/materials/items/coin.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Coin.mat
+assets/mframework_demo/demo_3dgame/materials/items/emptyitemcube.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/EmptyItemCube.mat
+assets/mframework_demo/demo_3dgame/materials/items/endzone.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/EndZone.mat
+assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Firer.mat
+assets/mframework_demo/demo_3dgame/materials/items/glider.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Glider.mat
+assets/mframework_demo/demo_3dgame/materials/items/gridplatform.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/GridPlatform.mat
+assets/mframework_demo/demo_3dgame/materials/items/heart.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Heart.mat
+assets/mframework_demo/demo_3dgame/materials/items/itemcube.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/ItemCube.mat
+assets/mframework_demo/demo_3dgame/materials/items/log.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Log.mat
+assets/mframework_demo/demo_3dgame/materials/items/mud.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Mud.mat
+assets/mframework_demo/demo_3dgame/materials/items/platform.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Platform.mat
+assets/mframework_demo/demo_3dgame/materials/items/pole.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Pole.mat
+assets/mframework_demo/demo_3dgame/materials/items/rail.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Rail.mat
+assets/mframework_demo/demo_3dgame/materials/items/red.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Red.mat
+assets/mframework_demo/demo_3dgame/materials/items/redcoin.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/RedCoin.mat
+assets/mframework_demo/demo_3dgame/materials/items/shadow.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Shadow.mat
+assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Spike.mat
+assets/mframework_demo/demo_3dgame/materials/items/spikelog.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SpikeLog.mat
+assets/mframework_demo/demo_3dgame/materials/items/squarefallingplatform.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SquareFallingPlatform.mat
+assets/mframework_demo/demo_3dgame/materials/items/star.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Star.mat
+assets/mframework_demo/demo_3dgame/materials/items/triggerbutton.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/TriggerButton.mat
+assets/mframework_demo/demo_3dgame/materials/items/water.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Water.mat
+assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Aura.mat
+assets/mframework_demo/demo_3dgame/materials/particles/fire.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Fire.mat
+assets/mframework_demo/demo_3dgame/materials/particles/leaf.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaf.mat
+assets/mframework_demo/demo_3dgame/materials/particles/leaves.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaves.mat
+assets/mframework_demo/demo_3dgame/materials/particles/portal.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat
+assets/mframework_demo/demo_3dgame/materials/particles/ring.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Ring.mat
+assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Smoke.mat
+assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Sparkle.mat
+assets/mframework_demo/demo_3dgame/materials/particles/starparticle.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/StarParticle.mat
+assets/mframework_demo/demo_3dgame/materials/particles/trail.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Trail.mat
+assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Wind.mat
+assets/mframework_demo/demo_3dgame/meshes/board.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Board.fbx
+assets/mframework_demo/demo_3dgame/meshes/checkpoint.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Checkpoint.fbx
+assets/mframework_demo/demo_3dgame/meshes/circlebouncingplatform.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/CircleBouncingPlatform.fbx
+assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Coin.fbx
+assets/mframework_demo/demo_3dgame/meshes/endzone.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/EndZone.fbx
+assets/mframework_demo/demo_3dgame/meshes/firer.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Firer.fbx
+assets/mframework_demo/demo_3dgame/meshes/girdplatform.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/GirdPlatform.fbx
+assets/mframework_demo/demo_3dgame/meshes/glider.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Glider.fbx
+assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Heart.fbx
+assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/ItemCube.fbx
+assets/mframework_demo/demo_3dgame/meshes/lilyhead.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/LilyHead.fbx
+assets/mframework_demo/demo_3dgame/meshes/log.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Log.fbx
+assets/mframework_demo/demo_3dgame/meshes/player.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Player.fbx
+assets/mframework_demo/demo_3dgame/meshes/roundcube.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/RoundCube.fbx
+assets/mframework_demo/demo_3dgame/meshes/slime.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Slime.fbx
+assets/mframework_demo/demo_3dgame/meshes/spike.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Spike.fbx
+assets/mframework_demo/demo_3dgame/meshes/spikelog.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/SpikeLog.fbx
+assets/mframework_demo/demo_3dgame/meshes/star.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Star.fbx
+assets/mframework_demo/demo_3dgame/meshes/triggerbutton.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/TriggerButton.fbx
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/fileselectpanel/fileselectpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FileSelectPanel/FileSelectPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/flasheffect/flasheffect.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FlashEffect/FlashEffect.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/hudpanel/hudpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/levelselectpanel/levelselectpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LevelSelectPanel/LevelSelectPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/titlescreenpanel/titlescreenpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TitleScreenPanel/TitleScreenPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/levelcard/levelcardwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LevelCard/LevelCardWidget.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/savecard/savecardwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SaveCard/SaveCardWidget.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commoncamera#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONCAMERA#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONGAME#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commonlevel#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONLEVEL#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commonmusic#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONMUSIC#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commonsound#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONSOUND#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#playercamera#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#PLAYERCAMERA#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#uipanel#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#UIPANEL#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/entities/patrolslime.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/PatrolSlime.prefab
+assets/mframework_demo/demo_3dgame/prefabs/entities/player.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/Player.prefab
+assets/mframework_demo/demo_3dgame/prefabs/entities/waypointslime.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/WaypointSlime.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/board.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Board.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/checkpoint.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Checkpoint.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/circlebouncingplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/CircleBouncingPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/coinlog.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/CoinLog.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/deadzone.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/DeadZone.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/finishzone.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/FinishZone.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/firer.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Firer.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/girdplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/GirdPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/glider.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Glider.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/leavesgravitylift.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/LeavesGravityLift.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/log.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Log.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/movingplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/MovingPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/mudpool.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/MudPool.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/pole.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Pole.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/spike.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Spike.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/spikelog.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/SpikeLog.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/squarefallingplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/SquareFallingPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/waterpool.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/WaterPool.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/board.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Board.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/flower.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Flower.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/flower2.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Flower2.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/grass 1.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass 1.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/grass2.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass2.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/grassplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/GrassPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/longlog.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/LongLog.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/mushroom.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Mushroom.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/pole.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Pole.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/rock.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Rock.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/shortlog.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/ShortLog.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/sign.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/SIgn.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/singlepost.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/SinglePost.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/smallstone.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/SmallStone.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/tallgrassplatform.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/TallGrassPlatform.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/tree.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Tree.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/tree2.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Tree2.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/coinparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CoinParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/explosionparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/ExplosionParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/itemparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/ItemParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/leavesparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/LeavesParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/windparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/WindParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_10x1x10.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Terrain/Checker_10x1x10.prefab
+assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_1x1x1.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Terrain/Checker_1x1x1.prefab
+assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_5x1x5.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Terrain/Checker_5x1x5.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/crate/coincrate.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/CoinCrate.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/crate/crate.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/Crate.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/crate/heartcrate.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/HeartCrate.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/crate/lifecrate.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/LifeCrate.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/crate/metalcrate.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/MetalCrate.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_coin5x.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/ItemCube/ItemCube_Coin5x.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_empty.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/ItemCube/ItemCube_Empty.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_heart.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/ItemCube/ItemCube_Heart.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_life.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/ItemCube/ItemCube_Life.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/portal/blueportal.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Portal/BluePortal.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/portal/redportal.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Portal/RedPortal.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/trigger/activatedfirer.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Trigger/ActivatedFirer.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/trigger/activatedspike.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Trigger/ActivatedSpike.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/trigger/triggerbutton.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Trigger/TriggerButton.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/dashsmokeparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/DashSmokeParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/dustparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/DustParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/grindtrailparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/GrindTrailParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/landingsmokeparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/LandingSmokeParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/speedtrailsparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/SpeedTrailsParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/starsdustparticle.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/StarsDustParticle.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/level1/#scene#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Level1/#SCENE#.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---collectables---.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Collectables---.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---hazard---.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Hazard---.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---major---.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Major---.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---misc---.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Misc---.prefab
+assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---terrain---.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Terrain---.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/bluecoin.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Coin/BlueCoin.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/bouncycoin.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Coin/BouncyCoin.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/coin.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Coin/Coin.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/hiddencoin.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Coin/HiddenCoin.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/redcoin.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Coin/RedCoin.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/heart/bouncyheart.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Heart/BouncyHeart.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/heart/heart.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Heart/Heart.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/life/bouncylife.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Life/BouncyLife.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/life/life.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Life/Life.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/star/activatedstar.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Star/ActivatedStar.prefab
+assets/mframework_demo/demo_3dgame/prefabs/items/collectables/star/star.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Collectables/Star/Star.prefab
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1.unity.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1.unity
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel.unity.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel.unity
+assets/mframework_demo/demo_3dgame/scenes/3dgame_starter.unity.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Starter.unity
+assets/mframework_demo/demo_3dgame/scenes/3dgame_titlescreen.unity.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_TitleScreen.unity
+assets/mframework_demo/demo_3dgame/scenes/prefabchecker.unity.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/PrefabChecker.unity
+assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/3DGameAudioMixer.mixer
+assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultEnemyStats.asset
+assets/mframework_demo/demo_3dgame/settings/defaultplayerstats.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultPlayerStats.asset
+assets/mframework_demo/demo_3dgame/settings/defaultpostprocessing.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultPostProcessing.asset
+assets/mframework_demo/demo_3dgame/settings/player input actions.inputactions.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/Player Input Actions.inputactions
+assets/mframework_demo/demo_3dgame/settings/titlescreen.playable.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/TitleScreen.playable
+assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/WaterPostProcessing.asset
+assets/mframework_demo/demo_3dgame/shaders/lit reflective.shadergraph.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/Lit Reflective.shadergraph
+assets/mframework_demo/demo_3dgame/shaders/lit rim.shadergraph.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/Lit Rim.shadergraph
+assets/mframework_demo/demo_3dgame/shaders/projectorlight.shader.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/ProjectorLight.shader
+assets/mframework_demo/demo_3dgame/shaders/projectormultiply.shader.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/ProjectorMultiply.shader
+assets/mframework_demo/demo_3dgame/shaders/triplanar.shadergraph.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/Triplanar.shadergraph
+assets/mframework_demo/demo_3dgame/shaders/water.shadergraph.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/Water.shadergraph
+assets/mframework_demo/demo_3dgame/sprites/components.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Arrow.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_Blue.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_Red.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_White.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/ButtonBlack.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Cross.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Popup_Black.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_BG_Black.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_Fill_Blue.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_Handle_White.Png
+assets/mframework_demo/demo_3dgame/sprites/icons.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Coin.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Coin_Full.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Heart.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Lock02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Music.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Sound.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Life.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Setting.Png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Star_Big.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Star_Small.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/StarSlot.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Timer.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Trash.png
+assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/Chinese.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/English.png
+assets/mframework_demo/demo_3dgame/sprites/preview.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Level1.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Sample.png
+assets/mframework_demo/demo_3dgame/sprites/ui.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/More Rounded.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Rounded.png
+assets/mframework_demo/demo_3dgame/textures/cubemap.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/reflection.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Equirect.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_0_Front+Z.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_1_Back-Z.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_2_Left+X.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_3_Right-X.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_4_Up+Y.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_5_Down-Y.png
+assets/mframework_demo/demo_3dgame/textures/entities.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Lily.png
+assets/mframework_demo/demo_3dgame/textures/items.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Board.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Checkpoint.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Coin_AO.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/EmptyItemCube.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/EndZone.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Firer.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Glider.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/GridPlatform.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/ItemCube.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Leaves.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Log.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Pole.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Slime_Blue.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Slime_Red.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Spike.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/SpikeLog.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/TriggerButton.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Water.png
+assets/mframework_demo/demo_3dgame/textures/noise.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
+assets/mframework_demo/demo_3dgame/textures/particles.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_13.png
+assets/mframework_demo/demo_3dgame/textures/prototype/green.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_13.png
+assets/mframework_demo/demo_3dgame/textures/prototype/light.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_13.png
+assets/mframework_demo/demo_3dgame/textures/prototype/orange.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Orange/texture_13.png
+assets/mframework_demo/demo_3dgame/textures/prototype/purple.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Purple/texture_13.png
+assets/mframework_demo/demo_3dgame/textures/prototype/red.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_01.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_02.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_03.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_04.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_06.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_07.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_08.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_09.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_10.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_11.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_12.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_13.png
+assets/textmesh pro/shaders/tmp_bitmap-custom-atlas.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader
+assets/textmesh pro/shaders/tmp_bitmap-mobile.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader
+assets/textmesh pro/shaders/tmp_bitmap.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader
+assets/textmesh pro/shaders/tmp_sdf overlay.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader
+assets/textmesh pro/shaders/tmp_sdf ssd.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader
+assets/textmesh pro/shaders/tmp_sdf-mobile masking.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader
+assets/textmesh pro/shaders/tmp_sdf-mobile overlay.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
+assets/textmesh pro/shaders/tmp_sdf-mobile ssd.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader
+assets/textmesh pro/shaders/tmp_sdf-mobile.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+assets/textmesh pro/shaders/tmp_sdf-surface-mobile.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader
+assets/textmesh pro/shaders/tmp_sdf-surface.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader
+assets/textmesh pro/shaders/tmp_sdf.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_SDF.shader
+assets/textmesh pro/shaders/tmp_sprite.shader.ab
+	Assets/TextMesh Pro/Shaders/TMP_Sprite.shader
+packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
+	Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions
+assets/mresources/models/kenney.ab
+	Assets/MResources/Models/Kenney/NatureKit/bed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bed_floor.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_center_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_center_stoneRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_center_wood.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_center_woodRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_side_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_side_stoneRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_side_wood.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_side_woodRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneNarrow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneRoundNarrow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_wood.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_woodNarrow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_woodRound.fbx
+	Assets/MResources/Models/Kenney/NatureKit/bridge_woodRoundNarrow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cactus_short.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cactus_tall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/campfire_bricks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/campfire_logs.fbx
+	Assets/MResources/Models/Kenney/NatureKit/campfire_planks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/campfire_stones.fbx
+	Assets/MResources/Models/Kenney/NatureKit/canoe.fbx
+	Assets/MResources/Models/Kenney/NatureKit/canoe_paddle.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_block_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_block_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockCave_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockCave_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockDiagonal_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockDiagonal_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockHalf_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockHalf_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockQuarter_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockQuarter_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlope_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlope_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeHalfWalls_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeHalfWalls_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeWalls_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeWalls_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cave_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cave_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_corner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_corner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerLarge_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerLarge_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerTop_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerTop_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerLarge_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerLarge_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerTop_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerTop_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_diagonal_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_diagonal_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_half_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_half_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCorner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCorner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCornerInner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCornerInner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_large_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_large_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_steps_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_steps_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCorner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCorner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCornerInner_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCornerInner_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_top_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_top_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_topDiagonal_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_topDiagonal_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfall_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfall_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfallTop_rock.fbx
+	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfallTop_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crop_carrot.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crop_melon.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crop_pumpkin.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crop_turnip.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_bambooStageA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_bambooStageB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRowCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRowEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRowCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRowEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_dirtSingle.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_leafsStageA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_leafsStageB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_wheatStageA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/crops_wheatStageB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_bend.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_bendCenter.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_corner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_gate.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_planks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_planksDouble.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simple.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simpleCenter.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simpleDiagonal.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simpleDiagonalCenter.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simpleHigh.fbx
+	Assets/MResources/Models/Kenney/NatureKit/fence_simpleLow.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_purpleA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_purpleB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_purpleC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_redA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_redB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_redC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_yellowA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_yellowB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/flower_yellowC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/grass.fbx
+	Assets/MResources/Models/Kenney/NatureKit/grass_large.fbx
+	Assets/MResources/Models/Kenney/NatureKit/grass_leafs.fbx
+	Assets/MResources/Models/Kenney/NatureKit/grass_leafsLarge.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_grass.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathBend.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathBendBank.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathCornerSmall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathCross.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathEndClosed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathRocks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathSide.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathSideOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathSplit.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathStraight.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_pathTile.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverBend.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverBendBank.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverCornerSmall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverCross.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverEndClosed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverRocks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverSide.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverSideOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverSplit.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverStraight.fbx
+	Assets/MResources/Models/Kenney/NatureKit/ground_riverTile.fbx
+	Assets/MResources/Models/Kenney/NatureKit/hanging_moss.fbx
+	Assets/MResources/Models/Kenney/NatureKit/lily_large.fbx
+	Assets/MResources/Models/Kenney/NatureKit/lily_small.fbx
+	Assets/MResources/Models/Kenney/NatureKit/log.fbx
+	Assets/MResources/Models/Kenney/NatureKit/log_large.fbx
+	Assets/MResources/Models/Kenney/NatureKit/log_stack.fbx
+	Assets/MResources/Models/Kenney/NatureKit/log_stackLarge.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_red.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_redGroup.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_redTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_tan.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_tanGroup.fbx
+	Assets/MResources/Models/Kenney/NatureKit/mushroom_tanTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_stoneCircle.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_stoneCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_stoneEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_wood.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_woodCorner.fbx
+	Assets/MResources/Models/Kenney/NatureKit/path_woodEnd.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bush.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bushDetailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bushLarge.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bushLargeTriangle.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bushSmall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_bushTriangle.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_flatShort.fbx
+	Assets/MResources/Models/Kenney/NatureKit/plant_flatTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/platform_beach.fbx
+	Assets/MResources/Models/Kenney/NatureKit/platform_grass.fbx
+	Assets/MResources/Models/Kenney/NatureKit/platform_stone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/pot_large.fbx
+	Assets/MResources/Models/Kenney/NatureKit/pot_small.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_largeF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallG.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallH.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallI.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallTopA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_smallTopB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallG.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallH.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallI.fbx
+	Assets/MResources/Models/Kenney/NatureKit/rock_tallJ.fbx
+	Assets/MResources/Models/Kenney/NatureKit/sign.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_block.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_column.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_columnDamaged.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_head.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_obelisk.fbx
+	Assets/MResources/Models/Kenney/NatureKit/statue_ring.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_largeF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallG.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallH.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallI.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallTopA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_smallTopB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallG.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallH.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallI.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stone_tallJ.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_old.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_oldTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_round.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_roundDetailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_square.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_squareDetailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/stump_squareDetailedWide.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tent_detailedClosed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tent_detailedOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tent_smallClosed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tent_smallOpen.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_blocks.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_blocks_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_blocks_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_cone.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_cone_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_cone_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_default.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_default_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_default_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_detailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_detailed_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_detailed_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_fat.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_fat_darkh.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_fat_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_oak.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_oak_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_oak_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palm.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palmBend.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palmDetailedShort.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palmDetailedTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palmShort.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_palmTall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineDefaultA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineDefaultB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineGroundA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineGroundB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundE.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundF.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallA.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallA_detailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallB.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallB_detailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallC.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallC_detailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallD.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallD_detailed.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_plateau.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_plateau_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_plateau_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_simple.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_simple_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_simple_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_small.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_small_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_small_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_tall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_tall_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_tall_fall.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_thin.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_thin_dark.fbx
+	Assets/MResources/Models/Kenney/NatureKit/tree_thin_fall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/arrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/arrows.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/barrel.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-overhang.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-overhang-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve-half.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-edge.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-steep.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-steep-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-edge.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-steep.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-steep-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-moving.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-moving-blue.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-moving-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-overhang.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-overhang-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve-half.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-edge.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-steep.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-steep-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-edge.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-steep.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-steep-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-hexagon.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-narrow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/bomb.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/button-round.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/button-square.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/chest.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/coin-bronze.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/coin-gold.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/coin-silver.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate-item.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate-item-strong.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate-strong.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/door-large-open.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/door-open.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/door-rotate.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/door-rotate-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-broken.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-corner-curved.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-low-broken.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-low-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-low-corner-curved.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-low-straight.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/fence-straight.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/flag.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/flowers.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/flowers-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/grass.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/heart.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/hedge.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/hedge-corner.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/jewel.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/key.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/ladder.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/ladder-broken.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/ladder-long.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/lever.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/lock.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/mushrooms.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/plant.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/platform.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/platform-fortified.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/platform-overhang.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/platform-ramp.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/poles.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/rocks.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/saw.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/sign.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/spike-block.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/spike-block-wide.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/stones.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/Textures/colormap.png
+	Assets/MResources/Models/Kenney/PlatformKit/Textures/variation-a.png
+	Assets/MResources/Models/Kenney/PlatformKit/trap-spikes.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/trap-spikes-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-pine.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-small.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-snow.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-snow-small.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-snow.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/barrel.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/barrel-open.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bedroll.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bedroll-frame.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bedroll-packed.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bottle.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bottle-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/box.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/box-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/box-large-open.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/box-open.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bucket.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/campfire-fishing-stand.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/campfire-pit.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/campfire-stand.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/chest.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/fence.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/fence-doorway.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/fence-fortified.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/fish.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/fish-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/floor.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/floor-hole.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/floor-old.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/grass.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/grass-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-narrow.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws-half.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws-narrow.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/patch-grass.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/patch-grass-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/resource-planks.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/resource-stone.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/resource-stone-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/resource-wood.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-a.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-b.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-c.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-flat.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-flat-grass.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-a.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-b.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-c.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/signpost.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/signpost-single.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-canvas.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-floor.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-doorway.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-floor.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-roof.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-wall.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/structure-roof.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tent.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tent-canvas.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tent-canvas-half.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/Textures/colormap.png
+	Assets/MResources/Models/Kenney/SurvivalKit/Textures/variation-a.png
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-axe.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-axe-upgraded.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-hammer.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-hammer-upgraded.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-hoe.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-hoe-upgraded.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-pickaxe.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-pickaxe-upgraded.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-shovel.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tool-shovel-upgraded.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn-tall.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn-trunk.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-log.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-log-small.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-tall.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-trunk.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/workbench.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/workbench-anvil.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/workbench-grind.fbx
+	Assets/MResources/Models/Kenney/TownKit/balconyWall.fbx
+	Assets/MResources/Models/Kenney/TownKit/balconyWallFence.fbx
+	Assets/MResources/Models/Kenney/TownKit/bannerGreen.fbx
+	Assets/MResources/Models/Kenney/TownKit/bannerRed.fbx
+	Assets/MResources/Models/Kenney/TownKit/blade.fbx
+	Assets/MResources/Models/Kenney/TownKit/cart.fbx
+	Assets/MResources/Models/Kenney/TownKit/cartHigh.fbx
+	Assets/MResources/Models/Kenney/TownKit/chimney.fbx
+	Assets/MResources/Models/Kenney/TownKit/chimneyBase.fbx
+	Assets/MResources/Models/Kenney/TownKit/chimneyTop.fbx
+	Assets/MResources/Models/Kenney/TownKit/fence.fbx
+	Assets/MResources/Models/Kenney/TownKit/fenceBroken.fbx
+	Assets/MResources/Models/Kenney/TownKit/fenceCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/fenceGate.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainCenter.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainCornerInner.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainCornerInnerSquare.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainEdge.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainRoundDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainSquare.fbx
+	Assets/MResources/Models/Kenney/TownKit/fountainSquareDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedge.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedgeCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedgeGate.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedgeLarge.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedgeLargeCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/hedgeLargeGate.fbx
+	Assets/MResources/Models/Kenney/TownKit/lantern.fbx
+	Assets/MResources/Models/Kenney/TownKit/overhang.fbx
+	Assets/MResources/Models/Kenney/TownKit/pillarStone.fbx
+	Assets/MResources/Models/Kenney/TownKit/pillarWood.fbx
+	Assets/MResources/Models/Kenney/TownKit/planks.fbx
+	Assets/MResources/Models/Kenney/TownKit/planksHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/planksOpening.fbx
+	Assets/MResources/Models/Kenney/TownKit/poles.fbx
+	Assets/MResources/Models/Kenney/TownKit/polesHorizontal.fbx
+	Assets/MResources/Models/Kenney/TownKit/road.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadBend.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadCornerInner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadCurb.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadCurbEnd.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadEdge.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadEdgeSlope.fbx
+	Assets/MResources/Models/Kenney/TownKit/roadSlope.fbx
+	Assets/MResources/Models/Kenney/TownKit/rockLarge.fbx
+	Assets/MResources/Models/Kenney/TownKit/rockSmall.fbx
+	Assets/MResources/Models/Kenney/TownKit/rockWide.fbx
+	Assets/MResources/Models/Kenney/TownKit/roof.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofCornerInner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofCornerRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofFlat.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofGable.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofGableDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofGableEnd.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofGableTop.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHigh.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighCornerInner.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighCornerRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighFlat.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighGable.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighGableDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighGableEnd.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighGableTop.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighLeft.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighPoint.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighRight.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofHighWindow.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofLeft.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofPoint.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofRight.fbx
+	Assets/MResources/Models/Kenney/TownKit/roofWindow.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsFull.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsFullCornerInner.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsFullCornerOuter.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsStone.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsStoneCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsStoneHandrail.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsStoneRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWideStone.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWideStoneHandrail.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWideWood.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWideWoodHandrail.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWood.fbx
+	Assets/MResources/Models/Kenney/TownKit/stairsWoodHandrail.fbx
+	Assets/MResources/Models/Kenney/TownKit/stall.fbx
+	Assets/MResources/Models/Kenney/TownKit/stallBench.fbx
+	Assets/MResources/Models/Kenney/TownKit/stallGreen.fbx
+	Assets/MResources/Models/Kenney/TownKit/stallRed.fbx
+	Assets/MResources/Models/Kenney/TownKit/stallStool.fbx
+	Assets/MResources/Models/Kenney/TownKit/tree.fbx
+	Assets/MResources/Models/Kenney/TownKit/treeCrooked.fbx
+	Assets/MResources/Models/Kenney/TownKit/treeHigh.fbx
+	Assets/MResources/Models/Kenney/TownKit/treeHighCrooked.fbx
+	Assets/MResources/Models/Kenney/TownKit/treeHighRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/wall.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallArch.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallArchTop.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallArchTopDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallBlock.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallBlockHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallBroken.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCornerDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCornerDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCornerDiagonalHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCornerEdge.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDetailCross.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDetailDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDetailHorizontal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoor.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoorwayBase.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoorwayRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquare.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquareWide.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquareWideCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallRounded.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallSide.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallSlope.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWindowGlass.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWindowRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWindowShutters.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWindowSmall.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWindowStone.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWood.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodArch.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodArchTop.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodArchTopDetail.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodBlock.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodBlockHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodBroken.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodCorner.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerDiagonalHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerEdge.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailCross.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailHorizontal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDiagonal.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoor.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwayBase.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwayRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquare.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquareWide.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquareWideCurved.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodHalf.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodRounded.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodSide.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodSlope.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowGlass.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowRound.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowShutters.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowSmall.fbx
+	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowStone.fbx
+	Assets/MResources/Models/Kenney/TownKit/watermill.fbx
+	Assets/MResources/Models/Kenney/TownKit/watermillWide.fbx
+	Assets/MResources/Models/Kenney/TownKit/wheel.fbx
+	Assets/MResources/Models/Kenney/TownKit/windmill.fbx
+packages/com.unity.postprocessing/postprocessing.ab
+	Packages/com.unity.postprocessing/PostProcessing/Gizmos/PostProcessLayer.png
+	Packages/com.unity.postprocessing/PostProcessing/PostProcessResources.asset
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/AutoExposure.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Bloom.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Copy.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/CopyStd.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/CopyStdFromDoubleWide.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/CopyStdFromTexArray.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/DeferredFog.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/DepthOfField.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/DiscardAlpha.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/ExposureHistogram.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/FinalPass.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/GaussianDownsample.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/GrainBaker.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Lut2DBaker.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Lut3DBaker.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MotionBlur.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MultiScaleVO.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MultiScaleVODownsample1.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MultiScaleVODownsample2.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MultiScaleVORender.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/MultiScaleVOUpsample.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/ScalableAO.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/ScreenSpaceReflections.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/SubpixelMorphologicalAntialiasing.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/TemporalAntialiasing.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Texture2DLerp.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Texture3DLerp.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Uber.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Histogram.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Histogram.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/LightMeter.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Overlays.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Vectorscope.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Vectorscope.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Waveform.compute
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Waveform.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/ConvertToLog.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/CurveGrid.shader
+	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/Trackball.shader
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_0.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_1.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_2.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_3.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_4.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_5.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_6.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_7.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_0.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_1.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_10.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_11.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_12.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_13.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_14.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_15.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_16.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_17.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_18.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_19.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_2.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_20.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_21.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_22.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_23.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_24.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_25.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_26.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_27.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_28.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_29.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_3.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_30.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_31.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_32.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_33.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_34.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_35.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_36.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_37.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_38.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_39.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_4.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_40.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_41.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_42.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_43.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_44.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_45.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_46.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_47.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_48.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_49.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_5.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_50.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_51.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_52.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_53.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_54.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_55.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_56.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_57.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_58.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_59.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_6.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_60.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_61.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_62.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_63.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_7.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_8.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_9.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt00.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt01.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt02.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt03.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/LUTs/NeutralLdrLut.png
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SMAA/AreaTex.tga
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SMAA/SearchTex.tga
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_BlueRed.tga
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_GreenPurple.tga
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_PurpleGreen.tga
+	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_RedBlue.tga
+assets/mframework_demo/demo_3dgame/textures/projectors.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.controller
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Spline.asset
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
+assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultLighting.lighting
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_loop.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Loop.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget_Close.anim

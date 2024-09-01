@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MFramework;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class FileSelectPanel : FileSelectPanelBase
@@ -52,5 +54,10 @@ public class FileSelectPanel : FileSelectPanelBase
                 EventSystem.current.SetSelectedGameObject(m_cardList[0].m_NewGameBtn_MButton.gameObject);
             }
         }
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

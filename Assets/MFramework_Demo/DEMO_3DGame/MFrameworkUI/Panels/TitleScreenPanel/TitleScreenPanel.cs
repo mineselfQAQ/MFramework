@@ -1,12 +1,9 @@
-﻿using UnityEngine.UI;
+﻿using MFramework;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleScreenPanel : TitleScreenPanelBase
 {
-    public override void Init()
-    {
-        
-    }
-
     protected override void OnClicked(Button button) 
     {
         if (button == m_StartBtn_MButton)
@@ -15,15 +12,8 @@ public class TitleScreenPanel : TitleScreenPanelBase
         }
     }
 
-    protected override void OnCreating() { }
-
-    protected override void OnCreated() { }
-
-    protected override void OnDestroying() { }
-
-    protected override void OnDestroyed() { }
-    
-    protected override void OnVisibleChanged(bool visible) { }
-    
-    protected override void OnFocusChanged(bool focus) { }
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
+    }
 }

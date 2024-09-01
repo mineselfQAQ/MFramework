@@ -6,9 +6,9 @@ public class ABController : MonoBehaviour
 {
     protected virtual void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
-        MCoroutineManager.Instance.StartCoroutine(InitAsync(), "STARTLOAD", () => { MLog.Print("AB初始化完成"); });
+        //MCoroutineManager.Instance.StartCoroutine(InitAsync(), "STARTLOAD", () => { MLog.Print("AB初始化完成"); });
     }
     protected virtual void Update()
     {

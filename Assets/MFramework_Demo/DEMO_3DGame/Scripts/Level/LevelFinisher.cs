@@ -53,7 +53,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
         m_score.FullSave();
         if (string.IsNullOrEmpty(nextScene))//无下一个场景(最后一个场景)
         {
-            m_loader.Load(UIController.titleScreenSceneName, () =>
+            m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
             {
                 m_controller.CloseHUD();
 
@@ -68,7 +68,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
         }
         else
         {
-            m_loader.Load(nextScene, () =>
+            m_loader.Load(nextScene, $"{ABPath.ABROOTPATH}/{nextScene}.unity", () =>
             {
                 Game.LockCursor();
                 OnFinish?.Invoke(false);
@@ -84,7 +84,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
         yield return new WaitForSeconds(loadingDelay);
 
-        m_loader.Load(UIController.titleScreenSceneName, () =>
+        m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
         {
             m_controller.CloseHUD();
 

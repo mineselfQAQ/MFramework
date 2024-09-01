@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MFramework;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelCardWidget : LevelCardWidgetBase
@@ -39,7 +40,7 @@ public class LevelCardWidget : LevelCardWidgetBase
 
     public virtual void Play()
     {
-        GameLoader.Instance.Load(scene, () =>
+        GameLoader.Instance.Load(scene, $"{ABPath.ABROOTPATH}/{scene}.unity", () =>
         {
             UIController.Instance.bottomRoot.ClosePanel(UIController.levelSelectPanelName);
         });
@@ -61,5 +62,10 @@ public class LevelCardWidget : LevelCardWidgetBase
             m_Star1_MImage.enabled = level.stars[1];
             m_Star2_MImage.enabled = level.stars[2];
         }
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

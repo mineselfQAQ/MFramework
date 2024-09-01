@@ -69,7 +69,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         //GameLoader.Instance.Reload();
         //方案2：返回选关界面
         m_score.GameOverSave();
-        m_loader.Load(UIController.titleScreenSceneName, () =>
+        m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
         {
             m_controller.CloseHUD();
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MFramework;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -45,5 +47,10 @@ public class LevelSelectPanel : LevelSelectPanelBase
         {
             UIController.Instance.LevelSelectBackToFileSelect();
         }
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

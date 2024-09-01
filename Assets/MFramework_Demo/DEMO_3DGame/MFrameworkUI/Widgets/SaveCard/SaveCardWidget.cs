@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MFramework;
+using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -80,5 +82,10 @@ public class SaveCardWidget : SaveCardWidgetBase
         GameSaver.Instance.Save(data, m_index);
         Fill(m_index, data);
         EventSystem.current.SetSelectedGameObject(m_LoadBtn_MButton.gameObject);
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

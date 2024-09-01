@@ -35,38 +35,43 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string flashEffectName = "FLASHEFFECT";
 
     public static readonly string titleScreenSceneName = "3DGame_TitleScreen";
+    public static readonly string starterSceneName = "3DGame_Starter";
 
     protected FlashEffect flashEffect;
 
     protected override void Awake()
     {
         base.Awake();
-        //UIManager.Instance.SetDontDestroyOnLoad();
 
+        //UIManager.Instance.SetDontDestroyOnLoad();
         panelDic = new Dictionary<string, UIPanel>();
 
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
-
-        //用于切换场景过渡用
-        flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
-        topRoot.SetSortingOrder(flashEffectName, 1997);
-        CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
-        topRoot.SetSortingOrder(loadPanelName, 1998);
-        CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
-        topRoot.SetSortingOrder(pausePanelName, 1999);
-
-        //其它场景直接启动(用于测试)不创建TitleScreenPanel
-#if UNITY_EDITOR
-        if (EditorSceneManager.GetActiveScene().name != titleScreenSceneName)
+        //等待AB初始化完成
+        MCoroutineManager.Instance.DelayNoRecord(() =>
         {
-            return;
-        }
+            //用于切换场景过渡用
+            flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
+            topRoot.SetSortingOrder(flashEffectName, 1997);
+            CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
+            topRoot.SetSortingOrder(loadPanelName, 1998);
+            CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
+            topRoot.SetSortingOrder(pausePanelName, 1999);
+
+            //其它场景直接启动(用于测试)不创建TitleScreenPanel
+#if UNITY_EDITOR
+            if (EditorSceneManager.GetActiveScene().name != titleScreenSceneName && EditorSceneManager.GetActiveScene().name != starterSceneName)
+            {
+                Debug.Log("OK");
+                return;
+            }
 #endif
 
-        //初始进入TitleScreenPanel
-        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
+            //初始进入TitleScreenPanel
+            CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
+        }, 0.1f);
     }
 
     protected void Update()

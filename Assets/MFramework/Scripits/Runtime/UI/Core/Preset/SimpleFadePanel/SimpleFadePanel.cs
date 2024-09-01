@@ -1,23 +1,11 @@
-﻿using UnityEngine.UI;
+﻿using MFramework;
+using UnityEngine;
 
 public class SimpleFadePanel : SimpleFadePanelBase
 {
-    public override void Init()
+    protected override GameObject LoadPrefab(string prefabPath)
     {
-        
+        IResource panelResource = ResourceManager.Instance.Load(prefabPath, false);
+        return panelResource.GetAsset<GameObject>();
     }
-
-    protected override void OnClicked(Button button) { }
-
-    protected override void OnCreating() { }
-
-    protected override void OnCreated() { }
-
-    protected override void OnDestroying() { }
-
-    protected override void OnDestroyed() { }
-    
-    protected override void OnVisibleChanged(bool visible) { }
-    
-    protected override void OnFocusChanged(bool focus) { }
 }

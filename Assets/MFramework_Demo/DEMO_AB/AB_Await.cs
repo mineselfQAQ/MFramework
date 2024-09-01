@@ -5,7 +5,7 @@ public class AB_Await : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
         Initialize();
     }

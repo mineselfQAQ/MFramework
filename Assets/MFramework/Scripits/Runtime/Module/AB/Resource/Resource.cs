@@ -12,7 +12,7 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(url))
             {
-                MLog.Print($"{nameof(Resource)}.{nameof(Load)}：{url}为空，请检查", MLogType.Error);
+                MLog.Print($"{nameof(Resource)}.{nameof(Load)}：url为空，请检查", MLogType.Error);
             }
             if (bundle != null)
             {
@@ -31,6 +31,8 @@ namespace MFramework
 
         internal override void LoadAsset()
         {
+            if (bundle.isStreamedSceneAssetBundle) return;
+
             if (bundle == null)
             {
                 MLog.Print($"{nameof(Resource)}.{nameof(LoadAsset)}：Bundle为空，请检查", MLogType.Error);

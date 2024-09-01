@@ -5,7 +5,7 @@ public class AB_Callback : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(ABUtility.GetPlatform(), AB.GetFileUrl, 0);
+        ResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
         ResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/UIRoot.prefab", true, uiRootResource =>
         {

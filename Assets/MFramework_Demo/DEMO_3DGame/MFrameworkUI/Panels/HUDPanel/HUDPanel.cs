@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MFramework;
+using UnityEngine;
 
 public class HUDPanel : HUDPanelBase
 {
@@ -82,5 +83,10 @@ public class HUDPanel : HUDPanelBase
             m_Timer_MText.text = GameLevel.FormattedTime(m_score.time);
             timerStep = 0;
         }
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MFramework;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingWidget : SettingWidgetBase
@@ -63,5 +64,10 @@ public class SettingWidget : SettingWidgetBase
     {
         m_LanguageIcon_MImage.sprite = infos[i].flag;
         m_LanguageText_MText.text = infos[i].languageName;
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtitlity.LoadSync(prefabPath);
     }
 }
