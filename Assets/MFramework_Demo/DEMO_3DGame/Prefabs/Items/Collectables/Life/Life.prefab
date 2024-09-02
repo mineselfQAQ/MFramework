@@ -81,7 +81,6 @@ MonoBehaviour:
   hasLifeTime: 0
   lifeTimeDuration: 5
   usePhysics: 0
-  minForceToStopPhysics: 3
   collisionRadius: 0.5
   gravity: 30
   bounciness: 0.98
@@ -314,27 +313,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4238208892528935982, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.7254902
+      value: 0.114142045
       objectReference: {fileID: 0}
     - target: {fileID: 4238208892528935982, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.14117648
+      value: 0.12710477
       objectReference: {fileID: 0}
     - target: {fileID: 4238208892528935982, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.8509804
+      value: 0.8962264
       objectReference: {fileID: 0}
     - target: {fileID: 6011372760475743830, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.7255963
+      value: 0.14117648
       objectReference: {fileID: 0}
     - target: {fileID: 6011372760475743830, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.14017442
+      value: 0.14117648
       objectReference: {fileID: 0}
     - target: {fileID: 6011372760475743830, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.8490566
+      value: 0.8509804
       objectReference: {fileID: 0}
     - target: {fileID: 6229095858999069095, guid: f781d13df7917ce44a8514eb81add7f7, type: 3}
       propertyPath: m_Name

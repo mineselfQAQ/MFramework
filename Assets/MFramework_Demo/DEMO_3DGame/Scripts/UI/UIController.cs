@@ -9,6 +9,9 @@ using UnityEditor.SceneManagement;
 
 public class UIController : ComponentSingleton<UIController>
 {
+    [Header("SponsorDisplayPanel Settings")]
+    public float stayTime = 2.0f;
+
     [Header("HUD Settings")]
     public string HUDRetriesFormat = "00";
     public string HUDCoinsFormat = "000";
@@ -25,8 +28,10 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string panelPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels";
     public static readonly string widgetPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets";
 
+    public static readonly string sponsorDisplayPanelName = "SPONSOR";
     public static readonly string loadPanelName = "LOADING";
     public static readonly string pausePanelName = "PAUSE";
+    public static readonly string restartPanelName = "RESTART";
     public static readonly string HUDPanelName = "HUD";
     public static readonly string titleScreenPanelName = "TITLESCREEN";
     public static readonly string fileSelectPanelName = "FILESELECT";
@@ -49,29 +54,27 @@ public class UIController : ComponentSingleton<UIController>
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
-        //等待AB初始化完成
-        MCoroutineManager.Instance.DelayNoRecord(() =>
-        {
-            //用于切换场景过渡用
-            flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
-            topRoot.SetSortingOrder(flashEffectName, 1997);
-            CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
-            topRoot.SetSortingOrder(loadPanelName, 1998);
-            CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
-            topRoot.SetSortingOrder(pausePanelName, 1999);
+        //用于切换场景过渡用
+        flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
+        topRoot.SetSortingOrder(flashEffectName, 1995);
+        CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
+        topRoot.SetSortingOrder(loadPanelName, 1996);
+        CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
+        topRoot.SetSortingOrder(pausePanelName, 1997);
+        CreatePanel<RestartPanel>(topRoot, restartPanelName, $"{panelPrepath}/RestartPanel/RestartPanel.prefab", false);
+        topRoot.SetSortingOrder(restartPanelName, 1998);
+        CreatePanel<SponsorDisplayPanel>(topRoot, sponsorDisplayPanelName, $"{panelPrepath}/SponsorDisplayPanel/SponsorDisplayPanel.prefab", false);
+        topRoot.SetSortingOrder(sponsorDisplayPanelName, 1999);
 
-            //其它场景直接启动(用于测试)不创建TitleScreenPanel
+        //其它场景直接启动(用于测试)不创建TitleScreenPanel
 #if UNITY_EDITOR
-            if (EditorSceneManager.GetActiveScene().name != titleScreenSceneName && EditorSceneManager.GetActiveScene().name != starterSceneName)
-            {
-                Debug.Log("OK");
-                return;
-            }
+        if (EditorSceneManager.GetActiveScene().name != starterSceneName)
+        {
+            return;
+        }
 #endif
-
-            //初始进入TitleScreenPanel
-            CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", true);
-        }, 0.1f);
+        //创建TitleScreenPanel
+        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", false);
     }
 
     protected void Update()
@@ -106,6 +109,30 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
+    public void OpenRestartPanel(Action onFinish = null)
+    {
+        ((RestartPanel)panelDic[restartPanelName]).Refresh();
+        topRoot.OpenPanel(restartPanelName, onFinish);
+    }
+    public void CloseRestartPanel(Action onFinish = null)
+    {
+        topRoot.ClosePanel(restartPanelName, onFinish);
+    }
+
+    public void OpenSponsorDisplayPanel(Action onFinish = null)
+    {
+        topRoot.OpenPanel(sponsorDisplayPanelName, onFinish);
+    }
+    public void CloseSponsorDisplayPanel(Action onFinish = null)
+    {
+        topRoot.ClosePanel(sponsorDisplayPanelName, onFinish);
+    }
+
+    public void OpenTitleScreenPanel(Action onFinish = null)
+    {
+        bottomRoot.OpenPanel(titleScreenPanelName, onFinish);
+    }
+
     public void OpenPausePanel(Action onFinish = null)
     {
         topRoot.OpenPanel(pausePanelName, onFinish);
@@ -114,8 +141,6 @@ public class UIController : ComponentSingleton<UIController>
     {
         topRoot.ClosePanel(pausePanelName, onFinish);
     }
-
-
 
     public void CreateOrOpenHUD(Action onFinish = null)
     {

@@ -26,8 +26,8 @@ MonoBehaviour:
   contactDamage: 1
   contactPushBackForce: 18
   contactSteppingTolerance: 0.1
-  spotRange: 5
-  viewRange: 8
+  patrolEnterRange: 8
+  patrolExitRange: 10
   followAcceleration: 10
   followTopSpeed: 2.5
   faceWaypoint: 1

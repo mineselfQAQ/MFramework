@@ -1,5 +1,4 @@
-﻿using MFramework;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelCardWidget : LevelCardWidgetBase

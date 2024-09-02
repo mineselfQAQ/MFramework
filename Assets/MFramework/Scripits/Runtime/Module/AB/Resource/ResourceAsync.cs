@@ -47,6 +47,13 @@ namespace MFramework
             //先要等待Bundle完成
             if (!bundle.done) return false;
 
+            //对于场景情况，直接结算即可
+            if (bundle.assetBundle.isStreamedSceneAssetBundle)
+            {
+                LoadAsset();
+                return true;
+            }
+
             if (assetBundleRequest == null)
             {
                 LoadAssetAsync();//拿到assetBundleRequest(异步获取资源)

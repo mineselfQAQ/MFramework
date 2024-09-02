@@ -49,9 +49,9 @@ public class EnemyStats : EntityStats<EnemyStats>
     public float contactPushBackForce = 18f;
     public float contactSteppingTolerance = 0.1f;
 
-    [Header("View Stats")]
-    public float spotRange = 5f;
-    public float viewRange = 8f;
+    [Header("Patrol Stats")]
+    public float patrolEnterRange = 5f;
+    public float patrolExitRange = 8f;
 
     [Header("Follow Stats")]
     public float followAcceleration = 10f;

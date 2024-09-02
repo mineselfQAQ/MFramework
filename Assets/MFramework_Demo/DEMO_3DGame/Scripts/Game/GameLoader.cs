@@ -36,7 +36,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
         if (!isLoading && (currentScene != scene))
         {
 //#if UNITY_EDITOR
-//            StartCoroutine(LoadRoutine(scene, onLoadFinishInternal));
+//          StartCoroutine(LoadRoutine(scene, onLoadFinishInternal));
 //#else
             StartCoroutine(ABLoadRoutine(abPath, scene, onLoadFinishInternal));
 //#endif
@@ -45,7 +45,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
     public virtual void Reload(string abPath = null, Action onLoadFinishInternal = null)
     {
 //#if UNITY_EDITOR
-//        StartCoroutine(LoadRoutine(currentScene, onLoadFinishInternal));
+//      StartCoroutine(LoadRoutine(currentScene, onLoadFinishInternal));
 //#else
         StartCoroutine(ABLoadRoutine(abPath, currentScene, onLoadFinishInternal));
 //#endif

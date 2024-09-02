@@ -33,6 +33,7 @@ public abstract class Collectable : MonoBehaviour
     public float bounciness = 0.98f;
     public float maxBounceYVelocity = 10f;
     public bool randomizeInitialDirection = true;
+    public Vector2Int randomVerticalMinMax = new Vector2Int(0, 30);
     public Vector3 initialVelocity = new Vector3(0, 12, 0);
     public AudioClip collisionClip;
 
@@ -54,8 +55,8 @@ public abstract class Collectable : MonoBehaviour
     protected float m_elapsedGhostingTime;
     protected Vector3 m_velocity;
 
-    protected const int VERTICALMINROTATION = 0;
-    protected const int VERTICALMAXROTATION = 30;
+    //protected const int VERTICALMINROTATION = 0;
+    //protected const int VERTICALMAXROTATION = 30;
     protected const int HORIZONTALMINROTATION = 0;
     protected const int HORIZONTALMAXROTATION = 360;
 
@@ -121,14 +122,14 @@ public abstract class Collectable : MonoBehaviour
     }
     protected virtual void InitializeVelocity()
     {
-        var direction = initialVelocity.normalized;//方向
-        var force = initialVelocity.magnitude;//力
+        Vector3 direction = initialVelocity.normalized;//方向
+        float force = initialVelocity.magnitude;//力
         
         //开启随机方向
         if (randomizeInitialDirection)
         {
-            var randomZ = Random.Range(VERTICALMINROTATION, VERTICALMAXROTATION);
-            var randomY = Random.Range(HORIZONTALMINROTATION, HORIZONTALMAXROTATION);
+            int randomZ = Random.Range(randomVerticalMinMax.x, randomVerticalMinMax.y);
+            int randomY = Random.Range(HORIZONTALMINROTATION, HORIZONTALMAXROTATION);
             direction = Quaternion.Euler(0, 0, randomZ) * direction;
             direction = Quaternion.Euler(0, randomY, 0) * direction;
         }

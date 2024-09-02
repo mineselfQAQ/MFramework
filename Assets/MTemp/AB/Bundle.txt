@@ -326,6 +326,10 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/restartpanel/restartpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/RestartPanel/RestartPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/titlescreenpanel/titlescreenpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TitleScreenPanel/TitleScreenPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/levelcard/levelcardwidget.prefab.ab
@@ -334,6 +338,8 @@ assets/mframework_demo/demo_3dgame/mframeworkui/widgets/savecard/savecardwidget.
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SaveCard/SaveCardWidget.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONAB#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commoncamera#.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONCAMERA#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
@@ -617,12 +623,12 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -707,759 +713,24 @@ assets/mframework_demo/demo_3dgame/textures/prototype/red.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_11.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_12.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_13.png
-assets/textmesh pro/shaders/tmp_bitmap-custom-atlas.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader
-assets/textmesh pro/shaders/tmp_bitmap-mobile.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader
-assets/textmesh pro/shaders/tmp_bitmap.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader
-assets/textmesh pro/shaders/tmp_sdf overlay.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader
-assets/textmesh pro/shaders/tmp_sdf ssd.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader
-assets/textmesh pro/shaders/tmp_sdf-mobile masking.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader
-assets/textmesh pro/shaders/tmp_sdf-mobile overlay.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
-assets/textmesh pro/shaders/tmp_sdf-mobile ssd.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader
-assets/textmesh pro/shaders/tmp_sdf-mobile.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
-assets/textmesh pro/shaders/tmp_sdf-surface-mobile.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader
-assets/textmesh pro/shaders/tmp_sdf-surface.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader
 assets/textmesh pro/shaders/tmp_sdf.shader.ab
 	Assets/TextMesh Pro/Shaders/TMP_SDF.shader
-assets/textmesh pro/shaders/tmp_sprite.shader.ab
-	Assets/TextMesh Pro/Shaders/TMP_Sprite.shader
-packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
-	Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions
-assets/mresources/models/kenney.ab
-	Assets/MResources/Models/Kenney/NatureKit/bed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bed_floor.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_center_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_center_stoneRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_center_wood.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_center_woodRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_side_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_side_stoneRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_side_wood.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_side_woodRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneNarrow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_stoneRoundNarrow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_wood.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_woodNarrow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_woodRound.fbx
-	Assets/MResources/Models/Kenney/NatureKit/bridge_woodRoundNarrow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cactus_short.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cactus_tall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/campfire_bricks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/campfire_logs.fbx
-	Assets/MResources/Models/Kenney/NatureKit/campfire_planks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/campfire_stones.fbx
-	Assets/MResources/Models/Kenney/NatureKit/canoe.fbx
-	Assets/MResources/Models/Kenney/NatureKit/canoe_paddle.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_block_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_block_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockCave_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockCave_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockDiagonal_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockDiagonal_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockHalf_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockHalf_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockQuarter_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockQuarter_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlope_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlope_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeHalfWalls_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeHalfWalls_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeWalls_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_blockSlopeWalls_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cave_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cave_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_corner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_corner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerLarge_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerLarge_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerTop_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerInnerTop_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerLarge_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerLarge_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerTop_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_cornerTop_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_diagonal_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_diagonal_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_half_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_half_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCorner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCorner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCornerInner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_halfCornerInner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_large_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_large_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_steps_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_steps_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCorner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCorner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCornerInner_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_stepsCornerInner_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_top_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_top_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_topDiagonal_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_topDiagonal_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfall_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfall_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfallTop_rock.fbx
-	Assets/MResources/Models/Kenney/NatureKit/cliff_waterfallTop_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crop_carrot.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crop_melon.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crop_pumpkin.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crop_turnip.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_bambooStageA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_bambooStageB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_cornStageD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRowCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtDoubleRowEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRowCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtRowEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_dirtSingle.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_leafsStageA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_leafsStageB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_wheatStageA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/crops_wheatStageB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_bend.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_bendCenter.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_corner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_gate.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_planks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_planksDouble.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simple.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simpleCenter.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simpleDiagonal.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simpleDiagonalCenter.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simpleHigh.fbx
-	Assets/MResources/Models/Kenney/NatureKit/fence_simpleLow.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_purpleA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_purpleB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_purpleC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_redA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_redB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_redC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_yellowA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_yellowB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/flower_yellowC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/grass.fbx
-	Assets/MResources/Models/Kenney/NatureKit/grass_large.fbx
-	Assets/MResources/Models/Kenney/NatureKit/grass_leafs.fbx
-	Assets/MResources/Models/Kenney/NatureKit/grass_leafsLarge.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_grass.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathBend.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathBendBank.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathCornerSmall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathCross.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathEndClosed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathRocks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathSide.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathSideOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathSplit.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathStraight.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_pathTile.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverBend.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverBendBank.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverCornerSmall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverCross.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverEndClosed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverRocks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverSide.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverSideOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverSplit.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverStraight.fbx
-	Assets/MResources/Models/Kenney/NatureKit/ground_riverTile.fbx
-	Assets/MResources/Models/Kenney/NatureKit/hanging_moss.fbx
-	Assets/MResources/Models/Kenney/NatureKit/lily_large.fbx
-	Assets/MResources/Models/Kenney/NatureKit/lily_small.fbx
-	Assets/MResources/Models/Kenney/NatureKit/log.fbx
-	Assets/MResources/Models/Kenney/NatureKit/log_large.fbx
-	Assets/MResources/Models/Kenney/NatureKit/log_stack.fbx
-	Assets/MResources/Models/Kenney/NatureKit/log_stackLarge.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_red.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_redGroup.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_redTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_tan.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_tanGroup.fbx
-	Assets/MResources/Models/Kenney/NatureKit/mushroom_tanTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_stoneCircle.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_stoneCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_stoneEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_wood.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_woodCorner.fbx
-	Assets/MResources/Models/Kenney/NatureKit/path_woodEnd.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bush.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bushDetailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bushLarge.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bushLargeTriangle.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bushSmall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_bushTriangle.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_flatShort.fbx
-	Assets/MResources/Models/Kenney/NatureKit/plant_flatTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/platform_beach.fbx
-	Assets/MResources/Models/Kenney/NatureKit/platform_grass.fbx
-	Assets/MResources/Models/Kenney/NatureKit/platform_stone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/pot_large.fbx
-	Assets/MResources/Models/Kenney/NatureKit/pot_small.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_largeF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallFlatC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallG.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallH.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallI.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallTopA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_smallTopB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallG.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallH.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallI.fbx
-	Assets/MResources/Models/Kenney/NatureKit/rock_tallJ.fbx
-	Assets/MResources/Models/Kenney/NatureKit/sign.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_block.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_column.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_columnDamaged.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_head.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_obelisk.fbx
-	Assets/MResources/Models/Kenney/NatureKit/statue_ring.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_largeF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallFlatC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallG.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallH.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallI.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallTopA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_smallTopB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallG.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallH.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallI.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stone_tallJ.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_old.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_oldTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_round.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_roundDetailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_square.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_squareDetailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/stump_squareDetailedWide.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tent_detailedClosed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tent_detailedOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tent_smallClosed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tent_smallOpen.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_blocks.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_blocks_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_blocks_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_cone.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_cone_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_cone_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_default.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_default_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_default_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_detailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_detailed_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_detailed_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_fat.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_fat_darkh.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_fat_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_oak.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_oak_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_oak_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palm.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palmBend.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palmDetailedShort.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palmDetailedTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palmShort.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_palmTall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineDefaultA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineDefaultB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineGroundA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineGroundB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundE.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineRoundF.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineSmallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallA.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallA_detailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallB.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallB_detailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallC.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallC_detailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallD.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_pineTallD_detailed.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_plateau.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_plateau_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_plateau_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_simple.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_simple_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_simple_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_small.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_small_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_small_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_tall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_tall_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_tall_fall.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_thin.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_thin_dark.fbx
-	Assets/MResources/Models/Kenney/NatureKit/tree_thin_fall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/arrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/arrows.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/barrel.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-overhang.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-corner-overhang-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve-half.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-curve-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-edge.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-steep.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-slope-steep-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-low-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-edge.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-steep.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-slope-steep-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-large-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-low-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-overhang-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-moving.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-moving-blue.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-moving-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-overhang.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-corner-overhang-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve-half.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-curve-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-edge.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-steep.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-slope-steep-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-large-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-low-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-edge.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-steep.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-slope-steep-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-large-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-hexagon.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-low-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-snow-overhang-narrow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/bomb.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/button-round.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/button-square.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/chest.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/coin-bronze.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/coin-gold.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/coin-silver.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate-item.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate-item-strong.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate-strong.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/door-large-open.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/door-open.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/door-rotate.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/door-rotate-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-broken.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-corner-curved.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-low-broken.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-low-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-low-corner-curved.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-low-straight.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/fence-straight.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/flag.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/flowers.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/flowers-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/grass.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/heart.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/hedge.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/hedge-corner.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/jewel.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/key.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/ladder.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/ladder-broken.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/ladder-long.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/lever.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/lock.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/mushrooms.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/plant.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/platform.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/platform-fortified.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/platform-overhang.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/platform-ramp.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/poles.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/rocks.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/saw.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/sign.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/spike-block.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/spike-block-wide.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/stones.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/Textures/colormap.png
-	Assets/MResources/Models/Kenney/PlatformKit/Textures/variation-a.png
-	Assets/MResources/Models/Kenney/PlatformKit/trap-spikes.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/trap-spikes-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-pine.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-small.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-snow.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-pine-snow-small.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-snow.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/barrel.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/barrel-open.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bedroll.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bedroll-frame.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bedroll-packed.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bottle.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bottle-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/box.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/box-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/box-large-open.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/box-open.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bucket.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/campfire-fishing-stand.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/campfire-pit.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/campfire-stand.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/chest.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/fence.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/fence-doorway.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/fence-fortified.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/fish.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/fish-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/floor.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/floor-hole.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/floor-old.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/grass.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/grass-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-narrow.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws-half.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/metal-panel-screws-narrow.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/patch-grass.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/patch-grass-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/resource-planks.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/resource-stone.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/resource-stone-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/resource-wood.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-a.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-b.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-c.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-flat.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-flat-grass.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-a.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-b.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/rock-sand-c.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/signpost.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/signpost-single.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-canvas.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-floor.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-doorway.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-floor.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-roof.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-metal-wall.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/structure-roof.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tent.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tent-canvas.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tent-canvas-half.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/Textures/colormap.png
-	Assets/MResources/Models/Kenney/SurvivalKit/Textures/variation-a.png
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-axe.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-axe-upgraded.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-hammer.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-hammer-upgraded.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-hoe.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-hoe-upgraded.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-pickaxe.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-pickaxe-upgraded.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-shovel.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tool-shovel-upgraded.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn-tall.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-autumn-trunk.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-log.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-log-small.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-tall.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-trunk.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/workbench.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/workbench-anvil.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/workbench-grind.fbx
-	Assets/MResources/Models/Kenney/TownKit/balconyWall.fbx
-	Assets/MResources/Models/Kenney/TownKit/balconyWallFence.fbx
-	Assets/MResources/Models/Kenney/TownKit/bannerGreen.fbx
-	Assets/MResources/Models/Kenney/TownKit/bannerRed.fbx
-	Assets/MResources/Models/Kenney/TownKit/blade.fbx
-	Assets/MResources/Models/Kenney/TownKit/cart.fbx
-	Assets/MResources/Models/Kenney/TownKit/cartHigh.fbx
-	Assets/MResources/Models/Kenney/TownKit/chimney.fbx
-	Assets/MResources/Models/Kenney/TownKit/chimneyBase.fbx
-	Assets/MResources/Models/Kenney/TownKit/chimneyTop.fbx
-	Assets/MResources/Models/Kenney/TownKit/fence.fbx
-	Assets/MResources/Models/Kenney/TownKit/fenceBroken.fbx
-	Assets/MResources/Models/Kenney/TownKit/fenceCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/fenceGate.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainCenter.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainCornerInner.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainCornerInnerSquare.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainEdge.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainRoundDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainSquare.fbx
-	Assets/MResources/Models/Kenney/TownKit/fountainSquareDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedge.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedgeCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedgeGate.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedgeLarge.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedgeLargeCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/hedgeLargeGate.fbx
-	Assets/MResources/Models/Kenney/TownKit/lantern.fbx
-	Assets/MResources/Models/Kenney/TownKit/overhang.fbx
-	Assets/MResources/Models/Kenney/TownKit/pillarStone.fbx
-	Assets/MResources/Models/Kenney/TownKit/pillarWood.fbx
-	Assets/MResources/Models/Kenney/TownKit/planks.fbx
-	Assets/MResources/Models/Kenney/TownKit/planksHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/planksOpening.fbx
-	Assets/MResources/Models/Kenney/TownKit/poles.fbx
-	Assets/MResources/Models/Kenney/TownKit/polesHorizontal.fbx
-	Assets/MResources/Models/Kenney/TownKit/road.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadBend.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadCornerInner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadCurb.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadCurbEnd.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadEdge.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadEdgeSlope.fbx
-	Assets/MResources/Models/Kenney/TownKit/roadSlope.fbx
-	Assets/MResources/Models/Kenney/TownKit/rockLarge.fbx
-	Assets/MResources/Models/Kenney/TownKit/rockSmall.fbx
-	Assets/MResources/Models/Kenney/TownKit/rockWide.fbx
-	Assets/MResources/Models/Kenney/TownKit/roof.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofCornerInner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofCornerRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofFlat.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofGable.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofGableDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofGableEnd.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofGableTop.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHigh.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighCornerInner.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighCornerRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighFlat.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighGable.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighGableDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighGableEnd.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighGableTop.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighLeft.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighPoint.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighRight.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofHighWindow.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofLeft.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofPoint.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofRight.fbx
-	Assets/MResources/Models/Kenney/TownKit/roofWindow.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsFull.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsFullCornerInner.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsFullCornerOuter.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsStone.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsStoneCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsStoneHandrail.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsStoneRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWideStone.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWideStoneHandrail.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWideWood.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWideWoodHandrail.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWood.fbx
-	Assets/MResources/Models/Kenney/TownKit/stairsWoodHandrail.fbx
-	Assets/MResources/Models/Kenney/TownKit/stall.fbx
-	Assets/MResources/Models/Kenney/TownKit/stallBench.fbx
-	Assets/MResources/Models/Kenney/TownKit/stallGreen.fbx
-	Assets/MResources/Models/Kenney/TownKit/stallRed.fbx
-	Assets/MResources/Models/Kenney/TownKit/stallStool.fbx
-	Assets/MResources/Models/Kenney/TownKit/tree.fbx
-	Assets/MResources/Models/Kenney/TownKit/treeCrooked.fbx
-	Assets/MResources/Models/Kenney/TownKit/treeHigh.fbx
-	Assets/MResources/Models/Kenney/TownKit/treeHighCrooked.fbx
-	Assets/MResources/Models/Kenney/TownKit/treeHighRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/wall.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallArch.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallArchTop.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallArchTopDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallBlock.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallBlockHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallBroken.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCornerDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCornerDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCornerDiagonalHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCornerEdge.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDetailCross.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDetailDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDetailHorizontal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoor.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoorwayBase.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoorwayRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquare.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquareWide.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallDoorwaySquareWideCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallRounded.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallSide.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallSlope.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWindowGlass.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWindowRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWindowShutters.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWindowSmall.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWindowStone.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWood.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodArch.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodArchTop.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodArchTopDetail.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodBlock.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodBlockHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodBroken.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodCorner.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerDiagonalHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodCornerEdge.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailCross.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDetailHorizontal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDiagonal.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoor.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwayBase.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwayRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquare.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquareWide.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodDoorwaySquareWideCurved.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodHalf.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodRounded.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodSide.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodSlope.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowGlass.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowRound.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowShutters.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowSmall.fbx
-	Assets/MResources/Models/Kenney/TownKit/wallWoodWindowStone.fbx
-	Assets/MResources/Models/Kenney/TownKit/watermill.fbx
-	Assets/MResources/Models/Kenney/TownKit/watermillWide.fbx
-	Assets/MResources/Models/Kenney/TownKit/wheel.fbx
-	Assets/MResources/Models/Kenney/TownKit/windmill.fbx
+assets/mframework_demo/demo_3dgame/textures/projectors.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/restartpanel/restartpanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/RestartPanel/RestartPanel.controller
+assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/Mineself.jpg
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.controller
 packages/com.unity.postprocessing/postprocessing.ab
-	Packages/com.unity.postprocessing/PostProcessing/Gizmos/PostProcessLayer.png
 	Packages/com.unity.postprocessing/PostProcessing/PostProcessResources.asset
 	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/AutoExposure.compute
 	Packages/com.unity.postprocessing/PostProcessing/Shaders/Builtins/Bloom.shader
@@ -1497,9 +768,6 @@ packages/com.unity.postprocessing/postprocessing.ab
 	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Vectorscope.shader
 	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Waveform.compute
 	Packages/com.unity.postprocessing/PostProcessing/Shaders/Debug/Waveform.shader
-	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/ConvertToLog.shader
-	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/CurveGrid.shader
-	Packages/com.unity.postprocessing/PostProcessing/Shaders/Editor/Trackball.shader
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_0.png
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_1.png
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_2.png
@@ -1572,26 +840,32 @@ packages/com.unity.postprocessing/postprocessing.ab
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_7.png
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_8.png
 	Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_9.png
-	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt00.png
-	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt01.png
-	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt02.png
-	Packages/com.unity.postprocessing/PostProcessing/Textures/LensDirt/LensDirt03.png
-	Packages/com.unity.postprocessing/PostProcessing/Textures/LUTs/NeutralLdrLut.png
 	Packages/com.unity.postprocessing/PostProcessing/Textures/SMAA/AreaTex.tga
 	Packages/com.unity.postprocessing/PostProcessing/Textures/SMAA/SearchTex.tga
-	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_BlueRed.tga
-	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_GreenPurple.tga
-	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_PurpleGreen.tga
-	Packages/com.unity.postprocessing/PostProcessing/Textures/SpectralLUTs/SpectralLut_RedBlue.tga
-assets/mframework_demo/demo_3dgame/textures/projectors.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.controller.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.controller
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
-assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.controller
+packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
+	Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions
+assets/mresources/models/kenney.ab
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/crate-strong.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/flowers.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/flowers-tall.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/mushrooms.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/poles.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/rocks.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/sign.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/stones.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/Textures/colormap.png
+	Assets/MResources/Models/Kenney/PlatformKit/tree.fbx
+	Assets/MResources/Models/Kenney/PlatformKit/tree-pine.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/bucket.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/grass.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/grass-large.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/signpost-single.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/Textures/colormap.png
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-log.fbx
+	Assets/MResources/Models/Kenney/SurvivalKit/tree-log-small.fbx
 assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Spline.asset
 assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
@@ -1608,6 +882,14 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_ope
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/restartpanel/restartpanel_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/RestartPanel/RestartPanel_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/restartpanel/restartpanel_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/RestartPanel/RestartPanel_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_open.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_close.anim.ab

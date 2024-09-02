@@ -398,7 +398,8 @@ public class {ClassName} : {BaseClassName}
         private const string UNBINDCOMPSBASECODE = "{Name} = null;";
 
         private const string UIMAINCODE =
-    @"using UnityEngine.UI;
+    @"using UnityEngine;
+using UnityEngine.UI;
 
 public class {ClassName} : {BaseClassName}
 {
@@ -415,6 +416,11 @@ public class {ClassName} : {BaseClassName}
     protected override void OnClicked(Button button) 
     {
         
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return base.LoadPrefab(prefabPath);
     }
 
     protected override void OnCreating() { }

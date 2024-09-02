@@ -55,7 +55,8 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         yield return new WaitForSeconds(respawnStartDelay);
 
         //重生
-        MUIUtitlity.BlackIn(() => 
+        //TODO:Open动画具有变种(我觉得应该创2个Panel才对|||使用Widget)
+        UIController.Instance.OpenRestartPanel(() => 
         {
             StartCoroutine(RespawnRoutine(consumeRetries)); 
         });
@@ -69,6 +70,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         //GameLoader.Instance.Reload();
         //方案2：返回选关界面
         m_score.GameOverSave();
+        //TODO:应该添加死亡画面
         m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
         {
             m_controller.CloseHUD();
@@ -98,7 +100,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
 
         yield return new WaitForSeconds(respawnEndDelay);
 
-        MUIUtitlity.BlackOut(() =>
+        UIController.Instance.CloseRestartPanel(() =>
         {
             m_pauser.canPause = true;
             m_level.player.inputs.enabled = true;
@@ -111,7 +113,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_pauser.canPause = false;
         m_level.player.inputs.enabled = false;
         yield return new WaitForSeconds(restartDelay);
-        GameLoader.Instance.Reload();
+        GameLoader.Instance.Reload($"{ABPath.ABROOTPATH}/{m_loader.currentScene}.unity");
     }
 
     /// <summary>

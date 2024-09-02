@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: hasLifeTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8574536583823359187, guid: 6d8eff46bd58dc744996357eadb87680, type: 3}
+      propertyPath: randomVerticalMinMax.x
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

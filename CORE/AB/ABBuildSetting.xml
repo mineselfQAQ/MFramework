@@ -12,8 +12,8 @@
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Shaders/" ResourceType="Direct" BundleType="File" Suffix=".shader|.shadergraph" />
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Sprites/" ResourceType="Direct" BundleType="Directory" Suffix=".png" />
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Textures/" ResourceType="Direct" BundleType="Directory" Suffix=".png" />
-	<BuildItem AssetPath="Assets/TextMesh Pro/Shaders/" ResourceType="Direct" BundleType="File" Suffix=".shader" />
-	<BuildItem AssetPath="Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/" ResourceType="Direct" BundleType="All" Suffix=".inputactions" />
-	<BuildItem AssetPath="Assets/MResources/Models/Kenney/" ResourceType="Direct" BundleType="All" Suffix=".fbx|.png" />
-	<BuildItem AssetPath="Packages/com.unity.postprocessing/PostProcessing/" ResourceType="Direct" BundleType="All" Suffix=".asset|.shader|.png|.compute|.tga" />
+	<BuildItem AssetPath="Assets/TextMesh Pro/Shaders/" ResourceType="Dependency" BundleType="File" Suffix=".shader" />
+	<BuildItem AssetPath="Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/" ResourceType="Dependency" BundleType="All" Suffix=".inputactions" />
+	<BuildItem AssetPath="Assets/MResources/Models/Kenney/" ResourceType="Dependency" BundleType="All" Suffix=".fbx|.png" />
+	<BuildItem AssetPath="Packages/com.unity.postprocessing/PostProcessing/" ResourceType="Dependency" BundleType="All" Suffix=".asset|.shader|.png|.compute|.tga" />
 </BuildSetting>

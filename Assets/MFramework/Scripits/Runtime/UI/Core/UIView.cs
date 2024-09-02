@@ -119,7 +119,7 @@ namespace MFramework
             //实例化
             if (prefabPath != null)//提供路径模式
             {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
                 prefabPath = prefabPath.Replace('\\', '/');
                 prefabPath = DealEditorPath(prefabPath);
                 GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);

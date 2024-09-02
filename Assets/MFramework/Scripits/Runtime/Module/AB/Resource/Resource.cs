@@ -31,8 +31,6 @@ namespace MFramework
 
         internal override void LoadAsset()
         {
-            if (bundle.isStreamedSceneAssetBundle) return;
-
             if (bundle == null)
             {
                 MLog.Print($"{nameof(Resource)}.{nameof(LoadAsset)}：Bundle为空，请检查", MLogType.Error);
@@ -41,6 +39,7 @@ namespace MFramework
             //正在异步加载的资源要变成同步
             FreshAsyncAsset();
 
+            if (bundle.isStreamedSceneAssetBundle) return;//对于场景不需要LoadAsset()
             asset = bundle.LoadAsset(url, typeof(Object));
 
             done = true;

@@ -56,7 +56,7 @@ public class Enemy : Entity<Enemy>
                 if(player == null) Gizmos.color = Color.yellow;
                 else Gizmos.color = Color.red;
 
-                Gizmos.DrawWireSphere(position, stats.current.spotRange);
+                Gizmos.DrawWireSphere(position, stats.current.patrolEnterRange);
             }
         }
     }
@@ -125,7 +125,7 @@ public class Enemy : Entity<Enemy>
     {
         if (!player)//Î´·¢ÏÖPlayer×´Ì¬
         {
-            int overlapNum = Physics.OverlapSphereNonAlloc(position, stats.current.spotRange, m_sightOverlaps);
+            int overlapNum = Physics.OverlapSphereNonAlloc(position, stats.current.patrolEnterRange, m_sightOverlaps);
 
             for (int i = 0; i < overlapNum; i++)
             {
@@ -147,7 +147,7 @@ public class Enemy : Entity<Enemy>
 
             //ÍÑÀë×·×Ù×´Ì¬ÒªÇó£º
             //PlayerËÀÍö »ò Íæ¼Ò¾àÀë¹ýÔ¶(³¬¹ýviewRange)
-            if ((player.health.current == 0) || (distance > stats.current.viewRange))
+            if ((player.health.current == 0) || (distance > stats.current.patrolExitRange))
             {
                 player = null;
                 enemyEvents.OnPlayerScaped?.Invoke();

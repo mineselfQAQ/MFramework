@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: hasLifeTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 417668900142054463, guid: 5d3c04c6812afff42a48fd4cf322f668, type: 3}
+      propertyPath: randomVerticalMinMax.x
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1578164981866477427, guid: 5d3c04c6812afff42a48fd4cf322f668, type: 3}
       propertyPath: usePhysics
       value: 1
