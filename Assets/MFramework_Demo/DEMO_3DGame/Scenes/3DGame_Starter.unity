@@ -381,10 +381,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: '#UIPANEL#'
       objectReference: {fileID: 0}
-    - target: {fileID: 8415714817369368512, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

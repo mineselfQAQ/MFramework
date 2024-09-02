@@ -145,6 +145,7 @@ public class Player : Entity<Player>
     {
         health.SetToInit();
         transform.SetPositionAndRotation(m_respawnPosition, m_respawnRotation);
+        velocity = Vector3.zero;
         states.Change<IdlePlayerState>();
     }
     /// <summary>

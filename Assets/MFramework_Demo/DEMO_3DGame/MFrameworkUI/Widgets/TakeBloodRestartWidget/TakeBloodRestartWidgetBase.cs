@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RestartPanelBase : UIPanel
+public class TakeBloodRestartWidgetBase : UIWidget
 {
     protected MText m_OldRetriesNum_MText;
 	protected MText m_NewRetriesNum_MText;

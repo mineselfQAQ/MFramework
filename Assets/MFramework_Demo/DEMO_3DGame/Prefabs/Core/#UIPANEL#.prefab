@@ -629,7 +629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7337444883151893170, guid: 3bee8bfa5bd091049933f278998c7798, type: 3}
       propertyPath: m_Name
-      value: RestartPanel
+      value: TransitionPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7337444883151893170, guid: 3bee8bfa5bd091049933f278998c7798, type: 3}
       propertyPath: m_IsActive

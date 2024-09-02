@@ -55,8 +55,8 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         yield return new WaitForSeconds(respawnStartDelay);
 
         //重生
-        //TODO:Open动画具有变种(我觉得应该创2个Panel才对|||使用Widget)
-        UIController.Instance.OpenRestartPanel(() => 
+        //TODO:Open动画具有变种
+        UIController.Instance.OpenTakeBloodRestart(() => 
         {
             StartCoroutine(RespawnRoutine(consumeRetries)); 
         });
@@ -100,7 +100,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
 
         yield return new WaitForSeconds(respawnEndDelay);
 
-        UIController.Instance.CloseRestartPanel(() =>
+        UIController.Instance.CloseTakeBloodRestart(() =>
         {
             m_pauser.canPause = true;
             m_level.player.inputs.enabled = true;

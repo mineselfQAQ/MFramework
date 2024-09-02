@@ -31,7 +31,7 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string sponsorDisplayPanelName = "SPONSOR";
     public static readonly string loadPanelName = "LOADING";
     public static readonly string pausePanelName = "PAUSE";
-    public static readonly string restartPanelName = "RESTART";
+    public static readonly string transitionPanelName = "TRANSITION";
     public static readonly string HUDPanelName = "HUD";
     public static readonly string titleScreenPanelName = "TITLESCREEN";
     public static readonly string fileSelectPanelName = "FILESELECT";
@@ -61,8 +61,8 @@ public class UIController : ComponentSingleton<UIController>
         topRoot.SetSortingOrder(loadPanelName, 1996);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
         topRoot.SetSortingOrder(pausePanelName, 1997);
-        CreatePanel<RestartPanel>(topRoot, restartPanelName, $"{panelPrepath}/RestartPanel/RestartPanel.prefab", false);
-        topRoot.SetSortingOrder(restartPanelName, 1998);
+        CreatePanel<TransitionPanel>(topRoot, transitionPanelName, $"{panelPrepath}/TransitionPanel/TransitionPanel.prefab", false);
+        topRoot.SetSortingOrder(transitionPanelName, 1998);
         CreatePanel<SponsorDisplayPanel>(topRoot, sponsorDisplayPanelName, $"{panelPrepath}/SponsorDisplayPanel/SponsorDisplayPanel.prefab", false);
         topRoot.SetSortingOrder(sponsorDisplayPanelName, 1999);
 
@@ -109,14 +109,26 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
-    public void OpenRestartPanel(Action onFinish = null)
+    public void OpenTakeBloodRestart(Action onFinish = null)
     {
-        ((RestartPanel)panelDic[restartPanelName]).Refresh();
-        topRoot.OpenPanel(restartPanelName, onFinish);
+        topRoot.OpenPanel(transitionPanelName);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).OpenTakeBloodRestartWidget(onFinish);
     }
-    public void CloseRestartPanel(Action onFinish = null)
+    public void CloseTakeBloodRestart(Action onFinish = null)
     {
-        topRoot.ClosePanel(restartPanelName, onFinish);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseTakeBloodRestartWidget(() =>
+        {
+            topRoot.ClosePanel(transitionPanelName, onFinish);
+        });
+    }
+
+    public void OpenTransitionPanel(Action onFinish = null)
+    {
+        topRoot.OpenPanel(transitionPanelName, onFinish);
+    }
+    public void CloseTransitionPanel(Action onFinish = null)
+    {
+        topRoot.ClosePanel(transitionPanelName, onFinish);
     }
 
     public void OpenSponsorDisplayPanel(Action onFinish = null)
