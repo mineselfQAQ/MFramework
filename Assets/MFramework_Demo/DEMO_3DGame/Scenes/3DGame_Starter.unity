@@ -263,7 +263,7 @@ PrefabInstance:
     - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
       propertyPath: levels.Array.data[1].previewImage
       value: 
-      objectReference: {fileID: 21300000, guid: 85b32c32ae654654d949f0968e1f0a81, type: 3}
+      objectReference: {fileID: 21300000, guid: 8e23c8f829a46bc4aae13f759baf4384, type: 3}
     - target: {fileID: 3081326572307572522, guid: 6f1943e43d8a5b24aa08a8fe8133a73b, type: 3}
       propertyPath: levels.Array.data[0].names.Array.size
       value: 2

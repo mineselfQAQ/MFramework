@@ -32,11 +32,11 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
-  m_CustomReflection: {fileID: 0}
+  m_CustomReflection: {fileID: 8900000, guid: e7ea75bcd4dd76845a8711ce31274d1f, type: 3}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.37336826, g: 0.6107016, b: 0.8628783, a: 1}
   m_UseRadianceAmbientProbe: 0
