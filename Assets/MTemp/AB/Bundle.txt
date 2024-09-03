@@ -536,6 +536,70 @@ assets/mframework_demo/demo_3dgame/scenes/3dgame_titlescreen.unity.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_TitleScreen.unity
 assets/mframework_demo/demo_3dgame/scenes/prefabchecker.unity.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/PrefabChecker.unity
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-0_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-0_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-0_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-0_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-10_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-10_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-10_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-10_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-11_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-11_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-11_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-11_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-12_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-12_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-12_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-12_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-1_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-1_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-1_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-1_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-2_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-2_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-2_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-2_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-3_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-3_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-3_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-3_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-4_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-4_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-4_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-4_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-5_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-5_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-5_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-5_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-6_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-6_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-6_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-6_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-7_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-7_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-7_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-7_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-8_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-8_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-8_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-8_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-9_comp_dir.png.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-9_comp_dir.png
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/lightmap-9_comp_light.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/Lightmap-9_comp_light.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_level1/reflectionprobe-0.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1/ReflectionProbe-0.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/reflectionprobe-0.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/ReflectionProbe-0.exr
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_closedrail.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_ClosedRail.asset
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
+assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Spline.asset
+assets/mframework_demo/demo_3dgame/scenes/3dgame_titlescreen/reflectionprobe-0.exr.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_TitleScreen/ReflectionProbe-0.exr
 assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/3DGameAudioMixer.mixer
 assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
@@ -594,7 +658,7 @@ assets/mframework_demo/demo_3dgame/sprites/preview.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Level1.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Sample.png
 assets/mframework_demo/demo_3dgame/sprites/ui.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/1.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Fade.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/More Rounded.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Rounded.png
 assets/mframework_demo/demo_3dgame/textures/cubemap.ab
@@ -877,10 +941,6 @@ assets/mresources/models/kenney.ab
 	Assets/MResources/Models/Kenney/SurvivalKit/Textures/colormap.png
 	Assets/MResources/Models/Kenney/SurvivalKit/tree-log.fbx
 	Assets/MResources/Models/Kenney/SurvivalKit/tree-log-small.fbx
-assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Spline.asset
-assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
 assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultLighting.lighting
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab

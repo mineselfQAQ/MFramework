@@ -8,8 +8,22 @@ public class Jumper : MonoBehaviour
     {
         UIController.Instance.OpenSponsorDisplayPanel(() =>
         {
-            //InitSync();
-            InitAsync();
+            if (ABController.Instance.enableAB)
+            {
+                //InitSync();
+                InitAsync();
+            }
+            else
+            {
+                MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
+                {
+                    UIController.Instance.OpenTitleScreenPanel();
+                    MCoroutineManager.Instance.DelayNoRecord(() =>
+                    {
+                        UIController.Instance.CloseSponsorDisplayPanel();
+                    }, 1.0f);
+                });
+            }
         });
     }
 

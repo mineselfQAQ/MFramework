@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Starter.unity
     guid: 493f47e764ee5ed4a9e4bb67eda6a1c7
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Level1.unity
+    guid: 4e669f8948421a1448cb8e4b357d1c74
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel.unity
+    guid: 7f10b690d2844e648bd5cfa4326a7799
+  - enabled: 1
+    path: Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_TitleScreen.unity
+    guid: d651fba688b8e4248a7fb69ff40f2fbe
   m_configObjects: {}
