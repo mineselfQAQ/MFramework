@@ -322,8 +322,6 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/hudpanel/hudpanel.prefab.
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/levelselectpanel/levelselectpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LevelSelectPanel/LevelSelectPanel.prefab
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.prefab.ab
@@ -332,8 +330,14 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/titlescreenpanel/titlescr
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TitleScreenPanel/TitleScreenPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/transitionpanel/transitionpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TransitionPanel/TransitionPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/levelcard/levelcardwidget.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LevelCard/LevelCardWidget.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/RestartWidget/RestartWidget.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/savecard/savecardwidget.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SaveCard/SaveCardWidget.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.prefab.ab
@@ -590,6 +594,7 @@ assets/mframework_demo/demo_3dgame/sprites/preview.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Level1.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Sample.png
 assets/mframework_demo/demo_3dgame/sprites/ui.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/1.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/More Rounded.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Rounded.png
 assets/mframework_demo/demo_3dgame/textures/cubemap.ab
@@ -625,12 +630,12 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -720,14 +725,18 @@ assets/textmesh pro/shaders/tmp_sdf.shader.ab
 assets/mframework_demo/demo_3dgame/textures/projectors.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel.controller.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
 assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/Mineself.jpg
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget.controller
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/RestartWidget/RestartWidget.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
@@ -874,12 +883,6 @@ assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
 assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultLighting.lighting
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_open.anim.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Open.anim
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_close.anim.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Close.anim
-assets/mframework_demo/demo_3dgame/mframeworkui/panels/loadingpanel/loadingpanel_loop.anim.ab
-	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LoadingPanel/LoadingPanel_Loop.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
@@ -888,6 +891,20 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/spons
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel_Close.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_open.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_loop.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget_Loop.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/RestartWidget/RestartWidget_Close.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/RestartWidget/RestartWidget_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_open.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_close.anim.ab

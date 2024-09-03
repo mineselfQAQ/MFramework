@@ -748,6 +748,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1679295385022376694, guid: aa305d5375e2bd041bf0b6f4aebcebe0, type: 3}
+      propertyPath: gameOverDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679295385022376694, guid: aa305d5375e2bd041bf0b6f4aebcebe0, type: 3}
       propertyPath: respawnEndDelay
       value: 0.4
       objectReference: {fileID: 0}

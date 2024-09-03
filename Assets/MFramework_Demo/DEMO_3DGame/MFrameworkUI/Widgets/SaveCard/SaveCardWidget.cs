@@ -86,6 +86,6 @@ public class SaveCardWidget : SaveCardWidgetBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return ABUtitlity.LoadSync(prefabPath);
+        return ABUtitlity.LoadPanelSync(prefabPath);
     }
 }

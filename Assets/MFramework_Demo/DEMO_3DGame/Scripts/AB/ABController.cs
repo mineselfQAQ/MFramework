@@ -2,6 +2,8 @@ using MFramework;
 
 public class ABController : ComponentSingleton<ABController>
 {
+    public bool enableAB = true;
+
     protected override void Awake()
     {
         base.Awake();
@@ -10,11 +12,17 @@ public class ABController : ComponentSingleton<ABController>
 
     protected virtual void Update()
     {
-        ResourceManager.Instance.Update();
+        if (enableAB)
+        {
+            ResourceManager.Instance.Update();
+        }
     }
 
     protected virtual void LateUpdate()
     {
-        ResourceManager.Instance.LateUpdate();
+        if (enableAB)
+        {
+            ResourceManager.Instance.LateUpdate();
+        }
     }
 }

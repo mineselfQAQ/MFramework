@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class TakeBloodRestartWidget : TakeBloodRestartWidgetBase
 {
@@ -13,7 +12,7 @@ public class TakeBloodRestartWidget : TakeBloodRestartWidgetBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return base.LoadPrefab(prefabPath);
+        return ABUtitlity.LoadPanelSync(prefabPath);
     }
 
     public void Refresh()

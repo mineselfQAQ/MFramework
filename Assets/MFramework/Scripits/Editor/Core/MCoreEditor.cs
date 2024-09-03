@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using static MFramework.MGUIOptionUtility;
 
@@ -10,8 +9,9 @@ namespace MFramework
     {
         public static Texture2D LOGOTex;
 
-        //注意：SerializedProperty需要[SerializeField]才能获取
-        //private SerializedProperty m_LogCallbackOnSP;
+        //***注意***：SerializedProperty需要[SerializeField]才能获取
+        private SerializedProperty logStateSP;
+        private SerializedProperty UICustomLoadStateSP;
 
         private MCore mCore;
 
@@ -23,6 +23,9 @@ namespace MFramework
             LOGOTex = AssetDatabase.LoadAssetAtPath<Texture2D>(EditorResourcesPath.LOGOPath);
 
             mCore = (MCore)target;
+
+            logStateSP = serializedObject.FindProperty("m_LogState");
+            UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
         }
 
         public override void OnInspectorGUI()
@@ -31,22 +34,22 @@ namespace MFramework
 
             MGUIUtility.DrawTexture(LOGOTex, MGUIStyleUtility.CenterStyle);
 
-            //m_ExportLog
-            Undo.RecordObject(target, "ChangeLogState");//记录Undo信息
-            BoolEnum logEnum = mCore.GetExportLog() ? BoolEnum.ON : BoolEnum.OFF;
-            var newLogEnum = (BoolEnum)EditorGUILayout.EnumPopup("是否输出LOG信息", logEnum);
-            if (newLogEnum == BoolEnum.ON) mCore.SetExportLog(true);
-            else mCore.SetExportLog(false);
-
-            if (GUI.changed)
-            {
-                //并不需要
-                //EditorUtility.SetDirty(target);
-                //AssetDatabase.SaveAssets();
-                //EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
-            }
+            MGUIUtility.DrawH2("编辑器");
+            DrawEnumPopup(UICustomLoadStateSP, "是否启用UI自定义加载");
+            MGUIUtility.DrawH2("打包");
+            DrawEnumPopup(logStateSP, "是否输出LOG信息");
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawEnumPopup(SerializedProperty property, string label)
+        {
+            BoolEnum currentEnum = property.boolValue ? BoolEnum.ON : BoolEnum.OFF;
+            var newEnum = (BoolEnum)EditorGUILayout.EnumPopup(label, currentEnum);
+            if (newEnum != currentEnum)
+            {
+                property.boolValue = newEnum == BoolEnum.ON;
+            }
         }
     }
 }

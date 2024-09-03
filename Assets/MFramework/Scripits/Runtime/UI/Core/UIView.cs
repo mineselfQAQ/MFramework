@@ -119,13 +119,22 @@ namespace MFramework
             //实例化
             if (prefabPath != null)//提供路径模式
             {
+                GameObject prefab = null;
 #if UNITY_EDITOR
-                prefabPath = prefabPath.Replace('\\', '/');
-                prefabPath = DealEditorPath(prefabPath);
-                GameObject prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-                if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查", MLogType.Error); return false; }
+                if (MCore.Instance.UICustomLoadState)//开启UI自定义加载
+                {
+                    prefab = LoadPrefab(prefabPath);
+                    if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确", MLogType.Error); return false; }
+                }
+                else
+                {
+                    prefabPath = prefabPath.Replace('\\', '/');
+                    prefabPath = DealEditorPath(prefabPath);
+                    prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                    if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查", MLogType.Error); return false; }
+                }
 #else
-                GameObject prefab = LoadPrefab(prefabPath);
+                prefab = LoadPrefab(prefabPath);
                 if (prefab == null) { MLog.Print($"{typeof(UIView)}：未获取到{prefabPath}下的Prefab，请检查路径与重写的LoadPrefab()是否正确", MLogType.Error); return false; }
 #endif
                 GameObject go = GameObject.Instantiate(prefab, parentTrans, false);

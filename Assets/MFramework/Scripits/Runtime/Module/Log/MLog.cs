@@ -61,13 +61,13 @@ namespace MFramework
                     throw new System.Exception("发生错误，请检查后继续执行");
 #else
                 case MLogType.Log:
-                    if (Core.GetExportLog()) Debug.Log($"Log: {message}", context);
+                    if (Core.LogState) Debug.Log($"Log: {message}", context);
                     break;
                 case MLogType.Warning:
-                    if (Core.GetExportLog()) Debug.LogWarning($"Warning: {message}", context);
+                    if (Core.LogState) Debug.LogWarning($"Warning: {message}", context);
                     break;
                 case MLogType.Error:
-                    if (Core.GetExportLog()) Debug.LogError($"Error: {message}", context);
+                    if (Core.LogState) Debug.LogError($"Error: {message}", context);
                     throw new System.Exception("发生错误，请检查后继续执行");
 #endif
             }

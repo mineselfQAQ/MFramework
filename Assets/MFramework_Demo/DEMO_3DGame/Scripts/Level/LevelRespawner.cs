@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class LevelRespawner : ComponentSingleton<LevelRespawner>
 {
@@ -55,11 +56,20 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         yield return new WaitForSeconds(respawnStartDelay);
 
         //重生
-        //TODO:Open动画具有变种
-        UIController.Instance.OpenTakeBloodRestart(() => 
+        if (consumeRetries)
         {
-            StartCoroutine(RespawnRoutine(consumeRetries)); 
-        });
+            m_controller.OpenTakeBloodRestartWidget(() =>
+            {
+                StartCoroutine(RespawnRoutine(consumeRetries));
+            });
+        }
+        else
+        {
+            m_controller.OpenRestartWidget(() =>
+            {
+                StartCoroutine(RespawnRoutine(consumeRetries));
+            });
+        }
     }
     protected virtual IEnumerator GameOverRoutine()
     {
@@ -70,20 +80,22 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         //GameLoader.Instance.Reload();
         //方案2：返回选关界面
         m_score.GameOverSave();
-        //TODO:应该添加死亡画面
-        m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
+        m_controller.OpenGameOverWidget(() =>
         {
-            m_controller.CloseHUD();
+            MCoroutineManager.Instance.DelayNoRecord(() =>
+            {
+                m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
+                {
+                    m_controller.CloseHUD();
+                    m_controller.OnlyCloseGameOverWidget();
+                    m_controller.OpenFileSelectPanel();
 
-            var fileSelectPanel = m_controller.bottomRoot.
-                GetPanel<FileSelectPanel>(UIController.fileSelectPanelName);
-            m_controller.bottomRoot.OpenPanel(UIController.fileSelectPanelName);
+                    Game.LockCursor(false);
+                });
 
-            fileSelectPanel.Refresh();
-            Game.LockCursor(false);
+                OnGameOver?.Invoke();
+            }, 3.0f);
         });
-
-        OnGameOver?.Invoke();
     }
     protected virtual IEnumerator RespawnRoutine(bool consumeRetries)
     {
@@ -100,11 +112,22 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
 
         yield return new WaitForSeconds(respawnEndDelay);
 
-        UIController.Instance.CloseTakeBloodRestart(() =>
+        if (consumeRetries)
         {
-            m_pauser.canPause = true;
-            m_level.player.inputs.enabled = true;
-        });
+            m_controller.CloseTakeBloodRestartWidget(() =>
+            {
+                m_pauser.canPause = true;
+                m_level.player.inputs.enabled = true;
+            });
+        }
+        else
+        {
+            m_controller.CloseRestartWidget(() =>
+            {
+                m_pauser.canPause = true;
+                m_level.player.inputs.enabled = true;
+            });
+        }
     }
 
     protected virtual IEnumerator RestartRoutine()
@@ -113,7 +136,7 @@ public class LevelRespawner : ComponentSingleton<LevelRespawner>
         m_pauser.canPause = false;
         m_level.player.inputs.enabled = false;
         yield return new WaitForSeconds(restartDelay);
-        GameLoader.Instance.Reload($"{ABPath.ABROOTPATH}/{m_loader.currentScene}.unity");
+        m_loader.Reload($"{ABPath.ABROOTPATH}/{m_loader.currentScene}.unity");
     }
 
     /// <summary>

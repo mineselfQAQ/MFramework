@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnStartDelay: 1
   respawnEndDelay: 0.5
-  gameOverDelay: 5
+  gameOverDelay: 0.5
   restartDelay: 0.5
   OnRespawn:
     m_PersistentCalls:

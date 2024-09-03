@@ -20,6 +20,6 @@ public class FlashEffect : FlashEffectBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return ABUtitlity.LoadSync(prefabPath);
+        return ABUtitlity.LoadPanelSync(prefabPath);
     }
 }

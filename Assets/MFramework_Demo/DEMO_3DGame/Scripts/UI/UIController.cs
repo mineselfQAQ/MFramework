@@ -57,14 +57,12 @@ public class UIController : ComponentSingleton<UIController>
         //用于切换场景过渡用
         flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
         topRoot.SetSortingOrder(flashEffectName, 1995);
-        CreatePanel<LoadingPanel>(topRoot, loadPanelName, $"{panelPrepath}/LoadingPanel/LoadingPanel.prefab", false);
-        topRoot.SetSortingOrder(loadPanelName, 1996);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
-        topRoot.SetSortingOrder(pausePanelName, 1997);
+        topRoot.SetSortingOrder(pausePanelName, 1996);
         CreatePanel<TransitionPanel>(topRoot, transitionPanelName, $"{panelPrepath}/TransitionPanel/TransitionPanel.prefab", false);
-        topRoot.SetSortingOrder(transitionPanelName, 1998);
+        topRoot.SetSortingOrder(transitionPanelName, 1997);
         CreatePanel<SponsorDisplayPanel>(topRoot, sponsorDisplayPanelName, $"{panelPrepath}/SponsorDisplayPanel/SponsorDisplayPanel.prefab", false);
-        topRoot.SetSortingOrder(sponsorDisplayPanelName, 1999);
+        topRoot.SetSortingOrder(sponsorDisplayPanelName, 1998);
 
         //其它场景直接启动(用于测试)不创建TitleScreenPanel
 #if UNITY_EDITOR
@@ -109,12 +107,12 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
-    public void OpenTakeBloodRestart(Action onFinish = null)
+    public void OpenTakeBloodRestartWidget(Action onFinish = null)
     {
         topRoot.OpenPanel(transitionPanelName);
         topRoot.GetPanel<TransitionPanel>(transitionPanelName).OpenTakeBloodRestartWidget(onFinish);
     }
-    public void CloseTakeBloodRestart(Action onFinish = null)
+    public void CloseTakeBloodRestartWidget(Action onFinish = null)
     {
         topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseTakeBloodRestartWidget(() =>
         {
@@ -122,13 +120,50 @@ public class UIController : ComponentSingleton<UIController>
         });
     }
 
-    public void OpenTransitionPanel(Action onFinish = null)
+    public void OpenRestartWidget(Action onFinish = null)
     {
-        topRoot.OpenPanel(transitionPanelName, onFinish);
+        topRoot.OpenPanel(transitionPanelName);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).OpenRestartWidget(onFinish);
     }
-    public void CloseTransitionPanel(Action onFinish = null)
+    public void CloseRestartWidget(Action onFinish = null)
     {
-        topRoot.ClosePanel(transitionPanelName, onFinish);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseRestartWidget(() =>
+        {
+            topRoot.ClosePanel(transitionPanelName, onFinish);
+        });
+    }
+
+    public void OpenGameOverWidget(Action onFinish = null)
+    {
+        topRoot.OpenPanel(transitionPanelName);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).OpenGameOverWidget(onFinish);
+    }
+    public void CloseGameOverWidget(Action onFinish = null)
+    {
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseGameOverWidget(() =>
+        {
+            topRoot.ClosePanel(transitionPanelName, onFinish);
+        });
+    }
+    /// <summary>
+    /// 关闭CloseGameOverWidget(但不关闭TransitionPanel)
+    /// </summary>
+    public void OnlyCloseGameOverWidget(Action onFinish = null)
+    {
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseGameOverWidget();
+    }
+
+    public void OpenLoadingWidget(Action onFinish = null)
+    {
+        topRoot.OpenPanel(transitionPanelName);
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).OpenLoadingWidget(onFinish);
+    }
+    public void CloseLoadingWidget(Action onFinish = null)
+    {
+        topRoot.GetPanel<TransitionPanel>(transitionPanelName).CloseLoadingWidget(() =>
+        {
+            topRoot.ClosePanel(transitionPanelName, onFinish);
+        });
     }
 
     public void OpenSponsorDisplayPanel(Action onFinish = null)
@@ -152,6 +187,16 @@ public class UIController : ComponentSingleton<UIController>
     public void ClosePausePanel(Action onFinish = null)
     {
         topRoot.ClosePanel(pausePanelName, onFinish);
+    }
+
+    public void OpenFileSelectPanel(Action onFinish = null)
+    {
+        ((FileSelectPanel)panelDic[fileSelectPanelName]).Refresh();
+        bottomRoot.OpenPanel(fileSelectPanelName, onFinish);
+    }
+    public void CloseFileSelectPanel(Action onFinish = null)
+    {
+        bottomRoot.ClosePanel(fileSelectPanelName, onFinish);
     }
 
     public void CreateOrOpenHUD(Action onFinish = null)

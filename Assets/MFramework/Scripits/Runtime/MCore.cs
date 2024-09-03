@@ -2,7 +2,6 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine.SceneManagement;
 
 namespace MFramework
@@ -10,13 +9,15 @@ namespace MFramework
     public class MCore : ComponentSingleton<MCore>
     {
         [SerializeField]
-        private bool m_ExportLog;//在发布版本中输出Log文件
+        private bool m_LogState;//在发布版本中输出Log文件
+        [SerializeField]
+        private bool m_UICustomLoadState;//在编辑器版本中启用UI自定义加载
 
         private List<INeedInit> initList;
         private List<INeedQuit> quitList;
 
-        public bool GetExportLog() => m_ExportLog;
-        public bool SetExportLog(bool b) => m_ExportLog = b;
+        public bool LogState => m_LogState;
+        public bool UICustomLoadState => m_UICustomLoadState;
 
         protected override void Awake()
         {
