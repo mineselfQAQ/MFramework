@@ -39,6 +39,8 @@ public class SoundController : ComponentSingleton<SoundController>
         var settings = MSerializationManager.Instance.coreSettings;
         CurMusic = settings.MusicSound;
         CurSFX = settings.SFXSound;
+
+        MAudioSource.onSetOutput += SetOutput;
     }
 
     protected void OnApplicationQuit()
@@ -52,5 +54,10 @@ public class SoundController : ComponentSingleton<SoundController>
         settings.MusicSound = CurMusic;
         settings.SFXSound = CurSFX;
         MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, settings);
+    }
+
+    protected AudioMixerGroup SetOutput(string name)
+    {
+        return mixer.FindMatchingGroups(name)[0];
     }
 }
