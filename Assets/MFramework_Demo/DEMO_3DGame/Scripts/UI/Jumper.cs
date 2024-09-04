@@ -8,12 +8,12 @@ public class Jumper : MonoBehaviour
     {
         UIController.Instance.OpenSponsorDisplayPanel(() =>
         {
-            if (ABController.Instance.enableAB)
+            if (ABController.Instance.enableAB)//AB场景加载
             {
-                //InitSync();
-                InitAsync();
+                //InitSync();//同步形式
+                InitAsync();//异步形式
             }
-            else
+            else//一般场景加载(使用Build Settings)
             {
                 MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
                 {
@@ -33,10 +33,15 @@ public class Jumper : MonoBehaviour
     private void InitSync()
     {
         //TIP：加载.unity文件会造成卡顿
-        ResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", false);
+        IResource resource = ResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", false);
+        GameLoader.Instance.lastRes = resource;
         MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
         {
             UIController.Instance.OpenTitleScreenPanel();
+            MCoroutineManager.Instance.DelayNoRecord(() =>
+            {
+                UIController.Instance.CloseSponsorDisplayPanel();
+            }, 1.0f);
         });
     }
 
@@ -62,6 +67,7 @@ public class Jumper : MonoBehaviour
     {
         //**加载进内存**
         IResource resource = ResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", true);
+        GameLoader.Instance.lastRes = resource;
         yield return resource;//等待资源加载完毕
     }
 }

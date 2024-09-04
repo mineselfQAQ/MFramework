@@ -45,9 +45,9 @@ namespace MFramework
         #endregion
 
         #region 自我管理携程
-        public void StartCoroutine(IEnumerator fun, string name, Action onFinish = null)
+        public Coroutine StartCoroutine(IEnumerator fun, string name, Action onFinish = null)
         {
-            StartCoroutine(StartCoroutinueRoutine(fun, name, onFinish));
+            return StartCoroutine(StartCoroutinueRoutine(fun, name, onFinish));
         }
 
         public bool EndCoroutine(string name)

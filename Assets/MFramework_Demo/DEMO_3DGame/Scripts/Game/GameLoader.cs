@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -24,12 +23,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
     protected UIController m_controller => UIController.Instance;
 
-    protected UIRoot root;
-
-    protected void Start()
-    {
-        root = m_controller.topRoot;
-    }
+    public IResource lastRes;
 
     public virtual void Load(string scene, string abPath = null, Action onLoadFinishInternal = null)
     {
@@ -51,14 +45,24 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
         m_controller.OpenLoadingWidget();
 
+        //在Delay前执行卸载，留有一定时间
+        //if (ABController.Instance.enableAB)
+        //{
+        //    ResourceManager.Instance.Unload(lastRes);
+        //    lastRes = null;
+        //}
+
         yield return new WaitForSeconds(startDelay);
 
-        //开启AB
+
+        IResource needUnloadRes = lastRes;
         if (ABController.Instance.enableAB)
         {
-            ResourceManager.Instance.Load(abPath, false);//**加载进内存**
+            //**加载进内存**
+            //ResourceManager.Instance.Load(abPath, false);
+            yield return MCoroutineManager.Instance.StartCoroutine(InitAsyncCoroutine(abPath), "STARTLOAD");
         }
-        
+
         var operation = SceneManager.LoadSceneAsync(scene);//异步加载！！！
         loadingProgress = 0;//加载进度
 
@@ -70,6 +74,9 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
         loadingProgress = 1;
 
+        //提前一点卸载，为卸载留有时间
+        ResourceManager.Instance.Unload(needUnloadRes);
+
         yield return new WaitForSeconds(finishDelay);
 
         isLoading = false;
@@ -77,5 +84,13 @@ public class GameLoader : ComponentSingleton<GameLoader>
         if (scene == UIController.titleScreenSceneName) m_controller.Disable3DScene();//关闭3D渲染
         OnLoadFinish?.Invoke();
         onLoadFinishInternal?.Invoke();
+    }
+
+    private IEnumerator InitAsyncCoroutine(string abPath)
+    {
+        //**加载进内存**
+        IResource resource = ResourceManager.Instance.Load(abPath, true);
+        lastRes = resource;
+        yield return resource;//等待资源加载完毕
     }
 }

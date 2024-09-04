@@ -18,12 +18,14 @@ namespace MFramework
                 for (int i = 0; i < dependencies.Length; i++)
                 {
                     if (!dependencies[i].done)
+                    {
                         return false;
+                    }
                 }
             }
 
             //等待创建完成
-            if (!assetBundleCreateRequest.isDone) return false;
+            if (!assetBundleCreateRequest.isDone) return false; 
             //完成
             done = true;
             assetBundle = assetBundleCreateRequest.assetBundle;//取出assetBundle

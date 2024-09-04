@@ -1,6 +1,8 @@
+using MFramework.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using static UnityEngine.EventSystems.EventSystem;
 
 namespace MFramework
@@ -14,6 +16,10 @@ namespace MFramework
         public Camera UICamera { private set; get; }
         public GameObject EventSystem { private set; get; }
         public Dictionary<string, UIRoot> RootDic { private set; get; }
+
+        protected GameObject blocker;
+        protected CanvasGroup blockerCanvasGroup;
+        protected bool blockerOpen = false;
 
         private void Awake()
         {
@@ -140,5 +146,57 @@ namespace MFramework
 
             newTopPanel.parentRoot.topPanel = newTopPanel;
         }
+
+        #region ¹¦ÄÜ
+        public void StartBlocker()
+        {
+            if (!blockerOpen)
+            {
+                if (!blocker)
+                {
+                    blocker = new GameObject("Blocker");
+                    blocker.SetParent(UICanvas.gameObject);
+                    blocker.layer = 5;
+
+                    RectTransform rectTransform = blocker.AddComponent<RectTransform>();
+                    rectTransform.anchorMin = Vector2.zero;
+                    rectTransform.anchorMax = Vector2.one;
+                    rectTransform.sizeDelta = Vector2.zero;
+
+                    Canvas canvas = blocker.AddComponent<Canvas>();
+                    canvas.overrideSorting = true;
+                    canvas.sortingOrder = 9999;
+
+                    blockerCanvasGroup = blocker.AddComponent<CanvasGroup>();
+                    blockerCanvasGroup.blocksRaycasts = true;
+                    blockerCanvasGroup.interactable = false;
+
+                    MImage blockerImage = blocker.AddComponent<MImage>();
+                    blockerImage.color = Color.clear;
+
+                    GraphicRaycaster graphicRaycaster = blocker.AddComponent<GraphicRaycaster>();
+
+                    blockerOpen = true;
+                }
+                else
+                {
+                    blockerCanvasGroup.alpha = 1;
+                    blockerCanvasGroup.blocksRaycasts = true;
+
+                    blockerOpen = true;
+                }
+            }
+        }
+
+        public void StopBlocker()
+        {
+            if (!blockerOpen) return;
+
+            blockerCanvasGroup.alpha = 0;
+            blockerCanvasGroup.blocksRaycasts = false;
+
+            blockerOpen = false;
+        }
+        #endregion
     }
 }

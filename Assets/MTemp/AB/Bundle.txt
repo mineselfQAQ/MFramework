@@ -186,6 +186,12 @@ assets/mframework_demo/demo_3dgame/fonts.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular.otf
 assets/mframework_demo/demo_3dgame/materials/blueslime.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/BlueSlime.mat
+assets/mframework_demo/demo_3dgame/materials/colormapa.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapA.mat
+assets/mframework_demo/demo_3dgame/materials/colormapb.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapB.mat
+assets/mframework_demo/demo_3dgame/materials/colormapc.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapC.mat
 assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing equirect.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing Equirect.mat
 assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing.mat.ab
@@ -314,6 +320,40 @@ assets/mframework_demo/demo_3dgame/meshes/star.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Star.fbx
 assets/mframework_demo/demo_3dgame/meshes/triggerbutton.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/TriggerButton.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/block-grass-large-tall.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/block-grass-large-tall.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/block-grass-large.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/block-grass-large.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/crate-strong.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/crate-strong.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/crate.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/flowers-tall.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/flowers-tall.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/flowers.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/flowers.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/grass-large.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/grass-large.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/grass.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/grass.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/mushrooms.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/mushrooms.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/poles.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/poles.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/rocks.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/rocks.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/sign.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/sign.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/signpost-single.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/signpost-single.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/stones.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/stones.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/tree-log-small.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/tree-log-small.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/tree-pine.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/tree-pine.fbx
+assets/mframework_demo/demo_3dgame/meshes/kenny/tree.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/tree.fbx
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/fileselectpanel/fileselectpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FileSelectPanel/FileSelectPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/flasheffect/flasheffect.prefab.ab
@@ -597,6 +637,10 @@ assets/mframework_demo/demo_3dgame/sprites/ui.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Fade.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/More Rounded.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Rounded.png
+assets/mframework_demo/demo_3dgame/textures/common.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapA.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapB.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapC.png
 assets/mframework_demo/demo_3dgame/textures/cubemap.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/reflection.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Equirect.png
@@ -630,12 +674,12 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -720,7 +764,7 @@ assets/mframework_demo/demo_3dgame/textures/prototype/red.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_11.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_12.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_13.png
-assets/textmesh pro/shaders/tmp_sdf.shader.ab
+assets/textmesh pro/shaders.ab
 	Assets/TextMesh Pro/Shaders/TMP_SDF.shader
 assets/mframework_demo/demo_3dgame/textures/projectors.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
@@ -855,28 +899,6 @@ packages/com.unity.postprocessing/postprocessing.ab
 	Packages/com.unity.postprocessing/PostProcessing/Textures/SMAA/SearchTex.tga
 packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
 	Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions
-assets/mresources/models/kenney.ab
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/block-grass-large-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/crate-strong.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/flowers.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/flowers-tall.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/mushrooms.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/poles.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/rocks.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/sign.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/stones.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/Textures/colormap.png
-	Assets/MResources/Models/Kenney/PlatformKit/tree.fbx
-	Assets/MResources/Models/Kenney/PlatformKit/tree-pine.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/bucket.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/grass.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/grass-large.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/signpost-single.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/Textures/colormap.png
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-log.fbx
-	Assets/MResources/Models/Kenney/SurvivalKit/tree-log-small.fbx
 assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Spline.asset
 assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
