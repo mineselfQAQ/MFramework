@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class BundleManager : Singleton<BundleManager>
+    public class MBundleManager : Singleton<MBundleManager>
     {
         private Func<string, string> getFileCallback;
         private AssetBundleManifest assetBundleManifest;
@@ -17,7 +17,7 @@ namespace MFramework
         //卸载列表(正在卸载的bundle)
         private LinkedList<BundleBase> unloadList = new LinkedList<BundleBase>();
 
-        private BundleManager() { }
+        private MBundleManager() { }
 
         internal void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
         {
@@ -32,7 +32,7 @@ namespace MFramework
             UnityEngine.Object[] objs = manifestAssetBundle.LoadAllAssets();
             if (objs.Length == 0)
             {
-                MLog.Print($"{nameof(BundleManager)}.{nameof(Initialize)}：AssetBundleManifest加载失败", MLogType.Error);
+                MLog.Print($"{nameof(MBundleManager)}.{nameof(Initialize)}：AssetBundleManifest加载失败", MLogType.Error);
             }
             assetBundleManifest = objs[0] as AssetBundleManifest;
         }
@@ -150,7 +150,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Print($"{nameof(BundleManager)}.{nameof(UnLoad)}：Bundle不存在，请检查", MLogType.Error);
+                MLog.Print($"{nameof(MBundleManager)}.{nameof(UnLoad)}：Bundle不存在，请检查", MLogType.Error);
             }
 
             //该Bundle的reference--，如果为0(没有引用)，即可准备卸载
@@ -170,7 +170,7 @@ namespace MFramework
         {
             if (getFileCallback == null)
             {
-                MLog.Print($"{nameof(BundleManager)}.{nameof(GetFileUrl)}：获取路径回调为空，请检查", MLogType.Error);
+                MLog.Print($"{nameof(MBundleManager)}.{nameof(GetFileUrl)}：获取路径回调为空，请检查", MLogType.Error);
             }
 
             //交到外部处理

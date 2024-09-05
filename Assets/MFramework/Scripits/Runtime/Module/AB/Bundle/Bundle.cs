@@ -13,7 +13,7 @@ namespace MFramework
                 MLog.Print($"{nameof(Bundle)}.{nameof(Load)}：AB已存在，请检查", MLogType.Error);
             }
 
-            string file = BundleManager.Instance.GetFileUrl(url);
+            string file = MBundleManager.Instance.GetFileUrl(url);
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (!File.Exists(file))
             {
@@ -22,7 +22,7 @@ namespace MFramework
 #endif
 
             //加载文件(由Unity提供)
-            assetBundle = AssetBundle.LoadFromFile(file, 0, BundleManager.Instance.offset);
+            assetBundle = AssetBundle.LoadFromFile(file, 0, MBundleManager.Instance.offset);
             isStreamedSceneAssetBundle = assetBundle.isStreamedSceneAssetBundle;
 
             done = true;//说明该bundle已完成加载

@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
 public class TriggerButton : Activator
 {
     [Header("TriggerButton Settings")]

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6129157736747483509}
   - component: {fileID: 6042918882569787448}
   - component: {fileID: 7595627918930500176}
+  - component: {fileID: 1909878890853615592}
   m_Layer: 0
   m_Name: WaypointSlime
   m_TagString: Enemy
@@ -254,6 +255,29 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.2, z: 0}
+--- !u!114 &1909878890853615592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344209498682246480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  audioClip: {fileID: 0}
+  audioMixerGroup: {fileID: 8470696077433227335, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
+  mute: 0
+  playOnAwake: 0
+  loop: 0
+  priority: 128
+  volume: 1
+  pitch: 1
 --- !u!1 &3798326172083689168
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 /// 可获取功能
 /// </summary>
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(MAudioSource))]
 public abstract class Collectable : MonoBehaviour
 {
     [Header("General Settings")]

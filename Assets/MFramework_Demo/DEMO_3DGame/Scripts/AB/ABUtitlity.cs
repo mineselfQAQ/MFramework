@@ -10,7 +10,7 @@ public static class ABUtitlity
             MLog.Print("自定义加载UI必须使用AB，请开启ABController中的enableAB", MLogType.Error);
         }
 
-        IResource panelResource = ResourceManager.Instance.Load(path, false);
+        IResource panelResource = MResourceManager.Instance.Load(path, false);
         return panelResource.GetAsset<GameObject>();
     }
 }

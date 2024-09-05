@@ -1,3 +1,4 @@
+using MFramework;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,7 +6,7 @@ using UnityEngine.Events;
 /// 触发器，当Player或其它物体接触时发生事件
 /// </summary>
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(MAudioSource))]
 public abstract class Activator : MonoBehaviour, IEntityContact
 {
     /// <summary>

@@ -1,6 +1,7 @@
+using MFramework;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(MAudioSource))]
 public class PlayerAudio : MonoBehaviour
 {
     [Header("Voices")]
@@ -23,10 +24,11 @@ public class PlayerAudio : MonoBehaviour
     public AudioClip railGrind;
 
     [Header("Other Sources")]
-    public AudioSource grindAudio;
+    public MAudioSource grindAudio;
 
     protected Player m_player;
     protected AudioSource m_audio;
+    protected AudioSource m_grindAudio;
 
     protected virtual void Start()
     {
@@ -42,6 +44,7 @@ public class PlayerAudio : MonoBehaviour
 
     protected virtual void InitializeAudio()
     {
+        m_grindAudio = grindAudio.GetComponent<AudioSource>();
         m_audio = GetComponent<AudioSource>();
     }
 
@@ -56,7 +59,7 @@ public class PlayerAudio : MonoBehaviour
         m_player.playerEvents.OnLedgeClimbing.AddListener(() => PlayRandom(lift));
         m_player.playerEvents.OnBackflip.AddListener(() => PlayRandom(maneuver));
         m_player.playerEvents.OnDashStarted.AddListener(() => Play(dash));
-        m_player.entityEvents.OnRailsExit.AddListener(() => grindAudio?.Stop());
+        m_player.entityEvents.OnRailsExit.AddListener(() => m_grindAudio?.Stop());
 
         m_player.playerEvents.OnPickUp.AddListener(() =>
         {
@@ -79,19 +82,19 @@ public class PlayerAudio : MonoBehaviour
         m_player.entityEvents.OnRailsEnter.AddListener(() =>
         {
             Play(startRailGrind, false);
-            grindAudio?.Play();
+            m_grindAudio?.Play();
         });
 
         LevelPauser.Instance?.OnPause.AddListener(() =>
         {
             m_audio.Pause();
-            grindAudio.Pause();
+            m_grindAudio.Pause();
         });
 
         LevelPauser.Instance?.OnUnpause.AddListener(() =>
         {
             m_audio.UnPause();
-            grindAudio.UnPause();
+            m_grindAudio.UnPause();
         });
     }
 

@@ -1,7 +1,6 @@
+using MFramework;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
 public class Star : Collectable
 {
     [Header("Star Settings")]

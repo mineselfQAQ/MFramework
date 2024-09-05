@@ -14,7 +14,7 @@ public class HUDPanel : HUDPanelBase
 
     public override void Init()
     {
-        //执行ResetPanel()代替
+        ResetPanel();
     }
 
     /// <summary>

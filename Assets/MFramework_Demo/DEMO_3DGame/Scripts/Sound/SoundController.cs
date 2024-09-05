@@ -40,7 +40,11 @@ public class SoundController : ComponentSingleton<SoundController>
         CurMusic = settings.MusicSound;
         CurSFX = settings.SFXSound;
 
-        MAudioSource.onSetOutput += SetOutput;
+        //开启AB时需要重新设置Output中的AudioMixerGroup
+        if (ABController.Instance.enableAB)
+        {
+            MAudioSource.OnSetOutput += SetOutput;
+        }
     }
 
     protected void OnApplicationQuit()

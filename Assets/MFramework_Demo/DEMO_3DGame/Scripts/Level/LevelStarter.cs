@@ -21,7 +21,6 @@ public class LevelStarter : ComponentSingleton<LevelStarter>
     protected virtual IEnumerator StartRoutine()
     {
         UIController.Instance.CreateOrOpenHUD();
-        UIController.Instance.RefreshHUD();
 
         Game.LockCursor();
         m_level.player.controller.enabled = false;

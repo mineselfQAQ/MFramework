@@ -1,6 +1,7 @@
 using MFramework;
 using UnityEngine;
 
+[RequireComponent(typeof(MAudioSource))]
 public class EnemyAudio : MonoBehaviour
 {
     [Header("Effects")]
@@ -22,7 +23,7 @@ public class EnemyAudio : MonoBehaviour
     } 
     protected virtual void InitializeAudio()
     {
-        m_audio = gameObject.GetOrAddComponent<AudioSource>();
+        m_audio = GetComponent<AudioSource>();
     }
     protected virtual void InitializeCallbacks()
     {

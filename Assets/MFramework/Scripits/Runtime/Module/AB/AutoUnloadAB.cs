@@ -13,7 +13,7 @@ namespace MFramework
         {
             if (resource == null) return;
 
-            ResourceManager.Instance.Unload(resource);//п╤ть
+            MResourceManager.Instance.Unload(resource);//п╤ть
             resource = null;
         }
     }

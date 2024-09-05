@@ -100,7 +100,7 @@ public class TestUI : MonoBehaviour
         string backgroundUrl = m_Backgrounds[m_BackgourndIndex];
 
         //同步加载背景的sprite
-        IResource resource = ResourceManager.Instance.Load(backgroundUrl, false);
+        IResource resource = MResourceManager.Instance.Load(backgroundUrl, false);
         m_RawImage_Background.texture = resource.GetAsset() as Texture;
     }
 
@@ -117,7 +117,7 @@ public class TestUI : MonoBehaviour
         string bearUrl = m_Roles[m_BearIndex];
 
         //同步加载人物的sprite
-        IResource resource = ResourceManager.Instance.Load(bearUrl, false);
+        IResource resource = MResourceManager.Instance.Load(bearUrl, false);
         m_Image_Bear.sprite = resource.GetAsset<Sprite>();
     }
 
@@ -133,7 +133,7 @@ public class TestUI : MonoBehaviour
         string iconUrl = m_Icons[m_IconIndex];
 
         //同步加载icon
-        IResource resource = ResourceManager.Instance.Load(iconUrl, false);
+        IResource resource = MResourceManager.Instance.Load(iconUrl, false);
         m_RawImage_Icon.texture = resource.GetAsset<Texture>();
     }
 
@@ -146,7 +146,7 @@ public class TestUI : MonoBehaviour
             return;
 
         //同步加载
-        m_ModelResource = ResourceManager.Instance.Load(m_ModelUrl, false);
+        m_ModelResource = MResourceManager.Instance.Load(m_ModelUrl, false);
         m_ModelGO = m_ModelResource.Instantiate(m_ModelRoot, false);
         m_ModelGO.transform.eulerAngles = new Vector3(0, 180, 0);
     }
@@ -159,7 +159,7 @@ public class TestUI : MonoBehaviour
         if (m_ModelResource == null)
             return;
 
-        ResourceManager.Instance.Unload(m_ModelResource);
+        MResourceManager.Instance.Unload(m_ModelResource);
         m_ModelResource = null;
         if (m_ModelGO)
         {

@@ -18,6 +18,7 @@ namespace MFramework
         public Dictionary<string, UIRoot> RootDic { private set; get; }
 
         protected GameObject blocker;
+        protected Canvas blockerCanvas;
         protected CanvasGroup blockerCanvasGroup;
         protected bool blockerOpen = false;
 
@@ -128,6 +129,7 @@ namespace MFramework
                 }
 
                 if(topItemCanvas == null) return null;
+                if (topItemCanvas.name == "Blocker") return null;//特殊Panel---Blocker(用于阻挡下层UI)
                 return (UIPanel)topItemCanvas.GetComponent<UIPanelBehaviour>().view;
             }
 
@@ -148,7 +150,7 @@ namespace MFramework
         }
 
         #region 功能
-        public void StartBlocker()
+        public void StartBlocker(int order = 9999)
         {
             if (!blockerOpen)
             {
@@ -163,9 +165,9 @@ namespace MFramework
                     rectTransform.anchorMax = Vector2.one;
                     rectTransform.sizeDelta = Vector2.zero;
 
-                    Canvas canvas = blocker.AddComponent<Canvas>();
-                    canvas.overrideSorting = true;
-                    canvas.sortingOrder = 9999;
+                    blockerCanvas = blocker.AddComponent<Canvas>();
+                    blockerCanvas.overrideSorting = true;
+                    blockerCanvas.sortingOrder = order;
 
                     blockerCanvasGroup = blocker.AddComponent<CanvasGroup>();
                     blockerCanvasGroup.blocksRaycasts = true;
@@ -182,6 +184,15 @@ namespace MFramework
                 {
                     blockerCanvasGroup.alpha = 1;
                     blockerCanvasGroup.blocksRaycasts = true;
+
+                    if (order != blockerCanvas.sortingOrder)
+                    {
+                        blockerCanvas.sortingOrder = order;
+                    }
+                    else if (order == 9999)
+                    {
+                        blockerCanvas.sortingOrder = 9999;
+                    }
 
                     blockerOpen = true;
                 }

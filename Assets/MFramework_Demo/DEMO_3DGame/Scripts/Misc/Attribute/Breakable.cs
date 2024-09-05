@@ -6,7 +6,7 @@ using UnityEngine.Events;
 /// ¿É»÷ÆÆ¹¦ÄÜ
 /// </summary>
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(MAudioSource))]
 public class Breakable : MonoBehaviour
 {
     public GameObject model;

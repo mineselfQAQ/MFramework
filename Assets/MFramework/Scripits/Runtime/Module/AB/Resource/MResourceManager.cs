@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class ResourceManager : Singleton<ResourceManager>
+    public class MResourceManager : Singleton<MResourceManager>
     {
         /// <summary>
         /// 保存资源对应的bundle(key---资源 value---所在bundle)
@@ -23,7 +23,7 @@ namespace MFramework
         //卸载列表(正在卸载的resource)
         private LinkedList<ResourceBase> unloadList = new LinkedList<ResourceBase>();
 
-        private ResourceManager() { }
+        private MResourceManager() { }
 
         private const string MANIFEST_NAME = "manifest.ab";
         private static readonly string RESOURCEASSET_NAME = MSettings.ResourceAssetName;
@@ -33,7 +33,7 @@ namespace MFramework
         public void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
         {
             //获取BundleManager.m_AssetBundleManifest信息
-            BundleManager.Instance.Initialize(platform, getFileCallback, offset);
+            MBundleManager.Instance.Initialize(platform, getFileCallback, offset);
 
             //获取manifest.ab并加载成AssetBundle
             string manifestBunldeFile = getFileCallback.Invoke(MANIFEST_NAME);
@@ -115,7 +115,7 @@ namespace MFramework
 
         public void Update()
         {
-            BundleManager.Instance.Update();//同ResourceManager.Update()，持续加载Bundle
+            MBundleManager.Instance.Update();//同ResourceManager.Update()，持续加载Bundle
 
             for (int i = 0; i < asyncList.Count; i++)
             {
@@ -156,7 +156,7 @@ namespace MFramework
                 }
             }
 
-            BundleManager.Instance.LateUpdate();//同ResourceManager.LateUpdate()，为Bundle的卸载
+            MBundleManager.Instance.LateUpdate();//同ResourceManager.LateUpdate()，为Bundle的卸载
         }
 
         /// <summary>
@@ -264,13 +264,13 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(assetUrl))
             {
-                MLog.Print($"{nameof(ResourceManager)}.{nameof(Unload)}：资源路径为空，请检查", MLogType.Error);
+                MLog.Print($"{nameof(MResourceManager)}.{nameof(Unload)}：资源路径为空，请检查", MLogType.Error);
             }
 
             ResourceBase resource;
             if (!resourceDic.TryGetValue(assetUrl, out resource))
             {
-                MLog.Print($"{nameof(ResourceManager)}.{nameof(Unload)}：<{assetUrl}>所对应资源不存在，请检查", MLogType.Error);
+                MLog.Print($"{nameof(MResourceManager)}.{nameof(Unload)}：<{assetUrl}>所对应资源不存在，请检查", MLogType.Error);
             }
             Unload(resource);
         }
@@ -278,7 +278,7 @@ namespace MFramework
         {
             if (resource == null)
             {
-                MLog.Print($"{nameof(ResourceManager)}.{nameof(Unload)}：资源为空，请检查", MLogType.Error);
+                MLog.Print($"{nameof(MResourceManager)}.{nameof(Unload)}：资源为空，请检查", MLogType.Error);
             }
 
             //该Resource的reference--，如果为0(没有引用)，即可准备卸载

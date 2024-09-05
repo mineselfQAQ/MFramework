@@ -107,6 +107,8 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
+    #region 具体功能函数
+    #region 过渡面板
     public void OpenTakeBloodRestartWidget(Action onFinish = null)
     {
         topRoot.OpenPanel(transitionPanelName);
@@ -165,7 +167,8 @@ public class UIController : ComponentSingleton<UIController>
             topRoot.ClosePanel(transitionPanelName, onFinish);
         });
     }
-
+    #endregion
+    #region 支持者面板
     public void OpenSponsorDisplayPanel(Action onFinish = null)
     {
         topRoot.OpenPanel(sponsorDisplayPanelName, onFinish);
@@ -174,12 +177,18 @@ public class UIController : ComponentSingleton<UIController>
     {
         topRoot.ClosePanel(sponsorDisplayPanelName, onFinish);
     }
-
+    #endregion
+    #region 标题面板
     public void OpenTitleScreenPanel(Action onFinish = null)
     {
         bottomRoot.OpenPanel(titleScreenPanelName, onFinish);
     }
-
+    public void CloseTitleScreenPanel(Action onFinish = null)
+    {
+        bottomRoot.ClosePanel(titleScreenPanelName, onFinish);
+    }
+    #endregion
+    #region 暂停面板
     public void OpenPausePanel(Action onFinish = null)
     {
         topRoot.OpenPanel(pausePanelName, onFinish);
@@ -188,7 +197,8 @@ public class UIController : ComponentSingleton<UIController>
     {
         topRoot.ClosePanel(pausePanelName, onFinish);
     }
-
+    #endregion
+    #region 存档选择面板
     public void OpenFileSelectPanel(Action onFinish = null)
     {
         ((FileSelectPanel)panelDic[fileSelectPanelName]).Refresh();
@@ -198,7 +208,8 @@ public class UIController : ComponentSingleton<UIController>
     {
         bottomRoot.ClosePanel(fileSelectPanelName, onFinish);
     }
-
+    #endregion
+    #region HUD面板
     public void CreateOrOpenHUD(Action onFinish = null)
     {
         if (!topRoot.ExistPanel(HUDPanelName))
@@ -207,6 +218,7 @@ public class UIController : ComponentSingleton<UIController>
         }
         else
         {
+            ((HUDPanel)panelDic[HUDPanelName]).ResetPanel();
             topRoot.OpenPanel(HUDPanelName, onFinish);
         }
     }
@@ -214,11 +226,8 @@ public class UIController : ComponentSingleton<UIController>
     {
         topRoot.ClosePanel(HUDPanelName, onFinish);
     }
-    public void RefreshHUD()
-    {
-        topRoot.GetPanel<HUDPanel>(HUDPanelName).ResetPanel();
-    }
-
+    #endregion 
+    #region 特定指向
     public void TitleScreenToFileSelect()
     {
         bottomRoot.ClosePanel(titleScreenPanelName);
@@ -257,7 +266,8 @@ public class UIController : ComponentSingleton<UIController>
         bottomRoot.OpenPanel(fileSelectPanelName);
         ((FileSelectPanel)panelDic[fileSelectPanelName]).Refresh();
     }
-
+    #endregion
+    #region 特效
     public void TriggerFlash()
     {
         topRoot.OpenPanel(flashEffectName);
@@ -267,6 +277,8 @@ public class UIController : ComponentSingleton<UIController>
             topRoot.ClosePanel(flashEffectName);
         });
     }
+    #endregion
+    #endregion
 
     /// <summary>
     /// 不再显示场景中的3D物体

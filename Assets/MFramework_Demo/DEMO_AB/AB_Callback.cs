@@ -5,14 +5,14 @@ public class AB_Callback : MonoBehaviour
 {
     private void Start()
     {
-        ResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
+        MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
 
-        ResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/UIRoot.prefab", true, uiRootResource =>
+        MResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/UIRoot.prefab", true, uiRootResource =>
         {
             uiRootResource.Instantiate();
 
             Transform uiParent = GameObject.Find("Canvas").transform;
-            ResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/TestUI.prefab", true, testUIResource =>
+            MResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/TestUI.prefab", true, testUIResource =>
             {
                 testUIResource.Instantiate(uiParent, false);
             });
@@ -20,11 +20,11 @@ public class AB_Callback : MonoBehaviour
     }
     private void Update()
     {
-        ResourceManager.Instance.Update();
+        MResourceManager.Instance.Update();
     }
 
     private void LateUpdate()
     {
-        ResourceManager.Instance.LateUpdate();
+        MResourceManager.Instance.LateUpdate();
     }
 }

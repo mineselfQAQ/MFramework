@@ -30,10 +30,11 @@ namespace MFramework
             //TODO:使用下拉列表选择需要显示的部分(Excel部分/Json部分)，并显示相应内容(节省空间)
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
-                DrawPathWidget("Excel表生成路径：", MConfigurableSettings.ExcelPath,
-                    GetPathName(MConfigurableName.ExcelGenerationPath));
-                DrawPathWidget("Excel表CS文件生成路径：", MConfigurableSettings.ExcelCSPath,
-                    GetPathName(MConfigurableName.ExcelCSGenerationPath));
+                //------已废弃，使用MSettings中的固定路径------
+                //DrawPathWidget("Excel表生成路径：", MConfigurableSettings.ExcelPath,
+                //    GetPathName(MConfigurableName.ExcelGenerationPath));
+                //DrawPathWidget("Excel表CS文件生成路径：", MConfigurableSettings.ExcelCSPath,
+                //    GetPathName(MConfigurableName.ExcelCSGenerationPath));
             }
             EditorGUILayout.EndScrollView();
 

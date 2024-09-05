@@ -47,7 +47,7 @@ namespace MFramework
                 MLog.Print($"{nameof(BundleAsync)}.{nameof(Load)}：AB创建请求已存在，请检查", MLogType.Error);
             }
 
-            string file = BundleManager.Instance.GetFileUrl(url);//获取文件路径
+            string file = MBundleManager.Instance.GetFileUrl(url);//获取文件路径
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (!File.Exists(file))
             {
@@ -56,7 +56,7 @@ namespace MFramework
 #endif
 
             //核心---加载文件(由Unity提供)
-            assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(file, 0, BundleManager.Instance.offset);
+            assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(file, 0, MBundleManager.Instance.offset);
         }
 
         /// <summary>

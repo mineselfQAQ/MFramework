@@ -1,6 +1,7 @@
 using MFramework;
 using UnityEngine;
 
+[RequireComponent(typeof(MAudioSource))]
 public class Glider : MonoBehaviour
 {
     public Player player;

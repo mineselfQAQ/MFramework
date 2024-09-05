@@ -79,11 +79,11 @@ namespace MFramework
             }
 
             string bundleUrl = null;
-            if (!ResourceManager.Instance.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
+            if (!MResourceManager.Instance.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
             {
                 MLog.Print($"{nameof(Resource)}.{nameof(Load)}：{bundleUrl}为空，请检查", MLogType.Error);
             }
-            bundle = BundleManager.Instance.LoadAsync(bundleUrl);//异步加载Bundle
+            bundle = MBundleManager.Instance.LoadAsync(bundleUrl);//异步加载Bundle
         }
 
         internal override void LoadAsset()
@@ -139,7 +139,7 @@ namespace MFramework
             }
 
             assetBundleRequest = null;
-            BundleManager.Instance.UnLoad(bundle);
+            MBundleManager.Instance.UnLoad(bundle);
             bundle = null;
             awaiter = null;
             finishedCallback = null;

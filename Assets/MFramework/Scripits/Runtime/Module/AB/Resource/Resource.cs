@@ -20,12 +20,12 @@ namespace MFramework
             }
 
             string bundleUrl = null;
-            if (!ResourceManager.Instance.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
+            if (!MResourceManager.Instance.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
             {
                 MLog.Print($"{nameof(Resource)}.{nameof(Load)}：{bundleUrl}为空，请检查", MLogType.Error);
             }
 
-            bundle = BundleManager.Instance.Load(bundleUrl);//同步获取Bundle
+            bundle = MBundleManager.Instance.Load(bundleUrl);//同步获取Bundle
             LoadAsset();
         }
 
@@ -64,7 +64,7 @@ namespace MFramework
                 asset = null;
             }
 
-            BundleManager.Instance.UnLoad(bundle);
+            MBundleManager.Instance.UnLoad(bundle);
 
             bundle = null;
             awaiter = null;

@@ -45,13 +45,6 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
         m_controller.OpenLoadingWidget();
 
-        //在Delay前执行卸载，留有一定时间
-        //if (ABController.Instance.enableAB)
-        //{
-        //    ResourceManager.Instance.Unload(lastRes);
-        //    lastRes = null;
-        //}
-
         yield return new WaitForSeconds(startDelay);
 
 
@@ -75,7 +68,8 @@ public class GameLoader : ComponentSingleton<GameLoader>
         loadingProgress = 1;
 
         //提前一点卸载，为卸载留有时间
-        ResourceManager.Instance.Unload(needUnloadRes);
+        MResourceManager.Instance.Unload(needUnloadRes);
+        needUnloadRes = null;
 
         yield return new WaitForSeconds(finishDelay);
 
@@ -89,7 +83,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
     private IEnumerator InitAsyncCoroutine(string abPath)
     {
         //**加载进内存**
-        IResource resource = ResourceManager.Instance.Load(abPath, true);
+        IResource resource = MResourceManager.Instance.Load(abPath, true);
         lastRes = resource;
         yield return resource;//等待资源加载完毕
     }

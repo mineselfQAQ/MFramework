@@ -44,8 +44,9 @@ namespace MFramework
                 {
                     if (component.gameObject.GetComponent(disallowedType) != null)
                     {
-                        MLog.Print($"{componentType.Name}：如需添加{disallowedType.Name}不得添加{disallowedType.Name}", MLogType.Warning);
+                        MLog.Print($"{componentType.Name}：如需添加{componentType.Name}不得添加{disallowedType.Name}，请先删除", MLogType.Warning);
                         //Object.DestroyImmediate(component.gameObject.GetComponent(disallowedType));
+                        Object.DestroyImmediate(component);
                         return;
                     }
                 }

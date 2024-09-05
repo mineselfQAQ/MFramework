@@ -1,8 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rotator))]
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
 public class FinishZone : Activator
 {
     protected Rotator m_rotator => GetComponent<Rotator>();

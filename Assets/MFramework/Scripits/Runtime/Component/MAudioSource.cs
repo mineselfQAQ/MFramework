@@ -11,7 +11,7 @@ namespace MFramework
     [DisallowComponent(typeof(AudioSource))]
     public class MAudioSource : MonoBehaviour
     {
-        public UnityEvent onStart;
+        public UnityEvent OnStart;
 
         public AudioClip audioClip;
         public AudioMixerGroup audioMixerGroup;
@@ -33,7 +33,7 @@ namespace MFramework
         /// <summary>
         /// ¸ü¸ÄOutputÉèÖÃ
         /// </summary>
-        public static Func<string, AudioMixerGroup> onSetOutput;
+        public static Func<string, AudioMixerGroup> OnSetOutput;
 
         protected AudioSource audioSource;
 
@@ -54,9 +54,12 @@ namespace MFramework
                 audioSource.Play();
             }
 
-            onStart?.Invoke();
-            var group = onSetOutput?.Invoke(audioMixerGroup.name);
-            if(group != null) audioSource.outputAudioMixerGroup = group;
+            OnStart?.Invoke();
+            if (audioMixerGroup)
+            {
+                var group = OnSetOutput?.Invoke(audioMixerGroup.name);
+                if (group) audioSource.outputAudioMixerGroup = group;
+            }
         }
     }
 }

@@ -84,7 +84,6 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
 
         yield return new WaitForSeconds(loadingDelay);
 
-        //TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         UIManager.Instance.StartBlocker();
         m_loader.Load(UIController.titleScreenSceneName, $"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", () =>
         {
@@ -94,7 +93,10 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
             m_controller.bottomRoot.GetPanel<LevelSelectPanel>(UIController.levelSelectPanelName).Refresh();
 
             Game.LockCursor(false);
-            UIManager.Instance.StopBlocker();
+            MCoroutineManager.Instance.DelayNoRecord(() =>
+            {
+                UIManager.Instance.StopBlocker();
+            }, 1.15f);//CloseLoadingWidget所用动画时间
             OnExit?.Invoke();
         });
     }

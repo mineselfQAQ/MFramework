@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
 public class Coin : Collectable
 {
     [Header("Coin Settings")]

@@ -33,7 +33,7 @@ public class Jumper : MonoBehaviour
     private void InitSync()
     {
         //TIP：加载.unity文件会造成卡顿
-        IResource resource = ResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", false);
+        IResource resource = MResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", false);
         GameLoader.Instance.lastRes = resource;
         MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
         {
@@ -66,7 +66,7 @@ public class Jumper : MonoBehaviour
     private IEnumerator InitAsyncCoroutine()
     {
         //**加载进内存**
-        IResource resource = ResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", true);
+        IResource resource = MResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", true);
         GameLoader.Instance.lastRes = resource;
         yield return resource;//等待资源加载完毕
     }
