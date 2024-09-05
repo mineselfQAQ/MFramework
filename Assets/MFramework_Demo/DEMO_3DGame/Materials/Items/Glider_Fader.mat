@@ -42,16 +42,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _Cull: 2
+    - _Cull: 0
     - _DstBlend: 10
+    - _FresnelInt: 0.04
+    - _FresnelPow: 3
     - _MaxDistance: 5
     - _Metallic: 0
     - _MinDistance: 0.5
-    - _Multipler: 3
+    - _Multipler: 1
     - _Roughness: 0
     - _SrcBlend: 5
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelCol: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

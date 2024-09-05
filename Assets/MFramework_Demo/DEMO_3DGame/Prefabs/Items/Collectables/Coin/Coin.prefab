@@ -231,6 +231,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3bcccd285ca0495408fb380a01944e41, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: efc2ff09e08ca7543a7ff11cd9dc8d48, type: 2}
     - target: {fileID: 919132149155446097, guid: 3bcccd285ca0495408fb380a01944e41, type: 3}
       propertyPath: m_Name
       value: CoinModel

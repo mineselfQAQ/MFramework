@@ -196,8 +196,6 @@ assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing equirect.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing Equirect.mat
 assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing.mat
-assets/mframework_demo/demo_3dgame/materials/glider_fader.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/Glider_Fader.mat
 assets/mframework_demo/demo_3dgame/materials/player.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Player.mat
 assets/mframework_demo/demo_3dgame/materials/player_fader.mat.ab
@@ -230,6 +228,8 @@ assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Firer.mat
 assets/mframework_demo/demo_3dgame/materials/items/glider.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Glider.mat
+assets/mframework_demo/demo_3dgame/materials/items/glider_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Glider_Fader.mat
 assets/mframework_demo/demo_3dgame/materials/items/gridplatform.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/GridPlatform.mat
 assets/mframework_demo/demo_3dgame/materials/items/heart.mat.ab
@@ -686,12 +686,12 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -781,6 +781,8 @@ assets/textmesh pro/shaders.ab
 assets/mframework_demo/demo_3dgame/textures/projectors.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
+assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/Materials/colormap.mat
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
 assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab

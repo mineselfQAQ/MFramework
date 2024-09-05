@@ -1,11 +1,19 @@
-Shader "MineselfShader/Advance/PBR/PBR_MRWithTexture"
+Shader "MineselfShader/Advance/PBR/PBR_Cubemap"
 {
     Properties
     {
+        [Header(Cubemap Settings)][Space(5)]
+        _Cubemap("Cubemap", Cube) = ""{}
+        _CubemapMip("CubemapMipmap", Range(0, 8)) = 0
+        _ReflectRatio("ReflectRatio", Range(0.1, 1)) = 1
+
+        [Header(PBR Settings)][Space(5)]
         _BaseColorMap("BaseColorMap", 2D) = "white"{}
         _MetallicMap("MetallicMap", 2D) = "white"{}
         _RoughnessMap("RoughnessMap", 2D) = "white"{}
         [Normal]_NormalMap("NormalMap", 2D) = "bump"{}
+        _AOMap("AOMap", 2D) = "white"{}
+        _Multipler("Multipler", Float) = 1.0
         _BaseColor("BaseColor", COLOR) = (1,1,1,1)
         _Metallic("Metallic", Range(0, 1)) = 0
         _Roughness("Roughness", Range(0, 1)) = 0.5
@@ -31,10 +39,16 @@ Shader "MineselfShader/Advance/PBR/PBR_MRWithTexture"
             #include "AutoLight.cginc"
 			
             //变量申明
+            samplerCUBE _Cubemap;
+            float _CubemapMip;
+            float _ReflectRatio;
+
+            float _Multipler;
             sampler2D _BaseColorMap;
             sampler2D _MetallicMap;
             sampler2D _RoughnessMap;
             sampler2D _NormalMap;
+            sampler2D _AOMap;
             fixed4 _BaseColor;
             float _Metallic;
             float _Roughness;
@@ -175,6 +189,8 @@ Shader "MineselfShader/Advance/PBR/PBR_MRWithTexture"
             //片元着色器
             fixed4 frag (v2f i) : SV_Target
             {
+                float var_AOMap = tex2D(_AOMap, i.uv);
+
                 float3 localNormal = UnpackNormal(tex2D(_NormalMap, i.uv));
                 localNormal.xy *= _BumpScale;
                 float3 nDir = normalize(mul(localNormal, i.tbn));
@@ -182,11 +198,20 @@ Shader "MineselfShader/Advance/PBR/PBR_MRWithTexture"
                 float3 vDir = normalize(UnityWorldSpaceViewDir(i.wPos));
                 float3 lDir = normalize(UnityWorldSpaceLightDir(i.wPos));
 
-                float3 finalRGB = LightingPBR
+                //Cubemap
+                float3 rvDir = normalize(reflect(-vDir, nDir));
+                float3 cubemap = texCUBElod(_Cubemap, float4(rvDir, _CubemapMip));
+
+                float3 baseRGB = LightingPBR
                     (_BaseColor, _LightColor0, lDir, nDir, vDir, _Metallic, _Roughness,
                      _BaseColorMap, _MetallicMap, _RoughnessMap, i.uv);
+                baseRGB = baseRGB * var_AOMap;
 
-                return float4(finalRGB, 1);
+                float3 emissionRGB = cubemap * baseRGB;
+
+                float3 finalRGB = baseRGB + emissionRGB;
+
+                return float4(finalRGB * _Multipler, 1);
             }
             ENDCG
         }

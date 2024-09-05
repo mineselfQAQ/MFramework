@@ -1,50 +1,29 @@
-Shader "MineselfShader/PBR/Fader"
+Shader "MineselfShader/Advance/PBR/PBR_MR"
 {
     Properties
     {
-        [Header(Fader Settings)][Space(5)]
-        _Multipler("Multipler", Float) = 1.0
-        _MinDistance("Min Distance", Float) = 0.5
-        _MaxDistance("Max Distance", Float) = 5.0
-        
-        _FresnelCol("Fresnel Color", COLOR) = (1,1,1,1)
-        _FresnelPow("Fresnel Exp", Range(0, 10)) = 5.0
-        _FresnelInt("Fresnel Intensity", Range(0, 1)) = 1.0
-
-        [Space(10)]
-
         [Header(PBR Settings)][Space(5)]
         _BaseColorMap("BaseColorMap", 2D) = "white"{}
         _MetallicMap("MetallicMap", 2D) = "white"{}
         _RoughnessMap("RoughnessMap", 2D) = "white"{}
         [Normal]_NormalMap("NormalMap", 2D) = "bump"{}
+        _AOMap("AOMap", 2D) = "white"{}
+        _Multipler("Multipler", Float) = 1.0
         _BaseColor("BaseColor", COLOR) = (1,1,1,1)
         _Metallic("Metallic", Range(0, 1)) = 0
         _Roughness("Roughness", Range(0, 1)) = 0.5
         _BumpScale("BumpScale", Float) = 1
-
-        [Space(10)]
-        
-        [Header(RenderState Settings)][Space(5)]
-        [Enum(UnityEngine.Rendering.BlendMode)]_SrcBlend("SrcBlendMode", Float) = 5
-        [Enum(UnityEngine.Rendering.BlendMode)]_DstBlend("DstBlendMode", Float) = 10
-        [Enum(UnityEngine.Rendering.CullMode)]_Cull("CullMode", Float) = 2
-        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest", Float) = 4
-        [Enum(Off, 0, On, 1)] _ZWrite ("ZWrite", Float) = 1
     }
     SubShader
     {
         //SubShader Tags
-        Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
+		Tags{}
         Pass
         {
             //Pass Tags
             Tags{}
             //渲染状态
-            Blend [_SrcBlend] [_DstBlend]
-            Cull [_Cull]
-            ZTest [_ZTest]
-            ZWrite [_ZWrite]
+            
             
             CGPROGRAM
             #pragma vertex vert
@@ -56,15 +35,11 @@ Shader "MineselfShader/PBR/Fader"
 			
             //变量申明
             float _Multipler;
-            float _MinDistance;
-            float _MaxDistance;
-            fixed4 _FresnelCol;
-            float _FresnelPow;
-            float _FresnelInt;
             sampler2D _BaseColorMap;
             sampler2D _MetallicMap;
             sampler2D _RoughnessMap;
             sampler2D _NormalMap;
+            sampler2D _AOMap;
             fixed4 _BaseColor;
             float _Metallic;
             float _Roughness;
@@ -186,6 +161,7 @@ Shader "MineselfShader/PBR/Fader"
             //顶点着色器
             v2f vert (appdata v)
             {
+
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
 
@@ -204,6 +180,8 @@ Shader "MineselfShader/PBR/Fader"
             //片元着色器
             fixed4 frag (v2f i) : SV_Target
             {
+                float var_AOMap = tex2D(_AOMap, i.uv);
+
                 float3 localNormal = UnpackNormal(tex2D(_NormalMap, i.uv));
                 localNormal.xy *= _BumpScale;
                 float3 nDir = normalize(mul(localNormal, i.tbn));
@@ -214,17 +192,14 @@ Shader "MineselfShader/PBR/Fader"
                 float3 baseRGB = LightingPBR
                     (_BaseColor, _LightColor0, lDir, nDir, vDir, _Metallic, _Roughness,
                      _BaseColorMap, _MetallicMap, _RoughnessMap, i.uv);
+                baseRGB = baseRGB * var_AOMap;
 
-                //菲涅尔效果
-                float fresnel = pow(1 - dot(nDir, vDir), _FresnelPow) * _FresnelInt;
-                float3 emissionRGB = fresnel * _FresnelCol;
-                     
-                //渐隐效果(根据物体至摄像机距离决定alpha值)
-                float dist = distance(_WorldSpaceCameraPos.xyz, i.wPos);
-                float alpha = saturate((dist - _MinDistance) / (_MaxDistance - _MinDistance));
+                //TODO:更改PBR公式中的ambientColor
+                //TODO:AO还是卸载PBR公式中比较好
 
-                float3 finalRGB = baseRGB + emissionRGB;
-                return float4(finalRGB * _Multipler, alpha);
+                float3 finalRGB = baseRGB;
+
+                return float4(finalRGB * _Multipler, 1);
             }
             ENDCG
         }
