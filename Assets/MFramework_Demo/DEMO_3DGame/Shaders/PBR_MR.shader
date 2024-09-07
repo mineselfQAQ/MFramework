@@ -1,4 +1,4 @@
-Shader "MineselfShader/Advance/PBR/PBR_MR"
+Shader "MineselfShader/PBR/PBRBasedMR"
 {
     Properties
     {
@@ -110,7 +110,7 @@ Shader "MineselfShader/Advance/PBR/PBR_MR"
                 return ggx1 * ggx2;
             }
             //有了这几项后，就可以计算真正的PBR了
-            float3 LightingPBR(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, float metallic, float roughness, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, float2 uv)
+            float3 LightingPBR(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, float metallic, float roughness, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, sampler2D aoMap, float2 uv)
             {
                 //准备参数
                 float3 H = normalize(L + V);
@@ -120,6 +120,7 @@ Shader "MineselfShader/Advance/PBR/PBR_MR"
                 float3 var_baseMap = tex2D(baseMap, uv);
                 float var_metallicMap = tex2D(metallicMap, uv);
                 float var_roughnessMap = tex2D(roughnessMap, uv);
+                float var_aoMap = tex2D(aoMap, uv);
                 float3 base = baseColor * var_baseMap;//主纹理
                 float meta = metallic * var_metallicMap;//金属度
                 float rough = roughness * var_roughnessMap;//粗糙度
@@ -152,10 +153,15 @@ Shader "MineselfShader/Advance/PBR/PBR_MR"
                 float3 radiance = lightColor * 1;//只考虑太阳光情况，所以衰减值一直为1
                 //计算最终结果---出射radiance
                 float3 Lo = (diffuseTerm + specularTerm) * radiance * NdotL;
-                //由于没有添加IBL，所以说直接使用最简单的环境光形式
-                float3 ambientColor = unity_AmbientSky * base;
 
-                return Lo + ambientColor;
+                //由于没有添加IBL，所以说直接使用最简单的环境光形式
+                float topMask = saturate(N.y);
+                float bottomMask = saturate(-N.y);
+                float sideMask = 1 - topMask - bottomMask;
+                float3 ambientColor = base * ((unity_AmbientSky * topMask) +
+                    (unity_AmbientEquator * sideMask) + (unity_AmbientGround * bottomMask));
+
+                return (Lo + ambientColor) * var_aoMap;
             }
 
             //顶点着色器
@@ -180,8 +186,6 @@ Shader "MineselfShader/Advance/PBR/PBR_MR"
             //片元着色器
             fixed4 frag (v2f i) : SV_Target
             {
-                float var_AOMap = tex2D(_AOMap, i.uv);
-
                 float3 localNormal = UnpackNormal(tex2D(_NormalMap, i.uv));
                 localNormal.xy *= _BumpScale;
                 float3 nDir = normalize(mul(localNormal, i.tbn));
@@ -191,11 +195,7 @@ Shader "MineselfShader/Advance/PBR/PBR_MR"
 
                 float3 baseRGB = LightingPBR
                     (_BaseColor, _LightColor0, lDir, nDir, vDir, _Metallic, _Roughness,
-                     _BaseColorMap, _MetallicMap, _RoughnessMap, i.uv);
-                baseRGB = baseRGB * var_AOMap;
-
-                //TODO:更改PBR公式中的ambientColor
-                //TODO:AO还是卸载PBR公式中比较好
+                     _BaseColorMap, _MetallicMap, _RoughnessMap, _AOMap, i.uv);
 
                 float3 finalRGB = baseRGB;
 

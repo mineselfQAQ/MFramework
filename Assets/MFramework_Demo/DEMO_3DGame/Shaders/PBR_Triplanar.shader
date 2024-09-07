@@ -1,17 +1,10 @@
-Shader "MineselfShader/PBR/Fader"
+Shader "MineselfShader/PBR/Triplanar"
 {
     Properties
     {
-        [Header(Fader Settings)][Space(5)]
-        _Multipler("Multipler", Float) = 1.0
-        _MinDistance("Min Distance", Float) = 0.5
-        _MaxDistance("Max Distance", Float) = 5.0
-        
-        _FresnelCol("Fresnel Color", COLOR) = (1,1,1,1)
-        _FresnelPow("Fresnel Exp", Range(0, 10)) = 5.0
-        _FresnelInt("Fresnel Intensity", Range(0, 1)) = 1.0
-
-        [Space(10)]
+        [Header(Triplanar Settings)][Space(5)]
+        [PowerSilder(3.0)]_Tilling("Tilling", Range(0.1, 10)) = 1
+        _Sharpness("Sharpness", Range(1, 128)) = 32
 
         [Header(PBR Settings)][Space(5)]
         _BaseColorMap("BaseColorMap", 2D) = "white"{}
@@ -19,33 +12,22 @@ Shader "MineselfShader/PBR/Fader"
         _RoughnessMap("RoughnessMap", 2D) = "white"{}
         [Normal]_NormalMap("NormalMap", 2D) = "bump"{}
         _AOMap("AOMap", 2D) = "white"{}
+        _Multipler("Multipler", Float) = 1.0
         _BaseColor("BaseColor", COLOR) = (1,1,1,1)
         _Metallic("Metallic", Range(0, 1)) = 0
         _Roughness("Roughness", Range(0, 1)) = 0.5
         _BumpScale("BumpScale", Float) = 1
-
-        [Space(10)]
-        
-        [Header(RenderState Settings)][Space(5)]
-        [Enum(UnityEngine.Rendering.BlendMode)]_SrcBlend("SrcBlendMode", Float) = 5
-        [Enum(UnityEngine.Rendering.BlendMode)]_DstBlend("DstBlendMode", Float) = 10
-        [Enum(UnityEngine.Rendering.CullMode)]_Cull("CullMode", Float) = 2
-        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest", Float) = 4
-        [Enum(Off, 0, On, 1)] _ZWrite ("ZWrite", Float) = 1
     }
     SubShader
     {
         //SubShader Tags
-        Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
+		Tags{}
         Pass
         {
             //Pass Tags
             Tags{}
             //渲染状态
-            Blend [_SrcBlend] [_DstBlend]
-            Cull [_Cull]
-            ZTest [_ZTest]
-            ZWrite [_ZWrite]
+            
             
             CGPROGRAM
             #pragma vertex vert
@@ -56,12 +38,10 @@ Shader "MineselfShader/PBR/Fader"
             #include "AutoLight.cginc"
 			
             //变量申明
+            float _Tilling;
+            float _Sharpness;
+
             float _Multipler;
-            float _MinDistance;
-            float _MaxDistance;
-            fixed4 _FresnelCol;
-            float _FresnelPow;
-            float _FresnelInt;
             sampler2D _BaseColorMap;
             sampler2D _MetallicMap;
             sampler2D _RoughnessMap;
@@ -194,6 +174,7 @@ Shader "MineselfShader/PBR/Fader"
             //顶点着色器
             v2f vert (appdata v)
             {
+
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
 
@@ -219,20 +200,24 @@ Shader "MineselfShader/PBR/Fader"
                 float3 vDir = normalize(UnityWorldSpaceViewDir(i.wPos));
                 float3 lDir = normalize(UnityWorldSpaceLightDir(i.wPos));
 
+                //计算三平面映射所需uv
+                float3 mask = nDir;
+                //锐化边缘
+                mask = pow(abs(mask), _Sharpness);
+                mask /= dot(mask, float3(1,1,1));
+                //再次加强锐化
+                mask = round(mask);
+                float2 uv = lerp(i.wPos.xz, i.wPos.zy, mask.x);
+                uv = lerp(uv, i.wPos.xy, mask.z);
+                uv = uv * _Tilling;
+
                 float3 baseRGB = LightingPBR
                     (_BaseColor, _LightColor0, lDir, nDir, vDir, _Metallic, _Roughness,
-                     _BaseColorMap, _MetallicMap, _RoughnessMap, _AOMap, i.uv);
+                     _BaseColorMap, _MetallicMap, _RoughnessMap, _AOMap, uv);
 
-                //菲涅尔效果
-                float fresnel = pow(1 - dot(nDir, vDir), _FresnelPow) * _FresnelInt;
-                float3 emissionRGB = fresnel * _FresnelCol;
-                     
-                //渐隐效果(根据物体至摄像机距离决定alpha值)
-                float dist = distance(_WorldSpaceCameraPos.xyz, i.wPos);
-                float alpha = saturate((dist - _MinDistance) / (_MaxDistance - _MinDistance));
+                float3 finalRGB = baseRGB;
 
-                float3 finalRGB = baseRGB + emissionRGB;
-                return float4(finalRGB * _Multipler, alpha);
+                return float4(finalRGB * _Multipler, 1);
             }
             ENDCG
         }
