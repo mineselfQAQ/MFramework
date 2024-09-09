@@ -36,6 +36,7 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string titleScreenPanelName = "TITLESCREEN";
     public static readonly string fileSelectPanelName = "FILESELECT";
     public static readonly string levelSelectPanelName = "LEVELSELECT";
+    public static readonly string dialogPanelName = "DIALOG";
 
     public static readonly string flashEffectName = "FLASHEFFECT";
 
@@ -54,9 +55,10 @@ public class UIController : ComponentSingleton<UIController>
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
-        //用于切换场景过渡用
         flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
-        topRoot.SetSortingOrder(flashEffectName, 1995);
+        topRoot.SetSortingOrder(flashEffectName, 1994);
+        CreatePanel<DialogPanel>(topRoot, dialogPanelName, $"{panelPrepath}/DialogPanel/DialogPanel.prefab", false);
+        topRoot.SetSortingOrder(dialogPanelName, 1995);
         CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
         topRoot.SetSortingOrder(pausePanelName, 1996);
         CreatePanel<TransitionPanel>(topRoot, transitionPanelName, $"{panelPrepath}/TransitionPanel/TransitionPanel.prefab", false);
@@ -108,6 +110,12 @@ public class UIController : ComponentSingleton<UIController>
     }
 
     #region 具体功能函数
+    #region 对话面板
+    public DialogPanel GetDialogPanel()
+    {
+        return (DialogPanel)panelDic[dialogPanelName];
+    }
+    #endregion
     #region 过渡面板
     public void OpenTakeBloodRestartWidget(Action onFinish = null)
     {

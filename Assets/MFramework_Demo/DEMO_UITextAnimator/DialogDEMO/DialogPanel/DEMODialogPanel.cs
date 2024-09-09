@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogPanel : DialogPanelBase
+public class DEMODialogPanel : DEMODialogPanelBase
 {
     private List<string> dialogues = new List<string>() 
     {

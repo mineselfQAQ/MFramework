@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DialogPanelBase : UIPanel
+public class DEMODialogPanelBase : UIPanel
 {
     protected MImage m_ProfilePhoto_MImage;
 	protected MText m_Name_MText;

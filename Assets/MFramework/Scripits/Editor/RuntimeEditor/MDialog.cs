@@ -17,8 +17,8 @@ namespace MFramework
         public static void ShowDialog(string title, string message, Action<int> onButtonClick, params string[] names)
         {
             MDialog window = ScriptableObject.CreateInstance<MDialog>();
-            window.minSize = new Vector2(200, 50);
-            window.maxSize = new Vector2(400, 100);
+            window.minSize = new Vector2(300, 50);
+            window.maxSize = new Vector2(300, 50);
             window.ShowUtility();
             window.titleContent = new GUIContent(title);
             window.btnsName = names;
