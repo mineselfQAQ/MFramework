@@ -37,14 +37,6 @@ public class Board : MonoBehaviour
         m_camera = Camera.main;
     }
 
-    protected virtual void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(GameTags.Player))
-        {
-            Hide();//РыПЊвўВи
-        }
-    }
-
     protected virtual void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(GameTags.Player))
@@ -65,6 +57,14 @@ public class Board : MonoBehaviour
             {
                 Hide();
             }
+        }
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(GameTags.Player))
+        {
+            Hide();//РыПЊвўВи
         }
     }
 

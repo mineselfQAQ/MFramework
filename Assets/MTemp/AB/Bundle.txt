@@ -184,22 +184,18 @@ assets/mframework_demo/demo_3dgame/fonts.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF Header.asset
 	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset
 	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular.otf
-assets/mframework_demo/demo_3dgame/materials/blueslime.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/BlueSlime.mat
-assets/mframework_demo/demo_3dgame/materials/colormapa.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapA.mat
-assets/mframework_demo/demo_3dgame/materials/colormapb.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapB.mat
-assets/mframework_demo/demo_3dgame/materials/colormapc.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapC.mat
-assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing equirect.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing Equirect.mat
-assets/mframework_demo/demo_3dgame/materials/day_bluesky_nothing.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing.mat
-assets/mframework_demo/demo_3dgame/materials/player_fader.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/Player_Fader.mat
-assets/mframework_demo/demo_3dgame/materials/redslime.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/RedSlime.mat
+assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapA.mat
+assets/mframework_demo/demo_3dgame/materials/common/colormapb.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapB.mat
+assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapC.mat
+assets/mframework_demo/demo_3dgame/materials/entites/blueslime.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/BlueSlime.mat
+assets/mframework_demo/demo_3dgame/materials/entites/player_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/Player_Fader.mat
+assets/mframework_demo/demo_3dgame/materials/entites/redslime.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/RedSlime.mat
 assets/mframework_demo/demo_3dgame/materials/items/bluecoin.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/BlueCoin.mat
 assets/mframework_demo/demo_3dgame/materials/items/board.mat.ab
@@ -246,8 +242,6 @@ assets/mframework_demo/demo_3dgame/materials/items/rail.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Rail.mat
 assets/mframework_demo/demo_3dgame/materials/items/redcoin.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/RedCoin.mat
-assets/mframework_demo/demo_3dgame/materials/items/shadow.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Shadow.mat
 assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Spike.mat
 assets/mframework_demo/demo_3dgame/materials/items/spikelog.mat.ab
@@ -282,6 +276,12 @@ assets/mframework_demo/demo_3dgame/materials/particles/trail.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Trail.mat
 assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Wind.mat
+assets/mframework_demo/demo_3dgame/materials/shadow/shadow.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Shadow/Shadow.mat
+assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing equirect.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing Equirect.mat
+assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing.mat
 assets/mframework_demo/demo_3dgame/meshes/board.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Board.fbx
 assets/mframework_demo/demo_3dgame/meshes/checkpoint.fbx.ab

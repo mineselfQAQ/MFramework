@@ -12,7 +12,7 @@ public class Dialog_Main : MonoBehaviour
     private void Start()
     {
         root = UIManager.Instance.CreateRoot("Root", 0, 999);
-        dialogPanel = root.CreatePanel<DialogPanel>(@"Assets/MFramework_Demo/UITextAnimatorDEMO/DialogDEMO/DialogPanel/DialogPanel.prefab", true);
+        dialogPanel = root.CreatePanel<DialogPanel>(@"Assets/MFramework_Demo/DEMO_UITextAnimator/DialogDEMO/DialogPanel/DialogPanel.prefab", true);
         dialogPanel.Init(playerName, profilePhoto);
     }
 

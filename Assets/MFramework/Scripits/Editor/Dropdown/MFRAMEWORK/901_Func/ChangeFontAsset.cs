@@ -53,7 +53,11 @@ namespace MFramework
             if (GUILayout.Button("更改当前Scene下所有FontAssets"))
             {
                 var texts = GameObject.FindObjectsOfType<MText>(true);
-                Debug.Log(texts.Length);
+
+                foreach (var text in texts)
+                {
+                    text.font = fontAsset;
+                }
             }
         }
     }

@@ -111,12 +111,12 @@
 110	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF Header.asset
 111	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset
 112	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular.otf
-113	Assets/MFramework_Demo/DEMO_3DGame/Materials/BlueSlime.mat
-114	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapA.mat
-115	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapB.mat
-116	Assets/MFramework_Demo/DEMO_3DGame/Materials/ColormapC.mat
-117	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing Equirect.mat
-118	Assets/MFramework_Demo/DEMO_3DGame/Materials/Day_BlueSky_Nothing.mat
+113	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapA.mat
+114	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapB.mat
+115	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapC.mat
+116	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/BlueSlime.mat
+117	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/Player_Fader.mat
+118	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/RedSlime.mat
 119	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/BlueCoin.mat
 120	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Board.mat
 121	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Checker_Black.mat
@@ -140,26 +140,26 @@
 139	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Pole.mat
 140	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Rail.mat
 141	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/RedCoin.mat
-142	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Shadow.mat
-143	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Spike.mat
-144	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SpikeLog.mat
-145	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SquareFallingPlatform.mat
-146	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Star.mat
-147	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/TriggerButton.mat
-148	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Water.mat
-149	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Aura.mat
-150	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Fire.mat
-151	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaf.mat
-152	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaves.mat
-153	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat
-154	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Ring.mat
-155	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Smoke.mat
-156	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Sparkle.mat
-157	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/StarParticle.mat
-158	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Trail.mat
-159	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Wind.mat
-160	Assets/MFramework_Demo/DEMO_3DGame/Materials/Player_Fader.mat
-161	Assets/MFramework_Demo/DEMO_3DGame/Materials/RedSlime.mat
+142	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Spike.mat
+143	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SpikeLog.mat
+144	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SquareFallingPlatform.mat
+145	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Star.mat
+146	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/TriggerButton.mat
+147	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Water.mat
+148	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Aura.mat
+149	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Fire.mat
+150	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaf.mat
+151	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaves.mat
+152	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat
+153	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Ring.mat
+154	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Smoke.mat
+155	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Sparkle.mat
+156	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/StarParticle.mat
+157	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Trail.mat
+158	Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Wind.mat
+159	Assets/MFramework_Demo/DEMO_3DGame/Materials/Shadow/Shadow.mat
+160	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing Equirect.mat
+161	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing.mat
 162	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Board.fbx
 163	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Checkpoint.fbx
 164	Assets/MFramework_Demo/DEMO_3DGame/Meshes/CircleBouncingPlatform.fbx
