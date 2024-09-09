@@ -1048,6 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 2627629940673180022}
+  colorPropertyName: _BaseColor
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.5
 --- !u!114 &5427361824974643074
@@ -1254,6 +1255,10 @@ PrefabInstance:
       propertyPath: trails.Array.data[1]
       value: 
       objectReference: {fileID: 3632802817013698292}
+    - target: {fileID: 2441299136236890320, guid: 838ed216df02c8f40adec4ffd7de1403, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0185b0406df66f9489b8ee5fbdb9bdc6, type: 2}
     - target: {fileID: 3578690985401635775, guid: 838ed216df02c8f40adec4ffd7de1403, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -1769,7 +1774,7 @@ PrefabInstance:
     - target: {fileID: 1630794972795428178, guid: 40e21d8ce79cdf04a9168a06cb1ed52e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6c80a925cb7e7bf4591d25668d22efaf, type: 2}
+      objectReference: {fileID: 2100000, guid: 2fbd13fccee10f94aa9fc2d989ccdaaf, type: 2}
     - target: {fileID: 1910831194634942386, guid: 40e21d8ce79cdf04a9168a06cb1ed52e, type: 3}
       propertyPath: m_Layer
       value: 8

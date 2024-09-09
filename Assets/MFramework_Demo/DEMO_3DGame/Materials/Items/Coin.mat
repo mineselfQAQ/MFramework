@@ -49,10 +49,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientInt: 0.6
+    - _AmbientInt: 1
     - _BumpScale: 1
-    - _CubemapInt: 0.2
+    - _CubemapInt: 0.5
     - _CubemapMip: 0
+    - _LightInt: 1
     - _Metallic: 1
     - _Multipler: 1
     - _ReflectRatio: 1

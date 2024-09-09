@@ -6,6 +6,7 @@ public class HurtEffect : MonoBehaviour
 {
     [Header("Flash Settings")]
     public SkinnedMeshRenderer[] renderers;
+    public string colorPropertyName = "_Color";
     public Color flashColor = Color.red;
     public float flashDuration = 0.5f;
 
@@ -22,11 +23,12 @@ public class HurtEffect : MonoBehaviour
         foreach (var renderer in renderers)
         {
             var hurtColor = this.flashColor;
-            var initialColor = renderer.material.color;
+            var initialColor = renderer.material.GetColor(colorPropertyName);
             //受伤颜色--->原来的颜色
             MTween.DoTween01NoRecord((f) =>
             {
-                renderer.material.color = Color.Lerp(hurtColor, initialColor, f);
+                var color = Color.Lerp(hurtColor, initialColor, f);
+                renderer.material.SetColor(colorPropertyName, color);
             }, MCurve.Linear, flashDuration);
         }
     }

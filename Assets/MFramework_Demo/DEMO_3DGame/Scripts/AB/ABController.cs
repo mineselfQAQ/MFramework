@@ -1,10 +1,12 @@
 using MFramework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ABController : ComponentSingleton<ABController>
 {
     [Tooltip("系统根目录至AB根目录，如：\nF:/MineselfDemo/MFramework_AssetBundle/WINDOWS")]
-    public string fileURL;
+    public List<string> fileURLs;
+    public int index;//选择的URL
 
     [Header("Settings")]
     public bool enableAB = true;
@@ -36,8 +38,9 @@ public class ABController : ComponentSingleton<ABController>
 
     protected string GetFileUrl(string fileName)
     {
-        //return $"{fileURL}/{fileName}";
-        return $"D:/___UnityProject___/MFramework_AssetBundle/WINDOWS/{fileName}";
-        //return $"F:/MineselfDemo/MFramework_AssetBundle/WINDOWS/{fileName}";
+        return $"{fileURLs[index]}/{fileName}";
+
+        //家中---D:/___UnityProject___/MFramework_AssetBundle/WINDOWS/{fileName}";
+        //单位---F:/MineselfDemo/MFramework_AssetBundle/WINDOWS/{fileName}";
     }
 }

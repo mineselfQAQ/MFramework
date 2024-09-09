@@ -1194,6 +1194,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5683573475799270593}
     m_Modifications:
+    - target: {fileID: 1957423538028890880, guid: 2433e0db3dca587499fb1a44d1f1151e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2813027789527092172, guid: 2433e0db3dca587499fb1a44d1f1151e, type: 3}
       propertyPath: text
       value: "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n\u6D4B\u8BD5\u6587\u672C\u6D4B\u8BD5\u6587\u672C\u6D4B\u8BD5\u6587\u672C"

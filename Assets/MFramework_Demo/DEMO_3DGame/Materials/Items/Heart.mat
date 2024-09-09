@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Heart
-  m_Shader: {fileID: -6465566751694194690, guid: 08da604a4489a8748962ec8522dc016d, type: 3}
+  m_Shader: {fileID: 4800000, guid: 5a74dd14f98013040987e4ebdb7a2e61, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,40 +16,49 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Cube:
+    - _AOMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap:
         m_Texture: {fileID: 8900000, guid: 721b6bc7cc707b14a99bb6c7b81414f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
-    - _Smoothness: 0.5
+    - _AmbientInt: 1
+    - _BumpScale: 1
+    - _CubemapInt: 0.5
+    - _CubemapMip: 0
+    - _LightInt: 1
+    - _Metallic: 0.3
+    - _Multipler: 1
+    - _ReflectRatio: 1
+    - _Roughness: 0.5
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
-    - _ReflectColor: {r: 0.67058825, g: 0.28627452, b: 0.28627452, a: 1}
+    - _BaseColor: {r: 0.7830189, g: 0.21791564, b: 0.2346347, a: 1}
+    - _CubemapColor: {r: 0.7260235, g: 0.85465604, b: 0.9339623, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5921005279446982063
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0

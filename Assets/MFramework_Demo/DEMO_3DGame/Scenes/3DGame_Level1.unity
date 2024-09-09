@@ -254,6 +254,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '#AB#'
       objectReference: {fileID: 0}
+    - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
+      propertyPath: enableAB
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3989768789481425267, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -756,8 +760,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6713157424955856308, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713157424955856308, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.64473724
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713157424955856308, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.58592916
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713157424955856308, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713157424955856308, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Lightmapping
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8090123166138948588, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: OutputAudioMixerGroup

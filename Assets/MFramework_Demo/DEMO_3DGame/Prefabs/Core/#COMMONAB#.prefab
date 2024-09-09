@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722ca65da26a5644abd059b8726be847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fileURLs:
+  - D:/___UnityProject___/MFramework_AssetBundle/WINDOWS
+  - F:/MineselfDemo/MFramework_AssetBundle/WINDOWS
+  index: 0
+  enableAB: 1

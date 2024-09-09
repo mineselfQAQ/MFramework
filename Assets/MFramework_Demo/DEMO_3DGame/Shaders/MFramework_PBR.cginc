@@ -1,5 +1,5 @@
-#ifndef MFRAMEWORKCG
-#define MFRAMEWORKCG
+#ifndef MFRAMEWORK_PBR
+#define MFRAMEWORK_PBR
 
 //以下是BRDF中Cook-Torrance镜面反射的D/F/G项
 //D项---使用Trowbridge-Reitz GGX
@@ -45,7 +45,7 @@ float G_SchlickGGX(float3 N, float3 V, float3 L, float roughness)
     return ggx1 * ggx2;
 }
 
-float3 CalculateDirTerm(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, float metallic, float roughness, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, float atten, float2 uv)
+float3 CalculateDirTerm(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, float atten, float2 uv, float metallic = 0.5, float roughness = 0.5, float intensity = 1)
 {
     //准备参数
     float3 H = normalize(L + V);
@@ -90,7 +90,7 @@ float3 CalculateDirTerm(float3 baseColor, float3 lightColor, float3 L, float3 N,
     //计算最终结果---出射radiance
     float3 Lo = (diffuseTerm + specularTerm) * radiance * NdotL;
     
-    return Lo;
+    return Lo * intensity;
 }
 
 float3 CalculateAmbient(float3 N, float3 base, float intensity = 1)
@@ -125,18 +125,22 @@ float3 CalculateIndirTerm(float3 baseColor, float3 N, float3 V, sampler2D baseMa
     return inDirTerm;
 }
 
-float3 LightingPBR_BASE(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, float metallic, float roughness, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, sampler2D aoMap, samplerCUBE cubemap, float atten, float2 uv, float ambientInt = 1, int lod = 1, float cubemapInt = 1, float3 cubemapColor = float3(1, 1, 1))
+float3 LightingPBR_BASE(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, sampler2D aoMap, samplerCUBE cubemap, float atten, float2 uv, float metallic = 0.5, float roughness = 0.5, float lightInt = 1, float ambientInt = 1, int lod = 1, float cubemapInt = 1, float3 cubemapColor = float3(1, 1, 1))
 {
-    float3 dirTerm = CalculateDirTerm(baseColor, lightColor, L, N, V, metallic, roughness, baseMap, metallicMap, roughnessMap, atten, uv);
+    float3 dirTerm = CalculateDirTerm(baseColor, lightColor, L, N, V, baseMap, metallicMap, roughnessMap, atten, uv, metallic, roughness, lightInt);
+#ifdef UNITY_COLORSPACE_GAMMA
+    dirTerm = LinearToGamma(dirTerm);
+#endif
     float3 inDirTerm = CalculateIndirTerm(baseColor, N, V,baseMap, aoMap, cubemap, uv, ambientInt, lod, cubemapInt, cubemapColor);
     
     return dirTerm + inDirTerm;
 }
-
-//有了这几项后，就可以计算真正的PBR了
-float3 LightingPBR_ADD(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, float metallic, float roughness, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, float atten, float2 uv)
+float3 LightingPBR_ADD(float3 baseColor, float3 lightColor, float3 L, float3 N, float3 V, sampler2D baseMap, sampler2D metallicMap, sampler2D roughnessMap, float atten, float2 uv, float metallic = 0.5, float roughness = 0.5, float lightInt = 1)
 {
-    float3 dirTerm = CalculateDirTerm(baseColor, lightColor, L, N, V, metallic, roughness, baseMap, metallicMap, roughnessMap, atten, uv);
+    float3 dirTerm = CalculateDirTerm(baseColor, lightColor, L, N, V, baseMap, metallicMap, roughnessMap, atten, uv, metallic, roughness, lightInt);
+#ifdef UNITY_COLORSPACE_GAMMA
+    dirTerm = LinearToGamma(dirTerm);
+#endif
 
     return dirTerm;
 }

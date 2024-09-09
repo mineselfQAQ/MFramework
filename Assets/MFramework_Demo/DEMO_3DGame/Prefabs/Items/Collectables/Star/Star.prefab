@@ -167,7 +167,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 1fe7fde7329f3a040b036aa4a78adf18, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4765369519edce940b2afcacb8a56de6, type: 2}
+      objectReference: {fileID: 2100000, guid: 1c728c6311474b54e83e6b3ed2e4ea7a, type: 2}
     - target: {fileID: 919132149155446097, guid: 1fe7fde7329f3a040b036aa4a78adf18, type: 3}
       propertyPath: m_Name
       value: StarModel
