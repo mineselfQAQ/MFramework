@@ -620,7 +620,7 @@ namespace MFramework
         #region 动画---细节(单个字符)
         private void AnimShow_Char(TMP_Text text, MTextCharData data, bool typewriter = false, MTextData textData = null)
         {
-            ColorCharVertices(data, new Color32(255, 255, 255, 255));
+            //ColorCharVertices(data, new Color32(255, 255, 255, 255));
             UpdateCharData(data, text);
             text.UpdateVertexData();
 
