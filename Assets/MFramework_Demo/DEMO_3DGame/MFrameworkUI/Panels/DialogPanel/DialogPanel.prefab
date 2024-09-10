@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 5320882216104640492}
   - component: {fileID: 3998005948526033020}
   - component: {fileID: 2808380025283634860}
+  - component: {fileID: 4102829410507206285}
   - component: {fileID: 67057741086272976}
   m_Layer: 0
   m_Name: Message
@@ -135,6 +136,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2951582908368279111}
   m_CullTransparentMesh: 1
+--- !u!114 &4102829410507206285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2951582908368279111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 111f8f1819baedb4ba66481085abb2e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeWriterSwitch: 1
+  typewriterType: 0
+  typewriterStartDo: 1
+  typeSpeed: 1
+  onTypeWriterFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  inlineEffectsSwitch: 0
+  inlineEffectsAutoDo: 0
 --- !u!114 &67057741086272976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +335,7 @@ GameObject:
   - component: {fileID: 2419268970522579814}
   - component: {fileID: 144341657147425697}
   - component: {fileID: 6226602884461444271}
+  - component: {fileID: 2051857057027846743}
   m_Layer: 0
   m_Name: SpeechBubble
   m_TagString: Untagged
@@ -425,6 +448,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &2051857057027846743
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332949203578664780}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5827815448537897709
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6977412135690145426}
   - component: {fileID: 4828317956932513510}
+  - component: {fileID: 7560714541306105123}
   m_Layer: 5
   m_Name: DialogPanel
   m_TagString: Untagged
@@ -494,6 +530,27 @@ MonoBehaviour:
   closeAnimMode: 0
   thickness: 10
   focusMode: 0
+--- !u!95 &7560714541306105123
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827815448537897709}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e94dc77a773ad3d418f769b7c465c568, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6287318899162242715
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +587,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 265, y: 72}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765948148807592065
 MonoBehaviour:
@@ -601,8 +658,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -611,7 +668,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -5
+  m_characterSpacing: -15
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -830,8 +887,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -283.8, y: 132.73}
-  m_SizeDelta: {x: 298.5, y: 94.9}
+  m_AnchoredPosition: {x: -232.8118, y: 132.72998}
+  m_SizeDelta: {x: 400, y: 94.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8926222908787144092
 CanvasRenderer:

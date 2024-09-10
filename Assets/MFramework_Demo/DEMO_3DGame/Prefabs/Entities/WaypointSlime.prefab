@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3182998dd064e1e459ba280212f8ddd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enablePenetration: 1
   entityEvents:
     OnGroundEnter:
       m_PersistentCalls:
@@ -70,6 +71,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   drawDetectGizmos: 1
+  friendly: 0
   enemyEvents:
     OnPlayerSpotted:
       m_PersistentCalls:
@@ -227,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 1293443270555892107}
+  colorPropertyName: _Color
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.5
 --- !u!143 &7595627918930500176
@@ -248,13 +251,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
+  m_Height: 1.8
   m_Radius: 0.7
   m_SlopeLimit: 30
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &1909878890853615592
 MonoBehaviour:
   m_ObjectHideFlags: 0

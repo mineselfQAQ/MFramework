@@ -1,24 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using MFramework;
 using UnityEngine;
 
-public class DialogController : MonoBehaviour
+public class DialogController : ComponentSingleton<DialogController>
 {
     protected DialogPanel panel;
+
+    protected Level m_level => Level.Instance;
 
     protected void Start()
     {
         panel = UIController.Instance.GetDialogPanel();
+        panel.OnStart += () =>
+        {
+            Game.LockCursor(false);
+            Time.timeScale = 0;
+
+            m_level.player.inputs.DisableInputAction(InputActionName.pause);//Ω˚”√‘›Õ£º¸
+        };
+        panel.OnEnd += () =>
+        {
+            Game.LockCursor();
+            Time.timeScale = 1;
+
+            m_level.player.inputs.EnableInputAction(InputActionName.pause);//∆Ù”√‘›Õ£º¸
+        };
     }
 
-    public void ShowDialog()
+    public void StartDialog(Conversation conversation)
     {
-        panel.OpenSelf();
-        //panel.RefreshView();
+        panel.StartDialog(conversation);
     }
-
-    public void HideDialog()
+    public void EndDialog()
     {
-        panel.CloseSelf();
+        panel.EndDialog();
     }
 }

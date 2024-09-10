@@ -36,7 +36,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
         if (controller.enabled)
         {
             HandlePosition();//位置信息
-            HandlePenetration();//水平重叠处理
+            if(enablePenetration) HandlePenetration();//水平重叠处理
         }
     }
 
@@ -450,6 +450,7 @@ public abstract class Entity<T> : Entity where T : Entity<T>
 public abstract class Entity : MonoBehaviour
 {
     #region 公开变量
+    public bool enablePenetration = true;
     public EntityEvents entityEvents;
     #endregion
 

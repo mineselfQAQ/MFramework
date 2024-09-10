@@ -37,6 +37,12 @@ public class EnemyStats : EntityStats<EnemyStats>
     public float friction = 16f;
     public float turningDrag = 28f;
 
+    [Header("Look Stats")]
+    public float maxVerticalAngle = 25f;
+    public float restoreOrientationDuration = 1.0f;
+    public bool smoothRotate = true;
+    public float smoothRotateSpeed = 4.0f;
+
     [Header("Dead Stats")]
     public bool cleanCorpse = true;
     public float cleanDuration = 2.0f;

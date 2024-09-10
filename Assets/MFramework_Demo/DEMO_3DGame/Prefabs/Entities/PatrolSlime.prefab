@@ -33,6 +33,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enablePenetration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}

@@ -1,6 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum InputActionName
+{
+    movement,
+    run,
+    jump,
+    dive,
+    spin,
+    pickAndDrop,
+    crouch,
+    airDive,
+    stomp,
+    releaseLedge,
+    pause,
+    look,
+    glide,
+    dash,
+    grindBrake,
+    interact
+}
+
 public class PlayerInputManager : MonoBehaviour
 {
     public InputActionAsset actions;
@@ -20,6 +40,7 @@ public class PlayerInputManager : MonoBehaviour
     protected InputAction m_glide;
     protected InputAction m_dash;
     protected InputAction m_grindBrake;
+    protected InputAction m_interact;
 
     protected Camera m_camera;
 
@@ -75,6 +96,7 @@ public class PlayerInputManager : MonoBehaviour
         m_glide = actions["Glide"];
         m_dash = actions["Dash"];
         m_grindBrake = actions["Grind Brake"];
+        m_interact = actions["Interact"];
     }
 
     /// <summary>
@@ -174,6 +196,75 @@ public class PlayerInputManager : MonoBehaviour
     public virtual bool GetDashDown() => m_dash.WasPressedThisFrame();
     public virtual bool GetGrindBrake() => m_grindBrake.IsPressed();
     public virtual bool GetPauseDown() => m_pause.WasPressedThisFrame();
+    public virtual bool GetInteractDown() => m_interact.WasPressedThisFrame();
+    
+    public virtual InputAction GetInputAction(InputActionName name)
+    {
+        switch (name)
+        {
+            case InputActionName.movement:
+                return m_movement;
+            case InputActionName.run:
+                return m_run;
+            case InputActionName.jump:
+                return m_jump;
+            case InputActionName.dive:
+                return m_dive;
+            case InputActionName.spin:
+                return m_spin;
+            case InputActionName.pickAndDrop:
+                return m_pickAndDrop;
+            case InputActionName.crouch:
+                return m_crouch;
+            case InputActionName.airDive:
+                return m_airDive;
+            case InputActionName.stomp:
+                return m_stomp;
+            case InputActionName.releaseLedge:
+                return m_releaseLedge;
+            case InputActionName.pause:
+                return m_pause;
+            case InputActionName.look:
+                return m_look;
+            case InputActionName.glide:
+                return m_glide;
+            case InputActionName.dash:
+                return m_dash;
+            case InputActionName.grindBrake:
+                return m_grindBrake;
+            case InputActionName.interact:
+                return m_interact;
+            default:
+                return null;
+        }
+    }
+
+    public void EnableInputAction(InputActionName name)
+    {
+        var inputAction = GetInputAction(name);
+        inputAction.Enable();
+    }
+    public void DisableInputAction(InputActionName name)
+    {
+        var inputAction = GetInputAction(name);
+        inputAction.Disable();
+    }
+
+    /// <summary>
+    /// 根据控制方案(键盘/手柄)获取相应按键名
+    /// </summary>
+    public string GetKey(InputAction action, string deviceType)
+    {
+        foreach (var binding in action.bindings)
+        {
+            if (binding.effectivePath.Contains(deviceType))
+            {
+                return binding.ToDisplayString();
+            }
+        }
+        return null;
+    }
+
 
     protected float RemapToDeadzone(float value, float deadzone)
     {

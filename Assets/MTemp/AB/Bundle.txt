@@ -388,6 +388,8 @@ assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwid
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/SettingWidget/SettingWidget.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/TakeBloodRestartWidget/TakeBloodRestartWidget.prefab
+assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMINDIALOG#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONAB#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commoncamera#.prefab.ab
@@ -448,8 +450,6 @@ assets/mframework_demo/demo_3dgame/prefabs/items/squarefallingplatform.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/SquareFallingPlatform.prefab
 assets/mframework_demo/demo_3dgame/prefabs/items/waterpool.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/WaterPool.prefab
-assets/mframework_demo/demo_3dgame/prefabs/level1/board.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Board.prefab
 assets/mframework_demo/demo_3dgame/prefabs/level1/flower.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Flower.prefab
 assets/mframework_demo/demo_3dgame/prefabs/level1/flower2.prefab.ab
@@ -592,6 +592,8 @@ assets/mframework_demo/demo_3dgame/settings/defaultplayerstats.asset.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultPlayerStats.asset
 assets/mframework_demo/demo_3dgame/settings/defaultpostprocessing.asset.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultPostProcessing.asset
+assets/mframework_demo/demo_3dgame/settings/greenslimeconversation.asset.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Settings/GreenSlimeConversation.asset
 assets/mframework_demo/demo_3dgame/settings/player input actions.inputactions.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/Player Input Actions.inputactions
 assets/mframework_demo/demo_3dgame/settings/titlescreen.playable.ab
@@ -646,8 +648,8 @@ assets/mframework_demo/demo_3dgame/sprites/preview.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Level1.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Preview/Preview_Sample.png
 assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/GreenSlime 1.png
-	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/GreenSlime.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/GreenSlime_Left.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/GreenSlime_Right.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/Mineself.jpg
 assets/mframework_demo/demo_3dgame/sprites/ui.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/UI/Fade.png
@@ -691,12 +693,12 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -786,8 +788,8 @@ assets/textmesh pro/shaders.ab
 assets/mframework_demo/demo_3dgame/textures/projectors.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
-assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/Materials/colormap.mat
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel.controller.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab
@@ -922,6 +924,10 @@ assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.
 	Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
 assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultLighting.lighting
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_open.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel_Open.anim
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_close.anim.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel_Close.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Open.anim
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab

@@ -18,6 +18,10 @@ MonoBehaviour:
   deceleration: 28
   friction: 16
   turningDrag: 28
+  maxVerticalAngle: 25
+  restoreOrientationDuration: 0.5
+  smoothRotate: 1
+  smoothRotateSpeed: 4
   cleanCorpse: 1
   cleanDuration: 2
   canAttackOnContact: 1

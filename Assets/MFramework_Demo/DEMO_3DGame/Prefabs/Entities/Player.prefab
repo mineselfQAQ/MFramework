@@ -715,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f074a141b2fa46d4890d75e188436fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enablePenetration: 1
   entityEvents:
     OnGroundEnter:
       m_PersistentCalls:

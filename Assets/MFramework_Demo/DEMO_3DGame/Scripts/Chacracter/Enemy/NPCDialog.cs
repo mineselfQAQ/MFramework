@@ -1,37 +1,125 @@
-using System.Collections;
-using System.Collections.Generic;
+using MFramework;
+using MFramework.UI;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class NPCDialog : MonoBehaviour
 {
-    protected Collider m_collider;
-    protected bool m_showing;
+    public float duration = 1.0f;
+    public float fadeDistance = 0.5f;
+    public float detectRadius = 3.0f;
+    public Conversation conversation;
 
-    protected virtual void Awake()
+    public CanvasGroup canvas;
+
+    protected Camera m_camera;
+    protected CapsuleCollider m_collider;
+    protected bool m_hintShowing;
+
+    protected Vector3 m_srcPos;
+    protected Vector3 m_desPos;
+
+    protected bool m_isTriggering = false;
+
+    protected Level m_level => Level.Instance;
+
+    protected void OnDrawGizmos()
     {
-        m_collider = GetComponent<Collider>();
-        m_collider.isTrigger = true;
+        if (Application.isPlaying)
+        {
+            if (m_isTriggering) Gizmos.color = Color.green;
+            else Gizmos.color = Color.red;
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+
+        Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 
-    //protected virtual void OnTriggerStay(Collider other)
-    //{
-    //    if (other.CompareTag(GameTags.Player))
-    //    {
-    //        ShowTint();//显示交互键(如输入enter)
+    protected virtual void Start()
+    {
+        m_camera = Camera.main;
 
-    //        if (true)//输入交互键
-    //        {
-    //            ShowDialog();//弹出对话框
-    //        }
-    //    }
-    //}
+        m_desPos = canvas.transform.localPosition;
+        m_srcPos = m_desPos - new Vector3(0, fadeDistance, 0);
 
-    //protected virtual void OnTriggerExit(Collider other)
-    //{
-    //    if (other.CompareTag(GameTags.Player))
-    //    {
-    //        HideTint();//离开隐藏交互键
-    //    }
-    //}
+        m_collider = gameObject.AddComponent<CapsuleCollider>();
+        m_collider.isTrigger = true;
+        m_collider.radius = detectRadius;
+
+        canvas.gameObject.SetActive(false);
+        var text = canvas.gameObject.FindChildByName("MText").GetComponent<MText>();
+        var inputAction = m_level.player.inputs.GetInputAction(InputActionName.interact);
+        string keyName = m_level.player.inputs.GetKey(inputAction, "Keyboard");//TODO:只支持键盘
+        text.text = keyName;
+    }
+
+    protected virtual void Update()
+    {
+        if (m_isTriggering)
+        {
+            canvas.transform.LookAt(m_camera.transform);
+
+            if (m_level.player.inputs.GetInteractDown())
+            {
+                DialogController.Instance.StartDialog(conversation);//弹出对话框
+            }
+        }
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(GameTags.Player))
+        {
+            m_isTriggering = true;
+            ShowHint();
+        }
+    }
+
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag(GameTags.Player))
+        {
+            //...
+        }
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(GameTags.Player))
+        {
+            m_isTriggering = false;
+            HideHint();//离开隐藏交互键
+        }
+    }
+
+    protected virtual void ShowHint()
+    {
+        m_hintShowing = true;
+        canvas.gameObject.SetActive(true);
+        
+        //上升+渐入
+        MTween.DoTween01NoRecord((f) =>
+        {
+            Vector3 pos = Vector3.Lerp(m_srcPos, m_desPos, f);
+            float alpha = Mathf.Lerp(0, 1, f);
+            canvas.transform.localPosition = pos;
+            canvas.alpha = alpha;
+        }, MCurve.Linear, duration);
+    }
+    protected virtual void HideHint()
+    {
+        //下降+渐出
+        MTween.DoTween01NoRecord((f) =>
+        {
+            Vector3 pos = Vector3.Lerp(m_desPos, m_srcPos, f);
+            float alpha = Mathf.Lerp(1, 0, f);
+            canvas.transform.localPosition = pos;
+            canvas.alpha = alpha;
+        }, MCurve.Linear, duration, () =>
+        {
+            canvas.gameObject.SetActive(false);
+        });
+    }
 }

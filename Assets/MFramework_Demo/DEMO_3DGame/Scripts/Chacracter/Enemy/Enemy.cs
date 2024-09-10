@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAudio))]
 [RequireComponent(typeof(EnemyAnimator))]
 [RequireComponent(typeof(EnemyParticles))]
-[RequireComponent(typeof(Waypoint))]
 [RequireComponent(typeof(Health))]
 public class Enemy : Entity<Enemy>
 {
@@ -15,6 +14,7 @@ public class Enemy : Entity<Enemy>
 
     [Space(10)]
 
+    public bool friendly;
     public EnemyEvents enemyEvents;
 
     protected Collider[] m_sightOverlaps = new Collider[1024];
@@ -66,6 +66,8 @@ public class Enemy : Entity<Enemy>
     /// </summary>
     public override void ApplyDamage(int amount, Vector3 origin)
     {
+        if (friendly) return;
+
         if (!health.isEmpty && !health.recovering)
         {
             health.Damage(amount);
@@ -90,6 +92,8 @@ public class Enemy : Entity<Enemy>
     /// </summary>
     public virtual void ContactAttack()
     {
+        if (friendly) return;
+
         if (stats.current.canAttackOnContact)
         {
             int overlapNum = OverlapEntity(m_contactAttackOverlaps, stats.current.contactOffset);
@@ -183,5 +187,36 @@ public class Enemy : Entity<Enemy>
     public virtual void SnapToGround()
     {
         SnapToGround(stats.current.snapForce);
+    }
+
+    public virtual void LookPlayer(bool smooth = true)
+    {
+        Vector3 direction = player.transform.position - transform.position;
+
+        Vector3 currentForward = transform.forward;
+        currentForward.y = 0;
+        currentForward.Normalize();
+        Vector3 targetForward = direction;
+        targetForward.y = 0;
+        targetForward.Normalize();
+
+        float horizontalAngle = Vector3.Angle(currentForward, targetForward);
+
+        float verticalAngle = Vector3.SignedAngle(currentForward, direction.normalized, transform.right);
+        verticalAngle = Mathf.Clamp(verticalAngle, -stats.current.maxVerticalAngle, stats.current.maxVerticalAngle);
+
+        Quaternion horizontalRotation = Quaternion.LookRotation(targetForward);
+        Quaternion verticalRotation = Quaternion.AngleAxis(verticalAngle, transform.right);
+        Quaternion targetRotation = verticalRotation * horizontalRotation;
+
+        if (smooth)
+        {
+            float rotationSpeed = stats.current.smoothRotateSpeed;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+        else
+        {
+            transform.rotation = targetRotation;
+        }
     }
 }
