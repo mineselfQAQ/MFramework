@@ -811,6 +811,10 @@ PrefabInstance:
       propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4525648077009515500, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: localID
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 5678286214404821571, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
