@@ -45,20 +45,33 @@ public class Enemy : Entity<Enemy>
     {
         ContactAttack();
         HandleSight();
+
+        if (player)
+        {
+            enemyEvents.OnPlayerStay?.Invoke();
+        }
     }
 
     protected void OnDrawGizmos()
     {
         if (Application.isPlaying && drawDetectGizmos)
         {
-            if (states.ContainsStateOfType(typeof(FollowEnemyState)))//具有追踪功能
+            if (states.ContainsStateOfType(typeof(FollowEnemyState)) || //追踪模式
+                states.ContainsStateOfType(typeof(IdleLookEnemyState))) //注视模式(NPC)
             {
-                if(player == null) Gizmos.color = Color.yellow;
-                else Gizmos.color = Color.red;
-
-                Gizmos.DrawWireSphere(position, stats.current.patrolEnterRange);
+                if (!player)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(position, stats.current.patrolEnterRange);
+                }
+                else
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawWireSphere(position, stats.current.patrolExitRange);
+                }
             }
         }
+        //TODO:未开始游戏时变量未初始化无法进行绘制
     }
 
     /// <summary>
@@ -139,7 +152,7 @@ public class Enemy : Entity<Enemy>
                     {
                         //Player进入范围
                         this.player = player;
-                        enemyEvents.OnPlayerSpotted?.Invoke();
+                        enemyEvents.OnPlayerEnter?.Invoke();
                         return;
                     }
                 }
@@ -154,7 +167,7 @@ public class Enemy : Entity<Enemy>
             if ((player.health.current == 0) || (distance > stats.current.patrolExitRange))
             {
                 player = null;
-                enemyEvents.OnPlayerScaped?.Invoke();
+                enemyEvents.OnPlayerExit?.Invoke();
             }
         }
     }
@@ -189,6 +202,9 @@ public class Enemy : Entity<Enemy>
         SnapToGround(stats.current.snapForce);
     }
 
+    /// <summary>
+    /// 看向Player
+    /// </summary>
     public virtual void LookPlayer(bool smooth = true)
     {
         Vector3 direction = player.transform.position - transform.position;
@@ -200,8 +216,10 @@ public class Enemy : Entity<Enemy>
         targetForward.y = 0;
         targetForward.Normalize();
 
+        //计算水平旋转角
         float horizontalAngle = Vector3.Angle(currentForward, targetForward);
 
+        //计算垂直旋转角
         float verticalAngle = Vector3.SignedAngle(currentForward, direction.normalized, transform.right);
         verticalAngle = Mathf.Clamp(verticalAngle, -stats.current.maxVerticalAngle, stats.current.maxVerticalAngle);
 

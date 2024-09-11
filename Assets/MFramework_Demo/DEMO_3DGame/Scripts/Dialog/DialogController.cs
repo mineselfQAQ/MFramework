@@ -16,6 +16,7 @@ public class DialogController : ComponentSingleton<DialogController>
             Time.timeScale = 0;
 
             m_level.player.inputs.DisableInputAction(InputActionName.pause);//½ûÓÃÔÝÍ£¼ü
+            m_level.player.inputs.DisableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
         };
         panel.OnEnd += () =>
         {
@@ -23,6 +24,7 @@ public class DialogController : ComponentSingleton<DialogController>
             Time.timeScale = 1;
 
             m_level.player.inputs.EnableInputAction(InputActionName.pause);//ÆôÓÃÔÝÍ£¼ü
+            m_level.player.inputs.EnableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
         };
     }
 

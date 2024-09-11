@@ -22,21 +22,6 @@ public class NPCDialog : MonoBehaviour
 
     protected Level m_level => Level.Instance;
 
-    protected void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
-        {
-            if (m_isTriggering) Gizmos.color = Color.green;
-            else Gizmos.color = Color.red;
-        }
-        else
-        {
-            Gizmos.color = Color.red;
-        }
-
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
-    }
-
     protected virtual void Start()
     {
         m_camera = Camera.main;
@@ -55,43 +40,26 @@ public class NPCDialog : MonoBehaviour
         text.text = keyName;
     }
 
-    protected virtual void Update()
+    public virtual void OnEnter()
     {
-        if (m_isTriggering)
-        {
-            canvas.transform.LookAt(m_camera.transform);
+        m_isTriggering = true;
+        ShowHint();
+    }
 
-            if (m_level.player.inputs.GetInteractDown())
-            {
-                DialogController.Instance.StartDialog(conversation);//弹出对话框
-            }
+    public virtual void OnStay()
+    {
+        canvas.transform.LookAt(m_camera.transform);
+
+        if (m_level.player.inputs.GetInteractDown())
+        {
+            DialogController.Instance.StartDialog(conversation);//弹出对话框
         }
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    public virtual void OnExit()
     {
-        if (other.CompareTag(GameTags.Player))
-        {
-            m_isTriggering = true;
-            ShowHint();
-        }
-    }
-
-    protected virtual void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag(GameTags.Player))
-        {
-            //...
-        }
-    }
-
-    protected virtual void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(GameTags.Player))
-        {
-            m_isTriggering = false;
-            HideHint();//离开隐藏交互键
-        }
+        m_isTriggering = false;
+        HideHint();//离开隐藏交互键
     }
 
     protected virtual void ShowHint()

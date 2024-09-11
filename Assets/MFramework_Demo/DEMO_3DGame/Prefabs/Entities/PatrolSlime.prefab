@@ -37,6 +37,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -45,9 +53,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6040180709490089927}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6040180709490089927}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerSpotted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 3
@@ -57,9 +81,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6040180709490089927}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerSpotted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6040180709490089927}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Change
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Change
+      objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -77,6 +117,18 @@ PrefabInstance:
       value: Change
       objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EntityStateManager`1[[Enemy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EntityStateManager`1[[Enemy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: EntityStateManager`1[[Enemy, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -91,6 +143,14 @@ PrefabInstance:
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerSpotted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
+      propertyPath: enemyEvents.OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4183815570433199052, guid: 12da47895f711ac41b385bdce9fbd072, type: 3}
       propertyPath: enemyEvents.OnPlayerScaped.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

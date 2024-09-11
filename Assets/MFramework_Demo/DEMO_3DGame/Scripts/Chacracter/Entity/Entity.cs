@@ -464,6 +464,7 @@ public abstract class Entity : MonoBehaviour
 
     protected CapsuleCollider m_collider;
     protected BoxCollider m_penetratorCollider;
+    public BoxCollider PenetratorCollider => m_penetratorCollider;
 
     protected Rigidbody m_rigidbody;
     #endregion

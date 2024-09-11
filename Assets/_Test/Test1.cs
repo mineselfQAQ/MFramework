@@ -7,9 +7,18 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
+    public Bouncer bouncer;
+
     private void Start()
     {
-        var audioSource = GetComponent<AudioSource>();
-        audioSource.outputAudioMixerGroup = SoundController.Instance.mixer.FindMatchingGroups("Music")[0];
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            bouncer.StopBounce();
+        }
     }
 }

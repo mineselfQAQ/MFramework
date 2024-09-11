@@ -211,6 +211,13 @@ namespace MFramework.UI
             }
         }
         #endregion
+
+        public void UpdateParsedTextDic(int id)
+        {
+            mLocal.LocalID = id;
+            parsedTextDic = GenerateParsedTextDic();
+            UpdateView();
+        }
     }
 
     public static class MTextExtension
@@ -298,6 +305,19 @@ namespace MFramework.UI
                 text.parsedTextDic = text.GenerateParsedTextDic();
                 text.UpdateView();
             }
+            text.mAnimator.PlayNewText();
+        }
+        /// <summary>
+        /// 通过localID更新文字
+        /// </summary>
+        public static void SetMText(this MText text, int localID)
+        {
+            //Tip：由于使用本地化，所以需要将localID设置为非-1
+
+            //由于SetAlpha()并不能即使生效，所以先隐藏，在调用之前显示即可
+            text.alpha = 0;
+
+            text.UpdateParsedTextDic(localID);
             text.mAnimator.PlayNewText();
         }
     }

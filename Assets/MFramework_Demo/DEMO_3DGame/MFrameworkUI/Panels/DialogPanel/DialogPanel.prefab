@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1681258690010930134}
   - component: {fileID: 5963780371595619756}
   - component: {fileID: 4049828332494250194}
+  - component: {fileID: 5957067102147425300}
   m_Layer: 0
   m_Name: Icon_Arrow
   m_TagString: Untagged
@@ -75,6 +76,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5957067102147425300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659035005117758686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc308af2a9ecdaa48abbc17858aa3bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startDo: 0
+  direction: {x: 0, y: 1, z: 0}
+  frequency: 1
+  distance: 20
+  stopAccelerateMultipler: 4
 --- !u!1 &2951582908368279111
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localMode: 0
-  localID: -1
+  localID: 100
 --- !u!222 &2808380025283634860
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -151,12 +169,12 @@ MonoBehaviour:
   typeWriterSwitch: 1
   typewriterType: 0
   typewriterStartDo: 1
-  typeSpeed: 1
+  typeSpeed: 0.8
   onTypeWriterFinished:
     m_PersistentCalls:
       m_Calls: []
-  inlineEffectsSwitch: 0
-  inlineEffectsAutoDo: 0
+  inlineEffectsSwitch: 1
+  inlineEffectsAutoDo: 1
 --- !u!114 &67057741086272976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +543,9 @@ MonoBehaviour:
   - target: {fileID: 5332949203578664780}
     compList:
     - {fileID: 6226602884461444271}
+  - target: {fileID: 659035005117758686}
+    compList:
+    - {fileID: 5957067102147425300}
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0

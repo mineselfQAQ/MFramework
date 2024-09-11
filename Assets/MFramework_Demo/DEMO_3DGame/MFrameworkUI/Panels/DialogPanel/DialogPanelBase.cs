@@ -10,6 +10,7 @@ public class DialogPanelBase : UIPanel
 	protected MText m_Name_MText;
 	protected MText m_Message_MText;
 	protected MButton m_SpeechBubble_MButton;
+	protected Bouncer m_Icon_Arrow_Bouncer;
 
     protected override void OnBindCompsAndEvents()
     {
@@ -17,6 +18,7 @@ public class DialogPanelBase : UIPanel
 		m_Name_MText = (MText)viewBehaviour.GetComp(1, 0);
 		m_Message_MText = (MText)viewBehaviour.GetComp(2, 0);
 		m_SpeechBubble_MButton = (MButton)viewBehaviour.GetComp(3, 0);
+		m_Icon_Arrow_Bouncer = (Bouncer)viewBehaviour.GetComp(4, 0);
 		
         BindEvent(m_SpeechBubble_MButton);
     }
@@ -29,5 +31,6 @@ public class DialogPanelBase : UIPanel
 		m_Name_MText = null;
 		m_Message_MText = null;
 		m_SpeechBubble_MButton = null;
+		m_Icon_Arrow_Bouncer = null;
     }
 }

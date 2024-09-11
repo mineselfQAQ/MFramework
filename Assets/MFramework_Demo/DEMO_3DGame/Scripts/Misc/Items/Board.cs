@@ -8,7 +8,7 @@ public class Board : MonoBehaviour
 {
     [Header("Sign Settings")]
     [TextArea(15, 20)]
-    public string text = "Hello World";
+    public string text = "Hello World";//Tip：boardText不启用本地化时使用，如果启用则根据Excel更改
     public float viewAngle = 90f;
 
     [Header("Canvas Settings")]

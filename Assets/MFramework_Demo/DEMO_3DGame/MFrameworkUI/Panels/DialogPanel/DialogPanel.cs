@@ -16,13 +16,29 @@ public class DialogPanel : DialogPanelBase
         m_ProfilePhoto_MImage.sprite = null;
         m_Name_MText.text = "Null";
         m_Message_MText.text = "";
+
+        //打字结束后等待输入，此时小箭头弹跳表示点击
+        m_Message_MText.mAnimator.onTypeWriterFinished.AddListener(OnTypeWriterFinished);
     }
 
-    public void RefreshView(Sprite sprite, string name, string message)
+    protected void OnTypeWriterFinished()
+    {
+        m_Icon_Arrow_Bouncer.StartBounce();
+    }
+
+    public void RefreshView(Sprite sprite, string name, string message, int id = -1)
     {
         m_ProfilePhoto_MImage.sprite = sprite;
         m_Name_MText.text = name;
-        m_Message_MText.SetMText(message);
+
+        if (id != -1)
+        {
+            m_Message_MText.SetMText(id);
+        }
+        else
+        {
+            m_Message_MText.SetMText(message);
+        }
     }
 
     public void StartDialog(Conversation conversation)
@@ -32,7 +48,7 @@ public class DialogPanel : DialogPanelBase
         currSentence = 0;
 
         var sentence = conversation.sentences[currSentence];
-        RefreshView(sentence.avatar, sentence.name, sentence.text);
+        RefreshView(sentence.avatar, sentence.name, sentence.text, sentence.localID);
 
         OnStart?.Invoke();
     }
@@ -51,24 +67,24 @@ public class DialogPanel : DialogPanelBase
         {
             if (currConversation == null) return;
 
+            //正在打字，再次点击进行加速(有BUG，改为禁止点击)
+            if (m_Message_MText.mAnimator.typewriterPlaying)
+            {
+                m_Message_MText.FinishTextImmediately();
+                return;
+            }
+
             currSentence++;
             if (currSentence == currConversation.sentences.Count)
             {
                 EndDialog();
+                m_Icon_Arrow_Bouncer.StopBounce();
                 return;
             }
 
             var sentence = currConversation.sentences[currSentence];
-            RefreshView(sentence.avatar, sentence.name, sentence.text);
-            
-            //if (m_Message_MText.mAnimator.typewriterPlaying)
-            //{
-            //    m_Message_MText.FinishTextImmediately();
-            //}
-            //else
-            //{
-            //    m_Message_MText.PlayText();
-            //}
+            RefreshView(sentence.avatar, sentence.name, sentence.text, sentence.localID);
+            m_Icon_Arrow_Bouncer.StopBounce();
         }
     }
 

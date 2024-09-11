@@ -184,7 +184,8 @@ namespace MFramework
             StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
         }
 
-        internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();
+        //internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();//受TimeScale影响
+        //internal static WaitForSecondsRealtime waitFixedUpdate = new WaitForSecondsRealtime(Time.fixedDeltaTime);
         internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             float step = duration / Time.fixedDeltaTime;//执行次数
@@ -196,7 +197,7 @@ namespace MFramework
                 curValue = startValue + MCurveSampler.Sample(curve, i / step) * length;
                 action.Invoke(curValue);
 
-                yield return waitFixedUpdate;
+                yield return new WaitForSecondsRealtime(Time.fixedDeltaTime);
             }
             curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
             action.Invoke(curValue);

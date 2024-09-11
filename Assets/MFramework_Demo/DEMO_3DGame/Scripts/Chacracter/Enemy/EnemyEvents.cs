@@ -4,8 +4,9 @@ using UnityEngine.Events;
 [Serializable]
 public class EnemyEvents
 {
-    public UnityEvent OnPlayerSpotted;
-    public UnityEvent OnPlayerScaped;
+    public UnityEvent OnPlayerEnter;
+    public UnityEvent OnPlayerStay;
+    public UnityEvent OnPlayerExit;
     public UnityEvent OnPlayerContact;
     public UnityEvent OnDamage;
     public UnityEvent OnDie;
