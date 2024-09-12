@@ -284,8 +284,6 @@ assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing equirect
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing Equirect.mat
 assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing.mat
-assets/mframework_demo/demo_3dgame/meshes/board.fbx.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Board.fbx
 assets/mframework_demo/demo_3dgame/meshes/checkpoint.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Checkpoint.fbx
 assets/mframework_demo/demo_3dgame/meshes/circlebouncingplatform.fbx.ab

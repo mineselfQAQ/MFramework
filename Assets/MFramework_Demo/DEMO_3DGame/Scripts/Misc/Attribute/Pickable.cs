@@ -71,7 +71,8 @@ public class Pickable : MonoBehaviour
             transform.localPosition = Vector3.zero + offset;
             transform.localRotation = Quaternion.identity;
             m_rigidBody.isKinematic = true;
-            m_collider.isTrigger = true;
+            //m_collider.isTrigger = true;
+            m_collider.enabled = false;
             m_interpolation = m_rigidBody.interpolation;
             m_rigidBody.interpolation = RigidbodyInterpolation.None;
             onPicked?.Invoke();
@@ -84,7 +85,8 @@ public class Pickable : MonoBehaviour
         {
             transform.parent = null;
             transform.position += direction * releaseOffset;//扔出去一刻的偏移
-            m_collider.isTrigger = false;
+            //m_collider.isTrigger = false;
+            m_collider.enabled = true;
             m_rigidBody.isKinematic = false;
             beingHold = false;
             m_rigidBody.interpolation = m_interpolation;

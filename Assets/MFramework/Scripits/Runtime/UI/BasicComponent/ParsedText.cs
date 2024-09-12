@@ -78,7 +78,7 @@ namespace MFramework
         /// <summary>
         /// 更改本地化内联数据
         /// </summary>
-        public void ChangeLocalState(int pos, int state)
+        internal void ChangeLocalState(int pos, int state)
         {
             if (pos < 0 || pos >= localInfoList.Count) return;
 
@@ -86,7 +86,7 @@ namespace MFramework
             localInfoList[pos].curState = state;
         }
 
-        public int GetCurState(int pos)
+        internal int GetCurState(int pos)
         {
             if (pos < 0 || pos >= localInfoList.Count) return -1;
 

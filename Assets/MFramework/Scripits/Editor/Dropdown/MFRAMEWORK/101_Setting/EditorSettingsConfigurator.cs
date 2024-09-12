@@ -31,10 +31,10 @@ namespace MFramework
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
                 //------已废弃，使用MSettings中的固定路径------
-                //DrawPathWidget("Excel表生成路径：", MConfigurableSettings.ExcelPath,
-                //    GetPathName(MConfigurableName.ExcelGenerationPath));
-                //DrawPathWidget("Excel表CS文件生成路径：", MConfigurableSettings.ExcelCSPath,
-                //    GetPathName(MConfigurableName.ExcelCSGenerationPath));
+                DrawPathWidget("Excel表生成路径：", MConfigurableSettings.ExcelPath,
+                    GetPathName(MConfigurableName.ExcelGenerationPath));
+                DrawPathWidget("Excel表CS文件生成路径：", MConfigurableSettings.ExcelCSPath,
+                    GetPathName(MConfigurableName.ExcelCSGenerationPath));
             }
             EditorGUILayout.EndScrollView();
 

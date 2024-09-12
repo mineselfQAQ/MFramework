@@ -11,21 +11,19 @@ public class Test_Pool : MonoBehaviour
 
     private void Start()
     {
-        Dictionary<GameObject, int> dic = new Dictionary<GameObject, int>();
-
-        PoolManager.WarmPool(cube, 10, parent, true);
+        MPoolManager.WarmPool(cube, 10, parent, false);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            cubeInstance.Add(PoolManager.SpawnObject(cube));
+            cubeInstance.Add(MPoolManager.SpawnObject(cube));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             int last = cubeInstance.Count - 1;
-            PoolManager.ReleaseObject(cubeInstance[last]);
+            MPoolManager.ReleaseObject(cubeInstance[last]);
             cubeInstance.RemoveAt(last);
         }
     }

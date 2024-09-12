@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
+    //TODO:name形式应该分组，否则无法简单地满足Stop需求
     [MonoSingletonSetting(HideFlags.NotEditable, "#MCoroutineManager#")]
     public class MCoroutineManager : MonoSingleton<MCoroutineManager>
     {

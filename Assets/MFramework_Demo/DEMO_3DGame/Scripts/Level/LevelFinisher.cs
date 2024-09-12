@@ -96,7 +96,7 @@ public class LevelFinisher : ComponentSingleton<LevelFinisher>
             MCoroutineManager.Instance.DelayNoRecord(() =>
             {
                 UIManager.Instance.StopBlocker();
-            }, 1.15f);//CloseLoadingWidget所用动画时间
+            }, m_controller.GetWidgetTime<TransitionPanel, LoadingWidget>(false, UIController.transitionPanelName));//CloseLoadingWidget所用动画时间
             OnExit?.Invoke();
         });
     }

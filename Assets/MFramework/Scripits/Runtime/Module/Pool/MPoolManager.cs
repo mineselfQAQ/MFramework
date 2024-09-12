@@ -1,10 +1,9 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MFramework
 {
-    public class PoolManager : MonoSingleton<PoolManager>
+    public class MPoolManager : MonoSingleton<MPoolManager>
     {
         private Dictionary<GameObject, ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
         private Dictionary<GameObject, ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
@@ -50,7 +49,7 @@ namespace MFramework
         {
             if (prefabDic.ContainsKey(prefab))//prefab已经入池，无需再次Warm()
             {
-                MLog.Print($"{typeof(PoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(MPoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
                 return;
             }
 
@@ -105,7 +104,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"{typeof(PoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
             }
         }
 

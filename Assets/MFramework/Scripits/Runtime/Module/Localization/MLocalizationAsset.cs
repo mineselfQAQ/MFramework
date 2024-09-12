@@ -5,10 +5,19 @@ using System.Reflection;
 
 public class MLocalizationAsset
 {
+    /// <summary>
+    /// Excel本表
+    /// </summary>
     internal LocalizationTable[] items;
 
+    /// <summary>
+    /// 支持语言种类列表
+    /// </summary>
     internal List<SupportLanguage> supportLanguages;
 
+    /// <summary>
+    /// Excel表格拆分(每个id一组信息(横向拆分))
+    /// </summary>
     internal Dictionary<int, LocalizationTable> tableDic;
 
     //可用语言选项

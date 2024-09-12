@@ -2,6 +2,8 @@ using MFramework;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -109,6 +111,62 @@ public class UIController : ComponentSingleton<UIController>
         }
     }
 
+    public float GetPanelTime<T>(bool open, string panelName) where T : UIPanel
+    {
+        T panel = topRoot.GetPanel<T>();
+
+        var animator = panel.gameObject.GetComponent<Animator>();
+        if (!animator || !animator.runtimeAnimatorController) return -1;
+
+        var clips = animator.runtimeAnimatorController.animationClips;
+        foreach (var clip in clips)
+        {
+            if (open)
+            {
+                if (clip.name.Contains("Open"))
+                {
+                    return clip.length;
+                }
+            }
+            else
+            {
+                if (clip.name.Contains("Close"))
+                {
+                    return clip.length;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public float GetWidgetTime<T1, T2>(bool open, string panelName) where T1 : UIPanel where T2 : UIWidget
+    {
+        T2 widget = topRoot.GetPanel<T1>(panelName).GetWidget<T2>();
+
+        var animator = widget.gameObject.GetComponent<Animator>();
+        if (!animator || !animator.runtimeAnimatorController) return -1;
+
+        var clips = animator.runtimeAnimatorController.animationClips;
+        foreach (var clip in clips)
+        {
+            if (open)
+            {
+                if (clip.name.Contains("Open"))
+                {
+                    return clip.length;
+                }
+            }
+            else
+            {
+                if (clip.name.Contains("Close"))
+                {
+                    return clip.length;
+                }
+            }
+        }
+        return -1;
+    }
+
     #region 具体功能函数
     #region 对话面板
     public DialogPanel GetDialogPanel()
@@ -175,6 +233,7 @@ public class UIController : ComponentSingleton<UIController>
             topRoot.ClosePanel(transitionPanelName, onFinish);
         });
     }
+
     #endregion
     #region 支持者面板
     public void OpenSponsorDisplayPanel(Action onFinish = null)

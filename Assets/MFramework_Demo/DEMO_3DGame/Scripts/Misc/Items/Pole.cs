@@ -3,16 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class Pole : MonoBehaviour
 {
-    public new CapsuleCollider collider { get; protected set; }
+    public CapsuleCollider Collider { get; protected set; }
 
-    public float radius => collider.radius;
+    public float radius => Collider.radius;
 
     public Vector3 center => transform.position;
 
     protected virtual void Awake()
     {
         tag = GameTags.Pole;
-        collider = GetComponent<CapsuleCollider>();
+        Collider = GetComponent<CapsuleCollider>();
     }
 
     /// <summary>
@@ -35,8 +35,8 @@ public class Pole : MonoBehaviour
     /// </summary>
     public Vector3 ClampPointToPoleHeight(Vector3 point, float offset)
     {
-        float minHeight = collider.bounds.min.y + offset;
-        float maxHeight = collider.bounds.max.y - offset;
+        float minHeight = Collider.bounds.min.y + offset;
+        float maxHeight = Collider.bounds.max.y - offset;
         float clampedHeight = Mathf.Clamp(point.y, minHeight, maxHeight);
         return new Vector3(point.x, clampedHeight, point.z);
     }

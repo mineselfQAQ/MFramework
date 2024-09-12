@@ -629,11 +629,16 @@ namespace MFramework
                 curTypeWriterStartIndex = data.index;//记录进度(注意：如果除了渐变还有其他操作，这里并不能表示具体的进度，这里的index只能说明该index的alpha已经变为1但有可能还在旋转/波动等操作中)
                 curTypeWriterFinishIndex = data.index;
 
+                //提前结算(因为速度过快导致结算顺序不正确)
+                int earlierIndex = (int)(2.5f * animator.typeSpeed);//根据速度决定提前量
+                if (data.index == textData.charData.Length - 1 - earlierIndex)
+                {
+                    animator.typewriterPlaying = false;
+                }
                 //最后一个字符执行完毕
                 if (data.index == textData.charData.Length - 1)
                 {
                     animator.onTypeWriterFinished?.Invoke();//触发事件
-                    animator.typewriterPlaying = false;
                     curTypeWriterStartIndex = -1;
                     curTypeWriterFinishIndex = -1;
 
@@ -680,11 +685,16 @@ namespace MFramework
                         {
                             curTypeWriterFinishIndex = data.index;//即使没有执行完毕也说明已经进行了
 
+                            //提前结算(因为速度过快导致结算顺序不正确)
+                            int earlierIndex = (int)(2.5f * animator.typeSpeed);//根据速度决定提前量
+                            if (data.index == textData.charData.Length - 1 - earlierIndex)
+                            {
+                                animator.typewriterPlaying = false;
+                            }
                             //最后一个字符执行完毕
                             if (data.index == textData.charData.Length - 1)
                             {
                                 animator.onTypeWriterFinished?.Invoke();//触发事件
-                                animator.typewriterPlaying = false;
                                 curTypeWriterFinishIndex = -1;
                                 curTypeWriterStartIndex = -1;
                                 fastFinish = false;
@@ -721,11 +731,16 @@ namespace MFramework
                     //记录进度(注意：如果除了渐变还有其他操作，这里并不能表示具体的进度，这里的index只能说明该index的alpha已经变为1但有可能还在旋转/波动等操作中)
                     curTypeWriterFinishIndex = data.index;//即使没有执行完毕也说明已经进行了
 
+                    //提前结算(因为速度过快导致结算顺序不正确)
+                    int earlierIndex = (int)(2.5f * animator.typeSpeed);//根据速度决定提前量
+                    if (data.index == textData.charData.Length - 1)
+                    {
+                        animator.typewriterPlaying = false;
+                    }
                     //最后一个字符执行完毕
                     if (data.index == textData.charData.Length - 1)
                     {
                         animator.onTypeWriterFinished?.Invoke();//触发事件
-                        animator.typewriterPlaying = false;
                         curTypeWriterFinishIndex = -1;
                         curTypeWriterStartIndex = -1;
                         fastFinish = false;
