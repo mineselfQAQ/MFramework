@@ -20,6 +20,8 @@ namespace MFramework
         public bool mute;
         public bool playOnAwake;
         public bool loop;
+        public bool fadeInOut;
+        public float fadeTime = 5.0f;
 
         [Space(10)]
 
@@ -37,7 +39,11 @@ namespace MFramework
 
         protected AudioSource audioSource;
 
-        private void Awake()
+        protected Vector2 fadeinTime;//淡入区间
+        protected Vector2 fadeoutTime;//淡出区间
+        protected bool trigger;
+
+        protected virtual void Awake()
         {
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.clip = audioClip;
@@ -49,6 +55,9 @@ namespace MFramework
             audioSource.volume = volume;
             audioSource.pitch = pitch;
 
+            fadeinTime = new Vector2(0, fadeTime);
+            fadeoutTime = new Vector2(audioClip.length - fadeTime, audioClip.length);
+
             if (playOnAwake)
             {
                 audioSource.Play();
@@ -59,6 +68,42 @@ namespace MFramework
             {
                 var group = OnSetOutput?.Invoke(audioMixerGroup.name);
                 if (group) audioSource.outputAudioMixerGroup = group;
+            }
+        }
+
+        protected virtual void Update()
+        {
+            if (fadeInOut)
+            {
+                if (audioSource.time <= fadeinTime.y)
+                {
+                    if (!trigger)
+                    {
+                        trigger = true;
+                        MTween.DoTween01NoRecord((f) =>
+                        {
+                            audioSource.volume = f;
+                            Debug.Log(audioSource.volume);
+                        }, MCurve.Linear, fadeTime, () => 
+                        {
+                            trigger = false;
+                        });
+                    }
+                }
+                else if (audioSource.time >= fadeoutTime.x)
+                {
+                    if (!trigger)
+                    {
+                        trigger = true;
+                        MTween.DoTween01NoRecord((f) =>
+                        {
+                            audioSource.volume = 1 - f;
+                        }, MCurve.Linear, fadeTime, () =>
+                        {
+                            trigger = false;
+                        });
+                    }
+                }
             }
         }
     }

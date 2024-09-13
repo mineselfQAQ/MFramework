@@ -36,6 +36,18 @@ public class ABController : ComponentSingleton<ABController>
         }
     }
 
+    protected virtual void OnApplicationQuit()
+    {
+        if (enableAB)
+        {
+            var res = GameLoader.Instance.lastRes;
+            if (res != null)
+            {
+                MResourceManager.Instance.Unload(res);
+            }
+        }
+    }
+
     protected string GetFileUrl(string fileName)
     {
         return $"{fileURLs[index]}/{fileName}";

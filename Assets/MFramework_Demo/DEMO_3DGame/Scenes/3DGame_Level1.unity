@@ -266,7 +266,11 @@ PrefabInstance:
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: b0a292b136471f74fa41ac702c3424c5, type: 3}
+      objectReference: {fileID: 8300000, guid: d0e4c7fdbff008347aa83dccb1be9ea0, type: 3}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeInOut
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: playOnAwake
       value: 1
