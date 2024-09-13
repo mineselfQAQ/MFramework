@@ -392,7 +392,7 @@ namespace MFramework
                     for (int i = 0; i < assets.Count; i++)
                     {
                         string assetUrl = assets[i];
-                        ushort assetId = assetIdDic[assetUrl];
+                        ushort assetId = assetIdDic[assetUrl];//Id跟着assetIdDic走
                         bundleSb.AppendLine($"\t{assetUrl}");
                         bundleBw.Write(assetId);//4.资源id  Tip：用id替换字符串可以节省内存
                     }
