@@ -148,7 +148,7 @@ Shader "MineselfShader/Common/Water"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment fragAdd
-            #pragma multi_compile_fwdadd_fullshadows
+            #pragma multi_compile_fwdadd
             ENDCG
         }
     }

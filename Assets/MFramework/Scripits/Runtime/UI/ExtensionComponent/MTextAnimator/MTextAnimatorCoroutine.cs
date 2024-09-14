@@ -40,7 +40,7 @@ namespace MFramework
         }
         internal static void Tween01(string name, TMP_Text text, Action<float> action, MCurve curve, float duration, Action onFinish = null)
         {
-            BeginCoroutine(MCoroutineManager.Instance.TweenRoutine(action, curve, duration, 0, 1, onFinish), name, text, dic_TextAnimator);
+            BeginCoroutine(MCoroutineManager.Instance.FixedTweenRoutine(action, curve, duration, 0, 1, onFinish), name, text, dic_TextAnimator);
         }
 
         internal static void StopAllCoroutines(TMP_Text text)

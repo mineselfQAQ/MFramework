@@ -172,6 +172,21 @@ namespace MFramework
         /// <summary>
         /// 补间动画操作(不记录)
         /// </summary>
+        internal Coroutine FixedTweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
+        {
+            return StartCoroutine(FixedTweenRoutine(action, curve, duration, startValue, endValue, onFinish));
+        }
+        /// <summary>
+        /// 补间动画操作
+        /// </summary>
+        internal void FixedTween(string name, Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
+        {
+            StartCoroutine(FixedTweenRoutine(action, curve, duration, startValue, endValue, onFinish), name);
+        }
+
+        /// <summary>
+        /// 补间动画操作(不记录)
+        /// </summary>
         internal Coroutine TweenNoRecord(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             return StartCoroutine(TweenRoutine(action, curve, duration, startValue, endValue, onFinish));
@@ -186,7 +201,11 @@ namespace MFramework
 
         //internal static WaitForFixedUpdate waitFixedUpdate = new WaitForFixedUpdate();//受TimeScale影响
         //internal static WaitForSecondsRealtime waitFixedUpdate = new WaitForSecondsRealtime(Time.fixedDeltaTime);
-        internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
+
+        /// <summary>
+        /// 基于FixedDeltaTime的Tween动画
+        /// </summary>
+        internal IEnumerator FixedTweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
             float step = duration / Time.fixedDeltaTime;//执行次数
             float length = endValue - startValue;//区间长度
@@ -199,6 +218,30 @@ namespace MFramework
 
                 yield return new WaitForSecondsRealtime(Time.fixedDeltaTime);
             }
+            curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
+            action.Invoke(curValue);
+
+            onFinish?.Invoke();
+        }
+        /// <summary>
+        /// 基于DeltaTime的Tween动画
+        /// </summary>
+        internal IEnumerator TweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
+        {
+            float elapsed = 0.0f;//经过时长
+            float length = endValue - startValue;//区间长度
+
+            float curValue;
+            while (elapsed < duration)
+            {
+                float progress = Mathf.Clamp01(elapsed / duration);//进度[0,1]
+                curValue = startValue + MCurveSampler.Sample(curve, progress) * length;
+                action.Invoke(curValue);
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            //最后一帧
             curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
             action.Invoke(curValue);
 

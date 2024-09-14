@@ -33,7 +33,7 @@ public class Mover : MonoBehaviour
 
         Vector3 from = m_initialPosition;
         Vector3 to = m_initialPosition + offset;
-        MTween.DoTween01(m_applyTweenName, (f) =>
+        MTween.FixedDoTween01(m_applyTweenName, (f) =>
         {
             transform.localPosition = Vector3.Lerp(from, to, f);
         }, MCurve.GetMCurve(curveType), applyDuration);
@@ -48,7 +48,7 @@ public class Mover : MonoBehaviour
 
         Vector3 from = transform.localPosition;
         Vector3 to = m_initialPosition;
-        MTween.DoTween01(m_undoTweenName, (f) =>
+        MTween.FixedDoTween01(m_undoTweenName, (f) =>
         {
             transform.localPosition = Vector3.Lerp(from, to, f);
         }, MCurve.GetMCurve(curveType), undoDuration);

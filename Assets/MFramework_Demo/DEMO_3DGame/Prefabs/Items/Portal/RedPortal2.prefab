@@ -4844,7 +4844,7 @@ GameObject:
   - component: {fileID: 4924647747805789175}
   - component: {fileID: 8951633158813847316}
   m_Layer: 0
-  m_Name: RedPortal
+  m_Name: RedPortal2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

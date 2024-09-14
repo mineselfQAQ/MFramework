@@ -92,6 +92,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeartCrate
       objectReference: {fileID: 0}
+    - target: {fileID: 3813959658471120564, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813959658471120564, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813959658471120564, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
+      propertyPath: fadeInOut
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813959658471120564, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7664318978410567896, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -151,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 2229623481967841825}
+      objectReference: {fileID: 0}
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -207,10 +223,5 @@ PrefabInstance:
 --- !u!4 &564846260272948544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7664318978410567896, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
-  m_PrefabInstance: {fileID: 7893575595764006296}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2229623481967841825 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8321151900118724537, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
   m_PrefabInstance: {fileID: 7893575595764006296}
   m_PrefabAsset: {fileID: 0}

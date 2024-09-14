@@ -29,10 +29,14 @@ namespace MFramework
 
             //获取AssetBundleManifest
             AssetBundle manifestAssetBundle = AssetBundle.LoadFromFile(assetBundleManifestFile);
+            if (manifestAssetBundle == null)
+            {
+                MLog.Print($"{nameof(MBundleManager)}.{nameof(Initialize)}：AssetBundleManifest加载失败，请检查getFileCallback()获取路径是否正确", MLogType.Error);
+            }
             UnityEngine.Object[] objs = manifestAssetBundle.LoadAllAssets();
             if (objs.Length == 0)
             {
-                MLog.Print($"{nameof(MBundleManager)}.{nameof(Initialize)}：AssetBundleManifest加载失败", MLogType.Error);
+                MLog.Print($"{nameof(MBundleManager)}.{nameof(Initialize)}：AssetBundleManifest中无数据，请检查", MLogType.Error);
             }
             assetBundleManifest = objs[0] as AssetBundleManifest;
         }

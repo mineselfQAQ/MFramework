@@ -95,7 +95,7 @@ public class UIManualScroll : MonoBehaviour
     {
         float from = m_scrollRect.horizontalNormalizedPosition;
         float to = m_currentChild / ((float)m_totalChildren - 1);
-        MTween.DoTween01NoRecord((f) =>
+        MTween.FixedDoTween01NoRecord((f) =>
         {
             m_scrollRect.horizontalNormalizedPosition = Mathf.Lerp(from, to, f);
         }, MCurve.Linear, scrollDuration);

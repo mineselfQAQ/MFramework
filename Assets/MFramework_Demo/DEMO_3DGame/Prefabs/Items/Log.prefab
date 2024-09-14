@@ -112,11 +112,15 @@ MonoBehaviour:
   OnStart:
     m_PersistentCalls:
       m_Calls: []
+  mode: 0
   audioClip: {fileID: 0}
   audioMixerGroup: {fileID: 8470696077433227335, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
   mute: 0
   playOnAwake: 0
   loop: 0
+  fadeInOut: 0
+  fadeInTime: 5
+  fadeOutTime: 5
   priority: 128
   volume: 1
   pitch: 1

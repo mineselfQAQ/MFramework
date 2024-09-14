@@ -45,18 +45,14 @@ namespace MFramework
 
         private void DrawUIPanelSettings()
         {
-            int value = EditorGUILayout.IntField(thicknessLabel, thicknessSP.intValue);
-            thicknessSP.intValue = Mathf.Clamp(value, 1, int.MaxValue);
+            var thicknessValue = MEditorControlUtility.DrawInt(thicknessSP, thicknessLabel);
+            thicknessSP.intValue = Mathf.Clamp(thicknessValue, 1, int.MaxValue);
 
-            Enum focusModeEnum = EditorGUILayout.EnumPopup(focusModeLabel, (UIPanelFocusMode)focusModeSP.enumValueIndex);
-            UIPanelFocusMode focusMode = (UIPanelFocusMode)focusModeEnum;
-            focusModeSP.enumValueIndex = (int)focusMode;
+            MEditorControlUtility.DrawPopup<UIPanelFocusMode>(focusModeSP, focusModeLabel);
 
             int lastAnimSwitch = animSwitchSP.enumValueIndex;
-            Enum animSwitchEnum = EditorGUILayout.EnumPopup(animationSwitchLabel, (UIAnimSwitch)animSwitchSP.enumValueIndex);
-            UIAnimSwitch animSwitch = (UIAnimSwitch)animSwitchEnum;
-            animSwitchSP.enumValueIndex = (int)animSwitch;
-            if (animSwitch == 0) return;//不开启动画
+            var animSwitch = MEditorControlUtility.DrawPopup<UIAnimSwitch>(animSwitchSP, animationSwitchLabel);
+            if (animSwitch == UIAnimSwitch.Off) return;//不开启动画
             else//开启动画
             {
                 //如果没有Animator组件，就自动生成所有相关内容
@@ -107,13 +103,8 @@ namespace MFramework
 
                 EditorGUI.indentLevel++;
                 {
-                    Enum openAnimModeEnum = EditorGUILayout.EnumPopup(openAnimationModeLabel, (UIOpenAnimMode)openAnimModeSP.enumValueIndex);
-                    UIOpenAnimMode openAnimMode = (UIOpenAnimMode)openAnimModeEnum;
-                    openAnimModeSP.enumValueIndex = (int)openAnimMode;
-
-                    Enum closeAnimModeEnum = EditorGUILayout.EnumPopup(closeAnimationModeLabel, (UICloseAnimMode)closeAnimModeSP.enumValueIndex);
-                    UICloseAnimMode closeAnimMode = (UICloseAnimMode)closeAnimModeEnum;
-                    closeAnimModeSP.enumValueIndex = (int)closeAnimMode;
+                    MEditorControlUtility.DrawPopup<UIOpenAnimMode>(openAnimModeSP, openAnimationModeLabel);
+                    MEditorControlUtility.DrawPopup<UICloseAnimMode>(closeAnimModeSP, closeAnimationModeLabel);
                 }
                 EditorGUI.indentLevel--;
             }

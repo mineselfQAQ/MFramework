@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6293688612522184421, guid: fb84970652e15bf4191ca4a465c419e9, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293688612522184421, guid: fb84970652e15bf4191ca4a465c419e9, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293688612522184421, guid: fb84970652e15bf4191ca4a465c419e9, type: 3}
+      propertyPath: fadeInOut
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293688612522184421, guid: fb84970652e15bf4191ca4a465c419e9, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

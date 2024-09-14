@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +13,11 @@ namespace MFramework
         private SerializedProperty openAnimModeSP;
         private SerializedProperty closeAnimModeSP;
 
+        private static GUIContent widgetModeLabel = new GUIContent("Widget Mode", "组件模式");
+        private static GUIContent animationSwitchLabel = new GUIContent("Animation Switch", "动画开关");
+        private static GUIContent openAnimationModeLabel = new GUIContent("Open Animation Mode", "开启动画模式");
+        private static GUIContent closeAnimationModeLabel = new GUIContent("Close Animation Mode", "关闭动画模式");
+        
         protected void OnEnable()
         {
             behaviour = (UIWidgetBehaviour)target;
@@ -37,24 +41,16 @@ namespace MFramework
 
         private void DrawUIPanelSettings()
         {
-            GUIContent widgetModeLabel = new GUIContent("Widget Mode", "组件模式");
-            GUIContent animationSwitchLabel = new GUIContent("Animation Switch", "动画开关");
-            GUIContent openAnimationModeLabel = new GUIContent("Open Animation Mode", "开启动画模式");
-            GUIContent closeAnimationModeLabel = new GUIContent("Close Animation Mode", "关闭动画模式");
-
-            Enum widgetModeEnum = EditorGUILayout.EnumPopup(widgetModeLabel, (UIWidgetMode)widgetModeSP.enumValueIndex);
-            UIWidgetMode widgetMode = (UIWidgetMode)widgetModeEnum;
-            widgetModeSP.enumValueIndex = (int)widgetMode;
-            if (widgetMode == 0) return;//不开启高级模式
+            var widgetMode = MEditorControlUtility.DrawPopup<UIWidgetMode>(widgetModeSP, widgetModeLabel);
+            if (widgetMode == UIWidgetMode.Simple) return;//不开启高级模式
             else//高级模式
             {
                 EditorGUI.indentLevel++;
                 {
                     int lastAnimSwitch = animSwitchSP.enumValueIndex;
-                    Enum animSwitchEnum = EditorGUILayout.EnumPopup(animationSwitchLabel, (UIAnimSwitch)animSwitchSP.enumValueIndex);
-                    UIAnimSwitch animSwitch = (UIAnimSwitch)animSwitchEnum;
-                    animSwitchSP.enumValueIndex = (int)animSwitch;
-                    if (animSwitch == 0) return;//不开启动画
+
+                    var animSwitch = MEditorControlUtility.DrawPopup<UIAnimSwitch>(animSwitchSP, animationSwitchLabel);
+                    if (animSwitch ==  UIAnimSwitch.Off) return;//不开启动画
                     else//开启动画
                     {
                         //如果没有Animator组件，就自动生成所有相关内容
@@ -105,13 +101,8 @@ namespace MFramework
 
                         EditorGUI.indentLevel++;
                         {
-                            Enum openAnimModeEnum = EditorGUILayout.EnumPopup(openAnimationModeLabel, (UIOpenAnimMode)openAnimModeSP.enumValueIndex);
-                            UIOpenAnimMode openAnimMode = (UIOpenAnimMode)openAnimModeEnum;
-                            openAnimModeSP.enumValueIndex = (int)openAnimMode;
-
-                            Enum closeAnimModeEnum = EditorGUILayout.EnumPopup(closeAnimationModeLabel, (UICloseAnimMode)closeAnimModeSP.enumValueIndex);
-                            UICloseAnimMode closeAnimMode = (UICloseAnimMode)closeAnimModeEnum;
-                            closeAnimModeSP.enumValueIndex = (int)closeAnimMode;
+                            MEditorControlUtility.DrawPopup<UIOpenAnimMode>(openAnimModeSP, openAnimationModeLabel);
+                            MEditorControlUtility.DrawPopup<UICloseAnimMode>(closeAnimModeSP, closeAnimationModeLabel);
                         }
                         EditorGUI.indentLevel--;
                     }

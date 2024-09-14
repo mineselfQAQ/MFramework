@@ -108,11 +108,15 @@ MonoBehaviour:
   OnStart:
     m_PersistentCalls:
       m_Calls: []
+  mode: 1
   audioClip: {fileID: 0}
   audioMixerGroup: {fileID: 8470696077433227335, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
   mute: 0
   playOnAwake: 0
   loop: 0
+  fadeInOut: 0
+  fadeInTime: 5
+  fadeOutTime: 5
   priority: 128
   volume: 1
   pitch: 1
@@ -266,6 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   space: 0
   eulers: {x: 0, y: -180, z: 0}
+  startDo: 1
 --- !u!4 &8708755578221562361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3bcccd285ca0495408fb380a01944e41, type: 3}

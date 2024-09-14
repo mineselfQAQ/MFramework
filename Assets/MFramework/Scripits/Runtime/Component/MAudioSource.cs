@@ -22,7 +22,7 @@ namespace MFramework
         public UnityEvent OnStart;
 
         [SerializeField]
-        public AudioSourceMode mode = AudioSourceMode.Custom;
+        public AudioSourceMode mode = AudioSourceMode.SFX;
 
         [SerializeField]
         public AudioClip audioClip;
@@ -67,7 +67,7 @@ namespace MFramework
             audioSource.volume = volume;
             audioSource.pitch = pitch;
 
-            if (fadeInTime + fadeOutTime > audioClip.length) 
+            if (fadeInOut && fadeInTime + fadeOutTime > audioClip.length) 
             {
                 MLog.Print($"{typeof(MAudioSource)}：{name}的AudioClip时长不足{fadeInTime + fadeOutTime}秒，无法渐入渐出", MLogType.Warning);
                 fadeInOut = false;
@@ -96,10 +96,9 @@ namespace MFramework
                     {
                         trigger = true;
                         //渐入
-                        MTween.DoTween01NoRecord((f) =>
+                        MTween.FixedDoTween01NoRecord((f) =>
                         {
                             audioSource.volume = f;
-                            Debug.Log(audioSource.volume);
                         }, MCurve.Linear, fadeInTime, () => 
                         {
                             trigger = false;
@@ -112,7 +111,7 @@ namespace MFramework
                     {
                         trigger = true;
                         //渐出
-                        MTween.DoTween01NoRecord((f) =>
+                        MTween.FixedDoTween01NoRecord((f) =>
                         {
                             audioSource.volume = 1 - f;
                         }, MCurve.Linear, fadeOutTime, () =>
@@ -121,6 +120,14 @@ namespace MFramework
                         });
                     }
                 }
+            }
+        }
+
+        public void PlayOneShot(AudioClip clip)
+        {
+            if (audioSource)
+            {
+                audioSource.PlayOneShot(clip);
             }
         }
     }

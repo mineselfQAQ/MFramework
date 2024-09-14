@@ -106,47 +106,36 @@ namespace MFramework
 
         private void DrawTypeWriter()
         {
-            Enum typeWriterSwitchEnum = EditorGUILayout.EnumPopup(typeWriterSwitchLabel, (TypeWriterSwitch)typeWriterSwitchSP.enumValueIndex);
-            TypeWriterSwitch typeWriterSwitch = (TypeWriterSwitch)typeWriterSwitchEnum;
-            typeWriterSwitchSP.enumValueIndex = (int)typeWriterSwitch;
+            var typeWriterSwitch = MEditorControlUtility.DrawPopup<TypeWriterSwitch>(typeWriterSwitchSP, typeWriterSwitchLabel);
 
-            //MEditorControlUtility.DrawPopup<TypeWriterSwitch>(typewri)
-
-            if (typeWriterSwitch == 0) return;
+            if (typeWriterSwitch == TypeWriterSwitch.Off) return;
             else//开启打字机效果
             {
                 EditorGUI.indentLevel++;
+                {
+                    MEditorControlUtility.DrawPopup<MTextTypewriterType>(typewriterTypeSP, typewriterTypeLabel);
+                    MEditorControlUtility.DrawToggle(typewriterStartDoSP, typewriterAutoDoLabel);
 
-                Enum typewriterTypeEnum = EditorGUILayout.EnumPopup(typewriterTypeLabel, (MTextTypewriterType)typewriterTypeSP.enumValueIndex);
-                MTextTypewriterType typewriterType = (MTextTypewriterType)typewriterTypeEnum;
-                typewriterTypeSP.enumValueIndex = (int)typewriterType;
-                
-                bool typewriterStartDoBool = EditorGUILayout.Toggle(typewriterAutoDoLabel, typewriterStartDoSP.boolValue);
-                typewriterStartDoSP.boolValue = typewriterStartDoBool;
+                    var typeSpeedFloat = MEditorControlUtility.DrawFloat(typeSpeedSP, typeSpeedLabel);
+                    typeSpeedSP.floatValue = Mathf.Clamp(typeSpeedFloat, 0, float.MaxValue);
 
-                float typeSpeedFloat = EditorGUILayout.FloatField(typeSpeedLabel, typeSpeedSP.floatValue);
-                typeSpeedSP.floatValue = Mathf.Clamp(typeSpeedFloat, 0, float.MaxValue);
-
-                EditorGUILayout.PropertyField(onTypeWriterFinishedSP);
-
+                    MEditorControlUtility.DrawProperty(onTypeWriterFinishedSP);
+                }
                 EditorGUI.indentLevel--;
             }
         }
 
         private void DrawTextAnimator()
         {
-            Enum inlineEffectsSwitchEnum = EditorGUILayout.EnumPopup(inlineEffectsSwitchLabel, (InlineEffectSwitch)inlineEffectsSwitchSP.enumValueIndex);
-            InlineEffectSwitch InlineEffectSwitch = (InlineEffectSwitch)inlineEffectsSwitchEnum;
-            inlineEffectsSwitchSP.enumValueIndex = (int)InlineEffectSwitch;
+            var inlineEffectSwitch = MEditorControlUtility.DrawPopup<InlineEffectSwitch>(inlineEffectsSwitchSP, inlineEffectsSwitchLabel);
 
-            if (InlineEffectSwitch == 0) return;
+            if (inlineEffectSwitch == InlineEffectSwitch.Off) return;
             else//开启内联效果
             {
                 EditorGUI.indentLevel++;
-
-                bool inlineEffectsAutoDoBool = EditorGUILayout.Toggle(inlineEffectsAutoDoLabel, inlineEffectsAutoDoSP.boolValue);
-                inlineEffectsAutoDoSP.boolValue = inlineEffectsAutoDoBool;
-
+                {
+                    MEditorControlUtility.DrawToggle(inlineEffectsAutoDoSP, inlineEffectsAutoDoLabel);
+                }
                 EditorGUI.indentLevel--;
             }
 

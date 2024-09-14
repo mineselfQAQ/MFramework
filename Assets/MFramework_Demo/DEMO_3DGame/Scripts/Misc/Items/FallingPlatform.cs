@@ -48,7 +48,7 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
                 //·0.5*FallDelay后开始震动
                 //·1*FallDelay后坠落
                 //·坠落后1*resetDelay后重置物体
-                MTween.DoTween01NoRecord((f) =>
+                MTween.FixedDoTween01NoRecord((f) =>
                 {
                     if (shake && (f >= 0.5f))
                     {

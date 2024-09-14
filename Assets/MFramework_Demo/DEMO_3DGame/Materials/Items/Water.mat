@@ -46,7 +46,7 @@ Material:
     - _PerturbationInt: 0.1
     - _SrcBlend: 5
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.4}
     - _MainParams: {r: 1.5, g: 1.5, b: 0.5, a: 0.8}
     - _Noise1Params: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Noise2Params: {r: 1.2, g: 0.8, b: 0, a: 0}

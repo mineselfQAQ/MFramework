@@ -2,7 +2,7 @@ using MFramework;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(MAudioSource))]
 public class BouncingPlatform : MonoBehaviour, IEntityContact
 {
     public float force = 25f;

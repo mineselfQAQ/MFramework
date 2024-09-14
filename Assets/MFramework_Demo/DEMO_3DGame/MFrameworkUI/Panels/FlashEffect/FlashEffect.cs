@@ -11,7 +11,7 @@ public class FlashEffect : FlashEffectBase
         m_FlashEffect_Image.color = origionColor;//设置初始alpha为1
 
         //alpha---[1,0]
-        MTween.DoTween01NoRecord((f) =>
+        MTween.FixedDoTween01NoRecord((f) =>
         {
             origionColor.a = Mathf.Lerp(1, 0, f);
             m_FlashEffect_Image.color = origionColor;
