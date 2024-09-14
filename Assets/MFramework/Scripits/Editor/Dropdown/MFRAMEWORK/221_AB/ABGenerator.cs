@@ -36,10 +36,16 @@ namespace MFramework
         {
             //Tip:XML文件路径---"项目名/XmlSettings/CORE/XMLBuildSetting.xml"
 
+            MGUIUtility.DrawH2("简易工具");
+            DrawCheckXMLBtn();
+            DrawCheckABBtn();
+
+            EditorGUILayout.Space(30);
+
             MGUIUtility.DrawH2("XML生成");
             DrawXMLGenerator();
 
-            EditorGUILayout.Space(20);
+            EditorGUILayout.Space(10);
 
             MGUIUtility.DrawH2("构建AB包");
             DrawABGenerator();
@@ -60,18 +66,6 @@ namespace MFramework
                 //DrawCustomGenerator();
                 MLog.Print("TODO", MLogType.Warning);
                 AssetDatabase.Refresh();
-            }
-
-            if (GUILayout.Button("查看XML"))
-            {
-                string fileName = MSettings.ABBuildSettingName;
-                if (!File.Exists(fileName))
-                {
-                    MLog.Print("ABBuildSetting.xml为创建，请先创建后再查看", MLogType.Warning);
-                    return;
-                }
-
-                EditorUtility.RevealInFinder(fileName);
             }
         }
 
@@ -108,6 +102,49 @@ namespace MFramework
             {
                 Builder.BuildInternal();
                 AssetDatabase.Refresh();
+            }
+        }
+
+        private void DrawCheckXMLBtn()
+        {
+            if (GUILayout.Button("查看XML"))
+            {
+                string fileName = MSettings.ABBuildSettingName;
+                if (!File.Exists(fileName))
+                {
+                    MLog.Print("ABBuildSetting.xml未创建，请先创建后再查看", MLogType.Warning);
+                    return;
+                }
+
+                MEditorUtility.OpenFile(fileName);
+            }
+        }
+        private void DrawCheckABBtn()
+        {
+            if (GUILayout.Button("查看AB包"))
+            {
+                string settingPath = MSettings.ABBuildSettingName;
+                if (!File.Exists(settingPath))
+                {
+                    MLog.Print("请先创建ABBuildSetting.xml后生成AB包后再查看", MLogType.Warning);
+                    return;
+                }
+
+                var buildSetting = MSerializationUtility.ReadFromXml<BuildSetting>(settingPath);
+                if (buildSetting == null)
+                {
+                    MLog.Print($"ABBuildSetting.xml读取失败，请检查", MLogType.Warning);
+                    return;
+                }
+
+                string resPath = buildSetting.buildRoot;
+                resPath = Path.GetFullPath(resPath).ReplaceSlash();
+                if (!Directory.Exists(resPath))
+                {
+                    MLog.Print($"根据ABBuildSetting.xml中的BuildRoot获得的路径<{resPath}>不正确，请检查");
+                    return;
+                }
+                MEditorUtility.OpenFolder(resPath);
             }
         }
 

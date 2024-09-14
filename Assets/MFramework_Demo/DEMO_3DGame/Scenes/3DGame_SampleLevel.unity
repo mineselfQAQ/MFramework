@@ -1177,6 +1177,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4432188958976611222, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7912140184573707170, guid: 09e949dd3e22b1d4aa69e13f38504b2d, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1378,9 +1382,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: audioClip
       value: 
       objectReference: {fileID: 8300000, guid: b0a292b136471f74fa41ac702c3424c5, type: 3}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeInOut
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: playOnAwake
       value: 1
@@ -1999,6 +2011,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1472996793}
     m_Modifications:
+    - target: {fileID: 649391369931199856, guid: e1292328a8edd54478bc6b079496604a, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 649391369931199856, guid: e1292328a8edd54478bc6b079496604a, type: 3}
+      propertyPath: fadeInOut
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 649391369931199856, guid: e1292328a8edd54478bc6b079496604a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1290414177044255230, guid: e1292328a8edd54478bc6b079496604a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.75

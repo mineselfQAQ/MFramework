@@ -25,7 +25,7 @@ public class HurtEffect : MonoBehaviour
             var hurtColor = this.flashColor;
             var initialColor = renderer.material.GetColor(colorPropertyName);
             //受伤颜色--->原来的颜色
-            MTween.FixedDoTween01NoRecord((f) =>
+            MTween.DoTween01NoRecord((f) =>
             {
                 var color = Color.Lerp(hurtColor, initialColor, f);
                 renderer.material.SetColor(colorPropertyName, color);

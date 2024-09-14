@@ -167,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6441965185747116844}
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: UnityEngine.AudioSource, UnityEngine
+      value: MFramework.MAudioSource, MFramework.Runtime
       objectReference: {fileID: 0}
     - target: {fileID: 8205770795923044714, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
       propertyPath: OnBreak.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
@@ -225,3 +225,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7664318978410567896, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
   m_PrefabInstance: {fileID: 7893575595764006296}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6441965185747116844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3813959658471120564, guid: 4d7dd8bf0288f8d418d86cdb17aee292, type: 3}
+  m_PrefabInstance: {fileID: 7893575595764006296}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

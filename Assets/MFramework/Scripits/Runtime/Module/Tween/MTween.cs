@@ -51,7 +51,7 @@ namespace MFramework
         {
             Vector3 srcScale = t.localScale;
             Vector3 desScale = srcScale * scaleMultipler;
-            FixedDoTween01NoRecord((f) =>
+            DoTween01NoRecord((f) =>
             {
                 t.localScale = Vector3.Lerp(srcScale, desScale, f);
             }, curve, duration, onFinish);
@@ -62,7 +62,7 @@ namespace MFramework
         public static void SinScaleNoRecord(this Transform t, MCurve curve, float scaleMultipler = 1, float frequency = 1, float duration = 1, Action onFinish = null)
         {
             Vector3 oScale = t.localScale;
-            FixedDoTweenNoRecord((f) =>
+            DoTweenNoRecord((f) =>
             {
                 //y=0.5sin(2¦Ðx)+1
                 float y = 0.5f * scaleMultipler * Mathf.Sin(frequency * 2 * Mathf.PI * f) + 1;
@@ -75,7 +75,7 @@ namespace MFramework
         public static void SinScaleLoopNoRecord(this Transform t, MCurve curve, float scaleMultipler = 1, float frequency = 1)
         {
             Vector3 oScale = t.localScale;
-            FixedDoTween01NoRecord((f) =>
+            DoTween01NoRecord((f) =>
             {
                 //y=0.5sin(2¦Ðx)+1
                 float y = 0.5f * scaleMultipler * Mathf.Sin(frequency * 2 * Mathf.PI * f) + 1;
@@ -95,7 +95,7 @@ namespace MFramework
                 to = from + 1;
             }
 
-            FixedDoTweenNoRecord((f) =>
+            DoTweenNoRecord((f) =>
             {
                 //y=0.5sin(2¦Ðx)
                 float y = 0.5f * scaleMultipler * Mathf.Sin(2 * Mathf.PI * f);
@@ -116,7 +116,7 @@ namespace MFramework
                 from = UnityEngine.Random.Range(0f, 1f);
             }
 
-            FixedDoTween(name, (f) =>
+            DoTween(name, (f) =>
             {
                 //y=0.5sin(2¦Ðx)
                 float y = 0.5f * scaleMultipler * Mathf.Sin(frequency * 2 * Mathf.PI * f);

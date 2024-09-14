@@ -44,14 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onStart:
+  OnStart:
     m_PersistentCalls:
       m_Calls: []
+  mode: 0
   audioClip: {fileID: 0}
   audioMixerGroup: {fileID: 3688701217522756964, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
   mute: 0
-  playOnAwake: 0
-  loop: 0
+  playOnAwake: 1
+  loop: 1
+  fadeInOut: 1
+  fadeInTime: 5
+  fadeOutTime: 5
   priority: 128
   volume: 1
   pitch: 1

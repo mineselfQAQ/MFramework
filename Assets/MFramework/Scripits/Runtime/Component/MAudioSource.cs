@@ -96,7 +96,7 @@ namespace MFramework
                     {
                         trigger = true;
                         //½¥Èë
-                        MTween.FixedDoTween01NoRecord((f) =>
+                        MTween.DoTween01NoRecord((f) =>
                         {
                             audioSource.volume = f;
                         }, MCurve.Linear, fadeInTime, () => 
@@ -111,7 +111,7 @@ namespace MFramework
                     {
                         trigger = true;
                         //½¥³ö
-                        MTween.FixedDoTween01NoRecord((f) =>
+                        MTween.DoTween01NoRecord((f) =>
                         {
                             audioSource.volume = 1 - f;
                         }, MCurve.Linear, fadeOutTime, () =>

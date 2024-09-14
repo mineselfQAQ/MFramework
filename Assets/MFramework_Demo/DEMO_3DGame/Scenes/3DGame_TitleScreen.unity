@@ -140,6 +140,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3209404305073303318, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3283375983125584333, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Name
       value: '#SCENE#'
@@ -195,6 +199,14 @@ PrefabInstance:
     - target: {fileID: 7237142013787147759, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417561109457211869, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647452547456801194, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8789972384765130493, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Enabled

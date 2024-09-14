@@ -671,6 +671,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2713100811614523291, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713100811614523291, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: fadeInOut
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713100811614523291, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3283375983125584333, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Name
       value: '#SCENE#'

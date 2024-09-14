@@ -68,7 +68,7 @@ public class NPCDialog : MonoBehaviour
         canvas.gameObject.SetActive(true);
         
         //上升+渐入
-        MTween.FixedDoTween01NoRecord((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
             Vector3 pos = Vector3.Lerp(m_srcPos, m_desPos, f);
             float alpha = Mathf.Lerp(0, 1, f);
@@ -79,7 +79,7 @@ public class NPCDialog : MonoBehaviour
     protected virtual void HideHint()
     {
         //下降+渐出
-        MTween.FixedDoTween01NoRecord((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
             Vector3 pos = Vector3.Lerp(m_desPos, m_srcPos, f);
             float alpha = Mathf.Lerp(1, 0, f);

@@ -21,7 +21,7 @@ public class IdleLookEnemyState : EnemyState
     protected override void OnExit(Enemy enemy) 
     {
         var from = enemy.transform.rotation;
-        MTween.FixedDoTween01NoRecord((f) =>
+        MTween.DoTween01NoRecord((f) =>
         {
             Quaternion rotation = Quaternion.Lerp(from, to, f);
             enemy.transform.rotation = rotation;

@@ -111,7 +111,7 @@ MonoBehaviour:
   OnStart:
     m_PersistentCalls:
       m_Calls: []
-  mode: 0
+  mode: 1
   audioClip: {fileID: 0}
   audioMixerGroup: {fileID: 8470696077433227335, guid: be0d5d2ae84cce5439c4df1049b0df6f, type: 2}
   mute: 0
