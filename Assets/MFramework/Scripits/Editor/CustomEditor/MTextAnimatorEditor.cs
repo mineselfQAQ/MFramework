@@ -110,6 +110,8 @@ namespace MFramework
             TypeWriterSwitch typeWriterSwitch = (TypeWriterSwitch)typeWriterSwitchEnum;
             typeWriterSwitchSP.enumValueIndex = (int)typeWriterSwitch;
 
+            //MEditorControlUtility.DrawPopup<TypeWriterSwitch>(typewri)
+
             if (typeWriterSwitch == 0) return;
             else//开启打字机效果
             {
@@ -118,7 +120,7 @@ namespace MFramework
                 Enum typewriterTypeEnum = EditorGUILayout.EnumPopup(typewriterTypeLabel, (MTextTypewriterType)typewriterTypeSP.enumValueIndex);
                 MTextTypewriterType typewriterType = (MTextTypewriterType)typewriterTypeEnum;
                 typewriterTypeSP.enumValueIndex = (int)typewriterType;
-
+                
                 bool typewriterStartDoBool = EditorGUILayout.Toggle(typewriterAutoDoLabel, typewriterStartDoSP.boolValue);
                 typewriterStartDoSP.boolValue = typewriterStartDoBool;
 

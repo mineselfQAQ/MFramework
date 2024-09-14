@@ -1,9 +1,7 @@
 using System;
 using System.IO;
-using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MFramework
 {
@@ -12,28 +10,34 @@ namespace MFramework
         [MenuItem("MFramework/CaptureGameWindow _F6", priority = 906)]
         public static void CaptureGameWindow()
         {
-            string time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string fileName = $"screenshot_{time}.png";
-            string saveFolder = $"{MSettings.TempRootPath}/Screenshots";
-            MPathUtility.CreateFolderIfNotExist(saveFolder);
-            string savePath = $"{saveFolder}/{fileName}";
+            string savePath = GetSavePath();
 
             ScreenCapture.CaptureScreenshot(savePath);
 
-            MLog.Print($"已截图，路径：<{savePath}>");
-            savePath = savePath.Replace("/", "\\");
-            System.Diagnostics.Process.Start("explorer", "/select,\"" + savePath + "\"");
+            if (!Application.isPlaying)//未运行情况
+            {
+                EditorDelayExecute.Instance.DelayDo(() =>
+                {
+                    MLog.Print($"已截图，路径：<{savePath}>");
+                    savePath = savePath.Replace("/", "\\");
+                    System.Diagnostics.Process.Start("explorer", "/select,\"" + savePath + "\"");
+                });
+            }
+            else//运行情况
+            {
+                MCoroutineManager.Instance.DelayNoRecord(() =>
+                {
+                    MLog.Print($"已截图，路径：<{savePath}>");
+                    savePath = savePath.Replace("/", "\\");
+                    System.Diagnostics.Process.Start("explorer", "/select,\"" + savePath + "\"");
+                }, 0.2f);
+            }
         }
 
         [MenuItem("MFramework/CaptureSceneWindow _F7", priority = 907)]
-
         public static void CaptureSceneWindow()
         {
-            string time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string fileName = $"screenshot_{time}.png";
-            string saveFolder = $"{MSettings.TempRootPath}/Screenshots";
-            MPathUtility.CreateFolderIfNotExist(saveFolder);
-            string savePath = $"{saveFolder}/{fileName}";
+            string savePath = GetSavePath();
 
             SceneView sceneView = SceneView.lastActiveSceneView;
 
@@ -44,7 +48,7 @@ namespace MFramework
                 sceneView.camera.Render();
 
                 Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-                RenderTexture.active = renderTexture;
+                RenderTexture.active = renderTexture;//激活该renderTexture(激活了ReadPixels()就会读取)
                 screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
                 screenshot.Apply();
 
@@ -64,6 +68,17 @@ namespace MFramework
             {
                 MLog.Print("无Scene窗口，请检查", MLogType.Warning);
             }
+        }
+
+        private static string GetSavePath()
+        {
+            string time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string fileName = $"Screenshot_{time}.png";
+            string saveFolder = $"{MSettings.TempRootPath}/Screenshots";
+            MPathUtility.CreateFolderIfNotExist(saveFolder);
+            string savePath = $"{saveFolder}/{fileName}";
+
+            return savePath;
         }
     }
 }

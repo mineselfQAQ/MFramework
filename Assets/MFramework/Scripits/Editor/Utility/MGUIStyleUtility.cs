@@ -89,6 +89,27 @@ namespace MFramework
             }
         }
 
+        private static GUIStyle m_LeftH2Style;
+        public static GUIStyle LeftH2Style
+        {
+            get
+            {
+                if (m_LeftH2Style == null)
+                {
+                    GUIStyle style = new GUIStyle();
+
+                    style.fontSize = 15;
+                    style.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
+                    style.alignment = TextAnchor.MiddleLeft;
+                    style.fontStyle = FontStyle.Bold;
+
+                    m_LeftH2Style = style;
+                }
+
+                return m_LeftH2Style;
+            }
+        }
+
         private static GUIStyle m_CenterStyle;
         public static GUIStyle CenterStyle
         {

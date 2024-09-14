@@ -5,31 +5,45 @@ using UnityEngine.Events;
 
 namespace MFramework
 {
+    public enum AudioSourceMode
+    {
+        Music,
+        SFX,
+        Custom
+    }
+
     /// <summary>
     /// AudioSource扩展，使用包装类实现
     /// </summary>
     [DisallowComponent(typeof(AudioSource))]
     public class MAudioSource : MonoBehaviour
     {
+        [SerializeField]
         public UnityEvent OnStart;
 
+        [SerializeField]
+        public AudioSourceMode mode = AudioSourceMode.Custom;
+
+        [SerializeField]
         public AudioClip audioClip;
+        [SerializeField]
         public AudioMixerGroup audioMixerGroup;
 
         [Header("Initial Setup")]
-        public bool mute;
-        public bool playOnAwake;
-        public bool loop;
-        public bool fadeInOut;
-        public float fadeTime = 5.0f;
+        [SerializeField] public bool mute;
+        [SerializeField] public bool playOnAwake;
+        [SerializeField] public bool loop;
+        [SerializeField] public bool fadeInOut;
+        [SerializeField] public float fadeInTime = 5.0f;
+        [SerializeField] public float fadeOutTime = 5.0f;
 
         [Space(10)]
 
-        [Range(0, 256)]
+        [SerializeField][Range(0, 256)]
         public int priority = 128;
-        [Range(0, 1)]
+        [SerializeField][Range(0, 1)]
         public float volume = 1;
-        [Range(0, 3)]
+        [SerializeField][Range(0, 3)]
         public float pitch = 1;
 
         /// <summary>
@@ -39,8 +53,6 @@ namespace MFramework
 
         protected AudioSource audioSource;
 
-        protected Vector2 fadeinTime;//淡入区间
-        protected Vector2 fadeoutTime;//淡出区间
         protected bool trigger;
 
         protected virtual void Awake()
@@ -55,8 +67,11 @@ namespace MFramework
             audioSource.volume = volume;
             audioSource.pitch = pitch;
 
-            fadeinTime = new Vector2(0, fadeTime);
-            fadeoutTime = new Vector2(audioClip.length - fadeTime, audioClip.length);
+            if (fadeInTime + fadeOutTime > audioClip.length) 
+            {
+                MLog.Print($"{typeof(MAudioSource)}：{name}的AudioClip时长不足{fadeInTime + fadeOutTime}秒，无法渐入渐出", MLogType.Warning);
+                fadeInOut = false;
+            }
 
             if (playOnAwake)
             {
@@ -75,30 +90,32 @@ namespace MFramework
         {
             if (fadeInOut)
             {
-                if (audioSource.time <= fadeinTime.y)
+                if (fadeInTime > 0 && audioSource.time <= fadeInTime)//[0, fadeInTime]
                 {
                     if (!trigger)
                     {
                         trigger = true;
+                        //渐入
                         MTween.DoTween01NoRecord((f) =>
                         {
                             audioSource.volume = f;
                             Debug.Log(audioSource.volume);
-                        }, MCurve.Linear, fadeTime, () => 
+                        }, MCurve.Linear, fadeInTime, () => 
                         {
                             trigger = false;
                         });
                     }
                 }
-                else if (audioSource.time >= fadeoutTime.x)
+                else if (fadeOutTime > 0 && audioSource.time >= audioClip.length - fadeOutTime)//[audioClip.length - fadeOutTime, audioClip.length]
                 {
                     if (!trigger)
                     {
                         trigger = true;
+                        //渐出
                         MTween.DoTween01NoRecord((f) =>
                         {
                             audioSource.volume = 1 - f;
-                        }, MCurve.Linear, fadeTime, () =>
+                        }, MCurve.Linear, fadeOutTime, () =>
                         {
                             trigger = false;
                         });

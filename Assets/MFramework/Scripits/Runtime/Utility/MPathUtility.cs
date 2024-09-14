@@ -7,6 +7,15 @@ namespace MFramework
 {
     public static class MPathUtility
     {
+        public static bool IsFolder(string path)
+        {
+            return Directory.Exists(path);
+        }
+        public static bool IsFile(string path)
+        {
+            return File.Exists(path);
+        }
+
         /// <summary>
         /// 获取文件夹下的所有合法文件
         /// </summary>

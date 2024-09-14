@@ -84,5 +84,60 @@ namespace MFramework
                 return newPath;
             }
         }
+
+        /// <summary>
+        /// 打开路径文件夹
+        /// </summary>
+        internal static void OpenFolder(string path)
+        {
+            if (!MPathUtility.IsFolder(path))
+            {
+                MLog.Print("路径不存在或为文件，请检查", MLogType.Warning);
+                return;
+            }
+
+            path = path.Replace("/", "\\");//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", path);
+            MLog.Print($"路径名：{path}");
+        }
+        /// <summary>
+        /// 选择路径文件夹(同EditorUtility.RevealInFinder())
+        /// </summary>
+        internal static void SelectFolder(string path)
+        {
+            if (!MPathUtility.IsFolder(path))
+            {
+                MLog.Print("路径不存在或为文件，请检查", MLogType.Warning);
+                return;
+            }
+
+            path = path.Replace("/", "\\");//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", "/select,\"" + path + "\"");
+            MLog.Print($"路径名：{path}");
+        }
+        internal static void OpenFile(string path)
+        {
+            if (!MPathUtility.IsFile(path))
+            {
+                MLog.Print("路径不存在或为文件夹，请检查", MLogType.Warning);
+                return;
+            }
+
+            path = path.Replace("/", "\\");//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", path);
+            MLog.Print($"路径名：{path}");
+        }
+        internal static void SelectFile(string path)
+        {
+            if (!MPathUtility.IsFile(path))
+            {
+                MLog.Print("路径不存在或为文件夹，请检查", MLogType.Warning);
+                return;
+            }
+
+            path = path.Replace("/", "\\");//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", "/select,\"" + path + "\"");
+            MLog.Print($"路径名：{path}");
+        }
     }
 }

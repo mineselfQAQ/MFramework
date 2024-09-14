@@ -11,7 +11,10 @@ public class Test1 : MonoBehaviour
 
     private void Start()
     {
-
+        Debug.Log(MPathUtility.IsFile("F:/MineselfDemo/MFramework/CORE/AB"));
+        Debug.Log(MPathUtility.IsFile("F:/MineselfDemo/MFramework/CORE/AB/ABBuildSetting.xml"));
+        Debug.Log(MPathUtility.IsFolder("F:/MineselfDemo/MFramework/CORE/AB"));
+        Debug.Log(MPathUtility.IsFolder("F:/MineselfDemo/MFramework/CORE/AB/ABBuildSetting.xml"));
     }
 
     private void Update()

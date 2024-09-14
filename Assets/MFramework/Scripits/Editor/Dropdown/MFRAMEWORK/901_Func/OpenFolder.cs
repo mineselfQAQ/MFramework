@@ -9,47 +9,48 @@ namespace MFramework
         [MenuItem("MFramework/OpenFolder/OpenPersistentDataPath", false, 901)]
         public static void OpenPersistentDataPath()
         {
-            EditorUtility.RevealInFinder(Application.persistentDataPath);
-            MLog.Print($"PersistentDataPath路径：{Application.persistentDataPath}");
+            MEditorUtility.OpenFolder(MSettings.PersistentDataPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenStreamingAssetsPath", false, 901)]
         public static void OpenStreamingAssetsPath()
         {
-            string streamingAssetsPath = Application.streamingAssetsPath;
-            if (!Directory.Exists(streamingAssetsPath))
-            {
-                Directory.CreateDirectory(streamingAssetsPath);
-            }
-
-            EditorUtility.RevealInFinder(streamingAssetsPath);
-            MLog.Print(streamingAssetsPath);
+            MPathUtility.CreateFolderIfNotExist(MSettings.StreamingAssetsPath);
+            MEditorUtility.OpenFolder(MSettings.StreamingAssetsPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenDataPath", false, 901)]
         public static void OpenDataPath()
         {
-            EditorUtility.RevealInFinder(Application.dataPath);
-            MLog.Print($"DataPath路径：{Application.dataPath}");
+            MEditorUtility.OpenFolder(MSettings.AssetPath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenTemporaryCachePath", false, 901)]
         public static void OpenTemporaryCachePath()
         {
-            EditorUtility.RevealInFinder(Application.temporaryCachePath);
-            MLog.Print($"TemporaryCachePath路径：{Application.temporaryCachePath}");
+            MEditorUtility.OpenFolder(MSettings.TemporaryCachePath);
         }
 
         [MenuItem("MFramework/OpenFolder/OpenConsoleLogPath", false, 901)]
         public static void OpenConsoleLogPath()
         {
-            //注意：
-            //consoleLogPath必须将"/"转换为"\"
-            //因为Process.Start()中需要的路径使用的是"\"
-            string consoleLogPath = Application.consoleLogPath;
-            consoleLogPath = consoleLogPath.Replace("/", "\\");
-            System.Diagnostics.Process.Start("explorer", "/select,\"" + consoleLogPath + "\"");
-            MLog.Print($"ConsoleLogPath路径：{Application.consoleLogPath}");
+            MEditorUtility.OpenFolder(Application.consoleLogPath);
+        }
+
+        [MenuItem("MFramework/OpenFolder/OpenCorePath", false, 912)]
+        public static void OpenCorePath()
+        {
+            MEditorUtility.OpenFolder(MSettings.CorePath);
+        }
+        [MenuItem("MFramework/OpenFolder/OpenTempPath", false, 912)]
+        public static void OpenTempPath()
+        {
+            MEditorUtility.OpenFolder(MSettings.TempAssetPath);
+        }
+        [MenuItem("MFramework/OpenFolder/OpenRootTempPath", false, 912)]
+        public static void OpenRootTempPath()
+        {
+            MEditorUtility.OpenFolder(MSettings.TempRootPath);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace MFramework
 
         #region 临时路径
         public static readonly string TempRootPath = $"{RootPath}/MTemp";
-        public static readonly string TempAssetPath = $"{Application.dataPath}/MTemp";
+        public static readonly string TempAssetPath = $"{AssetPath}/MTemp";
         #endregion
 
         #region 序列化路径
