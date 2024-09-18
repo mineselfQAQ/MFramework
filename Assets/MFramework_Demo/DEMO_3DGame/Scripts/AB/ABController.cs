@@ -50,9 +50,13 @@ public class ABController : ComponentSingleton<ABController>
 
     protected string GetFileUrl(string fileName)
     {
+#if UNITY_EDITOR
+        Debug.Log($"{fileURLs[index]}/{fileName}");
         return $"{fileURLs[index]}/{fileName}";
-
         //家中---D:/___UnityProject___/MFramework_AssetBundle/WINDOWS/{fileName}";
         //单位---F:/MineselfDemo/MFramework_AssetBundle/WINDOWS/{fileName}";
+#else
+        return $"{MSettings.RootPath}/{Application.productName}_AssetBundle/WINDOWS/{fileName}";
+#endif
     }
 }

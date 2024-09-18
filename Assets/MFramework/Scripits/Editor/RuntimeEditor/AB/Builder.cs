@@ -89,6 +89,21 @@ namespace MFramework
         /// </summary>
         public static string BuildPath { get; set; }
 
+        /// <summary>
+        /// 打包时的AB打包
+        /// </summary>
+        public static void Build(string pathToBuiltProject)
+        {
+            BuildSetting = LoadSetting(BuildSettingPath);
+            BuildPath = $"{pathToBuiltProject.CD()}/{Application.productName}_AssetBundle/{PLATFORM}/";//更改BuildPath为项目根目录
+            Dictionary<string, List<string>> bundleDic = Collect();
+            BuildBundle(bundleDic);
+            ClearBundle(BuildPath, bundleDic);
+            BuildManifest();
+
+            EditorUtility.ClearProgressBar();
+        }
+
         internal static void BuildInternal()
         {
             ms_BuildProfiler.Start();
