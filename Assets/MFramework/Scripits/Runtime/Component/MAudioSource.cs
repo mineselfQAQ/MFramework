@@ -90,15 +90,16 @@ namespace MFramework
         {
             if (fadeInOut)
             {
-                if (fadeInTime > 0 && audioSource.time <= fadeInTime)//[0, fadeInTime]
+                if (fadeInTime > 0 && audioSource.time <= fadeInTime - 0.1f)//[0, fadeInTime - 0.1f]---0.1为余量，防止再次进行
                 {
                     if (!trigger)
                     {
                         trigger = true;
+                        float max = volume;//[0,1]
                         //渐入
                         MTween.DoTween01NoRecord((f) =>
                         {
-                            audioSource.volume = f;
+                            audioSource.volume = f * max;
                         }, MCurve.Linear, fadeInTime, () => 
                         {
                             trigger = false;
@@ -110,10 +111,11 @@ namespace MFramework
                     if (!trigger)
                     {
                         trigger = true;
+                        float max = volume;//[0,1]
                         //渐出
                         MTween.DoTween01NoRecord((f) =>
                         {
-                            audioSource.volume = 1 - f;
+                            audioSource.volume = 1 - (f * max);
                         }, MCurve.Linear, fadeOutTime, () =>
                         {
                             trigger = false;

@@ -207,7 +207,7 @@ namespace MFramework
         /// </summary>
         internal IEnumerator FixedTweenRoutine(Action<float> action, MCurve curve, float duration, float startValue, float endValue, Action onFinish)
         {
-            float step = duration / Time.fixedDeltaTime;//执行次数
+            float step = duration / Time.fixedUnscaledDeltaTime;//执行次数  不受timeScale影响
             float length = endValue - startValue;//区间长度
 
             float curValue;
@@ -238,7 +238,7 @@ namespace MFramework
                 curValue = startValue + MCurveSampler.Sample(curve, progress) * length;
                 action.Invoke(curValue);
 
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;//不受timeScale影响
                 yield return null;
             }
             //最后一帧

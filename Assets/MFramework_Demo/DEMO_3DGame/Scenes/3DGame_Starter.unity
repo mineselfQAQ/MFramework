@@ -608,7 +608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: index
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: fileURL
@@ -617,6 +617,14 @@ PrefabInstance:
     - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: enableAB
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
+      propertyPath: fileURLs.Array.data[0]
+      value: D:/___UnityProject___/PlatformGame_AssetBundle/WINDOWS
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
+      propertyPath: fileURLs.Array.data[1]
+      value: F:/MineselfDemo/PlatformGame_AssetBundle/WINDOWS
       objectReference: {fileID: 0}
     - target: {fileID: 3989768789481425267, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: m_LocalPosition.x

@@ -264,12 +264,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: volume
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: d0e4c7fdbff008347aa83dccb1be9ea0, type: 3}
+      objectReference: {fileID: 8300000, guid: a32c46e71673dcf46b080ac9ab514d9d, type: 3}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: fadeInOut
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeInTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeOutTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: playOnAwake
@@ -595,6 +607,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2555103356937026909, guid: 70cd813ce949f9542a42554ee6f4e6d6, type: 3}
   m_PrefabInstance: {fileID: 1565405526}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1789775416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 346137753860381620, guid: 184fb6a2041a825419208168b788104f, type: 3}
+  m_PrefabInstance: {fileID: 1772875176138050949}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0d4ecb3263c9e41b2410d72dd406f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1866384073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -687,6 +710,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '#SCENE#'
       objectReference: {fileID: 0}
+    - target: {fileID: 3531782171658452041, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: exit
+      value: 
+      objectReference: {fileID: 1789775416}
     - target: {fileID: 4047782655342862646, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: enemyEvents.OnPlayerExit.m_PersistentCalls.m_Calls.Array.size
       value: 2

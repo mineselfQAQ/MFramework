@@ -8,9 +8,15 @@ public class BuildABWhenBuild
     [PostProcessBuild]
     public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
     {
+#if UNITY_IOS
+        //???
+#elif UNITY_ANDROID
+        //???
+#else
         EditorDelayExecute.Instance.DelayDo(() =>
         {
-            Builder.Build(pathToBuiltProject);
+            Builder.Build_Windows(pathToBuiltProject);
         });
+#endif
     }
 }

@@ -92,7 +92,7 @@ namespace MFramework
         /// <summary>
         /// 打包时的AB打包
         /// </summary>
-        public static void Build(string pathToBuiltProject)
+        public static void Build_Windows(string pathToBuiltProject)
         {
             BuildSetting = LoadSetting(BuildSettingPath);
             BuildPath = $"{pathToBuiltProject.CD()}/{Application.productName}_AssetBundle/{PLATFORM}/";//更改BuildPath为项目根目录

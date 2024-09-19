@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace MFramework
 {
+    //TODO：只支持PC，无法用于安卓与Ios
     public class ExcelGenerator : EditorWindow
     {
         [MenuItem("MFramework/GenerateAllExcel _F8", priority = 202)]

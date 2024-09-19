@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BuildSetting ProjectName="MFramework" BuildRoot="../MFramework_AssetBundle">
+<BuildSetting ProjectName="MFramework" BuildRoot="../{ProjectName}_AssetBundle">
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Animations/" ResourceType="Direct" BundleType="All" Suffix=".anim|.controller|.mask" />
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Audios/" ResourceType="Direct" BundleType="File" Suffix=".wav|.aif" />
 	<BuildItem AssetPath="Assets/MFramework_Demo/DEMO_3DGame/Fonts/" ResourceType="Direct" BundleType="All" Suffix=".asset|.otf" />

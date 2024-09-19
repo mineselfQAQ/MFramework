@@ -304,6 +304,10 @@ PrefabInstance:
       propertyPath: index
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
+      propertyPath: enableAB
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3989768789481425267, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1392,6 +1396,14 @@ PrefabInstance:
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: fadeInOut
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeInTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
+      propertyPath: fadeOutTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7929119995785306473, guid: a3e294367c78516498571579eba7fbc9, type: 3}
       propertyPath: playOnAwake
