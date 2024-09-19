@@ -9,6 +9,7 @@ using System.Text;
 
 namespace MFramework
 {
+    //TODO:最好在XML中添加隔离目标(某Scene不需要打进包，但是只要在文件夹中就必须打入，会导致依赖增多)
     /// <summary>
     /// AB包构建核心类
     /// </summary>
@@ -60,11 +61,10 @@ namespace MFramework
         /// 打包设置
         /// </summary>
         public static readonly BuildAssetBundleOptions BuildAssetBundleOptions =
-            BuildAssetBundleOptions.ChunkBasedCompression |
-            //BuildAssetBundleOptions.DeterministicAssetBundle | 
-            BuildAssetBundleOptions.StrictMode |
-            BuildAssetBundleOptions.DisableLoadAssetByFileName |
-            BuildAssetBundleOptions.DisableLoadAssetByFileNameWithExtension;
+            BuildAssetBundleOptions.ChunkBasedCompression | //LZ4压缩
+            BuildAssetBundleOptions.StrictMode | //报错则打包不成狗
+            BuildAssetBundleOptions.DisableLoadAssetByFileName | //禁用(Player)搜索方式
+            BuildAssetBundleOptions.DisableLoadAssetByFileNameWithExtension; //禁用(Player.prefab)搜索方式
 
         /// <summary>
         /// 并行设置

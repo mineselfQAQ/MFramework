@@ -15,4 +15,5 @@
 	<BuildItem AssetPath="Assets/TextMesh Pro/Shaders/" ResourceType="Dependency" BundleType="All" Suffix=".shader" />
 	<BuildItem AssetPath="Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/" ResourceType="Dependency" BundleType="All" Suffix=".inputactions" />
 	<BuildItem AssetPath="Packages/com.unity.postprocessing/PostProcessing/" ResourceType="Dependency" BundleType="All" Suffix=".asset|.shader|.png|.compute|.tga" />
+	<BuildItem AssetPath="Assets/Unity-Logs-Viewer/" ResourceType="Dependency" BundleType="All" Suffix=".png|.guiskin" />
 </BuildSetting>
