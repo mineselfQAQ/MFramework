@@ -97,7 +97,7 @@ namespace MFramework
                         trigger = true;
                         float max = volume;//[0,1]
                         //½¥Èë
-                        MTween.DoTween01NoRecord((f) =>
+                        MTween.UnscaledDoTween01NoRecord((f) =>
                         {
                             audioSource.volume = f * max;
                         }, MCurve.Linear, fadeInTime, () => 
@@ -113,7 +113,7 @@ namespace MFramework
                         trigger = true;
                         float max = volume;//[0,1]
                         //½¥³ö
-                        MTween.DoTween01NoRecord((f) =>
+                        MTween.UnscaledDoTween01NoRecord((f) =>
                         {
                             audioSource.volume = 1 - (f * max);
                         }, MCurve.Linear, fadeOutTime, () =>

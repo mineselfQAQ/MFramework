@@ -6,6 +6,7 @@ using System;
 
 namespace MFramework
 {
+    //TODO:使用了DoTween，应该使用MTween替换
     /// <summary>
     /// 选择器，表现为一个横向或竖向的选择列表
     /// </summary>

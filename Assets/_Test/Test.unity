@@ -123,65 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &226871390
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 226871392}
-  - component: {fileID: 226871391}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &226871391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226871390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnStart:
-    m_PersistentCalls:
-      m_Calls: []
-  mode: 2
-  audioClip: {fileID: 8300000, guid: b0a292b136471f74fa41ac702c3424c5, type: 3}
-  audioMixerGroup: {fileID: 0}
-  mute: 1
-  playOnAwake: 1
-  loop: 1
-  fadeInOut: 0
-  fadeInTime: 5
-  fadeOutTime: 5
-  priority: 128
-  volume: 1
-  pitch: 1
---- !u!4 &226871392
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226871390}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &416793220
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 844015911}
   - component: {fileID: 844015910}
+  - component: {fileID: 844015912}
   m_Layer: 0
   m_Name: '#MCORE#'
   m_TagString: Untagged
@@ -322,6 +264,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &844015912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844015909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9549d819c21fcbd44b873e9716329be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bouncer: {fileID: 0}
 --- !u!1 &1993273115
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,4 +376,3 @@ SceneRoots:
   - {fileID: 844015911}
   - {fileID: 1993273118}
   - {fileID: 416793222}
-  - {fileID: 226871392}

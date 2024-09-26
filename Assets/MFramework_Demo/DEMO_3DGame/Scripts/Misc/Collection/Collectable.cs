@@ -250,7 +250,7 @@ public abstract class Collectable : MonoBehaviour
         m_collider.enabled = false;
 
         //initialPosition->targetPosition(ÏòÉÏÒÆ¶¯)
-        MTween.DoTween01NoRecord((f) =>
+        MTween.UnscaledDoTween01NoRecord((f) =>
         {
             transform.position = Vector3.Lerp(initialPosition, targetPosition, f);
         }, MCurve.Linear, quickShowDuration);

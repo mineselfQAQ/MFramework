@@ -19,7 +19,7 @@ public class GridPlatform : MonoBehaviour
         var from = platform.localRotation;
         var to = Quaternion.Euler(0, 0, m_clockwise ? 180 : 0);
 
-        MTween.DoTween01NoRecord((f) =>
+        MTween.UnscaledDoTween01NoRecord((f) =>
         {
             platform.localRotation = Quaternion.Lerp(from, to, f);
         }, MCurve.Linear, rotationDuration);
