@@ -45,7 +45,7 @@ public class Test_MBinarySearchTree : MonoBehaviour
         MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 
         MLog.Print("Count: " + tree.Count);
-        MLog.Print("是否包含6: " + tree.Contain(6));
+        MLog.Print("是否包含6: " + tree.Contains(6));
 
         MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
 

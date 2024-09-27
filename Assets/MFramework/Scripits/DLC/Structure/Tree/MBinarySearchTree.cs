@@ -112,7 +112,7 @@ namespace MFramework.DLC
             InternalRemove(node);
         }
 
-        public bool Contain(object o)
+        public bool Contains(object o)
         {
             return Search(o) != null;
         }
