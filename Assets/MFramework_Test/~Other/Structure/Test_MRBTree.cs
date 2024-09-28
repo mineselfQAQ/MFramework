@@ -19,6 +19,11 @@ public class Test_MRBTree : MonoBehaviour
         tree.Add(80);
         tree.Add(88);
 
+        tree.Remove(17);
+        tree.Remove(80);
+        tree.Remove(50);
+        tree.Remove(25);
+
         tree.Print();
     }
 }

@@ -69,6 +69,11 @@ public class MRBTreeNode
     //使节点无效(没有内容与其产生联系，可GC回收)
     internal void Invalidate()
     {
+        //父节点断开
+        if (parent.left == this) parent.left = null;
+        else parent.right = null;
+
+        //自身断开
         list = null;//核心---list清空将通不过ValidateNode()，从而无法进行任何操作
         parent = null;
         left = null;
@@ -133,18 +138,12 @@ public class MRBTree : IEnumerable
         }
     }
 
-    private RBColor GetColor(MRBTreeNode node) => node.color;
     private bool isRed(MRBTreeNode node) => node.color == RBColor.Red;
     private bool isBlack(MRBTreeNode node)
     {
         if (node == null) return true;//叶子节点(真叶子节点的子节点)必定为黑色
 
         return node.color == RBColor.Black;
-    }
-    private void SetColor(MRBTreeNode node, RBColor color)
-    {
-        if (node == null) return;
-        node.color = color;
     }
     private void SetRed(MRBTreeNode node)
     {
@@ -169,7 +168,9 @@ public class MRBTree : IEnumerable
         if (root == null) throw new Exception();//root为空那么不可能有内容需要remove
 
         var node = InternalRemove(o);//所需删除的node
-        RemoveFix(node);//真正的删除
+        RemoveFix(node);//整理结构
+        UpdateRoot();
+        node.Invalidate();//真正的删除
         count--;
     }
 
@@ -338,28 +339,28 @@ public class MRBTree : IEnumerable
             return node;
         }
     }
-    private void RemoveFix(MRBTreeNode node)
+    private void RemoveFix(MRBTreeNode node, bool isLeaf = true)
     {
         //1.删除节点为根节点
         if (root == node)
         {
             //又是根节点，又是叶子节点，这意味着只有1个节点，直接清空即可
             root = null;
+            return;
         }
 
         var pNode = GetParent(node);
         var bNode = GetBrother(node);
-        var cNode = node.left ?? node.right;//获取唯一红色节点
         bool black = isBlack(node);//删除节点颜色
-        int cCount = (node.left != null ? 1 : 0) + (node.right != null ? 1 : 0);//删除节点的子节点数
+        var cNode = node.left ?? node.right;//获取唯一红色节点
 
         //2.1.删除节点为红色节点
-        //只需删除即可
+        //只需删除即可，无需额外处理
         //2.2.删除节点为黑色节点
         if (black)
         {
             //2.2.1.拥有0个红色节点
-            if (cCount == 0)
+            if (cNode == null || !isLeaf)
             {
                 //Tip：此时必须有兄弟节点，否则不满足2-3-4树
 
@@ -367,7 +368,7 @@ public class MRBTree : IEnumerable
                 if (isBlack(bNode))
                 {
                     //2.2.1.1.1.无红色节点
-                    if (bNode.left == null && bNode.right == null)
+                    if (isBlack(bNode.left) && isBlack(bNode.right))
                     {
                         //2.2.1.1.1.1.父节点为红色
                         if (isRed(pNode))
@@ -384,38 +385,45 @@ public class MRBTree : IEnumerable
                             SetBlack(pNode);
                             SetRed(bNode);
                             //但是：此时由于删除节点并将兄弟节点至红，"所有路径黑色节点数量一致"不满足，需要递归处理
-                            RemoveFix(pNode);
+                            RemoveFix(pNode, false);
                         }
                     }
                     //2.2.1.1.2.有1个/2个红色节点
                     else
                     {
-                        //与Add()不同，由于这里已经是具体情况，只要存在就是有
-                        //LL情况
-                        if (pNode.left != null && pNode.left.left != null)
+                        //XL
+                        if (bNode.left != null && isRed(bNode.left))
                         {
-                            var newPNode = RightRotate(pNode);
-                            SetBlack(newPNode.right);
+                            //LL
+                            if (pNode.left == bNode)
+                            {
+                                var newPNode = RightRotate(pNode);
+                                SetBlack(newPNode.right);
+                            }
+                            //RL
+                            else if(pNode.right == bNode)
+                            {
+                                RightRotate(bNode);
+                                var newPNode = LeftRotate(pNode);
+                                SetBlack(newPNode.left);
+                            }
                         }
-                        //RR情况
-                        else if (pNode.right != null && pNode.right.right != null)
+                        //XR
+                        else if (bNode.right != null && isRed(bNode.right))
                         {
-                            var newPNode = LeftRotate(pNode);
-                            SetBlack(newPNode.left);
-                        }
-                        //LR情况
-                        else if (pNode.left != null && pNode.left.right != null)
-                        {
-                            LeftRotate(bNode);
-                            var newPNode = RightRotate(pNode);
-                            SetBlack(newPNode.right);
-                        }
-                        //RL情况
-                        else if (pNode.right != null && pNode.right.left != null)
-                        {
-                            RightRotate(bNode);
-                            var newPNode = LeftRotate(pNode);
-                            SetBlack(newPNode.left);
+                            //RR
+                            if (pNode.right == bNode)
+                            {
+                                var newPNode = LeftRotate(pNode);
+                                SetBlack(newPNode.left);
+                            }
+                            //LR
+                            else if (pNode.left == bNode)
+                            {
+                                LeftRotate(bNode);
+                                var newPNode = RightRotate(pNode);
+                                SetBlack(newPNode.right);
+                            }
                         }
                     }
                 }
@@ -427,45 +435,46 @@ public class MRBTree : IEnumerable
                         var newPNode = RightRotate(pNode);
                         SetBlack(newPNode);
                         SetRed(newPNode.right);
-                        RemoveFix(node);
+                        RemoveFix(node, isLeaf);
                     }
                     else//兄弟在右侧
                     {
                         var newPNode = LeftRotate(pNode);
                         SetBlack(newPNode);
                         SetRed(newPNode.left);
-                        RemoveFix(node);
+                        RemoveFix(node, isLeaf);
                     }
                 }
             }
-            //2.2.2.拥有1个红色节点
-            else if (cCount == 1)
-            {
-                bool isRight = pNode?.right == node ? true : false;//父节点指向
-                if (isRight)
-                {
-                    //保持父节点指向
-                    pNode.right = cNode;
-                    cNode.parent = pNode;
-                    SetBlack(cNode);
-                }
-                else
-                {
-                    //保持父节点指向
-                    pNode.left = cNode;
-                    cNode.parent = pNode;
-                    SetBlack(cNode);
-                }
-            }
-            //2.2.3.拥有2个红色节点
             else
             {
-                //不可能发生，拥有2个红色节点意味着是节点是红色节点的父节点，与叶子节点相斥
                 throw new Exception();
             }
+            //2.2.2.拥有1个红色节点
+            //不可能发生，因为：
+            //拥有1个红色节点意味着是节点是红色节点的父节点，与叶子节点相斥
+            //else
+            //{
+            //    bool isRight = pNode?.right == node ? true : false;//父节点指向
+            //    if (isRight)
+            //    {
+            //        //保持父节点指向
+            //        pNode.right = cNode;
+            //        cNode.parent = pNode;
+            //        SetBlack(cNode);
+            //    }
+            //    else
+            //    {
+            //        //保持父节点指向
+            //        pNode.left = cNode;
+            //        cNode.parent = pNode;
+            //        SetBlack(cNode);
+            //    }
+            //}
+            //2.2.3.拥有2个红色节点
+            //不可能发生，因为：
+            //拥有2个红色节点意味着是节点是红色节点的父节点，与叶子节点相斥
         }
-
-        node.Invalidate();
     }
 
     public bool Contains(object o)
