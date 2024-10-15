@@ -360,6 +360,8 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/fileselectpanel/fileselec
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FileSelectPanel/FileSelectPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/flasheffect/flasheffect.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FlashEffect/FlashEffect.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/gamepad/gamepad.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/Gamepad/Gamepad.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/hudpanel/hudpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/levelselectpanel/levelselectpanel.prefab.ab
@@ -643,6 +645,13 @@ assets/mframework_demo/demo_3dgame/sprites/icons.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/StarSlot.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Timer.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Trash.png
+assets/mframework_demo/demo_3dgame/sprites/mobileui.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/A.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/B.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/InThumb.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/OutThumb.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/X.png
+	Assets/MFramework_Demo/DEMO_3DGame/Sprites/MobileUI/Y.png
 assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/Chinese.png
 	Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/English.png

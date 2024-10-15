@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3249694394
+CRC: 713317531
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -559,17 +559,21 @@ AssetBundleManifest:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/flasheffect/flasheffect.prefab.ab
       Dependencies: {}
     Info_161:
+      Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/gamepad/gamepad.prefab.ab
+      Dependencies:
+        Dependency_0: assets/mframework_demo/demo_3dgame/sprites/mobileui.ab
+    Info_162:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/hudpanel/hudpanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/components.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/icons.ab
-    Info_162:
+    Info_163:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/levelselectpanel/levelselectpanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/components.ab
-    Info_163:
+    Info_164:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
@@ -578,17 +582,17 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
-    Info_164:
+    Info_165:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab
-    Info_165:
+    Info_166:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/titlescreenpanel/titlescreenpanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
-    Info_166:
+    Info_167:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/transitionpanel/transitionpanel.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
@@ -599,38 +603,38 @@ AssetBundleManifest:
         Dependency_5: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.controller.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.controller.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
-    Info_167:
+    Info_168:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/ui.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.controller.ab
-    Info_168:
+    Info_169:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/levelcard/levelcardwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/ui.ab
-    Info_169:
+    Info_170:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.controller.ab
-    Info_170:
+    Info_171:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/components.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.controller.ab
-    Info_171:
+    Info_172:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/savecard/savecardwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/components.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/sprites/ui.ab
-    Info_172:
+    Info_173:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
@@ -638,44 +642,44 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
-    Info_173:
+    Info_174:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/sprites/components.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
-    Info_174:
+    Info_175:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
       Dependencies: {}
-    Info_175:
+    Info_176:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
       Dependencies: {}
-    Info_176:
+    Info_177:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commoncamera#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/settings/defaultpostprocessing.asset.ab
         Dependency_1: packages/com.unity.postprocessing/postprocessing.ab
-    Info_177:
+    Info_178:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
       Dependencies: {}
-    Info_178:
+    Info_179:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commonlevel#.prefab.ab
       Dependencies: {}
-    Info_179:
+    Info_180:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commonmusic#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_180:
+    Info_181:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#commonsound#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_181:
+    Info_182:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#playercamera#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/settings/defaultpostprocessing.asset.ab
         Dependency_1: packages/com.unity.postprocessing/postprocessing.ab
-    Info_182:
+    Info_183:
       Name: assets/mframework_demo/demo_3dgame/prefabs/core/#uipanel#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
@@ -693,7 +697,7 @@ AssetBundleManifest:
         Dependency_12: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
         Dependency_13: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
         Dependency_14: packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
-    Info_183:
+    Info_184:
       Name: assets/mframework_demo/demo_3dgame/prefabs/entities/npcslime.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -706,7 +710,7 @@ AssetBundleManifest:
         Dependency_7: assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/settings/greenslimeconversation.asset.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/sprites/components.ab
-    Info_184:
+    Info_185:
       Name: assets/mframework_demo/demo_3dgame/prefabs/entities/patrolslime.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -716,7 +720,7 @@ AssetBundleManifest:
         Dependency_4: assets/mframework_demo/demo_3dgame/meshes/slime.fbx.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
-    Info_185:
+    Info_186:
       Name: assets/mframework_demo/demo_3dgame/prefabs/entities/player.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -780,7 +784,7 @@ AssetBundleManifest:
         Dependency_58: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_59: assets/mframework_demo/demo_3dgame/settings/defaultplayerstats.asset.ab
         Dependency_60: assets/mframework_demo/demo_3dgame/settings/player input actions.inputactions.ab
-    Info_186:
+    Info_187:
       Name: assets/mframework_demo/demo_3dgame/prefabs/entities/waypointslime.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -789,27 +793,27 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/meshes/slime.fbx.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
-    Info_187:
+    Info_188:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/board.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/fonts.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/kenny/sign.fbx.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/sprites/ui.ab
-    Info_188:
+    Info_189:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/checkpoint.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/fx01.aif.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/checkpoint.fbx.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_189:
+    Info_190:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/circlebouncingplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/spring.wav.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/items/circlebouncingplatform.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/circlebouncingplatform.fbx.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_190:
+    Info_191:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/coinlog.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -821,51 +825,51 @@ AssetBundleManifest:
         Dependency_6: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/meshes/log.fbx.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_191:
+    Info_192:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/deadzone.prefab.ab
       Dependencies: {}
-    Info_192:
+    Info_193:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/finishzone.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/rise05.aif.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/endzone.fbx.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_193:
+    Info_194:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/firer.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/particles/fire.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/firer.fbx.ab
-    Info_194:
+    Info_195:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/girdplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/gridplatform.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/girdplatform.fbx.ab
-    Info_195:
+    Info_196:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/glider.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/glider_fader.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/glider.fbx.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_196:
+    Info_197:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/leavesgravitylift.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/leaf.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/particles/leaves.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
-    Info_197:
+    Info_198:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/log.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/rise02.aif.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/log.fbx.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_198:
+    Info_199:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/movingplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/platform.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/roundcube.fbx.ab
-    Info_199:
+    Info_200:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/mudpool.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_0.wav.ab
@@ -873,32 +877,32 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/items/mud.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_200:
+    Info_201:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/mudvolume.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_0.wav.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_1.wav.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/items/mud.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_201:
+    Info_202:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/pole.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/pole.mat.ab
-    Info_202:
+    Info_203:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/spike.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/spike.fbx.ab
-    Info_203:
+    Info_204:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/spikelog.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/spikelog.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/spikelog.fbx.ab
-    Info_204:
+    Info_205:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/squarefallingplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/squarefallingplatform.mat.ab
-    Info_205:
+    Info_206:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/waterpool.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/water_splash_0.wav.ab
@@ -907,7 +911,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/items/water.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
-    Info_206:
+    Info_207:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/watervolume.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/water_splash_0.wav.ab
@@ -915,117 +919,117 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/items/water.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
-    Info_207:
+    Info_208:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/flower.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/flowers-tall.fbx.ab
-    Info_208:
+    Info_209:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/flower2.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/flowers.fbx.ab
-    Info_209:
+    Info_210:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/grass 1.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/meshes/kenny/grass.fbx.ab
-    Info_210:
+    Info_211:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/grass2.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/grass-large.fbx.ab
-    Info_211:
+    Info_212:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/grassplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/block-grass-large.fbx.ab
-    Info_212:
+    Info_213:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/longlog.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
-    Info_213:
+    Info_214:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/mushroom.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/mushrooms.fbx.ab
-    Info_214:
+    Info_215:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/pole.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/poles.fbx.ab
-    Info_215:
+    Info_216:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/rock.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/rocks.fbx.ab
-    Info_216:
+    Info_217:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/shortlog.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/tree-log-small.fbx.ab
-    Info_217:
+    Info_218:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/sign.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/sign.fbx.ab
-    Info_218:
+    Info_219:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/singlepost.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/signpost-single.fbx.ab
-    Info_219:
+    Info_220:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/smallstone.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/stones.fbx.ab
-    Info_220:
+    Info_221:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/tallgrassplatform.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/block-grass-large-tall.fbx.ab
-    Info_221:
+    Info_222:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/tree.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/tree-pine.fbx.ab
-    Info_222:
+    Info_223:
       Name: assets/mframework_demo/demo_3dgame/prefabs/level1/tree2.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/kenny/tree.fbx.ab
-    Info_223:
+    Info_224:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/coinparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
-    Info_224:
+    Info_225:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/explosionparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
-    Info_225:
+    Info_226:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/itemparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
-    Info_226:
+    Info_227:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/leavesparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/leaf.mat.ab
-    Info_227:
+    Info_228:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/windparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
-    Info_228:
+    Info_229:
       Name: assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_10x1x10.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
-    Info_229:
+    Info_230:
       Name: assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_1x1x1.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
-    Info_230:
+    Info_231:
       Name: assets/mframework_demo/demo_3dgame/prefabs/terrain/checker_5x1x5.prefab.ab
       Dependencies: {}
-    Info_231:
+    Info_232:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/crate/coincrate.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1040,7 +1044,7 @@ AssetBundleManifest:
         Dependency_9: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_10: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_11: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_232:
+    Info_233:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/crate/crate.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/break.wav.ab
@@ -1048,7 +1052,7 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_233:
+    Info_234:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/crate/heartcrate.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1062,7 +1066,7 @@ AssetBundleManifest:
         Dependency_8: assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_10: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_234:
+    Info_235:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/crate/lifecrate.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1075,7 +1079,7 @@ AssetBundleManifest:
         Dependency_7: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_235:
+    Info_236:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/crate/metalcrate.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/break.wav.ab
@@ -1084,7 +1088,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/meshes/kenny/crate-strong.fbx.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_236:
+    Info_237:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_coin5x.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1097,13 +1101,13 @@ AssetBundleManifest:
         Dependency_7: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_237:
+    Info_238:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_empty.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/emptyitemcube.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/items/itemcube.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
-    Info_238:
+    Info_239:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_heart.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1115,7 +1119,7 @@ AssetBundleManifest:
         Dependency_6: assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_239:
+    Info_240:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/itemcube/itemcube_life.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1126,7 +1130,7 @@ AssetBundleManifest:
         Dependency_5: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_240:
+    Info_241:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/portal/blueportal.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/teleport.wav.ab
@@ -1134,7 +1138,7 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/particles/ring.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_241:
+    Info_242:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/portal/redportal.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/teleport.wav.ab
@@ -1142,47 +1146,47 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/particles/ring.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_242:
+    Info_243:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/trigger/activatedfirer.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/materials/particles/fire.mat.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/meshes/firer.fbx.ab
-    Info_243:
+    Info_244:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/trigger/activatedspike.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/spike.fbx.ab
-    Info_244:
+    Info_245:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/trigger/triggerbutton.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/triggerbutton.mat.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/meshes/triggerbutton.fbx.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_245:
+    Info_246:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/dashsmokeparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
-    Info_246:
+    Info_247:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/dustparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
-    Info_247:
+    Info_248:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/grindtrailparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/trail.mat.ab
-    Info_248:
+    Info_249:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/landingsmokeparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
-    Info_249:
+    Info_250:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/speedtrailsparticle.prefab.ab
       Dependencies: {}
-    Info_250:
+    Info_251:
       Name: assets/mframework_demo/demo_3dgame/prefabs/particles/characterparticles/starsdustparticle.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/particles/starparticle.mat.ab
-    Info_251:
+    Info_252:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/level1/#scene#.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -1251,7 +1255,7 @@ AssetBundleManifest:
         Dependency_63: assets/mframework_demo/demo_3dgame/sprites/components.ab
         Dependency_64: assets/mframework_demo/demo_3dgame/sprites/icons.ab
         Dependency_65: assets/mframework_demo/demo_3dgame/sprites/ui.ab
-    Info_252:
+    Info_253:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---collectables---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1278,7 +1282,7 @@ AssetBundleManifest:
         Dependency_21: assets/mframework_demo/demo_3dgame/meshes/kenny/crate-strong.fbx.ab
         Dependency_22: assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
         Dependency_23: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_253:
+    Info_254:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---enemy---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/animations.ab
@@ -1289,7 +1293,7 @@ AssetBundleManifest:
         Dependency_5: assets/mframework_demo/demo_3dgame/meshes/slime.fbx.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
-    Info_254:
+    Info_255:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---hazard---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
@@ -1303,7 +1307,7 @@ AssetBundleManifest:
         Dependency_8: assets/mframework_demo/demo_3dgame/meshes/spikelog.fbx.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/meshes/triggerbutton.fbx.ab
         Dependency_10: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_255:
+    Info_256:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---major---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/fx01.aif.ab
@@ -1317,7 +1321,7 @@ AssetBundleManifest:
         Dependency_8: assets/mframework_demo/demo_3dgame/meshes/star.fbx.ab
         Dependency_9: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_10: assets/mframework_demo/demo_3dgame/sprites/icons.ab
-    Info_256:
+    Info_257:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---misc---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/spring.wav.ab
@@ -1336,7 +1340,7 @@ AssetBundleManifest:
         Dependency_13: assets/mframework_demo/demo_3dgame/sprites/ui.ab
         Dependency_14: assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
         Dependency_15: assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
-    Info_257:
+    Info_258:
       Name: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---terrain---.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_0.wav.ab
@@ -1356,7 +1360,7 @@ AssetBundleManifest:
         Dependency_14: assets/mframework_demo/demo_3dgame/meshes/roundcube.fbx.ab
         Dependency_15: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_16: assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
-    Info_258:
+    Info_259:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/bluecoin.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1368,7 +1372,7 @@ AssetBundleManifest:
         Dependency_6: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_8: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_259:
+    Info_260:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/bouncycoin.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1378,7 +1382,7 @@ AssetBundleManifest:
         Dependency_4: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_260:
+    Info_261:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/coin.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1388,7 +1392,7 @@ AssetBundleManifest:
         Dependency_4: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_261:
+    Info_262:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/hiddencoin.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1398,7 +1402,7 @@ AssetBundleManifest:
         Dependency_4: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_262:
+    Info_263:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/coin/redcoin.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1409,7 +1413,7 @@ AssetBundleManifest:
         Dependency_5: assets/mframework_demo/demo_3dgame/materials/particles/sparkle.mat.ab
         Dependency_6: assets/mframework_demo/demo_3dgame/meshes/coin.fbx.ab
         Dependency_7: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_263:
+    Info_264:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/heart/bouncyheart.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1418,7 +1422,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_264:
+    Info_265:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/heart/heart.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1427,7 +1431,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_265:
+    Info_266:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/life/bouncylife.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1435,7 +1439,7 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/items/life.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_266:
+    Info_267:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/life/life.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/bouncy_item.wav.ab
@@ -1443,7 +1447,7 @@ AssetBundleManifest:
         Dependency_2: assets/mframework_demo/demo_3dgame/materials/items/life.mat.ab
         Dependency_3: assets/mframework_demo/demo_3dgame/materials/particles/aura.mat.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
-    Info_267:
+    Info_268:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/star/activatedstar.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/rise06.aif.ab
@@ -1452,7 +1456,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/meshes/star.fbx.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/sprites/icons.ab
-    Info_268:
+    Info_269:
       Name: assets/mframework_demo/demo_3dgame/prefabs/items/collectables/star/star.prefab.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/effects/rise06.aif.ab
@@ -1461,7 +1465,7 @@ AssetBundleManifest:
         Dependency_3: assets/mframework_demo/demo_3dgame/meshes/star.fbx.ab
         Dependency_4: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_5: assets/mframework_demo/demo_3dgame/sprites/icons.ab
-    Info_269:
+    Info_270:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_level1.unity.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing.mat.ab
@@ -1479,7 +1483,7 @@ AssetBundleManifest:
         Dependency_12: assets/mframework_demo/demo_3dgame/textures/cubemap.ab
         Dependency_13: assets/mframework_demo/demo_3dgame/audios/musics/music_level1.mp3.ab
         Dependency_14: assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
-    Info_270:
+    Info_271:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel.unity.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/audios/musics/music_samplelevel.wav.ab
@@ -1504,17 +1508,18 @@ AssetBundleManifest:
         Dependency_19: assets/mframework_demo/demo_3dgame/prefabs/scenes/sample/---terrain---.prefab.ab
         Dependency_20: assets/mframework_demo/demo_3dgame/textures/cubemap.ab
         Dependency_21: assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
-    Info_271:
+    Info_272:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_starter.unity.ab
       Dependencies:
-        Dependency_0: assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
-        Dependency_1: assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
-        Dependency_2: assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
-        Dependency_3: assets/mframework_demo/demo_3dgame/prefabs/core/#commonsound#.prefab.ab
-        Dependency_4: assets/mframework_demo/demo_3dgame/prefabs/core/#uipanel#.prefab.ab
-        Dependency_5: assets/mframework_demo/demo_3dgame/sprites/preview.ab
-        Dependency_6: assets/unity-logs-viewer.ab
-    Info_272:
+        Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/panels/gamepad/gamepad.prefab.ab
+        Dependency_1: assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
+        Dependency_2: assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
+        Dependency_3: assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
+        Dependency_4: assets/mframework_demo/demo_3dgame/prefabs/core/#commonsound#.prefab.ab
+        Dependency_5: assets/mframework_demo/demo_3dgame/prefabs/core/#uipanel#.prefab.ab
+        Dependency_6: assets/mframework_demo/demo_3dgame/sprites/preview.ab
+        Dependency_7: assets/unity-logs-viewer.ab
+    Info_273:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_titlescreen.unity.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/materials/skybox/day_bluesky_nothing.mat.ab
@@ -1529,229 +1534,232 @@ AssetBundleManifest:
         Dependency_9: assets/mframework_demo/demo_3dgame/textures/cubemap.ab
         Dependency_10: packages/com.unity.postprocessing/postprocessing.ab
         Dependency_11: assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
-    Info_273:
+    Info_274:
       Name: assets/mframework_demo/demo_3dgame/scenes/prefabchecker.unity.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/prefabs/core/#uipanel#.prefab.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
         Dependency_3: packages/com.unity.postprocessing/postprocessing.ab
-    Info_274:
+    Info_275:
       Name: assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
       Dependencies: {}
-    Info_275:
+    Info_276:
       Name: assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab
       Dependencies: {}
-    Info_276:
+    Info_277:
       Name: assets/mframework_demo/demo_3dgame/settings/defaultplayerstats.asset.ab
       Dependencies: {}
-    Info_277:
+    Info_278:
       Name: assets/mframework_demo/demo_3dgame/settings/defaultpostprocessing.asset.ab
       Dependencies: {}
-    Info_278:
+    Info_279:
       Name: assets/mframework_demo/demo_3dgame/settings/greenslimeconversation.asset.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
-    Info_279:
+    Info_280:
       Name: assets/mframework_demo/demo_3dgame/settings/player input actions.inputactions.ab
       Dependencies: {}
-    Info_280:
+    Info_281:
       Name: assets/mframework_demo/demo_3dgame/settings/titlescreen.playable.ab
       Dependencies: {}
-    Info_281:
+    Info_282:
       Name: assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
       Dependencies: {}
-    Info_282:
+    Info_283:
       Name: assets/mframework_demo/demo_3dgame/shaders/pbr_fader.shader.ab
       Dependencies: {}
-    Info_283:
+    Info_284:
       Name: assets/mframework_demo/demo_3dgame/shaders/pbr_mr.shader.ab
       Dependencies: {}
-    Info_284:
+    Info_285:
       Name: assets/mframework_demo/demo_3dgame/shaders/pbr_triplanar.shader.ab
       Dependencies: {}
-    Info_285:
+    Info_286:
       Name: assets/mframework_demo/demo_3dgame/shaders/projectorlight.shader.ab
       Dependencies: {}
-    Info_286:
+    Info_287:
       Name: assets/mframework_demo/demo_3dgame/shaders/projectormultiply.shader.ab
       Dependencies: {}
-    Info_287:
+    Info_288:
       Name: assets/mframework_demo/demo_3dgame/shaders/water.shader.ab
       Dependencies: {}
-    Info_288:
+    Info_289:
       Name: assets/mframework_demo/demo_3dgame/sprites/components.ab
       Dependencies: {}
-    Info_289:
+    Info_290:
       Name: assets/mframework_demo/demo_3dgame/sprites/icons.ab
       Dependencies: {}
-    Info_290:
-      Name: assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
-      Dependencies: {}
     Info_291:
-      Name: assets/mframework_demo/demo_3dgame/sprites/preview.ab
+      Name: assets/mframework_demo/demo_3dgame/sprites/mobileui.ab
       Dependencies: {}
     Info_292:
-      Name: assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
+      Name: assets/mframework_demo/demo_3dgame/sprites/nationalflag.ab
       Dependencies: {}
     Info_293:
-      Name: assets/mframework_demo/demo_3dgame/sprites/ui.ab
+      Name: assets/mframework_demo/demo_3dgame/sprites/preview.ab
       Dependencies: {}
     Info_294:
-      Name: assets/mframework_demo/demo_3dgame/textures/common.ab
+      Name: assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab
       Dependencies: {}
     Info_295:
-      Name: assets/mframework_demo/demo_3dgame/textures/cubemap.ab
+      Name: assets/mframework_demo/demo_3dgame/sprites/ui.ab
       Dependencies: {}
     Info_296:
-      Name: assets/mframework_demo/demo_3dgame/textures/entities.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/common.ab
       Dependencies: {}
     Info_297:
-      Name: assets/mframework_demo/demo_3dgame/textures/items.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/cubemap.ab
       Dependencies: {}
     Info_298:
-      Name: assets/mframework_demo/demo_3dgame/textures/noise.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/entities.ab
       Dependencies: {}
     Info_299:
-      Name: assets/mframework_demo/demo_3dgame/textures/particles.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/items.ab
       Dependencies: {}
     Info_300:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/noise.ab
       Dependencies: {}
     Info_301:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/green.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/particles.ab
       Dependencies: {}
     Info_302:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/light.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
       Dependencies: {}
     Info_303:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/orange.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/green.ab
       Dependencies: {}
     Info_304:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/purple.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/light.ab
       Dependencies: {}
     Info_305:
-      Name: assets/mframework_demo/demo_3dgame/textures/prototype/red.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/orange.ab
       Dependencies: {}
     Info_306:
-      Name: assets/textmesh pro/shaders.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/purple.ab
       Dependencies: {}
     Info_307:
-      Name: assets/mframework_demo/demo_3dgame/textures/projectors.ab
+      Name: assets/mframework_demo/demo_3dgame/textures/prototype/red.ab
       Dependencies: {}
     Info_308:
-      Name: assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab
+      Name: assets/textmesh pro/shaders.ab
       Dependencies: {}
     Info_309:
+      Name: assets/mframework_demo/demo_3dgame/textures/projectors.ab
+      Dependencies: {}
+    Info_310:
+      Name: assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab
+      Dependencies: {}
+    Info_311:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_open.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_close.anim.ab
-    Info_310:
+    Info_312:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
-    Info_311:
+    Info_313:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_close.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_open.anim.ab
-    Info_312:
+    Info_314:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_close.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_open.anim.ab
-    Info_313:
+    Info_315:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_open.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_close.anim.ab
         Dependency_2: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_loop.anim.ab
-    Info_314:
+    Info_316:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_close.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_open.anim.ab
-    Info_315:
+    Info_317:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_open.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_close.anim.ab
-    Info_316:
+    Info_318:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
       Dependencies:
         Dependency_0: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_close.anim.ab
         Dependency_1: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_open.anim.ab
-    Info_317:
+    Info_319:
       Name: packages/com.unity.postprocessing/postprocessing.ab
       Dependencies: {}
-    Info_318:
+    Info_320:
       Name: packages/com.unity.inputsystem/inputsystem/plugins/playerinput.ab
       Dependencies: {}
-    Info_319:
+    Info_321:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_spline.asset.ab
       Dependencies: {}
-    Info_320:
+    Info_322:
       Name: assets/mframework_demo/demo_3dgame/scenes/3dgame_samplelevel/splineextrude_rail.asset.ab
       Dependencies: {}
-    Info_321:
+    Info_323:
       Name: assets/mframework_demo/demo_3dgame/audios/musics/music_level1.mp3.ab
       Dependencies: {}
-    Info_322:
+    Info_324:
       Name: assets/mframework_demo/demo_3dgame/settings/defaultlighting.lighting.ab
       Dependencies: {}
-    Info_323:
+    Info_325:
       Name: assets/unity-logs-viewer.ab
       Dependencies: {}
-    Info_324:
+    Info_326:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_open.anim.ab
       Dependencies: {}
-    Info_325:
+    Info_327:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_close.anim.ab
       Dependencies: {}
-    Info_326:
+    Info_328:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab
       Dependencies: {}
-    Info_327:
+    Info_329:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
       Dependencies: {}
-    Info_328:
+    Info_330:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_close.anim.ab
       Dependencies: {}
-    Info_329:
+    Info_331:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel_open.anim.ab
       Dependencies: {}
-    Info_330:
+    Info_332:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_close.anim.ab
       Dependencies: {}
-    Info_331:
+    Info_333:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_open.anim.ab
       Dependencies: {}
-    Info_332:
+    Info_334:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_open.anim.ab
       Dependencies: {}
-    Info_333:
+    Info_335:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_close.anim.ab
       Dependencies: {}
-    Info_334:
+    Info_336:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_loop.anim.ab
       Dependencies: {}
-    Info_335:
+    Info_337:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_close.anim.ab
       Dependencies: {}
-    Info_336:
+    Info_338:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget_open.anim.ab
       Dependencies: {}
-    Info_337:
+    Info_339:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_open.anim.ab
       Dependencies: {}
-    Info_338:
+    Info_340:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/settingwidget/settingwidget_close.anim.ab
       Dependencies: {}
-    Info_339:
+    Info_341:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_close.anim.ab
       Dependencies: {}
-    Info_340:
+    Info_342:
       Name: assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_open.anim.ab
       Dependencies: {}

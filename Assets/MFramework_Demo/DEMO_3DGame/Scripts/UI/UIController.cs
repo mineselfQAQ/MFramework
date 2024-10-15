@@ -39,6 +39,7 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string fileSelectPanelName = "FILESELECT";
     public static readonly string levelSelectPanelName = "LEVELSELECT";
     public static readonly string dialogPanelName = "DIALOG";
+    public static readonly string gamePadName = "GAMEPAD";
 
     public static readonly string flashEffectName = "FLASHEFFECT";
 
@@ -56,6 +57,11 @@ public class UIController : ComponentSingleton<UIController>
 
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
+
+        //TODO:不应该一直出现，只应该在关卡中显示
+        //会被特效压住
+        CreatePanel<Gamepad>(topRoot, gamePadName, $"{panelPrepath}/Gamepad/Gamepad.prefab", true);
+        topRoot.SetSortingOrder(gamePadName, 1801);
 
         flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
         topRoot.SetSortingOrder(flashEffectName, 1994);

@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3767331815
+CRC: 3046662969
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9876e9ebad32cab313f744eb1012c888
+    Hash: 384886c8fc35fdf0001cfce206dcbe29
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bffd5d3779649cee84a97692d6e12c5d
+    Hash: e2b8ef945140c14c1081e9ecc7187dac
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 9876e9ebad32cab313f744eb1012c888
+    Hash: 384886c8fc35fdf0001cfce206dcbe29
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -49,7 +49,11 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 599171d638accd34f9ca2859369d3d18, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 1bf5774f73c6ae84baefc6b82cbccbaa, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
 - Class: 114
@@ -76,6 +80,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 705d2d76f2ce9604a8ea14c5c9098a5a, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 95ea29f7e89731e4abdbd56ffe649e8e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 722ca65da26a5644abd059b8726be847, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 06504c967e69b1a4ca79d9e96f85b51e, type: 3}
 - Class: 114
@@ -118,8 +124,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 84e2884eeeb8b0742b385265bcdb86ab, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 722ca65da26a5644abd059b8726be847, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -148,6 +152,7 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_Starter.unity
 Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/panels/gamepad/gamepad.prefab.ab
 - D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
 - D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
 - D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
