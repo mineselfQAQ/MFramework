@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2496102893
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 64de94c471dc10c7bf5d9fa812726fe7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99636904eb23c0c5b32845932027a399
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 64de94c471dc10c7bf5d9fa812726fe7
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/SponsorDisplayPanel/SponsorDisplayPanel_Close.anim
+Dependencies: []

@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3925630633
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 14571ae7f58a7dabbc1dcbf81ed2c181
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5941c3541d8b403f80e37b0d697371e8
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 14571ae7f58a7dabbc1dcbf81ed2c181
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget_Loop.anim
+Dependencies: []

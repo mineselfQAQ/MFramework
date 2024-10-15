@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3032866999
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d380d1a620b2b096c08b33ff3658e6aa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d380d1a620b2b096c08b33ff3658e6aa
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/maneuver_2.wav
+Dependencies: []

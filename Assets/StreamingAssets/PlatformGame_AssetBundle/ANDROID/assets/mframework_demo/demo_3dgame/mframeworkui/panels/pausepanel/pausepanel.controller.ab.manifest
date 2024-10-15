@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1284855679
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 11480445cf16c77dc562751df3b772b1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e8df1f9f82371e82de919a94edcc7dd6
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 11480445cf16c77dc562751df3b772b1
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_close.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel_open.anim.ab

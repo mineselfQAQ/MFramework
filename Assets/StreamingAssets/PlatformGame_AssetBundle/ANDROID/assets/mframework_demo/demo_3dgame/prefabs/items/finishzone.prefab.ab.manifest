@@ -1,0 +1,51 @@
+ManifestFileVersion: 0
+CRC: 942337860
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fc2128fdae3ddebacc2952eb29bd2752
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1f2186adbc2d5d36d14ddb1d26dfa018
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: fc2128fdae3ddebacc2952eb29bd2752
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7993ae9f93d1a3f4d9e9ad56bb6c1ad2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ed7efa75ce831614e95528b016624477, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/FinishZone.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/rise05.aif.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/endzone.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab

@@ -1,0 +1,44 @@
+ManifestFileVersion: 0
+CRC: 921904868
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0288edcfdb0f3bd65ff4b2da0d420053
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 24958eab973c18b37650f522da975498
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 0288edcfdb0f3bd65ff4b2da0d420053
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0d39249223251654b93b751306623721, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/SIgn.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/kenny/sign.fbx.ab

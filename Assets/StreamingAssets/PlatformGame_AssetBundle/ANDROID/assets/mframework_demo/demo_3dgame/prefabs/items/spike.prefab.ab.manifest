@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 361822840
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 69c625870def0cd9ccff6f799cb0fc23
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d75615182561d4ec8c6ede001a99d469
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 69c625870def0cd9ccff6f799cb0fc23
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0c3fe7fd65700b54d9e63250d57c99e9, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Spike.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/spike.fbx.ab

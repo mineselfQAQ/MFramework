@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 758003454
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7d720b2ba3cbac267247cc0cdd07aef3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ce1fc08df2f758d6d856448290aaf38c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 7d720b2ba3cbac267247cc0cdd07aef3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Particles/CharacterParticles/DustParticle.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab

@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 2422640192
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6405d4ccf6ca915ba47288904f9ac6eb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 88f4053155d2c8e8bdeb16c00867b658
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 6405d4ccf6ca915ba47288904f9ac6eb
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/RedCoin.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/coin.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/shaders/pbr_mr.shader.ab

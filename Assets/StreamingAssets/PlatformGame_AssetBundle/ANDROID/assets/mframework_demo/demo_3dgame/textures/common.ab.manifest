@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 91761669
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ac59b9f9c72543673a6bb3b326718889
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ac59b9f9c72543673a6bb3b326718889
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapA.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapC.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Common/ColormapB.png
+Dependencies: []

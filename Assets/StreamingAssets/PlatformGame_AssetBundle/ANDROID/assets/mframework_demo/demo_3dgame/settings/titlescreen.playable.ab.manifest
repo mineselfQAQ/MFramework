@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 2512448507
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b4b1489f57ca25168fe67ec1f1fafbc0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9f9dc566928db09ec6d412c8ced04054
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b4b1489f57ca25168fe67ec1f1fafbc0
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 05acc715f855ced458d76ee6f8ac6c61, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d21dcc2386d650c4597f3633c75a1f98, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.MarkerList
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.TimelineAsset/EditorSettings
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.TimelineClip
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.ExposedReference`1[Cinemachine.CinemachineVirtualCameraBase]
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Settings/TitleScreen.playable
+Dependencies: []

@@ -1,0 +1,34 @@
+ManifestFileVersion: 0
+CRC: 3192628249
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f97c8a7bf832e9fee24c543af8c6daae
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0282162fcb1192b504081a859b414c34
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: f97c8a7bf832e9fee24c543af8c6daae
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 205
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass2.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/kenny/grass-large.fbx.ab

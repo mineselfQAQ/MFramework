@@ -1,0 +1,96 @@
+ManifestFileVersion: 0
+CRC: 212177904
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fc86f1e1fbc042f27a2d9189362a86fb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ac867697c02a25fbfe452c79b73e5e53
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: fc86f1e1fbc042f27a2d9189362a86fb
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: cecf56c738ac45244acf6418d91cd3a6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3182998dd064e1e459ba280212f8ddd8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3ca2021972db9dc4480fe1d009f79572, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f0437540897b5743beda97a880c4add, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 47ab0fa5495ff3c43b5153eed206007f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6913e5a1b8124614280715e48f2b0d82, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4a9f5730d4908bc4da3aaeecaf6efed9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3725fefb456f07f4f80b33fe2871144e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ee482ceba9b79644b821c2d5da105bb0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bc2a0b79456f95848bc3d6334c538827, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: EnemyEvents
+- AssemblyName: Assembly-CSharp
+  ClassName: EntityEvents
+- AssemblyName: Assembly-CSharp
+  ClassName: EntityStateManagerEvents
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.ArgumentCache
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentListenerMode
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Type]
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Enemy---.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/animations.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/squish.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/entites/redslime.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/slime.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/defaultenemystats.asset.ab

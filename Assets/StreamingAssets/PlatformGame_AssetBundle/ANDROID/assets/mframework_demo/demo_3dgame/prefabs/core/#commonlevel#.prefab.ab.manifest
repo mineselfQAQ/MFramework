@@ -1,0 +1,48 @@
+ManifestFileVersion: 0
+CRC: 470379741
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 859d302e9ab21f111324da69def2b94d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 08fc0f3092c3e70206af340a2c1274b8
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 859d302e9ab21f111324da69def2b94d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8837f77997fec12459d4390eed9a019d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: effc5c1bc4b8a354ab65e78e5f5882b7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 39dc9615a01a0e040b5a9e4f6191b765, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7b486be56436f934a8c389b0153aa9ca, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: af9a726362a678b4eb48033b44792ba6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8c48780d61fdf4345b1e97a16da0838b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3df8c8864841da74e81a5e3ec008549b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Boolean[]]
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Boolean]
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Int32]
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONLEVEL#.prefab
+Dependencies: []

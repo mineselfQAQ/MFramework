@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2581993726
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4e27b1fabb638c4ceba619c7817ca623
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 4e27b1fabb638c4ceba619c7817ca623
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/lift_0.wav
+Dependencies: []

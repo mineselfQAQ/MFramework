@@ -1,0 +1,52 @@
+ManifestFileVersion: 0
+CRC: 285528048
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7559b33f14a051a4c6bdbf0e588281a3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2afee5bdc891d2e9e8e0fa141e1027f7
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 7559b33f14a051a4c6bdbf0e588281a3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b8bfcf81034c1264393bebf24cc0d989, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3daf14df60d96eb448f21e63d53fd1bc, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/MudVolume.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/mud_splash_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/mud.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab

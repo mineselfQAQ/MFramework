@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1647061907
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 414d66f5b7ebc68906b0012ef5ebf3bb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cd6acaf1aaec159fb3b4e5ceab71b539
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 414d66f5b7ebc68906b0012ef5ebf3bb
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing Equirect.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/textures/cubemap.ab

@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 2521115760
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0b92c06794964660c448169c26d72a86
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 0b92c06794964660c448169c26d72a86
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Coin_AO.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Leaves.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Glider.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Firer.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Log.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Spike.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Board.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Slime_Green.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Water.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Slime_Blue.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/TriggerButton.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/SpikeLog.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Checkpoint.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/EmptyItemCube.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/ItemCube.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/GridPlatform.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Slime_Red.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/EndZone.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Pole.png
+Dependencies: []

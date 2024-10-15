@@ -1,0 +1,58 @@
+ManifestFileVersion: 0
+CRC: 3072613755
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ba31a99d27f0d23d22291daeb2f00db2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c39fdc09d36447c18c25ea2e212ae63e
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ba31a99d27f0d23d22291daeb2f00db2
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: eb393184ee61f1745b1091df6c6a5d85, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a482565eed42dfa479a7c918fa70050f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Crate/MetalCrate.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/break.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/common/colormapa.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/kenny/crate-strong.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/kenny/crate.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab

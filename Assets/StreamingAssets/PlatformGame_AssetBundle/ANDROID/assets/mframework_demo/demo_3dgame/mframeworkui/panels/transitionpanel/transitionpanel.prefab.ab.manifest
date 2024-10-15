@@ -1,0 +1,74 @@
+ManifestFileVersion: 0
+CRC: 2518859006
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: da6d77f1a7be51c176127b896e2ca83c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9001f81af077cfb29c853b2db8048c42
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: da6d77f1a7be51c176127b896e2ca83c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a3dbd1393333bd64f887b1dea781f843, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 544bd76295200124f89a47430525bb2d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7d447f7152ece7343aef7d62aee1d939, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cd6edfc3cca365949aac99fb60b9bc38, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1e3b7645e4015724bbad820b4622cf4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2de4a343577588c40b76a1da4141ac90, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: MFramework.Runtime
+  ClassName: MFramework.UICompCollection
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TransitionPanel/TransitionPanel.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/fonts.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.controller.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget.controller.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/restartwidget/restartwidget.controller.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget.controller.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/components.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/icons.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/ui.ab

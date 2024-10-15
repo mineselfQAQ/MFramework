@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 3154203505
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d73b45b36502c142aaad7b544c8bd91d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d73b45b36502c142aaad7b544c8bd91d
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_08.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_12.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_07.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_05.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_11.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_13.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_09.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_10.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_01.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_04.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_02.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_06.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Red/texture_03.png
+Dependencies: []

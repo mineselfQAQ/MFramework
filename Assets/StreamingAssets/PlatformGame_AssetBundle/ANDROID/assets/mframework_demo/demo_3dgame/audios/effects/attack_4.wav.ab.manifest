@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 412402727
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3d5b3aba1563e8ef72f4e639ca1e4eb2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 3d5b3aba1563e8ef72f4e639ca1e4eb2
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/attack_4.wav
+Dependencies: []

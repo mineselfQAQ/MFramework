@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3082469870
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f38a87f2519850137b33a6b637820593
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: f38a87f2519850137b33a6b637820593
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/jump_0.wav
+Dependencies: []

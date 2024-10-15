@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 4050281363
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9a53e1e6d26d4d9f967dfc246e3beacb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 9a53e1e6d26d4d9f967dfc246e3beacb
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/Rise04.aif
+Dependencies: []

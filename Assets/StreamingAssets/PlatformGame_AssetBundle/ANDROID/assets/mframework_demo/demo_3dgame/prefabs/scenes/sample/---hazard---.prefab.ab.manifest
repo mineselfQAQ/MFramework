@@ -1,0 +1,69 @@
+ManifestFileVersion: 0
+CRC: 1642234272
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 60a9db6986d1caea501ab6a164346006
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5e9c89822a4de82d1166c108a9aba32f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 60a9db6986d1caea501ab6a164346006
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0c3fe7fd65700b54d9e63250d57c99e9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f747f1b1a6d97948af45344cd0f9965, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5538acb12c0ef414ca8519c00470bea7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 440ed542b851196479599396f9192e76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ae566cd2fbbd4e646926a6b2061897a8, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Scenes/Sample/---Hazard---.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/checker_black.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/spike.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/spikelog.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/triggerbutton.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/fire.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/firer.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/spike.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/spikelog.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/triggerbutton.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab

@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 3170943993
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3cc8995432641a03513a0e7362ac487e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 48a611bd890c159c588403f3ae9251f1
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 3cc8995432641a03513a0e7362ac487e
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 34dffaff60b96bc4db4d2807928a8722, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultPlayerStats.asset
+Dependencies: []

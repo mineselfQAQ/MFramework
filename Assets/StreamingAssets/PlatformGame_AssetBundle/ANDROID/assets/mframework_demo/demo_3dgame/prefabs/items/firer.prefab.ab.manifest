@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 4160518576
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dc4548bf27ccc6a0aff4b8ab9c68202b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5c1d88de210b9341958069b79340f3ff
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: dc4548bf27ccc6a0aff4b8ab9c68202b
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0c3fe7fd65700b54d9e63250d57c99e9, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Firer.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/firer.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/fire.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/firer.fbx.ab

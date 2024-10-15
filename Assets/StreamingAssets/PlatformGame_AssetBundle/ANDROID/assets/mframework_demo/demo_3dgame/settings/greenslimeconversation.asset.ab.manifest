@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 1431405155
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0edac09840b22b541b83553e43af7317
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 717ca212fbe9991ea6205a42f3a246c8
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 0edac09840b22b541b83553e43af7317
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 8a1bc645131294c46b0ecb07acf69b08, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: Sentence
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Settings/GreenSlimeConversation.asset
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/profilephoto.ab

@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3400108539
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e445ed207f686098ac5f16c16b490847
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2d8df09e698f722ada1caa03d3413830
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: e445ed207f686098ac5f16c16b490847
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/Chinese.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/NationalFlag/English.png
+Dependencies: []

@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 630487998
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e9c5c325d2d8af6d603bc66a21094ae9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: e9c5c325d2d8af6d603bc66a21094ae9
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/mud_splash_0.wav
+Dependencies: []

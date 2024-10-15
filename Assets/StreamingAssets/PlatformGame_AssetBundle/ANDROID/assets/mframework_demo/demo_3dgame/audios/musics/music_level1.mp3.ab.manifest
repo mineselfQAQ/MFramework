@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1265002713
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b31c51f8d1b4cbdfbe968b35600a3c6a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b31c51f8d1b4cbdfbe968b35600a3c6a
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Musics/Music_Level1.mp3
+Dependencies: []

@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 1954899230
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: cde6b2d29936f94b941a3b7c3294268c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cff3ca44b660c977023f929fafeda32e
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: cde6b2d29936f94b941a3b7c3294268c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: f1c41975d62f0d54d93d8855b2d0b963, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/Pole.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/pole.mat.ab

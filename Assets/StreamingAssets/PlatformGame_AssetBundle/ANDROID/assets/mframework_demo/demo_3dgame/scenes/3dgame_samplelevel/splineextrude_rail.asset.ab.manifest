@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2809630361
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f7366eb946f2c685cbd06793a05ac3e8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2edfeee0fffd52782c286e532ff06aef
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: f7366eb946f2c685cbd06793a05ac3e8
+HashAppended: 0
+ClassTypes:
+- Class: 43
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Scenes/3DGame_SampleLevel/SplineExtrude_Rail.asset
+Dependencies: []

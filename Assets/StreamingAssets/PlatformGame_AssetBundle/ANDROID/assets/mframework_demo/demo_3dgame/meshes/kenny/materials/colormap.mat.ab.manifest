@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 3739814433
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 385e89a3feeee64396ffda05b0bebaa2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5e762ccb57c4caaabbb5a4199ac82c23
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 385e89a3feeee64396ffda05b0bebaa2
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/Materials/colormap.mat
+Dependencies: []

@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 48205533
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2372d18ab9eb170364b10ca1ce3d2383
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0a5f903f77340d18329d6646b77fde6e
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 2372d18ab9eb170364b10ca1ce3d2383
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4b1769ea9c253c34fb509b8d9102bbf0, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/DeadZone.prefab
+Dependencies: []

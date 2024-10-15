@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 2754439170
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 249466e6757e2b0ac00df1cd426d3f96
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 75be26b1b993bbe691b9979a93633870
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 249466e6757e2b0ac00df1cd426d3f96
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Meshes/Player.fbx
+Dependencies: []

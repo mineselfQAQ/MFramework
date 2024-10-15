@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 1261712117
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 92de9c178555b172f2fc4fd36fa7f042
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 05d03d4bc054ee6ed65b1ac1f89720d1
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 92de9c178555b172f2fc4fd36fa7f042
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b20412e0a186402418e25ec3ff569121, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Items/SquareFallingPlatform.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/squarefallingplatform.mat.ab

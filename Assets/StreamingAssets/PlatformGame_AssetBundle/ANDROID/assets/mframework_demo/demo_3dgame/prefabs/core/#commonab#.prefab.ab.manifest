@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 2720944347
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 69c2e9ae1274a36901091c819bfc22b7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c3f20fd328d36782accd322d9e238008
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 69c2e9ae1274a36901091c819bfc22b7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 722ca65da26a5644abd059b8726be847, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONAB#.prefab
+Dependencies: []

@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 120979970
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b276025f3ebe8b80c5d64265c5a5424e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e8df1f9f82371e82de919a94edcc7dd6
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b276025f3ebe8b80c5d64265c5a5424e
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget.controller
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_close.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget_open.anim.ab

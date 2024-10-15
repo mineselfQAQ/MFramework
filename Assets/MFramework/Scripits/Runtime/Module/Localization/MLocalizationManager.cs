@@ -43,12 +43,27 @@ namespace MFramework
             //TODO:À©³äÆäËüÓïÑÔ
         };
 
+        //private void Awake()
+        //{
+        //    LocalizationTable[] table = LocalizationTable.LoadBytes();
+        //    asset = new MLocalizationAsset(table);
+
+        //    InitCurrentLanguage();
+        //}
         private void Awake()
         {
-            LocalizationTable[] table = LocalizationTable.LoadBytes();
-            asset = new MLocalizationAsset(table);
-
-            InitCurrentLanguage();
+            LocalizationTable.LoadBytes((tables) =>
+            {
+                if (tables == null)
+                {
+                    //ERROR
+                }
+                else
+                {
+                    asset = new MLocalizationAsset(tables);
+                    InitCurrentLanguage();
+                }
+            });
         }
 
         private void InitCurrentLanguage()

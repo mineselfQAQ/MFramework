@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 2961705739
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d2f8115a99cf1b21b7603910eedb8196
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b30fce1a9ad74efb72be6c308c56e365
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d2f8115a99cf1b21b7603910eedb8196
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/textures/particles.ab

@@ -27,6 +27,8 @@ namespace MFramework.UI
             //父类使用了[ExecuteAlways]，需要防止编辑器下调用，如MLocalizationManager.Instance.asset.tableDic就无法在编辑器模式下获取
             if (Application.isPlaying)
             {
+                //延迟一帧
+                //MCoroutineManager.Instance.DelayOneFrame(() => Init());
                 Init();
             }
         }

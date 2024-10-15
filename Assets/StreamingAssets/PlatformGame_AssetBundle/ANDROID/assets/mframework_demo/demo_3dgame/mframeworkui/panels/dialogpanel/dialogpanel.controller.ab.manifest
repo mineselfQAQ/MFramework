@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1426081212
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: efe9e4266eb7cfee64e68daddd0a1a76
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e8df1f9f82371e82de919a94edcc7dd6
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: efe9e4266eb7cfee64e68daddd0a1a76
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.controller
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_close.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel_open.anim.ab

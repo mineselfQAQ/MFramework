@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 4097301518
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 639a570d27427d59d5c8ed49f89553f9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0df1dec30b5d061d422d3e6493d27647
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 639a570d27427d59d5c8ed49f89553f9
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Shaders/PBR_Triplanar.shader
+Dependencies: []

@@ -1,0 +1,182 @@
+ManifestFileVersion: 0
+CRC: 616568643
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7b23a96f1afa79ca4ebd433170095683
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6e215cd5e5cecb04e17d85a9e0d61597
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 7b23a96f1afa79ca4ebd433170095683
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: d43c593d63bbc9c45ab0997f83b210f2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 81da9688db6ad34438e4b6f7ca126864, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6a27bc77037d050469a683f2bd0b2012, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 22514e71ee799e04dbe7754392261bd8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 68b9a8e5639564540b79907e457313c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 26cede28a968f2d4e98bc99ccf53c7c0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 47ab0fa5495ff3c43b5153eed206007f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 34dffaff60b96bc4db4d2807928a8722, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6913e5a1b8124614280715e48f2b0d82, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 39fa3d8997a24136984ca6e2c99902bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 52fc8ba3293b3e140b53b7b9c3fa690e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e021c4b6c17a1474ebf4c2517c0891c3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1d8bc1fd8f2fb5541a8413f04622fc17, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16a17bc5637867b46b208c2e432a52bd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1a9f0ad4bdf45d242bfcd593ce87f152, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2a4e84971a364b1499bd8c969e5649c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16dfe73eb1f9a594ba31dc3ed520a39e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ccf96dfe963ceef439e14759b0a2aea6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f074a141b2fa46d4890d75e188436fcb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ea8409f1867f2544fa768cacf98fa9e3, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 119
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: EntityEvents
+- AssemblyName: Assembly-CSharp
+  ClassName: EntityStateManagerEvents
+- AssemblyName: Assembly-CSharp
+  ClassName: PlayerAnimator/ForcedTransition
+- AssemblyName: Assembly-CSharp
+  ClassName: PlayerEvents
+- AssemblyName: Assembly-CSharp
+  ClassName: PlayerFootsteps/Surface
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.ArgumentCache
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentListenerMode
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Type]
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/Player.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/animations.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/air_dive.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/attack_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/attack_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/attack_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/attack_3.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/attack_4.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/close_glider.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/dash.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_grass_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_metal_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_regular_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/footstep_wood_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/hurt_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/hurt_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/hurt_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/hurt_3.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/hurt_4.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/jump_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/jump_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/jump_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/jump_3.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/jump_4.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/lift_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/lift_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/lift_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/lift_3.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/lift_4.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/maneuver_0.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/maneuver_1.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/maneuver_2.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/maneuver_3.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/maneuver_4.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/open_glider.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/pick.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/rail_grind.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/short_spin.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/spin.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/start_rail_grind.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/stomp.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/audios/effects/throw.wav.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/entites/player_fader.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/items/glider_fader.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/smoke.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/starparticle.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/trail.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/particles/wind.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/materials/shadow/shadow.mat.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/glider.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/player.fbx.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/defaultplayerstats.asset.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/player
+  input actions.inputactions.ab

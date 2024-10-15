@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 3286823034
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 32236d5db0ead0a3f2c1cfa36592ecd1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cd6acaf1aaec159fb3b4e5ceab71b539
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 32236d5db0ead0a3f2c1cfa36592ecd1
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Heart.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/shaders/pbr_mr.shader.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/textures/cubemap.ab

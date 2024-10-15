@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1375730606
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fad71a2cd1aeeb2f5e187bfc1f7b175f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e8df1f9f82371e82de919a94edcc7dd6
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: fad71a2cd1aeeb2f5e187bfc1f7b175f
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/LoadingWIdget/LoadingWidget.controller
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_close.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_loop.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/loadingwidget/loadingwidget_open.anim.ab

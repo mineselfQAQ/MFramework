@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 2420974400
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1707b32875e16db880e638a95312ca19
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b30fce1a9ad74efb72be6c308c56e365
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 1707b32875e16db880e638a95312ca19
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Glider_Fader.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/shaders/pbr_fader.shader.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/textures/items.ab

@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 2107676748
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bac877a401b6fa357869c578ee064918
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8bd7654fbb0ce69f659aff3ee8cd0426
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: bac877a401b6fa357869c578ee064918
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Terrain/Checker_5x1x5.prefab
+Dependencies: []

@@ -106,6 +106,11 @@ namespace MFramework
         #endregion
 
         #region Ãÿ ‚–Ø≥Ã
+        public Coroutine DelayOneFrame(Action action)
+        {
+            return StartCoroutine(MCoroutineUtility.DelayOneFrame(action));
+        }
+
         public Coroutine DelayWithTimeScaleNoRecord(Action action, float interval)
         {
             return StartCoroutine(MCoroutineUtility.DelayWithTimeScale(action, interval));

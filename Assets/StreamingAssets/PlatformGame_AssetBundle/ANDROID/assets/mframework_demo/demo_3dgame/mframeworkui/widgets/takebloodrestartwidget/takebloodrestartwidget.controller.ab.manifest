@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 2775884159
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b0f7bb9551755396a741b7941acf120d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e8df1f9f82371e82de919a94edcc7dd6
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b0f7bb9551755396a741b7941acf120d
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/TakeBloodRestartWidget/TakeBloodRestartWidget.controller
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_close.anim.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/takebloodrestartwidget_open.anim.ab

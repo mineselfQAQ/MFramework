@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2853056783
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bfb5f52865d0e035fa455e1290477139
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 11a360ea0709098fdccc005cf597b56f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: bfb5f52865d0e035fa455e1290477139
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: bc2a0b79456f95848bc3d6334c538827, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultEnemyStats.asset
+Dependencies: []

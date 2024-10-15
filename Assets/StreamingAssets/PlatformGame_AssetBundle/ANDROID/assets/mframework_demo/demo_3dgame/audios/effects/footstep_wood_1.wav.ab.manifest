@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2911724899
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 83a917ddd1073662ba929a473b8f2697
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 83a917ddd1073662ba929a473b8f2697
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_wood_1.wav
+Dependencies: []

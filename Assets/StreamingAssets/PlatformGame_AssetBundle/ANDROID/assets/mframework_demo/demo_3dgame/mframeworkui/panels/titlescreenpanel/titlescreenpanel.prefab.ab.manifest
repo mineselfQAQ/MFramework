@@ -1,0 +1,61 @@
+ManifestFileVersion: 0
+CRC: 2750811202
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c55efe0e71beed4e72541ccb734a0911
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 82366207a7332c6ad1b33828e3c7e5b5
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: c55efe0e71beed4e72541ccb734a0911
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 544bd76295200124f89a47430525bb2d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 95ea29f7e89731e4abdbd56ffe649e8e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7d447f7152ece7343aef7d62aee1d939, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cd6edfc3cca365949aac99fb60b9bc38, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1e3b7645e4015724bbad820b4622cf4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2de4a343577588c40b76a1da4141ac90, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: MFramework.Runtime
+  ClassName: MFramework.UICompCollection
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/TitleScreenPanel/TitleScreenPanel.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/fonts.ab

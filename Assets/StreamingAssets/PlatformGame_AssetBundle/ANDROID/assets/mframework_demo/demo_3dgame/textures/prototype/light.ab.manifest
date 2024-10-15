@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 427830652
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 34a15cae4013ce7c8bf9ece013adf738
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 34a15cae4013ce7c8bf9ece013adf738
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_10.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_13.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_07.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_09.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_04.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_02.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_03.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_06.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_01.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_08.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_11.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_12.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Light/texture_05.png
+Dependencies: []

@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 124824136
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 46e3a0477f584e2ec61c69950646d209
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5e762ccb57c4caaabbb5a4199ac82c23
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 46e3a0477f584e2ec61c69950646d209
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/CircleBouncingPlatform.mat
+Dependencies: []

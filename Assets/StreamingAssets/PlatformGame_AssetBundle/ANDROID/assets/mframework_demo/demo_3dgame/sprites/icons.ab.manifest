@@ -1,0 +1,34 @@
+ManifestFileVersion: 0
+CRC: 2019342478
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: eb5b9169df2828a563a7b591d36bd69d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2d8df09e698f722ada1caa03d3413830
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: eb5b9169df2828a563a7b591d36bd69d
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Star_Small.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Trash.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Lock02.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/StarSlot.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Setting.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Star_Big.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Coin.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Music.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Life.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Coin_Full.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Timer.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Heart.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Icon_Sound.png
+Dependencies: []

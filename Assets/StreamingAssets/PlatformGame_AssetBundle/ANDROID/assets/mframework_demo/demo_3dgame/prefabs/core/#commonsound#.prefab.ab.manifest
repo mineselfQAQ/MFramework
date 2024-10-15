@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 513559897
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f4a74c35d9b432f81b4f4e559154c7b3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4ecdd92137c30b352f17d2371f3fb0fb
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: f4a74c35d9b432f81b4f4e559154c7b3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f69c8c7eb5775d48ba4605c2e051bd1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 241
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONSOUND#.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/settings/3dgameaudiomixer.mixer.ab

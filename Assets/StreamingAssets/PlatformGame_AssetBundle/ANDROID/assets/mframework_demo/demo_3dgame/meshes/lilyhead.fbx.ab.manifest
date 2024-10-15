@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 914595349
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ad7f5525316d291a7158e9ab4bd64181
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 79dd9f2e914e5de7483500dce2b3c849
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ad7f5525316d291a7158e9ab4bd64181
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Meshes/LilyHead.fbx
+Dependencies: []

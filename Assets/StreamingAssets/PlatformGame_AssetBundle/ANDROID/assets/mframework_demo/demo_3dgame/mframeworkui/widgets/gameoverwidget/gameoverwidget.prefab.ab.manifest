@@ -1,0 +1,53 @@
+ManifestFileVersion: 0
+CRC: 980083484
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 631dcbdaaf688f6bc4b6cba5b933f288
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b06168e200b856e32b4510c386f265ae
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 631dcbdaaf688f6bc4b6cba5b933f288
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a3dbd1393333bd64f887b1dea781f843, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 544bd76295200124f89a47430525bb2d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7d447f7152ece7343aef7d62aee1d939, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2de4a343577588c40b76a1da4141ac90, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/fonts.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/mframeworkui/widgets/gameoverwidget/gameoverwidget.controller.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/ui.ab

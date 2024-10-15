@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2611835457
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d56894f8773ec56852d4e426c56aad19
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0a4b57b1a56d6b76d200651994ae0863
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d56894f8773ec56852d4e426c56aad19
+HashAppended: 0
+ClassTypes:
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Settings/DefaultLighting.lighting
+Dependencies: []

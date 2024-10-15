@@ -1,0 +1,51 @@
+ManifestFileVersion: 0
+CRC: 300018701
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c29c0e1eb66e02cc7aabb9e7ec46a73d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f706021764fc176e5d034350706d7b14
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: c29c0e1eb66e02cc7aabb9e7ec46a73d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 544bd76295200124f89a47430525bb2d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7d447f7152ece7343aef7d62aee1d939, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cd6edfc3cca365949aac99fb60b9bc38, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2de4a343577588c40b76a1da4141ac90, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: MFramework.Runtime
+  ClassName: MFramework.UICompCollection
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/fonts.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/components.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/sprites/icons.ab

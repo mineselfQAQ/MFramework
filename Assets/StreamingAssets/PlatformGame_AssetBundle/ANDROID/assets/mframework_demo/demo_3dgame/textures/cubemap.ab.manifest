@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2654997475
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2c62fcb681c1c3adf30b82529981b1f3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c0ff923d44eb8f68679063de7a325945
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 2c62fcb681c1c3adf30b82529981b1f3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_4_Up+Y.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_3_Right-X.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_5_Down-Y.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_1_Back-Z.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_2_Left+X.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/reflection.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_0_Front+Z.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Equirect.png
+Dependencies: []

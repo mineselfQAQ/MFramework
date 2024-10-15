@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2482410524
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: cdcf2d46a0e17fe7cec3f503ac5f949f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99636904eb23c0c5b32845932027a399
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: cdcf2d46a0e17fe7cec3f503ac5f949f
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/GameOverWidget/GameOverWidget_Close.anim
+Dependencies: []

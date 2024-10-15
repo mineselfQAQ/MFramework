@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 1034335966
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3719a4dc5de3cebabbc6bc7ebdc787fc
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 33fda534ba68dbea331d1df163787852
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 3719a4dc5de3cebabbc6bc7ebdc787fc
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6ccfdb1a69e6da94297a23ee1ccdf189, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 06504c967e69b1a4ca79d9e96f85b51e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 84e2884eeeb8b0742b385265bcdb86ab, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: GameLevel
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent`1[System.Int32]
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONGAME#.prefab
+Dependencies: []

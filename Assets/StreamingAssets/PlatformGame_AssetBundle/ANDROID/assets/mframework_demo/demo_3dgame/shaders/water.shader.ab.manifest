@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 897180632
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bc25df11ab2908cd9b36c10bcca0ac00
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0df1dec30b5d061d422d3e6493d27647
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: bc25df11ab2908cd9b36c10bcca0ac00
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Shaders/Water.shader
+Dependencies: []

@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 97018609
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7793aff30198b53006e36def46da7dd3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99636904eb23c0c5b32845932027a399
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 7793aff30198b53006e36def46da7dd3
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel_Open.anim
+Dependencies: []

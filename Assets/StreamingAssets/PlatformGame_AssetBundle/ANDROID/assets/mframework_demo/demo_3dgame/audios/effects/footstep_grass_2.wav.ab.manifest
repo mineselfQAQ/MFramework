@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 4109692373
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b5bb5fa513e719ec86c62ff7ccfa4b44
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b5bb5fa513e719ec86c62ff7ccfa4b44
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Audios/Effects/footstep_grass_2.wav
+Dependencies: []

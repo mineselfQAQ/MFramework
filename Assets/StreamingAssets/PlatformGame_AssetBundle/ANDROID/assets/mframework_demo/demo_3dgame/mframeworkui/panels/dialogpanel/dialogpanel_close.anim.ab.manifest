@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 1542567162
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4bbeb441a866d3003ed0b5936a5c6047
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99636904eb23c0c5b32845932027a399
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 4bbeb441a866d3003ed0b5936a5c6047
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel_Close.anim
+Dependencies: []

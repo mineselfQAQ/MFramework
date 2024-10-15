@@ -38,14 +38,14 @@ Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/SpikeLog.mat	Assets/MFramewor
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Star.mat	Assets/MFramework_Demo/DEMO_3DGame/Shaders/PBR_MR.shader	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/reflection.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/TriggerButton.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/TriggerButton.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Water.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png	Assets/MFramework_Demo/DEMO_3DGame/Shaders/Water.shader	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Water.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Fire.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Fire.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaf.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Leaves.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Items/Leaves.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Ring.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Smoke.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Sparkle.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
-Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/StarParticle.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Portal.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Ring.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Smoke.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/Sparkle.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+Assets/MFramework_Demo/DEMO_3DGame/Materials/Particles/StarParticle.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Shadow/Shadow.mat	Assets/MFramework_Demo/DEMO_3DGame/Shaders/ProjectorMultiply.shader	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing Equirect.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Equirect.png
 Assets/MFramework_Demo/DEMO_3DGame/Materials/Skybox/Day_BlueSky_Nothing.mat	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_4_Up+Y.png	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_3_Right-X.png	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_5_Down-Y.png	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_1_Back-Z.png	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_2_Left+X.png	Assets/MFramework_Demo/DEMO_3DGame/Textures/Cubemap/Sky_Day_BlueSky_Nothing_Cam_0_Front+Z.png
@@ -56,6 +56,7 @@ Assets/MFramework_Demo/DEMO_3DGame/Meshes/Log.fbx	Assets/MFramework_Demo/DEMO_3D
 Assets/MFramework_Demo/DEMO_3DGame/Meshes/Slime.fbx	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/BlueSlime.mat
 Assets/MFramework_Demo/DEMO_3DGame/Meshes/Spike.fbx	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Spike.mat
 Assets/MFramework_Demo/DEMO_3DGame/Meshes/TriggerButton.fbx	Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/TriggerButton.mat
+Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/grass-large.fbx	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/Materials/colormap.mat
 Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.prefab	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/SpeechBubble_White.png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/ProfilePhoto/GreenSlime_Right.png	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/ContinueArrow_Black.png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Label_Blue.png	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF BlackOutline.asset	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.controller	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/SpeechBubble_Arrow_White.png
 Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/FileSelectPanel/FileSelectPanel.prefab	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset
 Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Star_Small.png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Cross.Png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/StarSlot.png	Assets/MFramework_Demo/DEMO_3DGame/Fonts/SiYuanHeiTi_Regular SDF.asset	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Life.png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Coin_Full.Png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Timer.png	Assets/MFramework_Demo/DEMO_3DGame/Sprites/Icons/Heart.png

@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 2115290009
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6892654fff8c89a31dd2e1dd4bab9814
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 134b7874faf1e4f485ed3c5a681e862b
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 6892654fff8c89a31dd2e1dd4bab9814
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/grass-large.fbx
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab

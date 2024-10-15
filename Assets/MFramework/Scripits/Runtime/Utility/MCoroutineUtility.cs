@@ -6,6 +6,12 @@ namespace MFramework
 {
     internal class MCoroutineUtility
     {
+        internal static IEnumerator DelayOneFrame(Action action)
+        {
+            yield return null;
+            action();
+        }
+
         internal static IEnumerator DelayWithTimeScale(Action action, float interval)
         {
             yield return new WaitForSeconds(interval);

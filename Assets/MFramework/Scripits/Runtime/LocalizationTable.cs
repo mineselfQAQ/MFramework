@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace MFramework
 {
@@ -19,22 +21,55 @@ namespace MFramework
 			ENGLISH = english;
         }
 
-        public static LocalizationTable[] LoadBytes()
+//        public static LocalizationTable[] LoadBytes()
+//        {
+//            string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";
+
+//#if UNITY_ANDROID
+//                    //TODO:安卓需要使用UnityWebRequest
+//#else
+//            if (!File.Exists(path)) return null;
+//            using (FileStream stream = new FileStream(path, FileMode.Open))
+//            {
+//                BinaryFormatter binaryFormatter = new BinaryFormatter();
+//                LocalizationTables table = binaryFormatter.Deserialize(stream) as LocalizationTables;
+//                LocalizationTable[] res = table.items;
+//                return res;
+//            }
+//#endif
+//        }
+
+        public static void LoadBytes(Action<LocalizationTable[]> onFinish)
         {
             string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";
 
-#if UNITY_ANDROID
-            //TODO:安卓需要使用UnityWebRequest
-#else
-            if (!File.Exists(path)) return null;
-            using (FileStream stream = new FileStream(path, FileMode.Open))
+            UnityWebRequest request = UnityWebRequest.Get(path);
+            var op = request.SendWebRequest();
+
+            while (!op.isDone)
             {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                LocalizationTables table = binaryFormatter.Deserialize(stream) as LocalizationTables;
-                LocalizationTable[] res = table.items;
-                return res;
+                //阻塞，强制等待
             }
-#endif
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                //ERROR
+                onFinish(null);
+            }
+            else
+            {
+                // 得到二进制数据
+                byte[] fileData = request.downloadHandler.data;
+
+                // 使用 MemoryStream 来反序列化数据
+                using (MemoryStream stream = new MemoryStream(fileData))
+                {
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    LocalizationTables table = binaryFormatter.Deserialize(stream) as LocalizationTables;
+                    LocalizationTable[] res = table.items;
+                    onFinish(res);  // 使用回调函数传回数据
+                }
+            }
         }
     }
 

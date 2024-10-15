@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+CRC: 1993326170
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 148e73e53949b844ea28f0b688a9b40f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2d8df09e698f722ada1caa03d3413830
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 148e73e53949b844ea28f0b688a9b40f
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_Handle_White.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Cross.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_White.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_Blue.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Popup_Black.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/SpeechBubble_White.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/ButtonBlack.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Arrow.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/ContinueArrow_Black.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_BG_Black.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Button_Red.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Label_Blue.png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/Slider_Fill_Blue.Png
+- Assets/MFramework_Demo/DEMO_3DGame/Sprites/Components/SpeechBubble_Arrow_White.png
+Dependencies: []

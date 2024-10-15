@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 2792528990
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 506cf6ef94eb24632c48948cb47b5996
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7628ec4b0ec87483275a4b4f8662012a
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 506cf6ef94eb24632c48948cb47b5996
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: c3591b5cec084ff43b8516f242621872, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMINDIALOG#.prefab
+Dependencies: []

@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 181963611
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a42461ff5d972c7404b39ed0ae9c6dd3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cd6acaf1aaec159fb3b4e5ceab71b539
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: a42461ff5d972c7404b39ed0ae9c6dd3
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Materials/Items/Star.mat
+Dependencies:
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/shaders/pbr_mr.shader.ab
+- D:/___UnityProject___/PlatformGame_AssetBundle/ANDROID/assets/mframework_demo/demo_3dgame/textures/cubemap.ab

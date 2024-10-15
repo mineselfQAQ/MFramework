@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 3421839286
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b606632e0c2f185030cafe3119b26a64
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b606632e0c2f185030cafe3119b26a64
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_04.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_13.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_08.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_01.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_07.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_10.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_09.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_02.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_06.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_03.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_11.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_12.png
+- Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Green/texture_05.png
+Dependencies: []
