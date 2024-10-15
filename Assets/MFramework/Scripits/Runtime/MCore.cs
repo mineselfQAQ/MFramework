@@ -12,6 +12,8 @@ namespace MFramework
         private bool m_LogState;//在发布版本中输出Log文件
         [SerializeField]
         private bool m_UICustomLoadState;//在编辑器版本中启用UI自定义加载
+        [SerializeField]
+        private bool m_LocalState;//是否启用本地化
 
         private List<INeedInit> initList;
         private List<INeedQuit> quitList;
@@ -28,7 +30,10 @@ namespace MFramework
 
             //触发静态构造函数，使单例提前激活
             var bem = BuiltInEventManager.Instance;
-            var mlm = MLocalizationManager.Instance;
+            if (m_LocalState)
+            {
+                var mlm = MLocalizationManager.Instance;
+            }
 
             //TODO:这样反射很耗，考虑其他方案
             initList = GetInterfaceInstanceList<INeedInit>();

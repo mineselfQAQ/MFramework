@@ -5,6 +5,8 @@ namespace MFramework
 {
     public class MPoolManager : MonoSingleton<MPoolManager>
     {
+        //prefabDic---Prefab与所属的对象池
+        //instanceDic---实例与所属的对象池
         private Dictionary<GameObject, ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
         private Dictionary<GameObject, ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
 

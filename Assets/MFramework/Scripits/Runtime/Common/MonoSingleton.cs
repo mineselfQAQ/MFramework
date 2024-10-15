@@ -12,8 +12,6 @@ namespace MFramework
         private const string k_RootName = "#MonoSingletons#";//父级，所有的MonoSingleton脚本都会在该GameObject名下
         private static T sm_Instance;
 
-        internal static Transform rootTransform { get; private set; }
-
         //注意:静态构造函数的调用时机为:
         //在调用静态成员之前或者在创建实例之前
         //这意味着对于继承MonoSingleton的类必须通过调用Instance来触发创建
@@ -28,7 +26,7 @@ namespace MFramework
                 DontDestroyOnLoad(rootObj);
             }
 
-            rootTransform = rootObj.transform;
+            Transform rootTransform = rootObj.transform;
             Type type = typeof(T);
             string name = type.Name;//默认类名
             HideFlags hideFlags = HideFlags.None;//默认HideFlags

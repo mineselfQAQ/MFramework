@@ -22,8 +22,11 @@ namespace MFramework
         public static LocalizationTable[] LoadBytes()
         {
             string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";
-            if (!File.Exists(path)) return null;
 
+#if UNITY_ANDROID
+            //TODO:安卓需要使用UnityWebRequest
+#else
+            if (!File.Exists(path)) return null;
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -31,6 +34,7 @@ namespace MFramework
                 LocalizationTable[] res = table.items;
                 return res;
             }
+#endif
         }
     }
 

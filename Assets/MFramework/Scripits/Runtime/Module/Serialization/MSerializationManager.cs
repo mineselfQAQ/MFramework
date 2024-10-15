@@ -1,7 +1,10 @@
+using System;
 using System.IO;
+using UnityEngine;
 
 namespace MFramework
 {
+    [MonoSingletonSetting(HideFlags.NotEditable, "#MSerializationManager#")]
     public class MSerializationManager : MonoSingleton<MSerializationManager>
     {
         public string settingsPath;

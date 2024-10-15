@@ -209,10 +209,10 @@ public class Enemy : Entity<Enemy>
     {
         Vector3 direction = player.transform.position - transform.position;
 
-        Vector3 currentForward = transform.forward;
+        Vector3 currentForward = transform.forward;//视方向
         currentForward.y = 0;
         currentForward.Normalize();
-        Vector3 targetForward = direction;
+        Vector3 targetForward = direction;//目标方向
         targetForward.y = 0;
         targetForward.Normalize();
 

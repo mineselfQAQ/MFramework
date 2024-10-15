@@ -158,7 +158,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.Mineself.PlatformGame
-    Standalone: com.DefaultCompany.MFramework
+    Standalone: com.Mineself.PlatformGame
   buildNumber:
     Standalone: 0
     VisionOS: 0

@@ -12,6 +12,7 @@ namespace MFramework
         //***注意***：SerializedProperty需要[SerializeField]才能获取
         private SerializedProperty logStateSP;
         private SerializedProperty UICustomLoadStateSP;
+        private SerializedProperty localStateSP;
 
         private MCore mCore;
 
@@ -26,6 +27,7 @@ namespace MFramework
 
             logStateSP = serializedObject.FindProperty("m_LogState");
             UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
+            localStateSP = serializedObject.FindProperty("m_LocalState");
         }
 
         public override void OnInspectorGUI()
@@ -38,6 +40,8 @@ namespace MFramework
             DrawEnumPopup(UICustomLoadStateSP, "是否启用UI自定义加载");
             MGUIUtility.DrawH2("打包");
             DrawEnumPopup(logStateSP, "是否输出LOG信息");
+            MGUIUtility.DrawH2("本地化");
+            DrawEnumPopup(localStateSP, "是否开启本地化");
 
             serializedObject.ApplyModifiedProperties();
         }
