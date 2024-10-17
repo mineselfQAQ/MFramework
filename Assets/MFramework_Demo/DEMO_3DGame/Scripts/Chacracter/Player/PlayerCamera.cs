@@ -159,6 +159,7 @@ public class PlayerCamera : MonoBehaviour
         float targetHeight = previousPosition.y;
 
         //---高度更新---
+        //利用上一帧位置逐步跟进，而非直接锁定
         //地面或特殊状态时更新
         if (player.isGrounded || VerticalFollowingStates())
         {

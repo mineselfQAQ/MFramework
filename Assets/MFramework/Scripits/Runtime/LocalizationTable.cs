@@ -21,24 +21,6 @@ namespace MFramework
 			ENGLISH = english;
         }
 
-//        public static LocalizationTable[] LoadBytes()
-//        {
-//            string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";
-
-//#if UNITY_ANDROID
-//                    //TODO:安卓需要使用UnityWebRequest
-//#else
-//            if (!File.Exists(path)) return null;
-//            using (FileStream stream = new FileStream(path, FileMode.Open))
-//            {
-//                BinaryFormatter binaryFormatter = new BinaryFormatter();
-//                LocalizationTables table = binaryFormatter.Deserialize(stream) as LocalizationTables;
-//                LocalizationTable[] res = table.items;
-//                return res;
-//            }
-//#endif
-//        }
-
         public static void LoadBytes(Action<LocalizationTable[]> onFinish)
         {
             string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";

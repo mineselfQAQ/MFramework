@@ -1,11 +1,11 @@
-using UnityEditor;
-using System.IO;
-using System.Collections;
-using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -259,7 +259,85 @@ namespace MFramework
                 dependencyDic.Add(assetUrl, dependencyList);
             }
 
+            try
+            {
+                bool hasCycle = HasCycle(dependencyDic);
+                if (hasCycle) throw new Exception();
+            }
+            catch (Exception e) 
+            {
+                MLog.Print($"{nameof(CollectDependency)}：发生依赖循环，请检查", MLogType.Warning);
+            }
+
             return dependencyDic;
+        }
+        public static bool HasCycle(Dictionary<string, List<string>> dependencyDic)
+        {
+            HashSet<string> visited = new HashSet<string>(); // 记录已访问的节点
+            HashSet<string> stack = new HashSet<string>();   // 记录当前递归路径中的节点
+            List<string> path = new List<string>();          // 当前路径
+            List<List<string>> allCycles = new List<List<string>>();
+
+            // 遍历每个节点，检查是否有循环
+            foreach (var asset in dependencyDic.Keys)
+            {
+                CheckDFS(asset, dependencyDic, allCycles, visited, stack, path);
+            }
+
+            // 输出所有检测到的循环依赖链
+            if (allCycles.Count > 0)
+            {
+                MLog.Print("检测到的循环依赖路径有：");
+                foreach (var cycle in allCycles)
+                {
+                    MLog.Print(string.Join(" -> ", cycle));
+                }
+                return true; // 存在循环依赖
+            }
+            else
+            {
+                return false; // 没有循环依赖
+            }
+        }
+        private static bool CheckDFS(string asset, Dictionary<string, List<string>> dependencyDic, List<List<string>> allCycles, HashSet<string> visited, HashSet<string> stack, List<string> path)
+        {
+            // 如果该节点已经在当前路径中，说明存在循环依赖
+            if (stack.Contains(asset))
+            {
+                // 找到循环，记录并存储循环依赖路径
+                int cycleStartIndex = path.IndexOf(asset);
+                List<string> cycle = new List<string>(path.GetRange(cycleStartIndex, path.Count - cycleStartIndex));
+                cycle.Add(asset); // 加上起始节点形成完整循环
+                allCycles.Add(cycle); // 保存该循环
+
+                return true;
+            }
+
+            // 如果该节点已经访问过，且没有循环，跳过
+            if (visited.Contains(asset))
+            {
+                return false;
+            }
+
+            // 标记该节点为正在访问
+            stack.Add(asset);
+            path.Add(asset); // 添加到当前路径
+
+            // 递归检查该节点的依赖
+            if (dependencyDic.ContainsKey(asset))
+            {
+                foreach (var dependency in dependencyDic[asset])
+                {
+                    CheckDFS(dependency, dependencyDic, allCycles, visited, stack, path);
+                }
+            }
+
+            // 递归完成，移除该节点
+            stack.Remove(asset);
+            path.RemoveAt(path.Count - 1); // 回溯时移除路径上的节点
+            visited.Add(asset);
+
+            return false;
         }
 
         /// <summary>
