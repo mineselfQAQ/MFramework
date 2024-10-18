@@ -162,3 +162,71 @@ public class Test_BuilderPattern : MonoBehaviour
         }
     }
 }
+
+public class Test_BuilderPattern2 : MonoBehaviour
+{
+    private void Start()
+    {
+        // 使用建造者模式创建角色
+        var knight = new CharacterBuilder()
+                        .SetName("Knight")
+                        .SetHealth(150)
+                        .SetAttackPower(20)
+                        .SetWeapon("Great Sword")
+                        .Build();
+    }
+
+    public class Character
+    {
+        public string Name { get; private set; }
+        public int Health { get; private set; }
+        public int AttackPower { get; private set; }
+        public string Weapon { get; private set; }
+
+        // 使用 Builder 进行初始化
+        public Character(CharacterBuilder builder)
+        {
+            Name = builder.Name;
+            Health = builder.Health;
+            AttackPower = builder.AttackPower;
+            Weapon = builder.Weapon;
+        }
+    }
+
+    public class CharacterBuilder
+    {
+        public string Name { get; private set; }
+        public int Health { get; private set; } = 100;
+        public int AttackPower { get; private set; } = 10;
+        public string Weapon { get; private set; } = "Sword";
+
+        public CharacterBuilder SetName(string name)
+        {
+            Name = name;
+            return this;
+        }
+
+        public CharacterBuilder SetHealth(int health)
+        {
+            Health = health;
+            return this;
+        }
+
+        public CharacterBuilder SetAttackPower(int attackPower)
+        {
+            AttackPower = attackPower;
+            return this;
+        }
+
+        public CharacterBuilder SetWeapon(string weapon)
+        {
+            Weapon = weapon;
+            return this;
+        }
+
+        public Character Build()
+        {
+            return new Character(this);
+        }
+    }
+}
