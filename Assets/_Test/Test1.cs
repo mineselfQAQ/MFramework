@@ -22,23 +22,26 @@ public class Test1 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log(MyClass.X);
+
         }
     }
 }
 
-public class MyClass
+public class A
 {
-    public static int X = InitializeX();
+    public int a;
 
-    private static int InitializeX()
+    public virtual void INN()
     {
-        Debug.Log("Static field X initialized");
-        return 100;
+
     }
 }
 
-public struct A
+public class B : A
 {
-    public int a;
+
+    public sealed override void INN()
+    {
+
+    }
 }
