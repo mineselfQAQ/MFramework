@@ -1,4 +1,3 @@
-using MFramework.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -373,9 +372,8 @@ namespace MFramework
                 int startIndex = bundle.index * itemCellCount;
                 int endIndex = startIndex + bundle.Cells.Length - 1;
 
-                //防止越界(如果是最后一行就会发生)
-                //Tip：如果是最后一行，很有可能会发生5个空位只填入3个的情况，那么这会导致这一行的元素需要只显示3个，后2个需要隐藏
-                //如果在一个靠上的位置，不存在最后一行的话，自然所有行/列都是满的，就没有这种情况会发生了
+                //防止越界
+                //可能是最后一行元素不满，也可能是刷新数据导致datas数量下降从而出界
                 if (endIndex >= datas.Count)
                 {
                     flag = true;
@@ -405,7 +403,7 @@ namespace MFramework
                 }
             }
 
-            //如果删除了最后几行，flag会变为true且下一轮直接退出，那么最后会剩下一些未处理Bundle，移除即可
+            //如果提前退出(flag=true)，将剩余内容移除即可
             int remainCount = cellBundles.Count() - count;
             while (remainCount > 0)
             {

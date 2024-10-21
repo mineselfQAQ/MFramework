@@ -1085,6 +1085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LogState: 0
   m_UICustomLoadState: 0
+  m_LocalState: 0
 --- !u!4 &2123777596
 Transform:
   m_ObjectHideFlags: 0
