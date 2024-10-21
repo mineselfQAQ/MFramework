@@ -17,6 +17,12 @@ namespace MFramework
         {
             var componentType = component.GetType();
 
+            var attrs = componentType.GetCustomAttributes(typeof(DisallowComponentAttribute), true);
+            if (attrs.Length == 0)
+            {
+                return;//并非该特性
+            }
+
             //===它检：特性脚本已添加，其它脚本判断是否与特性脚本冲突，冲突则不添加该脚本===
             var allComponents = component.gameObject.GetComponents<MonoBehaviour>();
             foreach (var comp in allComponents)

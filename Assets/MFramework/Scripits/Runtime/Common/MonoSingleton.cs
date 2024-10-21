@@ -6,7 +6,7 @@ namespace MFramework
     /// <summary>
     /// Manager脚本用
     /// </summary>
-    [DisallowMultipleComponent]
+    [NoComponent]
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private const string k_RootName = "#MonoSingletons#";//父级，所有的MonoSingleton脚本都会在该GameObject名下
