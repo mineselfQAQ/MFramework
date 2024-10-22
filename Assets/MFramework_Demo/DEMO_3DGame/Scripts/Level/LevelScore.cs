@@ -39,7 +39,7 @@ public class LevelScore : ComponentSingleton<LevelScore>
 
     protected Game m_game;
     /// <summary>
-    /// //Game中当前GameLevel(引用)
+    /// Game中当前GameLevel(引用)
     /// </summary>
     protected GameLevel m_level;
 

@@ -32,7 +32,7 @@ namespace MFramework
 
         public void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
         {
-            //获取BundleManager.m_AssetBundleManifest信息
+            //获取BundleManager.assetBundleManifest信息
             MBundleManager.Instance.Initialize(platform, getFileCallback, offset);
 
             //获取manifest.ab并加载成AssetBundle

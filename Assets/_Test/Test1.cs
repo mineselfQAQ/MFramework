@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class Test1 : MonoBehaviour
 {
+    public int time;
     private void Start()
     {
         A a = new A();
@@ -20,10 +21,8 @@ public class Test1 : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-
-        }
+        var c = GetComponent<CharacterController>();
+        c.Move(new Vector3(-Time.deltaTime * time, 0, 0));
     }
 }
 
