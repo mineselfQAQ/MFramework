@@ -23,6 +23,7 @@ public class Test_Pool : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             int last = cubeInstance.Count - 1;
+            if (last < 0) return;
             MPoolManager.ReleaseObject(cubeInstance[last]);
             cubeInstance.RemoveAt(last);
         }

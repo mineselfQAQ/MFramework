@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Search;
 using UnityEngine;
 
 namespace MFramework
@@ -9,20 +11,18 @@ namespace MFramework
     /// </summary>
     public class ObjectPool<T>
     {
-        private List<ObjectPoolContainer<T>> list;
-        //注意：只有正在Used的物体才在表中
-        private Dictionary<T, ObjectPoolContainer<T>> lookup;//key---实际存放物体  value---list中的一个Container
+        private Queue<ObjectPoolContainer<T>> unusedQueue;
+        private Dictionary<T, ObjectPoolContainer<T>> usedLookup;
 
         private Func<T> initFunc;
-        private int lastIndex = 0;
 
         public int Count
         {
-            get { return list.Count; }
+            get { return unusedQueue.Count + usedLookup.Count; }
         }
         public int UsedCount
         {
-            get { return lookup.Count; }
+            get { return usedLookup.Count; }
         }
 
         public ObjectPool(Func<T> initFunc, int initSize, bool warmObject)
@@ -30,10 +30,10 @@ namespace MFramework
             this.initFunc = initFunc;//通过构造函数获得初始化
 
             //创建初始list/lookup
-            list = new List<ObjectPoolContainer<T>>(initSize);
-            lookup = new Dictionary<T, ObjectPoolContainer<T>>(initSize);
+            unusedQueue = new Queue<ObjectPoolContainer<T>>(initSize);
+            usedLookup = new Dictionary<T, ObjectPoolContainer<T>>(initSize);
             //创建初始Container
-            if(warmObject) Warm(initSize);
+            if (warmObject) Warm(initSize);
         }
 
         /// <summary>
@@ -41,32 +41,16 @@ namespace MFramework
         /// </summary>
         public T GetItem()
         {
-            //在list中寻找Not Used的物体
             ObjectPoolContainer<T> container = null;
-            for (int i = 0; i < list.Count; i++)
-            {
-                lastIndex++;
-                if (lastIndex > list.Count - 1) lastIndex = 0;
 
-                if (list[lastIndex].Used)
-                {
-                    continue;
-                }
-                else//找到Not Used的物体
-                {
-                    container = list[lastIndex];
-                    break;
-                }
-            }
-
-            //没有找到，创个新的
-            if (container == null)
+            if (unusedQueue.Count == 0)//没有Not Used物体
             {
                 container = CreateContainer();
             }
 
+            container = unusedQueue.Dequeue();//出队
             container.Consume();
-            lookup.Add(container.Item, container);
+            usedLookup.Add(container.Item, container);//入表
 
             return container.Item;
         }
@@ -74,25 +58,40 @@ namespace MFramework
         /// <summary>
         /// 释放Item(禁用物体)
         /// </summary>
-        public void ReleaseItem(object item)
+        public void ReleaseItem()
         {
-            ReleaseItem((T)item);
-        }
+            ObjectPoolContainer<T> container = null;
 
+            if (usedLookup.Count > 0)
+            {
+                var k = usedLookup.Keys.First();
+                container = usedLookup[k];
+                container.Release();
+                usedLookup.Remove(k);
+                unusedQueue.Enqueue(container);
+            }
+            else//无正在使用物体
+            {
+                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{container.Item}，请检查", MLogType.Warning);
+            }
+        }
         /// <summary>
         /// 释放Item(禁用物体)
         /// </summary>
         public void ReleaseItem(T item)
         {
-            if (lookup.ContainsKey(item))
+            ObjectPoolContainer<T> container = null;
+
+            if (usedLookup.ContainsKey(item))
             {
-                var container = lookup[item];
+                container = usedLookup[item];
                 container.Release();
-                lookup.Remove(item);
+                usedLookup.Remove(item);
+                unusedQueue.Enqueue(container);
             }
-            else//只有在表中的物体才是可被释放物体
+            else//无正在使用物体
             {
-                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{item}，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{container.Item}，请检查", MLogType.Warning);
             }
         }
 
@@ -113,10 +112,12 @@ namespace MFramework
         /// </summary>
         private ObjectPoolContainer<T> CreateContainer()
         {
-            //Container的创建就是实例化物体并将其添加进list
+            //Container的创建就是实例化物体并将其添加进Queue
             var container = new ObjectPoolContainer<T>();
             container.Item = initFunc();//其实就是执行InstantiatePrefab()
-            list.Add(container);
+
+            unusedQueue.Enqueue(container);
+
             return container;
         }
     }

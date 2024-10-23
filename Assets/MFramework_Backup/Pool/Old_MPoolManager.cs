@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class MPoolManager : MonoSingleton<MPoolManager>
+    public class Old_MPoolManager : MonoSingleton<Old_MPoolManager>
     {
         //prefabDic---Prefab与所属的对象池
         //instanceDic---实例与所属的对象池
-        private Dictionary<GameObject, ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
-        private Dictionary<GameObject, ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
+        private Dictionary<GameObject, Old_ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
+        private Dictionary<GameObject, Old_ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
 
         private void Awake()
         {
-            prefabDic = new Dictionary<GameObject, ObjectPool<GameObject>>();
-            instanceDic = new Dictionary<GameObject, ObjectPool<GameObject>>();
+            prefabDic = new Dictionary<GameObject, Old_ObjectPool<GameObject>>();
+            instanceDic = new Dictionary<GameObject, Old_ObjectPool<GameObject>>();
         }
 
         /// <summary>
@@ -51,12 +51,12 @@ namespace MFramework
         {
             if (prefabDic.ContainsKey(prefab))//prefab已经入池，无需再次Warm()
             {
-                MLog.Print($"{typeof(MPoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(Old_MPoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
                 return;
             }
 
             //正常情况---创建对象池，并存入prefabDic中
-            var pool = new ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab, parent); }, size, warmObject);
+            var pool = new Old_ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab, parent); }, size, warmObject);
             prefabDic[prefab] = pool;
         }
 
@@ -84,7 +84,7 @@ namespace MFramework
             var clone = pool.GetItem();//获取池中可用对象
             if (clone == null) return null;
 
-            //设置初始状态(简易初始化)
+            //设置初始状态
             clone.transform.position = position;
             clone.transform.rotation = rotation;
             clone.SetActive(true);
@@ -106,7 +106,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"{typeof(MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(Old_MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
             }
         }
 
