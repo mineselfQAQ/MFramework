@@ -87,7 +87,8 @@ GameObject:
   - component: {fileID: 801249235513243670}
   - component: {fileID: 4862768430380238225}
   - component: {fileID: 7670321914427453748}
-  - component: {fileID: 389702278602336463}
+  - component: {fileID: 7302770320080200912}
+  - component: {fileID: -3143813547531952173}
   m_Layer: 0
   m_Name: LevelCardWidget
   m_TagString: Untagged
@@ -177,7 +178,29 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.23529412}
   m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
---- !u!114 &389702278602336463
+--- !u!114 &7302770320080200912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766374375109113111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe932a9c9747034abe29f7e8bb556ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Star0_MImage: {fileID: 9019203048585869565}
+  m_Star1_MImage: {fileID: 9054194471635927068}
+  m_Star2_MImage: {fileID: 7456802672821983169}
+  m_LevelName_MText: {fileID: 7886634459765603279}
+  m_Coins_MText: {fileID: 1973821588480283553}
+  m_BestTime_MText: {fileID: 5839175783769764812}
+  m_LevelImage_MImage: {fileID: 1360968375803789555}
+  m_PlayBtn_MButton: {fileID: 3994937551106227187}
+  m_LeftLocked_RectTransform: {fileID: 5674400337887783577}
+  m_RightLocked_RectTransform: {fileID: 1929176669650909639}
+--- !u!114 &-3143813547531952173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,10 +239,10 @@ MonoBehaviour:
     - {fileID: 3994937551106227187}
   - target: {fileID: 5769271007009165333}
     compList:
-    - {fileID: 5674400337887783577}
+    - {fileID: 8424024689870038388}
   - target: {fileID: 4072754719315920242}
     compList:
-    - {fileID: 1929176669650909639}
+    - {fileID: 6291208440160176849}
   animSwitch: 0
   openAnimMode: 0
   closeAnimMode: 0

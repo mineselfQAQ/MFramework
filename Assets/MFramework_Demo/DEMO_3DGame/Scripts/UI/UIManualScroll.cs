@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
+//TODO:不支持无限滚动列表的移动
 [RequireComponent(typeof(ScrollRect))]
 public class UIManualScroll : MonoBehaviour
 {

@@ -264,7 +264,7 @@ namespace MFramework
                 bool hasCycle = HasCycle(dependencyDic);
                 if (hasCycle) throw new Exception();
             }
-            catch (Exception e) 
+            catch (Exception) 
             {
                 MLog.Print($"{nameof(CollectDependency)}：发生依赖循环，请检查", MLogType.Warning);
             }

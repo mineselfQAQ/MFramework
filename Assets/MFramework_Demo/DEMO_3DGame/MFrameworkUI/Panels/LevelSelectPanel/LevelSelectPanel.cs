@@ -1,43 +1,32 @@
-﻿using MFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LevelSelectPanel : LevelSelectPanelBase
 {
-    protected List<LevelCardWidget> m_cardList = new List<LevelCardWidget>();
+    protected List<LevelCell> m_cardList = new List<LevelCell>();
 
     public override void Init()
     {
         var levels = Game.Instance.levels;
+        m_LevelScrollView_LevelScrollView.InitView(levels);
 
-        for (int i = 0; i < levels.Count; i++)
-        {
-            LevelCardWidget levelCard = CreateWidget<LevelCardWidget>($"LevelCard_{i}", m_Content_RectTransform,
-                $"{UIController.widgetPrepath}/LevelCard/LevelCardWidget.prefab", true);
-            levelCard.Init(levels[i]);
-            m_cardList.Add(levelCard);
-        }
-
+        //强制移动至头
         if (UILevelCard.Instance.focusFirstElement)
         {
-            EventSystem.current.SetSelectedGameObject(m_cardList[0].m_PlayBtn_MButton.gameObject);
+            m_LevelScrollView_LevelScrollView.MoveTo(0);
         }
     }
 
     public void Refresh()
     {
         var levels = Game.Instance.levels;
+        m_LevelScrollView_LevelScrollView.RefreshView();
 
-        for (int i = 0; i < levels.Count; i++)
-        {
-            m_cardList[i].Init(levels[i]);
-        }
-
+        //强制移动至头
         if (UILevelCard.Instance.focusFirstElement)
         {
-            EventSystem.current.SetSelectedGameObject(m_cardList[0].m_PlayBtn_MButton.gameObject);
+            m_LevelScrollView_LevelScrollView.MoveTo(0);
         }
     }
 
