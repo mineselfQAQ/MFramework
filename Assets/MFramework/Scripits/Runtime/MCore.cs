@@ -39,6 +39,9 @@ namespace MFramework
             initList = GetInterfaceInstanceList<INeedInit>();
             quitList = GetInterfaceInstanceList<INeedQuit>();
 
+            //在主线程设置mainThread
+            MainThreadUtility.SetMainThread();
+
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 

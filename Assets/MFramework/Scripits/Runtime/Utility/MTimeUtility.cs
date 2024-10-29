@@ -6,19 +6,13 @@ namespace MFramework
 {
     public static class MTimeUtility
     {
-        //不是非常清晰，不如直接写在外面
-        public static void LoopChecker(bool switcher, ref float totalTime, float duration, Action onFinish)
+        /// <summary>
+        /// 获取当前时间戳(1970.1.1---今)
+        /// </summary>
+        public static long GetNowTime()
         {
-            if (switcher)
-            {
-                totalTime += Time.deltaTime;
-
-                if (totalTime >= duration)
-                {
-                    totalTime = 0;
-                    onFinish?.Invoke();
-                }
-            }
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds);
         }
     }
 }

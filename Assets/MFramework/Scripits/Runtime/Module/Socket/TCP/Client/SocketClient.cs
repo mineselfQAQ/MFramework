@@ -1,125 +1,81 @@
-
-
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Timers;
+using UnityEditor.PackageManager;
 
-
-
-/// <summary>
-/// Socket客户端
-/// </summary>
-public class SocketClient
+namespace MFramework
 {
     /// <summary>
-    /// 主线程
+    /// Socket客户端
     /// </summary>
-    private SynchronizationContext _mainThread;
-
-
-    public string IP;
-    public int Port;
-
-    private const int TIMEOUT_CONNECT = 3000;   // 连接超时时间 毫秒
-    private const int TIMEOUT_SEND = 3000;  // 发送超时时间 毫秒
-    private const int TIMEOUT_RECEIVE = 3000;   //接收超时时间 毫秒
-
-    private const int HEAD_OFFSET = 2000; //心跳包发送间隔 毫秒
-    private const int RECONN_MAX_SUM = 3;   //最大重连次数
-
-    private Socket _client;
-    private Thread _receiveThread;
-    private System.Timers.Timer _connTimeoutTimer;
-    private System.Timers.Timer _headTimer;
-    private DataBuffer _dataBuffer = new DataBuffer();
-
-    public event Action OnConnectSuccess;    // 连接成功回调
-    public event Action OnConnectError;    // 连接失败回调
-    public event Action OnDisconnect;  // 断开回调
-    public event Action<SocketDataPack> OnReceive;  // 接收报文回调
-    public event Action<SocketDataPack> OnSend;  // 发送报文回调
-    public event Action<SocketException> OnError;   // 异常捕获回调
-    public event Action<int> OnReConnectSuccess; // 重连成功回调
-    public event Action<int> OnReConnectError; // 单次重连失败回调
-    public event Action<int> OnReconnecting;  // 单次重连中回调
-
-    private bool _isConnect = false;
-    private bool _isReconnect = false;
-
-
-    public SocketClient(string ip, int port)
+    public class SocketClient
     {
-        _mainThread = SynchronizationContext.Current;
+        public string IP;//服务器IP
+        public int Port;//服务器Port
 
-        IP = ip;
-        Port = port;
-    }
-    public void Connect(Action success = null, Action error = null)
-    {
-        Action<bool> onTrigger = (flag) =>
+        public event Action OnConnectSuccess;
+        public event Action OnConnectError;
+        public event Action OnDisconnect;
+        public event Action<SocketDataPack> OnReceive;
+        public event Action<SocketDataPack> OnSend;
+        public event Action<SocketException> OnError;
+        public event Action<int> OnReConnectSuccess;
+        public event Action<int> OnReConnectError;
+        public event Action<int> OnReconnecting;
+
+        private const int TIMEOUT_CONNECT = 3000;//连接超时时间
+        private const int TIMEOUT_SEND = 3000;//发送超时时间
+        private const int TIMEOUT_RECEIVE = 3000;//接收超时时间
+
+        private const int HEAD_OFFSET = 2000;//心跳包发送间隔
+        private const int RECONN_MAX_SUM = 3;//最大重连次数
+
+        private Socket _client;
+        private Thread _receiveThread;
+        private System.Timers.Timer _connTimeoutTimer;
+        private System.Timers.Timer _headTimer;
+        private DataBuffer _dataBuffer = new DataBuffer();
+
+        private bool _isConnect = false;
+        private bool _isReconnect = false;
+
+        public SocketClient(string ip, int port)
         {
-            //成功或失败
-            if (flag)
-            {
-                PostMainThreadAction(success);
-                PostMainThreadAction(OnConnectSuccess);
-            }
-            else
-            {
-                PostMainThreadAction(error);
-                PostMainThreadAction(OnConnectError);
-            }
+            IP = ip;
+            Port = port;
+        }
 
-            //如果在TIMEOUT_CONNECT完成了，应该关闭计时器
-            if (_connTimeoutTimer != null)
-            {
-                _connTimeoutTimer.Stop();
-                _connTimeoutTimer = null;
-            }
-        };
-        try
+        /// <summary>
+        /// 连接服务器
+        /// </summary>
+        public void Connect(Action success = null, Action error = null)
         {
-            _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//创建套接字
-            //Send()时发送失败时间限制
-            _client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, TIMEOUT_SEND);
-            //Receive()时接收超时时间限制
-            _client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, TIMEOUT_RECEIVE);
-            IPAddress ipAddress = IPAddress.Parse(IP);//解析IP地址
-            IPEndPoint ipEndpoint = new IPEndPoint(ipAddress, Port);
-            IAsyncResult result = _client.BeginConnect(ipEndpoint, new AsyncCallback((iar) =>
+            Action<bool> onTrigger = (flag) =>
             {
-                try
+                //成功或失败回调
+                if (flag)
                 {
-                    Socket client = (Socket)iar.AsyncState;
-                    client.EndConnect(iar);
-
-                    _isConnect = true;
-                    // 开始发送心跳包
-                    _headTimer = new System.Timers.Timer(HEAD_OFFSET);
-                    _headTimer.AutoReset = true;
-                    _headTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
-                    {
-                        Send((UInt16)SocketEvent.sc_head);//16位无符号数据(也就是4个16进制数)
-                    };
-                    _headTimer.Start();
-
-                    // 开始接收数据
-                    _receiveThread = new Thread(new ThreadStart(ReceiveEvent));
-                    _receiveThread.IsBackground = true;//后台线程
-                    _receiveThread.Start();
-
-                    onTrigger(true);
+                    MainThreadUtility.Post(success);
+                    MainThreadUtility.Post(OnConnectSuccess);
                 }
-                catch (SocketException ex)
+                else
                 {
-                    onTrigger(false);
+                    MainThreadUtility.Post(error);
+                    MainThreadUtility.Post(OnConnectError);
                 }
-            }), _client);//异步连接
+
+                //如果在TIMEOUT_CONNECT完成了，应该关闭计时器避免触发失败回调
+                if (_connTimeoutTimer != null)
+                {
+                    _connTimeoutTimer.Stop();
+                    _connTimeoutTimer = null;
+                }
+            };
 
             //TIMEOUT_CONNECT内没有完成，则连接失败
+            //Tip：失败后应该自主选择操作(关闭/重连/...)
             _connTimeoutTimer = new System.Timers.Timer(TIMEOUT_CONNECT);
             _connTimeoutTimer.AutoReset = false;
             _connTimeoutTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
@@ -128,202 +84,212 @@ public class SocketClient
             };
             _connTimeoutTimer.Start();
 
-        }
-        catch (SocketException ex)
-        {
-            onTrigger(false);
-            // throw;
-        }
-    }
-    /// <summary>
-    /// 断线重连
-    /// </summary>
-    /// <param name="num"></param>
-    public void ReConnect(int num = RECONN_MAX_SUM, int index = 0)
-    {
-        _isReconnect = true;
-
-        num--;
-        index++;
-        if (num < 0)
-        {
-            onDisconnect();
-            _isReconnect = false;
-            return;
-        }
-        PostMainThreadAction<int>(OnReconnecting, index);
-        Connect(() =>
-        {
-            PostMainThreadAction<int>(OnReConnectSuccess, index);
-            _isReconnect = false;
-        }, () =>
-        {
-            PostMainThreadAction<int>(OnReConnectError, index);
-            ReConnect(num, index);
-        });
-
-    }
-    public void Send(UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
-    {
-        buff = buff ?? new byte[] { };//为空时创一个容量为0的数组(虽然放不了东西但是不为null)
-        var dataPack = new SocketDataPack(e, buff);
-        var data = dataPack.Buff;
-        try
-        {
-            _client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
-            {
-                Socket c = (Socket)asyncSend.AsyncState;
-                c.EndSend(asyncSend);
-                PostMainThreadAction<SocketDataPack>(onTrigger, dataPack);
-                PostMainThreadAction<SocketDataPack>(OnSend, dataPack);
-            }), _client);
-        }
-        catch (SocketException ex)
-        {
-            onError(ex);
-        }
-
-    }
-    /// <summary>
-    /// 线程内接收数据的函数
-    /// </summary>
-    private void ReceiveEvent()
-    {
-        while (true)
-        {
             try
             {
-                if (!_isConnect) break;
-                if (_client.Available <= 0) continue;//如果没有数据，不读取避免堵塞
-                byte[] rbytes = new byte[8 * 1024];
-                int len = _client.Receive(rbytes);
-                if (len > 0)
+                _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //Send()/Receive()时等待时间限制
+                _client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, TIMEOUT_SEND);
+                _client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, TIMEOUT_RECEIVE);
+                IPAddress ipAddress = IPAddress.Parse(IP);
+                IPEndPoint ipEndpoint = new IPEndPoint(ipAddress, Port);
+                //向服务器EP连接
+                IAsyncResult result = _client.BeginConnect(ipEndpoint, new AsyncCallback((iar) =>
                 {
-                    _dataBuffer.AddBuffer(rbytes, len); // 将收到的数据添加到缓存器中
-                    var dataPack = new SocketDataPack();
-                    if (_dataBuffer.TryUnpack(out dataPack)) // 尝试解包
+                    try
                     {
-                        if (dataPack.Type == (UInt16)SocketEvent.sc_kickout)
+                        Socket client = (Socket)iar.AsyncState;
+                        client.EndConnect(iar);//连接成功(如果没超时的话)
+                        _isConnect = true;
+
+                        //定时发送心跳包
+                        _headTimer = new System.Timers.Timer(HEAD_OFFSET);
+                        _headTimer.AutoReset = true;
+                        _headTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
                         {
-                            // 服务端踢出
-                            onDisconnect();
-                        }
-                        else
-                        {
-                            // 收到消息
-                            PostMainThreadAction<SocketDataPack>(OnReceive, dataPack);
-                        }
+                            Send((UInt16)SocketEvent.cs_head);//16位无符号数据(也就是4个16进制数0x1234)
+                        };
+                        _headTimer.Start();
+
+                        //开启接收数据线程
+                        _receiveThread = new Thread(new ThreadStart(ReceiveEvent));
+                        _receiveThread.IsBackground = true;//后台线程
+                        _receiveThread.Start();
+
+                        onTrigger(true);
                     }
-                }
+                    catch (SocketException)
+                    {
+                        onTrigger(false);
+                    }
+                }), _client);
+            }
+            catch (SocketException)
+            {
+                onTrigger(false);
+            }
+        }
+        /// <summary>
+        /// 重连服务器
+        /// </summary>
+        public void ReConnect(int num = RECONN_MAX_SUM, int index = 0)
+        {
+            _isReconnect = true;
+
+            num--;
+            index++;
+            if (num < 0)
+            {
+                OnDisconnectInternal();
+                _isReconnect = false;
+                return;
+            }
+
+            MainThreadUtility.Post<int>(OnReconnecting, index);
+            Connect(() =>
+            {
+                MainThreadUtility.Post<int>(OnReConnectSuccess, index);
+                _isReconnect = false;
+            }, () =>
+            {
+                MainThreadUtility.Post<int>(OnReConnectError, index);
+                ReConnect(num, index);//失败再次重连
+            });
+
+        }
+
+        /// <summary>
+        /// 向服务器发送消息
+        /// </summary>
+        public void Send(UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
+        {
+            //组成包并取出Buff
+            buff = buff ?? new byte[] { };
+            var dataPack = new SocketDataPack(e, buff);
+            var data = dataPack.Buff;
+
+            try
+            {
+                //发送Buff
+                _client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
+                {
+                    Socket c = (Socket)asyncSend.AsyncState;
+                    c.EndSend(asyncSend);
+                    MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
+                    MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
+                }), _client);
             }
             catch (SocketException ex)
             {
-                onError(ex);
-                // throw;
+                //发不过去则自行断开并重连
+                OnErrorInternal(ex);
+            }
+
+        }
+        /// <summary>
+        /// 数据接收线程函数
+        /// </summary>
+        private void ReceiveEvent()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (!_isConnect) break;
+                    if (_client.Available <= 0) continue;//如果没有数据，不读取避免堵塞
+
+                    byte[] bytes = new byte[8 * 1024];//常规缓冲区大小
+                    int len = _client.Receive(bytes);//服务器信息接收(会堵塞)
+                    if (len > 0)
+                    {
+                        //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
+                        _dataBuffer.AddBuffer(bytes, len);
+                        //获取数据(解包获取)
+                        var dataPack = new SocketDataPack();
+                        if (_dataBuffer.TryUnpack(out dataPack))
+                        {
+                            //踢出
+                            if (dataPack.Type == (UInt16)SocketEvent.sc_kickout)
+                            {
+                                OnDisconnectInternal();
+                            }
+                            //一般情况
+                            else
+                            {
+                                MainThreadUtility.Post<SocketDataPack>(OnReceive, dataPack);
+                            }
+                        }
+                    }
+                }
+                catch (SocketException ex)
+                {
+                    //接收出现问题，自行断开并重连
+                    OnErrorInternal(ex);
+                }
             }
         }
-    }
-    /// <summary>
-    /// 业务逻辑 - 客户端主动断开
-    /// </summary>
-    public void DisConnect()
-    {
-        //_client.Shutdown(SocketShutdown.Both);//Send是关键
-        Send((UInt16)SocketEvent.sc_disconn);
-        onDisconnect();
-    }
 
-
-
-    /// <summary>
-    /// 缓存数据清理
-    /// </summary>
-    public void Close()
-    {
-        if (!_isConnect) return;
-        _isConnect = false;
-        if (_headTimer != null)
+        /// <summary>
+        /// 客户端主动中断连接
+        /// </summary>
+        public void Disconnect()
         {
-            _headTimer.Stop();
-            _headTimer = null;
+            Send((UInt16)SocketEvent.cs_disconnect);
+            OnDisconnectInternal();
         }
-        // if (_receiveThread != null)
-        // {
-        //     _receiveThread.Abort();
-        //     _receiveThread = null;
-        // }
-        if (_connTimeoutTimer != null)
+        /// <summary>
+        /// 客户端完整关闭
+        /// </summary>
+        public void Close()
         {
-            _connTimeoutTimer.Stop();
-            _connTimeoutTimer = null;
+            if (!_isConnect) return;
+            _isConnect = false;
+
+            if (_headTimer != null)
+            {
+                _headTimer.Stop();
+                _headTimer = null;
+            }
+            if (_connTimeoutTimer != null)
+            {
+                _connTimeoutTimer.Stop();
+                _connTimeoutTimer = null;
+            }
+
+            if (_receiveThread != null && _receiveThread.IsAlive)
+            {
+                _receiveThread.Join();
+                _receiveThread = null;
+            }
+            if (_client != null)
+            {
+                _client.Shutdown(SocketShutdown.Both);
+                _client.Close();
+                _client = null;
+            }
         }
-        if (_client != null)
+
+        /// <summary>
+        /// 错误回调
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnErrorInternal(SocketException ex)
         {
-            _client.Close();
-            _client = null;
+            Close();
+
+            MainThreadUtility.Post<SocketException>(OnError, ex);
+
+            if (!_isReconnect)
+            {
+                ReConnect();
+            }
         }
-
-
-
-    }
-
-
-    /// <summary>
-    /// 错误回调
-    /// </summary>
-    /// <param name="e"></param>
-    private void onError(SocketException ex)
-    {
-        Close();
-
-        PostMainThreadAction<SocketException>(OnError, ex);
-
-        if (!_isReconnect)
+        /// <summary>
+        /// 断开回调
+        /// </summary>
+        private void OnDisconnectInternal()
         {
-            ReConnect();
+            Close();
+            MainThreadUtility.Post(OnDisconnect);
         }
-    }
-
-
-    /// <summary>
-    /// 断开回调
-    /// </summary>
-    private void onDisconnect()
-    {
-
-        Close();
-
-        PostMainThreadAction(OnDisconnect);
-    }
-
-    /// <summary>
-    /// 通知主线程回调
-    /// </summary>
-    private void PostMainThreadAction(Action action)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
-        {
-            Action e = (Action)o.GetType().GetProperty("action").GetValue(o);
-            if (e != null) e();
-        }), new { action = action });
-    }
-    private void PostMainThreadAction<T>(Action<T> action, T arg1)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
-        {
-            Action<T> e = (Action<T>)o.GetType().GetProperty("action").GetValue(o);
-            T t1 = (T)o.GetType().GetProperty("arg1").GetValue(o);
-            if (e != null) e(t1);
-        }), new { action = action, arg1 = arg1 });
-    }
-    public void PostMainThreadAction<T1, T2>(Action<T1, T2> action, T1 arg1, T2 arg2)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
-        {
-            Action<T1, T2> e = (Action<T1, T2>)o.GetType().GetProperty("action").GetValue(o);
-            T1 t1 = (T1)o.GetType().GetProperty("arg1").GetValue(o);
-            T2 t2 = (T2)o.GetType().GetProperty("arg2").GetValue(o);
-            if (e != null) e(t1, t2);
-        }), new { action = action, arg1 = arg1, arg2 = arg2 });
     }
 }

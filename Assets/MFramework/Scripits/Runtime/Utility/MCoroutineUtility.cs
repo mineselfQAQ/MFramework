@@ -6,9 +6,10 @@ namespace MFramework
 {
     internal class MCoroutineUtility
     {
-        internal static IEnumerator DelayOneFrame(Action action)
+        internal static IEnumerator DelayFrame(Action action, int frame)
         {
-            yield return null;
+            for(int i = 0; i < frame; i++) yield return null;
+
             action();
         }
 

@@ -6,40 +6,24 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class Test1 : MonoBehaviour
+public class Test1 : MonoBehaviourPls
 {
-    public int time;
-    private void Start()
+    protected override void Awake00()
     {
-        A a = new A();
-        A b = new A();
-        a.a = 10;
-        b.a = 5;
-        //Debug.Log(a == b);
-        Debug.Log(a.Equals(b));
+        Debug.Log("00");
+    }
+
+    protected override void Awake01()
+    {
+        Debug.Log("01");
+    }
+
+    protected override void Awake02()
+    {
+        Debug.Log("02");
     }
 
     private void Update()
-    {
-        var c = GetComponent<CharacterController>();
-        c.Move(new Vector3(-Time.deltaTime * time, 0, 0));
-    }
-}
-
-public class A
-{
-    public int a;
-
-    public virtual void INN()
-    {
-
-    }
-}
-
-public class B : A
-{
-
-    public sealed override void INN()
     {
 
     }

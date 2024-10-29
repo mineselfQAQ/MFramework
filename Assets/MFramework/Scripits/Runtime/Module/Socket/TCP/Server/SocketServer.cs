@@ -1,337 +1,271 @@
-
-
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Timers;
+using UnityEngine;
 
-public class SocketInfo
-{
-    public Socket Client;
-    public Thread ReceiveThread;
-    public long HeadTime;
-}
-
-/// <summary>
-/// Socket服务端
-/// </summary>
-public class SocketServer
+namespace MFramework
 {
     /// <summary>
-    /// 主线程
+    /// Socket服务端
     /// </summary>
-    private SynchronizationContext _mainThread;
-
-
-
-    public string IP;
-    public int Port;
-
-    private const int HEAD_TIMEOUT = 5000;    // 心跳超时 毫秒
-    private const int HEAD_CHECKTIME = 5000;   // 心跳包超时检测 毫秒
-
-    public Dictionary<Socket, SocketInfo> ClientInfoDic = new Dictionary<Socket, SocketInfo>();
-
-    private Socket _server;
-    private Thread _connectThread;
-    private System.Timers.Timer _headCheckTimer;
-    private DataBuffer _dataBuffer = new DataBuffer();
-
-    public event Action<Socket> OnConnect;  //客户端建立连接回调
-    public event Action<Socket> OnDisconnect;  // 客户端断开连接回调
-    public event Action<Socket, SocketDataPack> OnReceive;  // 接收报文回调
-    public event Action<Socket, SocketDataPack> OnSend;  // 发送报文回调
-
-    // 目前捕获异常将触发OnDisconnect回调 暂不单独处理
-    // public event Action<SocketException> OnError;   // 异常捕获回调
-
-    private bool _isValid = true;
-
-    public SocketServer(string ip, int port)
+    public class SocketServer
     {
-        _mainThread = SynchronizationContext.Current;
+        public string IP;//服务器IP
+        public int Port;//服务器Port
 
-        IP = ip;
-        Port = port;
+        public event Action<Socket> OnConnect;
+        public event Action<Socket> OnDisconnect;
+        public event Action<Socket, SocketDataPack> OnReceive;
+        public event Action<Socket, SocketDataPack> OnSend;
 
-        _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        IPAddress ipAddress = IPAddress.Parse(IP);//解析IP地址
-        _server.Bind(new IPEndPoint(ipAddress, Port));  //绑定IP地址：端口  
+        public Dictionary<Socket, ClientSocketInfo> ClientInfoDic = new Dictionary<Socket, ClientSocketInfo>();
 
-        _server.Listen(10);    //设定最多10个排队连接请求
+        private const int HEAD_TIMEOUT = 5000;//客户端心跳超时时间
+        private const int HEAD_CHECKTIME = 5000;//心跳包定时检测频率
 
-        // 启动线程监听连接
-        _connectThread = new Thread(ListenClientConnect);
-        _connectThread.Start();
+        private Socket _server;
+        private Thread _connectThread;
+        private System.Timers.Timer _headCheckTimer;
+        private DataBuffer _dataBuffer = new DataBuffer();
 
-        // 心跳包定时检测
-        _headCheckTimer = new System.Timers.Timer(HEAD_CHECKTIME);
-        _headCheckTimer.AutoReset = true;
-        _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+        private bool _isValid = true;
+
+        public SocketServer(string ip, int port)
         {
-            CheckHeadTimeOut();
-        };
-        _headCheckTimer.Start();
-    }
-    /// <summary>  
-    /// 监听客户端连接  
-    /// </summary>  
-    private void ListenClientConnect()
-    {
-        while (true)
+            IP = ip;
+            Port = port;
+
+            IPAddress ipAddress = IPAddress.Parse(IP);
+            _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _server.Bind(new IPEndPoint(ipAddress, Port));//绑定自己
+
+            _server.Listen(10);//设定最多10个排队连接请求(并非总连接数)
+
+            //启动线程监听连接
+            _connectThread = new Thread(ListenClientConnect);
+            _connectThread.Start();
+
+            //心跳包定时检测
+            _headCheckTimer = new System.Timers.Timer(HEAD_CHECKTIME);
+            _headCheckTimer.AutoReset = true;
+            _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+            {
+                CheckHeadTimeOut();
+            };
+            _headCheckTimer.Start();
+        }
+
+        /// <summary>
+        /// 向客户端发送消息
+        /// </summary>
+        public void Send(Socket client, UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
         {
+            //组成包并取出Buff
+            buff = buff ?? new byte[] { };
+            var dataPack = new SocketDataPack(e, buff);
+            var data = dataPack.Buff;
+
             try
             {
-                if (!_isValid) break;
-                Socket client = _server.Accept();
-                Thread receiveThread = new Thread(ReceiveEvent);
-                ClientInfoDic.Add(client, new SocketInfo() { Client = client, ReceiveThread = receiveThread, HeadTime = GetNowTime() });
-                receiveThread.Start(client);
-
-                //发送OnConnect回调(时机：Aceept()后)
-                PostMainThreadAction<Socket>(OnConnect, client);
-
-
-            }
-            catch
-            {
-                break;
-            }
-
-        }
-
-    }
-    /// <summary>
-    /// 获取当前时间戳
-    /// </summary>
-    /// <returns></returns>
-    private long GetNowTime()
-    {
-        TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-        return Convert.ToInt64(ts.TotalMilliseconds);
-    }
-
-    public void Send(Socket client, UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
-    {
-        buff = buff ?? new byte[] { };
-        var dataPack = new SocketDataPack(e, buff);
-        var data = dataPack.Buff;
-        try
-        {
-            client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
-            {
-                Socket c = (Socket)asyncSend.AsyncState;
-                c.EndSend(asyncSend);
-                PostMainThreadAction<SocketDataPack>(onTrigger, dataPack);
-                PostMainThreadAction<Socket, SocketDataPack>(OnSend, client, dataPack);
-            }), client);
-        }
-        catch (SocketException ex)
-        {
-            CloseClient(client);
-            // onError(ex);
-        }
-
-    }
-    /// <summary>
-    /// 线程内接收数据的函数
-    /// </summary>
-    private void ReceiveEvent(object client)
-    {
-        Socket tsocket = (Socket)client;
-        while (true)
-        {
-            if (!_isValid) return;
-            if (!ClientInfoDic.ContainsKey(tsocket))
-            {
-                return;
-            }
-            try
-            {
-                byte[] rbytes = new byte[8 * 1024];//常规缓冲区大小
-                int len = tsocket.Receive(rbytes);
-                if (len > 0)
+                //发送Buff
+                client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
                 {
-                    _dataBuffer.AddBuffer(rbytes, len); // 将收到的数据添加到缓存器中
-                    var dataPack = new SocketDataPack();
-                    if (_dataBuffer.TryUnpack(out dataPack)) // 尝试解包
-                    {
-                        if (dataPack.Type == (UInt16)SocketEvent.sc_head)
-                        {
-                            // 接收到心跳包
-                            ReceiveHead(tsocket);
-                        }
-                        else if (dataPack.Type == (UInt16)SocketEvent.sc_disconn)
-                        {
-                            // 客户端断开连接
-                            CloseClient(tsocket);
-                        }
-                        else
-                        {
-                            // 收到消息
-                            PostMainThreadAction<Socket, SocketDataPack>(OnReceive, tsocket, dataPack);
-                        }
+                    Socket c = (Socket)asyncSend.AsyncState;
+                    c.EndSend(asyncSend);
+                    MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
+                    MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, client, dataPack);
+                }), client);
+            }
+            catch (SocketException)
+            {
+                //发不过去则关闭该客户端的连接
+                CloseClient(client);
+            }
+        }
 
-                    }
+        /// <summary>  
+        /// 监听客户端连接  
+        /// </summary>  
+        private void ListenClientConnect()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (!_isValid) break;
+                    Socket client = _server.Accept();//客户端连接(会堵塞)
+
+                    Thread receiveThread = new Thread(ReceiveEvent);//子线程
+                    ClientInfoDic.Add(client, new ClientSocketInfo() { Client = client, ReceiveThread = receiveThread, HeadTime = MTimeUtility.GetNowTime() });
+                    receiveThread.Start(client);
+                    //Tip：和协程一样，子线程开启会继续执行后续代码
+                    //所以Accept()成功后，即连接成功
+                    MainThreadUtility.Post<Socket>(OnConnect, client);
                 }
-                else
+                catch
                 {
-                    //有数据能读，但是Receive()得到0，即客户端Socket被关闭
-                    if (tsocket.Poll(-1, SelectMode.SelectRead))
-                    {
-                        CloseClient(tsocket);
-                        return;
-                    }
+                    break;
                 }
             }
-            catch (SocketException ex)
+        }
+        /// <summary>
+        /// 数据接收线程函数
+        /// </summary>
+        private void ReceiveEvent(object client)
+        {
+            Socket socket = (Socket)client;
+            while (true)
             {
-                CloseClient(tsocket);
-                // onError(ex);
-                return;
+                if (!_isValid) return;
+                if (!ClientInfoDic.ContainsKey(socket))
+                {
+                    return;
+                }
+
+                try
+                {
+                    byte[] bytes = new byte[8 * 1024];//常规缓冲区大小
+                    int len = socket.Receive(bytes);//客户端信息接收(会堵塞)
+                    if (len > 0)
+                    {
+                        //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
+                        _dataBuffer.AddBuffer(bytes, len);
+                        //获取数据(解包获取)
+                        var dataPack = new SocketDataPack();
+                        if (_dataBuffer.TryUnpack(out dataPack))
+                        {
+                            //心跳包
+                            if (dataPack.Type == (UInt16)SocketEvent.cs_head)
+                            {
+                                ReceiveHead(socket);
+                            }
+                            //断开连接
+                            else if (dataPack.Type == (UInt16)SocketEvent.cs_disconnect)
+                            {
+                                CloseClient(socket);
+                            }
+                            //一般情况
+                            else
+                            {
+                                MainThreadUtility.Post<Socket, SocketDataPack>(OnReceive, socket, dataPack);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //有数据能读，但是Receive()得到0，即客户端Socket被关闭
+                        if (socket.Poll(-1, SelectMode.SelectRead))
+                        {
+                            //**在退出程序时同样会触发**
+                            CloseClient(socket);
+                            return;
+                        }
+                    }
+                }
+                catch (SocketException)
+                {
+                    //接收出现问题，关闭该客户端的连接
+                    CloseClient(socket);
+                    return;
+                }
             }
         }
-    }
-    /// <summary>
-    /// 接收到心跳包
-    /// </summary>
-    private void ReceiveHead(Socket client)
-    {
-        SocketInfo info;
-        if (ClientInfoDic.TryGetValue(client, out info))
+
+        /// <summary>
+        /// 接收到心跳包
+        /// </summary>
+        private void ReceiveHead(Socket client)
         {
-            long now = GetNowTime();
-            long offset = now - info.HeadTime;
-            UnityEngine.Debug.Log("更新心跳时间戳 >>>" + now + "  间隔>>>" + offset);
-            if (offset > HEAD_TIMEOUT)
+            if (ClientInfoDic.TryGetValue(client, out var info))
             {
-                // 心跳包收到但超时逻辑
+                long now = MTimeUtility.GetNowTime();
+                long offset = now - info.HeadTime;
+                MLog.Print($"更新心跳时间戳 >>>{now}    间隔 >>>{offset}");
+
+                if (offset > HEAD_TIMEOUT)
+                {
+                    //超时(超时踢出逻辑在心跳包定时检测中实现)
+                }
+                info.HeadTime = now;//核心：更新时间
             }
-            info.HeadTime = now;
         }
-    }
-    /// <summary>
-    /// 检测心跳包超时
-    /// </summary>
-    private void CheckHeadTimeOut()
-    {
-        var tempList = new List<Socket>();
-        foreach (var socket in ClientInfoDic.Keys)
+        /// <summary>
+        /// 检测心跳包超时
+        /// </summary>
+        private void CheckHeadTimeOut()
         {
-            tempList.Add(socket);
-        }
-        foreach (var socket in tempList)
-        {
-            var info = ClientInfoDic[socket];
-            long now = GetNowTime();
-            long offset = now - info.HeadTime;
-            if (offset > HEAD_TIMEOUT)
+            foreach (var socket in ClientInfoDic.Keys)
             {
-                // 心跳包超时
+                var info = ClientInfoDic[socket];
+                long now = MTimeUtility.GetNowTime();
+                long offset = now - info.HeadTime;
+                if (offset > HEAD_TIMEOUT)
+                {
+                    //心跳包超时
+                    KickOut(socket);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 将客户端踢出
+        /// </summary>
+        public void KickOut(Socket client)
+        {
+            Send(client, (UInt16)SocketEvent.sc_kickout, null, (dataPack) =>
+            {
+                CloseClient(client);
+            });
+        }
+        /// <summary>
+        /// 踢出所有客户端
+        /// </summary>
+        public void KickOutAll()
+        {
+            foreach (var socket in ClientInfoDic.Keys)
+            {
                 KickOut(socket);
             }
         }
-    }
-    public void KickOut(Socket client)
-    {
-        // 踢出连接
-        Send(client, (UInt16)SocketEvent.sc_kickout, null, (dataPack) =>
-        {
-            CloseClient(client);
-        });
-    }
-    public void KickOutAll()
-    {
-        var tempList = new List<Socket>();
-        foreach (var socket in ClientInfoDic.Keys)
-        {
-            tempList.Add(socket);
-        }
-        foreach (var socket in tempList)
-        {
-            KickOut(socket);
-        }
-    }
-    /// <summary>
-    /// 清理客户端连接
-    /// </summary>
-    /// <param name="client"></param>
-    private void CloseClient(Socket client)
-    {
-        PostMainThreadAction<Socket>((socket) =>
-        {
-            if (OnDisconnect != null) OnDisconnect(socket);
-            ClientInfoDic.Remove(socket);
-            socket.Close();
-        }, client);
 
-    }
-    /// <summary>
-    /// 关闭
-    /// </summary>
-    public void Close()
-    {
-        if (!_isValid) return;
-        _isValid = false;
-        // if (_connectThread != null) _connectThread.Abort();
-        var tempList = new List<Socket>();
-        foreach (var socket in ClientInfoDic.Keys)
+        /// <summary>
+        /// 服务器完整关闭
+        /// </summary>
+        public void Close()
         {
-            tempList.Add(socket);
-        }
-        foreach (var socket in tempList)
-        {
-            CloseClient(socket);
-        }
-        if (_headCheckTimer != null)
-        {
-            _headCheckTimer.Stop();
-            _headCheckTimer = null;
-        }
-        _server.Close();
-    }
+            if (!_isValid) return;
+            _isValid = false;
 
-    // /// <summary>
-    // /// 错误回调
-    // /// </summary>
-    // /// <param name="e"></param>
-    // private void onError(SocketException ex)
-    // {
-    //     PostMainThreadAction<SocketException>(OnError, ex);
-    // }
+            foreach (var socket in ClientInfoDic.Keys)
+            {
+                CloseClient(socket);
+            }
 
+            if (_headCheckTimer != null)
+            {
+                _headCheckTimer.Stop();
+                _headCheckTimer = null;
+            }
 
-    // <summary>
-    /// 通知主线程回调
-    /// </summary>
-    private void PostMainThreadAction(Action action)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
+            _server.Close();
+        }
+
+        private void CloseClient(Socket client)
         {
-            Action e = (Action)o.GetType().GetProperty("action").GetValue(o);
-            if (e != null) e();
-        }), new { action = action });
-    }
-    private void PostMainThreadAction<T>(Action<T> action, T arg1)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
-        {
-            Action<T> e = (Action<T>)o.GetType().GetProperty("action").GetValue(o);
-            T t1 = (T)o.GetType().GetProperty("arg1").GetValue(o);
-            if (e != null) e(t1);
-        }), new { action = action, arg1 = arg1 });
-    }
-    public void PostMainThreadAction<T1, T2>(Action<T1, T2> action, T1 arg1, T2 arg2)
-    {
-        _mainThread.Post(new SendOrPostCallback((o) =>
-        {
-            Action<T1, T2> e = (Action<T1, T2>)o.GetType().GetProperty("action").GetValue(o);
-            T1 t1 = (T1)o.GetType().GetProperty("arg1").GetValue(o);
-            T2 t2 = (T2)o.GetType().GetProperty("arg2").GetValue(o);
-            if (e != null) e(t1, t2);
-        }), new { action = action, arg1 = arg1, arg2 = arg2 });
+            MainThreadUtility.Post<Socket>((socket) =>
+            {
+                try
+                {
+                    OnDisconnect?.Invoke(socket);
+                    ClientInfoDic.Remove(socket);
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch { }
+            }, client);
+        }
     }
 }
