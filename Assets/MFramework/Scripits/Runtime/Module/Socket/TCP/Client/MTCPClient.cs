@@ -3,14 +3,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Timers;
-using UnityEditor.PackageManager;
 
 namespace MFramework
 {
     /// <summary>
     /// Socket客户端
     /// </summary>
-    public class SocketClient
+    public class MTCPClient
     {
         public string IP;//服务器IP
         public int Port;//服务器Port
@@ -41,7 +40,7 @@ namespace MFramework
         private bool _isConnect = false;
         private bool _isReconnect = false;
 
-        public SocketClient(string ip, int port)
+        public MTCPClient(string ip, int port)
         {
             IP = ip;
             Port = port;

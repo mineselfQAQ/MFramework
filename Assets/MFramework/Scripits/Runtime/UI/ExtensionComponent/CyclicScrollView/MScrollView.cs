@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 namespace MFramework
 {
-    public abstract class CyclicScrollView<Cell, Data> : MonoBehaviour where Cell : MonoBehaviour
+    /// <summary>
+    /// 抽象类，一种基于ScrollView的循环列表
+    /// </summary>
+    /// <typeparam name="Cell">Unity实例</typeparam>
+    /// <typeparam name="Data">Cell所需数据</typeparam>
+    public abstract class MScrollView<Cell, Data> : MonoBehaviour where Cell : MonoBehaviour
     {
-        public CyclicScrollViewDirection direction;
+        public MScrollViewDirection direction;
         public ICollection<Data> datas { get; private set; }
 
         [SerializeField] protected Cell cellPrefab;//Prefab(必须带有Cell子类型的组件)
@@ -65,7 +70,7 @@ namespace MFramework
         {
             if (datas == null)
             {
-                MLog.Print($"{typeof(CyclicScrollView<Cell,Data>)}没有数据用于初始化，请检查", MLogType.Error);
+                MLog.Print($"{typeof(MScrollView<Cell,Data>)}没有数据用于初始化，请检查", MLogType.Error);
                 return;
             }
 
@@ -113,13 +118,13 @@ namespace MFramework
         {
             x = Mathf.Clamp01(x);
 
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 float max = content.sizeDelta.y - viewRange.sizeDelta.y;
                 if (max < 0) return;
                 content.anchoredPosition = new Vector2(content.anchoredPosition.x, max * x);
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 float max = content.sizeDelta.x - viewRange.sizeDelta.x;
                 if (max < 0) return;
@@ -136,7 +141,7 @@ namespace MFramework
             //以垂直模式为例：
             //移动一行也就是移动ItemSize.y距离，只要知道"最大行数"即可
             //Tip："最大行数"并非最后一行，而是当该行置顶时，正好显示完所有元素
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 int viewRangeMax = (int)(viewRange.sizeDelta.y / ItemSize.y) + 1;
                 int max = ItemCount - viewRangeMax + 1;
@@ -144,7 +149,7 @@ namespace MFramework
                 count = Mathf.Clamp(count, 0, max);//限制到最大行/列
                 content.anchoredPosition = new Vector2(content.anchoredPosition.x, ItemSize.y * (count - 1));
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 int viewRangeMax = (int)(viewRange.sizeDelta.x / ItemSize.x) + 1;
                 int max = ItemCount - viewRangeMax + 1;
@@ -183,7 +188,7 @@ namespace MFramework
 
         private void RemoveOutOfRangeBundles()
         {
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 //越上界
                 if (cellBundles.Count == 0) return;
@@ -212,7 +217,7 @@ namespace MFramework
                     bundle = cellBundles.Last.Value;
                 }
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 //越左界
                 if (cellBundles.Count == 0) return;
@@ -256,9 +261,9 @@ namespace MFramework
             CellBundle<Cell> bundle = cellBundles.First.Value;
 
             Vector2 offset = default;
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
                 offset = new Vector2(0, ItemSize.y);
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
                 offset = new Vector2(-ItemSize.x, 0);
 
             Vector2 newHeadBundlePos = bundle.position + offset;//判断点，该处为当前越界位置
@@ -271,7 +276,7 @@ namespace MFramework
                 if (index < 0) break;
                 if (caculatedIndex != index)//核验
                 {
-                    MLog.Print($"{typeof(CyclicScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
+                    MLog.Print($"{typeof(MScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
                     break;
                 } 
 
@@ -288,9 +293,9 @@ namespace MFramework
             //以尾部元素向外计算出新头部的位置,计算该位置是否在显示区域，如果在显示区域则生成对应项目
             CellBundle<Cell> bundle = cellBundles.Last.Value;
             Vector2 offset = default;
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
                 offset = new Vector2(0, -ItemSize.y);
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
                 offset = new Vector2(ItemSize.x, 0);
 
             Vector2 newTailBundlePos = bundle.position + offset;
@@ -303,7 +308,7 @@ namespace MFramework
                 if (index >= ItemCount) break;
                 if (caculatedIndex != index)//核验
                 {
-                    MLog.Print($"{typeof(CyclicScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
+                    MLog.Print($"{typeof(MScrollView<Cell, Data>)}：计算得出索引-<{caculatedIndex}>与实际计数索引-<{index}>两者索引值不相等，请检查", MLogType.Error);
                     break;
                 }
 
@@ -322,7 +327,7 @@ namespace MFramework
             Vector2 cellSize = CellSize;//Cell大小(去除间隔)
             Vector2 cellSpace = this.cellSpace;//间隔
 
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 //获取ScrollView的顶和底
                 Vector2 topPos = -content.anchoredPosition;
@@ -339,7 +344,7 @@ namespace MFramework
                     cellBundles.AddLast(bundle);
                 }
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)//同上
+            else if (direction == MScrollViewDirection.Horizontal)//同上
             {
                 Vector2 leftPos = -content.anchoredPosition;
                 Vector2 rightPos = new Vector2(leftPos.x + viewRangeSize.x, leftPos.y);
@@ -419,7 +424,7 @@ namespace MFramework
 
             //更改锚点以及大小
             //大小---以垂直移动为例，横向x不动，竖向y为行数*高度-1份间隔
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 if (reset)
                 {
@@ -435,7 +440,7 @@ namespace MFramework
                 //减一份间隔是因为：如3行，那么其实只有2份间隔而不是3份
                 content.sizeDelta = new Vector2(content.sizeDelta.x, itemCount * ItemSize.y - cellSpace.y);
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 if (reset)
                 {
@@ -460,12 +465,12 @@ namespace MFramework
             Vector2 cellOffset = default;
 
             //对于竖向模式，每个Bundle中的Cell是横向排布的，需要计算偏移值(物体宽度/横向间隔)
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 cellOffset = new Vector2(cellSize.x + cellSpace.x, 0);
             }
             //同上
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 cellOffset = new Vector2(0, -(cellSize.y + cellSpace.y));
             }
@@ -540,12 +545,12 @@ namespace MFramework
         private int GetIndex(Vector2 position)
         {
             int index = -1;
-            if (direction == CyclicScrollViewDirection.Vertical)
+            if (direction == MScrollViewDirection.Vertical)
             {
                 index = Mathf.RoundToInt(-position.y / ItemSize.y);
                 return index;
             }
-            else if (direction == CyclicScrollViewDirection.Horizontal)
+            else if (direction == MScrollViewDirection.Horizontal)
             {
                 index = Mathf.RoundToInt(position.x / ItemSize.x);
             }
@@ -574,11 +579,11 @@ namespace MFramework
         }
         private bool OnViewRange(Vector2 position)
         {
-            if (direction == CyclicScrollViewDirection.Horizontal)
+            if (direction == MScrollViewDirection.Horizontal)
             {
                 return !InViewRangeLeft(position) && !InViewRangeRight(position);
             }
-            else if (direction == CyclicScrollViewDirection.Vertical)
+            else if (direction == MScrollViewDirection.Vertical)
             {
                 return !AboveViewRange(position) && !UnderViewRange(position);
             }
@@ -588,11 +593,11 @@ namespace MFramework
         private Vector2 CaculateRelativePostion(Vector2 curPosition)
         {
             Vector2 relativePosition = default;
-            if (direction == CyclicScrollViewDirection.Horizontal)
+            if (direction == MScrollViewDirection.Horizontal)
             {
                 relativePosition = new Vector2(curPosition.x + content.anchoredPosition.x, curPosition.y);
             }
-            else if (direction == CyclicScrollViewDirection.Vertical)
+            else if (direction == MScrollViewDirection.Vertical)
             {
                 relativePosition = new Vector2(curPosition.x, curPosition.y + content.anchoredPosition.y);
             }

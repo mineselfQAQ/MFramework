@@ -2,7 +2,7 @@ using UnityEngine;
 using MFramework;
 using System.Collections.Generic;
 
-public class Test_CyclicScrollView : CyclicScrollView<Cell, Data>
+public class Test_CyclicScrollView : MScrollView<Cell, Data>
 {
     public List<Data> dataTemplates;//Cell需要的数据预设
 

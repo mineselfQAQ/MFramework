@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Test_TCPClient : MonoBehaviour
 {
-    SocketClient _client;
+    MTCPClient _client;
     private void Awake()
     {
-        _client = new SocketClient("127.0.0.1", 6854);
+        _client = new MTCPClient("127.0.0.1", 6854);
         _client.OnDisconnect += () =>
         {
             UnityEngine.Debug.Log("¶Ï¿ªÁ¬½Ó");

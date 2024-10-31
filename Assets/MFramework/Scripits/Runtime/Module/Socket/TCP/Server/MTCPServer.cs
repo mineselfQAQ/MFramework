@@ -4,14 +4,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Timers;
-using UnityEngine;
 
 namespace MFramework
 {
     /// <summary>
     /// Socket服务端
     /// </summary>
-    public class SocketServer
+    public class MTCPServer
     {
         public string IP;//服务器IP
         public int Port;//服务器Port
@@ -33,7 +32,7 @@ namespace MFramework
 
         private bool _isValid = true;
 
-        public SocketServer(string ip, int port)
+        public MTCPServer(string ip, int port)
         {
             IP = ip;
             Port = port;

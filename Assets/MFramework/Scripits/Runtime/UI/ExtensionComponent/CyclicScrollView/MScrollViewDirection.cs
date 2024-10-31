@@ -1,6 +1,6 @@
 namespace MFramework
 {
-    public enum CyclicScrollViewDirection
+    public enum MScrollViewDirection
     {
         Horizontal,
         Vertical

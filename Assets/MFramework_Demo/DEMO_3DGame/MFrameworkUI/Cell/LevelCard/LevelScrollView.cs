@@ -1,7 +1,7 @@
 using MFramework;
 using System.Collections.Generic;
 
-public class LevelScrollView : CyclicScrollView<LevelCell, GameLevel>
+public class LevelScrollView : MScrollView<LevelCell, GameLevel>
 {
     protected bool locked;
 

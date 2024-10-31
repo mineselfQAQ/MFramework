@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Test_TCPServer : MonoBehaviour
 {
-    SocketServer _server;
+    MTCPServer _server;
 
     private void Awake()
     {
-        _server = new SocketServer("127.0.0.1", 6854);
+        _server = new MTCPServer("127.0.0.1", 6854);
         _server.OnConnect += (client) =>
         {
             UnityEngine.Debug.LogFormat("连接成功 >> IP:{0}", client.LocalEndPoint.ToString());
