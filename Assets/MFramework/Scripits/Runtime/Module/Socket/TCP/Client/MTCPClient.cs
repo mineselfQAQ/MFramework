@@ -153,7 +153,6 @@ namespace MFramework
                 MainThreadUtility.Post<int>(OnReConnectError, index);
                 ReConnect(num, index);//失败再次重连
             });
-
         }
 
         /// <summary>
@@ -182,7 +181,6 @@ namespace MFramework
                 //发不过去则自行断开并重连
                 OnErrorInternal(ex);
             }
-
         }
         /// <summary>
         /// 数据接收线程函数

@@ -50,6 +50,20 @@ public class Test_TCPClient : MonoBehaviour
         }, 1.0f);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _client.Connect(() =>
+            {
+                UnityEngine.Debug.Log("连接成功");
+            }, () =>
+            {
+                UnityEngine.Debug.Log("连接失败");
+            });
+        }
+    }
+
     public void ClickSendTest()
     {
         var bytes = System.Text.Encoding.UTF8.GetBytes("我是测试数据");

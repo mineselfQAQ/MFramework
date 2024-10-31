@@ -1,6 +1,7 @@
 using MFramework;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Test_TCPServer : MonoBehaviour
@@ -9,30 +10,36 @@ public class Test_TCPServer : MonoBehaviour
 
     private void Awake()
     {
-        _server = new MTCPServer("127.0.0.1", 6854);
-        _server.OnConnect += (client) =>
-        {
-            UnityEngine.Debug.LogFormat("连接成功 >> IP:{0}", client.LocalEndPoint.ToString());
-        };
-        _server.OnDisconnect += (client) =>
-        {
-            UnityEngine.Debug.LogFormat("连接断开 >> IP:{0}", client.LocalEndPoint.ToString());
-        };
-        _server.OnReceive += (client, data) =>
-        {
-            UnityEngine.Debug.LogFormat("[{0}]接收到数据>>>{1} {2}", client.LocalEndPoint.ToString(), (SocketEvent)data.Type, data.Buff.Length);
 
-            switch ((SocketEvent)data.Type)
-            {
-                case SocketEvent.test:
-                    UnityEngine.Debug.LogFormat("接收到测试数据 >>> {0}", System.Text.Encoding.UTF8.GetString(data.Data));
-                    break;
-            }
-        };
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _server = new SocketServer("127.0.0.1", 6854);
+
+            _server.OnConnect += (client) =>
+            {
+                UnityEngine.Debug.LogFormat("连接成功 >> IP:{0}", client.LocalEndPoint.ToString());
+            };
+            _server.OnDisconnect += (client) =>
+            {
+                UnityEngine.Debug.LogFormat("连接断开 >> IP:{0}", client.LocalEndPoint.ToString());
+            };
+            _server.OnReceive += (client, data) =>
+            {
+                UnityEngine.Debug.LogFormat("[{0}]接收到数据>>>{1} {2}", client.LocalEndPoint.ToString(), (SocketEvent)data.Type, data.Buff.Length);
+
+                switch ((SocketEvent)data.Type)
+                {
+                    case SocketEvent.test:
+                        UnityEngine.Debug.LogFormat("接收到测试数据 >>> {0}", System.Text.Encoding.UTF8.GetString(data.Data));
+                        break;
+                }
+            };
+        }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             // 踢出连接

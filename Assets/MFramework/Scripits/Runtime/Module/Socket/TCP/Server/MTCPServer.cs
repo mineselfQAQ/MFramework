@@ -72,10 +72,18 @@ namespace MFramework
                 //发送Buff
                 client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
                 {
-                    Socket c = (Socket)asyncSend.AsyncState;
-                    c.EndSend(asyncSend);
-                    MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                    MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, client, dataPack);
+                    try
+                    {
+                        Socket c = (Socket)asyncSend.AsyncState;
+                        c.EndSend(asyncSend);
+                        MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
+                        MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, client, dataPack);
+                    }
+                    catch (SocketException)
+                    {
+                        //发不过去则关闭该客户端的连接
+                        CloseClient(client);
+                    }
                 }), client);
             }
             catch (SocketException)
