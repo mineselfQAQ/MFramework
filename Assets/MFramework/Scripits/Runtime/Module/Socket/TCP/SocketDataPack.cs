@@ -60,7 +60,7 @@ namespace MFramework
         {
             try
             {
-                //暂未获得完整数据(数据至少7bytes(6+1))
+                //拆包情况：暂未获得完整数据(数据至少7bytes(6+1))
                 if (buff.Length < HEAD_LEN) return null;
 
                 byte[] temp = new byte[HEAD_DATA_LEN];
@@ -69,7 +69,7 @@ namespace MFramework
                 //取长度
                 int buffLength = BitConverter.ToInt32(temp, 0);
                 if (buffLength <= 0) return null;
-                if (buffLength > buff.Length) return null;
+                if (buff.Length < buffLength) return null;//拆包情况：已有数据长度不足
                 int dataLength = buffLength - HEAD_LEN;
                 //取报文类型
                 temp = new byte[HEAD_TYPE_LEN];
