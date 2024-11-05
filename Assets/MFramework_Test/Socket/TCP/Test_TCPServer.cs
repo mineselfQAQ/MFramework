@@ -17,7 +17,7 @@ public class Test_TCPServer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            _server = new SocketServer("127.0.0.1", 6854);
+            _server = new MTCPServer("127.0.0.1", 6854);
 
             _server.OnConnect += (client) =>
             {

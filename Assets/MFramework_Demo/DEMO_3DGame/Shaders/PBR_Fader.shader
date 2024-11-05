@@ -43,7 +43,7 @@ Shader "MineselfShader/PBR/Fader"
         [Enum(UnityEngine.Rendering.BlendMode)]_DstBlend("DstBlendMode", Float) = 10
         [Enum(UnityEngine.Rendering.CullMode)]_Cull("CullMode", Float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest", Float) = 4
-        [Enum(Off, 0, On, 1)] _ZWrite ("ZWrite", Float) = 1
+        [Enum(Off, 0, On, 1)] _ZWrite ("ZWrite", Float) = 0
     }
 
     CGINCLUDE
