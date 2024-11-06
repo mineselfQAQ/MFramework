@@ -24,7 +24,7 @@ namespace MFramework
             LOGOTex = AssetDatabase.LoadAssetAtPath<Texture2D>(EditorResourcesPath.LOGOPath);
 
             mCore = (MCore)target;
-
+            
             logStateSP = serializedObject.FindProperty("m_LogState");
             UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
             localStateSP = serializedObject.FindProperty("m_LocalState");
