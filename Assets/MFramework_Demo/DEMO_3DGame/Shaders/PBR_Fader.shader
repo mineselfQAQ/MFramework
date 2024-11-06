@@ -123,7 +123,9 @@ Shader "MineselfShader/PBR/Fader"
                      
         //渐隐效果(根据物体至摄像机距离决定alpha值)
         float dist = distance(_WorldSpaceCameraPos.xyz, i.wPos);
-        float alpha = saturate((dist - _MinDistance) / (_MaxDistance - _MinDistance));
+        float distAlpha = saturate((dist - _MinDistance) / (_MaxDistance - _MinDistance));
+        float baseAlpha = (tex2D(_BaseColorMap, i.uv)).a;
+        float alpha = baseAlpha * distAlpha;
 
         return float4(baseRGB + fresnelRGB, alpha);
     }

@@ -112,7 +112,64 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
-    animationRetargetingWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Lily|_Default':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|AirDive':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Backflip':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Brake':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Lily|ClimbDown':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|ClimbIdle':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|ClimbUp':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|Crawl':\n\tRetargeting quality is good. No significant differences with
+      original animation were found.\n\nRetargeting quality report for clip 'Lily|CrawlIdle':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Crouch':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Lily|Dash':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|Die':\n\tRetargeting quality is good. No significant differences with
+      original animation were found.\n\nRetargeting quality report for clip 'Lily|Fall':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Gliding':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Grind':\n\tRightFoot average orientation error
+      0.5 deg and maximum orientation error 1.3 deg at time 0:27 (45.8%) Frame 27\n\nRetargeting
+      quality report for clip 'Lily|Hold':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Lily|Hurt':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|Idle':\n\tRetargeting quality is good. No significant differences with
+      original animation were found.\n\nRetargeting quality report for clip 'Lily|Jump':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|LedgeClimbing':\n\tRetargeting quality is good.
+      No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|LedgeHangingIdle':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|LedgeHangingMoving':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Run':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Lily|Spin':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|Stomp':\n\tLeftFoot average orientation error 0.4 deg and maximum orientation
+      error 2.4 deg at time 0:21 (72.4%) Frame 21\n\tRightFoot average orientation
+      error 0.4 deg and maximum orientation error 2.4 deg at time 0:21 (72.4%) Frame
+      21\n\nRetargeting quality report for clip 'Lily|Swim':\n\tRetargeting quality
+      is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|SwimIdle':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Lily|Throw':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Lily|Walk':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Lily|WallSlide':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
