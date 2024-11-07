@@ -36,18 +36,18 @@ namespace MFramework
         {
             //Tip:XML文件路径---"项目名/XmlSettings/CORE/XMLBuildSetting.xml"
 
-            MGUIUtility.DrawH2("简易工具");
+            MEditorGUIUtility.DrawH2("简易工具");
             DrawCheckXMLBtn();
             DrawCheckABBtn();
 
             EditorGUILayout.Space(30);
 
-            MGUIUtility.DrawH2("XML生成");
+            MEditorGUIUtility.DrawH2("XML生成");
             DrawXMLGenerator();
 
             EditorGUILayout.Space(10);
 
-            MGUIUtility.DrawH2("构建AB包");
+            MEditorGUIUtility.DrawH2("构建AB包");
             DrawABGenerator();
         }
 

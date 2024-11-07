@@ -32,15 +32,15 @@ namespace MFramework
 
         private void OnGUI()
         {
-            MGUIUtility.DrawH1("本地化生成器");
+            MEditorGUIUtility.DrawH1("本地化生成器");
 
             DrawCheckBtn();
             DrawCreateBtn();
             DrawCSBtn();
             DrawBINBtn();
 
-            MGUIUtility.DrawH2("查询场景中所有的MLocalization");
-            EditorGUILayout.LabelField("Tip:Prefab部分的更改为局部更改，如需全局更改请打开预制体后进行修改", MGUIStyleUtility.ColorStyle(Color.red));
+            MEditorGUIUtility.DrawH2("查询场景中所有的MLocalization");
+            EditorGUILayout.LabelField("Tip:Prefab部分的更改为局部更改，如需全局更改请打开预制体后进行修改", MEditorGUIStyleUtility.ColorStyle(Color.red));
 
             EditorGUILayout.BeginHorizontal();
             {

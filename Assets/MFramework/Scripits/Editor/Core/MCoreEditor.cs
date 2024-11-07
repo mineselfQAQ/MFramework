@@ -13,6 +13,10 @@ namespace MFramework
         private SerializedProperty logStateSP;
         private SerializedProperty UICustomLoadStateSP;
         private SerializedProperty localStateSP;
+        private SerializedProperty performanceStateSP;
+        private SerializedProperty fpsDisplayModeSP;
+        private SerializedProperty fpsSampleDurationSP;
+        private SerializedProperty fpsKeycodeSP;
 
         private MCore mCore;
 
@@ -22,31 +26,45 @@ namespace MFramework
         private void OnEnable()
         {
             LOGOTex = AssetDatabase.LoadAssetAtPath<Texture2D>(EditorResourcesPath.LOGOPath);
-
+            
             mCore = (MCore)target;
             
             logStateSP = serializedObject.FindProperty("m_LogState");
             UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
             localStateSP = serializedObject.FindProperty("m_LocalState");
+            performanceStateSP = serializedObject.FindProperty("m_PerformanceState");
+            fpsDisplayModeSP = serializedObject.FindProperty("m_FPSDisplayMode");
+            fpsSampleDurationSP = serializedObject.FindProperty("m_FPSSampleDuration");
+            fpsKeycodeSP = serializedObject.FindProperty("m_keycode");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            MGUIUtility.DrawTexture(LOGOTex, MGUIStyleUtility.CenterStyle);
+            MEditorGUIUtility.DrawTexture(LOGOTex, MEditorGUIStyleUtility.CenterStyle);
 
-            MGUIUtility.DrawH2("编辑器");
+            MEditorGUIUtility.DrawH2("编辑器");
             DrawEnumPopup(UICustomLoadStateSP, "是否启用UI自定义加载");
-            MGUIUtility.DrawH2("打包");
+            MEditorGUIUtility.DrawH2("打包");
             DrawEnumPopup(logStateSP, "是否输出LOG信息");
-            MGUIUtility.DrawH2("本地化");
+            MEditorGUIUtility.DrawH2("本地化");
             DrawEnumPopup(localStateSP, "是否开启本地化");
+            MEditorGUIUtility.DrawH2("性能检测");
+            bool flag = DrawEnumPopup(performanceStateSP, "是否开启性能检测");
+            if (flag)
+            {
+                EditorGUI.indentLevel++;
+                MEditorControlUtility.DrawPopup<FPSMonitor.DisplayMode>(fpsDisplayModeSP, "FPS显示模式");
+                MEditorControlUtility.DrawFloat(fpsSampleDurationSP, "采样间隔(秒)");
+                MEditorControlUtility.DrawPopup<PerformanceMonitor.PKeycode>(fpsKeycodeSP, "显示/隐藏按键");
+                EditorGUI.indentLevel--;
+            }
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawEnumPopup(SerializedProperty property, string label)
+        private bool DrawEnumPopup(SerializedProperty property, string label)
         {
             BoolEnum currentEnum = property.boolValue ? BoolEnum.ON : BoolEnum.OFF;
             var newEnum = (BoolEnum)EditorGUILayout.EnumPopup(label, currentEnum);
@@ -54,6 +72,8 @@ namespace MFramework
             {
                 property.boolValue = newEnum == BoolEnum.ON;
             }
+
+            return property.boolValue;
         }
     }
 }

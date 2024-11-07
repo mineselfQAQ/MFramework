@@ -62,7 +62,7 @@ namespace MFramework
 
         private void Draw()
         {
-            MGUIUtility.DrawLeftH2("基础设置");
+            MEditorGUIUtility.DrawLeftH2("基础设置");
 
             MEditorControlUtility.DrawProperty(OnStartSP);
             MEditorControlUtility.DrawProperty(audioClipSP);
@@ -75,7 +75,7 @@ namespace MFramework
             MEditorControlUtility.DrawSlider(pitchSP, 0, 3, pitchLabel);
 
             EditorGUILayout.Space(5);
-            MGUIUtility.DrawLeftH2("专项设置");
+            MEditorGUIUtility.DrawLeftH2("专项设置");
 
             var mode = MEditorControlUtility.DrawPopup<AudioSourceMode>(modeSP, modeLabel);
 

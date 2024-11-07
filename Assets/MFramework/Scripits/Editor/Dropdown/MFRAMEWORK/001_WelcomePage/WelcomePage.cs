@@ -24,8 +24,8 @@ public class WelcomePage : EditorWindow
     {
         GUILayout.Space(5);
 
-        MGUIUtility.DrawTexture(LOGOTex, MGUIStyleUtility.CenterStyle);
-        MGUIUtility.DrawH1("欢迎");
+        MEditorGUIUtility.DrawTexture(LOGOTex, MEditorGUIStyleUtility.CenterStyle);
+        MEditorGUIUtility.DrawH1("欢迎");
 
         EditorGUILayout.LabelField("欢迎使用MFramework，目前该框架只能算是各个功能的集合，请见谅");
         EditorGUILayout.LabelField("有以下部分：");

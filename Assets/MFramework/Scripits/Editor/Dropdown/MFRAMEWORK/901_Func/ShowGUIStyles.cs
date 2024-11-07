@@ -38,7 +38,7 @@ namespace MFramework
                 _oldPosition = position;
             }
 
-            MGUIUtility.DrawH2("控件集合");
+            MEditorGUIUtility.DrawH2("控件集合");
             EditorGUILayout.BeginHorizontal();
             {
                 EditorGUILayout.LabelField("搜索：", GUILayout.Width(50));

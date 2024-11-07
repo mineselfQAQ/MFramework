@@ -35,11 +35,11 @@ namespace MFramework
         private void OnGUI()
         {
             //标题Excel编辑器
-            MGUIUtility.DrawH1("Excel编辑器");
+            MEditorGUIUtility.DrawH1("Excel编辑器");
 
             DrawGenerateExcelPart();//生成Excel部分
 
-            EditorGUILayout.LabelField("------------------------------------------", MGUIStyleUtility.BoldStyle);
+            EditorGUILayout.LabelField("------------------------------------------", MEditorGUIStyleUtility.BoldStyle);
 
             DrawGeneratePersistentDataPart();//生成持久化数据部分
 
@@ -102,7 +102,7 @@ namespace MFramework
         #region Excel部分
         private void DrawGenerateExcelPart()
         {
-            MGUIUtility.DrawH2("生成Excel文件");
+            MEditorGUIUtility.DrawH2("生成Excel文件");
 
             if (GUILayout.Button("生成"))
             {
@@ -190,7 +190,7 @@ namespace MFramework
         #region CS/BIN部分
         private void DrawGeneratePersistentDataPart()
         {
-            MGUIUtility.DrawH2("生成持久化数据");
+            MEditorGUIUtility.DrawH2("生成持久化数据");
 
             EditorGUILayout.BeginHorizontal();
             {

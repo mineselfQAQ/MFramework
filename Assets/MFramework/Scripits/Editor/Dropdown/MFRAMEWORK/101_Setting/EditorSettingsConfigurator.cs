@@ -23,10 +23,10 @@ namespace MFramework
         private void OnGUI()
         {
             //==========标题==========
-            MGUIUtility.DrawH1("编辑器配置器");
-            
+            MEditorGUIUtility.DrawH1("编辑器配置器");
+
             //==========Excel==========
-            MGUIUtility.DrawH2("Excel部分");
+            MEditorGUIUtility.DrawH2("Excel部分");
             //TODO:使用下拉列表选择需要显示的部分(Excel部分/Json部分)，并显示相应内容(节省空间)
             scrollPos1 = EditorGUILayout.BeginScrollView(scrollPos1);
             {
@@ -50,7 +50,7 @@ namespace MFramework
 
             EditorGUILayout.Space(5);
 
-            MGUIUtility.DrawH2("Bool值");
+            MEditorGUIUtility.DrawH2("Bool值");
             DrawEnableCheckMCoreExistBool();
 
             EditorGUILayout.Space(5);
@@ -58,7 +58,7 @@ namespace MFramework
 
         private void DrawPathWidget(string title, string path, string originName)
         {
-            EditorGUILayout.LabelField(title, MGUIStyleUtility.BoldStyle);
+            EditorGUILayout.LabelField(title, MEditorGUIStyleUtility.BoldStyle);
             EditorGUILayout.BeginHorizontal();
             {
                 EditorGUILayout.LabelField(path);

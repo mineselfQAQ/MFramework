@@ -3,8 +3,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using TMPro;
-using UnityEditor;
 
 namespace MFramework
 {
@@ -16,6 +14,19 @@ namespace MFramework
         private bool m_UICustomLoadState;//在编辑器版本中启用UI自定义加载
         [SerializeField]
         private bool m_LocalState;//是否启用本地化
+
+        [SerializeField]
+        private bool m_PerformanceState;//是否启用性能检测
+        [SerializeField] private FPSMonitor.DisplayMode m_FPSDisplayMode = FPSMonitor.DisplayMode.FPS;
+        [SerializeField] private float m_FPSSampleDuration = 1.0f;
+        [SerializeField] private PerformanceMonitor.PKeycode m_keycode = PerformanceMonitor.PKeycode.Backspace;
+        //TODO:性能检测需细分(FPS/CPU/GPU/数据检测输出)
+
+        private bool showPerformance = true;
+        private static GUIStyle style24;
+        private static GUIStyle style30;
+
+        private PerformanceMonitor monitor = null;
 
         private List<INeedInit> initList;
         private List<INeedQuit> quitList;
@@ -37,11 +48,18 @@ namespace MFramework
                 var mlm = MLocalizationManager.Instance;
             }
 
+            if (m_PerformanceState)
+            {
+                style24 = MGUIStyleUtility.GetStyle(24);
+                style30 = MGUIStyleUtility.GetStyle(30);
+                monitor = new PerformanceMonitor(m_FPSDisplayMode, m_FPSSampleDuration);
+            }
+
             //TODO:这样反射很耗，考虑其他方案
             initList = GetInterfaceInstanceList<INeedInit>();
             quitList = GetInterfaceInstanceList<INeedQuit>();
 
-            //在主线程设置mainThread
+            //在主线程设置mainThread(Post()才能调回来)
             MainThreadUtility.SetMainThread();
             
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -55,6 +73,18 @@ namespace MFramework
             }
         }
 
+        private void Update()
+        {
+            if (m_PerformanceState && monitor != null)
+            {
+                if (Input.GetKeyDown(PerformanceMonitor.ToKeycode(m_keycode)))
+                {
+                    showPerformance = !showPerformance;
+                }
+                monitor.Update();
+            }
+        }
+
         private void OnApplicationQuit()
         {
             foreach (INeedQuit instance in quitList)
@@ -63,63 +93,19 @@ namespace MFramework
             }
         }
 
-        [SerializeField]
-        TextMeshProUGUI display;
-
-        public enum DisplayMode { FPS, MS }
-
-        [SerializeField]
-        DisplayMode displayMode = DisplayMode.FPS;
-
-        [SerializeField, Range(0.1f, 2f)]
-        float sampleDurations = 0.2f;
-
-        int frames;
-
-        float duration, bestDuration = float.MaxValue, worstDuration;
-        float best = 0, avr = 0, worst = 0;
-
-        void Update()
-        {
-            float frameDuration = Time.unscaledDeltaTime;
-            frames += 1;
-            duration += frameDuration;
-
-            if (frameDuration < bestDuration)
-            {
-                bestDuration = frameDuration;
-            }
-            if (frameDuration > worstDuration)
-            {
-                worstDuration = frameDuration;
-            }
-
-            if (duration >= sampleDurations)
-            {
-                if (displayMode == DisplayMode.FPS)
-                {
-                    best = 1f / bestDuration;
-                    avr = frames / duration;
-                    worst = 1f / worstDuration;
-                }
-                else
-                {
-                    best = 1000f * bestDuration;
-                    avr = 1000f * duration / frames;
-                    worst = 1000f * worstDuration;
-                }
-                frames = 0;
-                duration = 0f;
-                bestDuration = float.MaxValue;
-                worstDuration = 0f;
-            }
-        }
         private void OnGUI()
         {
-            GUI.Label(new Rect(10, 10, 200, 30), "FPS");
-            GUI.Label(new Rect(10, 50, 200, 30), string.Format("Average:{0:0}", avr));
-            GUI.Label(new Rect(10, 100, 200, 30), string.Format("Best:{0:0}", best));
-            GUI.Label(new Rect(10, 150, 200, 30), string.Format("Worst:{0:0}", worst));
+            if (m_PerformanceState && monitor != null && showPerformance)
+            {
+                if (monitor.CheckFPS)
+                {
+                    monitor.FPSResult(out float best, out float average, out float worst);
+                    GUI.Label(new Rect(10, 10, 200, 30), "FPS", style30);
+                    GUI.Label(new Rect(10, 50, 200, 30), string.Format("Average:{0:0}", average), style24);
+                    GUI.Label(new Rect(10, 80, 200, 30), string.Format("Best:{0:0}", best), style24);
+                    GUI.Label(new Rect(10, 110, 200, 30), string.Format("Worst:{0:0}", worst), style24);
+                }
+            }
         }
 
         /// <summary>
