@@ -324,6 +324,10 @@ MonoBehaviour:
   m_LogState: 0
   m_UICustomLoadState: 0
   m_LocalState: 0
+  m_PerformanceState: 0
+  m_FPSDisplayMode: 0
+  m_FPSSampleDuration: 1
+  m_keycode: 2
 --- !u!4 &595022156
 Transform:
   m_ObjectHideFlags: 0
@@ -707,6 +711,26 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3035903071965898633, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_FadeMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271948124709840468, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_FadeMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271948124709840468, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_AnimateCrossFading
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271948124709840468, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_LODs.Array.data[0].fadeTransitionWidth
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271948124709840468, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.06309229
+      objectReference: {fileID: 0}
     - target: {fileID: 3283375983125584333, guid: 184fb6a2041a825419208168b788104f, type: 3}
       propertyPath: m_Name
       value: '#SCENE#'
@@ -903,6 +927,10 @@ PrefabInstance:
       propertyPath: m_text
       value: XXX
       objectReference: {fileID: 0}
+    - target: {fileID: 8817405913085718202, guid: 184fb6a2041a825419208168b788104f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9929cc3a757972741a54f49eb722b76c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
