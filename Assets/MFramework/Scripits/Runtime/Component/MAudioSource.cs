@@ -53,27 +53,36 @@ namespace MFramework
 
         protected AudioSource audioSource;
 
-        protected bool trigger;
+        protected float maxVolume;
+
+        protected bool trigger = true;
+        protected bool hasFadeIn => fadeInTime != 0;
+        protected bool hasFadeOut => fadeOutTime != 0;
 
         protected virtual void Awake()
         {
+#if UNITY_EDITOR
+            hideFlags = HideFlags.NotEditable;
+#endif
+            maxVolume = volume;
+
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.clip = audioClip;
             audioSource.outputAudioMixerGroup = audioMixerGroup;
             audioSource.mute = mute;
             audioSource.playOnAwake = false;
-            audioSource.loop = loop;
+            //audioSource.loop = loop;//手动loop，防止渐入渐出问题
             audioSource.priority = priority;
             audioSource.volume = volume;
             audioSource.pitch = pitch;
 
-            if (fadeInOut && fadeInTime + fadeOutTime > audioClip.length) 
+            if (fadeInOut && fadeInTime + fadeOutTime >= audioClip.length) 
             {
                 MLog.Print($"{typeof(MAudioSource)}：{name}的AudioClip时长不足{fadeInTime + fadeOutTime}秒，无法渐入渐出", MLogType.Warning);
                 fadeInOut = false;
             }
 
-            if (playOnAwake)
+            if (playOnAwake && !loop)//loop单独处理，否则影响逻辑
             {
                 audioSource.Play();
             }
@@ -88,41 +97,7 @@ namespace MFramework
 
         protected virtual void Update()
         {
-            if (fadeInOut)
-            {
-                if (fadeInTime > 0 && audioSource.time <= fadeInTime - 0.1f)//[0, fadeInTime - 0.1f]---0.1为余量，防止再次进行
-                {
-                    if (!trigger)
-                    {
-                        trigger = true;
-                        float max = volume;//[0,1]
-                        //渐入
-                        MTween.UnscaledDoTween01NoRecord((f) =>
-                        {
-                            audioSource.volume = f * max;
-                        }, MCurve.Linear, fadeInTime, () => 
-                        {
-                            trigger = false;
-                        });
-                    }
-                }
-                else if (fadeOutTime > 0 && audioSource.time >= audioClip.length - fadeOutTime)//[audioClip.length - fadeOutTime, audioClip.length]
-                {
-                    if (!trigger)
-                    {
-                        trigger = true;
-                        float max = volume;//[0,1]
-                        //渐出
-                        MTween.UnscaledDoTween01NoRecord((f) =>
-                        {
-                            audioSource.volume = 1 - (f * max);
-                        }, MCurve.Linear, fadeOutTime, () =>
-                        {
-                            trigger = false;
-                        });
-                    }
-                }
-            }
+            LoopPlay();
         }
 
         public void PlayOneShot(AudioClip clip)
@@ -130,6 +105,47 @@ namespace MFramework
             if (audioSource)
             {
                 audioSource.PlayOneShot(clip);
+            }
+        }
+
+        private void LoopPlay()
+        {
+            if (loop)
+            {
+                if (fadeInOut)//循环+淡入淡出情况
+                {
+                    if (!audioSource.isPlaying && trigger)
+                    {
+                        audioSource.volume = 0;
+                        audioSource.Play();
+
+                        if (hasFadeIn)//渐入
+                        {
+                            MTween.UnscaledDoTween01NoRecord((f) =>
+                            {
+                                audioSource.volume = f * maxVolume;
+                            }, MCurve.Linear, fadeInTime);
+                        }
+                        if (hasFadeOut)//渐出
+                        {
+                            MCoroutineManager.Instance.DelayNoRecord(() =>
+                            {
+                                MTween.UnscaledDoTween01NoRecord((f) =>
+                                {
+                                    audioSource.volume = 1 - (f * maxVolume);
+                                    trigger = false;
+                                }, MCurve.Linear, fadeOutTime, () => { trigger = true; });
+                            }, audioClip.length - fadeOutTime);
+                        }
+                    }
+                }
+                else//循环情况
+                {
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.Play();
+                    }
+                }
             }
         }
     }

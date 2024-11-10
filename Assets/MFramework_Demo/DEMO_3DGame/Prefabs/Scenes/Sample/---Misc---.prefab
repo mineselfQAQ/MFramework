@@ -1462,6 +1462,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5683573475799270593}
     m_Modifications:
+    - target: {fileID: 8810821321707985376, guid: 2433e0db3dca587499fb1a44d1f1151e, type: 3}
+      propertyPath: text
+      value: "1234567890\nabcdefghijk\nABCDEFGHIJK\n\u4F60\u597D\u4F60\u597D\u4F60\u597D"
+      objectReference: {fileID: 0}
     - target: {fileID: 1644888319661550700, guid: 5c9af90e6995e6a48802bc94ef2ce118, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5
@@ -1513,10 +1517,6 @@ PrefabInstance:
         abcdefg
 
         123456'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8810821321707985376, guid: 2433e0db3dca587499fb1a44d1f1151e, type: 3}
-      propertyPath: text
-      value: "1234567890\nabcdefghijk\nABCDEFGHIJK\n\u4F60\u597D\u4F60\u597D\u4F60\u597D"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

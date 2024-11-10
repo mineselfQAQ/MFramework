@@ -155,6 +155,10 @@ MonoBehaviour:
   m_LogState: 1
   m_UICustomLoadState: 1
   m_LocalState: 1
+  m_PerformanceState: 1
+  m_FPSDisplayMode: 0
+  m_FPSSampleDuration: 1
+  m_keycode: 2
 --- !u!4 &397451010
 Transform:
   m_ObjectHideFlags: 0
@@ -1201,7 +1205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: index
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538381453973606980, guid: b6b3434b0a588d247abed359167815f4, type: 3}
       propertyPath: fileURL

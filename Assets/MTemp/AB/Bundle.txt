@@ -190,10 +190,20 @@ assets/mframework_demo/demo_3dgame/materials/common/colormapb.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapB.mat
 assets/mframework_demo/demo_3dgame/materials/common/colormapc.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapC.mat
+assets/mframework_demo/demo_3dgame/materials/common/colormapc_lodfade.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Common/ColormapC_Lodfade.mat
 assets/mframework_demo/demo_3dgame/materials/entites/blueslime.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/BlueSlime.mat
 assets/mframework_demo/demo_3dgame/materials/entites/greenslime.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/GreenSlime.mat
+assets/mframework_demo/demo_3dgame/materials/entites/knightbody_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/KnightBody_Fader.mat
+assets/mframework_demo/demo_3dgame/materials/entites/knighteye_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/KnightEye_Fader.mat
+assets/mframework_demo/demo_3dgame/materials/entites/knightface_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/KnightFace_Fader.mat
+assets/mframework_demo/demo_3dgame/materials/entites/knighthead_fader.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/KnightHead_Fader.mat
 assets/mframework_demo/demo_3dgame/materials/entites/player_fader.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Materials/Entites/Player_Fader.mat
 assets/mframework_demo/demo_3dgame/materials/entites/redslime.mat.ab
@@ -302,10 +312,10 @@ assets/mframework_demo/demo_3dgame/meshes/heart.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Heart.fbx
 assets/mframework_demo/demo_3dgame/meshes/itemcube.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/ItemCube.fbx
-assets/mframework_demo/demo_3dgame/meshes/lilyhead.fbx.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Meshes/LilyHead.fbx
 assets/mframework_demo/demo_3dgame/meshes/log.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Log.fbx
+assets/mframework_demo/demo_3dgame/meshes/m05.fbx.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/M05.fbx
 assets/mframework_demo/demo_3dgame/meshes/player.fbx.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Player.fbx
 assets/mframework_demo/demo_3dgame/meshes/roundcube.fbx.ab
@@ -412,8 +422,10 @@ assets/mframework_demo/demo_3dgame/prefabs/entities/npcslime.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/NPCSlime.prefab
 assets/mframework_demo/demo_3dgame/prefabs/entities/patrolslime.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/PatrolSlime.prefab
-assets/mframework_demo/demo_3dgame/prefabs/entities/player.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/Player.prefab
+assets/mframework_demo/demo_3dgame/prefabs/entities/player_knight.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/Player_Knight.prefab
+assets/mframework_demo/demo_3dgame/prefabs/entities/player_lily.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/Player_Lily.prefab
 assets/mframework_demo/demo_3dgame/prefabs/entities/waypointslime.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Entities/WaypointSlime.prefab
 assets/mframework_demo/demo_3dgame/prefabs/items/board.prefab.ab
@@ -606,6 +618,8 @@ assets/mframework_demo/demo_3dgame/settings/titlescreen.playable.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/TitleScreen.playable
 assets/mframework_demo/demo_3dgame/settings/waterpostprocessing.asset.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Settings/WaterPostProcessing.asset
+assets/mframework_demo/demo_3dgame/shaders/mstandard.shader.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Shaders/MStandard.shader
 assets/mframework_demo/demo_3dgame/shaders/pbr_fader.shader.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Shaders/PBR_Fader.shader
 assets/mframework_demo/demo_3dgame/shaders/pbr_mr.shader.ab
@@ -706,12 +720,18 @@ assets/mframework_demo/demo_3dgame/textures/items.ab
 assets/mframework_demo/demo_3dgame/textures/noise.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Noise/Noise.png
 assets/mframework_demo/demo_3dgame/textures/particles.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Fire.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/fire.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Leaf.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Portal.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Ring.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Smoke.png
-	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/Star.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/portal.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/ring.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/smoke.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Particles/star.png
+assets/mframework_demo/demo_3dgame/textures/entities/knight.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Knight/Knight_Face1.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Knight/Knight_Face2.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Knight/Knight_Hair.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Knight/Knight_M05.png
+	Assets/MFramework_Demo/DEMO_3DGame/Textures/Entities/Knight/Knight_Skin.png
 assets/mframework_demo/demo_3dgame/textures/prototype/dark.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_01.png
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Prototype/Dark/texture_02.png
@@ -801,6 +821,8 @@ assets/textmesh pro/shaders.ab
 assets/mframework_demo/demo_3dgame/textures/projectors.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Falloff.psd
 	Assets/MFramework_Demo/DEMO_3DGame/Textures/Projectors/Shadow.psd
+assets/mframework_demo/demo_3dgame/meshes/kenny/materials/colormap.mat.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Kenny/Materials/colormap.mat
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab

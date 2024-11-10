@@ -39,12 +39,9 @@ namespace MFramework
             fpsMonitor.Update();
         }
 
-        public void FPSResult(out float best, out float average, out float worst)
+        public void Draw()
         {
-            ((FPSMonitor)fpsMonitor).GetCurPerformance(out float B, out float A, out float W);
-            best = B;
-            average = A;
-            worst = W;
+            if (CheckFPS) fpsMonitor.Draw();
         }
     }
 }

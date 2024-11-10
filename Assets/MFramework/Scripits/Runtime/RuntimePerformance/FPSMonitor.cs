@@ -55,7 +55,41 @@ namespace MFramework
             }
         }
 
-        public void GetCurPerformance(out float best, out float average, out float worst)
+        public void Draw()
+        {
+            GetCurPerformance(out float best, out float average, out float worst);
+
+            var style24 = MGUIStyleUtility.GetStyle(24);
+            var style30 = MGUIStyleUtility.GetStyle(30);
+
+            //最大帧率
+            int maxFrameRate = Application.targetFrameRate;
+            int vSync = QualitySettings.vSyncCount;
+            string maxStr = null;
+            if (vSync == 0)//关闭
+            {
+                maxStr = maxFrameRate == -1 ? "Inf" : maxFrameRate.ToString();
+            }
+            else//开启
+            {
+                maxStr = ((int)(Screen.currentResolution.refreshRateRatio.value / vSync)).ToString();
+            }
+
+            //TODO:添加改位置功能(关键是各个Monitor的组合)
+            //左上
+            //GUI.Label(new Rect(10, 10, 200, 30), "FPS", style30);
+            //GUI.Label(new Rect(10, 50, 200, 30), string.Format("Average:{0:0}", average), style24);
+            //GUI.Label(new Rect(10, 80, 200, 30), string.Format("Best:{0:0}", best), style24);
+            //GUI.Label(new Rect(10, 110, 200, 30), string.Format("Worst:{0:0}", worst), style24);
+            //左下
+            int bottom = Screen.height - 24;//24：字体高度
+            GUI.Label(new Rect(10, bottom - 110, 200, 30), $"FPS(Max: {maxStr})", style30);
+            GUI.Label(new Rect(10, bottom - 70, 200, 30), string.Format("Average:{0:0}", average), style24);
+            GUI.Label(new Rect(10, bottom - 40, 200, 30), string.Format("Best:{0:0}", best), style24);
+            GUI.Label(new Rect(10, bottom - 10, 200, 30), string.Format("Worst:{0:0}", worst), style24);
+        }
+
+        private void GetCurPerformance(out float best, out float average, out float worst)
         {
             best = B;
             average = A;

@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class MGUIStyleUtility
+    public static class MGUIStyleUtility
     {
+        private static Dictionary<int, GUIStyle> styleDic = new Dictionary<int, GUIStyle>();
+
         public static GUIStyle GetStyle(int fontSize, Color? color = null)
         {
+            if(styleDic.ContainsKey(fontSize)) return styleDic[fontSize];
+
             Color c = color ?? Color.red;
             return CreateStyle(fontSize, c, FontStyle.Bold, TextAnchor.UpperLeft);
         }

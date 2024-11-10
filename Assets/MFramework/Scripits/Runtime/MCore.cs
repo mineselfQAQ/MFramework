@@ -23,8 +23,6 @@ namespace MFramework
         //TODO:性能检测需细分(FPS/CPU/GPU/数据检测输出)
 
         private bool showPerformance = true;
-        private static GUIStyle style24;
-        private static GUIStyle style30;
 
         private PerformanceMonitor monitor = null;
 
@@ -33,49 +31,86 @@ namespace MFramework
 
         public bool LogState => m_LogState;
         public bool UICustomLoadState => m_UICustomLoadState;
+        public bool LocalState => m_LocalState;
+        public bool PerformanceState => m_PerformanceState;
 
         protected override void Awake()
         {
             base.Awake();
             if (this == null) return;//物体已被删除(因为已存在)
-
             DontDestroyOnLoad(gameObject);
 
-            //触发静态构造函数，使单例提前激活
-            var bem = BuiltInEventManager.Instance;
-            if (m_LocalState)
-            {
-                var mlm = MLocalizationManager.Instance;
-            }
+            InitializeMonoSingleton();
+            InitializeMonitor();
+            InitializeInterface();
+            InitializeVSync(600);//TODO:不同平台不同设置，公开参数
 
-            if (m_PerformanceState)
-            {
-                style24 = MGUIStyleUtility.GetStyle(24);
-                style30 = MGUIStyleUtility.GetStyle(30);
-                monitor = new PerformanceMonitor(m_FPSDisplayMode, m_FPSSampleDuration);
-            }
-
-            //TODO:这样反射很耗，考虑其他方案
-            initList = GetInterfaceInstanceList<INeedInit>();
-            quitList = GetInterfaceInstanceList<INeedQuit>();
-
-            //在主线程设置mainThread(Post()才能调回来)
-            MainThreadUtility.SetMainThread();
-            
+            MainThreadUtility.SetMainThread();//在主线程设置mainThread(Post()才能调回来)
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void Start()
         {
-            foreach (INeedInit instance in initList)
-            {
-                instance.Init();
-            }
+            DoInit();
         }
 
         private void Update()
         {
-            if (m_PerformanceState && monitor != null)
+            HandleMonitor();
+        }
+
+        private void OnApplicationQuit()
+        {
+            DoQuit();
+        }
+
+        private void OnGUI()
+        {
+            DrawMonitor();
+        }
+
+        /// <summary>
+        /// 对MonoSingleton触发静态构造函数(使单例提前激活)
+        /// </summary>
+        private void InitializeMonoSingleton()
+        {
+            var bem = BuiltInEventManager.Instance;
+            if (LocalState)
+            {
+                var mlm = MLocalizationManager.Instance;
+            }
+        }
+        /// <summary>
+        /// 初始化性能检测器
+        /// </summary>
+        private void InitializeMonitor()
+        {
+            if (PerformanceState)
+            {
+                monitor = new PerformanceMonitor(m_FPSDisplayMode, m_FPSSampleDuration);
+            }
+        }
+        /// <summary>
+        /// 获取需要初始化或退出的列表
+        /// </summary>
+        private void InitializeInterface()
+        {
+            //TODO:这样反射很耗，考虑其他方案
+            initList = GetInterfaceInstanceList<INeedInit>();
+            quitList = GetInterfaceInstanceList<INeedQuit>();
+        }
+        private void InitializeVSync(int maxFrameRate)
+        {
+            int vSyncLevel = QualitySettings.vSyncCount;
+            QualitySettings.vSyncCount = 0;//关闭垂直同步
+            if (vSyncLevel != 0) MLog.Print($"{typeof(MCore)}：垂直同步：开启--->关闭");
+
+            Application.targetFrameRate = maxFrameRate;
+        }
+
+        private void HandleMonitor()
+        {
+            if (PerformanceState && monitor != null)
             {
                 if (Input.GetKeyDown(PerformanceMonitor.ToKeycode(m_keycode)))
                 {
@@ -85,7 +120,14 @@ namespace MFramework
             }
         }
 
-        private void OnApplicationQuit()
+        private void DoInit()
+        {
+            foreach (INeedInit instance in initList)
+            {
+                instance.Init();
+            }
+        }
+        private void DoQuit()
         {
             foreach (INeedQuit instance in quitList)
             {
@@ -93,18 +135,11 @@ namespace MFramework
             }
         }
 
-        private void OnGUI()
+        private void DrawMonitor()
         {
-            if (m_PerformanceState && monitor != null && showPerformance)
+            if (PerformanceState && monitor != null && showPerformance)
             {
-                if (monitor.CheckFPS)
-                {
-                    monitor.FPSResult(out float best, out float average, out float worst);
-                    GUI.Label(new Rect(10, 10, 200, 30), "FPS", style30);
-                    GUI.Label(new Rect(10, 50, 200, 30), string.Format("Average:{0:0}", average), style24);
-                    GUI.Label(new Rect(10, 80, 200, 30), string.Format("Best:{0:0}", best), style24);
-                    GUI.Label(new Rect(10, 110, 200, 30), string.Format("Worst:{0:0}", worst), style24);
-                }
+                monitor.Draw();
             }
         }
 
