@@ -472,10 +472,8 @@ assets/mframework_demo/demo_3dgame/prefabs/level1/flower.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Flower.prefab
 assets/mframework_demo/demo_3dgame/prefabs/level1/flower2.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Flower2.prefab
-assets/mframework_demo/demo_3dgame/prefabs/level1/grass 1.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass 1.prefab
-assets/mframework_demo/demo_3dgame/prefabs/level1/grass2.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass2.prefab
+assets/mframework_demo/demo_3dgame/prefabs/level1/grass.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/Grass.prefab
 assets/mframework_demo/demo_3dgame/prefabs/level1/grassplatform.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Level1/GrassPlatform.prefab
 assets/mframework_demo/demo_3dgame/prefabs/level1/longlog.prefab.ab

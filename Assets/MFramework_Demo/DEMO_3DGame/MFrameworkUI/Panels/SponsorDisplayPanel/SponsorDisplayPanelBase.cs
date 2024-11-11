@@ -11,7 +11,6 @@ public class SponsorDisplayPanelBase : UIPanel
     protected override void OnBindCompsAndEvents()
     {
         
-        
     }
 
     protected override void OnUnbindCompsAndEvents()
