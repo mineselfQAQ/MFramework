@@ -1,25 +1,27 @@
 using MFramework;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Test1 : MonoBehaviourPls
+public class Test1 : MonoBehaviour
 {
-    protected override void Awake00()
+    protected void Awake()
     {
-        Debug.Log("00");
-    }
-
-    protected override void Awake01()
-    {
-        Debug.Log("01");
-    }
-
-    protected override void Awake02()
-    {
-        Debug.Log("02");
+        A a = new A();
+        A a2 = a;
+        Debug.Log(a.Equals(a2));
     }
 
     private void Update()
     {
 
+    }
+
+    public class A
+    {
+        public A()
+        {
+            Debug.Log("A");
+        }
     }
 }
