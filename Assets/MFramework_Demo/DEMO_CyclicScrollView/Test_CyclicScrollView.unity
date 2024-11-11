@@ -248,10 +248,10 @@ RectTransform:
   - {fileID: 1558310243}
   m_Father: {fileID: 1293293840}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 620, y: 1080}
+  m_SizeDelta: {x: 620, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &438926854
 MonoBehaviour:
@@ -619,7 +619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &796607799
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1086,6 +1086,10 @@ MonoBehaviour:
   m_LogState: 0
   m_UICustomLoadState: 0
   m_LocalState: 0
+  m_PerformanceState: 0
+  m_FPSDisplayMode: 0
+  m_FPSSampleDuration: 1
+  m_keycode: 2
 --- !u!4 &2123777596
 Transform:
   m_ObjectHideFlags: 0

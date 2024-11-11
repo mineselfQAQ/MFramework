@@ -120,13 +120,15 @@ namespace MFramework
 
             if (direction == MScrollViewDirection.Vertical)
             {
-                float max = content.sizeDelta.y - viewRange.sizeDelta.y;
+                //float max = content.sizeDelta.y - viewRange.sizeDelta.y;
+                float max = content.sizeDelta.y - viewRange.rect.height;
                 if (max < 0) return;
                 content.anchoredPosition = new Vector2(content.anchoredPosition.x, max * x);
             }
             else if (direction == MScrollViewDirection.Horizontal)
             {
-                float max = content.sizeDelta.x - viewRange.sizeDelta.x;
+                //float max = content.sizeDelta.x - viewRange.sizeDelta.x;
+                float max = content.sizeDelta.x - viewRange.rect.width;
                 if (max < 0) return;
                 content.anchoredPosition = new Vector2(-max * x, content.anchoredPosition.y);
             }
@@ -143,7 +145,8 @@ namespace MFramework
             //Tip："最大行数"并非最后一行，而是当该行置顶时，正好显示完所有元素
             if (direction == MScrollViewDirection.Vertical)
             {
-                int viewRangeMax = (int)(viewRange.sizeDelta.y / ItemSize.y) + 1;
+                //int viewRangeMax = (int)(viewRange.sizeDelta.y / ItemSize.y) + 1;
+                int viewRangeMax = (int)(viewRange.rect.height / ItemSize.y) + 1;
                 int max = ItemCount - viewRangeMax + 1;
                 if (max <= 0) return;
                 count = Mathf.Clamp(count, 0, max);//限制到最大行/列
@@ -151,7 +154,8 @@ namespace MFramework
             }
             else if (direction == MScrollViewDirection.Horizontal)
             {
-                int viewRangeMax = (int)(viewRange.sizeDelta.x / ItemSize.x) + 1;
+                //int viewRangeMax = (int)(viewRange.sizeDelta.x / ItemSize.x) + 1;
+                int viewRangeMax = (int)(viewRange.rect.width / ItemSize.x) + 1;
                 int max = ItemCount - viewRangeMax + 1;
                 if (max <= 0) return;
                 count = Mathf.Clamp(count, 0, max);//限制到最大行/列
@@ -322,7 +326,9 @@ namespace MFramework
         private void RefreshAllCellInViewRange()
         {
             int itemCount = ItemCount;//行数
-            Vector2 viewRangeSize = viewRange.sizeDelta;//区域大小
+            //Vector2 viewRangeSize = viewRange.sizeDelta;//区域大小
+            //注意：sizeDelta不适用于拉伸模式，所以只能用rect获取长宽
+            Vector2 viewRangeSize = new Vector2(viewRange.rect.width, viewRange.rect.height);//区域大小
             Vector2 itemSize = ItemSize;//Cell大小(完整)
             Vector2 cellSize = CellSize;//Cell大小(去除间隔)
             Vector2 cellSpace = this.cellSpace;//间隔
@@ -565,7 +571,8 @@ namespace MFramework
         private bool UnderViewRange(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.y <= -viewRange.sizeDelta.y;
+            //return relativePos.y <= -viewRange.sizeDelta.y;
+            return relativePos.y <= -viewRange.rect.height;
         }
         private bool InViewRangeLeft(Vector2 position)
         {
@@ -575,7 +582,8 @@ namespace MFramework
         private bool InViewRangeRight(Vector2 position)
         {
             Vector2 relativePos = CaculateRelativePostion(position);
-            return relativePos.x >= viewRange.sizeDelta.x;
+            //return relativePos.x >= viewRange.sizeDelta.x;
+            return relativePos.x >= viewRange.rect.width;
         }
         private bool OnViewRange(Vector2 position)
         {

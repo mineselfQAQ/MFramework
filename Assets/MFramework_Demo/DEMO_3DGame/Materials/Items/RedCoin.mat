@@ -10,7 +10,7 @@ Material:
   m_Name: RedCoin
   m_Shader: {fileID: 4800000, guid: 5a74dd14f98013040987e4ebdb7a2e61, type: 3}
   m_Parent: {fileID: 2100000, guid: efc2ff09e08ca7543a7ff11cd9dc8d48, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_ModifiedSerializedProperties: 4
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
