@@ -195,5 +195,6 @@ Shader "MineselfShader/PBR/Fader"
             ENDCG
         }
     }
-    Fallback "Diffuse"
+    //不投射阴影，使用Projector进行投射
+    //Fallback "Diffuse"
 }
