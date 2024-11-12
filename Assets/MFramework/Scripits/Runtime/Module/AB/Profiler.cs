@@ -14,7 +14,7 @@ namespace MFramework
         private static readonly StringBuilder ms_StringBuilder = new StringBuilder();//输出字符串
         private static readonly List<Profiler> ms_Stack = new List<Profiler>();//遍历容器
 
-        private List<Profiler> m_children;//子Profiler
+        private List<Profiler> m_children;//子Profiler(组合模式)
         private string m_Name;//名字
         private int m_Level;//层级
         private long m_Timestamp;//时间戳
