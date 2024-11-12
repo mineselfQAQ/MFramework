@@ -1,27 +1,20 @@
-using MFramework;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 public class Test1 : MonoBehaviour
 {
+    public Transform trans;
+    private Rigidbody body;
+
     protected void Awake()
     {
-        A a = new A();
-        A a2 = a;
-        Debug.Log(a.Equals(a2));
+        var playerLoop = PlayerLoop.GetDefaultPlayerLoop();
+
+        body = trans.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-
-    }
-
-    public class A
-    {
-        public A()
-        {
-            Debug.Log("A");
-        }
+        trans.position = new Vector3(trans.position.x + Time.deltaTime, trans.position.y, trans.position.z);
     }
 }
