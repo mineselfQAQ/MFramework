@@ -139,6 +139,8 @@ namespace MFramework
 
                 string resPath = buildSetting.buildRoot;
                 resPath = Path.GetFullPath(resPath).ReplaceSlash();
+                //特殊处理{ProjectName}
+                resPath = resPath.Replace("{ProjectName}", Application.productName);
                 if (!Directory.Exists(resPath))
                 {
                     MLog.Print($"根据ABBuildSetting.xml中的BuildRoot获得的路径<{resPath}>不正确，请检查");
