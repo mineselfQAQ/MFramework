@@ -17,10 +17,10 @@ namespace MFramework
         [MenuItem("MFramework/BuildAB _F9", priority = 222)]
         public static async void Build()
         {
-            bool flag = await Builder.SwitchPlatform();
+            bool flag = await ABBuilder.SwitchPlatform();
             if (!flag) return;
 
-            Builder.BuildInternal();
+            ABBuilder.BuildInternal();
         }
 
         [MenuItem("MFramework/ABGenerator", priority = 221)]
@@ -100,7 +100,7 @@ namespace MFramework
 
             if (GUILayout.Button("¹¹½¨"))
             {
-                Builder.BuildInternal();
+                ABBuilder.BuildInternal();
                 AssetDatabase.Refresh();
             }
         }

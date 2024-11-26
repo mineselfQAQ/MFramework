@@ -80,7 +80,7 @@ namespace MFramework
         /// <returns></returns>
         internal HashSet<string> FileCollect()
         {
-            float min = Builder.ms_Progress[0].x, max = Builder.ms_Progress[0].y;//[0,0.2]
+            float min = ABBuilder.ms_Progress[0].x, max = ABBuilder.ms_Progress[0].y;//[0,0.2]
 
             EditorUtility.DisplayProgressBar($"{nameof(FileCollect)}", "搜集打包资源", min);
 
@@ -183,13 +183,13 @@ namespace MFramework
                     {
                         name = buildItem.assetPath.Substring(0, buildItem.assetPath.Length - 1);
                     }
-                    name = $"{name}{Builder.BUNDLE_SUFFIX}".ToLowerInvariant();
+                    name = $"{name}{ABBuilder.BUNDLE_SUFFIX}".ToLowerInvariant();
                     break;
                 case BundleType.Directory:
-                    name = $"{assetUrl.Substring(0, assetUrl.LastIndexOf('/'))}{Builder.BUNDLE_SUFFIX}".ToLowerInvariant();
+                    name = $"{assetUrl.Substring(0, assetUrl.LastIndexOf('/'))}{ABBuilder.BUNDLE_SUFFIX}".ToLowerInvariant();
                     break;
                 case BundleType.File:
-                    name = $"{assetUrl}{Builder.BUNDLE_SUFFIX}".ToLowerInvariant();
+                    name = $"{assetUrl}{ABBuilder.BUNDLE_SUFFIX}".ToLowerInvariant();
                     break;
                 default:
                     MLog.Print($"{typeof(BuildSetting)}：无法获取{assetUrl}的BundleName", MLogType.Error);

@@ -15,7 +15,7 @@ public class BuildABWhenBuild
 #else
         EditorDelayExecute.Instance.DelayDo(() =>
         {
-            Builder.Build_Windows(pathToBuiltProject);
+            ABBuilder.Build_Windows(pathToBuiltProject);
         });
 #endif
     }

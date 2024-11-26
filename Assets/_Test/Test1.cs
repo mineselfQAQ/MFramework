@@ -3,18 +3,17 @@ using UnityEngine.LowLevel;
 
 public class Test1 : MonoBehaviour
 {
-    public Transform trans;
-    private Rigidbody body;
+    public RectTransform trans;
 
     protected void Awake()
     {
-        var playerLoop = PlayerLoop.GetDefaultPlayerLoop();
-
-        body = trans.GetComponent<Rigidbody>();
+        Debug.Log(trans.anchoredPosition);
+        Debug.Log(trans.offsetMin);
+        Debug.Log(trans.offsetMax);
     }
 
     private void Update()
     {
-        trans.position = new Vector3(trans.position.x + Time.deltaTime, trans.position.y, trans.position.z);
+
     }
 }
