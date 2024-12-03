@@ -36,7 +36,6 @@ public class Test_Decorator : MonoBehaviour
         {
             base.Draw();
             SetRedBorder(decoratedShape);
-
         }
 
         private void SetRedBorder(Shape decoratedShape)

@@ -96,4 +96,34 @@ public class Test_AbstractFactoryPattern : MonoBehaviour
             return new MaleDog();
         }
     }
+
+    //public interface AnimalFactory
+    //{
+    //    Animal CreateFemale();
+    //    Animal CreateMale();
+    //}
+    //public class CatFactory : AnimalFactory
+    //{
+    //    public Animal CreateFemale()
+    //    {
+    //        return new FemaleCat();
+    //    }
+
+    //    public Animal CreateMale()
+    //    {
+    //        return new MaleCat();
+    //    }
+    //}
+    //public class DogFactory : AnimalFactory
+    //{
+    //    public Animal CreateFemale()
+    //    {
+    //        return new FemaleDog();
+    //    }
+
+    //    public Animal CreateMale()
+    //    {
+    //        return new MaleDog();
+    //    }
+    //}
 }

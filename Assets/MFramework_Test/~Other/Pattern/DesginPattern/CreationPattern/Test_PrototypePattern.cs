@@ -33,6 +33,8 @@ public class Test_PrototypePattern : MonoBehaviour
 
             Square square = new Square(5);
             shapeDic.Add(2, square);
+
+            //完全可以再存一个Circle(8)
         }
     }
 
@@ -58,6 +60,7 @@ public class Test_PrototypePattern : MonoBehaviour
 
         public override object Clone()
         {
+            //可以发现Clone的内容有原型，继承了radius
             Circle circle = new Circle(radius);
             return circle;
         }
@@ -78,6 +81,7 @@ public class Test_PrototypePattern : MonoBehaviour
 
         public override object Clone()
         {
+            //可以发现Clone的内容有原型，继承了side
             Square square = new Square(side);
             return square;
         }
