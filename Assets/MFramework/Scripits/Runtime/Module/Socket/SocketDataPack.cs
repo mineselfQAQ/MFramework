@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace MFramework
 {
@@ -86,6 +87,11 @@ namespace MFramework
             {
                 return null;
             }
+        }
+
+        public override string ToString()
+        {
+            return Encoding.UTF8.GetString(Data);
         }
     }
 }
