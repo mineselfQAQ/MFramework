@@ -2,6 +2,8 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 using Codice.Client.BaseCommands;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -9,6 +11,8 @@ namespace MFramework
     {
         public string IP;//服务器IP
         public int Port;//服务器Port
+
+        public bool isConnect;
 
         private Socket _client;
         private EndPoint _endPoint;//服务器地址
@@ -22,6 +26,8 @@ namespace MFramework
             _endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
 
             _client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+            isConnect = false;
         }
 
         public void Connect()
@@ -36,14 +42,13 @@ namespace MFramework
                 throw new Exception("绑定失败");
             }
             //向服务器发送验证
-            byte[] array = new byte[1] { 1 };
-            //TODO:改成正常的Send()
-            _client.Send(array);
-            array = new byte[1];
+            byte[] buff = new byte[4] { 18, 203, 59, 38 };//任意四个数
+            _client.Send(buff);
+            buff = new byte[1];
             _client.ReceiveTimeout = 5000;//开启接收
-            int receivedUdp = _client.Receive(array);
+            int len = _client.Receive(buff);
             _client.ReceiveTimeout = 0;//关闭接收
-            if (receivedUdp != 1 || array[0] != 1)
+            if (len != 1 || buff[0] != 1)
             {
                 throw new Exception("连接验证失败");
             }
@@ -66,14 +71,11 @@ namespace MFramework
                 {
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
-                    //MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                    //MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
                 }), _client);
             }
             catch (SocketException ex)
             {
-                //发不过去则自行断开并重连
-                //OnErrorInternal(ex);
+                MLog.Print(ex);
             }
         }
 
@@ -86,10 +88,28 @@ namespace MFramework
         {
             try
             {
-                byte[] buffer = (byte[])result.AsyncState;
+                byte[] bytes = (byte[])result.AsyncState;
                 int len = _client.EndReceive(result);
-
-
+                if (len > 0)
+                {
+                    //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
+                    _dataBuffer.AddBuffer(bytes, len);
+                    //获取数据(解包获取)
+                    var dataPack = new SocketDataPack();
+                    if (_dataBuffer.TryUnpack(out dataPack))
+                    {
+                        //连接包
+                        if (dataPack.Type == (UInt16)SocketEvent.sc_connect)
+                        {
+                            isConnect = true;
+                            Debug.Log("已连接至服务器");
+                        }
+                        else
+                        {
+                            Debug.Log($"收到来自服务器<{_endPoint}>的消息：{dataPack.ToString()}");
+                        }
+                    }
+                }
 
                 //继续接收数据
                 ReceiveData();

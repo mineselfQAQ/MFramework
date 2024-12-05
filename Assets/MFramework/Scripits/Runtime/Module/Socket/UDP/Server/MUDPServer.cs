@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using UnityEditor.PackageManager;
@@ -33,6 +34,11 @@ namespace MFramework
             ReceiveData();
         }
 
+        public void Quit()
+        {
+            _server.Close();
+        }
+
         private void ReceiveData()
         {
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
@@ -48,13 +54,14 @@ namespace MFramework
                 {
                     if (!_clients.Contains(endPoint))//连接处理
                     {
-                        byte VerificationCode = bytes[0];
-                        byte b = 1;
-                        if (VerificationCode == b)//验证通过
+                        byte[] verificationBytes = new byte[4] { 18, 203, 59, 38 };
+                        byte[] receviedBytes = new byte[4];
+                        Array.Copy(bytes, 0, receviedBytes, 0, 4);
+                        if (receviedBytes.SequenceEqual(verificationBytes))//验证通过
                         {
                             //客户端连接回应
-                            byte[] array = new byte[1] { 1 };
-                            _server.SendTo(array, endPoint);
+                            byte[] buff = new byte[1] { 1 };
+                            _server.SendTo(buff, endPoint);
 
                             _clients.Add(endPoint);
                             MLog.Print($"{typeof(MUDPServer)}：客户端<{endPoint}>已连接");
@@ -97,19 +104,15 @@ namespace MFramework
             try
             {
                 //发送Buff
-                //*********问题：UDP BeginSendTo()会失败吗
                 _server.BeginSendTo(data, 0, data.Length, SocketFlags.None, endPoint, new AsyncCallback((asyncSend) =>
                 {
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
-                    //MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                    //MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
                 }), _server);
             }
             catch (SocketException ex)
             {
-                //发不过去则自行断开并重连
-                //OnErrorInternal(ex);
+                MLog.Print(ex);
             }
         }
     }

@@ -7,11 +7,11 @@ public class Test1 : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(rt.anchoredPosition);
-        Rect rect;
+
     }
 
     void Update()
     {
+
     }
 }

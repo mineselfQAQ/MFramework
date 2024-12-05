@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_UDPServer : MonoBehaviour
+public class Test_UDP : MonoBehaviour
 {
     public string ip;
     public int port;
@@ -32,6 +32,11 @@ public class Test_UDPServer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             client.Send((System.UInt16)SocketEvent.test, bytes);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            server.Quit();
         }
     }
 }
