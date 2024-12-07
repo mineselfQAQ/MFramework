@@ -12,6 +12,7 @@ namespace MFramework
     {
         public string IP;//服务器IP
         public int Port;//服务器Port
+        public EndPoint EP;//服务器EP
 
         private Socket _server;
         private List<EndPoint> _clients;//连接上的客户端
@@ -22,12 +23,26 @@ namespace MFramework
         {
             IP = ip;
             Port = port;
+            EP = new IPEndPoint(IPAddress.Parse(ip), port);
 
+            InitSettings((IPEndPoint)EP);
+        }
+        public MUDPServer(IPEndPoint ep)
+        {
+            EP = ep;
+            IP = ep.Address.ToString();
+            Port = ep.Port;
+
+            InitSettings(ep);
+        }
+
+        public void InitSettings(IPEndPoint ep)
+        {
             _clients = new List<EndPoint>();
             _bufferDic = new Dictionary<EndPoint, DataBuffer>();
 
             _server = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            _server.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
+            _server.Bind(ep);
 
             MLog.Print($"{typeof(MUDPServer)}：服务器<{_server.LocalEndPoint}>已开始监听");
 

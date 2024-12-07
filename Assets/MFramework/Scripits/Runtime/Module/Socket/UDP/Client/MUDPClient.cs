@@ -1,29 +1,33 @@
 using System.Net.Sockets;
 using System.Net;
 using System;
-using Codice.Client.BaseCommands;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace MFramework
 {
     public class MUDPClient
     {
-        public string IP;//服务器IP
-        public int Port;//服务器Port
-
-        public bool isConnect;
+        public bool isConnect { get; private set; }
 
         private Socket _client;
-        private EndPoint _endPoint;//服务器地址
+        private EndPoint _serverEP;//服务器地址
         private DataBuffer _dataBuffer = new DataBuffer();
 
         public MUDPClient(string ip, int port)
         {
             //服务器参数设置
-            IP = ip;
-            Port = port;
-            _endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            var ep = new IPEndPoint(IPAddress.Parse(ip), port);
+
+            InitSettings(ep);
+        }
+        public MUDPClient(IPEndPoint ep)
+        {
+            InitSettings(ep);
+        }
+
+        public void InitSettings(IPEndPoint ep)
+        {
+            _serverEP = ep;
 
             _client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
@@ -32,10 +36,12 @@ namespace MFramework
 
         public void Connect()
         {
+            if (isConnect) MLog.Print($"{typeof(MUDPClient)}：本机已连接至服务器，请勿反复连接", MLogType.Warning);
+
             try
             {
                 _client.Bind(new IPEndPoint(IPAddress.Any, 0));//绑定自己
-                _client.Connect(_endPoint);//连接服务器
+                _client.Connect(_serverEP);//连接服务器
             }
             catch (SocketException e)
             {
@@ -52,7 +58,8 @@ namespace MFramework
             {
                 throw new Exception("连接验证失败");
             }
-            MLog.Print($"{typeof(MUDPClient)}：客户端已连接至服务器<{_endPoint}>");
+            MLog.Print($"{typeof(MUDPClient)}：客户端已连接至服务器<{_serverEP}>");
+            isConnect = true;
 
             ReceiveData();//开启数据接收
         }
@@ -98,16 +105,12 @@ namespace MFramework
                     var dataPack = new SocketDataPack();
                     if (_dataBuffer.TryUnpack(out dataPack))
                     {
-                        //连接包
-                        if (dataPack.Type == (UInt16)SocketEvent.sc_connect)
-                        {
-                            isConnect = true;
-                            Debug.Log("已连接至服务器");
-                        }
-                        else
-                        {
-                            Debug.Log($"收到来自服务器<{_endPoint}>的消息：{dataPack.ToString()}");
-                        }
+                        //if (dataPack.Type == (UInt16)SocketEvent.xxx)
+                        //{
+
+                        //}
+                        
+                        Debug.Log($"收到来自服务器<{_serverEP}>的消息：{dataPack.ToString()}");
                     }
                 }
 
