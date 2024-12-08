@@ -45,7 +45,7 @@ namespace MFramework
             }
             catch (SocketException e)
             {
-                throw new Exception("绑定失败");
+                throw new Exception($"绑定失败：{e}");
             }
             //向服务器发送验证
             byte[] buff = new byte[4] { 18, 203, 59, 38 };//任意四个数
@@ -56,7 +56,7 @@ namespace MFramework
             _client.ReceiveTimeout = 0;//关闭接收
             if (len != 1 || buff[0] != 1)
             {
-                throw new Exception("连接验证失败");
+                MLog.Print("连接验证失败", MLogType.Error);
             }
             MLog.Print($"{typeof(MUDPClient)}：客户端已连接至服务器<{_serverEP}>");
             isConnect = true;
@@ -88,6 +88,7 @@ namespace MFramework
 
         private void ReceiveData()
         {
+            //Tip：Socket会自主进行拆包处理(粘包通过包处理)，不需要我们操作
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
             _client.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, new AsyncCallback(OnReceiveData), bytes);
         }

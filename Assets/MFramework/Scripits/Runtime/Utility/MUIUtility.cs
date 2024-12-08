@@ -2,7 +2,7 @@ using System;
 
 namespace MFramework
 {
-    public static class MUIUtitlity
+    public static class MUIUtility
     {
         private static UIRoot topestRoot;
 

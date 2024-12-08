@@ -40,6 +40,6 @@ public class LevelSelectPanel : LevelSelectPanelBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return ABUtitlity.LoadPanelSync(prefabPath);
+        return ABUtility.LoadPanelSync(prefabPath);
     }
 }

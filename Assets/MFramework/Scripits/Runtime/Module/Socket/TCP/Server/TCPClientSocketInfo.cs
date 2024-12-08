@@ -4,7 +4,7 @@ using System.Threading;
 namespace MFramework
 {
     //Tip：必须是class，引用类型才能简单赋值，否则类似info.HeadTime = time;没有ref无法赋值
-    public class ClientSocketInfo
+    public class TCPClientSocketInfo
     {
         public Socket Client;//所属客户端
         public Thread ReceiveThread;//所属线程

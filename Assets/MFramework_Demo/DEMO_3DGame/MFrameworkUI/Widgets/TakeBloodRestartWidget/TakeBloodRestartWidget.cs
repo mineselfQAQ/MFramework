@@ -12,7 +12,7 @@ public class TakeBloodRestartWidget : TakeBloodRestartWidgetBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return ABUtitlity.LoadPanelSync(prefabPath);
+        return ABUtility.LoadPanelSync(prefabPath);
     }
 
     public void Refresh()

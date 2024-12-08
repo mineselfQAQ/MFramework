@@ -68,6 +68,6 @@ public class SettingWidget : SettingWidgetBase
 
     protected override GameObject LoadPrefab(string prefabPath)
     {
-        return ABUtitlity.LoadPanelSync(prefabPath);
+        return ABUtility.LoadPanelSync(prefabPath);
     }
 }

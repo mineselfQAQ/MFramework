@@ -12,6 +12,8 @@ namespace MFramework
         private byte[] _buff;
         private int _buffLength = 0;
 
+        internal bool haveBuff => _buffLength > 0;
+
         public DataBuffer(int minBuffLen = MIN_BUFF_LEN)
         {
             if (minBuffLen <= 0)

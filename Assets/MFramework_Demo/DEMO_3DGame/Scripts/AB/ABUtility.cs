@@ -1,7 +1,7 @@
 using MFramework;
 using UnityEngine;
 
-public static class ABUtitlity
+public static class ABUtility
 {
     public static GameObject LoadPanelSync(string path)
     {

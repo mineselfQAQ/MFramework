@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Timers;
+using static PlasticPipe.PlasticProtocol.Client.ConnectionCreator.PlasticProtoSocketConnection;
 
 namespace MFramework
 {
@@ -20,7 +21,7 @@ namespace MFramework
         public event Action<Socket, SocketDataPack> OnReceive;
         public event Action<Socket, SocketDataPack> OnSend;
 
-        public Dictionary<Socket, ClientSocketInfo> ClientInfoDic = new Dictionary<Socket, ClientSocketInfo>();
+        public Dictionary<Socket, TCPClientSocketInfo> ClientInfoDic = new Dictionary<Socket, TCPClientSocketInfo>();
 
         private const int HEAD_TIMEOUT = 5000;//客户端心跳超时时间
         private const int HEAD_CHECKTIME = 5000;//心跳包定时检测频率
@@ -106,7 +107,10 @@ namespace MFramework
                     Socket client = _server.Accept();//客户端连接(会堵塞)
 
                     Thread receiveThread = new Thread(ReceiveEvent);//子线程
-                    ClientInfoDic.Add(client, new ClientSocketInfo() { Client = client, ReceiveThread = receiveThread, HeadTime = MTimeUtility.GetNowTime() });
+                    ClientInfoDic.Add(client, new TCPClientSocketInfo() 
+                        { Client = client, 
+                          ReceiveThread = receiveThread,
+                          HeadTime = MTimeUtility.GetNowTime() });
                     receiveThread.Start(client);
                     //Tip：和协程一样，子线程开启会继续执行后续代码
                     //所以Accept()成功后，即连接成功
@@ -139,27 +143,11 @@ namespace MFramework
                     if (len > 0)
                     {
                         //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
+                        //假如是大数据，那么会每次接收8192bytes的形式进行，最终在_dataBuffer的数据是一致的
+                        //假如是粘包数据，那么
                         _dataBuffer.AddBuffer(bytes, len);
                         //获取数据(解包获取)
-                        var dataPack = new SocketDataPack();
-                        if (_dataBuffer.TryUnpack(out dataPack))
-                        {
-                            //心跳包
-                            if (dataPack.Type == (UInt16)SocketEvent.cs_head)
-                            {
-                                ReceiveHead(socket);
-                            }
-                            //断开连接
-                            else if (dataPack.Type == (UInt16)SocketEvent.cs_disconnect)
-                            {
-                                CloseClient(socket);
-                            }
-                            //一般情况
-                            else
-                            {
-                                MainThreadUtility.Post<Socket, SocketDataPack>(OnReceive, socket, dataPack);
-                            }
-                        }
+                        TryUnpack(socket);
                     }
                     else
                     {
@@ -178,6 +166,31 @@ namespace MFramework
                     CloseClient(socket);
                     return;
                 }
+            }
+        }
+
+        private void TryUnpack(Socket socket)
+        {
+            var dataPack = new SocketDataPack();
+            if (_dataBuffer.TryUnpack(out dataPack))
+            {
+                //心跳包
+                if (dataPack.Type == (UInt16)SocketEvent.cs_head)
+                {
+                    ReceiveHead(socket);
+                }
+                //断开连接
+                else if (dataPack.Type == (UInt16)SocketEvent.cs_disconnect)
+                {
+                    CloseClient(socket);
+                }
+                //一般情况
+                else
+                {
+                    MainThreadUtility.Post<Socket, SocketDataPack>(OnReceive, socket, dataPack);
+                }
+
+                if(_dataBuffer.haveBuff) TryUnpack(socket);
             }
         }
 
