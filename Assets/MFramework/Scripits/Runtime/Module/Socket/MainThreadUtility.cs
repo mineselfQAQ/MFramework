@@ -18,6 +18,11 @@ namespace MFramework
         /// </summary>
         public static void Post(Action action)
         {
+            if (_mainThread == null)
+            {
+                MLog.Print($"{typeof(MainThreadUtility)}：主线程_mainThread未获取，请先获取通过SetMainThread()获取", MLogType.Error);
+            }
+
             _mainThread.Post(new SendOrPostCallback((o) =>
             {
                 Action e = (Action)o.GetType().GetProperty("action").GetValue(o);
@@ -26,6 +31,12 @@ namespace MFramework
         }
         public static void Post<T>(Action<T> action, T arg1)
         {
+
+            if (_mainThread == null)
+            {
+                MLog.Print($"{typeof(MainThreadUtility)}：主线程_mainThread未获取，请先获取通过SetMainThread()获取", MLogType.Error);
+            }
+
             _mainThread.Post(new SendOrPostCallback((o) =>
             {
                 Action<T> e = (Action<T>)o.GetType().GetProperty("action").GetValue(o);
@@ -35,6 +46,11 @@ namespace MFramework
         }
         public static void Post<T1, T2>(Action<T1, T2> action, T1 arg1, T2 arg2)
         {
+            if (_mainThread == null)
+            {
+                MLog.Print($"{typeof(MainThreadUtility)}：主线程_mainThread未获取，请先获取通过SetMainThread()获取", MLogType.Error);
+            }
+
             _mainThread.Post(new SendOrPostCallback((o) =>
             {
                 Action<T1, T2> e = (Action<T1, T2>)o.GetType().GetProperty("action").GetValue(o);

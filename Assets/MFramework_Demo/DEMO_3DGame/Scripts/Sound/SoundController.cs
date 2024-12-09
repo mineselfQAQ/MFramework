@@ -30,13 +30,15 @@ public class SoundController : ComponentSingleton<SoundController>
         }
     }
 
-    protected string settingsPath => MSerializationManager.Instance.settingsPath;
+    protected string settingsPath;
+    protected SoundSettings settings;
 
     protected override void Awake()
     {
         base.Awake();
         
-        var settings = MSerializationManager.Instance.coreSettings;
+        settingsPath = $"{MSettings.PersistentDataPath}/SoundSettings.json";
+        settings = MSerializationManager.Instance.CreateOrGetSettings<SoundSettings>(settingsPath);
         CurMusic = settings.MusicSound;
         CurSFX = settings.SFXSound;
 
@@ -54,10 +56,9 @@ public class SoundController : ComponentSingleton<SoundController>
 
     public void SaveSoundJson()
     {
-        var settings = MSerializationManager.Instance.coreSettings;
         settings.MusicSound = CurMusic;
         settings.SFXSound = CurSFX;
-        MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, settings);
+        MSerializationUtility.SaveToJson(settingsPath, settings);
     }
 
     protected AudioMixerGroup SetOutput(string name)

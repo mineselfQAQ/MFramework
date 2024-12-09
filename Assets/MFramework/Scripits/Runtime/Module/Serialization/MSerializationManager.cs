@@ -1,24 +1,38 @@
-using System;
 using System.IO;
 using UnityEngine;
 
 namespace MFramework
 {
+    //TODO:添加字典存储所有Settings文件
     [MonoSingletonSetting(HideFlags.NotEditable, "#MSerializationManager#")]
     public class MSerializationManager : MonoSingleton<MSerializationManager>
     {
         public string settingsPath;
-        public CoreSettings coreSettings => MSerializationUtility.ReadFromJson<CoreSettings>(settingsPath);
+        public CoreSettings CoreSettings => CreateOrGetSettings<CoreSettings>(settingsPath);
 
         private void Awake()
         {
             //创建或读取CoreSettings
             settingsPath = $"{MSettings.PersistentDataPath}/CoreSettings.json";
-            if (!File.Exists(settingsPath))
+
+            if (File.Exists(settingsPath))
             {
-                MSerializationUtility.SaveToJson<CoreSettings>(settingsPath, new CoreSettings(), true);
-                MLog.Print($"{typeof(MLocalizationManager)}：已初始化CoreSettings文件，路径:<{settingsPath}>");
+                CreateOrGetSettings<CoreSettings>(settingsPath);
             }
+        }
+
+        public T CreateOrGetSettings<T>(string path) where T : new()
+        {
+            if (File.Exists(path)) 
+            {
+                return MSerializationUtility.ReadFromJson<T>(path);
+            }
+
+            if (MSerializationUtility.SaveToJson<T>(path, new T(), true))
+            {
+                return MSerializationUtility.ReadFromJson<T>(path);
+            }
+            return default(T);
         }
     }
 }

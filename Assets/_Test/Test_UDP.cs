@@ -31,12 +31,16 @@ public class Test_UDP : MonoBehaviour
         var bytes = System.Text.Encoding.UTF8.GetBytes("我是测试数据");
         if (Input.GetKeyDown(KeyCode.X))
         {
-            client.Send((System.UInt16)SocketEvent.test, bytes);
+            client.SendBytes(SocketEvent.empty, bytes);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            server.Quit();
+            client.Disconnect();
+        }
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            server.Close();
         }
     }
 }

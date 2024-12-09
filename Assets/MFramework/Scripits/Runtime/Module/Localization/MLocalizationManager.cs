@@ -68,7 +68,7 @@ namespace MFramework
 
         private void InitCurrentLanguage()
         {
-            var settings = MSerializationManager.Instance.coreSettings;
+            var settings = MSerializationManager.Instance.CoreSettings;
             string language = settings.language;
             currentLanguage = StrToSupportLanguageDic[language];
         }

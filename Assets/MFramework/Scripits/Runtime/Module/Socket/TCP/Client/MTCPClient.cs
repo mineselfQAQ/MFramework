@@ -16,13 +16,13 @@ namespace MFramework
 
         public event Action OnConnectSuccess;
         public event Action OnConnectError;
+        public event Action<int> OnReConnectSuccess;
+        public event Action<int> OnReConnectError;
+        public event Action<int> OnReconnecting;
         public event Action OnDisconnect;
         public event Action<SocketDataPack> OnReceive;
         public event Action<SocketDataPack> OnSend;
         public event Action<SocketException> OnError;
-        public event Action<int> OnReConnectSuccess;
-        public event Action<int> OnReConnectError;
-        public event Action<int> OnReconnecting;
 
         private const int TIMEOUT_CONNECT = 3000;//连接超时时间
         private const int TIMEOUT_SEND = 3000;//发送超时时间
@@ -37,8 +37,9 @@ namespace MFramework
         private System.Timers.Timer _headTimer;
         private DataBuffer _dataBuffer = new DataBuffer();
 
-        private bool _isConnect = false;
-        private bool _isReconnect = false;
+        public bool isConnect { get; private set; }
+        public bool isConnecting { get; private set; }
+        public bool isReconnecting { get; private set; }
 
         public MTCPClient(string ip, int port)
         {
@@ -51,8 +52,13 @@ namespace MFramework
         /// </summary>
         public void Connect(Action success = null, Action error = null)
         {
+            if (isConnecting) return;
+            isConnecting = true;
+
             Action<bool> onTrigger = (flag) =>
             {
+                isConnecting = false;
+
                 //成功或失败回调
                 if (flag)
                 {
@@ -98,7 +104,7 @@ namespace MFramework
                     {
                         Socket client = (Socket)iar.AsyncState;
                         client.EndConnect(iar);//连接成功(如果没超时的话)
-                        _isConnect = true;
+                        isConnect = true;
 
                         //定时发送心跳包
                         _headTimer = new System.Timers.Timer(HEAD_OFFSET);
@@ -132,14 +138,14 @@ namespace MFramework
         /// </summary>
         public void ReConnect(int num = RECONN_MAX_SUM, int index = 0)
         {
-            _isReconnect = true;
+            isReconnecting = true;
 
             num--;
             index++;
             if (num < 0)
             {
                 OnDisconnectInternal();
-                _isReconnect = false;
+                isReconnecting = false;
                 return;
             }
 
@@ -147,7 +153,7 @@ namespace MFramework
             Connect(() =>
             {
                 MainThreadUtility.Post<int>(OnReConnectSuccess, index);
-                _isReconnect = false;
+                isReconnecting = false;
             }, () =>
             {
                 MainThreadUtility.Post<int>(OnReConnectError, index);
@@ -191,7 +197,7 @@ namespace MFramework
             {
                 try
                 {
-                    if (!_isConnect) break;
+                    if (!isConnect) break;
                     if (_client.Available <= 0) continue;//如果没有数据，不读取避免堵塞
 
                     byte[] bytes = new byte[8 * 1024];//常规缓冲区大小
@@ -238,8 +244,8 @@ namespace MFramework
         /// </summary>
         public void Close()
         {
-            if (!_isConnect) return;
-            _isConnect = false;
+            if (!isConnect) return;
+            isConnect = false;
 
             if (_headTimer != null)
             {
@@ -275,7 +281,7 @@ namespace MFramework
 
             MainThreadUtility.Post<SocketException>(OnError, ex);
 
-            if (!_isReconnect)
+            if (!isReconnecting)
             {
                 ReConnect();
             }
