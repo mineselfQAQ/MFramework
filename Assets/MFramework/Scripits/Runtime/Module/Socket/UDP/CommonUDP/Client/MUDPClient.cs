@@ -1,9 +1,9 @@
 using System.Net.Sockets;
 using System.Net;
 using System;
-using UnityEngine;
 using System.Text;
 using System.Timers;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -20,9 +20,6 @@ namespace MFramework
         public event Action<Exception> OnError;
 
         private const int TIMEOUT_CONNECT = 3000;//连接超时时间
-        private const int TIMEOUT_SEND = 3000;//发送超时时间
-        private const int TIMEOUT_RECEIVE = 3000;//接收超时时间
-
         private const int HEAD_OFFSET = 2000;//心跳包发送间隔
         private const int RECONN_MAX_SUM = 3;//最大重连次数
 
@@ -38,7 +35,8 @@ namespace MFramework
         public MUDPClient(string ip, int port) : base(ip, port) { }
         public MUDPClient(IPEndPoint ep) : base(ep) { }
 
-        public void Connect(Action success = null, Action error = null)
+        //=====连接=====
+        public void Connect(Action onSuccess = null, Action onError = null)
         {
             if (isConnecting) return;
             isConnecting = true;
@@ -52,17 +50,14 @@ namespace MFramework
                 //成功或失败回调
                 if (flag)
                 {
-                    MLog.Print($"{typeof(MUDPClient)}：客户端已连接至服务器<{_serverEP}>", MLogType.Warning);
-                    isConnect = true;
-
-                    MainThreadUtility.Post(success);
+                    MainThreadUtility.Post(onSuccess);
                     MainThreadUtility.Post(OnConnectSuccess);
                 }
                 else
                 {
-                    MLog.Print($"{typeof(MUDPClient)}：客户端连接至服务器<{_serverEP}>失败：{ex}", MLogType.Warning);
+                    MLog.Print($"{typeof(MUDPClient)}：客户端连接至服务器<{serverEP}>失败：{ex}", MLogType.Warning);
 
-                    MainThreadUtility.Post(error);
+                    MainThreadUtility.Post(onError);
                     MainThreadUtility.Post(OnConnectError);
                 }
 
@@ -86,7 +81,7 @@ namespace MFramework
             try
             {
                 _client.Bind(new IPEndPoint(IPAddress.Any, 0));//绑定自己
-                _client.Connect(_serverEP);//连接服务器(并非真正连接，为绑定服务器IP)
+                _client.Connect(serverEP);//连接服务器(并非真正连接，为绑定服务器IP)
                 //向服务器发送验证
                 _connTimeoutTimer.Start();//开始计时
                 byte[] buff = new byte[4] { 18, 203, 59, 38 };//任意四个数
@@ -97,7 +92,19 @@ namespace MFramework
                 {
                     throw new Exception("连接验证失败");
                 }
+                //连接成功
                 onTrigger(true, null);
+                MLog.Print($"{typeof(MUDPClient)}：客户端已连接至服务器<{serverEP}>");
+                isConnect = true;
+
+                //定时发送心跳包
+                _headTimer = new System.Timers.Timer(HEAD_OFFSET);
+                _headTimer.AutoReset = true;
+                _headTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+                {
+                    SendEvent(SocketEvent.C2S_HEAD);
+                };
+                _headTimer.Start();
 
                 ReceiveData();//开启数据接收
             }
@@ -111,7 +118,7 @@ namespace MFramework
         {
             ReConnect(num, 0);
         }
-        private void ReConnect(int num, int index)
+        private void ReConnect(int num, int index, float reconnectDelay = 1.0f)
         {
             isReconnecting = true;
 
@@ -131,74 +138,18 @@ namespace MFramework
                 isReconnecting = false;
             }, () =>
             {
-                MainThreadUtility.Post<int>(OnReConnectError, index);
-                ReConnect(num, index);//失败再次重连
+                //延迟重连
+                MCoroutineManager.Instance.DelayNoRecord(() =>
+                {
+                    MainThreadUtility.Post<int>(OnReConnectError, index);
+                    ReConnect(num, index);//失败再次重连
+                }, reconnectDelay);
             });
         }
 
-        //发起关闭请求(收到关闭包后正式关闭)
-        public void Disconnect()
-        {
-            SendBytes(SocketEvent.cs_disconnect);
-        }
-        private void DisconnectInternal()
-        {
-            MLog.Print("客户端已主动关闭", MLogType.Warning);
 
-            Close();
-            MainThreadUtility.Post(OnDisconnect);
-        }
-        public void Close()
-        {
-            if (!isConnect) return;
-            isConnect = false;
 
-            if (_client != null)
-            {
-                _client.Close();
-                _client = null;
-            }
-        }
-
-        public void SendUTF(SocketEvent type, string message = null, Action<SocketDataPack> onTrigger = null)
-        {
-            byte[] buff = Encoding.UTF8.GetBytes(message);
-            SendContext context = new SendContext() {Type = (ushort)type, Buff = buff };
-
-            Send(context, onTrigger);
-        }
-        public void SendASCII(SocketEvent type, string message = null, Action<SocketDataPack> onTrigger = null)
-        {
-            byte[] buff = Encoding.ASCII.GetBytes(message);
-            SendContext context = new SendContext() {Type = (ushort)type, Buff = buff };
-
-            Send(context, onTrigger);
-        }
-        public void SendBytes(SocketEvent type, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
-        {
-            SendContext context = new SendContext() {Type = (ushort)type, Buff = buff };
-
-            Send(context, onTrigger);
-        }
-        protected override void Send(SendContext context, Action<SocketDataPack> onTrigger)
-        {
-            //组成包并取出Buff
-            context.Buff = context.Buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(context.Type, context.Buff);
-            var data = dataPack.Buff;
-
-            //发送Buff
-            //Tip：发送是不会报错的，除非添加重传机制避免传输失败
-            _client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
-            {
-                Socket c = (Socket)asyncSend.AsyncState;
-                c.EndSend(asyncSend);
-
-                MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
-            }), _client);
-        }
-
+        //=====接收=====
         private void ReceiveData()
         {
             //Tip：Socket会自主进行拆包处理(粘包通过包处理)，不需要我们操作
@@ -219,8 +170,9 @@ namespace MFramework
                     var dataPack = new SocketDataPack();
                     if (_dataBuffer.TryUnpack(out dataPack))
                     {
-                        //关闭包
-                        if (dataPack.Type == (UInt16)SocketEvent.sc_disconnect)
+                        //关闭/踢出包
+                        if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECT ||
+                            dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
                         {
                             DisconnectInternal();
                         }
@@ -232,7 +184,7 @@ namespace MFramework
                 }
 
                 //继续接收数据
-                if(isConnect) ReceiveData();
+                if (isConnect) ReceiveData();
             }
             catch (Exception ex)
             {
@@ -240,6 +192,112 @@ namespace MFramework
             }
         }
 
+
+
+        //=====发送=====
+        public void SendUTF(SocketEvent type, string message, Action<SocketDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.UTF8.GetBytes(message);
+            UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendASCII(SocketEvent type, string message, Action<SocketDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.ASCII.GetBytes(message);
+            UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendBytes(SocketEvent type, byte[] buff, Action<SocketDataPack> onTrigger = null)
+        {
+            UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendEvent(SocketEvent type, Action<SocketDataPack> onTrigger = null)
+        {
+            UDPSendContext context = new UDPSendContext() { Type = (ushort)type, Buff = null };
+
+            Send(context, onTrigger);
+        }
+        protected override void Send(UDPSendContext context, Action<SocketDataPack> onTrigger)
+        {
+            if (!isConnect) return;
+
+            //组成包并取出Buff
+            context.Buff = context.Buff ?? new byte[] { };
+            var dataPack = new SocketDataPack(context.Type, context.Buff);
+            var data = dataPack.Buff;
+
+            //发送Buff
+            //Tip：发送是不会报错的，除非添加重传机制避免传输失败
+            //TODO:所以应该是这样的，包头添加类似ACK机制，并在此刻开始计时，如果在规定时间内收到一个ACK，那么传输未超时
+            _client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
+            {
+                Socket c = (Socket)asyncSend.AsyncState;
+                c.EndSend(asyncSend);
+
+                MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
+                MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
+            }), _client);
+        }
+        protected override void Send(UDPSendContext context, Action<byte[]> onTrigger)
+        {
+            throw new NotSupportedException();
+        }
+
+        //=====断连=====
+        /// <summary>
+        /// 发起关闭请求(收到关闭包后正式关闭)
+        /// </summary>
+        public void Disconnect()
+        {
+            if (!isConnect)
+            {
+                MLog.Print($"{typeof(MUDPClient)}:客户端已断开连接，请勿重复断连", MLogType.Warning);
+                return;
+            }
+
+            SendEvent(SocketEvent.C2S_DISCONNECT);
+        }
+
+        private void DisconnectInternal()
+        {
+            MLog.Print($"{typeof(MUDPClient)}：客户端收到来自服务器<{serverEP}>的关闭回复，客户端主动关闭");
+
+            Close();
+            MainThreadUtility.Post(OnDisconnect);
+        }
+
+        protected override void OnCloseInternal()
+        {
+            if (!isConnect) return;
+            isConnect = false;
+
+            OnConnectSuccess = null;
+            OnConnectError = null;
+            OnReConnectSuccess = null;
+            OnReConnectError = null;
+            OnReconnecting = null;
+            OnDisconnect = null;
+            OnReceive = null;
+            OnSend = null;
+            OnError = null;
+
+            if (_headTimer != null)
+            {
+                _headTimer.Stop();
+                _headTimer = null;
+            }
+            if (_connTimeoutTimer != null)
+            {
+                _connTimeoutTimer.Stop();
+                _connTimeoutTimer = null;
+            }
+        }
+
+        //=====内部事件=====
         private void OnErrorInternal(Exception ex)
         {
             Close();

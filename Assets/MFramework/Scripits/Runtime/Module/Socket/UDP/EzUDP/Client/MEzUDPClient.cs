@@ -13,29 +13,40 @@ namespace MFramework
         public MEzUDPClient(string ip, int port) : base(ip, port) { }
         public MEzUDPClient(IPEndPoint ep) : base(ep) { }
 
-        public event Action<EndPoint, byte[]> OnSend;
+        public event Action<byte[]> OnSend;
 
-        public void SendUTF(string message = null, Action<SocketDataPack> onTrigger = null)
+        protected override void OnCloseInternal()
+        {
+            OnSend = null;
+        }
+
+        public void SendUTF(string message, Action<byte[]> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
-            SendContext context = new SendContext() { EndPoint = _serverEP, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendASCII(string message = null, Action<SocketDataPack> onTrigger = null)
+        public void SendASCII(string message, Action<byte[]> onTrigger = null)
         {
             byte[] buff = Encoding.ASCII.GetBytes(message);
-            SendContext context = new SendContext() { EndPoint = _serverEP, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendBytes(byte[] buff = null, Action<SocketDataPack> onTrigger = null)
+        public void SendBytes(byte[] buff, Action<byte[]> onTrigger = null)
         {
-            SendContext context = new SendContext() { EndPoint = _serverEP, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = buff };
 
             Send(context, onTrigger);
         }
-        protected override void Send(SendContext context, Action<SocketDataPack> onTrigger)
+        public void SendEvent(Action<byte[]> onTrigger = null)
+        {
+            UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = null };
+
+            Send(context, onTrigger);
+        }
+        protected override void Send(UDPSendContext context, Action<byte[]> onTrigger)
         {
             try
             {
@@ -45,13 +56,18 @@ namespace MFramework
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
 
-                    MainThreadUtility.Post<EndPoint, byte[]>(OnSend, context.EndPoint, context.Buff);//OnSend回调
+                    MainThreadUtility.Post<byte[]>(onTrigger, context.Buff);//OnSend回调
+                    MainThreadUtility.Post<byte[]>(OnSend, context.Buff);//OnSend回调
                 }), _client);
             }
             catch (SocketException ex)
             {
                 MLog.Print(ex);
             }
+        }
+        protected override void Send(UDPSendContext context, Action<SocketDataPack> onTrigger)
+        {
+            throw new NotSupportedException();
         }
     }
 }

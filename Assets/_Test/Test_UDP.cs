@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Test_UDP : MonoBehaviour
 {
+    public bool AutoGetIP;
     public string ip;
     public int port;
 
@@ -13,7 +14,7 @@ public class Test_UDP : MonoBehaviour
 
     private void Start()
     {
-
+        if(AutoGetIP) ip = MSocketUtility.GetDefaultNICIPV4Address().ToString();
     }
 
     private void Update()
@@ -31,16 +32,34 @@ public class Test_UDP : MonoBehaviour
         var bytes = System.Text.Encoding.UTF8.GetBytes("我是测试数据");
         if (Input.GetKeyDown(KeyCode.X))
         {
-            client.SendBytes(SocketEvent.empty, bytes);
+            client.SendBytes(SocketEvent.EMPTY, bytes);
+            client.SendASCII(SocketEvent.EMPTY, "ABC");
+            client.SendUTF(SocketEvent.EMPTY, "你好");
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            client.Disconnect();
-        }
-        else if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             server.Close();
         }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            client.Disconnect();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (client != null)
+        {
+            client.Disconnect();
+        }
+
+        MCoroutineManager.Instance.DelayNoRecord(() =>
+        {
+            if (server != null)
+            {
+                server.Close();
+            }
+        }, 1.0f);
     }
 }

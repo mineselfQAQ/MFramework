@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Timers;
 
@@ -22,7 +23,6 @@ namespace MFramework
 
         public Dictionary<Socket, TCPClientSocketInfo> ClientInfoDic = new Dictionary<Socket, TCPClientSocketInfo>();
 
-        private const int HEAD_TIMEOUT = 5000;//客户端心跳超时时间
         private const int HEAD_CHECKTIME = 5000;//心跳包定时检测频率
 
         private Socket _server;
@@ -30,12 +30,14 @@ namespace MFramework
         private System.Timers.Timer _headCheckTimer;
         private DataBuffer _dataBuffer = new DataBuffer();
 
-        private bool _isValid = true;
+        public bool isValid { get; private set; }
 
         public MTCPServer(string ip, int port)
         {
             IP = ip;
             Port = port;
+
+            isValid = true;
 
             IPAddress ipAddress = IPAddress.Parse(IP);
             _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -57,39 +59,66 @@ namespace MFramework
             _headCheckTimer.Start();
         }
 
+        public void SendUTF(Socket socket, SocketEvent type, string message, Action<Socket, SocketDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.UTF8.GetBytes(message);
+            TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendASCII(Socket socket, SocketEvent type, string message, Action<Socket, SocketDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.ASCII.GetBytes(message);
+            TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendBytes(Socket socket, SocketEvent type, byte[] buff, Action<Socket, SocketDataPack> onTrigger = null)
+        {
+            TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendEvent(Socket socket, SocketEvent type, Action<Socket, SocketDataPack> onTrigger = null)
+        {
+            TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = null };
+
+            Send(context, onTrigger);
+        }
+
         /// <summary>
         /// 向客户端发送消息
         /// </summary>
-        public void Send(Socket client, UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
+        public void Send(TCPSendContext context, Action<Socket, SocketDataPack> onTrigger)
         {
             //组成包并取出Buff
-            buff = buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(e, buff);
+            context.Buff = context.Buff ?? new byte[] { };
+            var dataPack = new SocketDataPack(context.Type, context.Buff);
             var data = dataPack.Buff;
 
             try
             {
                 //发送Buff
-                client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
+                context.Socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
                 {
                     try
                     {
                         Socket c = (Socket)asyncSend.AsyncState;
                         c.EndSend(asyncSend);
-                        MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                        MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, client, dataPack);
+                        MainThreadUtility.Post<Socket, SocketDataPack>(onTrigger, context.Socket, dataPack);
+                        MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, context.Socket, dataPack);
                     }
                     catch (SocketException)
                     {
                         //发不过去则关闭该客户端的连接
-                        CloseClient(client);
+                        CloseClient(context.Socket);
                     }
-                }), client);
+                }), context.Socket);
             }
             catch (SocketException)
             {
                 //发不过去则关闭该客户端的连接
-                CloseClient(client);
+                CloseClient(context.Socket);
             }
         }
 
@@ -102,7 +131,7 @@ namespace MFramework
             {
                 try
                 {
-                    if (!_isValid) break;
+                    if (!isValid) break;
                     Socket client = _server.Accept();//客户端连接(会堵塞)
 
                     Thread receiveThread = new Thread(ReceiveEvent);//子线程
@@ -129,7 +158,7 @@ namespace MFramework
             Socket socket = (Socket)client;
             while (true)
             {
-                if (!_isValid) return;
+                if (!isValid) return;
                 if (!ClientInfoDic.ContainsKey(socket))
                 {
                     return;
@@ -174,12 +203,12 @@ namespace MFramework
             if (_dataBuffer.TryUnpack(out dataPack))
             {
                 //心跳包
-                if (dataPack.Type == (UInt16)SocketEvent.cs_head)
+                if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
                 {
                     ReceiveHead(socket);
                 }
                 //断开连接
-                else if (dataPack.Type == (UInt16)SocketEvent.cs_disconnect)
+                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECT)
                 {
                     CloseClient(socket);
                 }
@@ -202,9 +231,9 @@ namespace MFramework
             {
                 long now = MTimeUtility.GetNowTime();
                 long offset = now - info.HeadTime;
-                MLog.Print($"更新心跳时间戳 >>>{now}    间隔 >>>{offset}");
+                MLog.Print($"客户端<{client.LocalEndPoint}>：更新心跳时间戳 >>>{now}    间隔 >>>{offset}");
 
-                if (offset > HEAD_TIMEOUT)
+                if (offset > HEAD_CHECKTIME)
                 {
                     //超时(超时踢出逻辑在心跳包定时检测中实现)
                 }
@@ -221,7 +250,7 @@ namespace MFramework
                 var info = ClientInfoDic[socket];
                 long now = MTimeUtility.GetNowTime();
                 long offset = now - info.HeadTime;
-                if (offset > HEAD_TIMEOUT)
+                if (offset > HEAD_CHECKTIME)
                 {
                     //心跳包超时
                     KickOut(socket);
@@ -234,7 +263,7 @@ namespace MFramework
         /// </summary>
         public void KickOut(Socket client)
         {
-            Send(client, (UInt16)SocketEvent.sc_kickout, null, (dataPack) =>
+            SendEvent(client, SocketEvent.S2C_KICKOUT, (socket, dataPack) =>
             {
                 CloseClient(client);
             });
@@ -255,8 +284,8 @@ namespace MFramework
         /// </summary>
         public void Close()
         {
-            if (!_isValid) return;
-            _isValid = false;
+            if (!isValid) return;
+            isValid = false;
 
             foreach (var socket in ClientInfoDic.Keys)
             {
@@ -270,6 +299,7 @@ namespace MFramework
             }
 
             _server.Close();
+            _server = null;
         }
 
         private void CloseClient(Socket client)

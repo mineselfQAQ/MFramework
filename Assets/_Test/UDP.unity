@@ -373,7 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fec2c84555247448b63fda0d9ddb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ip: 192.168.50.8
+  AutoGetIP: 1
+  ip: 192.168.1.7
   port: 8088
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

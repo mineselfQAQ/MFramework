@@ -30,7 +30,7 @@ public class Test_TCPServer : MonoBehaviour
 
                 switch ((SocketEvent)data.Type)
                 {
-                    case SocketEvent.empty:
+                    case SocketEvent.EMPTY:
                         UnityEngine.Debug.LogFormat("接收到测试数据 >>> {0}", System.Text.Encoding.UTF8.GetString(data.Data));
                         break;
                 }

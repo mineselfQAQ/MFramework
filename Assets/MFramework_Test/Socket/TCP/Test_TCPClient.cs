@@ -67,7 +67,7 @@ public class Test_TCPClient : MonoBehaviour
     public void ClickSendTest()
     {
         var bytes = System.Text.Encoding.UTF8.GetBytes("我是测试数据");
-        _client.Send((System.UInt16)SocketEvent.empty, bytes);
+        _client.Send((System.UInt16)SocketEvent.EMPTY, bytes);
     }
 
     public void ClickDisConnect()

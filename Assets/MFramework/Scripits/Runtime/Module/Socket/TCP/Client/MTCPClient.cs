@@ -27,7 +27,6 @@ namespace MFramework
         private const int TIMEOUT_CONNECT = 3000;//连接超时时间
         private const int TIMEOUT_SEND = 3000;//发送超时时间
         private const int TIMEOUT_RECEIVE = 3000;//接收超时时间
-
         private const int HEAD_OFFSET = 2000;//心跳包发送间隔
         private const int RECONN_MAX_SUM = 3;//最大重连次数
 
@@ -111,7 +110,7 @@ namespace MFramework
                         _headTimer.AutoReset = true;
                         _headTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
                         {
-                            Send((UInt16)SocketEvent.cs_head);//16位无符号数据(也就是4个16进制数0x1234)
+                            Send((UInt16)SocketEvent.C2S_HEAD);//16位无符号数据(也就是4个16进制数0x1234)
                         };
                         _headTimer.Start();
 
@@ -210,8 +209,8 @@ namespace MFramework
                         var dataPack = new SocketDataPack();
                         if (_dataBuffer.TryUnpack(out dataPack))
                         {
-                            //踢出
-                            if (dataPack.Type == (UInt16)SocketEvent.sc_kickout)
+                            //踢出包
+                            if (dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
                             {
                                 OnDisconnectInternal();
                             }
@@ -236,7 +235,7 @@ namespace MFramework
         /// </summary>
         public void Disconnect()
         {
-            Send((UInt16)SocketEvent.cs_disconnect);
+            Send((UInt16)SocketEvent.C2S_DISCONNECT);
             OnDisconnectInternal();
         }
         /// <summary>

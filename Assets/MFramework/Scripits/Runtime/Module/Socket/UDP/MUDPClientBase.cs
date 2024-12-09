@@ -7,7 +7,15 @@ namespace MFramework
     public abstract class MUDPClientBase
     {
         protected Socket _client;
-        protected EndPoint _serverEP;//服务器地址
+        public EndPoint serverEP { get; protected set; }//服务器地址
+
+        /// <summary>
+        /// 客户端关闭时回调
+        /// </summary>
+        protected virtual void OnCloseInternal() { }
+
+        protected abstract void Send(UDPSendContext context, Action<SocketDataPack> onTrigger);
+        protected abstract void Send(UDPSendContext context, Action<byte[]> onTrigger);
 
         public MUDPClientBase(string ip, int port)
         {
@@ -21,12 +29,21 @@ namespace MFramework
             InitSettings(ep);
         }
 
-        public void InitSettings(IPEndPoint ep)
+        private void InitSettings(IPEndPoint ep)
         {
-            _serverEP = ep;
+            serverEP = ep;
             _client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
 
-        protected abstract void Send(SendContext context, Action<SocketDataPack> onTrigger);
+        public void Close()
+        {
+            if (_client != null)
+            {
+                OnCloseInternal();
+
+                _client.Close();
+                _client = null;
+            }
+        }
     }
 }

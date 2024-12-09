@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Timers;
 using UnityEngine;
 
 namespace MFramework
@@ -18,9 +19,14 @@ namespace MFramework
         public Dictionary<EndPoint, UDPClientSocketInfo> ClientInfoDic =
             new Dictionary<EndPoint, UDPClientSocketInfo>();
 
+        private const int HEAD_CHECKTIME = 5000;//心跳包定时检测频率
+
+        private Timer _headCheckTimer;
+
         public MUDPServer(string ip, int port) : base(ip, port) { }
         public MUDPServer(IPEndPoint ep) : base(ep) { }
 
+        //=====接收=====
         protected override void ReceiveData()
         {
             //Tip：Socket会自主进行拆包处理(粘包通过包处理)，不需要我们操作
@@ -53,6 +59,16 @@ namespace MFramework
                                 DataBuffer = new DataBuffer(),
                                 HeadTime = MTimeUtility.GetNowTime()
                             });
+
+                            //心跳包定时检测
+                            _headCheckTimer = new Timer(HEAD_CHECKTIME);
+                            _headCheckTimer.AutoReset = true;
+                            _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+                            {
+                                CheckHeadTimeOut();
+                            };
+                            _headCheckTimer.Start();
+
                             MLog.Print($"{typeof(MUDPServer)}：客户端<{endPoint}>已连接");
                         }
                     }
@@ -64,15 +80,18 @@ namespace MFramework
                         var dataPack = new SocketDataPack();
                         if (ClientInfoDic[endPoint].DataBuffer.TryUnpack(out dataPack))
                         {
-                            //关闭包(由客户端请求关闭)
-                            if (dataPack.Type == (UInt16)SocketEvent.cs_disconnect)
+                            //心跳包
+                            if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
                             {
-                                CloseClient(endPoint);
-                                SendBytes(endPoint, SocketEvent.sc_disconnect);
+                                ReceiveHead(endPoint);
+                            }
+                            //关闭包(由客户端请求关闭)
+                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECT)
+                            {
+                                ReceiveClose(endPoint);
                             }
                             else
                             {
-                                Debug.Log($"收到来自客户端<{endPoint}>的消息：{dataPack.ToString()}");
                                 MainThreadUtility.Post<EndPoint, SocketDataPack>(OnReceive, endPoint, dataPack);//OnReceive回调
                             }
                         }
@@ -82,50 +101,81 @@ namespace MFramework
                 //继续接收数据
                 ReceiveData();
             }
-            catch (Exception e)
+            catch (SocketException)
             {
                 //TODO:目前只发现一种可能为服务器断线，不知道还有没有其它可能
-                MLog.Print($"数据接收失败：{e.Message}", MLogType.Warning);
+                MLog.Print($"服务器断线", MLogType.Warning);
+            }
+        }
+        private void ReceiveHead(EndPoint client)
+        {
+            if (ClientInfoDic.TryGetValue(client, out var info))
+            {
+                long now = MTimeUtility.GetNowTime();
+                long offset = now - info.HeadTime;
+                MLog.Print($"客户端<{client}>：更新心跳时间戳 >>>{now}    间隔 >>>{offset}");
+
+                if (offset > HEAD_CHECKTIME)
+                {
+                    //超时(超时踢出逻辑在心跳包定时检测中实现)
+                }
+                info.HeadTime = now;//核心：更新时间
+            }
+        }
+        private void ReceiveClose(EndPoint client) 
+        {
+            CloseClient(client);
+            SendEvent(client, SocketEvent.S2C_DISCONNECT);
+        }
+
+
+
+        //=====心跳包检测=====
+        private void CheckHeadTimeOut()
+        {
+            foreach (var ep in ClientInfoDic.Keys)
+            {
+                var info = ClientInfoDic[ep];
+                long now = MTimeUtility.GetNowTime();
+                long offset = now - info.HeadTime;
+                if (offset > HEAD_CHECKTIME)
+                {
+                    //心跳包超时
+                    KickOut(ep);
+                }
             }
         }
 
-        private void CloseClient(EndPoint ep)
-        {
-            MainThreadUtility.Post<EndPoint>((socket) =>
-            {
-                MLog.Print($"服务器正在关闭<{ep}>", MLogType.Warning);
-
-                try
-                {
-                    OnDisconnect?.Invoke(ep);
-                    ClientInfoDic.Remove(ep);
-                }
-                catch { }
-            }, ep);
-        }
 
 
-        public void SendUTF(EndPoint endPoint, SocketEvent type, string message = null)
+        //=====发送=====
+        public void SendUTF(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, SocketDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
-            SendContext context = new SendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
-            Send(context);
+            Send(context, onTrigger);
         }
-        public void SendASCII(EndPoint endPoint, SocketEvent type, string message = null)
+        public void SendASCII(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, SocketDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.ASCII.GetBytes(message);
-            SendContext context = new SendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
-            Send(context);
+            Send(context, onTrigger);
         }
-        public void SendBytes(EndPoint endPoint, SocketEvent type, byte[] buff = null)
+        public void SendBytes(EndPoint endPoint, SocketEvent type, byte[] buff, Action<EndPoint, SocketDataPack> onTrigger = null)
         {
-            SendContext context = new SendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
+            UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
-            Send(context);
+            Send(context, onTrigger);
         }
-        protected override void Send(SendContext context)
+        public void SendEvent(EndPoint endPoint, SocketEvent type, Action<EndPoint, SocketDataPack> onTrigger = null)
+        {
+            UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = null };
+
+            Send(context, onTrigger);
+        }
+        protected override void Send(UDPSendContext context, Action<EndPoint, SocketDataPack> onTrigger)
         {
             //组成包并取出Buff
             context.Buff = context.Buff ?? new byte[] { };
@@ -140,6 +190,7 @@ namespace MFramework
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
 
+                    MainThreadUtility.Post<EndPoint, SocketDataPack>(onTrigger, endPoint, dataPack);
                     MainThreadUtility.Post<EndPoint, SocketDataPack>(OnSend, endPoint, dataPack);//OnSend回调
                 }), _server);
             }
@@ -147,6 +198,60 @@ namespace MFramework
             {
                 MLog.Print(ex);
             }
+        }
+        protected override void Send(UDPSendContext context, Action<EndPoint, byte[]> onTrigger = null)
+        {
+            throw new NotSupportedException();
+        }
+
+
+
+        //=====断连=====
+        protected override void OnCloseInternal()
+        {
+            ClientInfoDic = null;
+
+            OnConnect = null;
+            OnDisconnect = null;
+            OnReceive = null;
+            OnSend = null;
+
+            if (_headCheckTimer != null)
+            {
+                _headCheckTimer.Stop();
+                _headCheckTimer = null;
+            }
+        }
+
+        public void KickOutAll()
+        {
+            foreach (var ep in ClientInfoDic.Keys)
+            {
+                KickOut(ep);
+            }
+        }
+        public void KickOut(EndPoint client)
+        {
+            SendEvent(client, SocketEvent.S2C_KICKOUT, (ep, dataPack) =>
+            {
+                CloseClient(client);
+            });
+        }
+
+        private void CloseClient(EndPoint ep)
+        {
+            //Tip：为private，服务器不会主动断开与客户端的联系，除非发生情况(如心跳包/客户端自主要求)
+            MainThreadUtility.Post<EndPoint>((socket) =>
+            {
+                MLog.Print($"服务器断开与客户端<{ep}>的连接");
+
+                try
+                {
+                    OnDisconnect?.Invoke(ep);
+                    ClientInfoDic.Remove(ep);
+                }
+                catch { }
+            }, ep);
         }
     }
 }
