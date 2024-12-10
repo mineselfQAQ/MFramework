@@ -49,8 +49,10 @@ namespace MFramework
         /// <summary>
         /// 连接服务器
         /// </summary>
-        public void Connect(Action success = null, Action error = null)
+        public void Connect(Action onSuccess = null, Action onError = null)
         {
+            if (isConnect) MLog.Print($"{typeof(MTCPClient)}：本机已连接至服务器，请勿反复连接", MLogType.Warning);
+
             if (isConnecting) return;
             isConnecting = true;
 
@@ -61,12 +63,12 @@ namespace MFramework
                 //成功或失败回调
                 if (flag)
                 {
-                    MainThreadUtility.Post(success);
+                    MainThreadUtility.Post(onSuccess);
                     MainThreadUtility.Post(OnConnectSuccess);
                 }
                 else
                 {
-                    MainThreadUtility.Post(error);
+                    MainThreadUtility.Post(onError);
                     MainThreadUtility.Post(OnConnectError);
                 }
 
@@ -206,20 +208,7 @@ namespace MFramework
                         //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
                         _dataBuffer.AddBuffer(bytes, len);
                         //获取数据(解包获取)
-                        var dataPack = new SocketDataPack();
-                        if (_dataBuffer.TryUnpack(out dataPack))
-                        {
-                            //踢出包
-                            if (dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
-                            {
-                                OnDisconnectInternal();
-                            }
-                            //一般情况
-                            else
-                            {
-                                MainThreadUtility.Post<SocketDataPack>(OnReceive, dataPack);
-                            }
-                        }
+                        TryUnpack();
                     }
                 }
                 catch (SocketException ex)
@@ -227,6 +216,26 @@ namespace MFramework
                     //接收出现问题，自行断开并重连
                     OnErrorInternal(ex);
                 }
+            }
+        }
+
+        private void TryUnpack()
+        {
+            var dataPack = new SocketDataPack();
+            if (_dataBuffer.TryUnpack(out dataPack))
+            {
+                //踢出包
+                if (dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
+                {
+                    OnDisconnectInternal();
+                }
+                //一般情况
+                else
+                {
+                    MainThreadUtility.Post<SocketDataPack>(OnReceive, dataPack);
+                }
+
+                if (_dataBuffer.haveBuff) TryUnpack();
             }
         }
 
@@ -245,6 +254,18 @@ namespace MFramework
         {
             if (!isConnect) return;
             isConnect = false;
+
+            _dataBuffer = null;
+
+            OnConnectSuccess = null;
+            OnConnectError = null;
+            OnReConnectSuccess = null;
+            OnReConnectError = null;
+            OnReconnecting = null;
+            OnDisconnect = null;
+            OnReceive = null;
+            OnSend = null;
+            OnError = null;
 
             if (_headTimer != null)
             {

@@ -61,11 +61,15 @@ namespace MFramework
         {
             dataPack = UDPDataPack.Unpack(_buff, out int packetLength);
 
+            //接收过数据，可以从缓存中移除
+            if (packetLength != -1)
+            {
+                _buffLength -= packetLength;
+                byte[] temp = new byte[_buffLength < MIN_BUFF_LEN ? MIN_BUFF_LEN : _buffLength];
+                Array.Copy(_buff, packetLength, temp, 0, _buffLength);
+                _buff = temp;
+            }
             if (dataPack == null) return false;
-            _buffLength -= packetLength;
-            byte[] temp = new byte[_buffLength < MIN_BUFF_LEN ? MIN_BUFF_LEN : _buffLength];
-            Array.Copy(_buff, packetLength, temp, 0, _buffLength);
-            _buff = temp;
 
             return true;
         }

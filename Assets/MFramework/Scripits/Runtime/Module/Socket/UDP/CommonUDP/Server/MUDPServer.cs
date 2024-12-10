@@ -13,8 +13,8 @@ namespace MFramework
     {
         public event Action<EndPoint> OnConnect;
         public event Action<EndPoint> OnDisconnect;
-        public event Action<EndPoint, SocketDataPack> OnReceive;
-        public event Action<EndPoint, SocketDataPack> OnSend;
+        public event Action<EndPoint, UDPDataPack> OnReceive;
+        public event Action<EndPoint, UDPDataPack> OnSend;
 
         public Dictionary<EndPoint, UDPClientSocketInfo> ClientInfoDic =
             new Dictionary<EndPoint, UDPClientSocketInfo>();
@@ -29,7 +29,6 @@ namespace MFramework
         //=====接收=====
         protected override void ReceiveData()
         {
-            //TODO:需要手动拆包重组，否则会被截断
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
             _server.BeginReceiveFrom(bytes, 0, bytes.Length, SocketFlags.None, ref endPoint, new AsyncCallback(OnReceiveData), bytes);
         }
@@ -77,29 +76,7 @@ namespace MFramework
                         //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
                         ClientInfoDic[endPoint].DataBuffer.AddBuffer(bytes, len);
                         //获取数据(解包获取)
-                        var dataPack = new SocketDataPack();
-                        if (ClientInfoDic[endPoint].DataBuffer.TryUnpack(out dataPack))
-                        {
-                            //心跳包
-                            if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
-                            {
-                                ReceiveHead(endPoint);
-                            }
-                            //关闭包(客户端请求关闭)
-                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
-                            {
-                                ReceiveCloseRequest(endPoint);
-                            }
-                            //关闭包(客户端关闭回复)
-                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREPLY)
-                            {
-                                ReceiveCloseReply(endPoint);
-                            }
-                            else
-                            {
-                                MainThreadUtility.Post<EndPoint, SocketDataPack>(OnReceive, endPoint, dataPack);//OnReceive回调
-                            }
-                        }
+                        TryUnpack(endPoint);
                     }
                 }
 
@@ -108,8 +85,7 @@ namespace MFramework
             }
             catch (SocketException)
             {
-                //TODO:目前只发现一种可能为服务器断线，不知道还有没有其它可能
-                MLog.Print($"服务器断线", MLogType.Warning);
+
             }
         }
         private void ReceiveHead(EndPoint client)
@@ -137,6 +113,35 @@ namespace MFramework
             CloseClient(client);
         }
 
+        private void TryUnpack(EndPoint ep)
+        {
+            var dataPack = new UDPDataPack();
+            if (ClientInfoDic[endPoint].DataBuffer.TryUnpack(out dataPack))
+            {
+                //心跳包
+                if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
+                {
+                    ReceiveHead(endPoint);
+                }
+                //关闭包(客户端请求关闭)
+                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
+                {
+                    ReceiveCloseRequest(endPoint);
+                }
+                //关闭包(客户端关闭回复)
+                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREPLY)
+                {
+                    ReceiveCloseReply(endPoint);
+                }
+                else
+                {
+                    MainThreadUtility.Post<EndPoint, UDPDataPack>(OnReceive, ep, dataPack);//OnReceive回调
+                }
+
+                if (ClientInfoDic[endPoint].DataBuffer.haveBuff) TryUnpack(ep);
+            }
+        }
+
         //=====心跳包检测=====
         private void CheckHeadTimeOut()
         {
@@ -156,54 +161,49 @@ namespace MFramework
 
 
         //=====发送=====
-        public void SendUTF(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, SocketDataPack> onTrigger = null)
+        public void SendUTF(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, UDPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
             UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendASCII(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, SocketDataPack> onTrigger = null)
+        public void SendASCII(EndPoint endPoint, SocketEvent type, string message, Action<EndPoint, UDPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.ASCII.GetBytes(message);
             UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendBytes(EndPoint endPoint, SocketEvent type, byte[] buff, Action<EndPoint, SocketDataPack> onTrigger = null)
+        public void SendBytes(EndPoint endPoint, SocketEvent type, byte[] buff, Action<EndPoint, UDPDataPack> onTrigger = null)
         {
             UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendEvent(EndPoint endPoint, SocketEvent type, Action<EndPoint, SocketDataPack> onTrigger = null)
+        public void SendEvent(EndPoint endPoint, SocketEvent type, Action<EndPoint, UDPDataPack> onTrigger = null)
         {
             UDPSendContext context = new UDPSendContext() { EndPoint = endPoint, Type = (ushort)type, Buff = null };
 
             Send(context, onTrigger);
         }
-        protected override void Send(UDPSendContext context, Action<EndPoint, SocketDataPack> onTrigger)
+        protected override void Send(UDPSendContext context, Action<EndPoint, UDPDataPack> onTrigger)
         {
             //组成包并取出Buff
             context.Buff = context.Buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(context.Type, context.Buff);
-            var data = dataPack.Buff;
+            var dataPack = new UDPDataPack(context.Type, context.Buff);
 
-            try
+            foreach (var packet in dataPack.Packets)
             {
                 //发送Buff
-                _server.BeginSendTo(data, 0, data.Length, SocketFlags.None, context.EndPoint, new AsyncCallback((asyncSend) =>
+                _server.BeginSendTo(packet, 0, packet.Length, SocketFlags.None, context.EndPoint, new AsyncCallback((asyncSend) =>
                 {
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
 
-                    MainThreadUtility.Post<EndPoint, SocketDataPack>(onTrigger, endPoint, dataPack);
-                    MainThreadUtility.Post<EndPoint, SocketDataPack>(OnSend, endPoint, dataPack);//OnSend回调
+                    MainThreadUtility.Post<EndPoint, UDPDataPack>(onTrigger, endPoint, dataPack);
+                    MainThreadUtility.Post<EndPoint, UDPDataPack>(OnSend, endPoint, dataPack);//OnSend回调
                 }), _server);
-            }
-            catch (SocketException ex)
-            {
-                MLog.Print(ex);
             }
         }
         protected override void Send(UDPSendContext context, Action<EndPoint, byte[]> onTrigger = null)

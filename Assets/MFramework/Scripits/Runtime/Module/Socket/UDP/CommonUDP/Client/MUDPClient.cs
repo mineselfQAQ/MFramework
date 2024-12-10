@@ -37,10 +37,10 @@ namespace MFramework
         //=====连接=====
         public void Connect(Action onSuccess = null, Action onError = null)
         {
+            if (isConnect) MLog.Print($"{typeof(MUDPClient)}：本机已连接至服务器，请勿反复连接", MLogType.Warning);
+
             if (isConnecting) return;
             isConnecting = true;
-
-            if (isConnect) MLog.Print($"{typeof(MUDPClient)}：本机已连接至服务器，请勿反复连接", MLogType.Warning);
 
             Action<bool, string> onTrigger = (flag, ex) =>
             {
@@ -151,7 +151,6 @@ namespace MFramework
         //=====接收=====
         private void ReceiveData()
         {
-            //TODO:需要手动拆包重组，否则会被截断
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
             _client.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, new AsyncCallback(OnReceiveData), bytes);
         }
@@ -166,37 +165,44 @@ namespace MFramework
                     //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
                     _dataBuffer.AddBuffer(bytes, len);
                     //获取数据(解包获取)
-                    var dataPack = new UDPDataPack();
-                    if (_dataBuffer.TryUnpack(out dataPack))
-                    {
-                        //关闭/踢出包
-                        if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREPLY ||
-                            dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
-                        {
-                            DisconnectInternal();
-                        }
-                        //关闭包(服务器请求)
-                        else if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREQUEST)
-                        {
-                            SendEvent(SocketEvent.C2S_DISCONNECTREPLY);
-                            MCoroutineManager.Instance.DelayOneFrame(() =>
-                            {
-                                DisconnectInternal();
-                            });
-                        }
-                        else
-                        {
-                            MainThreadUtility.Post<UDPDataPack>(OnReceive, dataPack);
-                        }
-                    }
+                    TryUnpack();
                 }
 
                 //继续接收数据
                 if (isConnect) ReceiveData();
             }
-            catch (Exception)
+            catch (SocketException)
             {
                 //OnErrorInternal(ex);
+            }
+        }
+
+        private void TryUnpack()
+        {
+            var dataPack = new UDPDataPack();
+            if (_dataBuffer.TryUnpack(out dataPack))
+            {
+                //关闭/踢出包
+                if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREPLY ||
+                    dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
+                {
+                    DisconnectInternal();
+                }
+                //关闭包(服务器请求)
+                else if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREQUEST)
+                {
+                    SendEvent(SocketEvent.C2S_DISCONNECTREPLY);
+                    MCoroutineManager.Instance.DelayOneFrame(() =>
+                    {
+                        DisconnectInternal();
+                    });
+                }
+                else
+                {
+                    MainThreadUtility.Post<UDPDataPack>(OnReceive, dataPack);
+                }
+
+                if (_dataBuffer.haveBuff) TryUnpack();
             }
         }
 
@@ -284,6 +290,10 @@ namespace MFramework
         {
             if (!isConnect) return;
             isConnect = false;
+
+            SendEvent(SocketEvent.C2S_DISCONNECTREQUEST);
+
+            _dataBuffer = null;
 
             OnConnectSuccess = null;
             OnConnectError = null;

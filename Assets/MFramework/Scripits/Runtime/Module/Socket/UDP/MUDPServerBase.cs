@@ -23,7 +23,7 @@ namespace MFramework
         /// </summary>
         protected virtual void OnCloseInternal() { }
 
-        protected abstract void Send(UDPSendContext context, Action<EndPoint, SocketDataPack> onTrigger);//通常版用
+        protected abstract void Send(UDPSendContext context, Action<EndPoint, UDPDataPack> onTrigger);//通常版用
         protected abstract void Send(UDPSendContext context, Action<EndPoint, byte[]> onTrigger);//EZ版用
         protected abstract void ReceiveData();
 

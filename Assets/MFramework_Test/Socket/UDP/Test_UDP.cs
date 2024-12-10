@@ -56,15 +56,18 @@ public class Test_UDP : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        //退出方法：由服务器申请关闭所有客户端后再关闭
-        Thread thread = new Thread(() =>
+        if (server.isValid)
         {
-            if (server != null)
+            //退出方法：由服务器申请关闭所有客户端后再关闭
+            Thread thread = new Thread(() =>
             {
-                server.Close();
-            }
-        });
-        thread.IsBackground = true;
-        thread.Start();
+                if (server != null)
+                {
+                    server.Close();
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
     }
 }

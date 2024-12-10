@@ -298,6 +298,14 @@ namespace MFramework
                 _headCheckTimer = null;
             }
 
+            ClientInfoDic = null;
+            _dataBuffer = null;
+
+            OnConnect = null;
+            OnDisconnect = null;
+            OnReceive = null;
+            OnSend = null;
+
             _server.Close();
             _server = null;
         }

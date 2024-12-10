@@ -97,7 +97,7 @@ namespace MFramework
                 MLog.Print(ex);
             }
         }
-        protected override void Send(UDPSendContext context, Action<EndPoint, SocketDataPack> onTrigger = null) 
+        protected override void Send(UDPSendContext context, Action<EndPoint, UDPDataPack> onTrigger = null) 
         {
             throw new NotSupportedException();
         }

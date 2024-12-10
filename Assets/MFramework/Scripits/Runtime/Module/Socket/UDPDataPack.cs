@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace MFramework
 {
-    //TODO:完善并将SocketDataPack更改为TCPDataPack，并更改UDP传输方式
     public class UDPDataPack
     {
         /// <summary>
@@ -107,7 +106,8 @@ namespace MFramework
             Packets = new List<byte[]>();
 
             int maxDataSize = MAX_DATA_LEN;//最大负载
-            TotalFrag = (UInt16)((data.Length - 1 + maxDataSize) / maxDataSize);//分片数
+            if (data.Length == 0) TotalFrag = 1;//分片数---Event情况，比只有1个小包
+            else TotalFrag = (UInt16)((data.Length - 1 + maxDataSize) / maxDataSize);//分片数---一般情况
             ID = GenerateID();
 
             //创建每一个小包
@@ -183,16 +183,18 @@ namespace MFramework
                 packetLength = dataLength + HEAD_LEN;
                 if (buff.Length < packetLength) return null;//数据量不足
 
+                //获取包
                 byte[] packetData = new byte[dataLength];
                 Array.Copy(buff, HEAD_LEN, packetData, 0, dataLength);
 
+                //将小包转入装配器
                 if (!PacketPool.ContainsKey(id))
                 {
                     PacketPool.Add(id, new PacketAssembler(totalFrag));
                 }
                 var assembler = PacketPool[id];
                 assembler.AddFragment(index, packetData);
-
+                //已收集全部小包，组成完整数据
                 if (assembler.isComplete)
                 {
                     var data = assembler.Assemble();
