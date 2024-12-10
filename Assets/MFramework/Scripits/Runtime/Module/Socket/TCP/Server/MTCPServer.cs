@@ -208,7 +208,7 @@ namespace MFramework
                     ReceiveHead(socket);
                 }
                 //断开连接
-                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECT)
+                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
                 {
                     CloseClient(socket);
                 }
@@ -218,7 +218,7 @@ namespace MFramework
                     MainThreadUtility.Post<Socket, SocketDataPack>(OnReceive, socket, dataPack);
                 }
 
-                if(_dataBuffer.haveBuff) TryUnpack(socket);
+                if(_dataBuffer.haveBuff) TryUnpack(socket);//粘包继续处理
             }
         }
 

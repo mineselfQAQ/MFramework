@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MFramework
 {
@@ -13,10 +14,12 @@ namespace MFramework
         protected Socket _server;
         protected EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);//任意客户端EndPoint
 
+        protected bool isWaiting = false;
+
         public bool isValid { get; private set; }
 
         /// <summary>
-        /// 服务器关闭时回调
+        /// 服务器关闭时回调，注意：如需延迟操作，请将isWaiting设置为true，完成后置为false
         /// </summary>
         protected virtual void OnCloseInternal() { }
 
@@ -61,16 +64,31 @@ namespace MFramework
                 MLog.Print($"{typeof(MUDPServerBase)}：服务器<{ep}>已关闭，请勿重新关闭", MLogType.Warning);
                 return;
             }
-            isValid = false;
 
             OnCloseInternal();
+
+            //Tip：只能使用线程，在OnApplicationQuit()时协程已失效
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                WaitForDisconnect();
+            });
+        }
+
+        private void WaitForDisconnect()
+        {
+            while (isWaiting)
+            {
+                Thread.Sleep(100);//100ms检测一次
+            }
 
             EP = null;
             endPoint = null;
 
             _server.Close();
             _server = null;
-            MLog.Print($"{typeof(MUDPServerBase)}：服务器<{ep}>已关闭");
+
+            isValid = false;
+            MLog.Print($"{typeof(MUDPServerBase)}：服务器已关闭");
         }
     }
 }

@@ -34,9 +34,13 @@ namespace MFramework
         }
 
         #region 无记录携程(用于无MonoBehaviour脚本)
-        public Coroutine BeginCoroutineNoRecord(IEnumerator enumerator)
+        public Coroutine BeginCoroutineNoRecord(Action action)
         {
-            return StartCoroutine(enumerator);
+            return StartCoroutine(MCoroutineUtility.Do(action));
+        }
+        public Coroutine BeginCoroutineWithCallBackNoRecord(Action action, Action onFinish)
+        {
+            return StartCoroutine(MCoroutineUtility.DoWithCallBack(action, onFinish));
         }
         public void EndCoroutine(Coroutine coroutine)
         {

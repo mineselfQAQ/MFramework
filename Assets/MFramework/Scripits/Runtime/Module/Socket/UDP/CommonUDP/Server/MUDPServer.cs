@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Timers;
-using UnityEngine;
 
 namespace MFramework
 {
@@ -21,7 +21,7 @@ namespace MFramework
 
         private const int HEAD_CHECKTIME = 5000;//心跳包定时检测频率
 
-        private Timer _headCheckTimer;
+        private System.Timers.Timer _headCheckTimer;
 
         public MUDPServer(string ip, int port) : base(ip, port) { }
         public MUDPServer(IPEndPoint ep) : base(ep) { }
@@ -29,7 +29,7 @@ namespace MFramework
         //=====接收=====
         protected override void ReceiveData()
         {
-            //Tip：Socket会自主进行拆包处理(粘包通过包处理)，不需要我们操作
+            //TODO:需要手动拆包重组，否则会被截断
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
             _server.BeginReceiveFrom(bytes, 0, bytes.Length, SocketFlags.None, ref endPoint, new AsyncCallback(OnReceiveData), bytes);
         }
@@ -61,7 +61,7 @@ namespace MFramework
                             });
 
                             //心跳包定时检测
-                            _headCheckTimer = new Timer(HEAD_CHECKTIME);
+                            _headCheckTimer = new System.Timers.Timer(HEAD_CHECKTIME);
                             _headCheckTimer.AutoReset = true;
                             _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
                             {
@@ -85,10 +85,15 @@ namespace MFramework
                             {
                                 ReceiveHead(endPoint);
                             }
-                            //关闭包(由客户端请求关闭)
-                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECT)
+                            //关闭包(客户端请求关闭)
+                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
                             {
-                                ReceiveClose(endPoint);
+                                ReceiveCloseRequest(endPoint);
+                            }
+                            //关闭包(客户端关闭回复)
+                            else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREPLY)
+                            {
+                                ReceiveCloseReply(endPoint);
                             }
                             else
                             {
@@ -122,13 +127,15 @@ namespace MFramework
                 info.HeadTime = now;//核心：更新时间
             }
         }
-        private void ReceiveClose(EndPoint client) 
+        private void ReceiveCloseRequest(EndPoint client) 
         {
             CloseClient(client);
-            SendEvent(client, SocketEvent.S2C_DISCONNECT);
+            SendEvent(client, SocketEvent.S2C_DISCONNECTREPLY);
         }
-
-
+        private void ReceiveCloseReply(EndPoint client)
+        {
+            CloseClient(client);
+        }
 
         //=====心跳包检测=====
         private void CheckHeadTimeOut()
@@ -209,6 +216,38 @@ namespace MFramework
         //=====断连=====
         protected override void OnCloseInternal()
         {
+            if (ClientInfoDic.Keys.Count == 0) return;
+
+            //先对所有客户端进行断连操作(发送断连报文)
+            foreach (var ep in ClientInfoDic.Keys)
+            {
+                SendEvent(ep, SocketEvent.S2C_DISCONNECTREQUEST);
+            }
+
+            isWaiting = true;//协程等待
+
+            //条件：等待5秒 或 收到所有回报
+            //Tip：只能使用线程，在OnApplicationQuit()时协程已失效
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                Check();
+            });
+        }
+
+        private void Check()
+        {
+            int elapsed = 0;
+            while (elapsed < 5000)//等待5秒
+            {
+                if (ClientInfoDic.Keys.Count == 0)
+                {
+                    break;
+                }
+
+                Thread.Sleep(100);//每100ms检查一次
+                elapsed += 100;
+            }
+
             ClientInfoDic = null;
 
             OnConnect = null;
@@ -221,6 +260,8 @@ namespace MFramework
                 _headCheckTimer.Stop();
                 _headCheckTimer = null;
             }
+
+            isWaiting = false;//继续执行
         }
 
         public void KickOutAll()

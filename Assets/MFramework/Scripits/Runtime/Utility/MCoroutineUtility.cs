@@ -19,6 +19,26 @@ namespace MFramework
             action();
         }
 
+        internal static IEnumerator Do(Action action)
+        {
+            action();
+            yield return null;
+        }
+        internal static IEnumerator DoWithCallBack(Action action, Action onFinish)
+        {
+            yield return DoWithCallBack(() =>
+            {
+                action?.Invoke();
+                return null;
+            }, onFinish);
+        }
+        private static IEnumerator DoWithCallBack(Func<IEnumerator> action, Action onFinish)
+        {
+            yield return action();
+
+            onFinish();
+        }
+
         /// <summary>     
         /// ÑÓ³Ù'interval'ÃëºóÖ´ÐÐ²Ù×÷
         /// </summary>

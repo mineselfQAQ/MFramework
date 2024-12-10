@@ -3,7 +3,6 @@ using System.Net;
 using System;
 using System.Text;
 using System.Timers;
-using UnityEngine;
 
 namespace MFramework
 {
@@ -152,7 +151,7 @@ namespace MFramework
         //=====接收=====
         private void ReceiveData()
         {
-            //Tip：Socket会自主进行拆包处理(粘包通过包处理)，不需要我们操作
+            //TODO:需要手动拆包重组，否则会被截断
             byte[] bytes = new byte[8 * 1024];//缓冲区大小
             _client.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, new AsyncCallback(OnReceiveData), bytes);
         }
@@ -171,10 +170,19 @@ namespace MFramework
                     if (_dataBuffer.TryUnpack(out dataPack))
                     {
                         //关闭/踢出包
-                        if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECT ||
+                        if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREPLY ||
                             dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
                         {
                             DisconnectInternal();
+                        }
+                        //关闭包(服务器请求)
+                        else if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREQUEST)
+                        {
+                            SendEvent(SocketEvent.C2S_DISCONNECTREPLY);
+                            MCoroutineManager.Instance.DelayOneFrame(() =>
+                            {
+                                DisconnectInternal();
+                            });
                         }
                         else
                         {
@@ -186,9 +194,9 @@ namespace MFramework
                 //继续接收数据
                 if (isConnect) ReceiveData();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                OnErrorInternal(ex);
+                //OnErrorInternal(ex);
             }
         }
 
@@ -259,12 +267,12 @@ namespace MFramework
                 return;
             }
 
-            SendEvent(SocketEvent.C2S_DISCONNECT);
+            SendEvent(SocketEvent.C2S_DISCONNECTREQUEST);
         }
 
         private void DisconnectInternal()
         {
-            MLog.Print($"{typeof(MUDPClient)}：客户端收到来自服务器<{serverEP}>的关闭回复，客户端主动关闭");
+            MLog.Print($"{typeof(MUDPClient)}：客户端已关闭");
 
             Close();
             MainThreadUtility.Post(OnDisconnect);

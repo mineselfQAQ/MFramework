@@ -7,7 +7,7 @@ namespace MFramework
     /// </summary>
     public class DataBuffer
     {
-        private const int MIN_BUFF_LEN = 1024;//标准缓存区长度
+        private const int MIN_BUFF_LEN = 1024;//标准缓存区长度(一般来说传输的是文字，不会太大)
 
         private byte[] _buff;
         private int _buffLength = 0;

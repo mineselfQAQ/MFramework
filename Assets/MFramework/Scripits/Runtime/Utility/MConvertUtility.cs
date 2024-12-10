@@ -11,5 +11,15 @@ namespace MFramework
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
+
+        public static string BytesToUTF8(byte[] buff)
+        {
+            return System.Text.Encoding.UTF8.GetString(buff);
+        }
+
+        public static string BytesToASCII(byte[] buff)
+        {
+            return System.Text.Encoding.ASCII.GetString(buff);
+        }
     }
 }

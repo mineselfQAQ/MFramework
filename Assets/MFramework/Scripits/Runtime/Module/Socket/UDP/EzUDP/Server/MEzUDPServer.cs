@@ -25,8 +25,8 @@ namespace MFramework
 
         protected override void ReceiveData()
         {
-            //Tip：数据量不得超过64KB，否则会截断从而无法获取
-            byte[] bytes = new byte[64 * 1024];//最大缓冲区大小
+            //TODO:需要手动拆包重组，否则会被截断
+            byte[] bytes = new byte[8 * 1024];//最大缓冲区大小
             _server.BeginReceiveFrom(bytes, 0, bytes.Length, SocketFlags.None, ref endPoint, new AsyncCallback(OnReceiveData), bytes);
         }
         private void OnReceiveData(IAsyncResult result)

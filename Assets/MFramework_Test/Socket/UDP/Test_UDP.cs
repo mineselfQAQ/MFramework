@@ -1,6 +1,5 @@
 using MFramework;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Test_UDP : MonoBehaviour
@@ -22,10 +21,18 @@ public class Test_UDP : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             server = new MUDPServer(ip, port);
+            server.OnReceive += (ep, dataPack) =>
+            {
+                MLog.Print($"服务器：收到来自客户端<{ep}>的消息：{MConvertUtility.BytesToUTF8(dataPack.Data)}");
+            };
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
             client = new MUDPClient(ip, port);
+            client.OnDisconnect += () =>
+            {
+                MLog.Print("客户端：已断开连接");
+            };
             client.Connect();
         }
 
@@ -49,17 +56,15 @@ public class Test_UDP : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        if (client != null)
-        {
-            client.Disconnect();
-        }
-
-        MCoroutineManager.Instance.DelayNoRecord(() =>
+        //退出方法：由服务器申请关闭所有客户端后再关闭
+        Thread thread = new Thread(() =>
         {
             if (server != null)
             {
                 server.Close();
             }
-        }, 1.0f);
+        });
+        thread.IsBackground = true;
+        thread.Start();
     }
 }

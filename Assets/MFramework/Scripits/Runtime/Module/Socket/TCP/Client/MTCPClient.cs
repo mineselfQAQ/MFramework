@@ -235,7 +235,7 @@ namespace MFramework
         /// </summary>
         public void Disconnect()
         {
-            Send((UInt16)SocketEvent.C2S_DISCONNECT);
+            Send((UInt16)SocketEvent.C2S_DISCONNECTREQUEST);
             OnDisconnectInternal();
         }
         /// <summary>

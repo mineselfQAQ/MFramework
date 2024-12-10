@@ -7,7 +7,10 @@ public class LedgeClimbingPlayerState : PlayerState
 {
     protected override void OnEnter(Player player)
     {
-        MCoroutineManager.Instance.BeginCoroutineNoRecord(SetPositionRoutine(player));
+        MCoroutineManager.Instance.BeginCoroutineNoRecord(() =>
+        {
+            SetPositionRoutine(player);
+        });
     }
 
     protected override void OnStep(Player player) { }
