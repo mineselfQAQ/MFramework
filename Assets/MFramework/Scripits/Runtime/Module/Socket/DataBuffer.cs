@@ -57,5 +57,17 @@ namespace MFramework
 
             return true;
         }
+        public bool TryUnpack(out UDPDataPack dataPack)
+        {
+            dataPack = UDPDataPack.Unpack(_buff, out int packetLength);
+
+            if (dataPack == null) return false;
+            _buffLength -= packetLength;
+            byte[] temp = new byte[_buffLength < MIN_BUFF_LEN ? MIN_BUFF_LEN : _buffLength];
+            Array.Copy(_buff, packetLength, temp, 0, _buffLength);
+            _buff = temp;
+
+            return true;
+        }
     }
 }

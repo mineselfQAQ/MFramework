@@ -14,7 +14,7 @@ namespace MFramework
         /// </summary>
         protected virtual void OnCloseInternal() { }
 
-        protected abstract void Send(UDPSendContext context, Action<SocketDataPack> onTrigger);
+        protected abstract void Send(UDPSendContext context, Action<UDPDataPack> onTrigger);
         protected abstract void Send(UDPSendContext context, Action<byte[]> onTrigger);
 
         public MUDPClientBase(string ip, int port)

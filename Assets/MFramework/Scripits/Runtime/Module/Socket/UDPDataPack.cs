@@ -90,7 +90,7 @@ namespace MFramework
             get { return Data.Length; }
         }
 
-        private List<byte[]> _packets;
+        public List<byte[]> Packets;//拆包后包数据(包括包头)
 
         public UDPDataPack() { }
         public UDPDataPack(UInt16 type, byte[] data)
@@ -101,10 +101,10 @@ namespace MFramework
             CreatePackets(Type, Data);
         }
 
-        public void CreatePackets(UInt16 type, byte[] data)
+        private void CreatePackets(UInt16 type, byte[] data)
         {
-            if (_packets != null) return;
-            _packets = new List<byte[]>();
+            if (Packets != null) return;
+            Packets = new List<byte[]>();
 
             int maxDataSize = MAX_DATA_LEN;//最大负载
             TotalFrag = (UInt16)((data.Length - 1 + maxDataSize) / maxDataSize);//分片数
@@ -121,7 +121,7 @@ namespace MFramework
                 Array.Copy(data, offset, packetData, 0, length);
 
                 var packet = CreatePacket(packetData, ID, (UInt16)i, TotalFrag, type);
-                _packets.Add(packet);
+                Packets.Add(packet);
             }
         }
 
@@ -166,8 +166,9 @@ namespace MFramework
             return value;
         }
 
-        public static UDPDataPack Unpack(byte[] buff)
+        public static UDPDataPack Unpack(byte[] buff, out int packetLength)
         {
+            packetLength = -1;
             try
             {
                 //暂未获得完整数据
@@ -179,7 +180,8 @@ namespace MFramework
                 UInt16 dataLength = BitConverter.ToUInt16(buff, 6);
                 UInt16 type = BitConverter.ToUInt16(buff, 8);
 
-                if (buff.Length < dataLength + HEAD_LEN) return null;//数据量不足
+                packetLength = dataLength + HEAD_LEN;
+                if (buff.Length < packetLength) return null;//数据量不足
 
                 byte[] packetData = new byte[dataLength];
                 Array.Copy(buff, HEAD_LEN, packetData, 0, dataLength);

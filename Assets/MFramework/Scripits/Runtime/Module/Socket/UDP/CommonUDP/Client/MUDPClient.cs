@@ -14,8 +14,8 @@ namespace MFramework
         public event Action<int> OnReConnectError;
         public event Action<int> OnReconnecting;
         public event Action OnDisconnect;
-        public event Action<SocketDataPack> OnReceive;
-        public event Action<SocketDataPack> OnSend;
+        public event Action<UDPDataPack> OnReceive;
+        public event Action<UDPDataPack> OnSend;
         public event Action<Exception> OnError;
 
         private const int TIMEOUT_CONNECT = 3000;//连接超时时间
@@ -166,7 +166,7 @@ namespace MFramework
                     //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
                     _dataBuffer.AddBuffer(bytes, len);
                     //获取数据(解包获取)
-                    var dataPack = new SocketDataPack();
+                    var dataPack = new UDPDataPack();
                     if (_dataBuffer.TryUnpack(out dataPack))
                     {
                         //关闭/踢出包
@@ -186,7 +186,7 @@ namespace MFramework
                         }
                         else
                         {
-                            MainThreadUtility.Post<SocketDataPack>(OnReceive, dataPack);
+                            MainThreadUtility.Post<UDPDataPack>(OnReceive, dataPack);
                         }
                     }
                 }
@@ -203,52 +203,54 @@ namespace MFramework
 
 
         //=====发送=====
-        public void SendUTF(SocketEvent type, string message, Action<SocketDataPack> onTrigger = null)
+        public void SendUTF(SocketEvent type, string message, Action<UDPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
             UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendASCII(SocketEvent type, string message, Action<SocketDataPack> onTrigger = null)
+        public void SendASCII(SocketEvent type, string message, Action<UDPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.ASCII.GetBytes(message);
             UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendBytes(SocketEvent type, byte[] buff, Action<SocketDataPack> onTrigger = null)
+        public void SendBytes(SocketEvent type, byte[] buff, Action<UDPDataPack> onTrigger = null)
         {
             UDPSendContext context = new UDPSendContext() {Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendEvent(SocketEvent type, Action<SocketDataPack> onTrigger = null)
+        public void SendEvent(SocketEvent type, Action<UDPDataPack> onTrigger = null)
         {
             UDPSendContext context = new UDPSendContext() { Type = (ushort)type, Buff = null };
 
             Send(context, onTrigger);
         }
-        protected override void Send(UDPSendContext context, Action<SocketDataPack> onTrigger)
+        protected override void Send(UDPSendContext context, Action<UDPDataPack> onTrigger)
         {
             if (!isConnect) return;
 
             //组成包并取出Buff
             context.Buff = context.Buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(context.Type, context.Buff);
-            var data = dataPack.Buff;
+            var dataPack = new UDPDataPack(context.Type, context.Buff);
 
-            //发送Buff
-            //Tip：发送是不会报错的，除非添加重传机制避免传输失败
-            //TODO:所以应该是这样的，包头添加类似ACK机制，并在此刻开始计时，如果在规定时间内收到一个ACK，那么传输未超时
-            _client.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
+            foreach (var packet in dataPack.Packets)
             {
-                Socket c = (Socket)asyncSend.AsyncState;
-                c.EndSend(asyncSend);
+                //发送Buff
+                //Tip：发送是不会报错的，除非添加重传机制避免传输失败
+                //TODO:所以应该是这样的，包头添加类似ACK机制，并在此刻开始计时，如果在规定时间内收到一个ACK，那么传输未超时
+                _client.BeginSend(packet, 0, packet.Length, SocketFlags.None, new AsyncCallback((asyncSend) =>
+                {
+                    Socket c = (Socket)asyncSend.AsyncState;
+                    c.EndSend(asyncSend);
 
-                MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
-            }), _client);
+                    MainThreadUtility.Post<UDPDataPack>(onTrigger, dataPack);
+                    MainThreadUtility.Post<UDPDataPack>(OnSend, dataPack);
+                }), _client);
+            }
         }
         protected override void Send(UDPSendContext context, Action<byte[]> onTrigger)
         {
