@@ -1,8 +1,10 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Timers;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -20,8 +22,8 @@ namespace MFramework
         public event Action<int> OnReConnectError;
         public event Action<int> OnReconnecting;
         public event Action OnDisconnect;
-        public event Action<SocketDataPack> OnReceive;
-        public event Action<SocketDataPack> OnSend;
+        public event Action<TCPDataPack> OnReceive;
+        public event Action<TCPDataPack> OnSend;
         public event Action<SocketException> OnError;
 
         private const int TIMEOUT_CONNECT = 3000;//连接超时时间
@@ -40,10 +42,28 @@ namespace MFramework
         public bool isConnecting { get; private set; }
         public bool isReconnecting { get; private set; }
 
+        /// <summary>
+        /// 应用层缓存大小(一次能获取的最大量)
+        /// </summary>
+        public int BufferSize { get; private set; } = 8198;//默认8KB(+6bytes(包头))
+        public int DataSize => BufferSize - 6;
+
         public MTCPClient(string ip, int port)
         {
             IP = ip;
             Port = port;
+        }
+
+        /// <summary>
+        /// 设置缓冲区大小(单位KB) 数据大小范围[1024, int.MaxValue - 6]
+        /// 注意：如果设置为int.MaxValue，那么实际可存放数据会少6bytes(因为占用了6bytes包头)，如果还是使用int.MaxValue会导致错误
+        /// </summary>
+        public void SetBufferSize(int size)
+        {
+            if (size == BufferSize) return;
+
+            size = size * 1024 + 6;
+            size = Mathf.Clamp(size, 1030, int.MaxValue);
         }
 
         /// <summary>
@@ -112,7 +132,7 @@ namespace MFramework
                         _headTimer.AutoReset = true;
                         _headTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
                         {
-                            Send((UInt16)SocketEvent.C2S_HEAD);//16位无符号数据(也就是4个16进制数0x1234)
+                            SendEvent(SocketEvent.C2S_HEAD);//16位无符号数据(也就是4个16进制数0x1234)
                         };
                         _headTimer.Start();
 
@@ -162,15 +182,48 @@ namespace MFramework
             });
         }
 
+        public void SendUTF(SocketEvent type, string message, Action<TCPDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.UTF8.GetBytes(message);
+            TCPSendContext context = new TCPSendContext() { Socket = _client, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendASCII(SocketEvent type, string message, Action<TCPDataPack> onTrigger = null)
+        {
+            byte[] buff = Encoding.ASCII.GetBytes(message);
+            TCPSendContext context = new TCPSendContext() { Socket = _client, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendBytes(SocketEvent type, byte[] buff, Action<TCPDataPack> onTrigger = null)
+        {
+            TCPSendContext context = new TCPSendContext() { Socket = _client, Type = (ushort)type, Buff = buff };
+
+            Send(context, onTrigger);
+        }
+        public void SendEvent(SocketEvent type, Action<TCPDataPack> onTrigger = null)
+        {
+            TCPSendContext context = new TCPSendContext() { Socket = _client, Type = (ushort)type, Buff = null };
+
+            Send(context, onTrigger);
+        }
         /// <summary>
         /// 向服务器发送消息
         /// </summary>
-        public void Send(UInt16 e, byte[] buff = null, Action<SocketDataPack> onTrigger = null)
+        public void Send(TCPSendContext context, Action<TCPDataPack> onTrigger = null)
         {
             //组成包并取出Buff
-            buff = buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(e, buff);
+            context.Buff = context.Buff ?? new byte[] { };
+            var dataPack = new TCPDataPack(context.Type, context.Buff);
             var data = dataPack.Buff;
+
+            if (data.Length > BufferSize - 6)
+            {
+                MLog.Print($"{typeof(MTCPClient)}：传输数据{data.Length}bytes太大，" +
+                    $"取值范围[0,{BufferSize - 6}]，如想扩大可调用SetBufferSize()", MLogType.Warning);
+                return;
+            }
 
             try
             {
@@ -179,8 +232,8 @@ namespace MFramework
                 {
                     Socket c = (Socket)asyncSend.AsyncState;
                     c.EndSend(asyncSend);
-                    MainThreadUtility.Post<SocketDataPack>(onTrigger, dataPack);
-                    MainThreadUtility.Post<SocketDataPack>(OnSend, dataPack);
+                    MainThreadUtility.Post<TCPDataPack>(onTrigger, dataPack);
+                    MainThreadUtility.Post<TCPDataPack>(OnSend, dataPack);
                 }), _client);
             }
             catch (SocketException ex)
@@ -201,7 +254,7 @@ namespace MFramework
                     if (!isConnect) break;
                     if (_client.Available <= 0) continue;//如果没有数据，不读取避免堵塞
 
-                    byte[] bytes = new byte[8 * 1024];//常规缓冲区大小
+                    byte[] bytes = new byte[BufferSize];//常规缓冲区大小
                     int len = _client.Receive(bytes);//服务器信息接收(会堵塞)
                     if (len > 0)
                     {
@@ -221,21 +274,23 @@ namespace MFramework
 
         private void TryUnpack()
         {
-            var dataPack = new SocketDataPack();
-            if (_dataBuffer.TryUnpack(out dataPack))
+            //迭代解包所有包(粘包/网络问题导致的积压)
+            while (_dataBuffer.haveBuff) 
             {
-                //踢出包
-                if (dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
+                var dataPack = new TCPDataPack();
+                if (_dataBuffer.TryUnpack(out dataPack))
                 {
-                    OnDisconnectInternal();
+                    //踢出包
+                    if (dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
+                    {
+                        OnDisconnectInternal();
+                    }
+                    //一般情况
+                    else
+                    {
+                        MainThreadUtility.Post<TCPDataPack>(OnReceive, dataPack);
+                    }
                 }
-                //一般情况
-                else
-                {
-                    MainThreadUtility.Post<SocketDataPack>(OnReceive, dataPack);
-                }
-
-                if (_dataBuffer.haveBuff) TryUnpack();
             }
         }
 
@@ -244,7 +299,7 @@ namespace MFramework
         /// </summary>
         public void Disconnect()
         {
-            Send((UInt16)SocketEvent.C2S_DISCONNECTREQUEST);
+            SendEvent(SocketEvent.C2S_DISCONNECTREQUEST);
             OnDisconnectInternal();
         }
         /// <summary>
@@ -254,18 +309,6 @@ namespace MFramework
         {
             if (!isConnect) return;
             isConnect = false;
-
-            _dataBuffer = null;
-
-            OnConnectSuccess = null;
-            OnConnectError = null;
-            OnReConnectSuccess = null;
-            OnReConnectError = null;
-            OnReconnecting = null;
-            OnDisconnect = null;
-            OnReceive = null;
-            OnSend = null;
-            OnError = null;
 
             if (_headTimer != null)
             {

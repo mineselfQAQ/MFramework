@@ -7,7 +7,7 @@ namespace MFramework
     /// </summary>
     public class DataBuffer
     {
-        private const int MIN_BUFF_LEN = 1024;//标准缓存区长度(一般来说传输的是文字，不会太大)
+        private const int MIN_BUFF_LEN = 1024;//标准缓存区长度(一般来说传输的是文字，不会太大，同时小于链路层的1472)
 
         private byte[] _buff;
         private int _buffLength = 0;
@@ -44,9 +44,9 @@ namespace MFramework
             _buffLength += len;
         }
 
-        public bool TryUnpack(out SocketDataPack dataPack)
+        public bool TryUnpack(out TCPDataPack dataPack)
         {
-            dataPack = SocketDataPack.Unpack(_buff);
+            dataPack = TCPDataPack.Unpack(_buff);
 
             if (dataPack == null) return false;
             //清理已取数据

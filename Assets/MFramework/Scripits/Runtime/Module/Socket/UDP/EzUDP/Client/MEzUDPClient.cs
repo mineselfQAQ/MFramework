@@ -10,26 +10,23 @@ namespace MFramework
     /// </summary>
     public class MEzUDPClient : MUDPClientBase
     {
-        public MEzUDPClient(string ip, int port) : base(ip, port) { }
-        public MEzUDPClient(IPEndPoint ep) : base(ep) { }
+        public MEzUDPClient(string ip, int port) : base(ip, port)
+        {
+            //一次性传输，设置为最大
+            _client.SendBufferSize = 65507;
+        }
+        public MEzUDPClient(IPEndPoint ep) : base(ep)
+        {
+            //一次性传输，设置为最大
+            _client.SendBufferSize = 65507;
+        }
 
         public event Action<byte[]> OnSend;
 
-        protected override void OnCloseInternal()
-        {
-            OnSend = null;
-        }
-
+        //不提供ASCII发送方式，因为服务器固定使用UTF8解码
         public void SendUTF(string message, Action<byte[]> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
-            UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = buff };
-
-            Send(context, onTrigger);
-        }
-        public void SendASCII(string message, Action<byte[]> onTrigger = null)
-        {
-            byte[] buff = Encoding.ASCII.GetBytes(message);
             UDPSendContext context = new UDPSendContext() { EndPoint = serverEP, Buff = buff };
 
             Send(context, onTrigger);

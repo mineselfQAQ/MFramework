@@ -151,7 +151,9 @@ namespace MFramework
         //=====接收=====
         private void ReceiveData()
         {
-            byte[] bytes = new byte[8 * 1024];//缓冲区大小
+            //TODO:缺少重传机制，即使为1024也会出现数据丢失情况而且无法真正获取整包
+            //1024---小于链路层负载(1472)的值
+            byte[] bytes = new byte[1024];//缓冲区大小
             _client.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, new AsyncCallback(OnReceiveData), bytes);
         }
         private void OnReceiveData(IAsyncResult result)
@@ -179,30 +181,32 @@ namespace MFramework
 
         private void TryUnpack()
         {
-            var dataPack = new UDPDataPack();
-            if (_dataBuffer.TryUnpack(out dataPack))
+            //迭代解包所有包(网络问题导致的积压)
+            while (_dataBuffer.haveBuff)
             {
-                //关闭/踢出包
-                if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREPLY ||
-                    dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
+                var dataPack = new UDPDataPack();
+                if (_dataBuffer.TryUnpack(out dataPack))
                 {
-                    DisconnectInternal();
-                }
-                //关闭包(服务器请求)
-                else if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREQUEST)
-                {
-                    SendEvent(SocketEvent.C2S_DISCONNECTREPLY);
-                    MCoroutineManager.Instance.DelayOneFrame(() =>
+                    //关闭/踢出包
+                    if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREPLY ||
+                        dataPack.Type == (UInt16)SocketEvent.S2C_KICKOUT)
                     {
                         DisconnectInternal();
-                    });
+                    }
+                    //关闭包(服务器请求)
+                    else if (dataPack.Type == (UInt16)SocketEvent.S2C_DISCONNECTREQUEST)
+                    {
+                        SendEvent(SocketEvent.C2S_DISCONNECTREPLY);
+                        MCoroutineManager.Instance.DelayOneFrame(() =>
+                        {
+                            DisconnectInternal();
+                        });
+                    }
+                    else
+                    {
+                        MainThreadUtility.Post<UDPDataPack>(OnReceive, dataPack);
+                    }
                 }
-                else
-                {
-                    MainThreadUtility.Post<UDPDataPack>(OnReceive, dataPack);
-                }
-
-                if (_dataBuffer.haveBuff) TryUnpack();
             }
         }
 
@@ -294,16 +298,6 @@ namespace MFramework
             SendEvent(SocketEvent.C2S_DISCONNECTREQUEST);
 
             _dataBuffer = null;
-
-            OnConnectSuccess = null;
-            OnConnectError = null;
-            OnReConnectSuccess = null;
-            OnReConnectError = null;
-            OnReconnecting = null;
-            OnDisconnect = null;
-            OnReceive = null;
-            OnSend = null;
-            OnError = null;
 
             if (_headTimer != null)
             {

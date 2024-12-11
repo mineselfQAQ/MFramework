@@ -33,7 +33,7 @@ namespace MFramework
             Port = port;
             EP = new IPEndPoint(IPAddress.Parse(ip), port);
 
-            InitSettings((IPEndPoint)EP);
+            //InitSettings((IPEndPoint)EP);
         }
         public MUDPServerBase(IPEndPoint ep)
         {
@@ -41,7 +41,7 @@ namespace MFramework
             IP = ep.Address.ToString();
             Port = ep.Port;
 
-            InitSettings(ep);
+            //InitSettings(ep);
         }
 
         private void InitSettings(IPEndPoint ep)
@@ -53,6 +53,11 @@ namespace MFramework
             MLog.Print($"{typeof(MUDPServerBase)}：服务器<{EP}>已开始监听");
 
             ReceiveData();
+        }
+
+        public virtual void Open()
+        {
+            InitSettings((IPEndPoint)EP);
         }
 
         public void Close()
@@ -76,13 +81,11 @@ namespace MFramework
 
         private void WaitForDisconnect()
         {
+            //如果OnCloseInternal()设置了isWaiting=true，则会循环等待变为isWaiting=false
             while (isWaiting)
             {
                 Thread.Sleep(100);//100ms检测一次
             }
-
-            EP = null;
-            endPoint = null;
 
             _server.Close();
             _server = null;

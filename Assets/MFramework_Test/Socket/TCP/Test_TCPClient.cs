@@ -1,4 +1,5 @@
 using MFramework;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Test_TCPClient : MonoBehaviour
@@ -62,12 +63,22 @@ public class Test_TCPClient : MonoBehaviour
                 UnityEngine.Debug.Log("连接失败");
             });
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            byte[] bytes = new byte[1024*1024];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = 1;
+            }
+            _client.SendBytes(SocketEvent.EMPTY, bytes);
+        }
     }
 
     public void ClickSendTest()
     {
         var bytes = System.Text.Encoding.UTF8.GetBytes("我是测试数据");
-        _client.Send((System.UInt16)SocketEvent.EMPTY, bytes);
+        _client.SendBytes(SocketEvent.EMPTY, bytes);
     }
 
     public void ClickDisConnect()

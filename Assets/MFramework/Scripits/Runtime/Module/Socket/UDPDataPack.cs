@@ -57,7 +57,7 @@ namespace MFramework
 
         private static Dictionary<UInt16, PacketAssembler> PacketPool = new Dictionary<UInt16, PacketAssembler>();
 
-        public static int MAX_SEG_LEN = 8192;//缓冲区总长
+        public static int MAX_SEG_LEN = 1024;//缓冲区总长
         public static int HEAD_PACKETID_LEN = 2;//包ID
         public static int HEAD_FRAGINDEX_LEN = 2;//当前分片索引
         public static int HEAD_TOTALFRAG_LEN = 2;//总分片数
@@ -82,7 +82,7 @@ namespace MFramework
         public UInt16 ID;
         public UInt16 TotalFrag;
         public UInt16 Type;
-        public byte[] Data;//总数据长
+        public byte[] Data;//总数据
 
         public int DataLength
         {
@@ -106,7 +106,7 @@ namespace MFramework
             Packets = new List<byte[]>();
 
             int maxDataSize = MAX_DATA_LEN;//最大负载
-            if (data.Length == 0) TotalFrag = 1;//分片数---Event情况，比只有1个小包
+            if (data.Length == 0) TotalFrag = 1;//分片数---比如Event情况，只有1个小包
             else TotalFrag = (UInt16)((data.Length - 1 + maxDataSize) / maxDataSize);//分片数---一般情况
             ID = GenerateID();
 
@@ -128,8 +128,8 @@ namespace MFramework
         private byte[] CreatePacket(byte[] packetData, UInt16 id, UInt16 index, UInt16 totalFrag, UInt16 type)
         {
             //包头顺序如下：
-            //0-2   2-4       4-6     6-8     8-10      10-8191
-            //ID    小包索引   总包数   小包长   报文类型     数据               
+            //0-2   2-4       4-6     6-8     8-10      10-N
+            //ID    小包索引   总包数   小包长   报文类型   数据               
             byte[] packet = new byte[packetData.Length + HEAD_LEN];
 
             byte[] temp;
@@ -144,26 +144,10 @@ namespace MFramework
             temp = BitConverter.GetBytes(type);
             Array.Copy(temp, 0, packet, 8, 2);
 
+            //Data
             Array.Copy(packetData, 0, packet, 10, packetData.Length);
 
             return packet;
-        }
-
-        private static HashSet<int> IDTable = new HashSet<int>();
-        private static Random random = new Random();
-        private static UInt16 GenerateID()
-        {
-            UInt16 value = (UInt16)random.Next(0, UInt16.MaxValue);
-            if (IDTable.Contains(value))
-            {
-                value = GenerateID();
-            } 
-            else
-            {
-                IDTable.Add(value);
-            }
-
-            return value;
         }
 
         public static UDPDataPack Unpack(byte[] buff, out int packetLength)
@@ -212,6 +196,23 @@ namespace MFramework
             {
                 return null;
             }
+        }
+
+        private static HashSet<int> IDTable = new HashSet<int>();
+        private static Random random = new Random();
+        private static UInt16 GenerateID()
+        {
+            UInt16 value = (UInt16)random.Next(0, UInt16.MaxValue);
+            if (IDTable.Contains(value))
+            {
+                value = GenerateID();
+            }
+            else
+            {
+                IDTable.Add(value);
+            }
+
+            return value;
         }
     }
 }

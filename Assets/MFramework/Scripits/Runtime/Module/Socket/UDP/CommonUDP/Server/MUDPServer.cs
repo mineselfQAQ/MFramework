@@ -23,13 +23,41 @@ namespace MFramework
 
         private System.Timers.Timer _headCheckTimer;
 
-        public MUDPServer(string ip, int port) : base(ip, port) { }
-        public MUDPServer(IPEndPoint ep) : base(ep) { }
+        public MUDPServer(string ip, int port) : base(ip, port)
+        {
+            StartHeadCheckTimer();
+        }
+        public MUDPServer(IPEndPoint ep) : base(ep)
+        {
+            StartHeadCheckTimer();
+        }
+
+        //===开启===
+        public override void Open()
+        {
+            base.Open();
+            if (_headCheckTimer == null)
+            {
+                StartHeadCheckTimer();
+            }
+        }
+        private void StartHeadCheckTimer()
+        {
+            //心跳包定时检测
+            _headCheckTimer = new System.Timers.Timer(HEAD_CHECKTIME);
+            _headCheckTimer.AutoReset = true;
+            _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+            {
+                CheckHeadTimeOut();
+            };
+            _headCheckTimer.Start();
+        }
 
         //=====接收=====
         protected override void ReceiveData()
         {
-            byte[] bytes = new byte[8 * 1024];//缓冲区大小
+            //1024---小于链路层负载(1472)的值
+            byte[] bytes = new byte[1024];//缓冲区大小
             _server.BeginReceiveFrom(bytes, 0, bytes.Length, SocketFlags.None, ref endPoint, new AsyncCallback(OnReceiveData), bytes);
         }
         private void OnReceiveData(IAsyncResult result)
@@ -58,15 +86,6 @@ namespace MFramework
                                 DataBuffer = new DataBuffer(),
                                 HeadTime = MTimeUtility.GetNowTime()
                             });
-
-                            //心跳包定时检测
-                            _headCheckTimer = new System.Timers.Timer(HEAD_CHECKTIME);
-                            _headCheckTimer.AutoReset = true;
-                            _headCheckTimer.Elapsed += delegate (object sender, ElapsedEventArgs args)
-                            {
-                                CheckHeadTimeOut();
-                            };
-                            _headCheckTimer.Start();
 
                             MLog.Print($"{typeof(MUDPServer)}：客户端<{endPoint}>已连接");
                         }
@@ -115,30 +134,32 @@ namespace MFramework
 
         private void TryUnpack(EndPoint ep)
         {
-            var dataPack = new UDPDataPack();
-            if (ClientInfoDic[endPoint].DataBuffer.TryUnpack(out dataPack))
+            //迭代解包所有包(网络问题导致的积压)
+            if (ClientInfoDic[endPoint].DataBuffer.haveBuff)
             {
-                //心跳包
-                if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
+                var dataPack = new UDPDataPack();
+                if (ClientInfoDic[endPoint].DataBuffer.TryUnpack(out dataPack))
                 {
-                    ReceiveHead(endPoint);
+                    //心跳包
+                    if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
+                    {
+                        ReceiveHead(endPoint);
+                    }
+                    //关闭包(客户端请求关闭)
+                    else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
+                    {
+                        ReceiveCloseRequest(endPoint);
+                    }
+                    //关闭包(客户端关闭回复)
+                    else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREPLY)
+                    {
+                        ReceiveCloseReply(endPoint);
+                    }
+                    else
+                    {
+                        MainThreadUtility.Post<EndPoint, UDPDataPack>(OnReceive, ep, dataPack);//OnReceive回调
+                    }
                 }
-                //关闭包(客户端请求关闭)
-                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
-                {
-                    ReceiveCloseRequest(endPoint);
-                }
-                //关闭包(客户端关闭回复)
-                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREPLY)
-                {
-                    ReceiveCloseReply(endPoint);
-                }
-                else
-                {
-                    MainThreadUtility.Post<EndPoint, UDPDataPack>(OnReceive, ep, dataPack);//OnReceive回调
-                }
-
-                if (ClientInfoDic[endPoint].DataBuffer.haveBuff) TryUnpack(ep);
             }
         }
 
@@ -248,12 +269,11 @@ namespace MFramework
                 elapsed += 100;
             }
 
+            CloseInternal();
+        }
+        private void CloseInternal()
+        {
             ClientInfoDic = null;
-
-            OnConnect = null;
-            OnDisconnect = null;
-            OnReceive = null;
-            OnSend = null;
 
             if (_headCheckTimer != null)
             {

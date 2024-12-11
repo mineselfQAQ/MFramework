@@ -25,6 +25,7 @@ public class Test_UDP : MonoBehaviour
             {
                 MLog.Print($"服务器：收到来自客户端<{ep}>的消息：{MConvertUtility.BytesToUTF8(dataPack.Data)}");
             };
+            server.Open();
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
@@ -56,15 +57,12 @@ public class Test_UDP : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        if (server.isValid)
+        if (server != null && server.isValid)
         {
             //退出方法：由服务器申请关闭所有客户端后再关闭
             Thread thread = new Thread(() =>
             {
-                if (server != null)
-                {
-                    server.Close();
-                }
+                server.Close();
             });
             thread.IsBackground = true;
             thread.Start();

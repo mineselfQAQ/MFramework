@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MFramework
@@ -25,23 +26,35 @@ namespace MFramework
             }
         }
 
-        private IMonitor fpsMonitor;
-
-        public bool CheckFPS => fpsMonitor != null;
+        private List<IMonitor> _moniters = new List<IMonitor>();
 
         public PerformanceMonitor(FPSMonitor.DisplayMode mode, float sampleDuration)
         {
-            fpsMonitor = new FPSMonitor(mode, sampleDuration);
+            AddMonitor(new FPSMonitor(mode, sampleDuration));
+        }
+
+        private void AddMonitor(IMonitor monitor)
+        {
+            if (!_moniters.Contains(monitor))
+            {
+                _moniters.Add(monitor);
+            }
         }
 
         public void Update()
         {
-            fpsMonitor.Update();
+            foreach (var monitor in _moniters)
+            {
+                monitor.Update();
+            }
         }
 
         public void Draw()
         {
-            if (CheckFPS) fpsMonitor.Draw();
+            foreach (var monitor in _moniters)
+            {
+                monitor.Draw();
+            }
         }
     }
 }

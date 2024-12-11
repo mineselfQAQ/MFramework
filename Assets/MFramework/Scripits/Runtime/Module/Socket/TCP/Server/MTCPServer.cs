@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Timers;
+using UnityEngine;
 
 namespace MFramework
 {
@@ -18,8 +19,8 @@ namespace MFramework
 
         public event Action<Socket> OnConnect;
         public event Action<Socket> OnDisconnect;
-        public event Action<Socket, SocketDataPack> OnReceive;
-        public event Action<Socket, SocketDataPack> OnSend;
+        public event Action<Socket, TCPDataPack> OnReceive;
+        public event Action<Socket, TCPDataPack> OnSend;
 
         public Dictionary<Socket, TCPClientSocketInfo> ClientInfoDic = new Dictionary<Socket, TCPClientSocketInfo>();
 
@@ -31,6 +32,23 @@ namespace MFramework
         private DataBuffer _dataBuffer = new DataBuffer();
 
         public bool isValid { get; private set; }
+        /// <summary>
+        /// 应用层缓存大小(一次能获取的最大量)
+        /// </summary>
+        public int BufferSize { get; private set; } = 8198;//默认8KB(+6bytes(包头))
+        public int DataSize => BufferSize - 6;
+
+        /// <summary>
+        /// 设置缓冲区大小(单位KB) 范围[1024, int.MaxValue]
+        /// 注意：如果设置为int.MaxValue，那么实际容量会少几bytes，如果还是使用int.MaxValue会导致错误
+        /// </summary>
+        public void SetBufferSize(int size)
+        {
+            if (size == BufferSize) return;
+
+            size = size * 1024 + 128;//冗余128bytes
+            size = Mathf.Clamp(size, 1152, int.MaxValue);
+        }
 
         public MTCPServer(string ip, int port)
         {
@@ -59,27 +77,27 @@ namespace MFramework
             _headCheckTimer.Start();
         }
 
-        public void SendUTF(Socket socket, SocketEvent type, string message, Action<Socket, SocketDataPack> onTrigger = null)
+        public void SendUTF(Socket socket, SocketEvent type, string message, Action<Socket, TCPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.UTF8.GetBytes(message);
             TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendASCII(Socket socket, SocketEvent type, string message, Action<Socket, SocketDataPack> onTrigger = null)
+        public void SendASCII(Socket socket, SocketEvent type, string message, Action<Socket, TCPDataPack> onTrigger = null)
         {
             byte[] buff = Encoding.ASCII.GetBytes(message);
             TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendBytes(Socket socket, SocketEvent type, byte[] buff, Action<Socket, SocketDataPack> onTrigger = null)
+        public void SendBytes(Socket socket, SocketEvent type, byte[] buff, Action<Socket, TCPDataPack> onTrigger = null)
         {
             TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = buff };
 
             Send(context, onTrigger);
         }
-        public void SendEvent(Socket socket, SocketEvent type, Action<Socket, SocketDataPack> onTrigger = null)
+        public void SendEvent(Socket socket, SocketEvent type, Action<Socket, TCPDataPack> onTrigger = null)
         {
             TCPSendContext context = new TCPSendContext() { Socket = socket, Type = (ushort)type, Buff = null };
 
@@ -89,12 +107,19 @@ namespace MFramework
         /// <summary>
         /// 向客户端发送消息
         /// </summary>
-        public void Send(TCPSendContext context, Action<Socket, SocketDataPack> onTrigger)
+        public void Send(TCPSendContext context, Action<Socket, TCPDataPack> onTrigger)
         {
             //组成包并取出Buff
             context.Buff = context.Buff ?? new byte[] { };
-            var dataPack = new SocketDataPack(context.Type, context.Buff);
+            var dataPack = new TCPDataPack(context.Type, context.Buff);
             var data = dataPack.Buff;
+
+            if (data.Length > BufferSize - 6)
+            {
+                MLog.Print($"{typeof(MTCPClient)}：传输数据{data.Length}bytes太大，" +
+                    $"取值范围[0,{BufferSize - 6}]，如想扩大可调用SetBufferSize()", MLogType.Warning);
+                return;
+            }
 
             try
             {
@@ -105,8 +130,8 @@ namespace MFramework
                     {
                         Socket c = (Socket)asyncSend.AsyncState;
                         c.EndSend(asyncSend);
-                        MainThreadUtility.Post<Socket, SocketDataPack>(onTrigger, context.Socket, dataPack);
-                        MainThreadUtility.Post<Socket, SocketDataPack>(OnSend, context.Socket, dataPack);
+                        MainThreadUtility.Post<Socket, TCPDataPack>(onTrigger, context.Socket, dataPack);
+                        MainThreadUtility.Post<Socket, TCPDataPack>(OnSend, context.Socket, dataPack);
                     }
                     catch (SocketException)
                     {
@@ -166,13 +191,11 @@ namespace MFramework
 
                 try
                 {
-                    byte[] bytes = new byte[8 * 1024];//常规缓冲区大小
+                    byte[] bytes = new byte[BufferSize];//常规缓冲区大小
                     int len = socket.Receive(bytes);//客户端信息接收(会堵塞)
                     if (len > 0)
                     {
                         //数据加入缓存器中(数据可能分批到达也可能同时到达多个)
-                        //假如是大数据，那么会每次接收8192bytes的形式进行，最终在_dataBuffer的数据是一致的
-                        //假如是粘包数据，那么
                         _dataBuffer.AddBuffer(bytes, len);
                         //获取数据(解包获取)
                         TryUnpack(socket);
@@ -199,26 +222,28 @@ namespace MFramework
 
         private void TryUnpack(Socket socket)
         {
-            var dataPack = new SocketDataPack();
-            if (_dataBuffer.TryUnpack(out dataPack))
+            //迭代解包所有包(粘包/网络问题导致的积压)
+            while (_dataBuffer.haveBuff)
             {
-                //心跳包
-                if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
+                var dataPack = new TCPDataPack();
+                if (_dataBuffer.TryUnpack(out dataPack))
                 {
-                    ReceiveHead(socket);
+                    //心跳包
+                    if (dataPack.Type == (UInt16)SocketEvent.C2S_HEAD)
+                    {
+                        ReceiveHead(socket);
+                    }
+                    //断开连接
+                    else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
+                    {
+                        CloseClient(socket);
+                    }
+                    //一般情况
+                    else
+                    {
+                        MainThreadUtility.Post<Socket, TCPDataPack>(OnReceive, socket, dataPack);
+                    }
                 }
-                //断开连接
-                else if (dataPack.Type == (UInt16)SocketEvent.C2S_DISCONNECTREQUEST)
-                {
-                    CloseClient(socket);
-                }
-                //一般情况
-                else
-                {
-                    MainThreadUtility.Post<Socket, SocketDataPack>(OnReceive, socket, dataPack);
-                }
-
-                if(_dataBuffer.haveBuff) TryUnpack(socket);//粘包继续处理
             }
         }
 

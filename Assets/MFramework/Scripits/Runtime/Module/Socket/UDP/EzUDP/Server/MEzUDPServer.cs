@@ -11,22 +11,26 @@ namespace MFramework
     /// </summary>
     public class MEzUDPServer : MUDPServerBase
     {
-        public MEzUDPServer(string ip, int port) : base(ip, port) { }
-        public MEzUDPServer(IPEndPoint ep) : base(ep) { }
+        public MEzUDPServer(string ip, int port) : base(ip, port)
+        {
+            //一次性传输，设置为最大
+            _server.SendBufferSize = 65507;
+            _server.ReceiveBufferSize = 65507;
+        }
+        public MEzUDPServer(IPEndPoint ep) : base(ep)
+        {
+            //一次性传输，设置为最大
+            _server.SendBufferSize = 65507;
+            _server.ReceiveBufferSize = 65507;
+        }
 
         public event Action<EndPoint, string> OnReceive;
         public event Action<EndPoint, byte[]> OnSend;
 
-        protected override void OnCloseInternal()
-        {
-            OnReceive = null;
-            OnSend = null;
-        }
-
         protected override void ReceiveData()
         {
-            //TODO:需要手动拆包重组，否则会被截断
-            byte[] bytes = new byte[8 * 1024];//最大缓冲区大小
+            //UDP只要发送超出限制则失败，所以设置为最大值
+            byte[] bytes = new byte[64 * 1024 - 20 - 8];//最大缓冲区大小
             _server.BeginReceiveFrom(bytes, 0, bytes.Length, SocketFlags.None, ref endPoint, new AsyncCallback(OnReceiveData), bytes);
         }
         private void OnReceiveData(IAsyncResult result)
@@ -42,13 +46,15 @@ namespace MFramework
                     MLog.Print($"收到来自客户端<{endPoint}>的消息：{message}");
                     MainThreadUtility.Post<EndPoint, string>(OnReceive, endPoint, message);//OnReceive回调
                 }
-
+            }
+            catch (SocketException ex)
+            {
+                MLog.Print("数据接收失败：" + ex.Message, MLogType.Warning);
+            }
+            finally
+            {
                 //继续接收数据
                 ReceiveData();
-            }
-            catch (Exception e)
-            {
-                MLog.Print("数据接收失败：" + e.Message, MLogType.Warning);
             }
         }
 
