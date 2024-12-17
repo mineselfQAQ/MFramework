@@ -1,11 +1,24 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using static MFramework.MGUIOptionUtility;
 
 namespace MFramework
 {
     public static class MEditorControlUtility
     {
+        public static bool DrawBoolPopup(SerializedProperty property, string label)
+        {
+            BoolEnum currentEnum = property.boolValue ? BoolEnum.ON : BoolEnum.OFF;
+            var newEnum = (BoolEnum)EditorGUILayout.EnumPopup(label, currentEnum);
+            if (newEnum != currentEnum)
+            {
+                property.boolValue = newEnum == BoolEnum.ON;
+            }
+
+            return property.boolValue;
+        }
+
         #region 下拉列表
         public static T DrawPopup<T>(SerializedProperty SP, GUIContent content) where T : Enum
         {

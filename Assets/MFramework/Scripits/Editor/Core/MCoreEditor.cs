@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using static MFramework.MGUIOptionUtility;
 
 namespace MFramework
 {
@@ -45,13 +44,13 @@ namespace MFramework
             MEditorGUIUtility.DrawTexture(LOGOTex, MEditorGUIStyleUtility.CenterStyle);
 
             MEditorGUIUtility.DrawH2("编辑器");
-            DrawEnumPopup(UICustomLoadStateSP, "是否启用UI自定义加载");
+            MEditorControlUtility.DrawBoolPopup(UICustomLoadStateSP, "是否启用UI自定义加载");
             MEditorGUIUtility.DrawH2("打包");
-            DrawEnumPopup(logStateSP, "是否输出LOG信息");
+            MEditorControlUtility.DrawBoolPopup(logStateSP, "是否输出LOG信息");
             MEditorGUIUtility.DrawH2("本地化");
-            DrawEnumPopup(localStateSP, "是否开启本地化");
+            MEditorControlUtility.DrawBoolPopup(localStateSP, "是否开启本地化");
             MEditorGUIUtility.DrawH2("性能检测");
-            bool flag = DrawEnumPopup(performanceStateSP, "是否开启性能检测");
+            bool flag = MEditorControlUtility.DrawBoolPopup(performanceStateSP, "是否开启性能检测");
             if (flag)
             {
                 EditorGUI.indentLevel++;
@@ -62,18 +61,6 @@ namespace MFramework
             }
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private bool DrawEnumPopup(SerializedProperty property, string label)
-        {
-            BoolEnum currentEnum = property.boolValue ? BoolEnum.ON : BoolEnum.OFF;
-            var newEnum = (BoolEnum)EditorGUILayout.EnumPopup(label, currentEnum);
-            if (newEnum != currentEnum)
-            {
-                property.boolValue = newEnum == BoolEnum.ON;
-            }
-
-            return property.boolValue;
         }
     }
 }
