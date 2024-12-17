@@ -261,7 +261,8 @@ namespace MFramework
                 curValue = startValue + MCurveSampler.Sample(curve, i / step) * length;
                 action.Invoke(curValue);
 
-                yield return new WaitForSecondsRealtime(Time.fixedDeltaTime);
+                //模拟一次FixedTime
+                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
             }
             curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
             action.Invoke(curValue);
@@ -282,7 +283,8 @@ namespace MFramework
                 curValue = startValue + MCurveSampler.Sample(curve, i / step) * length;
                 action.Invoke(curValue);
 
-                yield return new WaitForSecondsRealtime(Time.deltaTime);
+                //模拟一次FixedTime
+                yield return new WaitForSecondsRealtime(Time.fixedDeltaTime);
             }
             curValue = curve.curveDir == CurveDir.Increment ? endValue : startValue;
             action.Invoke(curValue);
