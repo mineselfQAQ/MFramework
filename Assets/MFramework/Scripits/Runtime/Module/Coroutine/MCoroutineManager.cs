@@ -34,6 +34,7 @@ namespace MFramework
         }
 
         #region 无记录携程(用于无MonoBehaviour脚本)
+        [Obsolete("无意义，内部不能使用协程，请直接使用StartCoroutine()")]
         public Coroutine BeginCoroutineNoRecord(Action action)
         {
             return StartCoroutine(MCoroutineUtility.Do(action));
