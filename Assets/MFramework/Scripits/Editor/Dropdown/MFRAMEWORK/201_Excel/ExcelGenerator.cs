@@ -12,7 +12,6 @@ using UnityEngine;
 
 namespace MFramework
 {
-    //TODO：只支持PC，无法用于安卓与Ios
     public class ExcelGenerator : EditorWindow
     {
         [MenuItem("MFramework/GenerateAllExcel _F8", priority = 202)]
@@ -500,7 +499,7 @@ namespace MFramework
             data = new object[rowCount - 3][];
             for (int i = 0; i < data.Length; i++) data[i] = new object[typeCount];
             //初始化数据
-            //names/types
+            //names/types(第二行英文名/第三行类型名)
             for (int i = 0, col = 0; i < typeCount; i++, col++)
             {
                 while (sheet.Rows[2][col].ToString() == "none") col++;
