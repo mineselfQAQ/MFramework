@@ -42,9 +42,10 @@ namespace MFramework
         /// <summary>
         /// 释放物体
         /// </summary>
-        public static void ReleaseObject(GameObject clone)
+        /// <param name="isInstance">True：传入实例  False：传入Prefab</param>
+        public static GameObject ReleaseObject(GameObject item, bool isInstance = true)
         {
-            Instance.ReleaseObjectInternal(clone);
+            return Instance.ReleaseObjectInternal(item, isInstance);
         }
 
         private void WarmPoolInternal(GameObject prefab, int size, Transform parent, bool warmObject)
@@ -93,21 +94,44 @@ namespace MFramework
             return clone;
         }
 
-        private void ReleaseObjectInternal(GameObject clone)
+        private GameObject ReleaseObjectInternal(GameObject item, bool isInstance)
         {
-            if (!clone) return;
+            if (!item) return null;
 
-            if (instanceDic.ContainsKey(clone))
+            GameObject go = null;
+            if (isInstance)//删除指定实例
             {
-                //删除表中两个表中的键值对并将Used设为false
-                clone.SetActive(false);
-                instanceDic[clone].ReleaseItem(clone);
-                instanceDic.Remove(clone);
+                if (instanceDic.ContainsKey(item))
+                {
+                    //清除并将Used设为false
+                    item.SetActive(false);
+                    instanceDic[item].ReleaseItem(item);
+                    instanceDic.Remove(item);
+                    go = item;
+                }
+                else
+                {
+                    MLog.Print($"{typeof(MPoolManager)}：{item.name}不存在于池中，请检查", MLogType.Warning);
+                }
             }
-            else
+            else//任意删除实例
             {
-                MLog.Print($"{typeof(MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
+                if (prefabDic.ContainsKey(item))
+                {
+                    var temp = prefabDic[item].ReleaseItem();
+                    if (temp != null) 
+                    {
+                        temp.SetActive(false);
+                        instanceDic.Remove(temp);
+                        go = temp;
+                    }
+                }
+                else
+                {
+                    MLog.Print($"{typeof(MPoolManager)}：{item.name}未创建池，请检查", MLogType.Warning);
+                }
             }
+            return go;
         }
 
         private GameObject InstantiatePrefab(GameObject prefab, Transform parent = null)

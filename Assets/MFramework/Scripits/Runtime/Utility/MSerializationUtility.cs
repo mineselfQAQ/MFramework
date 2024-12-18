@@ -287,6 +287,34 @@ namespace MFramework
             }
         }
 
+
+
+        //---文件系---
+        public static void SaveToFile(string filePath, string code)
+        {
+            string directoryPath = Path.GetDirectoryName(filePath);
+            Directory.CreateDirectory(directoryPath);
+
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    textWriter.Write(code);
+                }
+            }
+        }
+
+        public static string ReadFromFile(string filePath)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (TextReader textReader = new StreamReader(fileStream, Encoding.UTF8))
+                {
+                    return textReader.ReadToEnd();
+                }
+            }
+        }
+
         //---内存流系---
         public static byte[] SaveToByte<T>(T instance)
         {
@@ -313,6 +341,7 @@ namespace MFramework
                 return (T)binaryFormatter.Deserialize(memoryStream);
             }
         }
+
 
 
         /// <summary>
@@ -365,31 +394,6 @@ namespace MFramework
             return false;
         }
 
-        //---文件系---
-        public static void SaveToFile(string filePath, string code)
-        {
-            string directoryPath = Path.GetDirectoryName(filePath);
-            Directory.CreateDirectory(directoryPath);
-
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            {
-                using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                {
-                    textWriter.Write(code);
-                }
-            }
-        }
-
-        public static string ReadFromFile(string filePath)
-        {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                using (TextReader textReader = new StreamReader(fileStream, Encoding.UTF8))
-                {
-                    return textReader.ReadToEnd();
-                }
-            }
-        }
     }
 
     public enum SaveMode

@@ -57,22 +57,25 @@ namespace MFramework
         /// <summary>
         /// 释放Item(禁用物体)
         /// </summary>
-        public void ReleaseItem()
+        public T ReleaseItem()
         {
             ObjectPoolContainer<T> container = null;
 
+            T temp = default(T);
             if (usedLookup.Count > 0)
             {
                 var k = usedLookup.Keys.First();
                 container = usedLookup[k];
+                temp = container.Item;//取出
                 container.Release();
                 usedLookup.Remove(k);
                 unusedQueue.Enqueue(container);
             }
             else//无正在使用物体
             {
-                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{container.Item}，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放物体，请检查", MLogType.Warning);
             }
+            return temp;
         }
         /// <summary>
         /// 释放Item(禁用物体)

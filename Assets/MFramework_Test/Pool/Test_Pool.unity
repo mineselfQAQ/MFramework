@@ -276,7 +276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9a67dc983902249bda90209b7be5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExportLog: 0
+  m_LogState: 0
+  m_UICustomLoadState: 0
+  m_LocalState: 0
+  m_PerformanceState: 0
+  m_FPSDisplayMode: 0
+  m_FPSSampleDuration: 1
+  m_keycode: 2
 --- !u!4 &1655217023
 Transform:
   m_ObjectHideFlags: 0
@@ -304,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abd200399a56c34a855867e434e8396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 6674911847930521008, guid: e0e776d6b1cf0fa438e6b805f185987b, type: 3}
+  cubePrefab: {fileID: 6674911847930521008, guid: e0e776d6b1cf0fa438e6b805f185987b, type: 3}
   parent: {fileID: 105222207}
   cubeInstance: []
 --- !u!1660057539 &9223372036854775807

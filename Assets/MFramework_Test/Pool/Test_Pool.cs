@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Test_Pool : MonoBehaviour
 {
-    public GameObject cube;
+    public GameObject cubePrefab;
     public Transform parent;
 
     public List<GameObject> cubeInstance = new List<GameObject>();
 
     private void Start()
     {
-        MPoolManager.WarmPool(cube, 10, parent, false);
+        MPoolManager.WarmPool(cubePrefab, 10, parent, false);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            cubeInstance.Add(MPoolManager.SpawnObject(cube));
+            cubeInstance.Add(MPoolManager.SpawnObject(cubePrefab));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -26,6 +26,14 @@ public class Test_Pool : MonoBehaviour
             if (last < 0) return;
             MPoolManager.ReleaseObject(cubeInstance[last]);
             cubeInstance.RemoveAt(last);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            var go = MPoolManager.ReleaseObject(cubePrefab, false);
+            if (go != null)
+            {
+                cubeInstance.Remove(go);
+            }
         }
     }
 }
