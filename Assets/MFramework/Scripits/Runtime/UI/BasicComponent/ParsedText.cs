@@ -166,7 +166,7 @@ namespace MFramework
                 animatorInfoList.Add(new AnimatorInfo(content, startIndex, endIndex, typeStr, argStr));
             }
 
-            //去除<>得到最终字符串
+            //去除<>(取中间)得到最终字符串
             parsedText = Regex.Replace(str, pattern, m => m.Groups[2].Value);
         }
 

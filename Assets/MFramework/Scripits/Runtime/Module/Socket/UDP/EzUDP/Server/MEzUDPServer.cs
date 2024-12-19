@@ -1,4 +1,3 @@
-using Codice.CM.Common.Serialization;
 using System;
 using System.Net;
 using System.Net.Sockets;

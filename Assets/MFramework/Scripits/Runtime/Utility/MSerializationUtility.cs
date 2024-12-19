@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using UnityEngine;
-using System.IO.Pipes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace MFramework
 {
@@ -25,20 +25,25 @@ namespace MFramework
             bool flag = CheckOverwrite(fullPath, SaveMode.Overwrite);
             if (!flag) return false;
 
-            //xmlWriter---XML数据写入流
-            FileStream stream = File.Open(fullPath, FileMode.Create, FileAccess.Write);
-            XmlTextWriter writer = new XmlTextWriter(stream, UTF8);
-            writer.Formatting = Formatting.None;//单行模式
+            try
+            {
+                using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                using (XmlTextWriter writer = new XmlTextWriter(fileStream, UTF8))//xmlWriter---XML数据写入流
+                {
+                    writer.Formatting = Formatting.None;//单行模式
 
-            //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
+                    //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
+                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
 
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            serializer.Serialize(writer, instance, ns);
-
-            writer.Close();
-            stream.Close();
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    serializer.Serialize(writer, instance, ns);
+                }
+            }
+            catch
+            {
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
+            }
 
             return true;
         }
@@ -49,21 +54,26 @@ namespace MFramework
             bool flag = CheckOverwrite(fullPath, mode);
             if (!flag) return false;
 
-            //xmlWriter---XML数据写入流
-            FileStream stream = File.Open(fullPath, FileMode.Create, FileAccess.Write);
-            XmlTextWriter writer = new XmlTextWriter(stream, UTF8);
-            if (isPrettyPrint) writer.Formatting = Formatting.Indented;//优秀格式(会换行)
-            else writer.Formatting = Formatting.None;//单行模式
+            try
+            {
+                using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                using (XmlTextWriter writer = new XmlTextWriter(fileStream, UTF8))//xmlWriter---XML数据写入流
+                {
+                    if (isPrettyPrint) writer.Formatting = Formatting.Indented;//优秀格式(会换行)
+                    else writer.Formatting = Formatting.None;//单行模式
 
-            //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
+                    //namesapces---需要将其隐藏，否则会在根节点出现两个很长的命名空间
+                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
 
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            serializer.Serialize(writer, instance, ns);
-
-            writer.Close();
-            stream.Close();
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    serializer.Serialize(writer, instance, ns);
+                }
+            }
+            catch
+            {
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
+            }
 
             return true;
         }
@@ -79,23 +89,22 @@ namespace MFramework
             }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            FileStream stream = null;
+
+            FileStream fileStream = null;
             try
             {
-                //xmlReader---XML数据读取流
-                stream = File.OpenRead(fullPath);
-                XmlReader reader = XmlReader.Create(stream);
+                using (fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                using (XmlReader reader = XmlReader.Create(fileStream))//xmlReader---XML数据读取流
+                {
+                    XmlSerializer serializer = new XmlSerializer(type);
+                    object instance = serializer.Deserialize(reader);
 
-                XmlSerializer serializer = new XmlSerializer(type);
-                object instance = serializer.Deserialize(reader);
-
-                stream.Close();
-                return instance;
+                    return instance;
+                }
             }
             catch
             {
-                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
-                if (stream != null) stream.Close();
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}反序列化失败，请检查", MLogType.Warning);
                 return null;
             }
         }
@@ -110,23 +119,23 @@ namespace MFramework
             }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            FileStream stream = null;
+
+            FileStream fileStream = null;
             try
             {
-                //xmlReader---XML数据读取流
-                stream = File.OpenRead(fullPath);
-                XmlReader reader = XmlReader.Create(stream);
+                using (fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                using (XmlReader reader = XmlReader.Create(fileStream))//xmlReader---XML数据读取流
+                {
 
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                T instance = (T)serializer.Deserialize(reader);
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    T instance = (T)serializer.Deserialize(reader);
 
-                stream.Close();
-                return instance;
+                    return instance;
+                }
             }
             catch
             {
-                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}序列化失败，请检查", MLogType.Warning);
-                if (stream != null) stream.Close();
+                MLog.Print($"{typeof(MSerializationUtility)}：文件{fullPath}反序列化失败，请检查", MLogType.Warning);
                 return default(T);
             }
         }
@@ -172,19 +181,17 @@ namespace MFramework
             }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            using (StreamReader sr = new StreamReader(fullPath))
+
+            string text = File.ReadAllText(fullPath);
+            if (text.Length > 0)
             {
-                string text = sr.ReadToEnd();
-                if (text.Length > 0)
-                {
-                    object result = JsonUtility.FromJson(text, type);
-                    return result;
-                }
-                else
-                {
-                    MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
-                    return null;
-                }
+                T result = JsonUtility.FromJson<T>(text);
+                return result;
+            }
+            else
+            {
+                MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
+                return default(T);
             }
         }
         public static T ReadFromJson<T>(string filePath)
@@ -198,20 +205,17 @@ namespace MFramework
             }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            
-            using (StreamReader sr = new StreamReader(fullPath))
+
+            string text = File.ReadAllText(fullPath);
+            if (text.Length > 0)
             {
-                string text = sr.ReadToEnd();
-                if (text.Length > 0)
-                {
-                    T result = JsonUtility.FromJson<T>(text);
-                    return result;
-                }
-                else
-                {
-                    MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
-                    return default(T);
-                }
+                T result = JsonUtility.FromJson<T>(text);
+                return result;
+            }
+            else
+            {
+                MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
+                return default(T);
             }
         }
 
