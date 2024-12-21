@@ -22,7 +22,7 @@ public class Test_MArrayList : MonoBehaviour
 
         MLog.Print($"List contain 6: {list.Contains(6)}");
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
         list.Insert(2, 10);//5 6 10 7 8 9
         list.RemoveAt(5);//5 6 10 7 8

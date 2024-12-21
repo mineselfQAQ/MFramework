@@ -26,6 +26,22 @@ namespace MFramework
             EditorGUILayout.Space(2);
         }
 
+        public static void DrawText(string message, MGUIContext context = MGUIContext.None)
+        {
+            switch (context)
+            {
+                case MGUIContext.Bold:
+                    EditorGUILayout.LabelField(message, MEditorGUIStyleUtility.BoldStyle);
+                    break;
+                case MGUIContext.RedColor:
+                    EditorGUILayout.LabelField(message, MEditorGUIStyleUtility.ColorStyle(Color.red));
+                    break;
+                case MGUIContext.None:
+                    EditorGUILayout.LabelField(message);
+                    break;
+            }
+        }
+
         public static void DrawTexture(Texture2D tex, GUIStyle style)
         {
             if(tex != null) 
@@ -33,5 +49,13 @@ namespace MFramework
                 GUILayout.Label(tex, style);
             }
         }
+    }
+
+    public enum MGUIContext
+    {
+        Bold,
+        RedColor,
+
+        None
     }
 }

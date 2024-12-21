@@ -16,7 +16,7 @@ public class Test_MSinglyLinkedList : MonoBehaviour
 
         list.Print();
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         MLog.Print("链表元素数量: " + list.Count);
         MLog.Print("头节点值: " + list.First.Value);
@@ -26,7 +26,7 @@ public class Test_MSinglyLinkedList : MonoBehaviour
         MLog.Print("是否存在3: " + list.Contains(3));
         MLog.Print("第二个节点所属链表: " + tempNode.List);
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         list.RemoveFirst();
         list.RemoveLast();

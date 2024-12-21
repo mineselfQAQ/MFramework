@@ -25,7 +25,7 @@ public class Test_MBinaryTree : MonoBehaviour
         MLog.Print("2的左节点: " + leftNode.Left);
         MLog.Print("2的右节点: " + leftNode.Right);
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         tree.Print();
     }

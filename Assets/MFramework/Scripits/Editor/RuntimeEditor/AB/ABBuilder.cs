@@ -388,7 +388,7 @@ namespace MFramework
                     message += "\n" + notInRuleList[i];
                 }
                 EditorUtility.ClearProgressBar();
-                MLog.Print($"{typeof(ABBuilder)}：存在意外或后缀不匹配的资源：   {MLog.ColorWord("Tip：如果是Prefab，需要先获取其引用", Color.red)}{message}", MLogType.Error);
+                MLog.Print($"{typeof(ABBuilder)}：存在意外或后缀不匹配的资源：   {MLog.Color("Tip：如果是Prefab，需要先获取其引用", Color.red)}{message}", MLogType.Error);
             }
 
             //将内部理顺(也就是排序)

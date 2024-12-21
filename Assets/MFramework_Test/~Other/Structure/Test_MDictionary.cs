@@ -30,7 +30,7 @@ public class Test_MDictionary : MonoBehaviour
             MLog.Print($"Value: {value}");
         }
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
         dic.Remove("B");
         MLog.Print($"dic[\"A\"]: {dic["A"]}");

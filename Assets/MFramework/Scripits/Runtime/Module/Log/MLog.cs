@@ -64,7 +64,7 @@ namespace MFramework
             }
         }
 
-        public static string BoldWord(object message)
+        public static string Bold(object message)
         {
             string resultStr = message.ToString();
 #if UNITY_EDITOR
@@ -76,7 +76,7 @@ namespace MFramework
 #endif
         }
 
-        public static string ItalicWord(object message)
+        public static string Italic(object message)
         {
             string resultStr = message.ToString();
 #if UNITY_EDITOR
@@ -88,7 +88,7 @@ namespace MFramework
 #endif
         }
 
-        public static string ColorWord(object message, Color color)
+        public static string Color(object message, Color color)
         {
 #if UNITY_EDITOR
             return AddColor(message, color);
@@ -96,7 +96,7 @@ namespace MFramework
             return message.ToString();
 #endif
         }
-        public static string ColorWord(object message, Color color, bool isBold, bool isItalic)
+        public static string Color(object message, Color color, bool isBold, bool isItalic)
         {
 #if UNITY_EDITOR
             string resultStr = AddColor(message, color);

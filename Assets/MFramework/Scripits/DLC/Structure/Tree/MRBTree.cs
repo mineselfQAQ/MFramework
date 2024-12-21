@@ -683,7 +683,7 @@ public static class MRBTreeExtension
                 isNotBottom = true;
             }
         }
-        MLog.Print(MLog.ColorWord("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
+        MLog.Print(MLog.Color("---二叉树可视化---", UnityEngine.Color.black, true, false) + levelStr);
     }
 
     public static void SortPrint(this MRBTree tree)

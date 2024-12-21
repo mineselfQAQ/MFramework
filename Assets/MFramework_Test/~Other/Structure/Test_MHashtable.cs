@@ -25,7 +25,7 @@ public class Test_MHashtable : MonoBehaviour
 
 
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
 
 
@@ -39,7 +39,7 @@ public class Test_MHashtable : MonoBehaviour
 
 
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
 
 
@@ -53,7 +53,7 @@ public class Test_MHashtable : MonoBehaviour
 
 
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
 
 

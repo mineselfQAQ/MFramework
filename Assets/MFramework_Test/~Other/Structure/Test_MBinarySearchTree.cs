@@ -30,7 +30,7 @@ public class Test_MBinarySearchTree : MonoBehaviour
         MLog.Print("树3:");
         tree3.Print();
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         //实现IEnumerable与Add()即可使用列表初始化
         tree = new MBinarySearchTree() { 2, 1, 5, 3, 7, 4, 6 };
@@ -42,12 +42,12 @@ public class Test_MBinarySearchTree : MonoBehaviour
         tree.Remove(tree.Root);//度2
         tree.Print();
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         MLog.Print("Count: " + tree.Count);
         MLog.Print("是否包含6: " + tree.Contains(6));
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         object[] list = tree.Sort();
         MLog.Print("list是否存在: " + list);

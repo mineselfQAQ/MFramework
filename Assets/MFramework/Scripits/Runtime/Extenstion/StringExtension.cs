@@ -33,21 +33,21 @@ namespace MFramework
 
         public static string Bold(this string str)
         {
-            return MLog.BoldWord(str);
+            return MLog.Bold(str);
         }
 
         public static string Italic(this string str)
         {
-            return MLog.ItalicWord(str);
+            return MLog.Italic(str);
         }
 
         public static string Color(this string str, Color color)
         {
-            return MLog.ColorWord(str, color);
+            return MLog.Color(str, color);
         }
         public static string Color(this string str, Color color, bool isBold, bool isItalic)
         {
-            return MLog.ColorWord(str, color, isBold, isItalic);
+            return MLog.Color(str, color, isBold, isItalic);
         }
     }
 }

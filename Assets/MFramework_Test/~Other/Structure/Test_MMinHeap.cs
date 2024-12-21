@@ -23,7 +23,7 @@ public class Test_MMinHeap : MonoBehaviour
 
         MLog.Print("总数: " + heap.Count);
 
-        MLog.Print(MLog.ColorWord("---分隔符---", Color.red));
+        MLog.Print(MLog.Color("---分隔符---", Color.red));
 
         MList<int> list = new MList<int>() { 3, 5, 8, 4, 7 };
         MMinHeap<int> heap2 = new MMinHeap<int>(list);

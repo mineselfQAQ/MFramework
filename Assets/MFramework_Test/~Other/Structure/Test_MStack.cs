@@ -13,17 +13,17 @@ public class Test_MStack : MonoBehaviour
 
         stack.Print();
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
         stack.Pop();//2 1
         stack.Print();
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
         Debug.Log("Õ»¶¥: " + stack.Peek());
         Debug.Log("ÊÇ·ñ°üº¬3: " + stack.Contains(3));
 
-        MLog.Print(MLog.ColorWord("---·Ö¸ô·û---", Color.red));
+        MLog.Print(MLog.Color("---·Ö¸ô·û---", Color.red));
 
         stack.Clear();
         stack.Print();
