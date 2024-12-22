@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +27,27 @@ namespace MFramework
             EditorGUILayout.Space(2);
         }
 
+        public static void DrawH3(string titleName)
+        {
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField(titleName, MEditorGUIStyleUtility.H3Style);
+        }
+
+        public static void DrawLeftH3(string titleName)
+        {
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField(titleName, MEditorGUIStyleUtility.LeftH3Style);
+        }
+
+        public static void DrawText(string message, string tip, params GUILayoutOption[] content)
+        {
+            GUIContent GUIContent = new GUIContent(message, tip);
+            EditorGUILayout.LabelField(GUIContent, content);
+        }
+        public static void DrawText(string message, params GUILayoutOption[] content)
+        {
+            EditorGUILayout.LabelField(message, content);
+        }
         public static void DrawText(string message, MGUIContext context = MGUIContext.None)
         {
             switch (context)
@@ -48,6 +70,19 @@ namespace MFramework
             {
                 GUILayout.Label(tex, style);
             }
+        }
+
+        public static void Horizontal(Action action)
+        {
+            EditorGUILayout.BeginHorizontal();
+            action?.Invoke();
+            EditorGUILayout.EndHorizontal();
+        }
+        public static void Vertical(Action action)
+        {
+            EditorGUILayout.BeginVertical();
+            action?.Invoke();
+            EditorGUILayout.EndVertical();
         }
     }
 

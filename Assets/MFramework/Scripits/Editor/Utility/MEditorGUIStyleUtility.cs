@@ -14,6 +14,8 @@ namespace MFramework
         private static GUIStyle m_H1Style;
         private static GUIStyle m_H2Style;
         private static GUIStyle m_LeftH2Style;
+        private static GUIStyle m_H3Style;
+        private static GUIStyle m_LeftH3Style;
         private static GUIStyle m_CenterStyle;
 
         public static GUIStyle DefaultStyle => 
@@ -26,6 +28,10 @@ namespace MFramework
             GetOrCreateStyle(m_H2Style, 15, GetColor(Color.white, Color.black), FontStyle.Bold, TextAnchor.MiddleCenter);
         public static GUIStyle LeftH2Style => 
             GetOrCreateStyle(m_LeftH2Style, 15, GetColor(Color.white, Color.black), FontStyle.Bold, TextAnchor.MiddleLeft);
+        public static GUIStyle H3Style =>
+            GetOrCreateStyle(m_H3Style, 12, GetColor(Color.white, Color.black), FontStyle.Bold, TextAnchor.MiddleCenter);
+        public static GUIStyle LeftH3Style =>
+            GetOrCreateStyle(m_LeftH3Style, 12, GetColor(Color.white, Color.black), FontStyle.Bold, TextAnchor.MiddleLeft);
         public static GUIStyle CenterStyle => 
             GetOrCreateStyle(m_CenterStyle, ms_DefaultFontSize, ms_DefaultColor, FontStyle.Normal, TextAnchor.MiddleCenter);
 

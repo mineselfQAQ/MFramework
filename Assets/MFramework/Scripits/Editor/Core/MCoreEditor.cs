@@ -24,7 +24,7 @@ namespace MFramework
         /// </summary>
         private void OnEnable()
         {
-            LOGOTex = AssetDatabase.LoadAssetAtPath<Texture2D>(EditorResourcesPath.LOGOPath);
+            LOGOTex = MTextureLibrary.LOGOTex;
             
             mCore = (MCore)target;
             
