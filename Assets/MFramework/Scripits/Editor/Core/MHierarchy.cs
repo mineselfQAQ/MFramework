@@ -68,48 +68,49 @@ namespace MFramework
 
                 //---绘制图标更改按钮(透明)---
                 rect = new Rect(selectionRect);
-                rect.xMin -= 0;
-                rect.xMax = rect.xMin + 16;
+                rect.xMin += 0;
+                rect.xMax = rect.xMin + 15;
                 col = new Color(0.25f, 0.25f, 0.25f);
                 EditorGUI.DrawRect(rect, col);
 
+                rect.xMax += 1;
                 GUIContent content = EditorGUIUtility.ObjectContent(go, typeof(GameObject));
                 Texture tex = content.image;
                 GUI.DrawTexture(rect, tex);
 
+                //TODO：不支持多屏(可能是我把显示器检测关了？)
                 if (GUI.Button(rect, "", transparentBtnStyle))
                 {
-                    Vector2 screenMousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
-                    float differenceY = screenMousePosition.y - Event.current.mousePosition.y;
-                    float iconScreenY = rect.y + differenceY;
-                    Vector2 windowPosition = new Vector2(rect.x + 30, iconScreenY + 16);
+                    //这些参数都很神秘：
+                    //Event.current.mousePosition---x起始点为Scene名上
+                    //GUIUtility.GUIToScreenPoint()---加上最上到面板名下
+                    //那么两者结合的screenMousePosition+Scene名高(16)为点击的下侧
+                    Vector2 screenMousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition) + new Vector2(0, 16);//获取点击位置
+                    Vector2 windowPosition = new Vector2(rect.x + 24, screenMousePosition.y + 12);
                     ChooseIconPopup.Show(windowPosition, go);
                 }
             }
         }
 
-        //TODO：双屏点击位置检测不正确
         public class ChooseIconPopup : EditorWindow
         {
-            public float size = 20;
-
             public static GameObject go;
             public static GUIContent[] iconContents;
             public static GUIContent returnContent, crossContent;
 
-            private static GUIStyle textStyle = new GUIStyle();
-            private static Rect windowRect, titleRect, exitRect;
-
+            private static Rect windowRect = new Rect(0, 0, 250, 120);
+            private static Rect titleRect = new Rect(0, 0, 250, 16);
+            private static Rect exitRect = new Rect(250 - 10 - 3, 3, 10, 10);
             private static Color bgColor = new Color(.1f, .1f, .1f);
-            private static bool openAnim;
-            private static Vector2 oPos;
 
             private static ChooseIconPopup window;
             public static void Show(Vector2 position, GameObject obj)
             {
+                //已打开则重新开启
                 if (window != null) window.Close();
 
                 go = obj;
+
                 iconContents = new GUIContent[50];
                 for (int i = 0; i < iconContents.Length; i++)
                 {
@@ -120,24 +121,13 @@ namespace MFramework
                 }
                 returnContent = new GUIContent(MTextureLibrary.LoadTexture("CommonIcons/Return"));
                 crossContent = new GUIContent(MTextureLibrary.LoadTexture("CommonIcons/Cross"));
-                textStyle.fontSize = 12;
-                textStyle.normal.textColor = Color.white;
 
                 window = CreateInstance<ChooseIconPopup>();
                 window.position = new Rect(position, new Vector2(250, 120));
                 window.ShowPopup();
-
-                windowRect = new Rect(0, 0, 250, 120);
-                titleRect = new Rect(0, 0, 250, 16);
-                exitRect = new Rect(250 - 10 - 3, 3, 10, 10);
-                bgColor = new Color(.1f, .1f, .1f);
-
-                oPos = position;
-                openAnim = true;
-                t = 0;
             }
-            private static float t;
-            void OnGUI()
+
+            private void OnGUI()
             {
                 if (go == null)
                 {
@@ -146,49 +136,52 @@ namespace MFramework
                 }
 
                 EditorGUI.DrawRect(windowRect, bgColor);
-                EditorGUI.DrawRect(titleRect, new Color(.35f, .35f, .35f));
-                textStyle.fontStyle = FontStyle.Bold;
-                GUILayout.Label($"Select Icon for {go.name}", textStyle);
-                textStyle.fontStyle = FontStyle.Normal;
+                EditorGUI.DrawRect(titleRect, new Color(0.35f, 0.35f, 0.35f));
+                GUILayout.Label($"Select Icon for {go.name}", MEditorGUIStyleUtility.LeftH3Style);
                 if (GUI.Button(exitRect, crossContent, blackStyle))
                 {
                     Close();
                 }
-                GUILayout.Space(6);
 
-                if (GUILayout.Button(returnContent, transparentBtnStyle, GUILayout.Width(size), GUILayout.Height(size)))
+                EditorGUILayout.Space(5);
+
+                if (GUILayout.Button(returnContent, transparentBtnStyle, GUILayout.Width(20), GUILayout.Height(20)))
                 {
                     EditorGUIUtility.SetIconForObject(go, null);
                     Close();
                 }
 
-                bool finished = false;
-                int count = 0;
-                while (!finished)
-                {
+                EditorGUILayout.Space(5);
 
+                bool isFinished = false;
+                int row = 0;
+                while (!isFinished)
+                {
                     EditorGUILayout.BeginHorizontal();
-                    for (int j = 0; j < 12; j++)
                     {
-                        int i = count * 12 + j;
-                        if (i >= iconContents.Length || iconContents[i] == null)
+                        for (int col = 0; col < 12; col++)
                         {
-                            finished = true;
-                            break;
+                            int i = row * 12 + col;
+                            if (i >= iconContents.Length || iconContents[i] == null)
+                            {
+                                isFinished = true;
+                                break;
+                            }
+                            if (GUILayout.Button(iconContents[i], transparentBtnStyle, GUILayout.Width(20), GUILayout.Height(20)))
+                            {
+                                //重绘
+                                EditorGUIUtility.SetIconForObject(go, iconContents[i].image as Texture2D);
+                                Close();
+                            }
                         }
-                        if (GUILayout.Button(iconContents[i], transparentBtnStyle, GUILayout.Width(size), GUILayout.Height(size)))
-                        {
-                            EditorGUIUtility.SetIconForObject(go, iconContents[i].image as Texture2D);
-                            Close();
-                        }
+                        row++;
                     }
-                    count++;
                     EditorGUILayout.EndHorizontal();
                 }
                 window.Repaint();
-
             }
-            void OnLostFocus()
+
+            private void OnLostFocus()
             {
                 Close();
             }
