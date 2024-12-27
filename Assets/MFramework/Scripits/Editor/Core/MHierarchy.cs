@@ -159,6 +159,7 @@ namespace MFramework
                 {
                     EditorGUILayout.BeginHorizontal();
                     {
+                        //Ò»ÐÐ12¸ö
                         for (int col = 0; col < 12; col++)
                         {
                             int i = row * 12 + col;
