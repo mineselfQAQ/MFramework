@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using UnityEngine;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace MFramework
 {
@@ -185,13 +184,13 @@ namespace MFramework
             string text = File.ReadAllText(fullPath);
             if (text.Length > 0)
             {
-                T result = JsonUtility.FromJson<T>(text);
+                object result = JsonUtility.FromJson(text, typeof(object));
                 return result;
             }
             else
             {
                 MLog.Print($"{typeof(MSerializationUtility)}：{fileName}.json不存在内容，请检查", MLogType.Warning);
-                return default(T);
+                return null;
             }
         }
         public static T ReadFromJson<T>(string filePath)
