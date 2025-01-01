@@ -10,90 +10,66 @@ namespace MFramework
     /// </summary>
     public class ObjectPool<T>
     {
-        private Queue<ObjectPoolContainer<T>> unusedQueue;
-        private Dictionary<T, ObjectPoolContainer<T>> usedLookup;
+        //为什么使用Stack：
+        //Stack先进后出，访问永远访问栈顶元素(数组最后)，O(1)是最快的
+        //而且当物体被使用后，到底何时归还与该类无关，是由业务类自行管理的
+        private Stack<ObjectPoolContainer<T>> unusedObj;
 
         private Func<T> initFunc;
 
-        public int Count
+        public int UnusedCount
         {
-            get { return unusedQueue.Count + usedLookup.Count; }
-        }
-        public int UsedCount
-        {
-            get { return usedLookup.Count; }
+            get { return unusedObj.Count; }
         }
 
-        public ObjectPool(Func<T> initFunc, int initSize, bool warmObject)
+        public ObjectPool(Func<T> initFunc, int initSize)
         {
             this.initFunc = initFunc;//通过构造函数获得初始化
 
             //创建初始list/lookup
-            unusedQueue = new Queue<ObjectPoolContainer<T>>(initSize);
-            usedLookup = new Dictionary<T, ObjectPoolContainer<T>>(initSize);
+            unusedObj = new Stack<ObjectPoolContainer<T>>(initSize);
             //创建初始Container
-            if (warmObject) Warm(initSize);
+            Warm(initSize);
+        }
+        public ObjectPool(Func<T> initFunc)
+        {
+            this.initFunc = initFunc;//通过构造函数获得初始化
+
+            //创建初始list/lookup
+            unusedObj = new Stack<ObjectPoolContainer<T>>();
         }
 
         /// <summary>
         /// 获取Item(获取Not Used物体或创建Container)
         /// </summary>
-        public T GetItem()
+        public ObjectPoolContainer<T> GetItem()
         {
             ObjectPoolContainer<T> container = null;
 
-            if (unusedQueue.Count == 0)//没有Not Used物体
+            if (unusedObj.Count == 0)//没有Not Used物体
             {
                 container = CreateContainer();
             }
 
-            container = unusedQueue.Dequeue();//出队
+            container = unusedObj.Pop();//出队
             container.Consume();
-            usedLookup.Add(container.Item, container);//入表
 
-            return container.Item;
+            return container;
         }
 
         /// <summary>
         /// 释放Item(禁用物体)
         /// </summary>
-        public T ReleaseItem()
+        public void ReleaseItem(ObjectPoolContainer<T> container)
         {
-            ObjectPoolContainer<T> container = null;
-
-            T temp = default(T);
-            if (usedLookup.Count > 0)
+            if (container.Used)
             {
-                var k = usedLookup.Keys.First();
-                container = usedLookup[k];
-                temp = container.Item;//取出
+                unusedObj.Push(container);
                 container.Release();
-                usedLookup.Remove(k);
-                unusedQueue.Enqueue(container);
             }
             else//无正在使用物体
             {
-                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放物体，请检查", MLogType.Warning);
-            }
-            return temp;
-        }
-        /// <summary>
-        /// 释放Item(禁用物体)
-        /// </summary>
-        public void ReleaseItem(T item)
-        {
-            ObjectPoolContainer<T> container = null;
-
-            if (usedLookup.ContainsKey(item))
-            {
-                container = usedLookup[item];
-                container.Release();
-                usedLookup.Remove(item);
-                unusedQueue.Enqueue(container);
-            }
-            else//无正在使用物体
-            {
-                MLog.Print($"{typeof(ObjectPool<T>)}：已没有可释放{container.Item}，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(ObjectPool<T>)}：{container.Item}未使用不可归池，请检查", MLogType.Warning);
             }
         }
 
@@ -105,7 +81,6 @@ namespace MFramework
             for (int i = 0; i < capacity; i++)
             {
                 var container = CreateContainer();
-                (container.Item as GameObject).SetActive(false);
             }
         }
 
@@ -118,7 +93,7 @@ namespace MFramework
             var container = new ObjectPoolContainer<T>();
             container.Item = initFunc();//其实就是执行InstantiatePrefab()
 
-            unusedQueue.Enqueue(container);
+            unusedObj.Push(container);
 
             return container;
         }

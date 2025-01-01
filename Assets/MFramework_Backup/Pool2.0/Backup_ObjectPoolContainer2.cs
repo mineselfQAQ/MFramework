@@ -1,6 +1,6 @@
 namespace MFramework
 {
-    public class Old_ObjectPoolContainer<T>
+    public class Backup_ObjectPoolContainer2<T>
     {
         private T item;//实际存放物体
         public T Item

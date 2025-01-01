@@ -7,33 +7,25 @@ public class Test_Pool : MonoBehaviour
     public GameObject cubePrefab;
     public Transform parent;
 
-    public List<GameObject> cubeInstance = new List<GameObject>();
+    public List<ObjectPoolContainer<GameObject>> cubeInstance = new List<ObjectPoolContainer<GameObject>>();
 
     private void Start()
     {
-        MPoolManager.WarmPool(cubePrefab, 10, parent, false);
+        MPoolManager.Instance.WarmPool(cubePrefab, parent, 10);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            cubeInstance.Add(MPoolManager.SpawnObject(cubePrefab));
+            cubeInstance.Add(MPoolManager.Instance.SpawnObject(cubePrefab));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             int last = cubeInstance.Count - 1;
             if (last < 0) return;
-            MPoolManager.ReleaseObject(cubeInstance[last]);
+            MPoolManager.Instance.ReleaseObject(cubeInstance[last]);
             cubeInstance.RemoveAt(last);
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            var go = MPoolManager.ReleaseObject(cubePrefab, false);
-            if (go != null)
-            {
-                cubeInstance.Remove(go);
-            }
         }
     }
 }

@@ -3,17 +3,18 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public class Old_MPoolManager : MonoSingleton<Old_MPoolManager>
+    //已废弃---Stack更适合对象池
+    public class Backup_MPoolManager : MonoSingleton<Backup_MPoolManager>
     {
         //prefabDic---Prefab与所属的对象池
         //instanceDic---实例与所属的对象池
-        private Dictionary<GameObject, Old_ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
-        private Dictionary<GameObject, Old_ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
+        private Dictionary<GameObject, Backup_ObjectPool<GameObject>> prefabDic;//存放种类(GameObject为Prefab)
+        private Dictionary<GameObject, Backup_ObjectPool<GameObject>> instanceDic;//存放实例(GameObject为场景中的实例)
 
         private void Awake()
         {
-            prefabDic = new Dictionary<GameObject, Old_ObjectPool<GameObject>>();
-            instanceDic = new Dictionary<GameObject, Old_ObjectPool<GameObject>>();
+            prefabDic = new Dictionary<GameObject, Backup_ObjectPool<GameObject>>();
+            instanceDic = new Dictionary<GameObject, Backup_ObjectPool<GameObject>>();
         }
 
         /// <summary>
@@ -51,12 +52,12 @@ namespace MFramework
         {
             if (prefabDic.ContainsKey(prefab))//prefab已经入池，无需再次Warm()
             {
-                MLog.Print($"{typeof(Old_MPoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(Backup_MPoolManager)}：{prefab.name}已创建，请检查", MLogType.Warning);
                 return;
             }
 
             //正常情况---创建对象池，并存入prefabDic中
-            var pool = new Old_ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab, parent); }, size, warmObject);
+            var pool = new Backup_ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab, parent); }, size, warmObject);
             prefabDic[prefab] = pool;
         }
 
@@ -106,7 +107,7 @@ namespace MFramework
             }
             else
             {
-                MLog.Print($"{typeof(Old_MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(Backup_MPoolManager)}：{clone.name}不存在于池中，请检查", MLogType.Warning);
             }
         }
 

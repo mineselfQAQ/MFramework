@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace MFramework
 {
+    //TODO：如果PrefabGameObject有变动(左侧有蓝条)，那么将我添加的白条变蓝
     [InitializeOnLoad]
     public class MHierarchy
     {

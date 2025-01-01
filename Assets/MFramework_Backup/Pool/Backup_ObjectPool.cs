@@ -7,11 +7,11 @@ namespace MFramework
     /// <summary>
     /// 对象池，其中存放着一组ObjectPoolContainer<T>
     /// </summary>
-    public class Old_ObjectPool<T>
+    public class Backup_ObjectPool<T>
     {
-       private List<Old_ObjectPoolContainer<T>> list;
+       private List<Backup_ObjectPoolContainer<T>> list;
        //注意：只有正在Used的物体才在表中
-       private Dictionary<T, Old_ObjectPoolContainer<T>> lookup;//key---实际存放物体  value---list中的一个Container
+       private Dictionary<T, Backup_ObjectPoolContainer<T>> lookup;//key---实际存放物体  value---list中的一个Container
 
        private Func<T> initFunc;
        private int lastIndex = 0;
@@ -25,13 +25,13 @@ namespace MFramework
            get { return lookup.Count; }
        }
 
-       public Old_ObjectPool(Func<T> initFunc, int initSize, bool warmObject)
+       public Backup_ObjectPool(Func<T> initFunc, int initSize, bool warmObject)
        {
            this.initFunc = initFunc;//通过构造函数获得初始化
 
            //创建初始list/lookup
-           list = new List<Old_ObjectPoolContainer<T>>(initSize);
-           lookup = new Dictionary<T, Old_ObjectPoolContainer<T>>(initSize);
+           list = new List<Backup_ObjectPoolContainer<T>>(initSize);
+           lookup = new Dictionary<T, Backup_ObjectPoolContainer<T>>(initSize);
            //创建初始Container
            if(warmObject) Warm(initSize);
        }
@@ -42,7 +42,7 @@ namespace MFramework
        public T GetItem()
        {
            //在list中寻找Not Used的物体
-           Old_ObjectPoolContainer<T> container = null;
+           Backup_ObjectPoolContainer<T> container = null;
            for (int i = 0; i < list.Count; i++)
            {
                //循环列表
@@ -96,7 +96,7 @@ namespace MFramework
            }
            else//只有在表中的物体才是可被释放物体
            {
-               MLog.Print($"{typeof(Old_ObjectPool<T>)}：已没有可释放{item}，请检查", MLogType.Warning);
+               MLog.Print($"{typeof(Backup_ObjectPool<T>)}：已没有可释放{item}，请检查", MLogType.Warning);
            }
        }
 
@@ -115,10 +115,10 @@ namespace MFramework
        /// <summary>
        /// 将Container加入池中
        /// </summary>
-       private Old_ObjectPoolContainer<T> CreateContainer()
+       private Backup_ObjectPoolContainer<T> CreateContainer()
        {
            //Container的创建就是实例化物体并将其添加进list
-           var container = new Old_ObjectPoolContainer<T>();
+           var container = new Backup_ObjectPoolContainer<T>();
            container.Item = initFunc();//其实就是执行InstantiatePrefab()
            list.Add(container);
            return container;
