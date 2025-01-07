@@ -86,8 +86,6 @@ namespace MFramework
                 string newPath = $"{newRootPath}/{path}";
 
                 AESManager.AESEncryptFile(oldPath, newPath);
-
-
             }
 
             return true;

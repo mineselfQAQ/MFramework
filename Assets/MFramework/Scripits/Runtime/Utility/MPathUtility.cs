@@ -61,6 +61,12 @@ namespace MFramework
         /// </summary>
         public static bool CreateFolderIfNotExist(string path)
         {
+            //对于文件形式回退到文件夹(文件夹不需要)
+            if (Path.HasExtension(path))
+            {
+                path = path.CD();
+            }
+
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

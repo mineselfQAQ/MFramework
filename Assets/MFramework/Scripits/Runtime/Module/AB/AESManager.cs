@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.IO;
 using System;
+using System.Linq;
 
 namespace MFramework
 {
@@ -28,9 +29,9 @@ namespace MFramework
                 return -1;
             }
 
-            AesCryptoServiceProvider aesCSP = CreateAESCSP(key, iv);
-            ICryptoTransform obj_trans = aesCSP.CreateEncryptor();
-            if (AESEncryptOrDecrypt(filePath, outputPath, obj_trans) == -1)
+            CreateAESCSP(key, iv);
+            ICryptoTransform trans = AESCSP.CreateEncryptor();
+            if (AESEncryptOrDecrypt(filePath, outputPath, trans) == -1)
             {
                 return -1;
             }
@@ -83,19 +84,24 @@ namespace MFramework
                     {
                         using (CryptoStream cryptoStream = new CryptoStream(memoryStream, trans, CryptoStreamMode.Write))
                         {
-                            using (BinaryReader obj_binaryReader = new BinaryReader(fileStream))
+                            using (BinaryReader binaryReader = new BinaryReader(fileStream))
                             {
                                 inputBytes = new byte[fileStream.Length];
-                                obj_binaryReader.Read(inputBytes, 0, inputBytes.Length);
+                                binaryReader.Read(inputBytes, 0, inputBytes.Length);
                             }
 
                             cryptoStream.Write(inputBytes, 0, inputBytes.Length);
                             cryptoStream.FlushFinalBlock();
 
-                            //TODO：文件被写成文件夹了
-                            //路径不一定存在需要创建(FileMode.OpenOrCreate不行)
-                            MPathUtility.CreateFolderIfNotExist(outputPath);
-                            using (FileStream fileStream2 = new FileStream(outputPath, FileMode.Open, FileAccess.Write))
+                            //路径不一定存在需要创建(FileMode.OpenOrCreate不行(Create指的是文件创建而不是前面的文件夹))
+                            string name = Path.GetFileName(outputPath);
+                            var targets = new MBuildTarget[] { MBuildTarget.WINDOWS, MBuildTarget.ANDROID, MBuildTarget.IOS };
+                            if (!targets.Any(target => name.Contains(target.ToString())))//排除WINDOWS之类的文件(无后缀，特殊处理)
+                            {
+                                MPathUtility.CreateFolderIfNotExist(outputPath);
+                            }
+
+                            using (FileStream fileStream2 = new FileStream(outputPath, FileMode.CreateNew, FileAccess.Write))
                             {
                                 memoryStream.WriteTo(fileStream2);
                             }
