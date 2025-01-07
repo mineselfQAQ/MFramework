@@ -584,6 +584,14 @@ namespace MFramework
             if (!Directory.Exists(BuildPath)) Directory.CreateDirectory(BuildPath);
             AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(BuildPath, GetBuilds(bundleDic), BuildAssetBundleOptions, EditorUserBuildSettings.activeBuildTarget);
 
+            //删除所有.manifest文件(因为不需要)
+            DirectoryInfo directoryInfo = new DirectoryInfo(BuildPath);
+            var files = directoryInfo.GetFiles($"*.{BUNDLE_MANIFEST_SUFFIX}", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                file.Delete();
+            }
+
             EditorUtility.DisplayProgressBar($"{nameof(BuildBundle)}", "打包AssetBundle", max);
 
             return manifest;
@@ -624,10 +632,10 @@ namespace MFramework
             foreach (string bundle in bundleDic.Keys)
             {
                 fileSet.Remove($"{path}{bundle}");
-                fileSet.Remove($"{path}{bundle}{BUNDLE_MANIFEST_SUFFIX}");
+                //fileSet.Remove($"{path}{bundle}{BUNDLE_MANIFEST_SUFFIX}");
             }
             fileSet.Remove($"{path}{PLATFORM}");
-            fileSet.Remove($"{path}{PLATFORM}{BUNDLE_MANIFEST_SUFFIX}");
+            //fileSet.Remove($"{path}{PLATFORM}{BUNDLE_MANIFEST_SUFFIX}");
 
             //fileSet中剩余路径为多余文件
             Parallel.ForEach(fileSet, ParallelOptions, File.Delete);

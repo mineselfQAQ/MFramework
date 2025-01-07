@@ -2,12 +2,13 @@ using MFramework;
 using UnityEngine;
 using UnityEngine.Events;
 
+//Tip：不能取名为Activator，与反射相冲
 /// <summary>
 /// 触发器，当Player或其它物体接触时发生事件
 /// </summary>
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(MAudioSource))]
-public abstract class Activator : MonoBehaviour, IEntityContact
+public abstract class MActivator : MonoBehaviour, IEntityContact
 {
     /// <summary>
     /// 离开时自动关闭

@@ -33,10 +33,17 @@ namespace MFramework
         /// </summary>
         internal void Init()
         {
+            GetBuildRoot();
+            CollectItemDic();
+        }
+        internal void GetBuildRoot()//Tip：可单独获取
+        {
             //获取完整buildRoot路径(取决于.xml文件，默认在与项目同级)
             buildRoot = Path.GetFullPath(buildRoot).ReplaceSlash();
             buildRoot = buildRoot.Replace("{ProjectName}", Application.productName);
-
+        }
+        private void CollectItemDic()
+        {
             itemDic.Clear();
             for (int i = 0; i < items.Count; i++)
             {

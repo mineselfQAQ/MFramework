@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Log : Activator
+public class Log : MActivator
 {
     [Header("Log Settings")]
     public GameObject hideObj;

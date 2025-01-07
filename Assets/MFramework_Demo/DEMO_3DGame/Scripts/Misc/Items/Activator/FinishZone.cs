@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rotator))]
-public class FinishZone : Activator
+public class FinishZone : MActivator
 {
     protected Rotator m_rotator => GetComponent<Rotator>();
     protected LevelFinisher m_finisher => LevelFinisher.Instance;

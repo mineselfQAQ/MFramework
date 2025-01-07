@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TriggerButton : Activator
+public class TriggerButton : MActivator
 {
     [Header("TriggerButton Settings")]
     /// <summary>

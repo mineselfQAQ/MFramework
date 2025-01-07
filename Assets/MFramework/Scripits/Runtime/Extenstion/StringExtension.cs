@@ -19,6 +19,11 @@ namespace MFramework
             return newStr.ReplaceSlash();
         }
 
+        /// <summary>
+        /// ÆÆÕÛºÅ×ª»»
+        /// </summary>
+        /// <param name="isForward">True£º\--->/   False£º/--->\</param>
+        /// <returns></returns>
         public static string ReplaceSlash(this string str, bool isForward = true)
         {
             if (isForward)

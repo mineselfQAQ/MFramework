@@ -30,7 +30,7 @@ public class Test_CyclicScrollView : MScrollView<Cell, Data>
             dataList2.Add(dataTemplates[value]);
         }
 
-        Init(dataList);
+        Init(dataList2);
     }
 
     protected override void Update()
@@ -40,16 +40,16 @@ public class Test_CyclicScrollView : MScrollView<Cell, Data>
         //É¾³ýÔªËØ
         if (Input.GetKeyDown(KeyCode.E))
         {
-            int random = Random.Range(0, dataList.Count);
-            dataList.RemoveAt(random);
+            int random = Random.Range(0, dataList2.Count);
+            dataList2.RemoveAt(random);
 
             Refresh();
         }
         //Ìí¼ÓÔªËØ
         if (Input.GetKeyDown(KeyCode.R))
         {
-            int random = Random.Range(0, dataList.Count);
-            dataList.Insert(random, dataTemplates[Random.Range(0, 3)]);
+            int random = Random.Range(0, dataList2.Count);
+            dataList2.Insert(random, dataTemplates[Random.Range(0, 3)]);
 
             Refresh();
             MoveTo(1);

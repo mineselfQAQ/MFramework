@@ -5,13 +5,6 @@ using UnityEngine;
 
 namespace MFramework
 {
-    public enum MBuildTarget
-    {
-        WINDOWS,
-        ANDROID,
-        IOS
-    }
-
     public class ABGenerator : EditorWindow
     {
         [MenuItem("MFramework/BuildAB _F9", priority = 222)]
@@ -49,6 +42,11 @@ namespace MFramework
 
             MEditorGUIUtility.DrawH2("构建AB包");
             DrawABGenerator();
+
+            EditorGUILayout.Space(10);
+
+            MEditorGUIUtility.DrawH2("AB包加密");
+            DrawABAES();
         }
 
         private void DrawXMLGenerator()
@@ -214,6 +212,14 @@ namespace MFramework
             if (newLine) buildItemCode += "\n\t";
 
             sb.Append(buildItemCode);
+        }
+
+        private void DrawABAES()
+        {
+            if (GUILayout.Button("加密"))
+            {
+                ABAESBuilder.EncrypABPackVersionFile();
+            }
         }
 
         private const string ABXMLCODE =
