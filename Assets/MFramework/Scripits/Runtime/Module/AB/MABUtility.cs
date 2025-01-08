@@ -21,23 +21,23 @@ namespace MFramework
             }
         }
 
-        //TODO：只支持安卓/其它(指PC)
+        //TODO：只支持安卓/PC(默认状态下)
         public static string GetABRootPath()
         {
             if (MCore.Instance.ABEncryptState)
             {
 #if UNITY_ANDROID
-        return $"{MSettings.StreamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID_Encrypt";
+                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID_Encrypt";
 #else
-        return $"{MSettings.RootPath}/{Application.productName}_AssetBundle/WINDOWS_Encrypt";
+                return $"{Application.dataPath.CD()}/{Application.productName}_AssetBundle/WINDOWS_Encrypt";
 #endif
             }
             else
             {
 #if UNITY_ANDROID
-        return $"{MSettings.StreamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID";
+                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID";
 #else
-        return $"{MSettings.RootPath}/{Application.productName}_AssetBundle/WINDOWS";
+                return $"{Application.dataPath.CD()}/{Application.productName}_AssetBundle/WINDOWS";
 #endif
             }
         }

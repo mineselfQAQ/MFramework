@@ -10,12 +10,12 @@ namespace MFramework
         public static string WindowsPath { get { return $"{RootPath}/WINDOWS"; } }
         public static string AndroidPath { get { return $"{RootPath}/ANDROID"; } }
         public static string IOSPath { get { return $"{RootPath}/IOS"; } }
-        public static string WindowsEncryptPath { get { return $"{RootPath}/WINDOWS_Encrypt"; } }
-        public static string AndroidEncryptPath { get { return $"{RootPath}/ANDROID_Encrypt"; } }
-        public static string IOSEncryptPath { get { return $"{RootPath}/IOS_Encrypt"; } }
-        public static string WindowsDecryptPath { get { return $"{RootPath}/WINDOWS_Decrypt"; } }
-        public static string AndroidDecryptPath { get { return $"{RootPath}/ANDROID_Decrypt"; } }
-        public static string IOSDecryptPath { get { return $"{RootPath}/IOS_Decrypt"; } }
+        public static string WindowsEncryptPath { get { return $"{RootPath}/WINDOWS_ENCRYPT"; } }
+        public static string AndroidEncryptPath { get { return $"{RootPath}/ANDROID_ENCRYPT"; } }
+        public static string IOSEncryptPath { get { return $"{RootPath}/IOS_ENCRYPT"; } }
+        public static string WindowsDecryptPath { get { return $"{RootPath}/WINDOWS_DECRYPT"; } }
+        public static string AndroidDecryptPath { get { return $"{RootPath}/ANDROID_DECRYPT"; } }
+        public static string IOSDecryptPath { get { return $"{RootPath}/IOS_DECRYPT"; } }
 
         internal static void EncryptAB()
         {
@@ -134,7 +134,7 @@ namespace MFramework
                 sb.AppendLine(fileData);
 
             }
-            File.WriteAllText($"{newRootPath}/{MMD5Utility.MD5FILENAME}", sb.ToString());
+            File.WriteAllText($"{newRootPath}/{MSettings.ABInfoFileName}", sb.ToString());
 
             MLog.Print($"{typeof(ABAESBuilder)}：{platform}平台AB加密生成完成");
             return true;
@@ -188,7 +188,7 @@ namespace MFramework
                 string newPath = $"{newRootPath}/{path}";
 
                 //MD5文件无需出现在此处
-                if (fileName == MMD5Utility.MD5FILENAME) continue;
+                if (fileName == MSettings.ABInfoFileName) continue;
 
                 //对于非.ab文件，不解密直接拷贝
                 if (suffixName == "ab")
@@ -216,7 +216,7 @@ namespace MFramework
                 string fileData = $"{fullFileName} {md5} {size}";
                 sb.AppendLine(fileData);
             }
-            File.WriteAllText($"{newRootPath}/{MMD5Utility.MD5FILENAME}", sb.ToString());
+            File.WriteAllText($"{newRootPath}/{MSettings.ABInfoFileName}", sb.ToString());
 
             MLog.Print($"{typeof(ABAESBuilder)}：{platform}平台AB解密生成完成");
             return true;

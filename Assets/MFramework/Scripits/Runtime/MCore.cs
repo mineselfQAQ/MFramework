@@ -16,6 +16,8 @@ namespace MFramework
         private bool m_LocalState;//是否启用本地化
         [SerializeField]
         private bool m_ABEncryptState;//是否启用AB加密
+        [SerializeField]
+        private bool m_AutoHotUpdateState;//是否启用启动后自动热更
 
         [SerializeField]
         private bool m_PerformanceState;//是否启用性能检测
@@ -35,6 +37,7 @@ namespace MFramework
         public bool UICustomLoadState => m_UICustomLoadState;
         public bool LocalState => m_LocalState;
         public bool ABEncryptState => m_ABEncryptState;
+        public bool AutoHotUpdateState => m_AutoHotUpdateState;
         public bool PerformanceState => m_PerformanceState;
 
         protected override void Awake()
@@ -81,6 +84,10 @@ namespace MFramework
             if (LocalState)
             {
                 var mlm = MLocalizationManager.Instance;
+            }
+            if (AutoHotUpdateState)
+            {
+                MHotUpdateManager.Instance.StartHotUpdate();
             }
         }
         /// <summary>

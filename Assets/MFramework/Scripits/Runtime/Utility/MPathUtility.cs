@@ -56,13 +56,16 @@ namespace MFramework
             return result;
         }
 
+        //TODO：如果是像AB包中的WINDOW文件怎么办
         /// <summary>
         /// 保证文件夹的创建
         /// </summary>
-        public static bool CreateFolderIfNotExist(string path)
+        public static bool CreateFolderIfNotExist(string path, bool isFile = false)
         {
-            //对于文件形式回退到文件夹(文件夹不需要)
-            if (Path.HasExtension(path))
+            //对于文件形式回退到文件夹
+            //Tip：之所以不直接用如后缀检测是因为有文件可以没有后缀
+            //Tip2:之所以不直接用File.Exists()是因为这是检测文件是否存在的，这里只是提前判断文件不一定存在
+            if (isFile)
             {
                 path = path.CD();
             }

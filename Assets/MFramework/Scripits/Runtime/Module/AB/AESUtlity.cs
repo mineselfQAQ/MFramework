@@ -35,61 +35,6 @@ namespace MFramework
             return AESFileToStream(trans, filePath, key, iv);
         }
 
-        private static byte[] AESFileToStream(ICryptoTransform trans, string filePath, string key = KEY, string iv = IV)
-        {
-            if (!File.Exists(filePath))
-            {
-                MLog.Print($"{typeof(AESUtlity)}：不存在AES加密的文件，请检查", MLogType.Warning);
-                return null;
-            }
-
-            int keyCount = key.Length;
-            int ivCount = iv.Length;
-            if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
-            {
-                MLog.Print($"{typeof(AESUtlity)}：AES错误，Key与IV长度必须是8到16位");
-                return null;
-            }
-
-            return AESDecryptStream(filePath, trans);
-        }
-
-        private static byte[] AESDecryptStream(string filePath, ICryptoTransform trans)
-        {
-            try
-            {
-                byte[] outputBytes = null;
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] inputBytes = null;
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, trans, CryptoStreamMode.Write))
-                        {
-                            using (BinaryReader binaryReader = new BinaryReader(fileStream))
-                            {
-                                inputBytes = new byte[fileStream.Length];
-                                binaryReader.Read(inputBytes, 0, inputBytes.Length);
-                            }
-
-                            cryptoStream.Write(inputBytes, 0, inputBytes.Length);
-                            cryptoStream.FlushFinalBlock();
-
-                            outputBytes = memoryStream.ToArray();
-                        }
-                    }
-                }
-
-                return outputBytes;
-            }
-            catch (Exception ex)
-            {
-                MLog.Print($"{typeof(AESUtlity)}：AES加密失败---{ex.Message}", MLogType.Warning);
-                return null;
-            }
-        }
-
-
         private static int AESFile(ICryptoTransform trans, string filePath, string outputPath, string key = KEY, string iv = IV)
         {
             if (!File.Exists(filePath))
@@ -112,6 +57,24 @@ namespace MFramework
             }
 
             return 1;
+        }
+        private static byte[] AESFileToStream(ICryptoTransform trans, string filePath, string key = KEY, string iv = IV)
+        {
+            if (!File.Exists(filePath))
+            {
+                MLog.Print($"{typeof(AESUtlity)}：不存在AES加密的文件，请检查", MLogType.Warning);
+                return null;
+            }
+
+            int keyCount = key.Length;
+            int ivCount = iv.Length;
+            if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
+            {
+                MLog.Print($"{typeof(AESUtlity)}：AES错误，Key与IV长度必须是8到16位");
+                return null;
+            }
+
+            return AESDecryptStream(filePath, trans);
         }
 
         private static AesCryptoServiceProvider CreateAESCSP(string key, string iv)
@@ -169,13 +132,7 @@ namespace MFramework
                             cryptoStream.FlushFinalBlock();
 
                             //路径不一定存在需要创建(FileMode.OpenOrCreate不行(Create指的是文件创建而不是前面的文件夹))
-                            string name = Path.GetFileName(outputPath);
-                            //排除WINDOWS之类的文件(无后缀，特殊处理)
-                            var targets = new MBuildTarget[] { MBuildTarget.WINDOWS, MBuildTarget.ANDROID, MBuildTarget.IOS };
-                            if (!targets.Any(target => name.Contains(target.ToString())))
-                            {
-                                MPathUtility.CreateFolderIfNotExist(outputPath);
-                            }
+                            MPathUtility.CreateFolderIfNotExist(outputPath, true);
 
                             using (FileStream fileStream2 = new FileStream(outputPath, FileMode.CreateNew, FileAccess.Write))
                             {
@@ -191,6 +148,40 @@ namespace MFramework
             {
                 MLog.Print($"{typeof(AESUtlity)}：AES加密失败---{ex.Message}", MLogType.Warning);
                 return -1;
+            }
+        }
+        private static byte[] AESDecryptStream(string filePath, ICryptoTransform trans)
+        {
+            try
+            {
+                byte[] outputBytes = null;
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] inputBytes = null;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, trans, CryptoStreamMode.Write))
+                        {
+                            using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                            {
+                                inputBytes = new byte[fileStream.Length];
+                                binaryReader.Read(inputBytes, 0, inputBytes.Length);
+                            }
+
+                            cryptoStream.Write(inputBytes, 0, inputBytes.Length);
+                            cryptoStream.FlushFinalBlock();
+
+                            outputBytes = memoryStream.ToArray();
+                        }
+                    }
+                }
+
+                return outputBytes;
+            }
+            catch (Exception ex)
+            {
+                MLog.Print($"{typeof(AESUtlity)}：AES加密失败---{ex.Message}", MLogType.Warning);
+                return null;
             }
         }
     }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MFramework
 {
+    //TODO：这些路径有些是编辑器的有些是实际的(如Application.dataPath各平台表现不一致)，应该分类？
     public class MSettings
     {
         public const string MCoreName = "#MCORE#";
@@ -44,6 +45,10 @@ namespace MFramework
         public static readonly string LocalizationCSName = $"{AssetPath}/MFramework/Scripits/Runtime/LocalizationTable.cs";
         public static readonly string LocalizationBYTEName = $"{StreamingAssetsPath}/LocalizationTable.byte";
         public const string LocalizationLoadBINName = "{Application.streamingAssetsPath}/LocalizationTable.byte";
+        #endregion
+
+        #region AB
+        public const string ABInfoFileName = "ABInfo.txt";
         #endregion
     }
 }

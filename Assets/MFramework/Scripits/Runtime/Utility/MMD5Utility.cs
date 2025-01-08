@@ -7,8 +7,6 @@ namespace MFramework
 {
     public static class MMD5Utility
     {
-        public const string MD5FILENAME = "ABInfo.txt";
-
         public static string GetMD5(string filePath)
         {
             try

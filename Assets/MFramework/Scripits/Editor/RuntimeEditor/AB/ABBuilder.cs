@@ -728,7 +728,7 @@ namespace MFramework
                 string fileData = $"{fullFileName} {md5} {size}";
                 sb.AppendLine(fileData);
             }
-            File.WriteAllText($"{rootPath}/{MMD5Utility.MD5FILENAME}", sb.ToString());
+            File.WriteAllText($"{rootPath}/{MSettings.ABInfoFileName}", sb.ToString());
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildMD5)}", "生成MD5文件", max);
         }
