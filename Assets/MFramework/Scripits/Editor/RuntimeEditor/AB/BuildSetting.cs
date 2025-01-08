@@ -14,7 +14,8 @@ namespace MFramework
 
         [XmlAttribute("SuffixList")]
         public List<string> suffixList { get; set; } = new List<string>();//后缀列表
-
+        
+        //注意：默认在项目根目录，可用..回退
         [XmlAttribute("BuildRoot")]
         public string buildRoot { get; set; }//打包文件的目标文件夹
 

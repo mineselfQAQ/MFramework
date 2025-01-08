@@ -14,6 +14,8 @@ namespace MFramework
         private bool m_UICustomLoadState;//在编辑器版本中启用UI自定义加载
         [SerializeField]
         private bool m_LocalState;//是否启用本地化
+        [SerializeField]
+        private bool m_ABEncryptState;//是否启用AB加密
 
         [SerializeField]
         private bool m_PerformanceState;//是否启用性能检测
@@ -32,6 +34,7 @@ namespace MFramework
         public bool LogState => m_LogState;
         public bool UICustomLoadState => m_UICustomLoadState;
         public bool LocalState => m_LocalState;
+        public bool ABEncryptState => m_ABEncryptState;
         public bool PerformanceState => m_PerformanceState;
 
         protected override void Awake()

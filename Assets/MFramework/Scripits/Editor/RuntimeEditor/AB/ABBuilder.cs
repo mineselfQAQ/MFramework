@@ -1,7 +1,9 @@
+using Codice.Client.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -25,16 +27,18 @@ namespace MFramework
         private static readonly Profiler ms_BuildBundleProfiler = ms_BuildProfiler.CreateChild(nameof(BuildBundle));
         private static readonly Profiler ms_ClearBundleProfiler = ms_BuildProfiler.CreateChild(nameof(ClearBundle));
         private static readonly Profiler ms_BuildManifestBundleProfiler = ms_BuildProfiler.CreateChild(nameof(BuildManifest));
+        private static readonly Profiler ms_BuildMD5Profiler = ms_BuildProfiler.CreateChild(nameof(BuildMD5));
 
         public static readonly Vector2[] ms_Progress = new Vector2[]
         {
-            new Vector2(0.0f, 0.2f),//1---FileCollect
-            new Vector2(0.2f, 0.4f),//2---CollectDependency
-            new Vector2(0.4f, 0.5f),//3---CollectBundle
-            new Vector2(0.5f, 0.6f),//4---GenerateManifest
-            new Vector2(0.6f, 0.7f),//5---BuildBundle
-            new Vector2(0.7f, 0.9f),//6---ClearBundle
-            new Vector2(0.9f, 1.0f),//7---BuildManifest
+            new Vector2(0.0f, 0.1f),//0---FileCollect
+            new Vector2(0.1f, 0.2f),//1---CollectDependency
+            new Vector2(0.2f, 0.3f),//2---CollectBundle
+            new Vector2(0.3f, 0.4f),//3---GenerateManifest
+            new Vector2(0.4f, 0.7f),//4---BuildBundle
+            new Vector2(0.7f, 0.8f),//5---ClearBundle
+            new Vector2(0.8f, 0.9f),//6---BuildManifest
+            new Vector2(0.9f, 1.0f),//7---BuildMD5
         };
 
         //根据当前平台选择打包平台名称(用于路径)
@@ -95,7 +99,7 @@ namespace MFramework
         public static void Build_Windows(string pathToBuiltProject)
         {
             BuildSetting = LoadSetting(BuildSettingPath);
-            BuildPath = $"{pathToBuiltProject.CD()}/{Application.productName}_AssetBundle/{PLATFORM}/";//更改BuildPath为项目根目录
+            BuildPath = $"{pathToBuiltProject.CD()}/{Application.productName}_AssetBundle/{PLATFORM}";//更改BuildPath为项目根目录
             Dictionary<string, List<string>> bundleDic = Collect();
             BuildBundle(bundleDic);
             ClearBundle(BuildPath, bundleDic);
@@ -133,6 +137,10 @@ namespace MFramework
             BuildManifest();
             ms_BuildManifestBundleProfiler.Stop();
 
+            ms_BuildMD5Profiler.Start();
+            BuildMD5(BuildPath);
+            ms_BuildMD5Profiler.Stop();
+
             EditorUtility.ClearProgressBar();
 
             ms_BuildProfiler.Stop();
@@ -158,11 +166,11 @@ namespace MFramework
 
             //获取绝对打包路径
             BuildPath = BuildSetting.buildRoot;
-            if (BuildPath.Length > 0 && BuildPath[BuildPath.Length - 1] != '/')
+            if (BuildPath.Length > 0 && BuildPath[BuildPath.Length - 1] == '/')
             {
-                BuildPath += "/";
+                BuildPath.Remove(BuildPath.Length - 1);
             }
-            BuildPath += $"{PLATFORM}/";
+            BuildPath = $"{BuildPath}/{PLATFORM}";
 
             return BuildSetting;
         }
@@ -220,7 +228,7 @@ namespace MFramework
         /// </summary>
         private static Dictionary<string, List<string>> CollectDependency(ICollection<string> files)
         {
-            float min = ms_Progress[1].x, max = ms_Progress[1].y;//[0.2,0.4]
+            float min = ms_Progress[1].x, max = ms_Progress[1].y;
 
             Dictionary<string, List<string>> dependencyDic = new Dictionary<string, List<string>>();
             List<string> fileList = new List<string>(files);
@@ -345,7 +353,7 @@ namespace MFramework
         /// </summary>
         private static Dictionary<string, List<string>> CollectBundle(BuildSetting buildSetting, Dictionary<string, ResourceType> assetDic, Dictionary<string, List<string>> dependencyDic)
         {
-            float min = ms_Progress[2].x, max = ms_Progress[2].y;//[0.4,0.5]
+            float min = ms_Progress[2].x, max = ms_Progress[2].y;
 
             EditorUtility.DisplayProgressBar($"{nameof(CollectBundle)}", "搜集bundle信息", min);
 
@@ -405,7 +413,7 @@ namespace MFramework
         /// </summary>
         private static void GenerateManifest(Dictionary<string, ResourceType> assetDic, Dictionary<string, List<string>> bundleDic, Dictionary<string, List<string>> dependencyDic)
         {
-            float min = ms_Progress[3].x, max = ms_Progress[3].y;//[0.5,0.6]
+            float min = ms_Progress[3].x, max = ms_Progress[3].y;
 
             EditorUtility.DisplayProgressBar($"{nameof(GenerateManifest)}", "生成打包信息", min);
 
@@ -576,7 +584,7 @@ namespace MFramework
         /// </summary>
         private static AssetBundleManifest BuildBundle(Dictionary<string, List<string>> bundleDic)
         {
-            float min = ms_Progress[4].x, max = ms_Progress[4].y;//[0.6,0.7]
+            float min = ms_Progress[4].x, max = ms_Progress[4].y;
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildBundle)}", "打包AssetBundle", min);
 
@@ -620,7 +628,7 @@ namespace MFramework
         /// </summary>
         private static void ClearBundle(string path, Dictionary<string, List<string>> bundleDic)
         {
-            float min = ms_Progress[5].x, max = ms_Progress[5].y;//[0.7,0.9]
+            float min = ms_Progress[5].x, max = ms_Progress[5].y;
 
             EditorUtility.DisplayProgressBar($"{nameof(ClearBundle)}", "清除多余的AssetBundle文件", min);
 
@@ -631,10 +639,10 @@ namespace MFramework
             //在HashSet中删除bundleDic中的所有文件
             foreach (string bundle in bundleDic.Keys)
             {
-                fileSet.Remove($"{path}{bundle}");
+                fileSet.Remove($"{path}/{bundle}");
                 //fileSet.Remove($"{path}{bundle}{BUNDLE_MANIFEST_SUFFIX}");
             }
-            fileSet.Remove($"{path}{PLATFORM}");
+            fileSet.Remove($"{path}/{PLATFORM}");
             //fileSet.Remove($"{path}{PLATFORM}{BUNDLE_MANIFEST_SUFFIX}");
 
             //fileSet中剩余路径为多余文件
@@ -648,7 +656,7 @@ namespace MFramework
         /// </summary>
         private static void BuildManifest()
         {
-            float min = ms_Progress[6].x, max = ms_Progress[6].y;//[0.9,1]
+            float min = ms_Progress[6].x, max = ms_Progress[6].y;
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildManifest)}", "将Manifest打包成AssetBundle", min);
 
@@ -674,7 +682,7 @@ namespace MFramework
             if (assetBundleManifest)
             {
                 string manifestFile = $"{TempBuildPath}/{MANIFEST}{BUNDLE_SUFFIX}";
-                string target = $"{BuildPath}{MANIFEST}{BUNDLE_SUFFIX}";
+                string target = $"{BuildPath}/{MANIFEST}{BUNDLE_SUFFIX}";
                 if (File.Exists(manifestFile))
                 {
                     File.Copy(manifestFile, target);
@@ -684,6 +692,45 @@ namespace MFramework
             if (Directory.Exists(TempBuildPath)) Directory.Delete(TempBuildPath, true);
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildManifest)}", "将Manifest打包成AssetBundle", max);
+        }
+
+        /// <summary>
+        /// 步骤6：加载BuildSetting
+        /// </summary>
+        private static void BuildMD5(string rootPath)
+        {
+            float min = ms_Progress[7].x, max = ms_Progress[7].y;
+
+            EditorUtility.DisplayProgressBar($"{nameof(BuildMD5)}", "生成MD5文件", min);
+
+            StringBuilder sb = new StringBuilder();
+            DirectoryInfo directoryInfo = new DirectoryInfo(rootPath);
+            FileInfo[] files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                string fullPath = file.FullName.ReplaceSlash();
+                string fileName = file.Name;
+                string suffixName = fullPath.Substring(fullPath.LastIndexOf(".") + 1);
+
+                //Tip：获取如XXX_AssetBundle文件夹名(存放该项目的AB的根)，与XML中BuildRoot有关
+                string path = ABEditorUtility.GetBuildRootPath();
+                string abRootName = path.Substring(path.LastIndexOf('/') + 1);
+                string fullFileName = fullPath.Substring(fullPath.IndexOf(abRootName));
+                //MD5
+                string md5 = MMD5Utility.GetMD5(fullPath);
+                if (string.IsNullOrEmpty(md5))
+                {
+                    MLog.Print($"{typeof(ABAESBuilder)}：MD5获取失败，文件<{fullPath}>");
+                }
+                //文件大小
+                string size = Mathf.Ceil(file.Length / 1024f).ToString();
+
+                string fileData = $"{fullFileName} {md5} {size}";
+                sb.AppendLine(fileData);
+            }
+            File.WriteAllText($"{rootPath}/{MMD5Utility.MD5FILENAME}", sb.ToString());
+
+            EditorUtility.DisplayProgressBar($"{nameof(BuildMD5)}", "生成MD5文件", max);
         }
 
         /// <summary>

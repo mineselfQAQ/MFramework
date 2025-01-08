@@ -5,19 +5,96 @@ using System.Linq;
 
 namespace MFramework
 {
-    public class AESManager : Singleton<AESManager>
+    public class AESUtlity
     {
         private static AesCryptoServiceProvider AESCSP;
 
-        //Key与IV(向量)  注意：提供**ASCII字符**
+        //默认Key与IV(向量)  注意：提供**ASCII字符**(因为1个1byte)
         private const string KEY = "mineself0817QAQx";
         private const string IV = "xQAQ0817mineself";
 
         public static int AESEncryptFile(string filePath, string outputPath, string key = KEY, string iv = IV)
         {
+            CreateAESCSP(key, iv);
+            ICryptoTransform trans = AESCSP.CreateEncryptor();
+
+            return AESFile(trans, filePath, outputPath, key, iv);
+        }
+        public static int AESDecryptFile(string filePath, string outputPath, string key = KEY, string iv = IV)
+        {
+            CreateAESCSP(key, iv);
+            ICryptoTransform trans = AESCSP.CreateDecryptor();
+
+            return AESFile(trans, filePath, outputPath, key, iv);
+        }
+        public static byte[] AESDecryptFileToStream(string filePath, string key = KEY, string iv = IV)
+        {
+            CreateAESCSP(key, iv);
+            ICryptoTransform trans = AESCSP.CreateDecryptor();
+
+            return AESFileToStream(trans, filePath, key, iv);
+        }
+
+        private static byte[] AESFileToStream(ICryptoTransform trans, string filePath, string key = KEY, string iv = IV)
+        {
             if (!File.Exists(filePath))
             {
-                MLog.Print($"{typeof(AESManager)}：不存在AES加密的文件，请检查", MLogType.Warning);
+                MLog.Print($"{typeof(AESUtlity)}：不存在AES加密的文件，请检查", MLogType.Warning);
+                return null;
+            }
+
+            int keyCount = key.Length;
+            int ivCount = iv.Length;
+            if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
+            {
+                MLog.Print($"{typeof(AESUtlity)}：AES错误，Key与IV长度必须是8到16位");
+                return null;
+            }
+
+            return AESDecryptStream(filePath, trans);
+        }
+
+        private static byte[] AESDecryptStream(string filePath, ICryptoTransform trans)
+        {
+            try
+            {
+                byte[] outputBytes = null;
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] inputBytes = null;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, trans, CryptoStreamMode.Write))
+                        {
+                            using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                            {
+                                inputBytes = new byte[fileStream.Length];
+                                binaryReader.Read(inputBytes, 0, inputBytes.Length);
+                            }
+
+                            cryptoStream.Write(inputBytes, 0, inputBytes.Length);
+                            cryptoStream.FlushFinalBlock();
+
+                            outputBytes = memoryStream.ToArray();
+                        }
+                    }
+                }
+
+                return outputBytes;
+            }
+            catch (Exception ex)
+            {
+                MLog.Print($"{typeof(AESUtlity)}：AES加密失败---{ex.Message}", MLogType.Warning);
+                return null;
+            }
+        }
+
+
+        private static int AESFile(ICryptoTransform trans, string filePath, string outputPath, string key = KEY, string iv = IV)
+        {
+            if (!File.Exists(filePath))
+            {
+                MLog.Print($"{typeof(AESUtlity)}：不存在AES加密的文件，请检查", MLogType.Warning);
                 return -1;
             }
 
@@ -25,12 +102,10 @@ namespace MFramework
             int ivCount = iv.Length;
             if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
             {
-                MLog.Print($"{typeof(AESManager)}：AES错误，秘钥sKey与sIV长度必须是8到16位");
+                MLog.Print($"{typeof(AESUtlity)}：AES错误，Key与IV长度必须是8到16位");
                 return -1;
             }
 
-            CreateAESCSP(key, iv);
-            ICryptoTransform trans = AESCSP.CreateEncryptor();
             if (AESEncryptOrDecrypt(filePath, outputPath, trans) == -1)
             {
                 return -1;
@@ -39,7 +114,7 @@ namespace MFramework
             return 1;
         }
 
-        public static AesCryptoServiceProvider CreateAESCSP(string key, string iv)
+        private static AesCryptoServiceProvider CreateAESCSP(string key, string iv)
         {
             //已存在无需创建
             if (AESCSP != null)
@@ -95,8 +170,9 @@ namespace MFramework
 
                             //路径不一定存在需要创建(FileMode.OpenOrCreate不行(Create指的是文件创建而不是前面的文件夹))
                             string name = Path.GetFileName(outputPath);
+                            //排除WINDOWS之类的文件(无后缀，特殊处理)
                             var targets = new MBuildTarget[] { MBuildTarget.WINDOWS, MBuildTarget.ANDROID, MBuildTarget.IOS };
-                            if (!targets.Any(target => name.Contains(target.ToString())))//排除WINDOWS之类的文件(无后缀，特殊处理)
+                            if (!targets.Any(target => name.Contains(target.ToString())))
                             {
                                 MPathUtility.CreateFolderIfNotExist(outputPath);
                             }
@@ -113,7 +189,7 @@ namespace MFramework
             }
             catch (Exception ex)
             {
-                MLog.Print($"{typeof(AESManager)}：AES加密失败---{ex.Message}", MLogType.Warning);
+                MLog.Print($"{typeof(AESUtlity)}：AES加密失败---{ex.Message}", MLogType.Warning);
                 return -1;
             }
         }

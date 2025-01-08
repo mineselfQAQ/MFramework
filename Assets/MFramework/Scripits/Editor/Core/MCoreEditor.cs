@@ -12,6 +12,7 @@ namespace MFramework
         private SerializedProperty logStateSP;
         private SerializedProperty UICustomLoadStateSP;
         private SerializedProperty localStateSP;
+        private SerializedProperty ABEncryptStateSP;
         private SerializedProperty performanceStateSP;
         private SerializedProperty fpsDisplayModeSP;
         private SerializedProperty fpsSampleDurationSP;
@@ -31,6 +32,7 @@ namespace MFramework
             logStateSP = serializedObject.FindProperty("m_LogState");
             UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
             localStateSP = serializedObject.FindProperty("m_LocalState");
+            ABEncryptStateSP = serializedObject.FindProperty("m_ABEncryptState");
             performanceStateSP = serializedObject.FindProperty("m_PerformanceState");
             fpsDisplayModeSP = serializedObject.FindProperty("m_FPSDisplayMode");
             fpsSampleDurationSP = serializedObject.FindProperty("m_FPSSampleDuration");
@@ -49,6 +51,8 @@ namespace MFramework
             MEditorControlUtility.DrawBoolPopup(logStateSP, "是否输出LOG信息");
             MEditorGUIUtility.DrawH2("本地化");
             MEditorControlUtility.DrawBoolPopup(localStateSP, "是否开启本地化");
+            MEditorGUIUtility.DrawH2("AB");
+            MEditorControlUtility.DrawBoolPopup(ABEncryptStateSP, "是否开启AB加密");
             MEditorGUIUtility.DrawH2("性能检测");
             bool flag = MEditorControlUtility.DrawBoolPopup(performanceStateSP, "是否开启性能检测");
             if (flag)

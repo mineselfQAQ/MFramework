@@ -218,7 +218,11 @@ namespace MFramework
         {
             if (GUILayout.Button("º”√‹"))
             {
-                ABAESBuilder.EncrypABPackVersionFile();
+                ABAESBuilder.EncryptAB();
+            }
+            if (GUILayout.Button("Ω‚√‹"))
+            {
+                ABAESBuilder.DecryptAB();
             }
         }
 

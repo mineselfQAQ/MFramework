@@ -56,7 +56,7 @@ namespace MFramework
 #endif
 
             //核心---加载文件(由Unity提供)
-            assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(file, 0, MBundleManager.Instance.offset);
+            assetBundleCreateRequest = MABUtility.LoadABAsync(file);
         }
 
         /// <summary>

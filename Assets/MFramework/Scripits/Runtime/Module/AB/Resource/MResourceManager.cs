@@ -37,7 +37,7 @@ namespace MFramework
 
             //获取manifest.ab并加载成AssetBundle
             string manifestBunldeFile = getFileCallback.Invoke(MANIFEST_NAME);
-            AssetBundle manifestAssetBundle = AssetBundle.LoadFromFile(manifestBunldeFile, 0, offset);
+            AssetBundle manifestAssetBundle = MABUtility.LoadAB(manifestBunldeFile);
             //通过manifest.ab获取内部信息(打包时记录的文字信息)
             TextAsset resourceTextAsset = manifestAssetBundle.LoadAsset(RESOURCEASSET_NAME) as TextAsset;
             TextAsset bundleTextAsset = manifestAssetBundle.LoadAsset(BUNDLEASSET_NAME) as TextAsset;

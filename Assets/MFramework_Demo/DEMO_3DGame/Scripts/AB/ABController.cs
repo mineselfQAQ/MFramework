@@ -50,14 +50,33 @@ public class ABController : ComponentSingleton<ABController>
 
     protected string GetFileUrl(string fileName)
     {
+        123;
+        string abRootPath = MABUtility.GetABRootPath();
+        return $"{abRootPath}/{fileName}";
+
+        if (MCore.Instance.ABEncryptState)
+        {
 #if UNITY_EDITOR
-        return $"{fileURLs[index]}/{fileName}";
-        //家中---D:/___UnityProject___/MFramework_AssetBundle/WINDOWS/{fileName}";
-        //单位---F:/MineselfDemo/MFramework_AssetBundle/WINDOWS/{fileName}";
+            return $"{fileURLs[index]}_Encrypt/{fileName}";
+            //家中---D:/___UnityProject___/MFramework_AssetBundle/WINDOWS_Encrypt/{fileName}";
+            //单位---F:/MineselfDemo/MFramework_AssetBundle/WINDOWS_Encrypt/{fileName}";
+#elif UNITY_ANDROID
+        return $"{MSettings.StreamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID_Encrypt/{fileName}";
+#else
+        return $"{MSettings.RootPath}/{Application.productName}_AssetBundle/WINDOWS_Encrypt/{fileName}";
+#endif
+        }
+        else
+        {
+#if UNITY_EDITOR
+            return $"{fileURLs[index]}/{fileName}";
+            //家中---D:/___UnityProject___/MFramework_AssetBundle/WINDOWS/{fileName}";
+            //单位---F:/MineselfDemo/MFramework_AssetBundle/WINDOWS/{fileName}";
 #elif UNITY_ANDROID
         return $"{MSettings.StreamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID/{fileName}";
 #else
         return $"{MSettings.RootPath}/{Application.productName}_AssetBundle/WINDOWS/{fileName}";
 #endif
+        }
     }
 }

@@ -155,6 +155,7 @@ MonoBehaviour:
   m_LogState: 1
   m_UICustomLoadState: 1
   m_LocalState: 1
+  m_ABEncryptState: 1
   m_PerformanceState: 1
   m_FPSDisplayMode: 0
   m_FPSSampleDuration: 1
