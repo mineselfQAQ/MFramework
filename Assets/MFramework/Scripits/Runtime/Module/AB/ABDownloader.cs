@@ -20,8 +20,6 @@ namespace MFramework
         {
             isDownloading = true;
 
-            123
-            //’‚¿Ô∂‘¬£ø£ø£ø
             string url = $"{MHotUpdateManager.url}/{serverInfo.ABName}";
             UnityWebRequest request = UnityWebRequest.Get(url);
             yield return request.SendWebRequest();

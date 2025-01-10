@@ -49,7 +49,7 @@ public class GameLoader : ComponentSingleton<GameLoader>
 
 
         IResource needUnloadRes = lastRes;
-        if (ABController.Instance.enableAB)
+        if (MCore.Instance.ABState)
         {
             //**¼ÓÔØ½øÄÚ´æ**
             //ResourceManager.Instance.Load(abPath, false);

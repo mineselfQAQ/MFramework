@@ -15,6 +15,8 @@ namespace MFramework
         [SerializeField]
         private bool m_LocalState;//是否启用本地化
         [SerializeField]
+        private bool m_ABState;//是否启用AB
+        [SerializeField]
         private bool m_ABEncryptState;//是否启用AB加密
         [SerializeField]
         private bool m_AutoHotUpdateState;//是否启用启动后自动热更
@@ -37,8 +39,11 @@ namespace MFramework
         public bool UICustomLoadState => m_UICustomLoadState;
         public bool LocalState => m_LocalState;
         public bool ABEncryptState => m_ABEncryptState;
+        public bool ABState => m_ABState;
         public bool AutoHotUpdateState => m_AutoHotUpdateState;
         public bool PerformanceState => m_PerformanceState;
+
+        public BoolWrapper isHotUpdateFinish = new BoolWrapper(false);
 
         protected override void Awake()
         {
@@ -46,6 +51,7 @@ namespace MFramework
             if (this == null) return;//物体已被删除(因为已存在)
             DontDestroyOnLoad(gameObject);
 
+            InitializeAB();
             InitializeMonoSingleton();
             InitializeMonitor();
             InitializeInterface();
@@ -62,17 +68,61 @@ namespace MFramework
 
         private void Update()
         {
+            HandleAB();
             HandleMonitor();
+        }
+
+        private void LateUpdate()
+        {
+            HandleLateAB();
         }
 
         private void OnApplicationQuit()
         {
             DoQuit();
+            ABQuit();
         }
 
         private void OnGUI()
         {
             DrawMonitor();
+        }
+
+        /// <summary>
+        /// 初始化AB(服务器下载+初始化)
+        /// </summary>
+        private void InitializeAB()
+        {
+            if (ABState)
+            {
+                MHotUpdateManager.Instance.OnUpdateEnd += () =>
+                {
+                    isHotUpdateFinish.Value = true;
+                    Debug.Log("完成");
+                };
+
+                //先更新
+                MHotUpdateManager.Instance.Initialize();
+                if (AutoHotUpdateState)
+                {
+                    MHotUpdateManager.Instance.StartHotUpdate();
+                    MCoroutineManager.Instance.WaitNoRecord(() =>
+                    {
+                        Debug.Log(isHotUpdateFinish.Value);
+                        MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
+                    }, isHotUpdateFinish);
+                }
+                else//再初始化
+                {
+                    MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
+                }
+            }
+        }
+        protected string GetFileUrl(string fileName)
+        {
+            string abRootPath = MABUtility.GetABRootPath();
+
+            return $"{abRootPath}/{fileName}";
         }
 
         /// <summary>
@@ -84,10 +134,6 @@ namespace MFramework
             if (LocalState)
             {
                 var mlm = MLocalizationManager.Instance;
-            }
-            if (AutoHotUpdateState)
-            {
-                MHotUpdateManager.Instance.StartHotUpdate();
             }
         }
         /// <summary>
@@ -118,6 +164,20 @@ namespace MFramework
             Application.targetFrameRate = maxFrameRate;
         }
 
+        private void HandleAB()
+        {
+            if (ABState)
+            {
+                MResourceManager.Instance.Update();
+            }
+        }
+        private void HandleLateAB()
+        {
+            if (ABState)
+            {
+                MResourceManager.Instance.LateUpdate();
+            }
+        }
         private void HandleMonitor()
         {
             if (PerformanceState && monitor != null)
@@ -127,6 +187,17 @@ namespace MFramework
                     showPerformance = !showPerformance;
                 }
                 monitor.Update();
+            }
+        }
+
+        private void ABQuit()
+        {
+            if (ABState)
+            {
+                foreach (var resource in MResourceManager.Instance.resourceDic.Values)
+                {
+                    MResourceManager.Instance.Unload(resource);
+                }
             }
         }
 

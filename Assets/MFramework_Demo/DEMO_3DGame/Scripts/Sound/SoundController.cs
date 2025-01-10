@@ -43,7 +43,7 @@ public class SoundController : ComponentSingleton<SoundController>
         CurSFX = settings.SFXSound;
 
         //开启AB时需要重新设置Output中的AudioMixerGroup
-        if (ABController.Instance.enableAB)
+        if (MCore.Instance.ABState)
         {
             MAudioSource.OnSetOutput += SetOutput;
         }

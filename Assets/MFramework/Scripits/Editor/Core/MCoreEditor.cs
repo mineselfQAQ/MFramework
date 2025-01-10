@@ -12,6 +12,7 @@ namespace MFramework
         private SerializedProperty logStateSP;
         private SerializedProperty UICustomLoadStateSP;
         private SerializedProperty localStateSP;
+        private SerializedProperty ABStateSP;
         private SerializedProperty ABEncryptStateSP;
         private SerializedProperty autoHotUpdateStateSP;
         private SerializedProperty performanceStateSP;
@@ -34,6 +35,7 @@ namespace MFramework
             UICustomLoadStateSP = serializedObject.FindProperty("m_UICustomLoadState");
             localStateSP = serializedObject.FindProperty("m_LocalState");
             ABEncryptStateSP = serializedObject.FindProperty("m_ABEncryptState");
+            ABStateSP = serializedObject.FindProperty("m_ABState");
             autoHotUpdateStateSP = serializedObject.FindProperty("m_AutoHotUpdateState");
             performanceStateSP = serializedObject.FindProperty("m_PerformanceState");
             fpsDisplayModeSP = serializedObject.FindProperty("m_FPSDisplayMode");
@@ -54,7 +56,13 @@ namespace MFramework
             MEditorGUIUtility.DrawH2("本地化");
             MEditorControlUtility.DrawBoolPopup(localStateSP, "是否开启本地化");
             MEditorGUIUtility.DrawH2("AB");
-            MEditorControlUtility.DrawBoolPopup(ABEncryptStateSP, "是否开启AB加密");
+            bool abFlag = MEditorControlUtility.DrawBoolPopup(ABStateSP, "是否开启AB");
+            if (abFlag)
+            {
+                EditorGUI.indentLevel++;
+                MEditorControlUtility.DrawBoolPopup(ABEncryptStateSP, "是否开启AB加密");
+                EditorGUI.indentLevel--;
+            }
             MEditorGUIUtility.DrawH2("热更");
             MEditorControlUtility.DrawBoolPopup(autoHotUpdateStateSP, "是否开启启动自热更");
             MEditorGUIUtility.DrawH2("性能检测");

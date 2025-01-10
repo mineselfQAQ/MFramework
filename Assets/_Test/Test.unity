@@ -623,6 +623,9 @@ MonoBehaviour:
   m_LogState: 0
   m_UICustomLoadState: 0
   m_LocalState: 0
+  m_ABState: 1
+  m_ABEncryptState: 1
+  m_AutoHotUpdateState: 1
   m_PerformanceState: 1
   m_FPSDisplayMode: 0
   m_FPSSampleDuration: 1
@@ -654,8 +657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9549d819c21fcbd44b873e9716329be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn: {fileID: 519262011}
-  i: 0
 --- !u!1 &1993273115
 GameObject:
   m_ObjectHideFlags: 0

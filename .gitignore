@@ -72,6 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # My Extra
-/[Aa]ssets/[Ss]treamingAssets/PlatformGame_AssetBundle
+/[Aa]ssets/[Ss]treamingAssets/*_AssetBundle/
 Assets/StreamingAssets/build_info
-Assets/StreamingAssets/build_info
+/[Ll]ocalServer/Web/*
+!/[Ll]ocalServer/Web/index.asp

@@ -4,6 +4,16 @@ using UnityEngine;
 
 namespace MFramework
 {
+    public class BoolWrapper
+    {
+        public bool Value;
+
+        public BoolWrapper(bool value)
+        {
+            Value = value;
+        }
+    }
+
     internal class MCoroutineUtility
     {
         internal static IEnumerator DelayFrame(Action action, int frame)
@@ -35,6 +45,13 @@ namespace MFramework
         private static IEnumerator DoWithCallBack(Func<IEnumerator> action, Action onFinish)
         {
             yield return action();
+
+            onFinish();
+        }
+
+        internal static IEnumerator Wait(Action onFinish, BoolWrapper flag)
+        {
+            if (!flag.Value) yield return null;
 
             onFinish();
         }

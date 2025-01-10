@@ -28,6 +28,7 @@ public class UIController : ComponentSingleton<UIController>
     public static readonly string panelPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels";
     public static readonly string widgetPrepath = "Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets";
 
+    public static readonly string initPanelName = "INIT";
     public static readonly string sponsorDisplayPanelName = "SPONSOR";
     public static readonly string loadPanelName = "LOADING";
     public static readonly string pausePanelName = "PAUSE";
@@ -56,31 +57,38 @@ public class UIController : ComponentSingleton<UIController>
         bottomRoot = UIManager.Instance.CreateRoot("BOTTOMROOT", 0, 999);
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
-        //TODO:不应该一直出现，只应该在关卡中显示
-        //会被特效压住
-        CreatePanel<Gamepad>(topRoot, gamePadName, $"{panelPrepath}/Gamepad/Gamepad.prefab", true);
-        topRoot.SetSortingOrder(gamePadName, 1801);
+        //初始界面(在基本包中)
+        CreatePanel<InitPanel>(topRoot, initPanelName, $"{panelPrepath}/InitPanel/InitPanel.prefab", false);
+        topRoot.SetSortingOrder(initPanelName, 1998);
 
-        flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
-        topRoot.SetSortingOrder(flashEffectName, 1994);
-        CreatePanel<DialogPanel>(topRoot, dialogPanelName, $"{panelPrepath}/DialogPanel/DialogPanel.prefab", false);
-        topRoot.SetSortingOrder(dialogPanelName, 1995);
-        CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
-        topRoot.SetSortingOrder(pausePanelName, 1996);
-        CreatePanel<TransitionPanel>(topRoot, transitionPanelName, $"{panelPrepath}/TransitionPanel/TransitionPanel.prefab", false);
-        topRoot.SetSortingOrder(transitionPanelName, 1997);
-        CreatePanel<SponsorDisplayPanel>(topRoot, sponsorDisplayPanelName, $"{panelPrepath}/SponsorDisplayPanel/SponsorDisplayPanel.prefab", false);
-        topRoot.SetSortingOrder(sponsorDisplayPanelName, 1998);
-
-        //其它场景直接启动(用于测试)不创建TitleScreenPanel
-#if UNITY_EDITOR
-        if (EditorSceneManager.GetActiveScene().name != starterSceneName)
+        MCoroutineManager.Instance.WaitNoRecord(() =>
         {
-            return;
-        }
+            //TODO:不应该一直出现，只应该在关卡中显示
+            //会被特效压住
+            CreatePanel<Gamepad>(topRoot, gamePadName, $"{panelPrepath}/Gamepad/Gamepad.prefab", true);
+            topRoot.SetSortingOrder(gamePadName, 1801);
+
+            flashEffect = (FlashEffect)CreatePanel<FlashEffect>(topRoot, flashEffectName, $"{panelPrepath}/FlashEffect/FlashEffect.prefab", false);
+            topRoot.SetSortingOrder(flashEffectName, 1994);
+            CreatePanel<DialogPanel>(topRoot, dialogPanelName, $"{panelPrepath}/DialogPanel/DialogPanel.prefab", false);
+            topRoot.SetSortingOrder(dialogPanelName, 1995);
+            CreatePanel<PausePanel>(topRoot, pausePanelName, $"{panelPrepath}/PausePanel/PausePanel.prefab", false);
+            topRoot.SetSortingOrder(pausePanelName, 1996);
+            CreatePanel<TransitionPanel>(topRoot, transitionPanelName, $"{panelPrepath}/TransitionPanel/TransitionPanel.prefab", false);
+            topRoot.SetSortingOrder(transitionPanelName, 1997);
+            //CreatePanel<SponsorDisplayPanel>(topRoot, sponsorDisplayPanelName, $"{panelPrepath}/SponsorDisplayPanel/SponsorDisplayPanel.prefab", false);
+            //topRoot.SetSortingOrder(sponsorDisplayPanelName, 1998);
+
+            //其它场景直接启动(用于测试)不创建TitleScreenPanel
+#if UNITY_EDITOR
+            if (EditorSceneManager.GetActiveScene().name != starterSceneName)
+            {
+                return;
+            }
 #endif
-        //创建TitleScreenPanel
-        CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", false);
+            //创建TitleScreenPanel
+            CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", false);
+        }, MCore.Instance.isHotUpdateFinish);
     }
 
     protected void Update()
@@ -172,6 +180,20 @@ public class UIController : ComponentSingleton<UIController>
     }
 
     #region 具体功能函数
+    #region 初始化面板
+    public void OpenInitPanel(Action onFinish = null)
+    {
+        topRoot.OpenPanel(initPanelName, onFinish);
+    }
+    public void CloseInitPanel(Action onFinish = null)
+    {
+        topRoot.ClosePanel(initPanelName, onFinish);
+    }
+    public void DestroyInitPanel(Action onFinish = null)
+    {
+        topRoot.DestroyPanel(initPanelName);
+    }
+    #endregion
     #region 对话面板
     public DialogPanel GetDialogPanel()
     {

@@ -725,7 +725,7 @@ namespace MFramework
                 //文件大小
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
 
-                string fileData = $"{fullFileName} {md5} {size}";
+                string fileData = MABUtility.GetABLine(fullFileName, md5, size);
                 sb.AppendLine(fileData);
             }
             File.WriteAllText($"{rootPath}/{MSettings.ABInfoFileName}", sb.ToString());

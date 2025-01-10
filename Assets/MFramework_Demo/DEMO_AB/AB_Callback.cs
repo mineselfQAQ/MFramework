@@ -5,8 +5,6 @@ public class AB_Callback : MonoBehaviour
 {
     private void Start()
     {
-        MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
-
         MResourceManager.Instance.LoadWithCallback("Assets/AssetBundle/UI/UIRoot.prefab", true, uiRootResource =>
         {
             uiRootResource.Instantiate();
@@ -17,14 +15,5 @@ public class AB_Callback : MonoBehaviour
                 testUIResource.Instantiate(uiParent, false);
             });
         });
-    }
-    private void Update()
-    {
-        MResourceManager.Instance.Update();
-    }
-
-    private void LateUpdate()
-    {
-        MResourceManager.Instance.LateUpdate();
     }
 }

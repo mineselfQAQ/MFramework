@@ -5,9 +5,9 @@ public static class ABUtility
 {
     public static GameObject LoadPanelSync(string path)
     {
-        if (!ABController.Instance.enableAB)
+        if (!MCore.Instance.ABState)
         {
-            MLog.Print("自定义加载UI必须使用AB，请开启ABController中的enableAB", MLogType.Error);
+            MLog.Print("自定义加载UI必须使用AB，请开启Mcore中的ABState", MLogType.Error);
         }
 
         IResource panelResource = MResourceManager.Instance.Load(path, false);

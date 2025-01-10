@@ -26,20 +26,34 @@ namespace MFramework
         {
             if (MCore.Instance.ABEncryptState)
             {
-#if UNITY_ANDROID
-                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID_Encrypt";
+#if UNITY_STANDALONE
+                return $"{Application.dataPath.CD()}/{Application.productName}_AssetBundle/WINDOWS_ENCRYPT";
+#elif UNITY_ANDROID
+                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID_ENCRYPT";
+#elif UNITY_IOS
+                return null;
 #else
-                return $"{Application.dataPath.CD()}/{Application.productName}_AssetBundle/WINDOWS_Encrypt";
+                return null;
 #endif
             }
             else
             {
-#if UNITY_ANDROID
-                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID";
-#else
+#if UNITY_STANDALONE
                 return $"{Application.dataPath.CD()}/{Application.productName}_AssetBundle/WINDOWS";
+#elif UNITY_ANDROID
+                return $"{Application.streamingAssetsPath}/{Application.productName}_AssetBundle/ANDROID";
+#elif UNITY_IOS
+                return null;
+#else
+                return null;
 #endif
             }
+        }
+
+        public static string GetABLine(string name, string md5, string size)
+        {
+            //注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
+            return $"{name}|{md5}|{size}";
         }
 
         internal static AssetBundle LoadAB(string file)

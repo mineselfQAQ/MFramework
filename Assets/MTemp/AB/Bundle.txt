@@ -376,6 +376,8 @@ assets/mframework_demo/demo_3dgame/mframeworkui/panels/gamepad/gamepad.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/Gamepad/Gamepad.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/hudpanel/hudpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/HUDPanel/HUDPanel.prefab
+assets/mframework_demo/demo_3dgame/mframeworkui/panels/initpanel/initpanel.prefab.ab
+	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/InitPanel/InitPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/levelselectpanel/levelselectpanel.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/LevelSelectPanel/LevelSelectPanel.prefab
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.prefab.ab
@@ -402,8 +404,6 @@ assets/mframework_demo/demo_3dgame/mframeworkui/widgets/takebloodrestartwidget/t
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Widgets/TakeBloodRestartWidget/TakeBloodRestartWidget.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commindialog#.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMINDIALOG#.prefab
-assets/mframework_demo/demo_3dgame/prefabs/core/#commonab#.prefab.ab
-	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONAB#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commoncamera#.prefab.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Prefabs/Core/#COMMONCAMERA#.prefab
 assets/mframework_demo/demo_3dgame/prefabs/core/#commongame#.prefab.ab
@@ -829,6 +829,8 @@ assets/mframework_demo/demo_3dgame/meshes/materials/hair05.mat.ab
 	Assets/MFramework_Demo/DEMO_3DGame/Meshes/Materials/Hair05.mat
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/dialogpanel/dialogpanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/DialogPanel/DialogPanel.controller
+assets/mframework/internalresources.ab
+	Assets/MFramework/InternalResources/Slider_White_Gloss_Large.png
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/pausepanel/pausepanel.controller.ab
 	Assets/MFramework_Demo/DEMO_3DGame/MFrameworkUI/Panels/PausePanel/PausePanel.controller
 assets/mframework_demo/demo_3dgame/mframeworkui/panels/sponsordisplaypanel/sponsordisplaypanel.controller.ab

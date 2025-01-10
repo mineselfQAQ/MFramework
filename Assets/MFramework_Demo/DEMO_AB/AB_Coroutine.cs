@@ -6,18 +6,7 @@ public class AB_Coroutine : MonoBehaviour
 {
     private void Start()
     {
-        MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), AB.GetFileUrl, 0);
-
         MCoroutineManager.Instance.StartCoroutine(InitAsync(), "StartLoad", () => { MLog.Print("初始化完成"); });
-    }
-    private void Update()
-    {
-        MResourceManager.Instance.Update();
-    }
-
-    private void LateUpdate()
-    {
-        MResourceManager.Instance.LateUpdate();
     }
 
     private IEnumerator InitAsync()

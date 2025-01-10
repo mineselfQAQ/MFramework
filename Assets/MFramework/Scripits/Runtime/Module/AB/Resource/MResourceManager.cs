@@ -17,7 +17,7 @@ namespace MFramework
         internal Dictionary<string, List<string>> ResourceDependencyDic = new Dictionary<string, List<string>>();
 
         //当前存在的resource
-        private Dictionary<string, ResourceBase> resourceDic = new Dictionary<string, ResourceBase>();
+        internal Dictionary<string, ResourceBase> resourceDic = new Dictionary<string, ResourceBase>();
         //异步列表(正在加载的resource)
         private List<ResourceBaseAsync> asyncList = new List<ResourceBaseAsync>();
         //卸载列表(正在卸载的resource)
@@ -30,7 +30,7 @@ namespace MFramework
         private static readonly string BUNDLEASSET_NAME = MSettings.BundleAssetName;
         private static readonly string DEPENDENCYASSET_NAME = MSettings.DependencyAssetName;
 
-        public void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
+        internal void Initialize(string platform, Func<string, string> getFileCallback, ulong offset)
         {
             //获取BundleManager.assetBundleManifest信息
             MBundleManager.Instance.Initialize(platform, getFileCallback, offset);
@@ -113,7 +113,7 @@ namespace MFramework
             #endregion
         }
 
-        public void Update()
+        internal void Update()
         {
             MBundleManager.Instance.Update();//同ResourceManager.Update()，持续加载Bundle
 
@@ -133,7 +133,7 @@ namespace MFramework
             }
         }
 
-        public void LateUpdate()
+        internal void LateUpdate()
         {
             //存在需要释放的资源
             while (unloadList.Count > 0)//逐个操作

@@ -1,38 +1,56 @@
-using MFramework;
+ï»¿using MFramework;
 using System.Collections;
 using UnityEngine;
 
-public class Jumper : MonoBehaviour
+public class InitPanel : InitPanelBase
 {
-    private void Start()
+    private float totalSize;
+
+    public override void Init()
     {
-        UIController.Instance.OpenSponsorDisplayPanel(() =>
+        m_MSlider_Slider.value = 0;
+
+        totalSize = MHotUpdateManager.Instance.downloadTotalSize;
+    }
+
+    public override void Update()
+    {
+        MCoroutineManager.Instance.Loop("DownloadLoop", () =>
         {
-            if (MCore.Instance.ABState)//AB³¡¾°¼ÓÔØ
+            float curSize = MHotUpdateManager.Instance.curDownloadSize;
+            m_MSlider_Slider.value = curSize / totalSize;
+        }, 0, 1);
+
+        //çƒ­æ›´æ–°ç»“æŸåå…³é—­åç¨‹å¹¶è¿›å…¥ä¸‹ä¸€ç•Œé¢
+        MCoroutineManager.Instance.WaitNoRecord(() =>
+        {
+            MCoroutineManager.Instance.EndCoroutine("DownloadLoop");
+
+            if (MCore.Instance.ABState)//ABåœºæ™¯åŠ è½½
             {
-                //InitSync();//Í¬²½ĞÎÊ½
-                InitAsync();//Òì²½ĞÎÊ½
+                //InitSync();//åŒæ­¥å½¢å¼
+                InitAsync();//å¼‚æ­¥å½¢å¼
             }
-            else//Ò»°ã³¡¾°¼ÓÔØ(Ê¹ÓÃBuild Settings)
+            else//ä¸€èˆ¬åœºæ™¯åŠ è½½(ä½¿ç”¨Build Settings)
             {
                 MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
                 {
                     UIController.Instance.OpenTitleScreenPanel();
                     MCoroutineManager.Instance.DelayNoRecord(() =>
                     {
-                        UIController.Instance.CloseSponsorDisplayPanel();
+                        UIController.Instance.DestroyInitPanel();
                     }, 1.0f);
                 });
             }
-        });
+        }, MCore.Instance.isHotUpdateFinish);
     }
 
     /// <summary>
-    /// Í¬²½°æ³õÊ¼»¯
+    /// åŒæ­¥ç‰ˆåˆå§‹åŒ–
     /// </summary>
     private void InitSync()
     {
-        //TIP£º¼ÓÔØ.unityÎÄ¼ş»áÔì³É¿¨¶Ù
+        //TIPï¼šåŠ è½½.unityæ–‡ä»¶ä¼šé€ æˆå¡é¡¿
         IResource resource = MResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", false);
         GameLoader.Instance.lastRes = resource;
         MSceneUtility.LoadScene(UIController.titleScreenSceneName, () =>
@@ -40,13 +58,13 @@ public class Jumper : MonoBehaviour
             UIController.Instance.OpenTitleScreenPanel();
             MCoroutineManager.Instance.DelayNoRecord(() =>
             {
-                UIController.Instance.CloseSponsorDisplayPanel();
+                UIController.Instance.CloseInitPanel();
             }, 1.0f);
         });
     }
 
     /// <summary>
-    /// Òì²½°æ³õÊ¼»¯
+    /// å¼‚æ­¥ç‰ˆåˆå§‹åŒ–
     /// </summary>
     private void InitAsync()
     {
@@ -57,7 +75,7 @@ public class Jumper : MonoBehaviour
                 UIController.Instance.OpenTitleScreenPanel();
                 MCoroutineManager.Instance.DelayNoRecord(() =>
                 {
-                    UIController.Instance.CloseSponsorDisplayPanel();
+                    UIController.Instance.CloseInitPanel();
                 }, 1.0f);
             });
         });
@@ -65,9 +83,14 @@ public class Jumper : MonoBehaviour
 
     private IEnumerator InitAsyncCoroutine()
     {
-        //**¼ÓÔØ½øÄÚ´æ**
+        //**åŠ è½½è¿›å†…å­˜**
         IResource resource = MResourceManager.Instance.Load($"{ABPath.ABROOTPATH}/3DGame_TitleScreen.unity", true);
         GameLoader.Instance.lastRes = resource;
-        yield return resource;//µÈ´ı×ÊÔ´¼ÓÔØÍê±Ï
+        yield return resource;//ç­‰å¾…èµ„æºåŠ è½½å®Œæ¯•
+    }
+
+    protected override GameObject LoadPrefab(string prefabPath)
+    {
+        return ABUtility.LoadPanelSync(prefabPath);
     }
 }

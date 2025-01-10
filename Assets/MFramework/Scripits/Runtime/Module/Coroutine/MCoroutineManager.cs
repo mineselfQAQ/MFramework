@@ -153,6 +153,13 @@ namespace MFramework
         {
             return StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval));
         }
+        /// <summary>
+        /// 等待flag从false变为true(不记录)
+        /// </summary>
+        public Coroutine WaitNoRecord(Action onFinish, BoolWrapper flag)
+        {
+            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag));
+        }
 
         /// <summary>
         /// 等待后执行
@@ -181,6 +188,13 @@ namespace MFramework
         public void Loop(string name, Action action, float startInterval, float repeatInterval)
         {
             StartCoroutine(MCoroutineUtility.Loop(action, startInterval, repeatInterval), name);
+        }
+        /// <summary>
+        /// 等待flag从false变为true
+        /// </summary>
+        public Coroutine Wait(string name, Action onFinish, BoolWrapper flag)
+        {
+            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag), name);
         }
 
         /// <summary>

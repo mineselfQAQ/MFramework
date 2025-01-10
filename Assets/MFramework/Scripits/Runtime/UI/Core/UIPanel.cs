@@ -55,6 +55,8 @@ namespace MFramework
                 }
             }
         }
+
+        //TODO£ºÌí¼ÓPanelABÐ¶ÔØÑ¡Ïî
         internal void Destroy(Action onFinish = null)
         {
             PlayCloseAnim(() =>

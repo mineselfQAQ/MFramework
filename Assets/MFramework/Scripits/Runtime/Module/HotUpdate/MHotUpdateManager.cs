@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,17 +18,20 @@ namespace MFramework
     public static string url = null;
 #endif
 
+        public Action OnUpdateEnd;
+
         public float downloadTotalSize;
         public float curDownloadSize;
 
         private string ABInfoFileName;
         internal string ABLocalRootPath;
+
         private Dictionary<string, ABInfo> localInfoDic;
         Queue<ABInfo> needUpdateInfoQueue = new Queue<ABInfo>();
         private List<ABDownloader> downloaderList = new List<ABDownloader>();
         private const int maxDownloaderCount = 5;
 
-        private void Awake()
+        internal void Initialize()
         {
             string platform = MABUtility.GetPlatform();
             if (MCore.Instance.ABEncryptState)
@@ -38,7 +42,7 @@ namespace MFramework
 
             //TODO：安卓IOS应该不适配
             ABLocalRootPath = Path.GetFullPath(rootPath).ReplaceSlash();
-            ABInfoFileName = $"{ABLocalRootPath}/{MSettings.ABInfoFileName}";
+            ABInfoFileName = $"{rootPath}/{MSettings.ABInfoFileName}";
             MPathUtility.CreateFolderIfNotExist(ABLocalRootPath);
         }
 
@@ -51,10 +55,11 @@ namespace MFramework
         private IEnumerator DownloadABInfo()
         {
             string infoUrl = $"{url}/{ABInfoFileName}";
+            Debug.Log(infoUrl);
 
             using (UnityWebRequest request = UnityWebRequest.Get(infoUrl))
             {
-                yield return request.SendWebRequest(); // 等待资源下载
+                yield return request.SendWebRequest();
                 if(request.result != UnityWebRequest.Result.Success)
                 {
                     MLog.Print($"{typeof(MHotUpdateManager)}：获取AB信息失败---{request.error}", MLogType.Warning);
@@ -113,7 +118,7 @@ namespace MFramework
             //list无内容，即无需更新
             if (needUpdateInfoQueue.Count == 0)
             {
-                OnUpdateEnd();
+                OnUpdateEndInternal();
                 return;
             }
 
@@ -128,14 +133,16 @@ namespace MFramework
             }
         }
 
-        public Dictionary<string, ABInfo> ConvertToABInfo(string info)
+        public Dictionary<string, ABInfo> ConvertToABInfo(string infos)
         {
             Dictionary<string, ABInfo> infoDic = new Dictionary<string, ABInfo>();
 
-            string[] lines = info.Split('\n');
+            string[] lines = infos.Split("\n");
             foreach (string line in lines)
             {
-                string[] datas = line.Split(' ');
+                if (string.IsNullOrEmpty(line)) continue;
+
+                string[] datas = line.Split('|');
                 ABInfo abInfo = new ABInfo();
                 abInfo.ABName = datas[0];
                 abInfo.MD5 = datas[1];
@@ -147,11 +154,15 @@ namespace MFramework
             return infoDic;
         }
 
-        private void OnUpdateEnd()
+        private void OnUpdateEndInternal()
         {
-            MLog.Print($"{typeof(MHotUpdateManager)}：热更新完毕");
-            //TODO：更新ABInfo文件
-            123
+            //重新创建ABInfo文件
+            StringBuilder sb = new StringBuilder();
+            foreach (ABInfo info in localInfoDic.Values)
+            {
+                sb.AppendLine($"{info.ABName} {info.MD5} {info.Size}");
+            }
+            File.WriteAllText(ABInfoFileName, sb.ToString());
         }
 
         public void UpdateLocalABInfo(ABInfo serverinfo)
@@ -184,7 +195,10 @@ namespace MFramework
 
                 if (isFinish)
                 {
-                    OnUpdateEnd();
+                    OnUpdateEndInternal();
+                    OnUpdateEnd?.Invoke();
+
+                    MLog.Print($"{typeof(MHotUpdateManager)}：热更新完毕");
                 }
             }
         }

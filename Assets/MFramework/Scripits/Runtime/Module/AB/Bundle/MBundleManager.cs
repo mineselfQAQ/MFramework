@@ -41,7 +41,7 @@ namespace MFramework
             assetBundleManifest = objs[0] as AssetBundleManifest;
         }
 
-        public void Update()
+        internal void Update()
         {
             for (int i = 0; i < asyncList.Count; i++)
             {
@@ -53,7 +53,7 @@ namespace MFramework
             }
         }
 
-        public void LateUpdate()
+        internal void LateUpdate()
         {
             //存在需要释放的资源
             while (unloadList.Count > 0)//逐个操作
