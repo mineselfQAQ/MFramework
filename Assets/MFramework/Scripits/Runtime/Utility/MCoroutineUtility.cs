@@ -49,9 +49,12 @@ namespace MFramework
             onFinish();
         }
 
-        internal static IEnumerator Wait(Action onFinish, BoolWrapper flag)
+        internal static IEnumerator Wait(Action onFinish, BoolWrapper flag, int moreFrame)
         {
-            if (!flag.Value) yield return null;
+            //使用flag使其等待
+            while (!flag.Value) yield return null;
+
+            for (int i = 0; i < moreFrame; i++) yield return null;//额外等待
 
             onFinish();
         }

@@ -7,25 +7,28 @@ public class DialogController : ComponentSingleton<DialogController>
 
     protected Level m_level => Level.Instance;
 
-    protected void Start()
+    protected void Awake()
     {
-        panel = UIController.Instance.GetDialogPanel();
-        panel.OnStart += () =>
+        MCoroutineManager.Instance.WaitNoRecord(() =>
         {
-            Game.LockCursor(false);
-            Time.timeScale = 0;
+            panel = UIController.Instance.GetDialogPanel();
+            panel.OnStart += () =>
+            {
+                Game.LockCursor(false);
+                Time.timeScale = 0;
 
-            m_level.player.inputs.DisableInputAction(InputActionName.pause);//½ûÓÃÔİÍ£¼ü
-            m_level.player.inputs.DisableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
-        };
-        panel.OnEnd += () =>
-        {
-            Game.LockCursor();
-            Time.timeScale = 1;
+                m_level.player.inputs.DisableInputAction(InputActionName.pause);//½ûÓÃÔİÍ£¼ü
+                m_level.player.inputs.DisableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
+            };
+            panel.OnEnd += () =>
+            {
+                Game.LockCursor();
+                Time.timeScale = 1;
 
-            m_level.player.inputs.EnableInputAction(InputActionName.pause);//ÆôÓÃÔİÍ£¼ü
-            m_level.player.inputs.EnableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
-        };
+                m_level.player.inputs.EnableInputAction(InputActionName.pause);//ÆôÓÃÔİÍ£¼ü
+                m_level.player.inputs.EnableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
+            };
+        }, MCore.Instance.isHotUpdateFinish, 1);
     }
 
     public void StartDialog(Conversation conversation)

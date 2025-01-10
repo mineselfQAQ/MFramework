@@ -26,7 +26,7 @@ namespace MFramework
         private string ABInfoFileName;
         internal string ABLocalRootPath;
 
-        private Dictionary<string, ABInfo> localInfoDic;
+        private Dictionary<string, ABInfo> localInfoDic = new Dictionary<string, ABInfo>();
         Queue<ABInfo> needUpdateInfoQueue = new Queue<ABInfo>();
         private List<ABDownloader> downloaderList = new List<ABDownloader>();
         private const int maxDownloaderCount = 5;

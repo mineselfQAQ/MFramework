@@ -11,15 +11,12 @@ public class InitPanel : InitPanelBase
         m_MSlider_Slider.value = 0;
 
         totalSize = MHotUpdateManager.Instance.downloadTotalSize;
-    }
 
-    public override void Update()
-    {
         MCoroutineManager.Instance.Loop("DownloadLoop", () =>
         {
             float curSize = MHotUpdateManager.Instance.curDownloadSize;
             m_MSlider_Slider.value = curSize / totalSize;
-        }, 0, 1);
+        }, 0, 0.25f);
 
         //热更新结束后关闭协程并进入下一界面
         MCoroutineManager.Instance.WaitNoRecord(() =>
@@ -44,6 +41,8 @@ public class InitPanel : InitPanelBase
             }
         }, MCore.Instance.isHotUpdateFinish);
     }
+
+    public override void Update() { }
 
     /// <summary>
     /// 同步版初始化

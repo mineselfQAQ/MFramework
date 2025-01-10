@@ -58,7 +58,7 @@ public class UIController : ComponentSingleton<UIController>
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
         //初始界面(在基本包中)
-        CreatePanel<InitPanel>(topRoot, initPanelName, $"{panelPrepath}/InitPanel/InitPanel.prefab", false);
+        CreatePanel<InitPanel>(topRoot, initPanelName, $"{panelPrepath}/InitPanel/InitPanel.prefab", true);
         topRoot.SetSortingOrder(initPanelName, 1998);
 
         MCoroutineManager.Instance.WaitNoRecord(() =>
@@ -88,7 +88,7 @@ public class UIController : ComponentSingleton<UIController>
 #endif
             //创建TitleScreenPanel
             CreatePanel<TitleScreenPanel>(bottomRoot, titleScreenPanelName, $"{panelPrepath}/TitleScreenPanel/TitleScreenPanel.prefab", false);
-        }, MCore.Instance.isHotUpdateFinish);
+        }, MCore.Instance.isHotUpdateFinish, 1);
     }
 
     protected void Update()

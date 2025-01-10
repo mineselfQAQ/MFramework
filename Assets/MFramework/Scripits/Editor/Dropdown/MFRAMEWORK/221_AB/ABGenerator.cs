@@ -13,7 +13,7 @@ namespace MFramework
             bool flag = await ABBuilder.SwitchPlatform();
             if (!flag) return;
 
-            ABBuilder.BuildInternal();
+            ABBuilder.BuildInternal(MSettings.ABBuildSettingName);
         }
 
         [MenuItem("MFramework/ABGenerator", priority = 221)]
@@ -51,7 +51,7 @@ namespace MFramework
 
         private void DrawXMLGenerator()
         {
-            if (GUILayout.Button("生成默认XML"))
+            if (GUILayout.Button("生成默认XML(初始+完整)"))
             {
                 DrawDefaultGenerator();
                 MLog.Print("创建完成");
@@ -98,7 +98,12 @@ namespace MFramework
 
             if (GUILayout.Button("构建"))
             {
-                ABBuilder.BuildInternal();
+                ABBuilder.BuildInternal(MSettings.ABBuildSettingName);
+                AssetDatabase.Refresh();
+            }
+            if (GUILayout.Button("构建初始包"))
+            {
+                ABBuilder.BuildInternal(MSettings.ABBuildInitSettingName);
                 AssetDatabase.Refresh();
             }
         }
@@ -153,12 +158,13 @@ namespace MFramework
             string defaultSavePath = Application.dataPath.CD();
 
             string abPath = $"{defaultSavePath}/Assets/AssetBundle";
-            CreateABDirectoryIfNotExist(abPath);
+            //CreateABDirectoryIfNotExist(abPath);
 
             string projectPath = Application.dataPath;
             projectPath = projectPath.Substring(0, projectPath.Length - "Assets".Length);//"Assets"之前的路径
             abPath = abPath.Replace(projectPath, "");//以"Assets"开头的abPath
-            CreateDefaultXML(abPath);
+            CreateDefaultXML(abPath, MSettings.ABBuildInitSettingName);
+            CreateDefaultXML(abPath, MSettings.ABBuildSettingName);
         }
         private void CreateABDirectoryIfNotExist(string rootPath)
         {
@@ -172,10 +178,8 @@ namespace MFramework
             Directory.CreateDirectory($"{rootPath}/Shader");
             Directory.CreateDirectory($"{rootPath}/UI");
         }
-        private void CreateDefaultXML(string abPath)
+        private void CreateDefaultXML(string abPath, string fileName)
         {
-            string filePath = MSettings.ABBuildSettingName;
-
             string code = ABXMLCODE;
 
             string productName = Application.productName;
@@ -185,8 +189,13 @@ namespace MFramework
             string buildItemsCode = GenerateBuildItemsCode(abPath);
             code = code.Replace("{BUILDITEM}", buildItemsCode);
 
-            MSerializationUtility.SaveToFile(filePath, code);
-            EditorUtility.RevealInFinder(filePath);
+            if (File.Exists(fileName))
+            {
+                MLog.Print($"{typeof(ABGenerator)}：{fileName}已存在，请直接更改", MLogType.Warning);
+                return;
+            }
+            MSerializationUtility.SaveToFile(fileName, code);
+            EditorUtility.RevealInFinder(fileName);
         }
         private string GenerateBuildItemsCode(string abPath)
         {

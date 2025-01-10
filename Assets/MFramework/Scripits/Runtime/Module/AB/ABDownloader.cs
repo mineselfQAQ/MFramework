@@ -21,6 +21,7 @@ namespace MFramework
             isDownloading = true;
 
             string url = $"{MHotUpdateManager.url}/{serverInfo.ABName}";
+            url = MPathUtility.HTTPConvert(url);
             UnityWebRequest request = UnityWebRequest.Get(url);
             yield return request.SendWebRequest();
 
@@ -31,7 +32,8 @@ namespace MFramework
             }
             else
             {
-                string abPath = $"{MHotUpdateManager.Instance.ABLocalRootPath}/{serverInfo.ABName}";
+                //Tip：由于ABLocalRootPath添加了xxx_AssetBundle/平台名，而Info中同样有，需要去除一个
+                string abPath = $"{MHotUpdateManager.Instance.ABLocalRootPath.CD(2)}/{serverInfo.ABName}";
                 MPathUtility.CreateFolderIfNotExist(abPath, true);
 
                 //替换文件

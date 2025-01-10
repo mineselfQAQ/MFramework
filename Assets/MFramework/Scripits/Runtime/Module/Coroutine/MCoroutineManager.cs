@@ -156,9 +156,9 @@ namespace MFramework
         /// <summary>
         /// 等待flag从false变为true(不记录)
         /// </summary>
-        public Coroutine WaitNoRecord(Action onFinish, BoolWrapper flag)
+        public Coroutine WaitNoRecord(Action onFinish, BoolWrapper flag, int moreFrame = 0)
         {
-            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag));
+            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag, moreFrame));
         }
 
         /// <summary>
@@ -192,9 +192,9 @@ namespace MFramework
         /// <summary>
         /// 等待flag从false变为true
         /// </summary>
-        public Coroutine Wait(string name, Action onFinish, BoolWrapper flag)
+        public Coroutine Wait(string name, Action onFinish, BoolWrapper flag, int moreFrame = 0)
         {
-            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag), name);
+            return StartCoroutine(MCoroutineUtility.Wait(onFinish, flag, moreFrame), name);
         }
 
         /// <summary>

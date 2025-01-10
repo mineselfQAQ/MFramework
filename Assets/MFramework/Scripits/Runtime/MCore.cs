@@ -93,14 +93,19 @@ namespace MFramework
         /// </summary>
         private void InitializeAB()
         {
+            //Tip：
+            //初始化方式为先初始化初始包(如WINDOW文件与manifest.ab)，该内容为不完整的
+            //热更新后会替换文件，如果有替换，则需要更新这些信息文件并再次初始化(保证信息完全)
+
             if (ABState)
             {
                 MHotUpdateManager.Instance.OnUpdateEnd += () =>
                 {
                     isHotUpdateFinish.Value = true;
-                    Debug.Log("完成");
                 };
 
+                //初始包初始化
+                MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
                 //先更新
                 MHotUpdateManager.Instance.Initialize();
                 if (AutoHotUpdateState)
@@ -108,7 +113,6 @@ namespace MFramework
                     MHotUpdateManager.Instance.StartHotUpdate();
                     MCoroutineManager.Instance.WaitNoRecord(() =>
                     {
-                        Debug.Log(isHotUpdateFinish.Value);
                         MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
                     }, isHotUpdateFinish);
                 }

@@ -147,5 +147,16 @@ namespace MFramework
 
             return name;
         }
+
+        public static string HTTPConvert(string url)
+        {
+            string newUrl = url.Replace("%", "%25").
+                                Replace("+", "%2B").
+                                Replace(" ", "%20").
+                                Replace("#", "%23").
+                                Replace("&", "%26").
+                                Replace("=", "%3D");
+            return newUrl;
+        }
     }
 }

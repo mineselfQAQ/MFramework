@@ -81,7 +81,7 @@ namespace MFramework
         /// <summary>
         /// 打包路径
         /// </summary>
-        public static readonly string BuildSettingPath = MSettings.ABBuildSettingName;
+        //public static readonly string BuildSettingPath = MSettings.ABBuildSettingName;
 
         /// <summary>
         /// 打包设置信息
@@ -96,9 +96,9 @@ namespace MFramework
         /// <summary>
         /// 打包时的AB打包
         /// </summary>
-        public static void Build_Windows(string pathToBuiltProject)
+        public static void Build_Windows(string pathToBuiltProject, string buildSettingPath)
         {
-            BuildSetting = LoadSetting(BuildSettingPath);
+            BuildSetting = LoadSetting(buildSettingPath);
             BuildPath = $"{pathToBuiltProject.CD()}/{Application.productName}_AssetBundle/{PLATFORM}";//更改BuildPath为项目根目录
             Dictionary<string, List<string>> bundleDic = Collect();
             BuildBundle(bundleDic);
@@ -108,13 +108,13 @@ namespace MFramework
             EditorUtility.ClearProgressBar();
         }
 
-        internal static void BuildInternal()
+        internal static void BuildInternal(string buildSettingPath)
         {
             ms_BuildProfiler.Start();
 
             //加载设置
             ms_LoadBuildSettingProfiler.Start();
-            BuildSetting = LoadSetting(BuildSettingPath);
+            BuildSetting = LoadSetting(buildSettingPath);
             ms_LoadBuildSettingProfiler.Stop();
 
             //搜集bundle信息

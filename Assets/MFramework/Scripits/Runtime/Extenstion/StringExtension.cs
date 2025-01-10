@@ -14,7 +14,7 @@ namespace MFramework
             string newStr = str;
             for (int i = 0; i < level; i++)
             {
-                newStr = Path.GetDirectoryName(str);
+                newStr = Path.GetDirectoryName(newStr);
             }
             return newStr.ReplaceSlash();
         }
