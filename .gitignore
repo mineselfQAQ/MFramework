@@ -76,3 +76,4 @@ crashlytics-build.properties
 Assets/StreamingAssets/build_info
 /[Ll]ocalServer/Web/*
 !/[Ll]ocalServer/Web/index.asp
+/*_AssetBundle/
