@@ -13,9 +13,9 @@ namespace MFramework
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         public static string url = "http://127.0.0.1:5858";
 #elif UNITY_ANDROID
-    public static string url = null;
+        public static string url = null;
 #elif UNITY_IPHONE
-    public static string url = null;
+        public static string url = null;
 #endif
 
         public Action OnUpdateEnd;

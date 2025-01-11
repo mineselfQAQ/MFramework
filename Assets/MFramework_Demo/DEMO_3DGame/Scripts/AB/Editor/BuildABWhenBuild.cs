@@ -13,10 +13,10 @@ public class BuildABWhenBuild
 #elif UNITY_ANDROID
         //???
 #else
-        EditorDelayExecute.Instance.DelayDo(() =>
-        {
-            ABBuilder.Build_Windows(pathToBuiltProject, MSettings.ABBuildInitSettingName);
-        });
+        //EditorDelayExecute.Instance.DelayDo(() =>
+        //{
+            //ABBuilder.Build_Windows(pathToBuiltProject, MSettings.ABBuildInitSettingName);
+        //});
 #endif
     }
 }

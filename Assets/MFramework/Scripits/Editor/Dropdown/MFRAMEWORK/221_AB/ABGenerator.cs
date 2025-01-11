@@ -25,6 +25,8 @@ namespace MFramework
             window.Show();
         }
 
+        private Object obj;
+
         private void OnGUI()
         {
             //Tip:XML文件路径---"项目名/XmlSettings/CORE/XMLBuildSetting.xml"
@@ -101,15 +103,24 @@ namespace MFramework
                 ABBuilder.BuildInternal(MSettings.ABBuildSettingName);
                 AssetDatabase.Refresh();
             }
-            if (GUILayout.Button("构建初始包"))
-            {
-                ABBuilder.BuildInternal(MSettings.ABBuildInitSettingName);
-                AssetDatabase.Refresh();
-            }
+            //GUILayout.BeginHorizontal();
+            //{
+            //    //TODO：一个场景够吗？
+            //    obj = EditorGUILayout.ObjectField(obj, typeof(Object), false);
+            //    if (GUILayout.Button("构建初始包"))
+            //    {
+            //        string objPath = AssetDatabase.GetAssetPath(obj);
+            //        ABBuilder.BuildInitInternal(MSettings.ABBuildSettingName, objPath);
+
+            //        AssetDatabase.Refresh();
+            //    }
+            //}
+            //GUILayout.EndHorizontal();
         }
 
         private void DrawCheckXMLBtn()
         {
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("查看XML"))
             {
                 string fileName = MSettings.ABBuildSettingName;
@@ -121,6 +132,18 @@ namespace MFramework
 
                 MEditorUtility.OpenFile(fileName);
             }
+            //if (GUILayout.Button("查看初始包XML"))
+            //{
+            //    string fileName = MSettings.ABBuildInitSettingName;
+            //    if (!File.Exists(fileName))
+            //    {
+            //        MLog.Print("ABBuildInitSetting.xml未创建，请先创建后再查看", MLogType.Warning);
+            //        return;
+            //    }
+
+            //    MEditorUtility.OpenFile(fileName);
+            //}
+            GUILayout.EndHorizontal();
         }
         private void DrawCheckABBtn()
         {
@@ -163,8 +186,10 @@ namespace MFramework
             string projectPath = Application.dataPath;
             projectPath = projectPath.Substring(0, projectPath.Length - "Assets".Length);//"Assets"之前的路径
             abPath = abPath.Replace(projectPath, "");//以"Assets"开头的abPath
-            CreateDefaultXML(abPath, MSettings.ABBuildInitSettingName);
+            //CreateDefaultXML(abPath, MSettings.ABBuildInitSettingName);
             CreateDefaultXML(abPath, MSettings.ABBuildSettingName);
+
+            MEditorUtility.OpenFolder(MSettings.ABBuildSettingName.CD());
         }
         private void CreateABDirectoryIfNotExist(string rootPath)
         {

@@ -56,7 +56,7 @@ namespace MFramework
             return $"{name}|{md5}|{size}";
         }
 
-        internal static AssetBundle LoadAB(string file)
+        public static AssetBundle LoadAB(string file)
         {
             bool isABFile = false;
             if (file.Contains(".ab"))
@@ -78,7 +78,7 @@ namespace MFramework
                 return AssetBundle.LoadFromFile(file, 0, MBundleManager.Instance.offset);
             }
         }
-        internal static AssetBundleCreateRequest LoadABAsync(string file)
+        public static AssetBundleCreateRequest LoadABAsync(string file)
         {
             bool isABFile = false;
             if (file.Contains(".ab"))

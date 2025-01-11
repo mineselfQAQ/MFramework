@@ -105,7 +105,7 @@ namespace MFramework
                 };
 
                 //初始包初始化
-                MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
+                //MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
                 //先更新
                 MHotUpdateManager.Instance.Initialize();
                 if (AutoHotUpdateState)

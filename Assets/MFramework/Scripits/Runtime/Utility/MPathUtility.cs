@@ -158,5 +158,21 @@ namespace MFramework
                                 Replace("=", "%3D");
             return newUrl;
         }
+
+        /// <summary>
+        /// 删除文件夹下所有带有某后缀的内容(默认递归)
+        /// </summary>
+        public static void DeleteFileWithExtension(string folder, string suffix, bool recursion = true)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(folder);
+            FileInfo[] files = null;
+            if(recursion) files = directoryInfo.GetFiles($"*{suffix}", SearchOption.AllDirectories);
+            else files = directoryInfo.GetFiles($"*{suffix}", SearchOption.TopDirectoryOnly);
+
+            foreach (var file in files)
+            {
+                file.Delete();
+            }
+        }
     }
 }

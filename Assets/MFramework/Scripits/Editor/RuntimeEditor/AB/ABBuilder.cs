@@ -93,6 +93,22 @@ namespace MFramework
         /// </summary>
         public static string BuildPath { get; set; }
 
+        [Obsolete("废弃方案")]
+        public static void BuildInitInternal(string buildSettingPath, string objPath)
+        {
+            BuildSetting = LoadSetting(buildSettingPath);
+
+            AssetBundleBuild build = new AssetBundleBuild();
+            build.assetBundleName = "init.ab";
+            build.assetNames = new string[] { objPath };
+
+            if (!Directory.Exists(BuildPath)) Directory.CreateDirectory(BuildPath);
+            AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(BuildPath, new AssetBundleBuild[] { build }, BuildAssetBundleOptions, EditorUserBuildSettings.activeBuildTarget);
+
+            //删除.manifest文件
+            MPathUtility.DeleteFileWithExtension(BuildPath, BUNDLE_MANIFEST_SUFFIX);
+        }
+
         /// <summary>
         /// 打包时的AB打包
         /// </summary>
@@ -593,12 +609,7 @@ namespace MFramework
             AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(BuildPath, GetBuilds(bundleDic), BuildAssetBundleOptions, EditorUserBuildSettings.activeBuildTarget);
 
             //删除所有.manifest文件(因为不需要)
-            DirectoryInfo directoryInfo = new DirectoryInfo(BuildPath);
-            var files = directoryInfo.GetFiles($"*.{BUNDLE_MANIFEST_SUFFIX}", SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                file.Delete();
-            }
+            MPathUtility.DeleteFileWithExtension(BuildPath, BUNDLE_MANIFEST_SUFFIX);
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildBundle)}", "打包AssetBundle", max);
 
@@ -732,6 +743,8 @@ namespace MFramework
 
             EditorUtility.DisplayProgressBar($"{nameof(BuildMD5)}", "生成MD5文件", max);
         }
+
+
 
         /// <summary>
         /// 切换平台(异步)

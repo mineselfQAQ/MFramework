@@ -96,7 +96,7 @@ namespace MFramework
                 return;
             }
 
-            path = path.Replace("/", "\\");//转为Windows支持形式
+            path = path.ReplaceSlash(false);//转为Windows支持形式
             System.Diagnostics.Process.Start("explorer", path);
             MLog.Print($"路径名：{path}");
         }
@@ -111,8 +111,8 @@ namespace MFramework
                 return;
             }
 
-            path = path.Replace("/", "\\");//转为Windows支持形式
-            System.Diagnostics.Process.Start("explorer", "/select,\"" + path + "\"");
+            path = path.ReplaceSlash(false);//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", @$"/select,""{path}"")");
             MLog.Print($"路径名：{path}");
         }
         internal static void OpenFile(string path)
@@ -123,7 +123,7 @@ namespace MFramework
                 return;
             }
 
-            path = path.Replace("/", "\\");//转为Windows支持形式
+            path = path.ReplaceSlash(false);//转为Windows支持形式
             System.Diagnostics.Process.Start("explorer", path);
             MLog.Print($"路径名：{path}");
         }
@@ -135,8 +135,8 @@ namespace MFramework
                 return;
             }
 
-            path = path.Replace("/", "\\");//转为Windows支持形式
-            System.Diagnostics.Process.Start("explorer", "/select,\"" + path + "\"");
+            path = path.ReplaceSlash(false);//转为Windows支持形式
+            System.Diagnostics.Process.Start("explorer", @$"/select,""{path}"")");
             MLog.Print($"路径名：{path}");
         }
     }

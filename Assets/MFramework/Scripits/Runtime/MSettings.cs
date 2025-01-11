@@ -40,7 +40,7 @@ namespace MFramework
 
         #region 具体文件路径
         public static readonly string ABBuildSettingName = $"{CorePath}/AB/ABBuildSetting.xml";
-        public static readonly string ABBuildInitSettingName = $"{CorePath}/AB/ABBuildInitSetting.xml";
+        //public static readonly string ABBuildInitSettingName = $"{CorePath}/AB/ABBuildInitSetting.xml";
 
         public static readonly string LocalizationTableName = $"{CorePath}/Localization/LocalizationTable.xlsx";
         public static readonly string LocalizationCSName = $"{AssetPath}/MFramework/Scripits/Runtime/LocalizationTable.cs";
