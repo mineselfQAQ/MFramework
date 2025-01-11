@@ -1226,20 +1226,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 2124159314}
     m_Modifications:
     - target: {fileID: 835105545295745031, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 835105545295745031, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1157364756045443046, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035258400931723419, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6895827149008453923, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
       propertyPath: m_Pivot.x
@@ -1321,21 +1309,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7214363612155326731, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7214363612155326731, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7413564106608153777, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
       propertyPath: m_Name
       value: InitPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7413564106608153777, guid: e2314f0be2a5f1d4c9a42fcc99267f43, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

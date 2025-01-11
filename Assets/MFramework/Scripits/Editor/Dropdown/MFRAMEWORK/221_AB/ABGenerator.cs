@@ -53,7 +53,7 @@ namespace MFramework
 
         private void DrawXMLGenerator()
         {
-            if (GUILayout.Button("生成默认XML(初始+完整)"))
+            if (GUILayout.Button("生成默认XML"))
             {
                 DrawDefaultGenerator();
                 MLog.Print("创建完成");

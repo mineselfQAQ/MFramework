@@ -8,7 +8,7 @@ public class InitPanel : InitPanelBase
 
     public override void Init()
     {
-        m_MSlider_Slider.value = 0.5f;
+        m_MSlider_Slider.value = 0.0f;
 
         totalSize = MHotUpdateManager.Instance.downloadTotalSize;
 
@@ -16,11 +16,16 @@ public class InitPanel : InitPanelBase
         {
             float curSize = MHotUpdateManager.Instance.curDownloadSize;
             m_MSlider_Slider.value = curSize / totalSize;
+
+            Debug.Log(curSize + " " + totalSize);
         }, 0, 0.25f);
 
         //热更新结束后关闭协程并进入下一界面
         MCoroutineManager.Instance.WaitNoRecord(() =>
         {
+            m_MSlider_Slider.value = 1.0f;
+            m_MText_MText.text = "已完成 正在进入游戏...";
+
             MCoroutineManager.Instance.EndCoroutine("DownloadLoop");
 
             if (MCore.Instance.ABState)//AB场景加载

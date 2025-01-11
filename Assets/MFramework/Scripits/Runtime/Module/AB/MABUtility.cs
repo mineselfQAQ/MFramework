@@ -55,6 +55,11 @@ namespace MFramework
             //注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
             return $"{name}|{md5}|{size}";
         }
+        public static string GetABLine(string name, string md5, int size)
+        {
+            //注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
+            return $"{name}|{md5}|{size}";
+        }
 
         public static AssetBundle LoadAB(string file)
         {

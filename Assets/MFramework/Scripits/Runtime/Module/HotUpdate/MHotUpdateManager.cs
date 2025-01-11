@@ -80,7 +80,7 @@ namespace MFramework
         {
             Dictionary<string, ABInfo> serverInfoDic = ConvertToABInfo(info);//服务端ABInfo
 
-            if (File.Exists(ABLocalRootPath))
+            if (MPathUtility.CheckFolderHaveFile(ABLocalRootPath))
             {
                 string localInfo = File.ReadAllText(ABInfoFileName);//本地信息
                 localInfoDic = ConvertToABInfo(localInfo); // 客户端本地缓存的资源下载列表
@@ -121,6 +121,7 @@ namespace MFramework
             if (needUpdateInfoQueue.Count == 0)
             {
                 OnUpdateEndInternal();
+                OnUpdateEnd?.Invoke();
                 return;
             }
 
@@ -162,7 +163,8 @@ namespace MFramework
             StringBuilder sb = new StringBuilder();
             foreach (ABInfo info in localInfoDic.Values)
             {
-                sb.AppendLine($"{info.ABName} {info.MD5} {info.Size}");
+                string line = MABUtility.GetABLine(info.ABName, info.MD5, info.Size);
+                sb.AppendLine(line);
             }
             File.WriteAllText(ABInfoFileName, sb.ToString());
         }
@@ -175,6 +177,8 @@ namespace MFramework
 
         public void DownloadNext(ABDownloader downloader)
         {
+            111;//是不是downloader.GetSize()得了0？
+
             curDownloadSize += downloader.GetSize();
 
             if (needUpdateInfoQueue.Count > 0)//有就继续下

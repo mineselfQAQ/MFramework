@@ -174,5 +174,18 @@ namespace MFramework
                 file.Delete();
             }
         }
+
+        public static bool CheckFolderHaveFile(string folder)
+        {
+            if (!IsFolder(folder)) 
+            {
+                MLog.Print($"{typeof(MPathUtility)}：传入的不是文件夹，请重试", MLogType.Warning);
+                return false;
+            }
+
+            string[] files = Directory.GetFiles(folder);
+            if (files.Length == 0) return false;
+            return true;
+        }
     }
 }
