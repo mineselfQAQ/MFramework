@@ -55,6 +55,40 @@ namespace MFramework
                 }
             }
         }
+        internal void Create(string id, UIRoot root, UIPanelBehaviour behaviour, bool autoEnter)
+        {
+            if (behaviour.transform.parent != UIManager.Instance.UICanvas.transform)
+            {
+                MLog.Print($"{typeof(UIPanel)}：使用Behaviour时<{id}>需放在UICanvas下一级中，请重试", MLogType.Error);
+            }
+
+            base.Create(id, UIManager.Instance.UICanvas.transform, behaviour);
+            parentRoot = root;
+
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
+            if (!autoEnter)
+            {
+                firstEnter = true;
+
+                //UIPanelUtility.SetCanvasGroupActive(CanvasGroup, false);
+                CanvasGroup.alpha = 0;
+                ShowState = UIShowState.Off;
+                AnimState = UIAnimState.Idle;
+            }
+            else
+            {
+                CanvasGroup.alpha = 1;
+                if (panelBehaviour.AnimSwitch == UIAnimSwitch.On)
+                {
+                    PlayOpenAnim();
+                }
+                else
+                {
+                    SetVisible(true);
+                }
+            }
+        }
 
         //TODO：添加PanelAB卸载选项
         internal void Destroy(Action onFinish = null)

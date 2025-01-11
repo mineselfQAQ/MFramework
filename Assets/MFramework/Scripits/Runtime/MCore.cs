@@ -43,6 +43,7 @@ namespace MFramework
         public bool AutoHotUpdateState => m_AutoHotUpdateState;
         public bool PerformanceState => m_PerformanceState;
 
+        public BoolWrapper isHotUpdateCheckFinish = new BoolWrapper(false);
         public BoolWrapper isHotUpdateFinish = new BoolWrapper(false);
 
         protected override void Awake()
@@ -99,6 +100,10 @@ namespace MFramework
 
             if (ABState)
             {
+                MHotUpdateManager.Instance.OnCheckEnd += () =>
+                {
+                    isHotUpdateCheckFinish.Value = true;
+                };
                 MHotUpdateManager.Instance.OnUpdateEnd += () =>
                 {
                     isHotUpdateFinish.Value = true;

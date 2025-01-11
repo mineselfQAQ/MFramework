@@ -96,6 +96,57 @@ namespace MFramework
             return CreatePanel<T>(typeof(T).Name, prefabPath, autoEnter);
         }
 
+        public T CreatePanel<T>(string id, UIPanelBehaviour behaviour, int order, bool autoEnter = false) where T : UIPanel
+        {
+            if (panelDic.ContainsKey(id))
+            {
+                MLog.Print($"{typeof(UIRoot)}：RootID-<{rootID}>中已创建id-<{id}>，请勿重复创建", MLogType.Warning);
+                return null;
+            }
+            if (order < startOrder || order > endOrder)
+            {
+                MLog.Print($"{typeof(UIRoot)}：order-<{order}>不在id-<{id}>的[{startOrder},{endOrder}]区间，请检查", MLogType.Warning);
+                return null;
+            }
+
+            T panel = Activator.CreateInstance(typeof(T)) as T;
+            panel.Create(id, this, behaviour, autoEnter);
+            panel.SetSortingOrder(order);//设置排序(Canvas之间的排序)
+            panelDic.Add(panel.panelID, panel);//加入Panel字典
+
+            MaintainTopPanel_Create(panel, order);
+
+            return panel;
+        }
+        public T CreatePanel<T>(string id, UIPanelBehaviour behaviour, bool autoEnter = false) where T : UIPanel
+        {
+            int order = GetNextOrder();
+            if (order > endOrder)
+            {
+                UIPanelUtility.ResetOrder(this);
+            }
+
+            return CreatePanel<T>(id, behaviour, order, autoEnter);
+        }
+        public T CreatePanel<T>(UIPanelBehaviour behaviour, int order, bool autoEnter = false) where T : UIPanel
+        {
+            if (panelDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"{typeof(UIRoot)}.{nameof(CreatePanel)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
+                return null;
+            }
+            return CreatePanel<T>(typeof(T).Name, behaviour, order, autoEnter);
+        }
+        public T CreatePanel<T>(UIPanelBehaviour behaviour, bool autoEnter = false) where T : UIPanel
+        {
+            if (panelDic.ContainsKey(typeof(T).Name))
+            {
+                MLog.Print($"{typeof(UIRoot)}.{nameof(CreatePanel)}：无id方法只能用于一对一情况，如有复用，请传入id", MLogType.Warning);
+                return null;
+            }
+            return CreatePanel<T>(typeof(T).Name, behaviour, autoEnter);
+        }
+
         public bool DestroyPanel(string id)
         {
             if (!panelDic.ContainsKey(id))

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InitPanel : InitPanelBase
 {
-    private float totalSize;
+    private float totalSize = 0.0f;
 
     public override void Init()
     {
-        m_MSlider_Slider.value = 0;
+        m_MSlider_Slider.value = 0.5f;
 
         totalSize = MHotUpdateManager.Instance.downloadTotalSize;
 

@@ -20,6 +20,9 @@ public class UIController : ComponentSingleton<UIController>
     [Header("Flash Settings")]
     public float flashDuration = 1.0f;
 
+    [Header("Other")]
+    public UIPanelBehaviour initBehaviour;
+
     public UIRoot bottomRoot;
     public UIRoot topRoot;
 
@@ -59,9 +62,11 @@ public class UIController : ComponentSingleton<UIController>
 
         //初始界面(在基本包中)
         //TODO：改用Behaviour直接创建
-        123
-        CreatePanel<InitPanel>(topRoot, initPanelName, $"{panelPrepath}/InitPanel/InitPanel.prefab", true);
-        topRoot.SetSortingOrder(initPanelName, 1998);
+        MCoroutineManager.Instance.WaitNoRecord(() =>
+        {
+            CreatePanel<InitPanel>(topRoot, initPanelName, initBehaviour, true);
+            topRoot.SetSortingOrder(initPanelName, 1998);
+        }, MCore.Instance.isHotUpdateCheckFinish);
 
         MCoroutineManager.Instance.WaitNoRecord(() =>
         {
@@ -99,6 +104,21 @@ public class UIController : ComponentSingleton<UIController>
         {
             panel.Update();
         }
+    }
+
+    public UIPanel CreatePanel<T>(UIRoot root, string id, UIPanelBehaviour behaviour, bool autoEnter) where T : UIPanel
+    {
+        if (panelDic.ContainsKey(id))
+        {
+            root.DestroyPanel(id);
+            panelDic.Remove(id);
+        }
+
+        UIPanel panel = root.CreatePanel<T>(id, behaviour, autoEnter);
+        panel.Init();
+        panelDic.Add(id, panel);
+
+        return panel;
     }
 
     public UIPanel CreatePanel<T>(UIRoot root, string id, string prefabPath, bool autoEnter) where T : UIPanel

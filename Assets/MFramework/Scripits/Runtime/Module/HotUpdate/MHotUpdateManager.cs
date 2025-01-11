@@ -19,6 +19,7 @@ namespace MFramework
 #endif
 
         public Action OnUpdateEnd;
+        public Action OnCheckEnd;
 
         public float downloadTotalSize;
         public float curDownloadSize;
@@ -69,6 +70,7 @@ namespace MFramework
                 {
                     string info = request.downloadHandler.text;
                     CheckNeedDownloadABPack(info);
+                    OnCheckEnd?.Invoke();
                     DownloadABPack();
                 }
             }
