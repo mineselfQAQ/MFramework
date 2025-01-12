@@ -11,7 +11,7 @@ namespace MFramework
     public class MHotUpdateManager : MonoSingleton<MHotUpdateManager>
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        public static string url = "http://127.0.0.1:5858";
+        public static string url = "http://127.0.0.1:8888";
 #elif UNITY_ANDROID
         public static string url = null;
 #elif UNITY_IPHONE
@@ -56,7 +56,6 @@ namespace MFramework
         private IEnumerator DownloadABInfo()
         {
             string infoUrl = $"{url}/{ABInfoFileName}";
-            Debug.Log(infoUrl);
 
             using (UnityWebRequest request = UnityWebRequest.Get(infoUrl))
             {
@@ -177,8 +176,6 @@ namespace MFramework
 
         public void DownloadNext(ABDownloader downloader)
         {
-            111;//是不是downloader.GetSize()得了0？
-
             curDownloadSize += downloader.GetSize();
 
             if (needUpdateInfoQueue.Count > 0)//有就继续下

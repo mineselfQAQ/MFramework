@@ -19,6 +19,7 @@ namespace MFramework
         public IEnumerator DownloadABPack(ABInfo serverInfo)
         {
             isDownloading = true;
+            info = serverInfo;
 
             string url = $"{MHotUpdateManager.url}/{serverInfo.ABName}";
             url = MPathUtility.HTTPConvert(url);

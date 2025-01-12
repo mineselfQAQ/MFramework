@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class InitPanel : InitPanelBase
 {
+    private const float minValue = 0.05f;
+    private const float maxValue = 1.0f;
+
     private float totalSize = 0.0f;
 
     public override void Init()
     {
-        m_MSlider_Slider.value = 0.0f;
+        m_MSlider_Slider.value = minValue;
 
         totalSize = MHotUpdateManager.Instance.downloadTotalSize;
 
@@ -23,7 +26,7 @@ public class InitPanel : InitPanelBase
         //热更新结束后关闭协程并进入下一界面
         MCoroutineManager.Instance.WaitNoRecord(() =>
         {
-            m_MSlider_Slider.value = 1.0f;
+            m_MSlider_Slider.value = maxValue;
             m_MText_MText.text = "已完成 正在进入游戏...";
 
             MCoroutineManager.Instance.EndCoroutine("DownloadLoop");

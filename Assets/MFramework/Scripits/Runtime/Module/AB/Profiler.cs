@@ -69,10 +69,10 @@ namespace MFramework
 
         public void Start()
         {
-            if (m_Timestamp != -1)
-            {
-                MLog.Print($"{nameof(Profiler)}.{nameof(Start)}：{m_Name}重复开始，请检查", MLogType.Warning);
-            }
+            //if (m_Timestamp != -1)
+            //{
+            //    MLog.Print($"{nameof(Profiler)}.{nameof(Start)}：{m_Name}重复开始，请检查", MLogType.Warning);
+            //}
 
             m_Timestamp = ms_Stopwatch.ElapsedTicks;
         }
@@ -85,10 +85,10 @@ namespace MFramework
 
         public void Stop()
         {
-            if (m_Timestamp == -1)
-            {
-                MLog.Print($"{nameof(Profiler)}.{nameof(Stop)}：{m_Name}重复结束，请检查", MLogType.Warning);
-            }
+            //if (m_Timestamp == -1)
+            //{
+            //    MLog.Print($"{nameof(Profiler)}.{nameof(Stop)}：{m_Name}重复结束，请检查", MLogType.Warning);
+            //}
 
             m_Time += ms_Stopwatch.ElapsedTicks - m_Timestamp;
             m_Timestamp = -1;

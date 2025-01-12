@@ -106,7 +106,6 @@ namespace MFramework
                 };
                 MHotUpdateManager.Instance.OnUpdateEnd += () =>
                 {
-                    Debug.Log("Íê³É");
                     isHotUpdateFinish.Value = true;
                 };
 

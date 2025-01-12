@@ -2,20 +2,18 @@ Dim httpd
 Shell.Service.RunService "NBWeb", "NetBox Web Server", "NetBox Http Server Sample"
 '---------------------- Service Event ---------------------
 Sub OnServiceStart()
-Set httpd = NetBox.CreateObject("NetBox.HttpServer")
-If httpd.Create("", 5858) = 0 Then
-Set host = httpd.AddHost("", "\Web")
-host.EnableScript = true
-host.AddDefault "index.htm"
-host.AddDefault "index.html"
-host.AddDefault "index.asp"
-host.AddDefault "default.htm"
-host.AddDefault "default.asp"
-httpd.Start
-else
-Shell.Quit 0
-end if
+    Set httpd = NetBox.CreateObject("NetBox.HttpServer")
+
+    If httpd.Create("", 8888) = 0 Then
+        Set host = httpd.AddHost("", "\PlatformGame")
+        host.EnableScript = true
+        host.AddDefault "index.asp"
+        httpd.Start
+    else
+        Shell.Quit 0
+    end if
 End Sub
+
 Sub OnServiceStop()
 httpd.Close
 End Sub
