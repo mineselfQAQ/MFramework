@@ -139,7 +139,7 @@ namespace MFramework
         /// </summary>
         private void InitializeMonoSingleton()
         {
-            var li = LuaInterpreter.Instance;
+            var li = MLuaInterpreter.Instance;
             var bem = BuiltInEventManager.Instance;
             if (LocalState)
             {

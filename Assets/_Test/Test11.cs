@@ -12,7 +12,7 @@ public class Test11 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            LuaInterpreter.Instance.RequireLua("CreatePrimitive");
+            MLuaInterpreter.Instance.RequireLua("CreatePrimitive");
         }
     }
 }
