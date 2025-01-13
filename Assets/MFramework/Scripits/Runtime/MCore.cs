@@ -52,8 +52,8 @@ namespace MFramework
             if (this == null) return;//物体已被删除(因为已存在)
             DontDestroyOnLoad(gameObject);
 
-            InitializeAB();
             InitializeMonoSingleton();
+            InitializeAB();
             InitializeMonitor();
             InitializeInterface();
             InitializeVSync(600);//TODO:不同平台不同设置，公开参数
@@ -139,6 +139,7 @@ namespace MFramework
         /// </summary>
         private void InitializeMonoSingleton()
         {
+            var li = LuaInterpreter.Instance;
             var bem = BuiltInEventManager.Instance;
             if (LocalState)
             {

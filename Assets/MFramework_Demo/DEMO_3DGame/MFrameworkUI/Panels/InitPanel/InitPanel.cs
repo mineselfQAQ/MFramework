@@ -19,8 +19,6 @@ public class InitPanel : InitPanelBase
         {
             float curSize = MHotUpdateManager.Instance.curDownloadSize;
             m_MSlider_Slider.value = curSize / totalSize;
-
-            Debug.Log(curSize + " " + totalSize);
         }, 0, 0.25f);
 
         //热更新结束后关闭协程并进入下一界面
@@ -31,6 +29,10 @@ public class InitPanel : InitPanelBase
 
             MCoroutineManager.Instance.EndCoroutine("DownloadLoop");
 
+            //脚本热更新
+            LuaInterpreter.Instance.RequireLua("HelloWorld");
+
+            //场景加载
             if (MCore.Instance.ABState)//AB场景加载
             {
                 //InitSync();//同步形式
@@ -65,7 +67,7 @@ public class InitPanel : InitPanelBase
             UIController.Instance.OpenTitleScreenPanel();
             MCoroutineManager.Instance.DelayNoRecord(() =>
             {
-                UIController.Instance.CloseInitPanel();
+                UIController.Instance.DestroyInitPanel();
             }, 1.0f);
         });
     }
@@ -82,7 +84,7 @@ public class InitPanel : InitPanelBase
                 UIController.Instance.OpenTitleScreenPanel();
                 MCoroutineManager.Instance.DelayNoRecord(() =>
                 {
-                    UIController.Instance.CloseInitPanel();
+                    UIController.Instance.DestroyInitPanel();
                 }, 1.0f);
             });
         });

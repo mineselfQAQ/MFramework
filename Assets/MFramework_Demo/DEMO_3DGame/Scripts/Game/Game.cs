@@ -4,6 +4,7 @@ using System;
 using UnityEngine.Events;
 using UnityEngine;
 using System.Linq;
+using XLua;
 
 /// <summary>
 /// 游戏信息核心类
@@ -37,6 +38,7 @@ public class Game : ComponentSingleton<Game>
         }
     }
 
+    [Hotfix]
     protected override void Awake()
     {
         base.Awake();

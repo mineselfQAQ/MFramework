@@ -7,8 +7,10 @@ public class DialogController : ComponentSingleton<DialogController>
 
     protected Level m_level => Level.Instance;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         MCoroutineManager.Instance.WaitNoRecord(() =>
         {
             panel = UIController.Instance.GetDialogPanel();

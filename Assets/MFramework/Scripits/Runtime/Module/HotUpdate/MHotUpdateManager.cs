@@ -34,6 +34,7 @@ namespace MFramework
 
         internal void Initialize()
         {
+            //TODO：是否应该使用MABUtility.GetABRootPath()简化
             string platform = MABUtility.GetPlatform();
             if (MCore.Instance.ABEncryptState)
             {
@@ -166,6 +167,8 @@ namespace MFramework
                 sb.AppendLine(line);
             }
             File.WriteAllText(ABInfoFileName, sb.ToString());
+
+            MLog.Print($"{typeof(MHotUpdateManager)}：热更新完毕");
         }
 
         public void UpdateLocalABInfo(ABInfo serverinfo)
@@ -200,8 +203,6 @@ namespace MFramework
                 {
                     OnUpdateEndInternal();
                     OnUpdateEnd?.Invoke();
-
-                    MLog.Print($"{typeof(MHotUpdateManager)}：热更新完毕");
                 }
             }
         }

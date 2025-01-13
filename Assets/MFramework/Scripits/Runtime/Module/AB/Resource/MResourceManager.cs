@@ -167,6 +167,13 @@ namespace MFramework
             return LoadInternal(url, async);
         }
         /// <summary>
+        /// 加载资源(使用名称，如lua.ab)，如需异步，需要使用携程
+        /// </summary>
+        public IResource LoadByName(string name, bool async)
+        {
+            return LoadByNameInternal(name, async);
+        }
+        /// <summary>
         /// 加载资源(具有回调)
         /// </summary>
         public void LoadWithCallback(string url, bool async, Action<IResource> callback)
@@ -258,6 +265,18 @@ namespace MFramework
             resource.Load();//**实际resource的Load()**
 
             return resource;
+        }
+        private ResourceBase LoadByNameInternal(string name, bool async)
+        {
+            foreach (string resourceName in ResourceBunldeDic.Keys)
+            {
+                if (resourceName.Contains(name))
+                {
+                    return LoadInternal(resourceName, async);
+                }
+            }
+
+            return null;
         }
 
         public void Unload(string assetUrl)
