@@ -63,6 +63,7 @@ namespace MFramework
                 bool nowState = GUI.Toggle(rect, preState, "");
                 if (preState != nowState)
                 {
+                    //TODO：对于Prefab不适用，应该需要进入Prefab场景进行更改
                     go.SetActive(nowState);
                     EditorUtility.SetDirty(go);
                 }
@@ -79,7 +80,7 @@ namespace MFramework
                 Texture tex = content.image;
                 GUI.DrawTexture(rect, tex);
 
-                //TODO：不支持多屏(可能是我把显示器检测关了？)
+                //TODO：不支持多屏(会在主屏中出现)
                 if (GUI.Button(rect, "", transparentBtnStyle))
                 {
                     //这些参数都很神秘：
@@ -93,6 +94,9 @@ namespace MFramework
             }
         }
 
+        /// <summary>
+        /// 选择Icon框(用于点击Hierarchy图标)
+        /// </summary>
         public class ChooseIconPopup : EditorWindow
         {
             public static GameObject go;

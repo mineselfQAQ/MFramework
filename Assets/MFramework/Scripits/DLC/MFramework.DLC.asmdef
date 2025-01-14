@@ -1,6 +1,6 @@
 {
     "name": "MFramework.DLC",
-    "rootNamespace": "",
+    "rootNamespace": "MFramework.DLC",
     "references": [
         "GUID:2c9e5308de33d734fa8f53d89bd546e0"
     ],

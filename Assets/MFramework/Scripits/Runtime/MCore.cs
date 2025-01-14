@@ -9,9 +9,9 @@ namespace MFramework
     public class MCore : ComponentSingleton<MCore>
     {
         [SerializeField]
-        private bool m_LogState;//在发布版本中输出Log文件
-        [SerializeField]
         private bool m_UICustomLoadState;//在编辑器版本中启用UI自定义加载
+        [SerializeField]
+        private bool m_LogState;//在发布版本中输出Log文件
         [SerializeField]
         private bool m_LocalState;//是否启用本地化
         [SerializeField]
