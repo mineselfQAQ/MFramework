@@ -215,6 +215,118 @@ namespace MFramework.DLC
                 DFSInternal(visited, res, v.index);
             }
         }
+
+        /// <summary>
+        /// 寻找是否有环
+        /// </summary>
+        public bool HasCycle()
+        {
+            HashSet<int> visited = new HashSet<int>();
+            HashSet<int> pathSet = new HashSet<int>();
+
+            foreach (var vertex in adjList.Keys)
+            {
+                if (HasCycleDFS(vertex, -1, visited, pathSet))
+                    return true;
+            }
+
+            return false;
+        }
+        private bool HasCycleDFS(int vertex, int parent, HashSet<int> visited, HashSet<int> pathSet)
+        {
+            if (pathSet.Contains(vertex)) return true;
+
+            if (visited.Contains(vertex)) return false;
+
+            visited.Add(vertex);
+            pathSet.Add(vertex);
+
+            foreach (var neighbor in adjList[vertex])
+            {
+                if (neighbor.index == parent) continue;
+                if (HasCycleDFS(neighbor.index, vertex, visited, pathSet)) return true;
+            }
+
+            pathSet.Remove(vertex);
+            return false;
+        }
+
+        /// <summary>
+        /// 寻找无向图中的环
+        /// </summary>
+        public List<List<int>> FindCycle()
+        {
+            List<List<int>> allCycles = new List<List<int>>();
+            HashSet<string> uniqueCycles = new HashSet<string>();
+
+            foreach (var vertex in adjList.Keys)
+            {
+                List<int> pathList = new List<int>();
+                FindCycleDFS(vertex, -1, pathList, allCycles, uniqueCycles);
+            }
+
+            return allCycles;
+        }
+        private void FindCycleDFS(int vertex, int parent, List<int> pathList,
+            List<List<int>> allCycles, HashSet<string> uniqueCycles)
+        {
+            pathList.Add(vertex);
+
+            foreach (var neighbor in adjList[vertex])
+            {
+                //忽略回到父节点的边(无向图中避免来回走动)
+                if (neighbor.index == parent) continue;
+
+                if (pathList.Contains(neighbor.index))
+                {
+                    int cycleStartIndex = pathList.IndexOf(neighbor.index);
+                    var cycle = new List<int>(pathList.GetRange(cycleStartIndex, pathList.Count - cycleStartIndex));
+
+                    string[] normalizeCycle = NormalizeCycle(cycle);
+                    if (!uniqueCycles.Contains(normalizeCycle[0]))
+                    {
+                        uniqueCycles.Add(normalizeCycle[0]);
+                        uniqueCycles.Add(normalizeCycle[1]);
+                        cycle.Add(neighbor.index);
+                        allCycles.Add(cycle);
+                    }
+                }
+                else
+                {
+                    FindCycleDFS(neighbor.index, vertex, pathList, allCycles, uniqueCycles);
+                }
+            }
+
+            pathList.RemoveAt(pathList.Count - 1);
+        }
+        private string[] NormalizeCycle(List<int> cycle)
+        {
+            //寻找环中最小的起点
+            int minIndex = 0;
+            for (int i = 1; i < cycle.Count; i++)
+            {
+                if (cycle[i] < cycle[minIndex]) minIndex = i;
+            }
+
+            //重新排列环，以最小值为起点
+            List<int> normalized = new List<int>();
+            for (int i = 0; i < cycle.Count; i++)
+            {
+                normalized.Add(cycle[(minIndex + i) % cycle.Count]);
+            }
+
+            List<int> reverseNormalized = new List<int>();
+            reverseNormalized.Add(normalized[0]);
+            for (int i = normalized.Count - 1; i >= 1; i--)
+            {
+                reverseNormalized.Add(normalized[i]);
+            }
+
+            // 返回规范化的环表示
+            string res1 = string.Join("->", normalized);
+            string res2 = string.Join("->", reverseNormalized);
+            return new string[] { res1, res2 };
+        }
     }
 
     public static class MUndirGraphAdjListExtension

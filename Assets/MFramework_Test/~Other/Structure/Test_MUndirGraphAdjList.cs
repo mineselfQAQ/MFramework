@@ -3,6 +3,7 @@ using MFramework.DLC;
 using static MFramework.DLC.MUndirGraphAdjList;
 using MFramework;
 using System.Text;
+using System.Collections.Generic;
 
 public class Test_MUndirGraphAdjList : MonoBehaviour
 {
@@ -35,20 +36,32 @@ public class Test_MUndirGraphAdjList : MonoBehaviour
             });
         weightGraph.Print();
 
-        unweightGraph.AddVertex(8);//孤立节点
-        var list = unweightGraph.BFS();
+        //环测试
+        MUndirGraphAdjList cycleGraph = new MUndirGraphAdjList(
+            //提供边，能推算出有哪些顶点
+            new Edge[]
+            {
+                //环1：0->1->2->0
+                //环2：0->1->3->4->2->0
+                new Edge(0, 1),
+                new Edge(1, 2),
+                new Edge(2, 0),
+                new Edge(1, 3),
+                new Edge(3, 4),
+                new Edge(4, 2),
+            });
+
         StringBuilder sb = new StringBuilder();
-        foreach (var i in list)
+        sb.Append('\n');
+        List<List<int>> lists = cycleGraph.FindCycle();
+        foreach (var list in lists)
         {
-            sb.Append($"{i} ");
+            foreach (var i in list)
+            {
+                sb.Append(i.ToString().PadRight(4));
+            }
+            sb.Append('\n');
         }
-        MLog.Print(sb);
-        list = unweightGraph.DFS();
-        sb = new StringBuilder();
-        foreach (var i in list)
-        {
-            sb.Append($"{i} ");
-        }
-        MLog.Print(sb);
+        MLog.Print(sb.ToString());
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 
 namespace MFramework.DLC
 {
@@ -214,38 +216,114 @@ namespace MFramework.DLC
             }
         }
 
+        /// <summary>
+        /// 寻找是否有环
+        /// </summary>
         public bool HasCycle()
         {
             HashSet<int> visited = new HashSet<int>();
-            HashSet<int> recStack = new HashSet<int>();
+            HashSet<int> pathSet = new HashSet<int>();
 
             foreach (var vertex in adjList.Keys)
             {
-                if (HasCycleDFS(vertex, visited, recStack))
+                if (HasCycleDFS(vertex, visited, pathSet))
                     return true;
             }
 
             return false;
         }
-        private bool HasCycleDFS(int vertex, HashSet<int> visited, HashSet<int> recStack)
+        private bool HasCycleDFS(int vertex, HashSet<int> visited, HashSet<int> pathSet)
         {
-            if (recStack.Contains(vertex))
-                return true; // 发现环
+            if (pathSet.Contains(vertex)) return true;
 
-            if (visited.Contains(vertex))
-                return false; // 已访问，不是环
+            if (visited.Contains(vertex)) return false;
 
             visited.Add(vertex);
-            recStack.Add(vertex);
+            pathSet.Add(vertex);
 
             foreach (var neighbor in adjList[vertex])
             {
-                if (HasCycleDFS(neighbor.index, visited, recStack))
-                    return true;
+                if (HasCycleDFS(neighbor.index, visited, pathSet)) return true;
             }
 
-            recStack.Remove(vertex); // 当前路径结束，移出递归栈
+            pathSet.Remove(vertex);
             return false;
+        }
+
+        /// <summary>
+        /// 寻找表中的环
+        /// </summary>
+        public List<List<int>> FindCycle()
+        {
+            //已访问节点(无用)
+            //如：先进行0->1->2->0检测，此时0/1/2都会加入visited，第二个环为0->1->3->4->2->0，遇到2就退出了
+            //HashSet<int> visited = new HashSet<int>();
+            //路径记录
+            List<int> pathList = new List<int>();//Tip：如果只是判断是否存在，只需要使用HashSet即可
+            //输出环列表
+            List<List<int>> allCycles = new List<List<int>>();
+            //环的字符串表示形式
+            HashSet<string> uniqueCycles = new HashSet<string>();
+
+            //遍历所有顶点寻找环
+            foreach (var vertex in adjList.Keys)
+            {
+                FindCycleDFS(vertex, pathList, allCycles, uniqueCycles);
+            }
+
+            return allCycles;
+        }
+        private void FindCycleDFS(int vertex, List<int> pathList, List<List<int>> allCycles, HashSet<string> uniqueCycles)
+        {
+            //路径中出现相同，说明出现环
+            //如：A->B->C->A，出现A时说明环出现
+            if (pathList.Contains(vertex))
+            {
+                //由于路径可能为A->B->C->D->B，所以需要找到环的头
+                var cycleStartIndex = pathList.IndexOf(vertex);
+                var cycle = new List<int>(pathList.GetRange(cycleStartIndex, pathList.Count - cycleStartIndex));
+
+                //检测环是否为新环(如：0->1->2->0和1->2->0->1是同一环)
+                //需要在添加为环之前检测，否则重复元素不同
+                string normalizeCycle = NormalizeCycle(cycle);
+                if (uniqueCycles.Add(normalizeCycle))
+                {
+                    cycle.Add(vertex);
+                    allCycles.Add(cycle);
+                }
+
+                return;
+            }
+
+            //访问则添加
+            pathList.Add(vertex);
+
+            //遍历对所有连接顶点递归进入
+            foreach (var neighbor in adjList[vertex])
+            {
+                FindCycleDFS(neighbor.index, pathList, allCycles, uniqueCycles);
+            }
+
+            pathList.RemoveAt(pathList.Count - 1);//此轮结束，路径回退
+        }
+        private string NormalizeCycle(List<int> cycle)
+        {
+            //寻找环中最小的起点
+            int minIndex = 0;
+            for (int i = 1; i < cycle.Count; i++)
+            {
+                if (cycle[i] < cycle[minIndex]) minIndex = i;
+            }
+
+            //重新排列环，以最小值为起点
+            List<int> normalized = new List<int>();
+            for (int i = 0; i < cycle.Count; i++)
+            {
+                normalized.Add(cycle[(minIndex + i) % cycle.Count]);
+            }
+
+            //转换为字符串作为唯一标识
+            return string.Join("->", normalized);
         }
     }
 

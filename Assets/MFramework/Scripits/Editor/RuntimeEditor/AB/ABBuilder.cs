@@ -295,17 +295,17 @@ namespace MFramework
 
             return dependencyDic;
         }
+        //TODO：根据MDirGraphAdjList，是一种效率极低的方法(为了保证搜索所有环，必须完整遍历)，待改进
         public static bool HasCycle(Dictionary<string, List<string>> dependencyDic)
         {
-            HashSet<string> visited = new HashSet<string>();//记录已访问的节点
-            HashSet<string> stack = new HashSet<string>();//记录当前递归路径中的节点
-            List<string> path = new List<string>();//当前路径
+            List<string> path = new List<string>();
             List<List<string>> allCycles = new List<List<string>>();
+            HashSet<string> uniqueCycles = new HashSet<string>();
 
             //遍历每个节点，检查是否有循环
             foreach (var asset in dependencyDic.Keys)
             {
-                CheckDFS(asset, dependencyDic, allCycles, visited, stack, path);
+                CheckDFS(asset, dependencyDic, allCycles, uniqueCycles, path);
             }
 
             //输出所有检测到的循环依赖链
@@ -323,28 +323,28 @@ namespace MFramework
                 return false;//没有循环依赖
             }
         }
-        private static bool CheckDFS(string asset, Dictionary<string, List<string>> dependencyDic, List<List<string>> allCycles, HashSet<string> visited, HashSet<string> stack, List<string> path)
+        private static bool CheckDFS(string asset, Dictionary<string, List<string>> dependencyDic, List<List<string>> allCycles, HashSet<string> uniqueCycles, List<string> path)
         {
             //如果该节点已经在当前路径中，说明存在循环依赖
-            if (stack.Contains(asset))
+            if (path.Contains(asset))
             {
                 //找到循环，记录并存储循环依赖路径
                 int cycleStartIndex = path.IndexOf(asset);
                 List<string> cycle = new List<string>(path.GetRange(cycleStartIndex, path.Count - cycleStartIndex));
-                cycle.Add(asset);//加上起始节点形成完整循环
-                allCycles.Add(cycle);//保存该循环
+
+                //检测环是否为新环(如：0->1->2->0和1->2->0->1是同一环)
+                //需要在添加为环之前检测，否则重复元素不同
+                string normalizeCycle = NormalizeCycle(cycle);
+                if (uniqueCycles.Add(normalizeCycle))
+                {
+                    cycle.Add(asset);//加上起始节点形成完整循环
+                    allCycles.Add(cycle);//保存该循环
+                }
 
                 return true;
             }
 
-            //如果该节点已经访问过，且没有循环，跳过
-            if (visited.Contains(asset))
-            {
-                return false;
-            }
-
             //标记该节点为正在访问
-            stack.Add(asset);
             path.Add(asset);//添加到当前路径
 
             //递归检查该节点的依赖
@@ -352,16 +352,36 @@ namespace MFramework
             {
                 foreach (var dependency in dependencyDic[asset])
                 {
-                    CheckDFS(dependency, dependencyDic, allCycles, visited, stack, path);
+                    CheckDFS(dependency, dependencyDic, allCycles, uniqueCycles, path);
                 }
             }
 
             //递归完成，移除该节点
-            stack.Remove(asset);
             path.RemoveAt(path.Count - 1);//回溯时移除路径上的节点
-            visited.Add(asset);
 
             return false;
+        }
+        private static string NormalizeCycle(List<string> cycle)
+        {
+            //寻找环中最小的起点
+            int minIndex = 0;
+            for (int i = 1; i < cycle.Count; i++)
+            {
+                if (string.Compare(cycle[i], cycle[minIndex], StringComparison.Ordinal) < 0)
+                {
+                    minIndex = i;
+                }
+            }
+
+            //重新排列环，以最小值为起点
+            List<string> normalized = new List<string>();
+            for (int i = 0; i < cycle.Count; i++)
+            {
+                normalized.Add(cycle[(minIndex + i) % cycle.Count]);
+            }
+
+            //转换为字符串作为唯一标识
+            return string.Join("->", normalized);
         }
 
         /// <summary>
