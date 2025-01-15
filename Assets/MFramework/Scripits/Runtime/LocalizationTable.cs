@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -21,6 +20,7 @@ namespace MFramework
 			ENGLISH = english;
         }
 
+        //TODO：目前放在StreamingAssets无法热更，直接挪回AB包中然后加载即可
         public static void LoadBytes(Action<LocalizationTable[]> onFinish)
         {
             string path = $"{Application.streamingAssetsPath}/LocalizationTable.byte";

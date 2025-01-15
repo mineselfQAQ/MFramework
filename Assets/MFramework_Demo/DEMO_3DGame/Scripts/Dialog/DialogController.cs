@@ -30,7 +30,7 @@ public class DialogController : ComponentSingleton<DialogController>
                 m_level.player.inputs.EnableInputAction(InputActionName.pause);//ÆôÓÃÔÝÍ£¼ü
                 m_level.player.inputs.EnableInputAction(InputActionName.interact);//½ûÓÃ½»»¥¼ü
             };
-        }, MCore.Instance.isHotUpdateFinish, 1);
+        }, MCore.Instance.isHotUpdateFinish, 2);
     }
 
     public void StartDialog(Conversation conversation)

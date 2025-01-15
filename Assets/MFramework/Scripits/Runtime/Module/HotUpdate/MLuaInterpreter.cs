@@ -13,10 +13,13 @@ namespace MFramework
 
         private Type luaEnvType;
         private Type luaTableType;
+        private PropertyInfo globalProperty;
         private MethodInfo disposeMethod;
         private MethodInfo doStringMethod;
+        private MethodInfo setMethod;
+        private object globalTable;
 
-        void Awake()
+        private void Awake()
         {
             if (luaEnv == null)
             {
@@ -26,6 +29,13 @@ namespace MFramework
                 luaEnvType = assembly.GetType("XLua.LuaEnv");
                 luaTableType = assembly.GetType("XLua.LuaTable");
                 luaEnv = Activator.CreateInstance(luaEnvType);
+
+                //注入所需参数
+                globalProperty = luaEnv.GetType().GetProperty("Global", BindingFlags.Public | BindingFlags.Instance);
+                globalTable = globalProperty.GetValue(luaEnv); 
+                setMethod = luaTableType.GetMethod("Set");
+                setMethod = setMethod.MakeGenericMethod(typeof(string), typeof(GameObject));
+
                 //需要选择无参Dispose()
                 disposeMethod = luaEnv.GetType().GetMethod("Dispose", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
                 doStringMethod = luaEnv.GetType().GetMethod("DoString", new Type[] { typeof(string), typeof(string), luaTableType });
@@ -37,6 +47,15 @@ namespace MFramework
                 //调用AddLoader(形参为CustomLoader委托)
                 MethodInfo addLoaderMethod = luaEnvType.GetMethod("AddLoader");
                 addLoaderMethod.Invoke(luaEnv, new object[] { loaderDelegate });
+            }
+        }
+
+        private void Start()
+        {
+            var injections = MLuaInjection.Instance.injections;
+            foreach (var injection in injections)
+            {
+                Set(injection.name, injection.value);
             }
         }
 
@@ -60,16 +79,30 @@ namespace MFramework
             }
         }
 
+        private void Set(string name, GameObject go)
+        {
+            setMethod.Invoke(globalTable, new object[] { name, go });
+        }
+
         private byte[] CustomLuaLoader(ref string filePath)
         {
-#if UNITY_EDITOR && false
-            TODO：添加本地测试版本？
-#else
-            IResource luaResource = MResourceManager.Instance.LoadByName($"{filePath}{LuaFileSuffix}", false);
-            TextAsset textAsset = luaResource.GetAsset() as TextAsset;
+            TextAsset textAsset = null;
 
+            var platform = Application.platform;
+            if (platform == RuntimePlatform.WindowsEditor && MCore.Instance.LuaResourcesLoad)
+            {
+                textAsset = Resources.Load<TextAsset>($"{filePath}.lua");
+            }
+            else if (platform == RuntimePlatform.WindowsPlayer || platform == RuntimePlatform.WindowsEditor)
+            {
+                IResource luaResource = MResourceManager.Instance.LoadByName($"{filePath}{LuaFileSuffix}", false);
+                textAsset = luaResource.GetAsset() as TextAsset;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
             return System.Text.Encoding.UTF8.GetBytes(textAsset.text);
-#endif
         }
 
         private string GetAssemblyCSharpDLLName()

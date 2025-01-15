@@ -15,6 +15,7 @@ namespace MFramework
         private SerializedProperty ABStateSP;
         private SerializedProperty ABEncryptStateSP;
         private SerializedProperty autoHotUpdateStateSP;
+        private SerializedProperty luaResourcesLoadSP;
         private SerializedProperty performanceStateSP;
         private SerializedProperty fpsDisplayModeSP;
         private SerializedProperty fpsSampleDurationSP;
@@ -37,6 +38,7 @@ namespace MFramework
             ABEncryptStateSP = serializedObject.FindProperty("m_ABEncryptState");
             ABStateSP = serializedObject.FindProperty("m_ABState");
             autoHotUpdateStateSP = serializedObject.FindProperty("m_AutoHotUpdateState");
+            luaResourcesLoadSP = serializedObject.FindProperty("m_LuaResourcesLoad");
             performanceStateSP = serializedObject.FindProperty("m_PerformanceState");
             fpsDisplayModeSP = serializedObject.FindProperty("m_FPSDisplayMode");
             fpsSampleDurationSP = serializedObject.FindProperty("m_FPSSampleDuration");
@@ -65,6 +67,7 @@ namespace MFramework
             }
             MEditorGUIUtility.DrawH2("热更");
             MEditorControlUtility.DrawBoolPopup(autoHotUpdateStateSP, "是否开启启动自热更");
+            MEditorControlUtility.DrawBoolPopup(luaResourcesLoadSP, "是否开启简易Lua加载");
             MEditorGUIUtility.DrawH2("性能检测");
             bool flag = MEditorControlUtility.DrawBoolPopup(performanceStateSP, "是否开启性能检测");
             if (flag)

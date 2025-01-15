@@ -1,0 +1,6 @@
+local log = CS.MFramework.MLog
+
+table = {}
+table.log = function()
+	log.Print("Hello")
+end

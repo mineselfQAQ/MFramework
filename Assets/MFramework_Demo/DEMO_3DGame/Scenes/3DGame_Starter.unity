@@ -153,11 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9a67dc983902249bda90209b7be5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LogState: 1
   m_UICustomLoadState: 1
+  m_LogState: 1
   m_LocalState: 1
   m_ABState: 1
   m_ABEncryptState: 1
+  m_LuaResourcesLoad: 0
   m_AutoHotUpdateState: 1
   m_PerformanceState: 1
   m_FPSDisplayMode: 0
@@ -192,9 +193,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 397451008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9549d819c21fcbd44b873e9716329be8, type: 3}
+  m_Script: {fileID: 11500000, guid: f3a534a0f70ca6842ad0fd6ae2e1c42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  injections: []
 --- !u!1001 &453136471
 PrefabInstance:
   m_ObjectHideFlags: 0

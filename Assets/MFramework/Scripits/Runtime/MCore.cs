@@ -19,6 +19,8 @@ namespace MFramework
         [SerializeField]
         private bool m_ABEncryptState;//是否启用AB加密
         [SerializeField]
+        private bool m_LuaResourcesLoad;//是否启用简易版Lua加载(编辑器下直接加载Resources下的lua文件)
+        [SerializeField]
         private bool m_AutoHotUpdateState;//是否启用启动后自动热更
 
         [SerializeField]
@@ -41,6 +43,7 @@ namespace MFramework
         public bool ABEncryptState => m_ABEncryptState;
         public bool ABState => m_ABState;
         public bool AutoHotUpdateState => m_AutoHotUpdateState;
+        public bool LuaResourcesLoad => m_LuaResourcesLoad;
         public bool PerformanceState => m_PerformanceState;
 
         public BoolWrapper isHotUpdateCheckFinish = new BoolWrapper(false);
@@ -123,6 +126,8 @@ namespace MFramework
                 }
                 else//再初始化
                 {
+                    isHotUpdateCheckFinish.Value = true;
+                    isHotUpdateFinish.Value = true;
                     MResourceManager.Instance.Initialize(MABUtility.GetPlatform(), GetFileUrl, 0);
                 }
             }

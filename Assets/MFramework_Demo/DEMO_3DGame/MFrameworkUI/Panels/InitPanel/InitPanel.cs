@@ -30,7 +30,7 @@ public class InitPanel : InitPanelBase
             MCoroutineManager.Instance.EndCoroutine("DownloadLoop");
 
             //脚本热更新
-            MLuaInterpreter.Instance.RequireLua("HelloWorld");
+            MLuaInterpreter.Instance.RequireLua("WelcomeWord");
 
             //场景加载
             if (MCore.Instance.ABState)//AB场景加载

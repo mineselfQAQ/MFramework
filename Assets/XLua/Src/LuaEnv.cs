@@ -70,27 +70,30 @@ namespace XLua
             }
 
 #if THREAD_SAFE || HOTFIX_ENABLE
-            lock(luaEnvLock)
+            lock (luaEnvLock)
 #endif
             {
                 LuaIndexes.LUA_REGISTRYINDEX = LuaAPI.xlua_get_registry_index();
 #if GEN_CODE_MINIMIZE
                 LuaAPI.xlua_set_csharp_wrapper_caller(InternalGlobals.CSharpWrapperCallerPtr);
 #endif
-                // Create State
+                //创建Lua状态
                 rawL = LuaAPI.luaL_newstate();
 
-                //Init Base Libs
+                //打开库
                 LuaAPI.luaopen_xlua(rawL);
                 LuaAPI.luaopen_i64lib(rawL);
 
+                //创建translator
                 translator = new ObjectTranslator(this, rawL);
                 translator.createFunctionMetatable(rawL);
                 translator.OpenLib(rawL);
                 ObjectTranslatorPool.Instance.Add(rawL, translator);
 
+                //注册Panic函数(崩溃回调)
                 LuaAPI.lua_atpanic(rawL, StaticLuaCallbacks.Panic);
 
+                //注册Print函数
 #if !XLUA_GENERAL
                 LuaAPI.lua_pushstdcallcfunction(rawL, StaticLuaCallbacks.Print);
                 if (0 != LuaAPI.xlua_setglobal(rawL, "print"))
@@ -102,12 +105,15 @@ namespace XLua
                 //template engine lib register
                 TemplateEngine.LuaTemplate.OpenLib(rawL);
 
+                //添加搜索器，即require寻找方式(AddLoader()就是在这里添加)
                 AddSearcher(StaticLuaCallbacks.LoadBuiltinLib, 2); // just after the preload searcher
                 AddSearcher(StaticLuaCallbacks.LoadFromCustomLoaders, 3);
 #if !XLUA_GENERAL
                 AddSearcher(StaticLuaCallbacks.LoadFromResource, 4);
                 AddSearcher(StaticLuaCallbacks.LoadFromStreamingAssetsPath, -1);
 #endif
+
+                //执行LuaEnv下的初始化代码
                 DoString(init_xlua, "Init");
                 init_xlua = null;
 
@@ -115,9 +121,10 @@ namespace XLua
                 AddBuildin("socket.core", StaticLuaCallbacks.LoadSocketCore);
                 AddBuildin("socket", StaticLuaCallbacks.LoadSocketCore);
 #endif
-
+                //在Lua中注册CS模块
                 AddBuildin("CS", StaticLuaCallbacks.LoadCS);
 
+                //配置元表
                 LuaAPI.lua_newtable(rawL); //metatable of indexs and newindexs functions
                 LuaAPI.xlua_pushasciistring(rawL, "__index");
                 LuaAPI.lua_pushstdcallcfunction(rawL, StaticLuaCallbacks.MetaFuncIndex);
@@ -149,10 +156,12 @@ namespace XLua
 
                 LuaAPI.lua_pop(rawL, 1); // pop metatable of indexs and newindexs functions
 
+                //配置主线程
                 LuaAPI.xlua_pushasciistring(rawL, MAIN_SHREAD);
                 LuaAPI.lua_pushthread(rawL);
                 LuaAPI.lua_rawset(rawL, LuaIndexes.LUA_REGISTRYINDEX);
 
+                //将CS/_G注册进LUA_REGISTRYINDEX中
                 LuaAPI.xlua_pushasciistring(rawL, CSHARP_NAMESPACE);
                 if (0 != LuaAPI.xlua_getglobal(rawL, "CS"))
                 {
@@ -173,6 +182,7 @@ namespace XLua
 
                 errorFuncRef = LuaAPI.get_error_func_ref(rawL);
 
+                //提供Init方法(如Vector2可在Lua中使用)(ObjectTranslator.IniterAdderUnityEngineVector2)
                 if (initers != null)
                 {
                     for (int i = 0; i < initers.Count; i++)
@@ -181,6 +191,7 @@ namespace XLua
                     }
                 }
 
+                //创建数组/委托/枚举器元表
                 translator.CreateArrayMetatable(rawL);
                 translator.CreateDelegateMetatable(rawL);
                 translator.CreateEnumerablePairs(rawL);
@@ -257,14 +268,17 @@ namespace XLua
                 var _L = L;
                 int oldTop = LuaAPI.lua_gettop(_L);
                 int errFunc = LuaAPI.load_error_func(_L, errorFuncRef);
+                //加载chunk并压栈
                 if (LuaAPI.xluaL_loadbuffer(_L, chunk, chunk.Length, chunkName) == 0)
                 {
                     if (env != null)
                     {
+                        //添加环境(一个表)
                         env.push(_L);
                         LuaAPI.lua_setfenv(_L, -2);
                     }
 
+                    //调用chunk
                     if (LuaAPI.lua_pcall(_L, 0, -1, errFunc) == 0)
                     {
                         LuaAPI.lua_remove(_L, errFunc);
@@ -328,7 +342,7 @@ namespace XLua
 
         static bool ObjectValidCheck(object obj)
         {
-            return (!(obj is UnityEngine.Object)) ||  ((obj as UnityEngine.Object) != null);
+            return (!(obj is UnityEngine.Object)) || ((obj as UnityEngine.Object) != null);
         }
 
         Func<object, bool> object_valid_checker = new Func<object, bool>(ObjectValidCheck);
@@ -409,7 +423,7 @@ namespace XLua
                 {
                     throw new InvalidOperationException("try to dispose a LuaEnv with C# callback!");
                 }
-                
+
                 ObjectTranslatorPool.Instance.Remove(L);
 
                 LuaAPI.lua_close(L);

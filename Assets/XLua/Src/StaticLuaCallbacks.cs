@@ -852,12 +852,12 @@ namespace XLua
             {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
                 string className = LuaAPI.lua_tostring(L, 1);
-                Type type = translator.FindType(className);
+                Type type = translator.FindType(className);//反射获取类型
                 if (type != null)
                 {
                     if (translator.GetTypeId(L, type) >= 0)
                     {
-                        LuaAPI.lua_pushboolean(L, true);
+                        LuaAPI.lua_pushboolean(L, true);//成功
                     }
                     else
                     {
@@ -866,7 +866,7 @@ namespace XLua
                 }
                 else
                 {
-                    LuaAPI.lua_pushnil(L);
+                    LuaAPI.lua_pushnil(L);//未找到
                 }
                 return 1;
             }

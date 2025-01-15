@@ -61,7 +61,6 @@ public class UIController : ComponentSingleton<UIController>
         topRoot = UIManager.Instance.CreateRoot("TOPROOT", 1000, 1999);
 
         //初始界面(在基本包中)
-        //TODO：改用Behaviour直接创建
         MCoroutineManager.Instance.WaitNoRecord(() =>
         {
             CreatePanel<InitPanel>(topRoot, initPanelName, initBehaviour, true);
