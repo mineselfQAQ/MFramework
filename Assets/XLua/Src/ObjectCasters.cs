@@ -633,6 +633,7 @@ namespace XLua
                     return dic;
                 };
             }
+            //Class且有无参构造函数
             else if ((type.IsClass() && type.GetConstructor(System.Type.EmptyTypes) != null) || (type.IsValueType() && !type.IsEnum())) //class has default construtor
             {
                 return (RealStatePtr L, int idx, object target) =>
@@ -645,6 +646,7 @@ namespace XLua
                         return null;
                     }
 
+                    //创建实例
                     obj = target == null ? Activator.CreateInstance(type) : target;
 
                     int n = LuaAPI.lua_gettop(L);
@@ -679,6 +681,7 @@ namespace XLua
                         }
                         LuaAPI.lua_pop(L, 1);
                     }*/
+                    //遍历字段并赋值
                     foreach (FieldInfo field in type.GetFields())
                     {
                         LuaAPI.xlua_pushasciistring(L, field.Name);

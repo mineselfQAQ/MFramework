@@ -143,10 +143,10 @@ namespace XLua
 
             Action<RealStatePtr> loader;
             int top = LuaAPI.lua_gettop(L);
-            if (delayWrap.TryGetValue(type, out loader))
+            if (delayWrap.TryGetValue(type, out loader))//此处获取(在LuaEnv构造时早已添加(通过AddIniter()))
             {
                 delayWrap.Remove(type);
-                loader(L);
+                loader(L);//使用Warp类创建
             }
             else
             {
@@ -162,6 +162,7 @@ namespace XLua
                     Utils.ReflectionWrap(L, type, privateAccessibleFlags.Contains(type));
                 }
 #else
+                //反射创建
                 Utils.ReflectionWrap(L, type, privateAccessibleFlags.Contains(type));
 #endif
 #if NOT_GEN_WARNING
@@ -883,13 +884,13 @@ namespace XLua
 
             if (udata != -1)
             {
-                object obj = objects.Get(udata);
+                object obj = objects.Get(udata);//对于Push过的类型可以取出
                 RawObject rawObject = obj as RawObject;
                 return rawObject == null ? obj : rawObject.Target;
             }
             else
             {
-                if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+                if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)//为userdata
                 {
                     GetCSObject get;
                     int type_id = LuaAPI.xlua_gettypeid(L, index);
@@ -899,12 +900,14 @@ namespace XLua
                         Get(L, index, out d);
                         return d;
                     }
+                    //值类型的特殊处理(值类型会在WrapPusher类中定义Push/Get/Update操作)
                     Type type_of_struct;
                     if (type_id != -1 && typeMap.TryGetValue(type_id, out type_of_struct) && type.IsAssignableFrom(type_of_struct) && custom_get_funcs.TryGetValue(type, out get))
                     {
                         return get(L, index);
                     }
                 }
+                //一般转换方式
                 return (objectCasters.GetCaster(type)(L, index, null));
             }
         }
@@ -1028,29 +1031,31 @@ namespace XLua
         {
             int type_id;
             is_first = false;
-            if (!typeIdMap.TryGetValue(type, out type_id)) // no reference
+            if (!typeIdMap.TryGetValue(type, out type_id))//没有缓存，需要创建
             {
                 if (type.IsArray)
                 {
                     if (common_array_meta == -1) throw new Exception("Fatal Exception! Array Metatable not inited!");
-                    return common_array_meta;
+                    return common_array_meta;//数组使用common_array_meta
                 }
                 if (typeof(MulticastDelegate).IsAssignableFrom(type))
                 {
                     if (common_delegate_meta == -1) throw new Exception("Fatal Exception! Delegate Metatable not inited!");
                     TryDelayWrapLoader(L, type);
-                    return common_delegate_meta;
+                    return common_delegate_meta;//委托使用common_delegate_meta
                 }
 
+                //尝试获取元表
                 is_first = true;
                 Type alias_type = null;
                 aliasCfg.TryGetValue(type, out alias_type);
                 LuaAPI.luaL_getmetatable(L, alias_type == null ? type.FullName : alias_type.FullName);
 
-                if (LuaAPI.lua_isnil(L, -1)) //no meta yet, try to use reflection meta
+                if (LuaAPI.lua_isnil(L, -1))//没有元表
                 {
                     LuaAPI.lua_pop(L, 1);
 
+                    //关键：通过TryDelayWrapLoader()获取元表
                     if (TryDelayWrapLoader(L, alias_type == null ? type : alias_type))
                     {
                         LuaAPI.luaL_getmetatable(L, alias_type == null ? type.FullName : alias_type.FullName);
@@ -1068,7 +1073,7 @@ namespace XLua
                 }
                 else
                 {
-                    if (type.IsEnum())
+                    if (type.IsEnum())//Enum对元表添加__band/__bor按位操作
                     {
                         LuaAPI.xlua_pushasciistring(L, "__band");
                         LuaAPI.lua_pushstdcallcfunction(L, metaFunctions.EnumAndMeta);
@@ -1084,6 +1089,7 @@ namespace XLua
                         LuaAPI.lua_rawset(L, -3);
                     }
                     LuaAPI.lua_pushvalue(L, -1);
+                    //将元表添加至注册表并获取引用
                     type_id = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
                     LuaAPI.lua_pushnumber(L, type_id);
                     LuaAPI.xlua_rawseti(L, -2, 1);
@@ -1252,6 +1258,7 @@ namespace XLua
                 return;
             }
 
+            //===检查缓存===
             int index = -1;
             Type type = o.GetType();
 #if !UNITY_WSA || UNITY_EDITOR
@@ -1262,8 +1269,10 @@ namespace XLua
             bool is_valuetype = type.GetTypeInfo().IsValueType;
 #endif
             bool needcache = !is_valuetype || is_enum;
+            //如果是引用类型或enum类型，先找是否有缓存
             if (needcache && (is_enum ? enumMap.TryGetValue(o, out index) : reverseMap.TryGetValue(o, out index)))
             {
+                //如果为1，则获取成功(在栈顶)
                 if (LuaAPI.xlua_tryget_cachedud(L, index, cacheRef) == 1)
                 {
                     return;
@@ -1272,6 +1281,7 @@ namespace XLua
                 //collectObject(index);
             }
 
+            //===创建元表===
             bool is_first;
             int type_id = getTypeId(L, type, out is_first);
 
@@ -1284,7 +1294,9 @@ namespace XLua
                 }
             }
 
+            //缓存并获取索引(参数o实例的)
             index = addObject(o, is_valuetype, is_enum);
+            //压栈并缓存
             LuaAPI.xlua_pushcsobj(L, index, type_id, needcache, cacheRef);
         }
 

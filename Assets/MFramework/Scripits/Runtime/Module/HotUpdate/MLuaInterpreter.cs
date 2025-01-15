@@ -52,7 +52,7 @@ namespace MFramework
 
         private void Start()
         {
-            var injections = MLuaInjection.Instance.injections;
+            var injections = MCore.Instance.LuaInjections;
             foreach (var injection in injections)
             {
                 Set(injection.name, injection.value);

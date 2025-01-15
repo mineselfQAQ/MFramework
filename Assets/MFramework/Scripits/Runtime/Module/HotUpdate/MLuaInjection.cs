@@ -9,8 +9,17 @@ namespace MFramework
         public GameObject value;
     }
 
-    public class MLuaInjection : ComponentSingleton<MLuaInjection>
+    public class MLuaInjection : MonoBehaviour
     {
-        public Injection[] injections;
+        [SerializeField]
+        private Injection[] injections;
+
+        internal Injection[] Injections
+        {
+            get
+            {
+                return injections;
+            }
+        }
     }
 }

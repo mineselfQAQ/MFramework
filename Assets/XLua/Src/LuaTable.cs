@@ -39,18 +39,22 @@ namespace XLua
                 var L = luaEnv.L;
                 var translator = luaEnv.translator;
                 int oldTop = LuaAPI.lua_gettop(L);
+
+                //table压栈
                 LuaAPI.lua_getref(L, luaReference);
+                //key压栈
                 translator.PushByType(L, key);
 
-                if (0 != LuaAPI.xlua_pgettable(L, -2))
+                //通过key取value
+                if (0 != LuaAPI.xlua_pgettable(L, -2))//本质为lua_gettable
                 {
                     string err = LuaAPI.lua_tostring(L, -1);
                     LuaAPI.lua_settop(L, oldTop);
                     throw new Exception("get field [" + key + "] error:" + err);
                 }
 
-                LuaTypes lua_type = LuaAPI.lua_type(L, -1);
-                Type type_of_value = typeof(TValue);
+                LuaTypes lua_type = LuaAPI.lua_type(L, -1);//查询value的Lua类型
+                Type type_of_value = typeof(TValue);//实际的C#类型
                 if (lua_type == LuaTypes.LUA_TNIL && type_of_value.IsValueType())
                 {
                     throw new InvalidCastException("can not assign nil to " + type_of_value.GetFriendlyName());
@@ -58,6 +62,7 @@ namespace XLua
 
                 try
                 {
+                    //取出栈顶元素
                     translator.Get(L, -1, out value);
                 }
                 catch (Exception e)
@@ -66,7 +71,7 @@ namespace XLua
                 }
                 finally
                 {
-                    LuaAPI.lua_settop(L, oldTop);
+                    LuaAPI.lua_settop(L, oldTop);//恢复原样
                 }
 #if THREAD_SAFE || HOTFIX_ENABLE
             }
@@ -115,15 +120,18 @@ namespace XLua
                 int oldTop = LuaAPI.lua_gettop(L);
                 var translator = luaEnv.translator;
 
-                LuaAPI.lua_getref(L, luaReference);
+                //table压栈
+                LuaAPI.lua_getref(L, luaReference);//底层为lua_rawgeti()，即在该虚拟机注册表中取出luaReference并压栈
+                //keyvalue压栈
                 translator.PushByType(L, key);
                 translator.PushByType(L, value);
 
-                if (0 != LuaAPI.xlua_psettable(L, -3))
+                //对Table进行keyvalue设置
+                if (0 != LuaAPI.xlua_psettable(L, -3))//本质为lua_settable()
                 {
                     luaEnv.ThrowExceptionFromError(oldTop);
                 }
-                LuaAPI.lua_settop(L, oldTop);
+                LuaAPI.lua_settop(L, oldTop);//恢复原样
 #if THREAD_SAFE || HOTFIX_ENABLE
             }
 #endif

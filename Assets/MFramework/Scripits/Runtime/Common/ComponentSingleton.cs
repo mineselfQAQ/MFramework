@@ -23,7 +23,8 @@ namespace MFramework
                     }
                     else if (objects.Length == 0)
                     {
-                        MLog.Print($"{typeof(ComponentSingleton<T>)}£∫Œ¥π“‘ÿComponentSingleton<{typeof(T)}>Ω≈±æ£¨«ÎºÏ≤È", MLogType.Error);
+                        MLog.Print($"{typeof(ComponentSingleton<T>)}£∫Œ¥π“‘ÿComponentSingleton<{typeof(T)}>Ω≈±æ£¨«ÎºÏ≤È", MLogType.Warning);
+                        return null;
                     }
 
                     m_instance = objects[0];

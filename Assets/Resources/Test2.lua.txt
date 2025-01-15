@@ -1,2 +1,6 @@
 table.log()
 print(dirlight)
+
+local obj = CS.MyClass()
+obj.Name = "OK"
+obj:Greet()
