@@ -138,7 +138,7 @@ namespace XLua
             if (loaded_types.ContainsKey(type)) return true;
             loaded_types.Add(type, true);
 
-            LuaAPI.luaL_newmetatable(L, type.FullName); //先建一个metatable，因为加载过程可能会需要用到
+            LuaAPI.luaL_newmetatable(L, type.FullName);//先建一个metatable，因为加载过程可能会需要用到
             LuaAPI.lua_pop(L, 1);
 
             Action<RealStatePtr> loader;

@@ -4,3 +4,8 @@ print(dirlight)
 local obj = CS.MyClass()
 obj.Name = "OK"
 obj:Greet()
+
+local debug = CS.UnityEngine.Debug
+print(debug) -- 打印 debug 对象，通常是一个代理表
+print(type(debug))
+print(getmetatable(debug)) -- 打印 debug 对象的元表，通常包含绑定的方法信息
