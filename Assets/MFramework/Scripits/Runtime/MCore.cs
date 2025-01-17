@@ -34,7 +34,7 @@ namespace MFramework
 
         private PerformanceMonitor monitor = null;
 
-        public Injection[] LuaInjections { get; private set; }
+        public Injection[] LuaInjections { get; private set; } = null;
 
         private List<INeedInit> initList;
         private List<INeedQuit> quitList;
@@ -58,7 +58,10 @@ namespace MFramework
             DontDestroyOnLoad(gameObject);
 
             //如有需求，可将MLuaInjection加入MCore中
-            LuaInjections = GetComponent<MLuaInjection>().Injections;
+            if (TryGetComponent(out MLuaInjection component))
+            {
+                LuaInjections = component.Injections;
+            }
 
             InitializeMonoSingleton();
             InitializeAB();
