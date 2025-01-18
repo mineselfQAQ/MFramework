@@ -12,9 +12,6 @@ namespace MFramework.DLC
         private IVertexEdgeDictionary<TVertex, TEdge> _adjacentEdges = new VertexEdgeDictionary<TVertex, TEdge>();
         private IList<TEdge> _edges = new List<TEdge>();
 
-        public IEnumerable<TVertex> Vertices => _adjacentEdges.Keys.AsEnumerable();
-        public IEnumerable<TEdge> Edges => _edges.AsEnumerable();
-
         public bool IsDirected => false;
 
         public bool IsVerticesEmpty => _adjacentEdges.Count == 0;
@@ -23,6 +20,9 @@ namespace MFramework.DLC
         public int EdgeCount { get; private set; }
 
         public MUndirectedGraph() { }
+
+        public IEnumerable<TVertex> Vertices => _adjacentEdges.Keys.AsEnumerable();
+        public IEnumerable<TEdge> Edges => _edges.AsEnumerable();
 
         public bool AddVertex(TVertex vertex)
         {
@@ -125,13 +125,12 @@ namespace MFramework.DLC
                 return edges.Count();
             throw new Exception();
         }
-        public TEdge GetEdge(TVertex source, TVertex target)
+        public bool TryGetEdge(TVertex source, TVertex target, out TEdge edge)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (target == null) throw new ArgumentNullException(nameof(target));
 
-            //设两者为AB
-            //从A中获取Edge列表，对于每一个Edge都选用A端，
+            edge = default;
             if (_adjacentEdges.TryGetValue(source, out IEdgeList<TVertex, TEdge> adjacentEdges))
             {
                 foreach (TEdge adjacentEdge in adjacentEdges)
@@ -141,12 +140,21 @@ namespace MFramework.DLC
                         (EqualityComparer<TVertex>.Default.Equals(adjacentEdge.Source, target) &&
                          EqualityComparer<TVertex>.Default.Equals(adjacentEdge.Target, source)))
                     {
-                        return adjacentEdge;  // 找到目标边，返回该边
+                        edge = adjacentEdge;//找到目标边，返回该边
+                        return true;
                     }
                 }
             }
 
-            return default(TEdge);
+            return false;
+        }
+        public TEdge GetEdge(TVertex source, TVertex target)
+        {
+            if (TryGetEdge(source, target, out TEdge edge))
+            {
+                return edge;
+            }
+            return default;
         }
 
         public bool ContainsVertex(TVertex vertex)
@@ -165,6 +173,10 @@ namespace MFramework.DLC
             bool flag2 = adjacentEdges.Any(adjacentEdge => EqualityComparer<TEdge>.Default.Equals(adjacentEdge, edge));
 
             return flag1 && flag2;
+        }
+        public bool ContainsEdge(TVertex source, TVertex target)
+        {
+            return TryGetEdge(source, target, out _);
         }
     }
 }
