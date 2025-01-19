@@ -9,27 +9,31 @@ namespace MFramework.DLC
     /// </summary>
     public class MUndirectedGraph<TVertex, TEdge> where TEdge : IEdge<TVertex>
     {
-        private IVertexEdgeDictionary<TVertex, TEdge> _adjacentEdges = new VertexEdgeDictionary<TVertex, TEdge>();
+        /// <summary>
+        /// 字典---顶点所对应的边列表
+        /// </summary>
+        private IVertexEdgeDictionary<TVertex, TEdge> _edgeDic = new VertexEdgeDictionary<TVertex, TEdge>();
         private IList<TEdge> _edges = new List<TEdge>();
 
         public bool IsDirected => false;
 
-        public bool IsVerticesEmpty => _adjacentEdges.Count == 0;
-        public int VertexCount => _adjacentEdges.Count;
+        public bool IsVerticesEmpty => _edgeDic.Count == 0;
+        public int VertexCount => _edgeDic.Count;
         public bool IsEdgesEmpty => EdgeCount == 0;
         public int EdgeCount { get; private set; }
 
         public MUndirectedGraph() { }
 
-        public IEnumerable<TVertex> Vertices => _adjacentEdges.Keys.AsEnumerable();
+        public IEnumerable<TVertex> Vertices => _edgeDic.Keys.AsEnumerable();
         public IEnumerable<TEdge> Edges => _edges.AsEnumerable();
 
+        #region 结构基础方法
         public bool AddVertex(TVertex vertex)
         {
             if (!ContainsVertex(vertex))
             {
                 //为顶点添加边列表(即顶点->各个边)
-                _adjacentEdges.Add(vertex, new EdgeList<TVertex, TEdge>());
+                _edgeDic.Add(vertex, new EdgeList<TVertex, TEdge>());
                 return true;
             }
             return false;
@@ -38,7 +42,7 @@ namespace MFramework.DLC
         {
             RemoveEdges(vertex);
 
-            return _adjacentEdges.Remove(vertex);
+            return _edgeDic.Remove(vertex);
         }
 
         /// <summary>
@@ -51,11 +55,11 @@ namespace MFramework.DLC
 
             IEdgeList<TVertex, TEdge> sourceEdges;
             IEdgeList<TVertex, TEdge> targetEdges;
-            if (!_adjacentEdges.TryGetValue(edge.Source, out sourceEdges))
+            if (!_edgeDic.TryGetValue(edge.Source, out sourceEdges))
             {
                 AddVertex(edge.Source);
             }
-            if (!_adjacentEdges.TryGetValue(edge.Target, out targetEdges))
+            if (!_edgeDic.TryGetValue(edge.Target, out targetEdges))
             {
                 AddVertex(edge.Target);
             }
@@ -79,7 +83,7 @@ namespace MFramework.DLC
             if (vertex == null) throw new ArgumentNullException(nameof(vertex));
 
             //通过顶点找到对应边列表
-            if (_adjacentEdges.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> adjacentEdges))
+            if (_edgeDic.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> adjacentEdges))
             {
                 IEdgeList<TVertex, TEdge> edgesToRemove = adjacentEdges.Clone();//暂存
                 adjacentEdges.Clear();//先删除属于顶点的列表
@@ -89,11 +93,11 @@ namespace MFramework.DLC
                 //再在顶点的另一边的顶点上删除该边
                 foreach (TEdge edge in edgesToRemove)
                 {
-                    if (_adjacentEdges.TryGetValue(edge.Target, out adjacentEdges))
+                    if (_edgeDic.TryGetValue(edge.Target, out adjacentEdges))
                     {
                         adjacentEdges.Remove(edge);
                     }
-                    if (_adjacentEdges.TryGetValue(edge.Source, out adjacentEdges))
+                    if (_edgeDic.TryGetValue(edge.Source, out adjacentEdges))
                     {
                         adjacentEdges.Remove(edge);
                     }
@@ -110,7 +114,7 @@ namespace MFramework.DLC
         {
             if (vertex == null) throw new ArgumentNullException(nameof(vertex));
 
-            if (_adjacentEdges.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> edges))
+            if (_edgeDic.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> edges))
                 return edges.AsEnumerable();
             throw new Exception();
         }
@@ -121,7 +125,7 @@ namespace MFramework.DLC
         {
             if (vertex == null) throw new ArgumentNullException(nameof(vertex));
 
-            if (_adjacentEdges.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> edges))
+            if (_edgeDic.TryGetValue(vertex, out IEdgeList<TVertex, TEdge> edges))
                 return edges.Count();
             throw new Exception();
         }
@@ -131,7 +135,7 @@ namespace MFramework.DLC
             if (target == null) throw new ArgumentNullException(nameof(target));
 
             edge = default;
-            if (_adjacentEdges.TryGetValue(source, out IEdgeList<TVertex, TEdge> adjacentEdges))
+            if (_edgeDic.TryGetValue(source, out IEdgeList<TVertex, TEdge> adjacentEdges))
             {
                 foreach (TEdge adjacentEdge in adjacentEdges)
                 {
@@ -161,7 +165,7 @@ namespace MFramework.DLC
         {
             if (vertex == null) throw new ArgumentNullException(nameof(vertex));
 
-            return _adjacentEdges.ContainsKey(vertex);
+            return _edgeDic.ContainsKey(vertex);
         }
         public bool ContainsEdge(TEdge edge)
         {
@@ -169,7 +173,7 @@ namespace MFramework.DLC
 
             //以Source作为顶点(肯定Source和Target都可以)，查看边列表
             //遍历每一条边，查看是否有edge
-            bool flag1 = _adjacentEdges.TryGetValue(edge.Source, out IEdgeList<TVertex, TEdge> adjacentEdges);
+            bool flag1 = _edgeDic.TryGetValue(edge.Source, out IEdgeList<TVertex, TEdge> adjacentEdges);
             bool flag2 = adjacentEdges.Any(adjacentEdge => EqualityComparer<TEdge>.Default.Equals(adjacentEdge, edge));
 
             return flag1 && flag2;
@@ -178,5 +182,137 @@ namespace MFramework.DLC
         {
             return TryGetEdge(source, target, out _);
         }
+        #endregion
+
+        #region 算法
+        public List<TVertex> BFS()
+        {
+            List<TVertex> res = new List<TVertex>();
+
+            HashSet<TVertex> visited = new HashSet<TVertex>();
+            foreach (var vertex in Vertices)
+            {
+                if (visited.Contains(vertex)) continue;
+
+                visited.Add(vertex);
+                var vertexRes = BFSInternal(vertex, visited);
+                res.AddRange(vertexRes);
+            }
+
+            return res;
+        }
+        public List<TVertex> BFS(TVertex startVertex)
+        {
+            HashSet<TVertex> visited = new HashSet<TVertex>() { startVertex };
+            return BFSInternal(startVertex, visited);
+        }
+        private List<TVertex> BFSInternal(TVertex startVertex, HashSet<TVertex> visited)
+        {
+            List<TVertex> res = new List<TVertex>();
+
+            Queue<TVertex> queue = new Queue<TVertex>();
+            queue.Enqueue(startVertex);
+            while (queue.Count > 0)
+            {
+                TVertex vertex = queue.Dequeue();
+                res.Add(vertex);
+
+                foreach (var edge in _edgeDic[vertex])
+                {
+                    TVertex other = default;
+                    if (EqualityComparer<TVertex>.Default.Equals(edge.Source, vertex))
+                        other = edge.Target;
+                    else if (EqualityComparer<TVertex>.Default.Equals(edge.Target, vertex))
+                        other = edge.Source;
+
+                    if (visited.Contains(other)) continue;
+
+                    queue.Enqueue(other);
+                    visited.Add(other);
+                }
+            }
+            return res;
+        }
+
+        public List<TVertex> DFS()
+        {
+            List<TVertex> res = new List<TVertex>();
+            HashSet<TVertex> visited = new HashSet<TVertex>();
+
+            foreach (var vertex in Vertices)
+            {
+                if (visited.Contains(vertex)) continue;
+
+                DFSInternal(vertex, res, visited);
+            }
+            return res;
+        }
+        public List<TVertex> DFS(TVertex vertex)
+        {
+            List<TVertex> res = new List<TVertex>();
+            HashSet<TVertex> visited = new HashSet<TVertex>();
+
+            DFSInternal(vertex, res, visited);
+            return res;
+        }
+        private void DFSInternal(TVertex vertex, List<TVertex> res, HashSet<TVertex> visited)
+        {
+            if (visited.Contains(vertex)) return;
+
+            visited.Add(vertex);
+            res.Add(vertex);
+
+            foreach (var edge in _edgeDic[vertex])
+            {
+                TVertex other = default;
+                if (EqualityComparer<TVertex>.Default.Equals(edge.Source, vertex))
+                    other = edge.Target;
+                else if (EqualityComparer<TVertex>.Default.Equals(edge.Target, vertex))
+                    other = edge.Source;
+
+                DFSInternal(other, res, visited);
+            }
+        }
+
+        public bool HasCycle()
+        {
+            HashSet<TVertex> visited = new HashSet<TVertex>();
+            HashSet<TVertex> pathSet = new HashSet<TVertex>();
+
+            foreach (var vertex in Vertices)
+            {
+                if (HasCycleDFS(vertex, default, visited, pathSet))
+                    return true;
+            }
+
+            return false;
+        }
+        private bool HasCycleDFS(TVertex vertex, TVertex parent, HashSet<TVertex> visited, HashSet<TVertex> pathSet)
+        {
+            if (pathSet.Contains(vertex)) return true;//已存在说明出现了环
+
+            if (visited.Contains(vertex)) return false;//访问过就返回
+
+            visited.Add(vertex);
+            pathSet.Add(vertex);
+
+            foreach (var edge in _edgeDic[vertex])
+            {
+                TVertex other = default;
+                if (EqualityComparer<TVertex>.Default.Equals(edge.Source, vertex))
+                    other = edge.Target;
+                else if (EqualityComparer<TVertex>.Default.Equals(edge.Target, vertex))
+                    other = edge.Source;
+
+                //如果连接顶点就是上一节点，则不进行
+                //如A-B-C，从A到了B，现在B如果回A的话是一个环路且没有意义
+                if (EqualityComparer<TVertex>.Default.Equals(other, parent)) continue;
+                if (HasCycleDFS(edge.Target, vertex, visited, pathSet)) return true;
+            }
+
+            pathSet.Remove(vertex);//顶点寻找结束就路径回退
+            return false;
+        }
+        #endregion
     }
 }

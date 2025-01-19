@@ -1,6 +1,6 @@
 using MFramework;
 using MFramework.DLC;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Test_MUndirectedGraph : MonoBehaviour
@@ -27,5 +27,21 @@ public class Test_MUndirectedGraph : MonoBehaviour
         MLog.Print(edge1);
         edge1 = graph.GetEdge(3, 1);
         MLog.Print(edge1);
+
+        StringBuilder sb = new StringBuilder();
+        foreach (var val in graph.BFS())
+        {
+            sb.Append($"{val} ");
+        }
+        MLog.Print(sb);
+
+        sb = new StringBuilder();
+        foreach (var val in graph.DFS())
+        {
+            sb.Append($"{val} ");
+        }
+        MLog.Print(sb);
+
+        MLog.Print(graph.HasCycle());
     }
 }
