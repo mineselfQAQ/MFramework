@@ -2,7 +2,6 @@ using MFramework.DLC;
 using MFramework;
 using UnityEngine;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System.Collections.Generic;
 
 public class Test_MDirectedGraph : MonoBehaviour
@@ -24,6 +23,13 @@ public class Test_MDirectedGraph : MonoBehaviour
         graph.AddEdge(new Edge<int>(4, 1));
         graph.AddEdge(new Edge<int>(3, 4));
         graph.AddEdge(new Edge<int>(4, 5));
+        graph.AddEdge(new Edge<int>(4, 5));
+
+        //¹Âµº
+        graph.AddVertex(6);
+        graph.AddVertex(7);
+        graph.AddEdge(new Edge<int>(6, 7));
+        graph.AddEdge(new Edge<int>(7, 6));
 
         //graph.RemoveVertex(3);
 

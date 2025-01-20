@@ -333,7 +333,8 @@ namespace MFramework.DLC
         {
             //已访问节点(无用)
             //如：先进行0->1->2->0检测，此时0/1/2都会加入visited，第二个环为0->1->3->4->2->0，遇到2就退出了
-            //HashSet<TVertex> visited = new HashSet<TVertex>();
+            //所以仅用于判断是否顶点为孤岛(也许有其它情况？但是没有访问过说明出现了新的可能)
+            HashSet<TVertex> visited = new HashSet<TVertex>();
             //路径记录
             List<TVertex> pathList = new List<TVertex>();//Tip：如果只是判断是否存在，只需要使用HashSet即可
             //输出环列表
@@ -344,13 +345,14 @@ namespace MFramework.DLC
             foreach (var vertex in Vertices)
             {
                 bool isFirstTime = true;
-                FindCycleDFS(vertex, pathList, allCycles, isFirstVertex, isFirstTime);
+                if (!visited.Contains(vertex)) isFirstVertex = true;//找到另一个可能
+                FindCycleDFS(vertex, visited, pathList, allCycles, isFirstVertex, isFirstTime);
                 isFirstVertex = false;
             }
 
             return allCycles;
         }
-        private void FindCycleDFS(TVertex vertex, List<TVertex> pathList, List<List<TVertex>> allCycles, bool isFirstVertex, bool isFirstTime)
+        private void FindCycleDFS(TVertex vertex, HashSet<TVertex> visitedVertex, List<TVertex> pathList, List<List<TVertex>> allCycles, bool isFirstVertex, bool isFirstTime)
         {
             //路径中出现相同，说明出现环
             //如：A->B->C->A，出现A时说明环出现
@@ -368,6 +370,7 @@ namespace MFramework.DLC
 
             //访问则添加
             pathList.Add(vertex);
+            if(!visitedVertex.Contains(vertex)) visitedVertex.Add(vertex);
 
             //遍历对所有连接顶点递归进入
             foreach (var edge in _outDic[vertex])
@@ -390,7 +393,7 @@ namespace MFramework.DLC
                     }
                 }
 
-                if (!visited) FindCycleDFS(next, pathList, allCycles, isFirstVertex, isFirstTime);
+                if (!visited) FindCycleDFS(next, visitedVertex, pathList, allCycles, isFirstVertex, isFirstTime);
             }
 
             isFirstTime = false;
