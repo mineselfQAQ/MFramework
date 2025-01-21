@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 22390534}
   - component: {fileID: 22390533}
   - component: {fileID: 22390535}
+  - component: {fileID: 22390536}
   m_Layer: 0
   m_Name: '#MCORE#'
   m_TagString: Untagged
@@ -191,10 +192,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a73da3448a71343907b52d2d2a7954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 641487050}
-  visitedTile: {fileID: 11400000, guid: f19970a68094e784ba2384540f85268d, type: 2}
-  finalTile: {fileID: 11400000, guid: 895dacfbbadbf4840bcf99414dcc0831, type: 2}
-  speed: 10
+--- !u!114 &22390536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22390532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b8710b982ceba45929b4f790c1d4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tilemap: {fileID: 641487050}
+  VisitedTile: {fileID: 11400000, guid: f19970a68094e784ba2384540f85268d, type: 2}
+  FinalTile: {fileID: 11400000, guid: 895dacfbbadbf4840bcf99414dcc0831, type: 2}
+  Speed: 10
 --- !u!1 &641487047
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,10 +462,10 @@ Tilemap:
   - first: {x: 7, y: -5, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 3
+      m_TileIndex: 1
       m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 3
+      m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
@@ -662,7 +675,7 @@ Tilemap:
       m_TileIndex: 2
       m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 3
+      m_TileColorIndex: 2
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
@@ -1739,10 +1752,10 @@ Tilemap:
   - first: {x: -8, y: 3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 1
+      m_TileIndex: 3
       m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
+      m_TileColorIndex: 3
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
@@ -2123,9 +2136,9 @@ Tilemap:
     m_Data: {r: 4.6016e-41, g: 4.6016e-41, b: 4.6016e-41, a: 4.6016e-41}
   - m_RefCount: 100
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: 4.6016e-41, g: 4.6016e-41, b: 4.6016e-41, a: 4.6016e-41}
-  - m_RefCount: 2
+  - m_RefCount: 1
+    m_Data: {r: 1, g: 1, b: 0, a: 1}
+  - m_RefCount: 1
     m_Data: {r: 0, g: 1, b: 0, a: 1}
   - m_RefCount: 78
     m_Data: {r: 1, g: 0, b: 0, a: 1}

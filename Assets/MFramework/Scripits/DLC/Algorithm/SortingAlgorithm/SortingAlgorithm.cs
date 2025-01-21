@@ -91,19 +91,19 @@ namespace MFramework.DLC
                 for (int i = 0; i < gap; i++)
                 {
                     //使用插入排序做法
-                    for (int j = i; j < arr.Length; j += gap)
+                    for (int j = i + gap; j < arr.Length; j += gap)
                     {
                         int temp = arr[j];//暂存值
-                        int k = j - 1;//index
+                        int k = j - gap;//index
 
                         //如果待存值更小，为其"腾空间"(后移)
                         while (k >= 0 && arr[k] > temp)
                         {
-                            arr[k + 1] = arr[k];
-                            k--;
+                            arr[k + gap] = arr[k];
+                            k -= gap;
                         }
                         //插入值
-                        arr[k + 1] = temp;
+                        arr[k + gap] = temp;
                     }
                 }
             }
