@@ -1,5 +1,4 @@
 using MFramework;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +9,11 @@ public class Test_Algorithm : MonoBehaviour
 
     private void Start()
     {
-        var res1 = Q1("132", "65551");
+        //var res = Q1("132", "65551");
+        //var res = Q3(new int[] { 1, 0, 1, 1, 1, 2 });
+        var res = Q5(new int[] { 0, 5, 1, 2, 7, 3, 4, 6, 9, 8 }, 3);
 
-        Print(ToString(res1));
+        Print(res);
     }
 
     public void Print(object res)
@@ -116,5 +117,104 @@ public class Test_Algorithm : MonoBehaviour
         DFS2(grid, i - 1, j);
         DFS2(grid, i, j + 1);
         DFS2(grid, i, j - 1);
+    }
+
+    //在数组中找到出现次数大于数组长度一半(N/2)的数
+    public int Q3(int[] arr)
+    {
+        //假设有int[10]，那么至少会有6个相同元素
+        //可以让不同的元素进行抵消，这样进行1次后8个元素还是存在5个相同元素，依旧正确
+        //到底是哪个元素，则为一直存活的那个
+        //1 0 1 1 1 2
+        //此时10抵消为1112，111相同进行累加，2再进行抵消一次，实际上剩下的就是11，进行一次验证即可
+        //因为：0 1 2，此时01抵消，但不应该为2
+        int count = 0, cand = -1;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (count == 0)
+            {
+                cand = arr[i];
+                count++;
+            }
+            else if (cand == arr[i])
+            {
+                count++;
+            }
+            else
+            {
+                count--;
+            }
+        }
+
+        count = 0;
+        foreach (var i in arr)
+        {
+            if (i == cand) count++;
+        }
+        if (count > arr.Length / 2) return cand;
+        return -1;
+    }
+
+    //问题4：调整数组顺序使奇数位于偶数前面
+    public void Q4(int[] arr)
+    {
+        //做法1：
+        //遍历数组，找到偶数则取到新数组中并前移其余元素，直到遍历完成
+        //最后拼接原数组(奇数)和新数组(偶数)即可
+        //时间复杂度O(n2)，空间复杂度O(n)
+        //做法2：
+        //创一个数组，遍历原数组，奇数放左面，偶数放右面，遍历完成后将数组复制回去即可
+        //时间复杂度O(n)，空间复杂度O(n)
+        //做法3：
+        //哨兵算法，左偶和右奇对调
+    }
+
+    //问题5：求一个数组中的第k小/大的数
+    public int Q5(int[] arr, int k)
+    {
+        //逆向遍历所有非叶子节点，进行自定向下的堆化操作
+        for (int i = (arr.Length - 1) / 2; i >= 0; i--)
+        {
+            SiftDown(arr, arr.Length, i);
+        }
+
+        for (int i = arr.Length - 1; i > arr.Length - k; i--)
+        {
+            Swap(arr, 0, i);
+            SiftDown(arr, i, 0);
+        }
+        return arr[0];
+    }
+    private void SiftDown(int[] arr, int n, int i)
+    {
+        while(true)
+        {
+            int l = i * 2 + 1;
+            int r = i * 2 + 2;
+
+            int max = i;
+            if (l < n && arr[l] > arr[max])
+            {
+                max = l;
+            }
+            if (r < n && arr[r] > arr[max])
+            {
+                max = r;
+            }
+
+            if (max == i) break;
+
+            Swap(arr, i, max);
+            i = max;
+        }
+    }
+
+
+
+    private void Swap(int[] arr, int a, int b)
+    {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
     }
 }
