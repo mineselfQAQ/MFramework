@@ -1,4 +1,5 @@
 using MFramework;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,14 @@ public class Test_Algorithm : MonoBehaviour
     {
         //var res = Q1("132", "65551");
         //var res = Q3(new int[] { 1, 0, 1, 1, 1, 2 });
-        var res = Q5(new int[] { 0, 5, 1, 2, 7, 3, 4, 6, 9, 8 }, 3);
+        //var res = Q5(new int[] { 0, 5, 1, 2, 7, 3, 4, 6, 9, 8 }, 3);
+        var res = Q7("ABC");
+        foreach (var s in res)
+        {
+            Debug.Log(s);
+        }
 
-        Print(res);
+        //Print(res);
     }
 
     public void Print(object res)
@@ -209,8 +215,63 @@ public class Test_Algorithm : MonoBehaviour
         }
     }
 
+    //问题6：输出string，输出全排列，如：ABC输出ABC/ACB/BAC/BCA/CAB/CBA
+    public string[] Q6(string S)
+    {
+        //思路：将第一个元素放在所有位置一次，再将第二个元素放在所有位置一次
+        //如：ABC
+        //可以有ABC BAC CBA，此时A存在与所有位置
+        //然后对第二个元素进行同样操作，有ABC ACB | BAC BCA | CBA CAB
+        List<string> res = new List<string>();
+        Q6DFS(res, S, 0);
+        return res.ToArray();
+    }
+    private void Q6DFS(List<string> res, string S, int i)
+    {
+        if (i == S.Length) res.Add(S);
+
+        for (int j = i; j < S.Length; j++)
+        {
+            S = Swap(S, i, j);
+            Q6DFS(res, S, i + 1);
+            S = Swap(S, i, j);
+        }
+    }
+    //问题7：输出全组合，如：ABC输出A/B/C/AB/AC/BC/ABC
+    public string[] Q7(string S)
+    {
+        //思路：对于每一个位置，只有2种情况：选或者不选
+        //如ABC：对于A，我可以选也可以不选，
+        //如果不选，则最多为BC(如果B也不要就只剩C了)，如果选，则为AXX(如果后面都不选，也就是A)
+        //一直选到结尾就能得到相应字符串，由于每个递归的字符串都不一样，直接存即可
+        List<string> res = new List<string>();
+        Q7DFS(res, S, "", 0);
+        return res.ToArray();
+    }
+    private void Q7DFS(List<string> res, string S, string current, int i)
+    {
+        if (i == S.Length)
+        {
+            res.Add(current);
+            return;
+        }
+
+        //不选当前字符
+        Q7DFS(res, S, current, i + 1);
+        //选当前字符
+        Q7DFS(res, S, current + S[i], i + 1);
+    }
 
 
+    private string Swap(string str, int a, int b)
+    {
+        char[] charArray = str.ToCharArray();
+        char temp = charArray[a];
+        charArray[a] = charArray[b];
+        charArray[b] = temp;
+
+        return new string(charArray);
+    }
     private void Swap(int[] arr, int a, int b)
     {
         int temp = arr[a];
