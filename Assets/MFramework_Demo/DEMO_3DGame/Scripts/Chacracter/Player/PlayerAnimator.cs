@@ -55,6 +55,7 @@ public class PlayerAnimator : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
+        //TODO：每帧进行更新，太耗，应该使用回调
         HandleAnimatorParameters();
     }
 
