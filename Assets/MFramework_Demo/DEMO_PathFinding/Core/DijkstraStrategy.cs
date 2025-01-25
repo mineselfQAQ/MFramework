@@ -2,19 +2,17 @@ using MFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class BFSPathFindingStrategy : PathFindingStrategyBase
+public class DijkstraStrategy : PathFindingStrategyBase
 {
     private List<Grid> finalPath = new List<Grid>();
     private HashSet<Grid> visited = new HashSet<Grid>();
 
-    public BFSPathFindingStrategy(Tilemap tilemap, Grid startGrid, Grid endGrid)
-        : base(tilemap, startGrid, endGrid) { }
+    public DijkstraStrategy() : base() { }
 
     public override string ToString()
     {
-        return "BFS";
+        return "Dijkstra";
     }
 
     public override void OnReset()
@@ -25,14 +23,12 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
         //finalPath = new List<Grid>();
         //visited = new HashSet<Grid>();
 
-        m_isFinish = false;
+        IsFinish = false;
     }
-
     public override void OnPathFind()
     {
         MCoroutineManager.Instance.StartCoroutine(BFS(), "PathFinding");
     }
-
     private IEnumerator BFS()
     {
         yield return new WaitForSeconds(1);
@@ -70,7 +66,7 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
                 }
                 finalPath.Reverse();
 
-                m_isFinish = true;
+                IsFinish = true;
 
                 break;
             }

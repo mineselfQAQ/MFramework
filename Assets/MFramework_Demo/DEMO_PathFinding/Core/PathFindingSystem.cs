@@ -1,3 +1,5 @@
+using UnityEngine.Tilemaps;
+
 public class PathFindingSystem
 {
     protected bool m_Dirty;
@@ -19,13 +21,13 @@ public class PathFindingSystem
         Strategy = strategy;
     }
 
-    public void ExecutePathfinding()
+    public void ExecutePathfinding(Tilemap tilemap, Grid startGrid, Grid endGrid)
     {
         if (Strategy == null) return;
 
         if (m_Dirty) Strategy.Reset();
 
         m_Dirty = true;
-        Strategy.FindPath();
+        Strategy.FindPath(tilemap, startGrid, endGrid);
     }
 }

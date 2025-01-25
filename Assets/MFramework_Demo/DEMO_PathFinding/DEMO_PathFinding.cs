@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Test_PathFinding : MonoBehaviour
+public class DEMO_PathFinding : MonoBehaviour
 {
     public class TilemapInfo
     {
@@ -50,6 +50,7 @@ public class Test_PathFinding : MonoBehaviour
 
     private Dictionary<KeyCode, Action> strategyMap;
     private Dictionary<KeyCode, int> tileMapMap;
+    private Dictionary<GridType, int> gridTypeWeightMap;
 
     private void Awake()
     {
@@ -72,6 +73,11 @@ public class Test_PathFinding : MonoBehaviour
             { KeyCode.Alpha8, 7 },
             { KeyCode.Alpha9, 8 },
             { KeyCode.Alpha0, 9 },
+        };
+        gridTypeWeightMap = new Dictionary<GridType, int>()
+        {
+            { GridType.Path, 1 },
+            { GridType.Barrier, 3 },
         };
 
         //**注意**
@@ -100,7 +106,8 @@ public class Test_PathFinding : MonoBehaviour
                     Vector3Int position = new Vector3Int(xPos, yPos, 0);
                     Tile tile = tilemap.GetTile<Tile>(position);
                     GridType type = Enum.Parse<GridType>(tile.name);
-                    info.gridMap[x, y] = new Grid(tile, type, info.gridMap, position, x, y);
+                    int weight = gridTypeWeightMap[type];//映射中获取权重
+                    info.gridMap[x, y] = new Grid(tile, type, info.gridMap, position, x, y, weight);
 
                     if (type == GridType.Start) info.startGrid = info.gridMap[x, y];
                     else if (type == GridType.End) info.endGrid = info.gridMap[x, y];
@@ -109,9 +116,9 @@ public class Test_PathFinding : MonoBehaviour
             info.originGridMap = info.gridMap;//保存原始状态，在结束后恢复
 
             //TODO：策略不应该是固定策略，应该可以通过更改构造函数这些参数切换
-            info.DFSPathFindingStrategy = new DFSPathFindingStrategy(tilemap, info.startGrid, info.endGrid);
-            info.BFSPathFindingStrategy = new BFSPathFindingStrategy(tilemap, info.startGrid, info.endGrid);
-            info.GreedyBFSPathFindingStrategy = new GreedyBFSPathFindingStrategy(tilemap, info.startGrid, info.endGrid);
+            info.DFSPathFindingStrategy = new DFSPathFindingStrategy();
+            info.BFSPathFindingStrategy = new BFSPathFindingStrategy();
+            info.GreedyBFSPathFindingStrategy = new GreedyBFSPathFindingStrategy();
             info.pfSystem = new PathFindingSystem(info.BFSPathFindingStrategy);
 
             infos.Add(info);
@@ -140,7 +147,7 @@ public class Test_PathFinding : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetColor(curInfo);
-            curInfo.pfSystem.ExecutePathfinding();
+            curInfo.pfSystem.ExecutePathfinding(curInfo.tilemap, curInfo.startGrid, curInfo.endGrid);
         }
 
         //策略选择
@@ -156,6 +163,8 @@ public class Test_PathFinding : MonoBehaviour
         //Tilemap选择
         foreach (var pair in tileMapMap)
         {
+            if (pair.Value >= infos.Count) continue;
+
             if (Input.GetKeyDown(pair.Key))
             {
                 ChangeTilemap(pair.Value);

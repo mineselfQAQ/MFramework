@@ -1,21 +1,18 @@
 using MFramework;
-using MFramework.DLC;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
+public class BFSPathFindingStrategy : PathFindingStrategyBase
 {
     private List<Grid> finalPath = new List<Grid>();
     private HashSet<Grid> visited = new HashSet<Grid>();
 
-    public GreedyBFSPathFindingStrategy(Tilemap tilemap, Grid startGrid, Grid endGrid) :
-        base(tilemap, startGrid, endGrid) { }
+    public BFSPathFindingStrategy() : base() { }
 
     public override string ToString()
     {
-        return "GreedyBFS";
+        return "BFS";
     }
 
     public override void OnReset()
@@ -26,7 +23,7 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
         //finalPath = new List<Grid>();
         //visited = new HashSet<Grid>();
 
-        m_isFinish = false;
+        IsFinish = false;
     }
 
     public override void OnPathFind()
@@ -47,8 +44,8 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
     }
     private IEnumerator BFSTraverse(Grid grid)
     {
-        MPriorityQueue<Grid, int> queue = new MPriorityQueue<Grid, int>();
-        queue.Enqueue(grid, 0);
+        Queue<Grid> queue = new Queue<Grid>();
+        queue.Enqueue(grid);
 
         while (queue.Count > 0)
         {
@@ -70,7 +67,7 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
                 }
                 finalPath.Reverse();
 
-                m_isFinish = true;
+                IsFinish = true;
 
                 break;
             }
@@ -91,25 +88,14 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
             Enqueue(queue, curGrid, downGrid);
         }
     }
-    private void Enqueue(MPriorityQueue<Grid, int> queue, Grid curGrid, Grid nextGrid)
+    private void Enqueue(Queue<Grid> queue, Grid curGrid, Grid nextGrid)
     {
         if (nextGrid != null && !visited.Contains(nextGrid))
         {
             visited.Add(nextGrid);//提前加入
 
-            int priority = Heuristic(nextGrid.Pos);
-
             nextGrid.ParentGrid = curGrid;
-            queue.Enqueue(nextGrid, priority);
+            queue.Enqueue(nextGrid);
         }
-    }
-    private int Heuristic(Vector2Int posA, Vector2Int posB)
-    {
-        return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
-    }
-    private int Heuristic(Vector2Int posA)
-    {
-        Vector2Int posB = m_endGrid.Pos;
-        return Heuristic(posA, posB);
     }
 }

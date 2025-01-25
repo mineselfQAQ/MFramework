@@ -3,8 +3,9 @@ using UnityEngine.Tilemaps;
 
 public enum GridType
 {
-    Path,
-    Obstacle,
+    Path,//一般路(消耗-1)
+    Barrier,//阻挡物(缓慢通过，消耗-3)
+    Obstacle,//障碍物(不可通过)
     Start,
     End
 }
@@ -19,6 +20,8 @@ public class Grid
 
     public Vector3Int posInternal;
 
+    public int weight;//默认为1，在Dijkstra算法/A*算法中需要该权重
+
     private Vector2Int pos;
     public Vector2Int Pos
     {
@@ -31,7 +34,7 @@ public class Grid
 
     public Grid ParentGrid { get; set; }
 
-    public Grid(Tile tile, GridType type, Grid[,] gridMap, Vector3Int posInternal, int x, int y)
+    public Grid(Tile tile, GridType type, Grid[,] gridMap, Vector3Int posInternal, int x, int y, int weight = 1)
     {
         this.tile = tile;
         this.type = type;
@@ -39,6 +42,8 @@ public class Grid
         this.posInternal = posInternal;
         this.x = x;
         this.y = y;
+
+        this.weight = weight;
     }
 
     public override string ToString()

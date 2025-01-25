@@ -2,7 +2,6 @@ using MFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class DFSPathFindingStrategy : PathFindingStrategyBase
 {
@@ -10,8 +9,7 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
     private List<Grid> finalPath = new List<Grid>();
     private HashSet<Grid> visited = new HashSet<Grid>();
 
-    public DFSPathFindingStrategy(Tilemap tilemap, Grid startGrid, Grid endGrid)
-        : base(tilemap, startGrid, endGrid) { }
+    public DFSPathFindingStrategy() : base() { }
 
     public override string ToString()
     {
@@ -28,7 +26,7 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         //finalPath = new List<Grid>();
         //visited = new HashSet<Grid>();
 
-        m_isFinish = false;
+        IsFinish = false;
     }
 
     public override void OnPathFind()
@@ -50,7 +48,7 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
     }
     private IEnumerator DFSTraverse(Grid grid, Grid parentGrid)
     {
-        if (m_isFinish) yield break;//已完成就回退
+        if (IsFinish) yield break;//已完成就回退
         yield return new WaitForSeconds(m_waitTime);
 
         if (grid == null) yield break;//未获取到grid，即撞墙或出界了
@@ -61,7 +59,7 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         //完成条件
         if (grid.Pos == m_endGrid.Pos)
         {
-            m_isFinish = true;
+            IsFinish = true;
             finalPath = new List<Grid>(path);//复制存储
             yield break;
         }
