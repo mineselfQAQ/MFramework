@@ -46,6 +46,20 @@ public class Grid
         return $"({x}, {y})";
     }
 
+    //===必须添加Equals()和GetHashCode()，否则比较(这里是字典是否Contain)会得到false
+    public override bool Equals(object obj)
+    {
+        if (obj is Grid other)
+        {
+            return Pos.Equals(other.Pos);
+        }
+        return false;
+    }
+    public override int GetHashCode()
+    {
+        return Pos.GetHashCode();
+    }
+
     public Grid GetGrid(int xOffset, int yOffset)
     {
         int newX = x + xOffset, newY = y + yOffset;

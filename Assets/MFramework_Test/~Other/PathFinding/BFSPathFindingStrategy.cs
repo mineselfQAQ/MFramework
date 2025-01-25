@@ -4,33 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BFSPathFinding : IPathFinding
+public class BFSPathFindingStrategy : PathFindingStrategyBase
 {
-    private Tilemap tilemap;
-    private readonly Grid startGrid;//起点
-    private readonly Grid endGrid;//终点
-
     private List<Grid> finalPath = new List<Grid>();
     private HashSet<Grid> visited = new HashSet<Grid>();
 
-    private float waitTime = 0.25f;
+    public BFSPathFindingStrategy(Tilemap tilemap, Grid startGrid, Grid endGrid)
+        : base(tilemap, startGrid, endGrid) { }
 
-    public BFSPathFinding(Tilemap tilemap, Grid startGrid, Grid endGrid)
+    public override string ToString()
     {
-        this.tilemap = tilemap;
-        this.startGrid = startGrid;
-        this.endGrid = endGrid;
-
-        waitTime = 0.25f / PathFindingInfo.Instance.Speed;
+        return "BFS";
     }
 
-    public void Reset()
+    public override void OnReset()
     {
-        finalPath = new List<Grid>();
-        visited = new HashSet<Grid>();
+        //使用Clear替代重建，防止GC，而且路径一致情况下容量也是正好的
+        finalPath.Clear();
+        visited.Clear();
+        //finalPath = new List<Grid>();
+        //visited = new HashSet<Grid>();
+
+        m_isFinish = false;
     }
 
-    public void PathFind()
+    public override void OnPathFind()
     {
         MCoroutineManager.Instance.StartCoroutine(BFS(), "PathFinding");
     }
@@ -39,12 +37,12 @@ public class BFSPathFinding : IPathFinding
     {
         yield return new WaitForSeconds(1);
 
-        yield return MCoroutineManager.Instance.StartCoroutine(BFSTraverse(startGrid), "PathFindingInternal");
+        yield return MCoroutineManager.Instance.StartCoroutine(BFSTraverse(m_startGrid), "PathFindingInternal");
 
         for (int i = 0; i < finalPath.Count; i++)
         {
-            yield return new WaitForSeconds(waitTime);
-            tilemap.SetTile(finalPath[i].posInternal, PathFindingInfo.Instance.FinalTile);
+            yield return new WaitForSeconds(m_waitTime);
+            m_tilemap.SetTile(finalPath[i].posInternal, PathFindingInfo.Instance.FinalTile);
         }
     }
     private IEnumerator BFSTraverse(Grid grid)
@@ -54,31 +52,32 @@ public class BFSPathFinding : IPathFinding
 
         while (queue.Count > 0)
         {
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(m_waitTime);
 
             Grid curGrid = queue.Dequeue();
 
             //if (visited.Contains(curGrid)) continue;//已判断，无需再次操作
             //if (curGrid == null) continue;//已判断，无需再次操作
 
-            if (curGrid.Pos == endGrid.Pos)
+            if (curGrid.Pos == m_endGrid.Pos)
             {
                 //反向寻找路径
                 Grid tempGrid = curGrid.ParentGrid;
-                while (tempGrid.Pos != startGrid.Pos)
+                while (tempGrid.Pos != m_startGrid.Pos)
                 {
                     finalPath.Add(tempGrid);
                     tempGrid = tempGrid.ParentGrid;
                 }
                 finalPath.Reverse();
 
+                m_isFinish = true;
+
                 break;
             }
 
-            visited.Add(curGrid);
             if (curGrid.type == GridType.Path)
             {
-                tilemap.SetTile(curGrid.posInternal, PathFindingInfo.Instance.VisitedTile);
+                m_tilemap.SetTile(curGrid.posInternal, PathFindingInfo.Instance.VisitedTile);
             }
 
             //反向记录父节点
@@ -96,6 +95,8 @@ public class BFSPathFinding : IPathFinding
     {
         if (nextGrid != null && !visited.Contains(nextGrid))
         {
+            visited.Add(nextGrid);//提前加入
+
             nextGrid.ParentGrid = curGrid;
             queue.Enqueue(nextGrid);
         }

@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class PathFindingInfo : ComponentSingleton<PathFindingInfo>
 {
-    public Tilemap Tilemap;
+    public Tilemap[] Tilemaps;
     public TileBase VisitedTile;
     public TileBase FinalTile;
 
