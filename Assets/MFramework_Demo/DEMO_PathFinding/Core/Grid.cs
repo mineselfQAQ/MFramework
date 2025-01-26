@@ -6,8 +6,6 @@ public enum GridType
     Path,//一般路(消耗-1)
     Barrier,//阻挡物(缓慢通过，消耗-3)
     Obstacle,//障碍物(不可通过)
-    Start,
-    End
 }
 
 public class Grid
@@ -18,9 +16,13 @@ public class Grid
     public int x { get; private set; }
     public int y { get; private set; }
 
+    public bool isStartGrid { get; private set; }
+    public bool isEndGrid { get; private set; }
+
     public Vector3Int posInternal;
 
-    public int weight;//默认为1，在Dijkstra算法/A*算法中需要该权重
+    public int cost;//默认为1，在Dijkstra算法/A*算法中需要消耗
+    public int totalCost = 0;//起点到Grid的消耗
 
     private Vector2Int pos;
     public Vector2Int Pos
@@ -43,7 +45,7 @@ public class Grid
         this.x = x;
         this.y = y;
 
-        this.weight = weight;
+        this.cost = weight;
     }
 
     public override string ToString()
@@ -75,6 +77,11 @@ public class Grid
 
         return res;
     }
+
+    public void ResetCost() => totalCost = 0;
+
+    public void SetStartGrid() => isStartGrid = true;
+    public void SetEndGrid() => isEndGrid = true;
 
     public static Grid GetGrid(Grid[,] gridMap, Grid grid, int xOffset, int yOffset)
     {

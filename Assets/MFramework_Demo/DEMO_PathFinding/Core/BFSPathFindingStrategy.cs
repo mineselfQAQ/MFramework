@@ -1,4 +1,5 @@
 using MFramework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +27,11 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
         IsFinish = false;
     }
 
-    public override void OnPathFind()
+    public override void OnPathFind(Action onFinish)
     {
-        MCoroutineManager.Instance.StartCoroutine(BFS(), "PathFinding");
+        MCoroutineManager.Instance.StartCoroutine(BFS(onFinish), "PathFinding");
     }
-    private IEnumerator BFS()
+    private IEnumerator BFS(Action onFinish)
     {
         yield return new WaitForSeconds(1);
 
@@ -39,8 +40,9 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
         for (int i = 0; i < finalPath.Count; i++)
         {
             yield return new WaitForSeconds(m_waitTime);
-            m_tilemap.SetTile(finalPath[i].posInternal, PathFindingInfo.Instance.FinalTile);
+            PathFindingUtility.SetAnyFinal(m_tilemap, finalPath[i]);
         }
+        onFinish?.Invoke();
     }
     private IEnumerator BFSTraverse(Grid grid)
     {
@@ -72,10 +74,7 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
                 break;
             }
 
-            if (curGrid.type == GridType.Path)
-            {
-                m_tilemap.SetTile(curGrid.posInternal, PathFindingInfo.Instance.VisitedTile);
-            }
+            PathFindingUtility.SetVisited(m_tilemap, curGrid);
 
             //反向记录父节点
             var rightGrid = curGrid.GetGrid(1, 0);

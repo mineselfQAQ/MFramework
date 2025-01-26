@@ -6,23 +6,16 @@ using UnityEngine.Tilemaps;
 
 public class DEMO_PathFinding : MonoBehaviour
 {
-    public class TilemapInfo
+    public class Map
     {
         public int id;
                 
         public Tilemap tilemap;
-        public Grid startGrid;
-        public Grid endGrid;
                 
         public Grid[,] originGridMap;
         public Grid[,] gridMap;
-                
-        public PathFindingSystem pfSystem;
-        public IPathFindingStrategy DFSPathFindingStrategy;
-        public IPathFindingStrategy BFSPathFindingStrategy;
-        public IPathFindingStrategy GreedyBFSPathFindingStrategy;
 
-        public TilemapInfo(Tilemap tilemap, int id)
+        public Map(Tilemap tilemap, int id)
         {
             this.id = id;
             this.tilemap = tilemap;
@@ -30,7 +23,7 @@ public class DEMO_PathFinding : MonoBehaviour
 
         public override bool Equals(object obj)
         {
-            if (obj is TilemapInfo other)
+            if (obj is Map other)
             {
                 return tilemap.Equals(other.tilemap);
             }
@@ -44,22 +37,35 @@ public class DEMO_PathFinding : MonoBehaviour
 
     public MText text;
 
-    private List<TilemapInfo> infos = new List<TilemapInfo>();
-    private TilemapInfo preInfo;
-    private TilemapInfo curInfo;
+    private List<Map> infos = new List<Map>();
+    private Map preInfo;
+    private Map curInfo;
+
+    private Vector2Int startGridPos;
+    private Vector2Int endGridPos;
+
+    public PathFindingSystem pathFindingSystem;
+    public IPathFindingStrategy DFSStrategy;
+    public IPathFindingStrategy BFSStrategy;
+    public IPathFindingStrategy GreedyStrategy;
+    public IPathFindingStrategy DijkstraStrategy;
 
     private Dictionary<KeyCode, Action> strategyMap;
     private Dictionary<KeyCode, int> tileMapMap;
-    private Dictionary<GridType, int> gridTypeWeightMap;
+    private Dictionary<GridType, int> gridTypeCostMap;
+
+    private const string startGridName = "Start";
+    private const string endGridName = "End";
 
     private void Awake()
     {
         //输入映射
         strategyMap = new Dictionary<KeyCode, Action>
         {
-            { KeyCode.Q, ()=>{ curInfo.pfSystem.SetStrategy(curInfo.DFSPathFindingStrategy); } },
-            { KeyCode.W, ()=>{ curInfo.pfSystem.SetStrategy(curInfo.BFSPathFindingStrategy); } },
-            { KeyCode.E, ()=>{ curInfo.pfSystem.SetStrategy(curInfo.GreedyBFSPathFindingStrategy); } }
+            { KeyCode.Q, ()=>{ pathFindingSystem.SetStrategy(DFSStrategy); } },
+            { KeyCode.W, ()=>{ pathFindingSystem.SetStrategy(BFSStrategy); } },
+            { KeyCode.E, ()=>{ pathFindingSystem.SetStrategy(GreedyStrategy); } },
+            { KeyCode.R, ()=>{ pathFindingSystem.SetStrategy(DijkstraStrategy); } }
         };
         tileMapMap = new Dictionary<KeyCode, int>
         {
@@ -74,24 +80,50 @@ public class DEMO_PathFinding : MonoBehaviour
             { KeyCode.Alpha9, 8 },
             { KeyCode.Alpha0, 9 },
         };
-        gridTypeWeightMap = new Dictionary<GridType, int>()
+        gridTypeCostMap = new Dictionary<GridType, int>()
         {
             { GridType.Path, 1 },
-            { GridType.Barrier, 3 },
+            { GridType.Obstacle, -1 },
+            { GridType.Barrier, PathFindingInfo.Instance.BarrierCost },
         };
 
         //**注意**
         //如果进行过擦除Tile操作，这不会自动重计算Bound，需要：
         //1.点击Tilemap的三点中的Compress Tilemap Bounds
         //2.tilemap.CompressBounds();
+        var startEndMap = PathFindingInfo.Instance.StartEndMap;
         var tilemaps = PathFindingInfo.Instance.Tilemaps;
         int id = 1;//id从1记录
+
+        var tempTilemap = tilemaps[0];
+        BoundsInt bounds = tempTilemap.cellBounds;//所有tilemap的bounds一致
+
+        for (int x = 0; x < bounds.size.x; x++)
+        {
+            for (int y = 0; y < bounds.size.y; y++)
+            {
+                int xPos = bounds.xMin + x;
+                int yPos = bounds.yMin + y;
+                Vector3Int position = new Vector3Int(xPos, yPos, 0);
+
+                //检查是否为开始/结束Grid
+                Tile tile = startEndMap.GetTile<Tile>(position);
+                if (tile != null && tile.name == startGridName)
+                {
+                    startGridPos = new Vector2Int(x, y);
+                }
+                if (tile != null && tile.name == endGridName)
+                {
+                    endGridPos = new Vector2Int(x, y);
+                }
+            }
+        }
+
         foreach (var tilemap in tilemaps)
         {
-            TilemapInfo info = new TilemapInfo(tilemap, id);
+            Map info = new Map(tilemap, id);
 
             tilemap.CompressBounds();
-            BoundsInt bounds = tilemap.cellBounds;
 
             info.originGridMap = new Grid[bounds.size.x, bounds.size.y];
             info.gridMap = new Grid[bounds.size.x, bounds.size.y];
@@ -102,28 +134,37 @@ public class DEMO_PathFinding : MonoBehaviour
                 {
                     int xPos = bounds.xMin + x;
                     int yPos = bounds.yMin + y;
-
                     Vector3Int position = new Vector3Int(xPos, yPos, 0);
+
+                    //基础信息填写
                     Tile tile = tilemap.GetTile<Tile>(position);
                     GridType type = Enum.Parse<GridType>(tile.name);
-                    int weight = gridTypeWeightMap[type];//映射中获取权重
-                    info.gridMap[x, y] = new Grid(tile, type, info.gridMap, position, x, y, weight);
+                    int cost = gridTypeCostMap[type];//映射中获取权重
+                    info.gridMap[x, y] = new Grid(tile, type, info.gridMap, position, x, y, cost);
 
-                    if (type == GridType.Start) info.startGrid = info.gridMap[x, y];
-                    else if (type == GridType.End) info.endGrid = info.gridMap[x, y];
+                    if (info.gridMap[x, y].Pos == startGridPos)
+                    {
+                        info.gridMap[x, y].SetStartGrid();
+                    }
+                    if (info.gridMap[x, y].Pos == endGridPos) 
+                    {
+                        info.gridMap[x, y].SetEndGrid();
+                    }
                 }
             }
             info.originGridMap = info.gridMap;//保存原始状态，在结束后恢复
 
-            //TODO：策略不应该是固定策略，应该可以通过更改构造函数这些参数切换
-            info.DFSPathFindingStrategy = new DFSPathFindingStrategy();
-            info.BFSPathFindingStrategy = new BFSPathFindingStrategy();
-            info.GreedyBFSPathFindingStrategy = new GreedyBFSPathFindingStrategy();
-            info.pfSystem = new PathFindingSystem(info.BFSPathFindingStrategy);
 
             infos.Add(info);
             id++;
         }
+
+        //寻路算法策略初始化
+        DFSStrategy = new DFSPathFindingStrategy();
+        BFSStrategy = new BFSPathFindingStrategy();
+        GreedyStrategy = new GreedyBFSPathFindingStrategy();
+        DijkstraStrategy = new DijkstraStrategy();
+        pathFindingSystem = new PathFindingSystem(DijkstraStrategy);
 
         //设置默认显示
         curInfo = infos[0];
@@ -147,25 +188,28 @@ public class DEMO_PathFinding : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetColor(curInfo);
-            curInfo.pfSystem.ExecutePathfinding(curInfo.tilemap, curInfo.startGrid, curInfo.endGrid);
+            ResetCost(curInfo);
+            pathFindingSystem.Execute(curInfo.tilemap, startGrid, endGrid);
         }
 
         //策略选择
         foreach (var pair in strategyMap)
         {
-            if (Input.GetKeyDown(pair.Key))
+            //进行中禁止切换
+            if (Input.GetKeyDown(pair.Key) && pathFindingSystem.IsFinish)
             {
                 pair.Value.Invoke();
                 RefreshText();
             }
         }
 
-        //Tilemap选择
+        //Tilemap选择                                                 
         foreach (var pair in tileMapMap)
         {
             if (pair.Value >= infos.Count) continue;
 
-            if (Input.GetKeyDown(pair.Key))
+            //进行中禁止切换
+            if (Input.GetKeyDown(pair.Key) && pathFindingSystem.IsFinish)
             {
                 ChangeTilemap(pair.Value);
                 RefreshText();
@@ -181,7 +225,7 @@ public class DEMO_PathFinding : MonoBehaviour
         }
     }
 
-    private void ResetColor(TilemapInfo info)
+    private void ResetColor(Map info)
     {
         for (int x = 0; x < info.originGridMap.GetLength(0); x++)
         {
@@ -189,6 +233,17 @@ public class DEMO_PathFinding : MonoBehaviour
             {
                 var grid = info.originGridMap[x, y];
                 info.tilemap.SetTile(grid.posInternal, grid.tile);
+            }
+        }
+    }
+    private void ResetCost(Map info)
+    {
+        for (int x = 0; x < info.originGridMap.GetLength(0); x++)
+        {
+            for (int y = 0; y < info.originGridMap.GetLength(1); y++)
+            {
+                var grid = info.originGridMap[x, y];
+                grid.ResetCost();
             }
         }
     }
@@ -207,6 +262,6 @@ public class DEMO_PathFinding : MonoBehaviour
 
     private void RefreshText()
     {
-        text.text = $"Current:{curInfo.pfSystem.Strategy}(ID-{curInfo.id})";
+        text.text = $"Current:{pathFindingSystem.Strategy}(ID-{curInfo.id})";
     }
 }

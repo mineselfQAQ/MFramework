@@ -1,4 +1,6 @@
 using MFramework;
+using MFramework.DLC;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +8,6 @@ using UnityEngine;
 public class DijkstraStrategy : PathFindingStrategyBase
 {
     private List<Grid> finalPath = new List<Grid>();
-    private HashSet<Grid> visited = new HashSet<Grid>();
 
     public DijkstraStrategy() : base() { }
 
@@ -19,17 +20,16 @@ public class DijkstraStrategy : PathFindingStrategyBase
     {
         //使用Clear替代重建，防止GC，而且路径一致情况下容量也是正好的
         finalPath.Clear();
-        visited.Clear();
         //finalPath = new List<Grid>();
         //visited = new HashSet<Grid>();
 
         IsFinish = false;
     }
-    public override void OnPathFind()
+    public override void OnPathFind(Action onFinish)
     {
-        MCoroutineManager.Instance.StartCoroutine(BFS(), "PathFinding");
+        MCoroutineManager.Instance.StartCoroutine(BFS(onFinish), "PathFinding");
     }
-    private IEnumerator BFS()
+    private IEnumerator BFS(Action onFinish)
     {
         yield return new WaitForSeconds(1);
 
@@ -38,13 +38,14 @@ public class DijkstraStrategy : PathFindingStrategyBase
         for (int i = 0; i < finalPath.Count; i++)
         {
             yield return new WaitForSeconds(m_waitTime);
-            m_tilemap.SetTile(finalPath[i].posInternal, PathFindingInfo.Instance.FinalTile);
+            PathFindingUtility.SetAnyFinal(m_tilemap, finalPath[i]);
         }
+        onFinish?.Invoke();
     }
     private IEnumerator BFSTraverse(Grid grid)
     {
-        Queue<Grid> queue = new Queue<Grid>();
-        queue.Enqueue(grid);
+        MPriorityQueue<Grid, int> queue = new MPriorityQueue<Grid, int>();
+        queue.Enqueue(grid, 0);
 
         while (queue.Count > 0)
         {
@@ -71,10 +72,7 @@ public class DijkstraStrategy : PathFindingStrategyBase
                 break;
             }
 
-            if (curGrid.type == GridType.Path)
-            {
-                m_tilemap.SetTile(curGrid.posInternal, PathFindingInfo.Instance.VisitedTile);
-            }
+            PathFindingUtility.SetVisited(m_tilemap, curGrid);
 
             //反向记录父节点
             var rightGrid = curGrid.GetGrid(1, 0);
@@ -87,14 +85,18 @@ public class DijkstraStrategy : PathFindingStrategyBase
             Enqueue(queue, curGrid, downGrid);
         }
     }
-    private void Enqueue(Queue<Grid> queue, Grid curGrid, Grid nextGrid)
+    private void Enqueue(MPriorityQueue<Grid, int> queue, Grid curGrid, Grid nextGrid)
     {
-        if (nextGrid != null && !visited.Contains(nextGrid))
+        if (nextGrid != null)
         {
-            visited.Add(nextGrid);//提前加入
-
-            nextGrid.ParentGrid = curGrid;
-            queue.Enqueue(nextGrid);
+            //根据消耗决定是否更新(越短的路径越先进行)
+            int newCost = curGrid.totalCost + nextGrid.cost;
+            if (nextGrid.totalCost == 0 || newCost < nextGrid.totalCost)
+            {
+                nextGrid.ParentGrid = curGrid;
+                nextGrid.totalCost = newCost;
+                queue.Enqueue(nextGrid, newCost);
+            }
         }
     }
 }

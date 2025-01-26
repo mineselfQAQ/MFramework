@@ -1,4 +1,5 @@
 using MFramework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,12 +30,12 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         IsFinish = false;
     }
 
-    public override void OnPathFind()
+    public override void OnPathFind(Action onFinish)
     {
-        MCoroutineManager.Instance.StartCoroutine(DFS(), "PathFinding");
+        MCoroutineManager.Instance.StartCoroutine(DFS(onFinish), "PathFinding");
     }
 
-    private IEnumerator DFS()
+    private IEnumerator DFS(Action onFinish)
     {
         yield return new WaitForSeconds(1);
         
@@ -43,40 +44,38 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         for (int i = 1; i < finalPath.Count; i++)
         {
             yield return new WaitForSeconds(m_waitTime);
-            m_tilemap.SetTile(finalPath[i].posInternal, PathFindingInfo.Instance.FinalTile);
+            PathFindingUtility.SetAnyFinal(m_tilemap, finalPath[i]);
         }
+        onFinish?.Invoke();
     }
-    private IEnumerator DFSTraverse(Grid grid, Grid parentGrid)
+    private IEnumerator DFSTraverse(Grid curGrid, Grid parentGrid)
     {
         if (IsFinish) yield break;//已完成就回退
         yield return new WaitForSeconds(m_waitTime);
 
-        if (grid == null) yield break;//未获取到grid，即撞墙或出界了
+        if (curGrid == null) yield break;//未获取到grid，即撞墙或出界了
         //Parent不需要额外判断，因为visited已经记录了
         //if (parentGrid != null && parentGrid.ParentGrid == grid) yield break;//回头了，不应该进行
-        if (visited.Contains(grid)) yield break;
+        if (visited.Contains(curGrid)) yield break;
 
         //完成条件
-        if (grid.Pos == m_endGrid.Pos)
+        if (curGrid.Pos == m_endGrid.Pos)
         {
             IsFinish = true;
             finalPath = new List<Grid>(path);//复制存储
             yield break;
         }
 
-        grid.ParentGrid = parentGrid;
-        path.Add(grid);
-        visited.Add(grid);
-        if (grid.type == GridType.Path)
-        {
-            m_tilemap.SetTile(grid.posInternal, PathFindingInfo.Instance.VisitedTile);
-        }
+        curGrid.ParentGrid = parentGrid;
+        path.Add(curGrid);
+        visited.Add(curGrid);
+        PathFindingUtility.SetVisited(m_tilemap, curGrid);
 
-        yield return DFSTraverse(grid.GetGrid(1, 0), grid);
-        yield return DFSTraverse(grid.GetGrid(0, 1), grid);
-        yield return DFSTraverse(grid.GetGrid(-1, 0), grid);
-        yield return DFSTraverse(grid.GetGrid(0, -1), grid);
+        yield return DFSTraverse(curGrid.GetGrid(1, 0), curGrid);
+        yield return DFSTraverse(curGrid.GetGrid(0, 1), curGrid);
+        yield return DFSTraverse(curGrid.GetGrid(-1, 0), curGrid);
+        yield return DFSTraverse(curGrid.GetGrid(0, -1), curGrid);
 
-        path.Remove(grid);
+        path.Remove(curGrid);
     }
 }

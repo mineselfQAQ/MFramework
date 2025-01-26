@@ -1,4 +1,5 @@
 using MFramework;
+using System;
 using UnityEngine.Tilemaps;
 
 public abstract class PathFindingStrategyBase : IPathFindingStrategy
@@ -26,13 +27,13 @@ public abstract class PathFindingStrategyBase : IPathFindingStrategy
         m_endGrid = null;
     }
 
-    public void FindPath(Tilemap tilemap, Grid startGrid, Grid endGrid)
+    public void FindPath(Tilemap tilemap, Grid startGrid, Grid endGrid, Action onFinish)
     {
         m_tilemap = tilemap;
         m_startGrid = startGrid;
         m_endGrid = endGrid;
 
-        OnPathFind();
+        OnPathFind(onFinish);
     }
 
     /// <summary>
@@ -43,6 +44,6 @@ public abstract class PathFindingStrategyBase : IPathFindingStrategy
     /// <summary>
     /// Ѱ·(A*/BFS/DFS/...)
     /// </summary>
-    public abstract void OnPathFind();
+    public abstract void OnPathFind(Action onFinish);
 
 }
