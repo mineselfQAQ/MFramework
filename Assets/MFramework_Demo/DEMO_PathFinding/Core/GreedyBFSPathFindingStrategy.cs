@@ -59,23 +59,24 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
             //if (visited.Contains(curGrid)) continue;//已判断，无需再次操作
             //if (curGrid == null) continue;//已判断，无需再次操作
 
+            PathFindingUtility.SetVisited(m_tilemap, curGrid);
+
             if (curGrid.Pos == m_endGrid.Pos)
             {
                 //反向寻找路径
-                Grid tempGrid = curGrid.ParentGrid;
+                Grid tempGrid = curGrid;
                 while (tempGrid.Pos != m_startGrid.Pos)
                 {
                     finalPath.Add(tempGrid);
                     tempGrid = tempGrid.ParentGrid;
                 }
+                finalPath.Add(tempGrid);
                 finalPath.Reverse();
 
                 IsFinish = true;
 
                 break;
             }
-
-            PathFindingUtility.SetVisited(m_tilemap, curGrid);
 
             //反向记录父节点
             var rightGrid = curGrid.GetGrid(1, 0);

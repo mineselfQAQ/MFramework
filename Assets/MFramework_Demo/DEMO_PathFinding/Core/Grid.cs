@@ -7,6 +7,14 @@ public enum GridType
     Barrier,//阻挡物(缓慢通过，消耗-3)
     Obstacle,//障碍物(不可通过)
 }
+public enum MarkType
+{
+    Error,
+
+    Start,
+    End,
+    Null,//没有标记，即空
+}
 
 public class Grid
 {

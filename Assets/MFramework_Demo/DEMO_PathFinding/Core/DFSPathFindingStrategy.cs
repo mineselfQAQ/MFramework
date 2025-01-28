@@ -41,7 +41,7 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         
         yield return MCoroutineManager.Instance.StartCoroutine(DFSTraverse(m_startGrid, null), "PathFindingInternal");
 
-        for (int i = 1; i < finalPath.Count; i++)
+        for (int i = 0; i < finalPath.Count; i++)
         {
             yield return new WaitForSeconds(m_waitTime);
             PathFindingUtility.SetAnyFinal(m_tilemap, finalPath[i]);
@@ -58,6 +58,11 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
         //if (parentGrid != null && parentGrid.ParentGrid == grid) yield break;//回头了，不应该进行
         if (visited.Contains(curGrid)) yield break;
 
+        curGrid.ParentGrid = parentGrid;
+        path.Add(curGrid);
+        visited.Add(curGrid);
+        PathFindingUtility.SetVisited(m_tilemap, curGrid);
+
         //完成条件
         if (curGrid.Pos == m_endGrid.Pos)
         {
@@ -65,11 +70,6 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
             finalPath = new List<Grid>(path);//复制存储
             yield break;
         }
-
-        curGrid.ParentGrid = parentGrid;
-        path.Add(curGrid);
-        visited.Add(curGrid);
-        PathFindingUtility.SetVisited(m_tilemap, curGrid);
 
         yield return DFSTraverse(curGrid.GetGrid(1, 0), curGrid);
         yield return DFSTraverse(curGrid.GetGrid(0, 1), curGrid);

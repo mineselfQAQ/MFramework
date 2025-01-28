@@ -25,4 +25,45 @@ public static class PathFindingUtility
     {
         tilemap.SetTile(grid.posInternal, PathFindingInfo.Instance.FinalTile);
     }
+
+    public static void SetStart(Tilemap tilemap, Vector3Int pos)
+    {
+        tilemap.SetTile(pos, PathFindingInfo.Instance.StartMark);
+    }
+    public static void SetEnd(Tilemap tilemap, Vector3Int pos)
+    {
+        tilemap.SetTile(pos, PathFindingInfo.Instance.EndMark);
+    }
+    public static void SetNull(Tilemap tilemap, Vector3Int pos)
+    {
+        tilemap.SetTile(pos, null);
+    }
+    public static MarkType SetStartEndMark(Tilemap tilemap, Vector3Int pos, Map curMap)
+    {
+        Vector3Int mapPos = pos - curMap.tilemap.origin;
+        if(mapPos.x < 0 || mapPos.y < 0 || mapPos.x >= curMap.tilemap.size.x || mapPos.y >= curMap.tilemap.size.y)
+            return MarkType.Error;//³ö½ç
+
+        Tile tile = tilemap.GetTile<Tile>(pos);
+
+        //Start->End->Null->Start->...
+        if (tile == null)
+        {
+            SetStart(tilemap, pos);
+            return MarkType.Start;
+        }
+        string name = tile.name;
+        if (name == PathFindingInfo.startGridName)
+        {
+            SetEnd(tilemap, pos);
+            return MarkType.End;
+        }
+        else if (name == PathFindingInfo.endGridName)
+        {
+            SetNull(tilemap, pos);
+            return MarkType.Null;
+        }
+
+        return MarkType.Error;
+    }
 }

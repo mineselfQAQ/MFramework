@@ -1,32 +1,30 @@
+using MFramework.DLC;
 using MFramework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class BFSPathFindingStrategy : PathFindingStrategyBase
+public class AStarPathFindingStrategy : PathFindingStrategyBase
 {
     private List<Grid> finalPath = new List<Grid>();
-    private HashSet<Grid> visited = new HashSet<Grid>();
 
-    public BFSPathFindingStrategy() : base() { }
+    public AStarPathFindingStrategy() : base() { }
 
     public override string ToString()
     {
-        return "BFS";
+        return "AStar";
     }
 
     public override void OnReset()
     {
         //使用Clear替代重建，防止GC，而且路径一致情况下容量也是正好的
         finalPath.Clear();
-        visited.Clear();
         //finalPath = new List<Grid>();
         //visited = new HashSet<Grid>();
 
         IsFinish = false;
     }
-
     public override void OnPathFind(Action onFinish)
     {
         MCoroutineManager.Instance.StartCoroutine(BFS(onFinish), "PathFinding");
@@ -46,8 +44,8 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
     }
     private IEnumerator BFSTraverse(Grid grid)
     {
-        Queue<Grid> queue = new Queue<Grid>();
-        queue.Enqueue(grid);
+        MPriorityQueue<Grid, int> queue = new MPriorityQueue<Grid, int>();
+        queue.Enqueue(grid, 0);
 
         while (queue.Count > 0)
         {
@@ -69,7 +67,7 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
                     finalPath.Add(tempGrid);
                     tempGrid = tempGrid.ParentGrid;
                 }
-                finalPath.Add(tempGrid);//添加StartGrid
+                finalPath.Add(tempGrid);
                 finalPath.Reverse();
 
                 IsFinish = true;
@@ -88,14 +86,27 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
             Enqueue(queue, curGrid, downGrid);
         }
     }
-    private void Enqueue(Queue<Grid> queue, Grid curGrid, Grid nextGrid)
+    private void Enqueue(MPriorityQueue<Grid, int> queue, Grid curGrid, Grid nextGrid)
     {
-        if (nextGrid != null && !visited.Contains(nextGrid))
+        if (nextGrid != null)
         {
-            visited.Add(nextGrid);//提前加入
-
-            nextGrid.ParentGrid = curGrid;
-            queue.Enqueue(nextGrid);
+            //根据消耗决定是否更新(越短的路径越先进行)
+            int newCost = curGrid.totalCost + nextGrid.cost;
+            if (nextGrid.totalCost == 0 || newCost < nextGrid.totalCost)
+            {
+                nextGrid.ParentGrid = curGrid;
+                nextGrid.totalCost = newCost;
+                queue.Enqueue(nextGrid, newCost + Heuristic(nextGrid.Pos));
+            }
         }
+    }
+    private int Heuristic(Vector2Int posA, Vector2Int posB)
+    {
+        return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
+    }
+    private int Heuristic(Vector2Int posA)
+    {
+        Vector2Int posB = m_endGrid.Pos;
+        return Heuristic(posA, posB);
     }
 }

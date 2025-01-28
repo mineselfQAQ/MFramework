@@ -198,7 +198,7 @@ namespace XLua
 #endif
         }
 
-        [Obsolete("use no boxing version: GetInPath/SetInPath Get/Set instead!")]
+        [Obsolete("use no boxing version: GetInPath/SetInPath Get/SetStartEndMark instead!")]
         public object this[string field]
         {
             get
@@ -211,7 +211,7 @@ namespace XLua
             }
         }
 
-        [Obsolete("use no boxing version: GetInPath/SetInPath Get/Set instead!")]
+        [Obsolete("use no boxing version: GetInPath/SetInPath Get/SetStartEndMark instead!")]
         public object this[object field]
         {
             get
