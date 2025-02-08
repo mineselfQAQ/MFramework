@@ -1,6 +1,13 @@
 using MFramework;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+public enum PathDir
+{
+    Dir4,//上下左右
+    Dir8//上下左右+斜方向
+}
 
 public class PathFindingInfo : ComponentSingleton<PathFindingInfo>
 {
@@ -17,6 +24,9 @@ public class PathFindingInfo : ComponentSingleton<PathFindingInfo>
     public int Speed = 1;
     [Range(2, 10)]
     public int BarrierCost = 3;
+
+    [NonSerialized]
+    public PathDir dir = PathDir.Dir4; 
 
     public const string startGridName = "Start";
     public const string endGridName = "End";

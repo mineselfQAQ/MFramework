@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -31,6 +32,8 @@ public class Grid
 
     public int cost;//默认为1，在Dijkstra算法/A*算法中需要消耗
     public int totalCost = 0;//起点到Grid的消耗
+
+    public List<Grid> forceNeighbour = new List<Grid>();//JPS---强制邻居
 
     private Vector2Int pos;
     public Vector2Int Pos

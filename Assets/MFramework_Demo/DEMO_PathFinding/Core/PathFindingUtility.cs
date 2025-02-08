@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 
 public static class PathFindingUtility
 {
+    #region Tilemap贴图设置
     private static Dictionary<GridType, TileBase> SetVisitedMap;
 
     public static void SetVisited(Tilemap tilemap, Grid grid)
@@ -66,4 +67,15 @@ public static class PathFindingUtility
 
         return MarkType.Error;
     }
+    #endregion
+
+    #region 一般函数
+    /// <summary>
+    /// 启发式算法(两点间距离)
+    /// </summary>
+    public static int Heuristic(Vector2Int posA, Vector2Int posB)
+    {
+        return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
+    }
+    #endregion
 }

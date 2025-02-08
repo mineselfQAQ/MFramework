@@ -21,9 +21,12 @@ namespace MFramework.DLC
             elements.Add(Tuple.Create(item, priority));
         }
 
+        /// <summary>
+        /// 取最小
+        /// </summary>
         public TElement Dequeue()
         {
-            //优先队列，出堆的时候需要找到Priority最大的那个
+            //优先队列，出堆的时候需要找到Priority最小的那个
             Comparer<TPriority> comparer = Comparer<TPriority>.Default;
             int bestIndex = 0;
 

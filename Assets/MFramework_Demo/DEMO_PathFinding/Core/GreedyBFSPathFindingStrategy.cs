@@ -78,7 +78,13 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
                 break;
             }
 
-            //反向记录父节点
+            Enqueue(queue, curGrid);
+        }
+    }
+    private void Enqueue(MPriorityQueue<Grid, int> queue, Grid curGrid)
+    {
+        if (PathFindingInfo.Instance.dir == PathDir.Dir4)
+        {
             var rightGrid = curGrid.GetGrid(1, 0);
             var upGrid = curGrid.GetGrid(0, 1);
             var leftGrid = curGrid.GetGrid(-1, 0);
@@ -88,6 +94,25 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
             Enqueue(queue, curGrid, leftGrid);
             Enqueue(queue, curGrid, downGrid);
         }
+        else if (PathFindingInfo.Instance.dir == PathDir.Dir8)
+        {
+            var rightGrid = curGrid.GetGrid(1, 0);
+            var rightupGrid = curGrid.GetGrid(1, 1);
+            var upGrid = curGrid.GetGrid(0, 1);
+            var leftupGrid = curGrid.GetGrid(-1, 1);
+            var leftGrid = curGrid.GetGrid(-1, 0);
+            var leftdownGrid = curGrid.GetGrid(-1, -1);
+            var downGrid = curGrid.GetGrid(0, -1);
+            var rightdownGrid = curGrid.GetGrid(1, -1);
+            Enqueue(queue, curGrid, rightGrid);
+            Enqueue(queue, curGrid, rightupGrid);
+            Enqueue(queue, curGrid, upGrid);
+            Enqueue(queue, curGrid, leftupGrid);
+            Enqueue(queue, curGrid, leftGrid);
+            Enqueue(queue, curGrid, leftdownGrid);
+            Enqueue(queue, curGrid, downGrid);
+            Enqueue(queue, curGrid, rightdownGrid);
+        }
     }
     private void Enqueue(MPriorityQueue<Grid, int> queue, Grid curGrid, Grid nextGrid)
     {
@@ -95,19 +120,10 @@ public class GreedyBFSPathFindingStrategy : PathFindingStrategyBase
         {
             visited.Add(nextGrid);//提前加入
 
-            int priority = Heuristic(nextGrid.Pos);
+            int priority = PathFindingUtility.Heuristic(nextGrid.Pos, m_endGrid.Pos);
 
-            nextGrid.ParentGrid = curGrid;
+            nextGrid.ParentGrid = curGrid;//反向记录父节点
             queue.Enqueue(nextGrid, priority);
         }
-    }
-    private int Heuristic(Vector2Int posA, Vector2Int posB)
-    {
-        return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
-    }
-    private int Heuristic(Vector2Int posA)
-    {
-        Vector2Int posB = m_endGrid.Pos;
-        return Heuristic(posA, posB);
     }
 }

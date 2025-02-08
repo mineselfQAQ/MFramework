@@ -71,10 +71,24 @@ public class DFSPathFindingStrategy : PathFindingStrategyBase
             yield break;
         }
 
-        yield return DFSTraverse(curGrid.GetGrid(1, 0), curGrid);
-        yield return DFSTraverse(curGrid.GetGrid(0, 1), curGrid);
-        yield return DFSTraverse(curGrid.GetGrid(-1, 0), curGrid);
-        yield return DFSTraverse(curGrid.GetGrid(0, -1), curGrid);
+        if (PathFindingInfo.Instance.dir == PathDir.Dir4)
+        {
+            yield return DFSTraverse(curGrid.GetGrid(1, 0), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(0, 1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(-1, 0), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(0, -1), curGrid);
+        }
+        else if (PathFindingInfo.Instance.dir == PathDir.Dir8)
+        {
+            yield return DFSTraverse(curGrid.GetGrid(1, 0), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(1, 1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(0, 1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(-1, 1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(-1, 0), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(-1, -1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(0, -1), curGrid);
+            yield return DFSTraverse(curGrid.GetGrid(1, -1), curGrid);
+        }
 
         path.Remove(curGrid);
     }

@@ -21,15 +21,16 @@ public class DEMO_PathFinding : MonoBehaviour
     private Dictionary<Vector3Int, Tuple<Vector3, MarkType>> markTypeDic 
         = new Dictionary<Vector3Int, Tuple<Vector3, MarkType>>();
 
-    public PathFindingSystem pathFindingSystem;
-    public IPathFindingStrategy DFSStrategy;
-    public IPathFindingStrategy BFSStrategy;
-    public IPathFindingStrategy GreedyStrategy;
-    public IPathFindingStrategy DijkstraStrategy;
-    public IPathFindingStrategy AStarStrategy;
+    private PathFindingSystem pathFindingSystem;
+    private IPathFindingStrategy DFSStrategy;
+    private IPathFindingStrategy BFSStrategy;
+    private IPathFindingStrategy GreedyStrategy;
+    private IPathFindingStrategy DijkstraStrategy;
+    private IPathFindingStrategy AStarStrategy;
 
     private Dictionary<KeyCode, Action> strategyMap;
     private Dictionary<KeyCode, int> tileMapMap;
+    private KeyCode directionKey;
     private Dictionary<GridType, int> gridTypeCostMap;
 
     private void Awake()
@@ -62,6 +63,7 @@ public class DEMO_PathFinding : MonoBehaviour
             { GridType.Obstacle, -1 },
             { GridType.Barrier, PathFindingInfo.Instance.BarrierCost },
         };
+        directionKey = KeyCode.Z;
 
         //**注意**
         //如果进行过擦除Tile操作，这不会自动重计算Bound，需要：
@@ -192,6 +194,12 @@ public class DEMO_PathFinding : MonoBehaviour
                 ChangeTilemap(pair.Value);
             }
         }
+
+        if (Input.GetKeyDown(directionKey) && pathFindingSystem.IsFinish)
+        {
+            ChangeDirection();
+            RefreshText();
+        }
     }
 
     private void GetStartEndWorldPos(out Vector3Int startPos, out Vector3Int endPos)
@@ -258,10 +266,21 @@ public class DEMO_PathFinding : MonoBehaviour
         }
         ResetColor(preMap);//无论如何，切换一定进行一次刷新
     }
+    private void ChangeDirection()
+    {
+        if (PathFindingInfo.Instance.dir == PathDir.Dir4)
+        {
+            PathFindingInfo.Instance.dir = PathDir.Dir8;
+        }
+        else if (PathFindingInfo.Instance.dir == PathDir.Dir8)
+        {
+            PathFindingInfo.Instance.dir = PathDir.Dir4;
+        }
+    }
 
     private void RefreshText()
     {
-        text.text = $"Current:{pathFindingSystem.Strategy}(ID-{curMap.id})";
+        text.text = $"Current:{pathFindingSystem.Strategy}(ID-{curMap.id}|{PathFindingInfo.Instance.dir})";
     }
 
     private void RefreshMarkType()

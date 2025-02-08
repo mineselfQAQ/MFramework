@@ -77,7 +77,13 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
                 break;
             }
 
-            //反向记录父节点
+            Enqueue(queue, curGrid);
+        }
+    }
+    private void Enqueue(Queue<Grid> queue, Grid curGrid)
+    {
+        if (PathFindingInfo.Instance.dir == PathDir.Dir4)
+        {
             var rightGrid = curGrid.GetGrid(1, 0);
             var upGrid = curGrid.GetGrid(0, 1);
             var leftGrid = curGrid.GetGrid(-1, 0);
@@ -87,6 +93,25 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
             Enqueue(queue, curGrid, leftGrid);
             Enqueue(queue, curGrid, downGrid);
         }
+        else if (PathFindingInfo.Instance.dir == PathDir.Dir8)
+        {
+            var rightGrid = curGrid.GetGrid(1, 0);
+            var rightupGrid = curGrid.GetGrid(1, 1);
+            var upGrid = curGrid.GetGrid(0, 1);
+            var leftupGrid = curGrid.GetGrid(-1, 1);
+            var leftGrid = curGrid.GetGrid(-1, 0);
+            var leftdownGrid = curGrid.GetGrid(-1, -1);
+            var downGrid = curGrid.GetGrid(0, -1);
+            var rightdownGrid = curGrid.GetGrid(1, -1);
+            Enqueue(queue, curGrid, rightGrid);
+            Enqueue(queue, curGrid, rightupGrid);
+            Enqueue(queue, curGrid, upGrid);
+            Enqueue(queue, curGrid, leftupGrid);
+            Enqueue(queue, curGrid, leftGrid);
+            Enqueue(queue, curGrid, leftdownGrid);
+            Enqueue(queue, curGrid, downGrid);
+            Enqueue(queue, curGrid, rightdownGrid);
+        }
     }
     private void Enqueue(Queue<Grid> queue, Grid curGrid, Grid nextGrid)
     {
@@ -94,7 +119,7 @@ public class BFSPathFindingStrategy : PathFindingStrategyBase
         {
             visited.Add(nextGrid);//提前加入
 
-            nextGrid.ParentGrid = curGrid;
+            nextGrid.ParentGrid = curGrid;//反向记录父节点
             queue.Enqueue(nextGrid);
         }
     }
