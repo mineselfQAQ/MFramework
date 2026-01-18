@@ -101,3 +101,4 @@ InitTestScene*.unity*
 # MFramework Add
 *.txt
 *.svn
+*.idea
