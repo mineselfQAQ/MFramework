@@ -22,6 +22,8 @@ namespace MFramework.Core
     
     public class MTracker : IMTracker
     {
+        private readonly ILog _log = new InternalLog(nameof(MTracker));
+        
         private int _id;
         private string _name;
         private bool _isStarted;
@@ -73,7 +75,11 @@ namespace MFramework.Core
 
         public void Start()
         {
-            if (_isStarted) return;
+            if (_isStarted)
+            {
+                _log.W($"{_name}已经启动，无需再次启动");
+                return;
+            }
             
             StartTime = DateTime.Now;
             _isStarted = true;
@@ -89,12 +95,7 @@ namespace MFramework.Core
             _isCompleted = true;
                 
             _publisher?.Publish(new TrackerStoppedEvent(this));
-        }
-
-        public bool TryGetCollector(out ITrackerCollector collector)
-        {
-            collector = _collector;
-            return _collector != null;
+            _collector?.Collect(ToString());
         }
         
         public override string ToString()
@@ -147,10 +148,6 @@ namespace MFramework.Core
         public void Dispose()
         {
             _tracker.Stop();
-            if (_tracker.TryGetCollector(out var collector))
-            {
-                collector.Collect(_tracker.ToString());
-            }
         }
     }
 }

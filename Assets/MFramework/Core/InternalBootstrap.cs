@@ -18,7 +18,7 @@ namespace MFramework.Core
 
         private void DoStaticBootstrap()
         {
-            MLog.Bootstrap();
+            // MLog.Bootstrap();
         }
 
         private void DoRegister()

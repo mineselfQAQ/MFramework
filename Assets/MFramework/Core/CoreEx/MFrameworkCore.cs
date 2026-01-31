@@ -14,7 +14,7 @@ namespace MFramework.Core
         private readonly List<IShutdown> _shutdowns = new List<IShutdown>();
         private readonly List<IServiceProvider> _loadedServiceProviders = new List<IServiceProvider>();
 
-        private EventBus _eventBus = new EventBus();
+        private MEventBus _eventBus = new MEventBus();
 
         private readonly TrackerEventPublisher _trackerEventPublisher;
         private readonly TrackerCollector _trackerCollector = new TrackerCollector();
@@ -30,12 +30,12 @@ namespace MFramework.Core
         public MFrameworkCore()
         {
             // Tip：Running不设置事件，开始即OnInitialized，结束即OnShuttingDown
-            _eventBus.Register<TrackerStartedEvent>(OnBootstrapping);
-            _eventBus.Register<TrackerStoppedEvent>(OnBootstrapped);
-            _eventBus.Register<TrackerStartedEvent>(OnInitializing);
-            _eventBus.Register<TrackerStoppedEvent>(OnInitialized);
-            _eventBus.Register<TrackerStartedEvent>(OnShuttingDown);
-            _eventBus.Register<TrackerStoppedEvent>(OnShutDown);
+            _eventBus.RegisterSafe<TrackerStartedEvent>(OnBootstrapping);
+            _eventBus.RegisterSafe<TrackerStoppedEvent>(OnBootstrapped);
+            _eventBus.RegisterSafe<TrackerStartedEvent>(OnInitializing);
+            _eventBus.RegisterSafe<TrackerStoppedEvent>(OnInitialized);
+            _eventBus.RegisterSafe<TrackerStartedEvent>(OnShuttingDown);
+            _eventBus.RegisterSafe<TrackerStoppedEvent>(OnShutDown);
             
             _trackerEventPublisher = new TrackerEventPublisher(_eventBus);
         }
@@ -49,42 +49,42 @@ namespace MFramework.Core
         
         protected virtual void OnBootstrapping(TrackerStartedEvent e)
         {
-            if (e.Tracker.Name == "BOOTSTRAP")
+            if (e.Name == "BOOTSTRAP")
             {
                 _onBootstrapping?.Invoke(e);
             }
         }
         protected virtual void OnBootstrapped(TrackerStoppedEvent e)
         {
-            if (e.Tracker.Name == "BOOTSTRAP")
+            if (e.Name == "BOOTSTRAP")
             {
                 _onBootstrapped?.Invoke(e);
             }
         }
         protected virtual void OnInitializing(TrackerStartedEvent e)
         {
-            if (e.Tracker.Name == "INITIALIZE")
+            if (e.Name == "INITIALIZE")
             {
                 _onInitializing?.Invoke(e);
             }
         }
         protected virtual void OnInitialized(TrackerStoppedEvent e)
         {
-            if (e.Tracker.Name == "INITIALIZE")
+            if (e.Name == "INITIALIZE")
             {
                 _onInitialized?.Invoke(e);
             }
         }
         protected virtual void OnShuttingDown(TrackerStartedEvent e)
         {
-            if (e.Tracker.Name == "SHUTDOWN")
+            if (e.Name == "SHUTDOWN")
             {
                 _onShuttingDown?.Invoke(e);
             }
         }
         protected virtual void OnShutDown(TrackerStoppedEvent e)
         {
-            if (e.Tracker.Name == "SHUTDOWN")
+            if (e.Name == "SHUTDOWN")
             {
                 _onShutDown?.Invoke(e);
             }
@@ -164,6 +164,11 @@ namespace MFramework.Core
             if (shutdown == null) return;
             
             _shutdowns.Add(shutdown);
+        }
+
+        public string GetLog()
+        {
+            return _trackerCollector.GetLog();
         }
     }
 }

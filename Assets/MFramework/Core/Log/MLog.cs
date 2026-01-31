@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -12,17 +13,12 @@ namespace MFramework.Core
     /// </summary>
     public static class MLog
     {
-        public enum MLogLevel : byte
+        public enum LogFilter : byte
         {
             /// <summary>
-            /// 不记录
+            /// 记录：Error Warning Debug
             /// </summary>
-            Off,
-            
-            /// <summary>
-            /// 记录：Error
-            /// </summary>
-            Error,
+            Debug, // 默认值
             
             /// <summary>
             /// 记录：Error Warning
@@ -30,28 +26,53 @@ namespace MFramework.Core
             Warning,
             
             /// <summary>
-            /// 记录：Error Warning Debug
+            /// 记录：Error
             /// </summary>
+            Error,
+            
+            /// <summary>
+            /// 不记录
+            /// </summary>
+            Off,
+        }
+        
+        
+        public enum LogLevel : byte
+        {
+            Error, // 默认值
+            Warning,
             Debug,
         }
+        
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        internal const LogFilter BUILD_FILTER = LogFilter.Debug;
+#else
+        internal const LogFilter BUILD_FILTER = LogFilter.Off;
+#endif
 
         public static ILog Default;
+        private static ILog _selfLog;
         
-        private static MLogLevel? _logLevel;
+        private static readonly Dictionary<string, UserLog> _ULogDic = new Dictionary<string, UserLog>();
+        
+        private static LogFilter _logFilter;
         
         private static FileStream _stream;
         private static StreamWriter _writer;
         
-        private static bool _isInitialized;
         private static LogType? _lastLogType;
         
         private const string FILE_NAME = "log.txt";
         
         public static void Bootstrap()
         {
-            _logLevel ??= MLogLevel.Debug; // 默认全开
             Default = new UserLog("Default");
+            _selfLog = new InternalLog(nameof(MLog));
             
+            _selfLog.D("Log模块：开启");
+            
+#if !UNITY_EDITOR
+            // TODO：这里的文件读写需要改进吗？
             string path = GetRootPath();
             _stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             _writer = new StreamWriter(_stream, Encoding.UTF8);
@@ -60,34 +81,57 @@ namespace MFramework.Core
             _writer.WriteLine("==================================");
             
             // 日志回调
-#if UNITY_EDITOR
             Application.logMessageReceived += OnLogCallBack;
 #endif
         }
 
-        public static void Shutdown()
+        public static void Shutdown(MFrameworkCore core)
         {
             // 日志回调
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             Application.logMessageReceived -= OnLogCallBack;
-#endif
-            // TODO：如何在Exception报错时输出这段
             _writer.WriteLine("==================================");
             _writer.WriteLine($"===日志结束[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]===");
             _writer.WriteLine("==================================");
+            string log = core.GetLog();
+            _writer.WriteLine(core.GetLog());
+            _selfLog.D($"程序退出  {typeof(TrackerCollector)}统计情况：\n{log}");
             _writer.Flush();
             _writer.Close();
             _writer = null;
             _stream = null;
+#endif
         }
         
-        /// <summary>
-        /// 设置默认Log等级(如果不传Log等级则会使用)
-        /// <para>如需调用，请在OnBootstrapping事件调用</para>
-        /// </summary>
-        public static void SetDefaultLogLevel(MLogLevel logLevel) => _logLevel = logLevel;
+        public static UserLog Create<T>()
+        {
+            string name = typeof(T).FullName;
+            return GetOrCreateULog(name);
+        }
+        
+        public static UserLog Create<T>(LogFilter filter)
+        {
+            string name = typeof(T).FullName;
+            return GetOrCreateULog(name, filter);
+        }
+        
+        private static UserLog GetOrCreateULog(string name, LogFilter? filter = null)
+        {
+            if (_ULogDic.TryGetValue(name, out UserLog log))
+            {
+                return log;
+            }
 
-        public static MLogLevel? GetDefaultLogLevel() => _logLevel;
+            if (filter == null) _ULogDic.Add(name, new UserLog(name));
+            else _ULogDic.Add(name, new UserLog(name, filter.Value));
+            
+            return _ULogDic[name];
+        }
+
+        // 仅应该调用一次
+        internal static void SetDefaultLogFilter(LogFilter logFilter) => _logFilter = logFilter;
+
+        public static LogFilter GetDefaultLogFilter() => _logFilter;
 
         private static void OnLogCallBack(string logString, string stackTrace, LogType type)
         {
@@ -101,11 +145,12 @@ namespace MFramework.Core
             if (isError && !lastIsError) _writer.WriteLine();
             if (type == LogType.Exception)
             {
-                // 报错用Unity流程
+                // Exception用Unity流程(自己throw/UnityAPI)
                 _writer.WriteLine($"[{time}] {logString}\n{stackTrace.TrimEnd()}");
             }
             else
             {
+                // ScriptOnly无法获取到stackTrace，所以实现在logString中
                 _writer.WriteLine($"[{time}] {logString}");
             }
             if (isError) _writer.WriteLine();

@@ -5,31 +5,38 @@ namespace MFramework.Core
 {
     public interface ITrackerEvent : IEvent
     {
-        MTracker Tracker { get; }
-        DateTime EventTime { get; }
+        string Name { get; }
     }
     
     public class TrackerStartedEvent : ITrackerEvent
     {
-        public MTracker Tracker { get; }
-        public DateTime EventTime { get; }
+        public string Name { get; }
+        
+        public DateTime StartTime { get; }
         
         public TrackerStartedEvent(MTracker tracker)
         {
-            Tracker = tracker;
-            EventTime = DateTime.Now;
+            Name = tracker.Name;
+            StartTime = tracker.StartTime;
         }
     }
 
     public class TrackerStoppedEvent : ITrackerEvent
     {
-        public MTracker Tracker { get; }
-        public DateTime EventTime { get; }
+        public string Name { get; }
         
+        public DateTime StartTime { get; }
+        
+        public DateTime EndTime { get; }
+        
+        public TimeSpan Duration { get; }
+            
         public TrackerStoppedEvent(MTracker tracker)
         {
-            Tracker = tracker;
-            EventTime = DateTime.Now;
+            Name = tracker.Name;
+            StartTime = tracker.StartTime;
+            EndTime = tracker.EndTime;
+            Duration = tracker.Duration;
         }
     }
 }

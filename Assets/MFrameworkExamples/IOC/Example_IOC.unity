@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 674593365}
   - component: {fileID: 674593366}
   m_Layer: 0
-  m_Name: MEntry
+  m_Name: MCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

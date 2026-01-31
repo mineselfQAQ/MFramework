@@ -9,8 +9,8 @@ namespace MFramework.Core
     {
         public UserLog(string name) : base(name) { }
         
-        public UserLog(string name, MLog.MLogLevel logLevel) : base(name, logLevel) { }
+        public UserLog(string name, MLog.LogFilter logFilter) : base(name, logFilter) { }
 
-        protected override string SrcName => "User";
+        protected override string SrcName => "U";
     }
 }

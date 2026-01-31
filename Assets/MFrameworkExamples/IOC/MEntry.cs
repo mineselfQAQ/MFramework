@@ -52,15 +52,5 @@ namespace MFrameworkExamples.IOC
                 MLog.Default.D($"B：{S}");
             }
         }
-        
-        protected override IBootstrap GetUserBootstrap()
-        {
-            return null;
-        }
-
-        protected override IShutdown GetUserShutDown()
-        {
-            return null;
-        }
     }
 }

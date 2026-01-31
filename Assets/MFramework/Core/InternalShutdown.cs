@@ -4,7 +4,7 @@ namespace MFramework.Core
     {
         public void Shutdown()
         {
-            MLog.Shutdown();
+            // MLog.Shutdown();
         }
     }
 }

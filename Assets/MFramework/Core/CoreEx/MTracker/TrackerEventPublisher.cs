@@ -4,7 +4,7 @@ namespace MFramework.Core
 {
     public interface ITrackerEventPublisher
     {
-        EventBus EventBus { get; }
+        MEventBus EventBus { get; }
         void Publish<T>(T trackerEvent) where T : ITrackerEvent;
     }
 
@@ -13,9 +13,9 @@ namespace MFramework.Core
     /// </summary>
     public class TrackerEventPublisher : ITrackerEventPublisher
     {
-        public EventBus EventBus { get; }
+        public MEventBus EventBus { get; }
 
-        public TrackerEventPublisher(EventBus eventBus)
+        public TrackerEventPublisher(MEventBus eventBus)
         {
             EventBus = eventBus;
         }
