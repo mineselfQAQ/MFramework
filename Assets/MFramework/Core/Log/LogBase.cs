@@ -110,7 +110,7 @@ namespace MFramework.Core
             }
             else
             {
-                Debug.LogError($"{info} {message}\n未获取到堆栈信息.");
+                Debug.LogError($"{info} {message}");
             }
         }
 

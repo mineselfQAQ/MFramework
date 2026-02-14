@@ -20,8 +20,8 @@ namespace MFrameworkExamples.Log
             _log.D("Debug");
             _log.W("Warning");
             _log.E("Error");
-            _log.EX(LogException.NullReference);
-            _log.EX(LogException.NullReference, MLog.LogLevel.Error); // 修改报错等级
+            _log.EX(LogException.NullArgument);
+            _log.EX(LogException.NullArgument, MLog.LogLevel.Error); // 修改报错等级
         }
     }
 }

@@ -1,51 +1,33 @@
 using System;
 using MFramework.Core;
 using MFramework.Core.Event;
-using UnityEngine;
 
 namespace MFrameworkExamples.Event
 {
     public class TestEvent : IEvent
     {
-        
-    }
+        private string _message;
+        public string Message => _message;
 
-    public class TestEventArgs : EventArgs
-    {
-        
+        public TestEvent(string message)
+        {
+            _message = message;
+        }
     }
     
     public class MEntry : MEntryBase
     {
+        private MEventBus _eventBus = new MEventBus();
+        
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
-            MEventBus eventBus = new MEventBus();
+            // IEvent版
+            _eventBus.RegisterSafe<TestEvent>((e) => throw new Exception(e.Message));
+            _eventBus.Publish(new TestEvent("IEvent版错误"));
             
-            // ---IEvent版---
-            eventBus.RegisterSafe<TestEvent>((e) =>
-            {
-                throw new Exception("ERROR");
-            });
-            eventBus.RegisterSafe<TestEvent>(Test1);
-            eventBus.RegisterSafe<TestEvent>(MEntry.Test2);
-            
-            eventBus.Publish(new TestEvent());
-            // ---IEvent版---
-            
-            // ---一般版---
-            eventBus.RegisterSafe("TestEvent", () => throw new Exception("ERROR"));
-            eventBus.Publish("TestEvent");
-            // ---一般版---
-        }
-
-        private void Test1(TestEvent e)
-        {
-            throw new Exception("ERROR");
-        }
-        
-        private static void Test2(TestEvent e)
-        {
-            throw new Exception("ERROR");
+            // Name版
+            _eventBus.RegisterSafe("EventByName", () => throw new Exception("Name版错误"));
+            _eventBus.Publish("EventByName");
         }
     }
 }

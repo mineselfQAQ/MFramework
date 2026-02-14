@@ -10,8 +10,8 @@ namespace MFramework.Core
     {
         void RegisterTransient<T>(T instance);
         void RegisterTransient<T>(Func<T> factory);
-        void RegisterInstance<T>(T instance);
-        void RegisterInstance<T>(Func<T> factory);
+        void RegisterSingleton<T>(T instance);
+        void RegisterSingleton<T>(Func<T> factory);
     }
     
     public interface ISLContainerProvider

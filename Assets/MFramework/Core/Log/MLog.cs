@@ -47,7 +47,7 @@ namespace MFramework.Core
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         internal const LogFilter BUILD_FILTER = LogFilter.Debug;
 #else
-        internal const LogFilter BUILD_FILTER = LogFilter.Off;
+        internal const LogFilter BUILD_FILTER = LogFilter.Error;
 #endif
 
         public static ILog Default;

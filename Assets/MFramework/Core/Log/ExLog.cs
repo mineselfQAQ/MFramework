@@ -7,9 +7,9 @@ namespace MFramework.Core
 {
     public enum LogException
     {
-        // 常见Ex
-        [ExLog(LogLevel.Warning, "发生空引用")]
-        NullReference,
+        // ===常见Ex===
+        [ExLog(LogLevel.Warning, "参数为空")]
+        NullArgument,
         
         [ExLog(LogLevel.Error, "参数不合法")]
         InvalidArgument,
@@ -22,6 +22,7 @@ namespace MFramework.Core
         
         [ExLog(LogLevel.Error, "功能尚未实现")]
         NotImplemented,
+        // ===常见Ex===
     }
 
     [AttributeUsage(AttributeTargets.Field)]
