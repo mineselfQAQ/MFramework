@@ -22,7 +22,7 @@ namespace MFramework.Core
         
         public static MDIContainer CreateDI()
         {
-            return null; // TODO：待实现
+            return new MDIContainer();
         }
     }
 }

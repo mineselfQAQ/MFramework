@@ -1,12 +1,12 @@
 using MFramework.Core;
 
-namespace MFrameworkExamples.IOC
+namespace MFrameworkExamples.IOC.SL
 {
     public class MEntry : MEntryBase
     {
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
-            MSLContainer container = MIOCContainer.Default;
+            var container = MIOCContainer.CreateSL();
             
             // 因为是延迟执行，顺序无关，只要保证先注册所有后再解析即可
             container.RegisterTransient<C>(() => new C(container.Resolve<A>()));

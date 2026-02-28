@@ -31,6 +31,9 @@ namespace MFramework.Core
 
         public override string ToString() => _name;
 
+        /// <summary>
+        /// 提示
+        /// </summary>
         public void D(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,
@@ -39,6 +42,9 @@ namespace MFramework.Core
             DInternal(message, CallerLocation.From(file, line, member));
         }
         
+        /// <summary>
+        /// 错误
+        /// </summary>
         public void W(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,
@@ -47,6 +53,9 @@ namespace MFramework.Core
             WInternal(message, CallerLocation.From(file, line, member));
         }
         
+        /// <summary>
+        /// 严重错误
+        /// </summary>
         public void E(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,

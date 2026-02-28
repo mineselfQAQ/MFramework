@@ -14,7 +14,7 @@ namespace MFramework.Core
             Transient, // 瞬态
         }
         
-        private static ILog _log = new InternalLog(nameof(MSLContainer));
+        private static readonly ILog _log = new InternalLog(nameof(MSLContainer));
         
         private readonly Dictionary<Type, object> _factoryDic = new Dictionary<Type, object>(); // Key-Type Value-IFactory<T>
         
