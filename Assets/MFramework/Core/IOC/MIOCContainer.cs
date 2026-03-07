@@ -11,7 +11,7 @@ namespace MFramework.Core
             DI, // 依赖反转 Dependency Injection
         }
         
-        public static MSLContainer Default = CreateSL(); // TODO：DI实现后改为DI
+        public static MDIContainer Default = CreateDI(); // TODO：DI实现后改为DI
 
         private readonly Dictionary<string, MSLContainer> _slContainers = new Dictionary<string, MSLContainer>();
         

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MFramework.Core.Internal;
 
@@ -5,6 +6,11 @@ namespace MFramework.Core
 {
     public interface ILog
     {
+        // 原则：
+        // 输出提示使用D()
+        // 业务错误使用W()/E()
+        // EX()只是一种便捷包装
+        
         void D(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,

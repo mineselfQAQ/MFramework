@@ -1,3 +1,7 @@
+using MFramework.Core.Event;
+using MFramework.Core.Internal;
+using UnityEngine;
+
 namespace MFramework.Core
 {
     /// <summary>
@@ -10,9 +14,8 @@ namespace MFramework.Core
     {
         public InternalLog(string name) : base(name) { }
         
-        // TODO：特例，不清楚会不会出现无论用户怎么设置都一定需要输出的情况
         public InternalLog(string name, MLog.LogFilter logFilter) : base(name, logFilter) { }
 
-        protected override string SrcName => "I";
+        protected override string SrcName => Consts.InternalName;
     }
 }

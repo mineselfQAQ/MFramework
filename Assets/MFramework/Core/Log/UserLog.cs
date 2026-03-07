@@ -1,4 +1,5 @@
 using System;
+using MFramework.Core.Internal;
 
 namespace MFramework.Core
 {
@@ -11,6 +12,6 @@ namespace MFramework.Core
         
         public UserLog(string name, MLog.LogFilter logFilter) : base(name, logFilter) { }
 
-        protected override string SrcName => "U";
+        protected override string SrcName => Consts.UserName;
     }
 }

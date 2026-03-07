@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
+using MFramework.Core.Event;
 
 namespace MFramework.Core
 {
@@ -28,13 +29,14 @@ namespace MFramework.Core
 
     public class Key
     {
-        private readonly Type _sourceType;
-        [CanBeNull] private readonly string _name;
+        internal Type SourceType { get; }
+        
+        [CanBeNull] internal string Name { get; }
 
         public Key(Type sourceType, string name)
         {
-            _sourceType = sourceType;
-            _name = name;
+            SourceType = sourceType;
+            Name = name;
         }
         
         public override bool Equals(object obj)
@@ -44,20 +46,20 @@ namespace MFramework.Core
         
         public override int GetHashCode()
         {
-            return HashCode.Combine(_sourceType, _name);
+            return HashCode.Combine(SourceType, Name);
         }
 
         public override string ToString()
         {
-            return $"{_sourceType}|{_name}";
+            return $"{SourceType}|{Name ?? "NULL"}";
         }
 
         private bool Equals(Key other)
         {
             if (other == null) return false;
             
-            return _sourceType == other._sourceType &&
-                   string.Equals(_name, other._name, StringComparison.Ordinal);
+            return SourceType == other.SourceType &&
+                   string.Equals(Name, other.Name, StringComparison.Ordinal);
         }
         
         public static bool operator ==(Key left, Key right)
@@ -123,7 +125,7 @@ namespace MFramework.Core
         internal void RegisterInstance(Type sourceType, string name, object targetInstance)
         {
             var key = new Key(sourceType, name);
-            if(!ValidKey(key)) return;
+            ValidKey(key);
 
             Bindings[key] = new Binding(Lifecycle.Singleton, (_) => targetInstance);
         }
@@ -131,15 +133,15 @@ namespace MFramework.Core
         internal void RegisterType(Type sourceType, string name, Type targetType, Lifecycle lifecycle)
         {
             var key = new Key(sourceType, name);
-            if(!ValidKey(key)) return;
+            ValidKey(key);
             
-            Bindings[key] = new Binding(lifecycle, container => container.CreateInstance(targetType));
+            Bindings[key] = new Binding(lifecycle, container => container.CreateInstance(targetType, name));
         }
 
         internal void RegisterFactory(Type sourceType, string name, Func<MDIContainer, object> factory, Lifecycle lifecycle)
         {
             var key = new Key(sourceType, name);
-            if(!ValidKey(key)) return;
+            ValidKey(key);
 
             Bindings[key] = new Binding(lifecycle, factory);
         }
@@ -150,51 +152,111 @@ namespace MFramework.Core
 
             if (!Bindings.TryGetValue(key, out var binding))
             {
-                _log.W($"未注册类型: {key}");
-                return null;
+                throw new FrameworkException($"未注册类型: {key}");
             }
 
             switch (binding.Lifecycle)
             {
                 case Lifecycle.Singleton:
-                {
-                    if (!Instances.TryGetValue(key, out var instance))
-                    {
-                        instance = binding.Factory(this);
-                        TrackDisposable(instance, binding.Lifecycle);
-                        Instances[key] = instance;
-                    }
-                    return instance;
-                }
+                    return ResolveSingleton(key, binding);
                 
                 case Lifecycle.Scoped:
-                {
-                    if (_parent == null)
-                    {
-                        _log.E("根容器下禁止解析Scoped");
-                        throw new Exception("错误"); // TODO：用这个测试Exception报错流程好了(看看要不要写到E()里)
-                        return null;
-                    }
-                    
-                    if (!_scopedInstances.TryGetValue(key, out var instance))
-                    {
-                        instance = binding.Factory(this);
-                        _scopedInstances[key] = instance;
-                    }
-                    return instance;
-                }
+                    return ResolveScoped(key, binding);
                 
                 case Lifecycle.Transient:
-                {
-                    return binding.Factory(this);
-                }
+                    return ResolveTransient(key, binding);
                 
                 default:
+                    throw new FrameworkException($"未知Lifecycle：{binding.Lifecycle}");
+            }
+        }
+
+        private object ResolveSingleton(Key key, Binding binding)
+        {
+            if (!Instances.TryGetValue(key, out var instance))
+            {
+                instance = binding.Factory(this);
+                if (instance == null)
                 {
-                    _log.E($"未知Lifecycle：{binding.Lifecycle}");
-                    return null;
+                    throw new FrameworkException($"解析失败：{key}");
+                }
+                TrackDisposable(instance, binding.Lifecycle);
+                Instances[key] = instance;
+            }
+            return instance;
+        }
+
+        private object ResolveScoped(Key key, Binding binding)
+        {
+            if (_parent == null)
+            {
+                throw new FrameworkException($"根容器下禁止解析Scoped：{key}");
+            }
+                    
+            if (!_scopedInstances.TryGetValue(key, out var instance))
+            {
+                instance = binding.Factory(this);
+                if (instance == null)
+                {
+                    throw new FrameworkException($"解析失败：{key}");
+                }
+                _scopedInstances[key] = instance;
+            }
+            return instance;
+        }
+
+        private object ResolveTransient(Key key, Binding binding)
+        {
+            var instance = binding.Factory(this);
+            if (instance == null)
+            {
+                throw new FrameworkException($"解析失败：{key}");
+            }
+            return instance;
+        }
+        
+        private object CreateInstance(Type targetType, string name)
+        {
+            // 递归解析
+            ConstructorInfo[] constructors = targetType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+
+            if (constructors.Length == 0)
+            {
+                _log.W($"无可用public构造：{targetType}");
+                return null;
+            }
+            
+            // 取最多的那个构造函数
+            var suitableParameters = constructors.First().GetParameters();
+            foreach (var c in constructors)
+            {
+                var parameters = c.GetParameters();
+                if (parameters.Length > suitableParameters.Length)
+                {
+                    suitableParameters = parameters;
                 }
             }
+
+            var args = suitableParameters.Select(p =>
+            {
+                if (p.ParameterType.IsArray)
+                {
+                    var elementType = p.ParameterType.GetElementType();
+                    return ResolveAll(elementType);
+                }
+                
+                if (p.ParameterType.IsGenericType &&
+                    p.ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    var elementType = p.ParameterType.GetGenericArguments()[0];
+                    return ResolveAll(elementType);
+                }
+                
+                return Resolve(p.ParameterType, name);
+            }).ToArray();
+            
+            var obj = Activator.CreateInstance(targetType, args);
+            return obj;
         }
 
         private void TrackDisposable(object instance, Lifecycle lifecycle)
@@ -217,52 +279,43 @@ namespace MFramework.Core
 
                 case Lifecycle.Transient:
                 {
-                    _disposables.Add(disposable);
-                    break;
+                    break; // Transient不进行管理
                 }
                 
                 default:
                 {
-                    _log.E($"未知Lifecycle：{lifecycle}");
-                    break;
+                    throw new FrameworkException($"未知Lifecycle：{lifecycle}");
                 }
             }
         }
 
-        private bool ValidKey(Key key)
+        private void ValidKey(Key key)
         {
             if (Bindings.ContainsKey(key))
             {
-                _log.W($"重复注册，Key：{key}");
-                return false;
+                throw new FrameworkException($"重复注册，Key：{key}");
             }
-
-            return true;
+            if (key.SourceType.IsPrimitive || key.SourceType == typeof(string))
+            {
+                throw new FrameworkException($"基础类型无法注册，Key：{key}");
+            }
         }
         
-        // TODO：开个类写
-        private object CreateInstance(Type targetType)
+        private Array ResolveAll(Type sourceType)
         {
-            // 递归解析
-            ConstructorInfo[] constructors = targetType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            var matched = Bindings.Keys
+                .Where(k => k.SourceType == sourceType)
+                .ToList();
 
-            if (constructors.Length == 0)
+            var array = Array.CreateInstance(sourceType, matched.Count);
+
+            for (int i = 0; i < matched.Count; i++)
             {
-                _log.W($"无可用public构造：{targetType}");
+                var instance = Resolve(matched[i].SourceType, matched[i].Name);
+                array.SetValue(instance, i);
             }
-            
-            // 取最多的那个构造函数
-            var suitableParameters = constructors.First().GetParameters();
-            foreach (var c in constructors)
-            {
-                var parameters = c.GetParameters();
-                if (parameters.Length > suitableParameters.Length)
-                {
-                    suitableParameters = parameters;
-                }
-            }
-            
-            return null;
+
+            return array;
         }
         
         #endregion
@@ -272,14 +325,60 @@ namespace MFramework.Core
     {
         # region Instance
         
+        // Singleton特有注册方式
         public static void RegisterSingleton<TSource>(this MDIContainer container, string name, object targetInstance)
         {
             container.RegisterInstance(typeof(TSource), name, targetInstance);
         }
         
+        // Singleton特有注册方式
         public static void RegisterSingleton<TSource>(this MDIContainer container, object targetInstance)
         {
             container.RegisterInstance(typeof(TSource), null, targetInstance);
+        }
+        
+        public static void RegisterSingleton<TSource>(this MDIContainer container, string name)
+        {
+            container.RegisterType(typeof(TSource), name, typeof(TSource), Lifecycle.Singleton);
+        }
+        
+        public static void RegisterSingleton<TSource>(this MDIContainer container)
+        {
+            container.RegisterType(typeof(TSource), null, typeof(TSource), Lifecycle.Singleton);
+        }
+
+        public static void RegisterSingleton<TSource, TTarget>(this MDIContainer container, string name)
+        {
+            container.RegisterType(typeof(TSource), name, typeof(TTarget), Lifecycle.Singleton);
+        }
+        
+        public static void RegisterSingleton<TSource, TTarget>(this MDIContainer container)
+        {
+            container.RegisterType(typeof(TSource), null, typeof(TTarget), Lifecycle.Singleton);
+        }
+        
+        public static void RegisterSingleton<TSource>(this MDIContainer container, string name, Func<MDIContainer, TSource> factory)
+        {
+            Func<MDIContainer, object> wrappedFactory = c => factory(c);
+            container.RegisterFactory(typeof(TSource), name, wrappedFactory, Lifecycle.Singleton);
+        }
+        
+        public static void RegisterSingleton<TSource>(this MDIContainer container, Func<MDIContainer, TSource> factory)
+        {
+            Func<MDIContainer, object> wrappedFactory = c => factory(c);
+            container.RegisterFactory(typeof(TSource), null, wrappedFactory, Lifecycle.Singleton);
+        }
+
+        public static void RegisterSingleton<TSource, TTarget>(this MDIContainer container, string name, Func<MDIContainer, TTarget> factory)
+        {
+            Func<MDIContainer, object> wrappedFactory = c => factory(c);
+            container.RegisterFactory(typeof(TSource), name, wrappedFactory, Lifecycle.Singleton);
+        }
+
+        public static void RegisterSingleton<TSource, TTarget>(this MDIContainer container, Func<MDIContainer, TTarget> factory)
+        {
+            Func<MDIContainer, object> wrappedFactory = c => factory(c);
+            container.RegisterFactory(typeof(TSource), null, wrappedFactory, Lifecycle.Singleton);
         }
         
         # endregion

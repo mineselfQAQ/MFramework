@@ -5,11 +5,24 @@ using UnityEngine;
 
 namespace MFramework.Core
 {
+    public enum CoreState
+    {
+        None,
+        Bootstrapping,
+        Bootstrapped,
+        Initializing,
+        Running,
+        ShuttingDown,
+        ShutDown,
+        Failed
+    }
+    
     /// <summary>
     /// 框架核心
     /// </summary>
     public class MFrameworkCore
     {
+        // TODO：考虑增加状态枚举
         private readonly List<IBootstrap> _bootstraps = new List<IBootstrap>();
         private readonly List<IShutdown> _shutdowns = new List<IShutdown>();
         private readonly List<IServiceProvider> _loadedServiceProviders = new List<IServiceProvider>();
@@ -26,6 +39,9 @@ namespace MFramework.Core
         private Action<TrackerStoppedEvent> _onInitialized;
         private Action<TrackerStartedEvent> _onShuttingDown;
         private Action<TrackerStoppedEvent> _onShutDown;
+        
+        private CoreState _state = CoreState.None;
+        public CoreState State => _state;
         
         public MFrameworkCore()
         {
@@ -94,46 +110,109 @@ namespace MFramework.Core
 
         public virtual void Bootstrap()
         {
-            using (MTracker.StartNew(MTrackerFactory.CreateTracker(1, "BOOTSTRAP", _trackerEventPublisher, _trackerCollector)))
+            EnsureState(CoreState.None);
+            _state = CoreState.Bootstrapping;
+
+            try
             {
-                foreach (var bootstrap in _bootstraps)
+                using (MTracker.StartNew(MTrackerFactory.CreateTracker(1, "BOOTSTRAP", _trackerEventPublisher, _trackerCollector)))
                 {
-                    bootstrap.Bootstrap();
+                    foreach (var bootstrap in _bootstraps)
+                    {
+                        bootstrap.Bootstrap();
+                    }
                 }
+                
+                _state = CoreState.Bootstrapped;
+            }
+            catch
+            {
+                _state = CoreState.Failed;
+                throw;
             }
         }
         
         public virtual void Initialize()
         {
-            using (MTracker.StartNew(MTrackerFactory.CreateTracker(2, "INITIALIZE",  _trackerEventPublisher, _trackerCollector)))
+            EnsureState(CoreState.Bootstrapped);
+            _state = CoreState.Initializing;
+
+            try
             {
-                foreach (var serviceProvider in _loadedServiceProviders)
+                using (MTracker.StartNew(MTrackerFactory.CreateTracker(2, "INITIALIZE",  _trackerEventPublisher, _trackerCollector)))
                 {
-                    serviceProvider.Initialize();
+                    foreach (var serviceProvider in _loadedServiceProviders)
+                    {
+                        serviceProvider.Initialize();
+                    }
                 }
-            }
             
-            _runningTracker = MTrackerFactory.CreateTracker(3, "RUNNING", _trackerEventPublisher, _trackerCollector);
-            _runningTracker.Start();
+                _runningTracker = MTrackerFactory.CreateTracker(3, "RUNNING", _trackerEventPublisher, _trackerCollector);
+                _runningTracker.Start();
+                
+                _state = CoreState.Running;
+            }
+            catch
+            {
+                _state = CoreState.Failed;
+                throw;
+            }
         }
         
         public virtual void Shutdown()
         {
-            _runningTracker.Stop();
-            
-            using (MTracker.StartNew(MTrackerFactory.CreateTracker(4, "SHUTDOWN", _trackerEventPublisher, _trackerCollector)))
+            if (_state == CoreState.None || _state == CoreState.ShutDown) return;
+            if (_state == CoreState.Failed)
             {
-                foreach (var serviceProvider in _loadedServiceProviders)
-                {
-                    serviceProvider.Shutdown();
-                    serviceProvider.Unregister();
-                }
-                _loadedServiceProviders.Clear();
+                StopRunningTracker();
+                return;
+            }
 
-                foreach (var shutdown in _shutdowns)
+            EnsureState(CoreState.Running);
+            _state = CoreState.ShuttingDown;
+
+            try
+            {
+                StopRunningTracker();
+
+                using (MTracker.StartNew(MTrackerFactory.CreateTracker(4, "SHUTDOWN", _trackerEventPublisher, _trackerCollector)))
                 {
-                    shutdown.Shutdown();
+                    foreach (var serviceProvider in _loadedServiceProviders)
+                    {
+                        serviceProvider.Shutdown();
+                        serviceProvider.Unregister();
+                    }
+                    _loadedServiceProviders.Clear();
+
+                    foreach (var shutdown in _shutdowns)
+                    {
+                        shutdown.Shutdown();
+                    }
+                
+                    _state = CoreState.ShutDown;
                 }
+            }
+            catch
+            {
+                _state = CoreState.Failed;
+                throw;
+            }
+        }
+        
+        private void StopRunningTracker()
+        {
+            if (_runningTracker != null)
+            {
+                _runningTracker.Stop();
+                _runningTracker = null;
+            }
+        }
+        
+        private void EnsureState(CoreState required)
+        {
+            if (_state != required)
+            {
+                throw new FrameworkException($"非法状态转换: 当前-{_state} 需要-{required}");
             }
         }
 

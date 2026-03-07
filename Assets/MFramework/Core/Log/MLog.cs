@@ -95,6 +95,10 @@ namespace MFramework.Core
             _writer.WriteLine("==================================");
             string log = core.GetLog();
             _writer.WriteLine(core.GetLog());
+            if (core.State == CoreState.Failed)
+            {
+                _writer.WriteLine("发生错误!!!已中断");
+            }
             _selfLog.D($"程序退出  {typeof(TrackerCollector)}统计情况：\n{log}");
             _writer.Flush();
             _writer.Close();

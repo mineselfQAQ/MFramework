@@ -93,9 +93,16 @@ namespace MFramework.Core
             
             EndTime = DateTime.Now;
             _isCompleted = true;
-                
-            _publisher?.Publish(new TrackerStoppedEvent(this));
-            _collector?.Collect(ToString());
+
+            // Ensure timing data is collected even if event callbacks throw.
+            try
+            {
+                _publisher?.Publish(new TrackerStoppedEvent(this));
+            }
+            finally
+            {
+                _collector?.Collect(ToString());
+            }
         }
         
         public override string ToString()

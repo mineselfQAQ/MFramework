@@ -34,10 +34,10 @@ namespace MFramework.Core.Event
                 {
                     handler();
                 }
-                catch (Exception exception)
+                catch (Exception ex)
                 {
                     var pLocation = IntUtil.GetCallerLocation(3);
-                    _log.E(GetExceptionLog(eventName, rLocation, pLocation, exception.Message));
+                    _log.E(GetExceptionLog(eventName, rLocation, pLocation, ex.Message));
                 }
             }
             
@@ -89,10 +89,14 @@ namespace MFramework.Core.Event
                 {
                     handler(e);
                 }
-                catch (Exception exception)
+                catch (FrameworkException)
+                {
+                    throw; // 来自框架的throw直接抛出(因为是致命错误，应该抛出)
+                }
+                catch (Exception ex)
                 {
                     var pLocation = IntUtil.GetCallerLocation(3);
-                    _log.E(GetExceptionLog(typeof(TEvent).FullName, rLocation, pLocation, exception.Message));
+                    _log.E(GetExceptionLog(typeof(TEvent).FullName, rLocation, pLocation, ex.Message));
                 }
             }
 

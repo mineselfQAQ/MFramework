@@ -6,9 +6,12 @@ public class TestServiceProvider : IServiceProvider
     public void Register()
     {
         var container = MIOCContainer.Default;
-        container.RegisterSingleton(()=>new B("B"));
-        container.RegisterSingleton(()=>new C("C"));
-        container.RegisterSingleton(()=>new A(container.Resolve<B>(), container.Resolve<C>()));
+        var b = new B("B");
+        var c = new C("C");
+        
+        container.RegisterSingleton<A>((_) => new A(container.Resolve<B>(), container.Resolve<C>()));
+        container.RegisterSingleton<B>(b);
+        container.RegisterSingleton<C>(c);
     }
 
     public void Initialize()

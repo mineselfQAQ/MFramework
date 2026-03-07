@@ -15,9 +15,7 @@ namespace MFrameworkExamples.Framework
 
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
-            var p = go.transform.position;
             MLog.Default.D($"启动完成 时间：{e.EndTime}");
-            MLog.Default.E(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         }
 
         protected override void OnInitializing(TrackerStartedEvent e)

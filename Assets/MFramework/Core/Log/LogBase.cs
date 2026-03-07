@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MFramework.Core.Internal;
 using UnityEngine;
@@ -7,10 +8,6 @@ namespace MFramework.Core
 {
     public abstract class LogBase : ILog
     {
-        private const string DEBUG_LEVEL_NAME = "D";
-        private const string WARNING_LEVEL_NAME = "W";
-        private const string ERROR_LEVEL_NAME = "E";
-        
         protected abstract string SrcName { get; }
         
         private readonly MLog.LogFilter? _logFilter;
@@ -31,9 +28,6 @@ namespace MFramework.Core
 
         public override string ToString() => _name;
 
-        /// <summary>
-        /// 提示
-        /// </summary>
         public void D(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,
@@ -42,9 +36,6 @@ namespace MFramework.Core
             DInternal(message, CallerLocation.From(file, line, member));
         }
         
-        /// <summary>
-        /// 错误
-        /// </summary>
         public void W(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,
@@ -53,9 +44,6 @@ namespace MFramework.Core
             WInternal(message, CallerLocation.From(file, line, member));
         }
         
-        /// <summary>
-        /// 严重错误
-        /// </summary>
         public void E(object message, 
             [CallerFilePath] string file = "",
             [CallerLineNumber] int line = 0,
@@ -88,29 +76,29 @@ namespace MFramework.Core
             }
         }
         
-        private void DInternal(object message, CallerLocation location)
+        protected virtual void DInternal(object message, CallerLocation location)
         {
             if (GetLogFilter() > MLog.LogFilter.Debug) return;
 
-            string info = GetLogInfo(MLog.LogLevel.Debug, location);
+            string info = LogFormatter.Build(MLog.LogLevel.Debug, SrcName, location, message);
             
-            Debug.Log($"{info} {message}");
+            Debug.Log(info);
         }
 
-        private void WInternal(object message, CallerLocation location)
+        protected virtual void WInternal(object message, CallerLocation location)
         {
             if (GetLogFilter() > MLog.LogFilter.Warning) return;
             
-            string info = GetLogInfo(MLog.LogLevel.Warning, location);
+            string info = LogFormatter.Build(MLog.LogLevel.Warning, SrcName, location, message);
             
             Debug.LogWarning($"{info} {message}");
         }
 
-        private void EInternal(object message, CallerLocation location)
+        protected virtual void EInternal(object message, CallerLocation location)
         {
             if (GetLogFilter() > MLog.LogFilter.Error) return;
             
-            string info = GetLogInfo(MLog.LogLevel.Error, location);
+            string info = LogFormatter.Build(MLog.LogLevel.Error, SrcName, location, message);
             
             string stackTrace = GetStackTrace(3);
             if (stackTrace != null)
@@ -123,49 +111,19 @@ namespace MFramework.Core
             }
         }
 
+        
 
-
-        private MLog.LogFilter GetLogFilter()
+        protected MLog.LogFilter GetLogFilter()
         {
             if (_logFilter != null) return _logFilter.Value;
             return GlobalLogFilter;
         }
-        
-        private string GetLogInfo(MLog.LogLevel logLevel, CallerLocation callerLocation)
-        {
-            string level = GetLogLevel(logLevel);
-            string source = GetSource();
-            string location = GetCallerLocation(callerLocation);
 
-            return $"{level}{source}{location}";
-        }
-        
-        private string GetLogLevel(MLog.LogLevel logLevel)
-        {
-            string logLevelName;
-            if (logLevel == MLog.LogLevel.Warning) logLevelName = WARNING_LEVEL_NAME;
-            else if (logLevel == MLog.LogLevel.Error) logLevelName = ERROR_LEVEL_NAME;
-            else logLevelName = DEBUG_LEVEL_NAME;
-            
-            logLevelName = $"[{logLevelName}]";
-            
-#if UNITY_EDITOR
-            Color color;
-            if(logLevel == MLog.LogLevel.Warning) color = Color.yellow;
-            else if(logLevel == MLog.LogLevel.Error) color = Color.red;
-            else color = Color.green;
-            
-            logLevelName = IntUtil.Col(logLevelName, color);
-#endif
-            
-            return logLevelName;
-        }
+        protected string GetSource() => $"[{SrcName}]";
 
-        private string GetSource() => $"[{SrcName}]";
-
-        private string GetCallerLocation(CallerLocation location) => $"[{location}]";
+        protected string GetCallerLocation(CallerLocation location) => $"[{location}]";
         
-        private string GetStackTrace(int skipFrames)
+        protected string GetStackTrace(int skipFrames)
         {
 #if !UNITY_EDITOR
             var stackTrace = new System.Diagnostics.StackTrace(skipFrames, true);
