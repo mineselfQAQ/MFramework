@@ -1,7 +1,7 @@
-using System;
 using MFramework.Core;
+using MFramework.Core.CoreEx;
 using UnityEngine;
-using IServiceProvider = MFramework.Core.IServiceProvider;
+using IServiceProvider = MFramework.Core.CoreEx.IServiceProvider;
 
 namespace MFrameworkExamples.Framework
 {
@@ -47,7 +47,7 @@ namespace MFrameworkExamples.Framework
             {
                 new TestServiceProvider(),
             };
-            return new UserBootstrap(_core, provider);
+            return new UserBootstrap(Core, provider);
         }
 
         protected override IShutdown GetUserShutDown()

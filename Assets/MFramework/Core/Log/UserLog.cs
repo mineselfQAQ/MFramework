@@ -12,6 +12,6 @@ namespace MFramework.Core
         
         public UserLog(string name, MLog.LogFilter logFilter) : base(name, logFilter) { }
 
-        protected override string SrcName => Consts.UserName;
+        protected override string SrcName => IntConsts.UserName;
     }
 }

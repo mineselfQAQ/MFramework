@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
+using MFramework.Core.CoreEx;
 using UnityEngine;
 
 namespace MFramework.Core
@@ -50,7 +50,7 @@ namespace MFramework.Core
         internal const LogFilter BUILD_FILTER = LogFilter.Error;
 #endif
 
-        public static ILog Default;
+        public static ILog Default { get; private set; }
         private static ILog _selfLog;
         
         private static readonly Dictionary<string, UserLog> _ULogDic = new Dictionary<string, UserLog>();

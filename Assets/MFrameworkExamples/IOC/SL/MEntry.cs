@@ -1,4 +1,5 @@
 using MFramework.Core;
+using MFramework.Core.CoreEx;
 
 namespace MFrameworkExamples.IOC.SL
 {

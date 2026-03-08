@@ -1,6 +1,4 @@
-using MFramework.Core.Event;
 using MFramework.Core.Internal;
-using UnityEngine;
 
 namespace MFramework.Core
 {
@@ -16,6 +14,6 @@ namespace MFramework.Core
         
         public InternalLog(string name, MLog.LogFilter logFilter) : base(name, logFilter) { }
 
-        protected override string SrcName => Consts.InternalName;
+        protected override string SrcName => IntConsts.InternalName;
     }
 }

@@ -1,68 +1,71 @@
 using MFramework.Core;
-using UnityEngine;
+using MFramework.Core.CoreEx;
 
-public class TestServiceProvider : IServiceProvider
+namespace MFrameworkExamples.Framework
 {
-    public void Register()
+    public class TestServiceProvider : IServiceProvider
     {
-        var container = MIOCContainer.Default;
-        var b = new B("B");
-        var c = new C("C");
+        public void Register()
+        {
+            var container = MIOCContainer.Default;
+            var b = new B("B");
+            var c = new C("C");
         
-        container.RegisterSingleton<A>((_) => new A(container.Resolve<B>(), container.Resolve<C>()));
-        container.RegisterSingleton<B>(b);
-        container.RegisterSingleton<C>(c);
+            container.RegisterSingleton<A>((_) => new A(container.Resolve<B>(), container.Resolve<C>()));
+            container.RegisterSingleton<B>(b);
+            container.RegisterSingleton<C>(c);
+        }
+
+        public void Initialize()
+        {
+        
+        }
+
+        public void Unregister()
+        {
+        
+        }
+
+        public void Shutdown()
+        {
+        
+        }
     }
 
-    public void Initialize()
+    public class A
     {
-        
-    }
-
-    public void Unregister()
-    {
-        
-    }
-
-    public void Shutdown()
-    {
-        
-    }
-}
-
-public class A
-{
-    private readonly B _b;
-    private readonly C _c;
+        private readonly B _b;
+        private readonly C _c;
     
-    public A(B b, C c)
-    {
-        _b = b;
-        _c = c;
+        public A(B b, C c)
+        {
+            _b = b;
+            _c = c;
+        }
+
+        public void Print()
+        {
+            MLog.Default.D($"{_b.Name}+{_c.Name}");
+        }
     }
 
-    public void Print()
+    public class B
     {
-        MLog.Default.D($"{_b.Name}+{_c.Name}");
-    }
-}
-
-public class B
-{
-    public string Name { get; }
+        public string Name { get; }
     
-    public B(string name)
-    {
-        Name = name;
+        public B(string name)
+        {
+            Name = name;
+        }
     }
-}
 
-public class C
-{
-    public string Name { get; }
-
-    public C(string name)
+    public class C
     {
-        Name = name;
-    }
+        public string Name { get; }
+
+        public C(string name)
+        {
+            Name = name;
+        }
+    }    
 }

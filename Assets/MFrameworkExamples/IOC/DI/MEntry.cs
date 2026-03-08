@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MFramework.Core;
+using MFramework.Core.CoreEx;
 using UnityEngine;
 
 namespace MFrameworkExamples.IOC.DI

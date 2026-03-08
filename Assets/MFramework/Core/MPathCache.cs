@@ -8,6 +8,6 @@ namespace MFramework.Core
         /// <summary>
         /// PC根目录(包括Editor/Build)
         /// </summary>
-        public static string PC_ROOT_PATH = Path.GetDirectoryName(Application.dataPath);
+        public static readonly string PC_ROOT_PATH = Path.GetDirectoryName(Application.dataPath);
     }
 }

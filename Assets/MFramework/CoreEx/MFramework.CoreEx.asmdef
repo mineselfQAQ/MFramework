@@ -1,9 +1,7 @@
 {
-    "name": "MFramework.Core",
+    "name": "MFramework.CoreEx",
     "rootNamespace": "",
-    "references": [
-        "GUID:64b93c863ce090342be0a0c02622fafa"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

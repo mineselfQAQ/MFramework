@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
+using MFramework.Core.CoreEx;
 using MFramework.Core.Event;
 
 namespace MFramework.Core
@@ -16,9 +17,9 @@ namespace MFramework.Core
     
     public class Binding
     {
-        public Lifecycle Lifecycle;
+        public Lifecycle Lifecycle { get; }
 
-        public Func<MDIContainer, object> Factory;
+        public Func<MDIContainer, object> Factory { get; }
 
         public Binding(Lifecycle lifecycle, Func<MDIContainer, object> factory)
         {
@@ -152,7 +153,7 @@ namespace MFramework.Core
 
             if (!Bindings.TryGetValue(key, out var binding))
             {
-                throw new FrameworkException($"未注册类型: {key}");
+                throw new UnityFrameworkException($"未注册类型: {key}");
             }
 
             switch (binding.Lifecycle)
@@ -167,7 +168,7 @@ namespace MFramework.Core
                     return ResolveTransient(key, binding);
                 
                 default:
-                    throw new FrameworkException($"未知Lifecycle：{binding.Lifecycle}");
+                    throw new UnityFrameworkException($"未知Lifecycle：{binding.Lifecycle}");
             }
         }
 
@@ -178,7 +179,7 @@ namespace MFramework.Core
                 instance = binding.Factory(this);
                 if (instance == null)
                 {
-                    throw new FrameworkException($"解析失败：{key}");
+                    throw new UnityFrameworkException($"解析失败：{key}");
                 }
                 TrackDisposable(instance, binding.Lifecycle);
                 Instances[key] = instance;
@@ -190,7 +191,7 @@ namespace MFramework.Core
         {
             if (_parent == null)
             {
-                throw new FrameworkException($"根容器下禁止解析Scoped：{key}");
+                throw new UnityFrameworkException($"根容器下禁止解析Scoped：{key}");
             }
                     
             if (!_scopedInstances.TryGetValue(key, out var instance))
@@ -198,7 +199,7 @@ namespace MFramework.Core
                 instance = binding.Factory(this);
                 if (instance == null)
                 {
-                    throw new FrameworkException($"解析失败：{key}");
+                    throw new UnityFrameworkException($"解析失败：{key}");
                 }
                 _scopedInstances[key] = instance;
             }
@@ -210,7 +211,7 @@ namespace MFramework.Core
             var instance = binding.Factory(this);
             if (instance == null)
             {
-                throw new FrameworkException($"解析失败：{key}");
+                throw new UnityFrameworkException($"解析失败：{key}");
             }
             return instance;
         }
@@ -284,7 +285,7 @@ namespace MFramework.Core
                 
                 default:
                 {
-                    throw new FrameworkException($"未知Lifecycle：{lifecycle}");
+                    throw new UnityFrameworkException($"未知Lifecycle：{lifecycle}");
                 }
             }
         }
@@ -293,11 +294,11 @@ namespace MFramework.Core
         {
             if (Bindings.ContainsKey(key))
             {
-                throw new FrameworkException($"重复注册，Key：{key}");
+                throw new UnityFrameworkException($"重复注册，Key：{key}");
             }
             if (key.SourceType.IsPrimitive || key.SourceType == typeof(string))
             {
-                throw new FrameworkException($"基础类型无法注册，Key：{key}");
+                throw new UnityFrameworkException($"基础类型无法注册，Key：{key}");
             }
         }
         

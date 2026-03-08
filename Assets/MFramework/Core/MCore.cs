@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+using MFramework.Core.CoreEx;
 
 namespace MFramework.Core
 {
@@ -9,6 +7,14 @@ namespace MFramework.Core
     /// </summary>
     public class MCore : MFrameworkCore
     {
+        private static readonly ILog _log = new InternalLog(nameof(MCore)); 
         
+        public MCore()
+        {
+            EventBus.LogError = (message) =>
+            {
+                _log.E(message);
+            };
+        }
     }
 }

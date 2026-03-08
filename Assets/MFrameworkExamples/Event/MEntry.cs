@@ -1,6 +1,6 @@
 using System;
 using MFramework.Core;
-using MFramework.Core.Event;
+using MFramework.Core.CoreEx;
 
 namespace MFrameworkExamples.Event
 {

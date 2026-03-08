@@ -1,3 +1,5 @@
+using MFramework.Core.CoreEx;
+
 namespace MFramework.Core
 {
     public class InternalShutDown : IShutdown

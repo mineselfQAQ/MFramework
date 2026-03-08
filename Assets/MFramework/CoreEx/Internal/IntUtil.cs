@@ -1,6 +1,4 @@
 using System.IO;
-using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace MFramework.Core.Internal
 {
@@ -9,16 +7,6 @@ namespace MFramework.Core.Internal
     /// </summary>
     internal static partial class IntUtil
     {
-        # region 颜色
-        internal static string Col(object message, Color color)
-        {
-            string htmlColor = ColorUtility.ToHtmlStringRGBA(color);
-            string resultStr = $"<color=#{htmlColor}>{message}</color>";
-
-            return resultStr;
-        }
-        # endregion
-        
         # region Debug
         /// <summary>
         /// 获取调用处信息
