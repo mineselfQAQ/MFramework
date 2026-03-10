@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MFramework.Core.Internal;
 using UnityEngine;
@@ -33,7 +31,7 @@ namespace MFramework.Core
             [CallerLineNumber] int line = 0,
             [CallerMemberName] string member = "")
         {
-            DInternal(message, CallerLocation.From(file, line, member));
+            DInternal(message, BuildCallerLocation(file, line, member));
         }
         
         public void W(object message, 
@@ -41,7 +39,7 @@ namespace MFramework.Core
             [CallerLineNumber] int line = 0,
             [CallerMemberName] string member = "")
         {
-            WInternal(message, CallerLocation.From(file, line, member));
+            WInternal(message, BuildCallerLocation(file, line, member));
         }
         
         public void E(object message, 
@@ -49,7 +47,7 @@ namespace MFramework.Core
             [CallerLineNumber] int line = 0,
             [CallerMemberName] string member = "")
         {
-            EInternal(message, CallerLocation.From(file, line, member));
+            EInternal(message, BuildCallerLocation(file, line, member));
         }
         
         public void EX(LogException ex, MLog.LogLevel? overrideLevel = null,
@@ -57,7 +55,7 @@ namespace MFramework.Core
             [CallerLineNumber] int line = 0,
             [CallerMemberName] string member = "")
         {
-            var location = CallerLocation.From(file, line, member);
+            var callerLocation = BuildCallerLocation(file, line, member);
             var info = ExLogCache.Get(ex);
             
             var level = overrideLevel ?? info.Level;
@@ -65,40 +63,40 @@ namespace MFramework.Core
             switch (level)
             {
                 case MLog.LogLevel.Warning:
-                    WInternal(info.Message, location);
+                    WInternal(info.Message, callerLocation);
                     break;
                 case MLog.LogLevel.Error:
-                    EInternal(info.Message, location);
+                    EInternal(info.Message, callerLocation);
                     break;
                 default:
-                    DInternal(info.Message, location);
+                    DInternal(info.Message, callerLocation);
                     break;
             }
         }
         
-        protected virtual void DInternal(object message, CallerLocation location)
+        protected virtual void DInternal(object message, string callerLocation)
         {
             if (GetLogFilter() > MLog.LogFilter.Debug) return;
 
-            string info = LogFormatter.Build(MLog.LogLevel.Debug, SrcName, location, message);
+            string info = LogFormatter.Build(MLog.LogLevel.Debug, SrcName, callerLocation, message);
             
             Debug.Log(info);
         }
 
-        protected virtual void WInternal(object message, CallerLocation location)
+        protected virtual void WInternal(object message, string callerLocation)
         {
             if (GetLogFilter() > MLog.LogFilter.Warning) return;
             
-            string info = LogFormatter.Build(MLog.LogLevel.Warning, SrcName, location, message);
+            string info = LogFormatter.Build(MLog.LogLevel.Warning, SrcName, callerLocation, message);
             
             Debug.LogWarning($"{info} {message}");
         }
 
-        protected virtual void EInternal(object message, CallerLocation location)
+        protected virtual void EInternal(object message, string callerLocation)
         {
             if (GetLogFilter() > MLog.LogFilter.Error) return;
             
-            string info = LogFormatter.Build(MLog.LogLevel.Error, SrcName, location, message);
+            string info = LogFormatter.Build(MLog.LogLevel.Error, SrcName, callerLocation, message);
             
             string stackTrace = GetStackTrace(3);
             if (stackTrace != null)
@@ -113,17 +111,15 @@ namespace MFramework.Core
 
         
 
-        protected MLog.LogFilter GetLogFilter()
+        private MLog.LogFilter GetLogFilter()
         {
             if (_logFilter != null) return _logFilter.Value;
             return GlobalLogFilter;
         }
 
-        protected string GetSource() => $"[{SrcName}]";
-
-        protected string GetCallerLocation(CallerLocation location) => $"[{location}]";
+        private string GetSource() => $"[{SrcName}]";
         
-        protected string GetStackTrace(int skipFrames)
+        private string GetStackTrace(int skipFrames)
         {
 #if !UNITY_EDITOR
             var stackTrace = new System.Diagnostics.StackTrace(skipFrames, true);
@@ -131,6 +127,12 @@ namespace MFramework.Core
 #else
             return null;
 #endif
+        }
+        
+        private static string BuildCallerLocation(string file, int line, string member)
+        {
+            var location = IntUtilEx.GetCallerLocation(file, line, member);
+            return location.ToString();
         }
     }
 }

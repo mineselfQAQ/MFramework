@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using MFramework.Core.Event;
 
 namespace MFramework.Core.CoreEx
 {

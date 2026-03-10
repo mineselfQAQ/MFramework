@@ -1,5 +1,6 @@
 using MFramework.Core;
 using MFramework.Core.CoreEx;
+using MFramework.Core.IOC;
 
 namespace MFrameworkExamples.Framework
 {

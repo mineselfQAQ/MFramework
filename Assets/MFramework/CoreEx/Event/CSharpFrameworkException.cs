@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using MFramework.Core.Internal;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Event
 {
     public class CSharpFrameworkException : FrameworkException
     {
@@ -22,7 +21,7 @@ namespace MFramework.Core.CoreEx
             int line,
             string member)
         {
-            var location = CallerLocation.From(file, line, member);
+            var location = IntUtilEx.GetCallerLocation(file, line, member);
 
             return $"[E][I][{location}] {message}";
         }

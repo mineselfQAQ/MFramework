@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MFramework.Core;
-using MFramework.Core.CoreEx;
+using MFramework.Core.IOC;
+using MFramework.Core.Tracker;
 using UnityEngine;
 
 namespace MFrameworkExamples.IOC.DI
@@ -31,66 +32,67 @@ namespace MFrameworkExamples.IOC.DI
             container.RegisterScoped<E>((c) => new E(1));
             container.RegisterTransient<F>((c) => new F(1));
 
-            var ee = container.Resolve<E>();
-            Debug.Log(ee.Value);
+            // TODO：报错测试
+            // var ee = container.Resolve<E>();
+            // Debug.Log(ee.Value);
             
-            // // 1-1-1-1-1
-            // MLog.Default.D("1.一般注入测试");
-            //
-            // container.Resolve<IA>().Print();
-            // // 1-1-1-1-1
-            //
-            // // 2-2-2-2-2
-            // MLog.Default.D("2.一对多注入测试");
-            //
-            // container.Resolve<ArrContainer>().Print();
-            // // 2-2-2-2-2
-            //
-            // // 3-3-3-3-3
-            // MLog.Default.D("3.生命周期测试");
-            // // Tip：
-            // // 1.根容器禁止Scoped解析(如果在根容器解析那么就会等价于Singleton注册，语义不明确)
-            //
-            // MLog.Default.D("Root域-Start");
-            //
-            // var d1 = container.Resolve<D>();
-            // d1.Value = 2;
-            // d1 = container.Resolve<D>(); // 只可能取同一个实例
-            // MLog.Default.D($"D1：{d1.Value}");
-            //
-            // var f1 = container.Resolve<F>();
-            // f1.Value = 2;
-            // var f2 = container.Resolve<F>();
-            // MLog.Default.D($"F1：{f1.Value}");
-            // MLog.Default.D($"F2：{f2.Value}");
-            //
-            // using (var sub1 = container.CreateScope())
-            // {
-            //     MLog.Default.D("Sub1域-Start");
-            //
-            //     var e1 = sub1.Resolve<E>();
-            //     e1.Value = 2;
-            //     MLog.Default.D($"E1：{e1.Value}");
-            //     e1 = sub1.Resolve<E>(); // 同一域下为同一实例
-            //     MLog.Default.D($"E1：{e1.Value}");
-            //     
-            //     // 嵌套结构并非嵌套关系，sub1/sub2为平级关系
-            //     using (var sub2 = container.CreateScope())
-            //     {
-            //         MLog.Default.D("Sub2域-Start");
-            //     
-            //         var e2 = sub2.Resolve<E>(); // 不同域下为不同实例
-            //         MLog.Default.D($"E1：{e1.Value}"); // 内部能直接取到，无需Resolve
-            //         MLog.Default.D($"E2：{e2.Value}");
-            //     
-            //         MLog.Default.D("Sub2域-End");
-            //     }
-            //     
-            //     MLog.Default.D("Sub1域-End");
-            // }
-            //
-            // MLog.Default.D("Root域-End");
-            // // 3-3-3-3-3
+            // 1-1-1-1-1
+            MLog.Default.D("1.一般注入测试");
+            
+            container.Resolve<IA>().Print();
+            // 1-1-1-1-1
+            
+            // 2-2-2-2-2
+            MLog.Default.D("2.一对多注入测试");
+            
+            container.Resolve<ArrContainer>().Print();
+            // 2-2-2-2-2
+            
+            // 3-3-3-3-3
+            MLog.Default.D("3.生命周期测试");
+            // Tip：
+            // 1.根容器禁止Scoped解析(如果在根容器解析那么就会等价于Singleton注册，语义不明确)
+            
+            MLog.Default.D("Root域-Start");
+            
+            var d1 = container.Resolve<D>();
+            d1.Value = 2;
+            d1 = container.Resolve<D>(); // 只可能取同一个实例
+            MLog.Default.D($"D1：{d1.Value}");
+            
+            var f1 = container.Resolve<F>();
+            f1.Value = 2;
+            var f2 = container.Resolve<F>();
+            MLog.Default.D($"F1：{f1.Value}");
+            MLog.Default.D($"F2：{f2.Value}");
+            
+            using (var sub1 = container.CreateScope())
+            {
+                MLog.Default.D("Sub1域-Start");
+            
+                var e1 = sub1.Resolve<E>();
+                e1.Value = 2;
+                MLog.Default.D($"E1：{e1.Value}");
+                e1 = sub1.Resolve<E>(); // 同一域下为同一实例
+                MLog.Default.D($"E1：{e1.Value}");
+                
+                // 嵌套结构并非嵌套关系，sub1/sub2为平级关系
+                using (var sub2 = container.CreateScope())
+                {
+                    MLog.Default.D("Sub2域-Start");
+                
+                    var e2 = sub2.Resolve<E>(); // 不同域下为不同实例
+                    MLog.Default.D($"E1：{e1.Value}"); // 内部能直接取到，无需Resolve
+                    MLog.Default.D($"E2：{e2.Value}");
+                
+                    MLog.Default.D("Sub2域-End");
+                }
+                
+                MLog.Default.D("Sub1域-End");
+            }
+            
+            MLog.Default.D("Root域-End");
+            // 3-3-3-3-3
         }
 
         public interface IA

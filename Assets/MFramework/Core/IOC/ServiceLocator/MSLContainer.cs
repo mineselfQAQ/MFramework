@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MFramework.Core
+namespace MFramework.Core.IOC
 {
     /// <summary>
     /// IOC的Service Locator实现，仅实现最基础功能

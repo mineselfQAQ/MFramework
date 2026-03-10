@@ -1,8 +1,9 @@
 using System.Runtime.CompilerServices;
 using MFramework.Core.CoreEx;
+using MFramework.Core.Event;
 using MFramework.Core.Internal;
 
-namespace MFramework.Core.Event
+namespace MFramework.Core
 {
     public class UnityFrameworkException : FrameworkException
     {
@@ -21,12 +22,12 @@ namespace MFramework.Core.Event
             int line,
             string member)
         {
-            var location = CallerLocation.From(file, line, member);
+            var location = IntUtilEx.GetCallerLocation(file, line, member);
 
             return LogFormatter.Build(
                 MLog.LogLevel.Error,
                 IntConsts.InternalName,
-                location,
+                location.ToString(),
                 message);
         }
     }

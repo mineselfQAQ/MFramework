@@ -8,19 +8,19 @@ namespace MFramework.Core
     public enum LogException
     {
         // ===常见Ex===
-        [ExLog(MLog.LogLevel.Warning, "参数为空")]
+        [ExLog(LogLevel.Warning, "参数为空")]
         NullArgument,
         
-        [ExLog(MLog.LogLevel.Error, "参数不合法")]
+        [ExLog(LogLevel.Error, "参数不合法")]
         InvalidArgument,
         
-        [ExLog(MLog.LogLevel.Error, "索引越界")]
+        [ExLog(LogLevel.Error, "索引越界")]
         IndexOutOfRange,
         
-        [ExLog(MLog.LogLevel.Error, "不支持的操作")]
+        [ExLog(LogLevel.Error, "不支持的操作")]
         InvalidOperation,
         
-        [ExLog(MLog.LogLevel.Error, "功能尚未实现")]
+        [ExLog(LogLevel.Error, "功能尚未实现")]
         NotImplemented,
         // ===常见Ex===
     }
@@ -28,10 +28,10 @@ namespace MFramework.Core
     [AttributeUsage(AttributeTargets.Field)]
     internal sealed class ExLogAttribute : Attribute
     {
-        public readonly MLog.LogLevel Level;
+        public readonly LogLevel Level;
         public readonly string Message;
 
-        public ExLogAttribute(MLog.LogLevel level, string message)
+        public ExLogAttribute(LogLevel level, string message)
         {
             Level = level;
             Message = message;
@@ -64,6 +64,6 @@ namespace MFramework.Core
         }
 
         private static readonly ExLogAttribute Default =
-            new ExLogAttribute(MLog.LogLevel.Error, "发生未知错误");
+            new ExLogAttribute(LogLevel.Error, "发生未知错误");
     }
 }

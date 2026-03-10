@@ -1,6 +1,7 @@
 using System;
+using MFramework.Core.Event;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Tracker
 {
     public interface ITrackerEvent : IEvent
     {

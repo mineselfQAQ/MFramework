@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Tracker
 {
     public class TrackerCollector : ITrackerCollector
     {

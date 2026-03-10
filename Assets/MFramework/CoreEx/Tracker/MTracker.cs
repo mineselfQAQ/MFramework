@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Tracker
 {
     public interface IMTracker
     {

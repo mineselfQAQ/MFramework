@@ -1,6 +1,6 @@
 using System;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Event
 {
     public class FrameworkException : Exception
     {

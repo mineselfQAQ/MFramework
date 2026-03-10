@@ -1,3 +1,4 @@
+using MFramework.Core.CoreEx;
 using MFramework.Core.Internal;
 
 namespace MFramework.Core
@@ -11,12 +12,12 @@ namespace MFramework.Core
         public static string Build(
             MLog.LogLevel level,
             string srcName,
-            CallerLocation location,
+            string callerLocation,
             object message)
         {
             string levelStr = GetLevel(level);
             string source = $"[{srcName}]";
-            string caller = $"[{location}]";
+            string caller = $"[{callerLocation}]";
 
             return $"{levelStr}{source}{caller} {message}";
         }

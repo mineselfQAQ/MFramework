@@ -1,4 +1,6 @@
-namespace MFramework.Core.CoreEx
+using MFramework.Core.Event;
+
+namespace MFramework.Core.Tracker
 {
     public interface ITrackerEventPublisher
     {

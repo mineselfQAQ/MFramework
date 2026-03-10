@@ -1,6 +1,6 @@
 using System;
 
-namespace MFramework.Core
+namespace MFramework.Core.IOC
 {
     public interface ISLContainer : ISLContainerRegistry, ISLContainerProvider
     {

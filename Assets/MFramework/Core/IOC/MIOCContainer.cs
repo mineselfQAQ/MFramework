@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace MFramework.Core
+namespace MFramework.Core.IOC
 {
     public class MIOCContainer
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MFramework.Core.Internal;
 
-namespace MFramework.Core.CoreEx
+namespace MFramework.Core.Event
 {
     public interface IEvent { }
 
@@ -26,7 +26,7 @@ namespace MFramework.Core.CoreEx
 
         public void RegisterSafe(string eventName, Action handler)
         {
-            var rLocation = IntUtil.GetCallerLocation(2);
+            var rLocation = IntUtilEx.GetCallerLocation(2);
             void SafeHandler()
             {
                 try
@@ -39,7 +39,7 @@ namespace MFramework.Core.CoreEx
                 }
                 catch (Exception ex)
                 {
-                    var pLocation = IntUtil.GetCallerLocation(3);
+                    var pLocation = IntUtilEx.GetCallerLocation(3);
                     LogError?.Invoke(GetExceptionLog(eventName, rLocation, pLocation, ex.Message));
                 }
             }
@@ -85,7 +85,7 @@ namespace MFramework.Core.CoreEx
 
         public void RegisterSafe<TEvent>(Action<TEvent> handler) where TEvent : IEvent
         {
-            var rLocation = IntUtil.GetCallerLocation(2);
+            var rLocation = IntUtilEx.GetCallerLocation(2);
             void SafeHandler(TEvent e)
             {
                 try
@@ -98,7 +98,7 @@ namespace MFramework.Core.CoreEx
                 }
                 catch (Exception ex)
                 {
-                    var pLocation = IntUtil.GetCallerLocation(3);
+                    var pLocation = IntUtilEx.GetCallerLocation(3);
                     LogError?.Invoke(GetExceptionLog(typeof(TEvent).FullName, rLocation, pLocation, ex.Message));
                 }
             }
@@ -138,7 +138,7 @@ namespace MFramework.Core.CoreEx
             }
         }
 
-        private string GetExceptionLog(string eventName, string rLocation, string pLocation, string message)
+        private string GetExceptionLog(string eventName, CallerLocation rLocation, CallerLocation pLocation, string message)
         {
             // 注意：打包后信息有限，文件与行数信息都会缺失
             return $"触发 {eventName} 事件时发生错误：\n" +
