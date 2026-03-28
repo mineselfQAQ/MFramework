@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674593365}
   - component: {fileID: 674593366}
+  - component: {fileID: 674593367}
   m_Layer: 0
   m_Name: MCore
   m_TagString: Untagged
@@ -158,9 +159,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674593363}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc449c4fdef69d645a6f9f8dd3d74964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &674593367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674593363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754f54ee009febc4fa31afb2611c7a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1409727331
