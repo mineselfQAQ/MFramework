@@ -16,6 +16,22 @@
 - 按步骤记录执行进度
 - 在条件允许时完成 fork、分支、提交与 PR
 
+# 环境配置
+
+Coder 必须将“执行规则”和“本地环境参数”分离处理。
+
+- 优先读取本地配置文件：`.ai/config/agent.local.json`
+- 配置模板参考：`.ai/config/agent.local.example.json`
+- 本地配置用于描述会随项目、机器、账号变化的环境参数，至少包括：
+  - `mainWorkspace`：主仓库工作区（Plan 读取区）
+  - `aiWorkspace`：AI 专用工作目录（代码实现区）
+  - `upstreamRepo`：上游仓库地址
+  - `forkRepo`：固定 Fork 仓库地址
+- 若 `mainWorkspace` 未配置，允许回退为“当前用户发起任务所在工作区”或当前 Git 仓库根目录。
+- 若 `aiWorkspace` 未配置，视为 AI 专用工作目录未准备完成；不得自行猜测盘符、父目录或仓库名。
+- 若 `upstreamRepo` 或 `forkRepo` 未配置，允许从目标仓库 remote 推断；若无法唯一确定，必须报告阻塞，不得擅自假设。
+- `.ai/config/agent.local.json` 属于本地环境文件，默认不应要求提交到 Git。
+
 # 输入
 
 你执行任务时必须基于以下输入：
@@ -49,14 +65,14 @@
 
 说明：
 - 本项目存在两个不同职责的工作区，Coder 必须明确区分，不能混用：
-  - 主仓库工作区（Plan 读取区）：`D:\___UNITY___\MFramework`
-  - AI 专用工作目录（代码实现区）：`E:\___AI___\MFramework_AI`
+  - 主仓库工作区（Plan 读取区）：优先读取 `.ai/config/agent.local.json` 中的 `mainWorkspace`；若未配置，则使用当前用户发起任务所在工作区或当前 Git 仓库根目录。
+  - AI 专用工作目录（代码实现区）：优先读取 `.ai/config/agent.local.json` 中的 `aiWorkspace`；若未配置，则视为环境未准备完成，不得自行猜测路径。
 - 用户当前发起任务所在的主仓库工作区，主要用于读取上下文、读取 Planner 落盘的 `plan.md`、核对文件状态。
 - 除非用户明确授权临时例外，AI 不得在用户当前工作区直接执行代码修改、提交、push 或 PR。
 - 默认所有实际编码、提交与 PR 操作，都必须在 AI 专用工作目录中进行。
 - AI 必须优先自主完成 AI 专用工作目录、固定 Fork、remote 配置与任务分支准备；这些属于默认执行职责，不应等待用户逐项提醒。
 - 当 Coder 在 AI 专用工作目录启动时，第一优先级必须是先完成自己的 fork / remote / branch 准备，再回到主仓库工作区读取 Plan。
-- 即使 Coder 当前运行在 AI 专用工作目录，也必须主动回到主仓库工作区 `D:\___UNITY___\MFramework` 查找 Plan；不得因为 AI 工作区内没有 `plan.md`，就认定“没有计划”。
+- 即使 Coder 当前运行在 AI 专用工作目录，也必须主动回到由 `mainWorkspace` 确定的主仓库工作区查找 Plan；不得因为 AI 工作区内没有 `plan.md`，就认定“没有计划”。
 
 # 执行规则
 
@@ -65,7 +81,7 @@
   - 已完成或已开始 AI 专用工作目录的 fork 准备流程
   - 已获取并确认 Plan
   - 已定位 Plan 的实际来源；若来源于文件，必须记录完整路径；若来源于当前对话，必须准备在实现记录中说明
-  - 已明确区分“Plan 读取区”和“代码实现区”，并确认本次 Plan 是否来自主仓库工作区 `D:\___UNITY___\MFramework`
+  - 已明确区分“Plan 读取区”和“代码实现区”，并确认本次 Plan 是否来自由 `mainWorkspace` 确定的主仓库工作区
   - 已阅读 /AGENTS.md
   - 已阅读 .ai/docs 中相关文档
   - 已明确任务名
@@ -76,9 +92,9 @@
 - Fork规则
   在开始编写代码前，先执行 fork 准备流程。
   - Fork 目标
-    - AI专用工作目录：`E:\___AI___\MFramework_AI`
-    - 上游仓库：`https://github.com/mineselfQAQ/AITest`
-    - 固定 Fork 仓库：`https://github.com/mineseldQAQ/AITest`
+    - AI专用工作目录：优先读取 `.ai/config/agent.local.json` 中的 `aiWorkspace`
+    - 上游仓库：优先读取 `.ai/config/agent.local.json` 中的 `upstreamRepo`
+    - 固定 Fork 仓库：优先读取 `.ai/config/agent.local.json` 中的 `forkRepo`
     - GitHub PAT：通过 gh 命令使用当前已登录凭据，不直接明文处理 PAT
   - 说明
     - 若网络不可用、gh 不可用、未登录 GitHub、无 fork 权限或执行环境不支持，则不得伪造执行结果。
@@ -97,17 +113,17 @@
     - 即使用户同意临时在当前工作区继续实现，也必须在实现记录中单独写明：AI 专用工作区未使用、继续编码是基于用户明确授权。
   - Fork执行流程
     - 当 Coder 在 AI 专用工作目录启动时，第一步必须是检查并准备 fork 环境，而不是先在当前仓库里搜索 `plan.md`。
-    - 优先检查 AI 专用工作目录是否存在；若不存在，则立即 clone 固定 Fork 到 `E:\___AI___\MFramework_AI`。
+    - 优先检查 `aiWorkspace` 指向的 AI 专用工作目录是否存在；若不存在，则立即 clone 固定 Fork 到该目录。
     - 若固定 Fork 尚未创建，则先通过 `gh` 基于上游仓库创建真正的 fork，再 clone 到 AI 专用工作目录。
-    - 完成 fork、remote、默认分支同步和任务分支准备后，再回到主仓库工作区 `D:\___UNITY___\MFramework` 查找 Planner 落盘的 `plan.md`。
-    - 无论当前 Coder 会话位于哪个工作区，在开始编码前都必须先到主仓库工作区 `D:\___UNITY___\MFramework` 查找 Planner 落盘的 `plan.md`。
+    - 完成 fork、remote、默认分支同步和任务分支准备后，再回到由 `mainWorkspace` 确定的主仓库工作区查找 Planner 落盘的 `plan.md`。
+    - 无论当前 Coder 会话位于哪个工作区，在开始编码前都必须先到由 `mainWorkspace` 确定的主仓库工作区查找 Planner 落盘的 `plan.md`。
     - 不得把“AI 专用工作目录里不存在 `.ai/output/.../plan.md`”作为 Plan 缺失的判断依据；必须先完成对主仓库工作区的查找。
     - 进入 AI 专用工作目录后，必须校正 remote：
-      - `fork` 指向 `https://github.com/mineseldQAQ/AITest.git`
-      - `upstream` 指向 `https://github.com/mineselfQAQ/AITest.git`
+      - `fork` 优先指向 `.ai/config/agent.local.json` 中的 `forkRepo`
+      - `upstream` 优先指向 `.ai/config/agent.local.json` 中的 `upstreamRepo`
     - `origin` 是否存在不做强制要求，但不得让 `origin` 误指向与当前任务无关的仓库。
     - 在开始编码前，AI 必须自行完成 fetch、同步默认分支、创建或切换任务分支等准备动作。
-    - 在第一次真正修改文件前，AI 必须再次确认编辑工具的目标根目录；若编辑工具不支持指定到 `E:\___AI___\MFramework_AI`，必须立即停止，不得调用任何会改写当前工作区的编辑操作。
+    - 在第一次真正修改文件前，AI 必须再次确认编辑工具的目标根目录；若编辑工具不支持指定到 `aiWorkspace` 指向的目录，必须立即停止，不得调用任何会改写当前工作区的编辑操作。
     - 所有代码修改、实现记录同步、分支创建与推送目标都必须在 AI 专用工作目录内保持一致和可追溯。
   - 编码规则
     - 必须严格按照 Plan 的步骤顺序执行
@@ -240,7 +256,7 @@
 # 标准工作流
 
 - 当 Coder 在 AI 专用工作目录启动时，先完成自己的 fork、remote、默认分支同步和任务分支准备
-- 再进入主仓库工作区 `D:\___UNITY___\MFramework`
+- 再进入由 `mainWorkspace` 确定的主仓库工作区
 - 获取并确认 Plan
 - 优先从主仓库工作区定位 Planner 已落盘的 `plan.md`
 - 若用户当前工作区没有可用计划文件，再检查用户是否在当前对话中直接提供了完整计划

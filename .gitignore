@@ -102,3 +102,4 @@ InitTestScene*.unity*
 *.txt
 *.svn
 *.idea
+.ai/config/agent.local.json
