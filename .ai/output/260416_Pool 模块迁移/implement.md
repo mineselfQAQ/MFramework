@@ -30,6 +30,6 @@
 ## PR Status
 
 - Fork: Done
-- Push: Skipped
-- PR: Skipped
-- Reason: 实现记录首次落盘时尚未执行远端提交；若后续 push / PR 成功，将继续更新本文件。
+- Push: Done
+- PR: Done
+- Reason: 已推送到 `fork/ai/pool-migration`，并创建 PR：`https://github.com/mineselfQAQ/MFramework/pull/2`
