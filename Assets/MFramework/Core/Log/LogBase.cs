@@ -89,7 +89,7 @@ namespace MFramework.Core
             
             string info = LogFormatter.Build(MLog.LogLevel.Warning, SrcName, callerLocation, message);
             
-            Debug.LogWarning($"{info} {message}");
+            Debug.LogWarning(info);
         }
 
         protected virtual void EInternal(object message, string callerLocation)
@@ -101,11 +101,11 @@ namespace MFramework.Core
             string stackTrace = GetStackTrace(3);
             if (stackTrace != null)
             {
-                Debug.LogError($"{info} {message}\n{stackTrace}");
+                Debug.LogError($"{info}\n{stackTrace}");
             }
             else
             {
-                Debug.LogError($"{info} {message}");
+                Debug.LogError(info);
             }
         }
 
