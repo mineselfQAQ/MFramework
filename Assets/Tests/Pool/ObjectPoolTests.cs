@@ -1,5 +1,4 @@
 using MFramework.Pool;
-
 using NUnit.Framework;
 
 namespace MFramework.Tests.Pool

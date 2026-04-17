@@ -77,19 +77,19 @@ namespace MFramework.Pool
         {
             if (container == null)
             {
-                _log.W($"{typeof(ObjectPool<T>)} 归还失败：句柄为空。");
+                _log.W($"归还失败：句柄为空。");
                 return false;
             }
 
             if (!_allContainers.Contains(container))
             {
-                _log.W($"{typeof(ObjectPool<T>)} 归还失败：句柄不属于当前对象池。");
+                _log.W($"归还失败：句柄不属于当前对象池。");
                 return false;
             }
 
             if (!_usedContainers.Contains(container) || !container.Used)
             {
-                _log.W($"{typeof(ObjectPool<T>)} 归还失败：句柄当前未被使用。");
+                _log.W("归还失败：句柄当前未被使用。");
                 return false;
             }
 
