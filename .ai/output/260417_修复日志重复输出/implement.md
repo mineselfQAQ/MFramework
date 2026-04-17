@@ -22,6 +22,6 @@
 ## PR Status
 
 - Fork: Skipped
-- Push: Skipped
-- PR: Skipped
-- Reason: 本次仅校验了本地 `fork` remote 配置并创建任务分支，没有在本轮实际执行 fork 创建；同时未执行 push 与 PR 流程。
+- Push: Done
+- PR: Done
+- Reason: 复用了既有 `fork` 仓库并将分支 `fix-log-duplicate-output-260417` 推送到 `fork`，随后创建了 PR：`https://github.com/mineselfQAQ/MFramework/pull/3`
