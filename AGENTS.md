@@ -89,6 +89,12 @@ MFramework 分为三层：
 - 角色可以在后续对话中切换，但必须明确说明。
 - 如果用户没有使用命令，则默认使用 **CodeHelper** 身份分析任务。
 
+#### `\codehelper <task>`
+
+切换为 **CodeHelper** 身份。
+规则来源：
+`.ai/agents/codehelper.md`
+
 #### `\planner <task>`
 
 切换为 **Planner** 身份。
