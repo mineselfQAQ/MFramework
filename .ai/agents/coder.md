@@ -25,10 +25,18 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
 - 本地配置用于描述会随项目、机器、账号变化的环境参数，至少包括：
   - `mainWorkspace`：主仓库工作区（Plan 读取区）
   - `aiWorkspace`：AI 专用工作目录（代码实现区）
+  - `unityEditorsRoot`：Unity Editor 安装根目录，例如 `E:\___SOFTWARE___\Unity\Editor`
+  - `unityEditorPath`：可选，显式指定当前项目应使用的 `Unity.exe` 绝对路径
   - `upstreamRepo`：上游仓库地址
   - `forkRepo`：固定 Fork 仓库地址
 - 若 `mainWorkspace` 未配置，允许回退为“当前用户发起任务所在工作区”或当前 Git 仓库根目录。
 - 若 `aiWorkspace` 未配置，视为 AI 专用工作目录未准备完成；不得自行猜测盘符、父目录或仓库名。
+- 若任务需要 Unity 编译、Test Runner、BatchMode 或其他 Unity Editor 调用，则必须先解析 Unity 路径：
+  - 优先使用 `unityEditorPath`
+  - 若未配置 `unityEditorPath`，则基于 `ProjectSettings/ProjectVersion.txt` 中的版本号，在 `unityEditorsRoot` 下依次尝试：
+    - `<unityEditorsRoot>\\版本号\\Editor\\Unity.exe`
+    - `<unityEditorsRoot>\\Unity 版本号\\Editor\\Unity.exe`
+  - 若上述路径均不存在，则视为 Unity 环境阻塞，不得伪造“已编译/已测试”结果
 - 若 `upstreamRepo` 或 `forkRepo` 未配置，允许从目标仓库 remote 推断；若无法唯一确定，必须报告阻塞，不得擅自假设。
 - `.ai/config/agent.local.json` 属于本地环境文件，默认不应要求提交到 Git。
 
@@ -84,9 +92,11 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
   - 已明确区分“Plan 读取区”和“代码实现区”，并确认本次 Plan 是否来自由 `mainWorkspace` 确定的主仓库工作区
   - 已阅读 /AGENTS.md
   - 已阅读 .ai/docs 中相关文档
-  - 已明确任务名
-  - 已明确当前日期，格式为 YYMMDD
+- 已明确任务名
+- 已明确任务类型（如 `[fix]` / `[feat]`）
+- 已明确当前日期，格式为 YYMMDD
   - 已确认是否具备 fork / push / PR 所需环境条件
+  - 若本次任务包含 Unity 编译、BatchMode 或 Test Runner，已确认 `unityEditorPath` 可用，或已基于 `unityEditorsRoot + ProjectVersion.txt` 成功解析到 `Unity.exe`
   - 已验证“实际编辑工具”的写入根目录确实位于 AI 专用工作目录，而不是用户当前工作区
 
 - Fork规则
@@ -133,6 +143,13 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
     - 仅修改完成任务所必需的文件
     - 不得进行与计划无关的重构、格式化或目录整理，除非计划明确要求
     - 新增文件时必须符合 /AGENTS.md 与 .ai/docs 的放置规范
+    - 必须按任务类型理解测试职责：
+      - `[fix]`：默认不强制新增测试用例；若 Plan 明确要求、用户明确要求，或修复点明显缺少最小回归保障，可补充必要测试
+      - `[feat]`：默认应完成相应测试或验证资产，不得只实现功能而完全不验证
+    - 必须按任务类型理解 example 职责：
+      - `[fix]`：默认不新增 `Assets/MFrameworkExamples/` 内容；仅当 bug 本身位于 example，或 Plan / 用户明确要求修复示例时，才允许修改 example
+      - `[feat]`：如新增能力需要演示接入方式或展示效果，可补充 `Assets/MFrameworkExamples/` 示例
+    - 若新增单元测试，测试用途必须可识别；至少应在目录、命名空间或类名中体现其属于 fix 回归还是 feat 功能验证，不得只依赖含糊的方法名区分
   - 实现记录规则
     变更完成后，必须生成一份 Markdown 格式的实现记录，并备份到：
     `.ai/output/日期_任务名/implement.md`
@@ -243,9 +260,9 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
 
 ## PR 标题格式
 
-`[YYYY_MM_DD]#修改序号 任务名`
+`[YYYY_MM_DD][类型]#修改序号 任务名`
 例如：
-`[2026_04_16]#13 修改Log模块`
+`[2026_04_16][fix]#13 修复日志重复输出`
 
 ## PR 内容
 
@@ -276,6 +293,7 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
 - 当 Coder 在 AI 专用工作目录启动时，先完成自己的 fork、remote、默认分支同步和任务分支准备
 - 再进入由 `mainWorkspace` 确定的主仓库工作区
 - 获取并确认 Plan
+- 确认 Plan 中的任务类型
 - 优先从主仓库工作区定位 Planner 已落盘的 `plan.md`
 - 若用户当前工作区没有可用计划文件，再检查用户是否在当前对话中直接提供了完整计划
 - 若存在多个候选 `plan.md` 或多个候选任务，先请求用户明确指定，不得自行挑选
@@ -289,5 +307,6 @@ Coder 必须将“执行规则”和“本地环境参数”分离处理。
 - 每完成一步更新实现记录中的勾选状态
 - 在实现记录中写明 Plan 来源路径与 SHA256
 - 将实现记录备份到 `.ai/output/日期_任务名/implement.md`
+- 若计划要求 Unity 编译或测试，优先按 `unityEditorPath` 或 `unityEditorsRoot + ProjectVersion.txt` 解析出的编辑器执行，不得依赖模糊猜测路径
 - 条件满足时提交代码并创建 PR
 - 返回执行结果摘要，包括已完成项、未完成项、涉及文件、PR 状态

@@ -1,6 +1,8 @@
 {
   "mainWorkspace": "D:\\___UNITY___\\MFramework",
   "aiWorkspace": "E:\\___AI___\\MFramework_AI",
+  "unityEditorsRoot": "E:\\___SOFTWARE___\\Unity\\Editor",
+  "unityEditorPath": "E:\\___SOFTWARE___\\Unity\\Editor\\Unity 6000.0.61f1\\Editor\\Unity.exe",
   "upstreamRepo": "https://github.com/mineselfQAQ/MFramework.git",
   "forkRepo": "https://github.com/mineselfBOT/MFramework.git"
 }
