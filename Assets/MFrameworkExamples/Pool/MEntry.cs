@@ -12,13 +12,12 @@ namespace MFrameworkExamples.Pool
 {
     public class MEntry : MEntryBase
     {
-        private GameObject _template;
+        [SerializeField] private GameObject _template;
 
         protected override void OnInitialized(TrackerStoppedEvent e)
         {
             var manager = MIOCContainer.Default.Resolve<MPoolManager>();
 
-            _template = CreateTemplate();
             manager.WarmPool(_template, null, 2);
 
             ObjectPoolContainer<GameObject> first = manager.SpawnObject(_template, new Vector3(-2f, 0f, 0f), Quaternion.identity);
@@ -27,7 +26,7 @@ namespace MFrameworkExamples.Pool
             manager.ReleaseObject(first);
             ObjectPoolContainer<GameObject> reused = manager.SpawnObject(_template, new Vector3(2f, 0f, 0f), Quaternion.identity);
 
-            MLog.Default.D($"Pool 示例复用结果：{object.ReferenceEquals(first, reused)}");
+            MLog.Default.D($"复用：{object.ReferenceEquals(first, reused)}");
 
             manager.ReleaseObject(second);
             manager.ReleaseObject(reused);
@@ -55,14 +54,6 @@ namespace MFrameworkExamples.Pool
         protected override IShutdown GetUserShutDown()
         {
             return null;
-        }
-
-        private static GameObject CreateTemplate()
-        {
-            GameObject template = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            template.name = "PoolCubeTemplate";
-            template.SetActive(false);
-            return template;
         }
     }
 }
