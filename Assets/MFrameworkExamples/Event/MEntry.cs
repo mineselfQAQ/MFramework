@@ -4,7 +4,6 @@ using MFramework.Core.CoreEx;
 using MFramework.Core.Event;
 using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
-using MFramework.Event;
 
 namespace MFrameworkExamples.Event
 {
@@ -23,6 +22,11 @@ namespace MFrameworkExamples.Event
     {
         private MEventBus _eventBus = new MEventBus();
 
+        protected override IManagedService[] ConfigureServices()
+        {
+            return null;
+        }
+
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             _eventBus.LogError = (message) =>
@@ -37,14 +41,6 @@ namespace MFrameworkExamples.Event
             // Name版
             _eventBus.RegisterSafe("EventByName", () => throw new Exception("Name版错误"));
             _eventBus.Publish("EventByName");
-        }
-
-        protected override IManagedService[] ConfigureServices()
-        {
-            return new IManagedService[]
-            {
-                new UnityLifecycleEventServiceProvider(),
-            };
         }
     }
 }
