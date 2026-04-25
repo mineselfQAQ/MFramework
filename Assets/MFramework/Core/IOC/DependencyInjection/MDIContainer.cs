@@ -12,24 +12,27 @@ namespace MFramework.Core.IOC
         Scoped,
         Singleton,
     }
-    
+
     public class Binding
     {
         public Lifecycle Lifecycle { get; }
 
         public Func<MDIContainer, object> Factory { get; }
 
-        public Binding(Lifecycle lifecycle, Func<MDIContainer, object> factory)
+        public bool NeedDispose { get; }
+
+        public Binding(Lifecycle lifecycle, Func<MDIContainer, object> factory, bool needDispose)
         {
             Lifecycle = lifecycle;
             Factory = factory;
+            NeedDispose = needDispose;
         }
     }
 
     public class Key
     {
         internal Type SourceType { get; }
-        
+
         [CanBeNull] internal string Name { get; }
 
         public Key(Type sourceType, string name)
@@ -37,12 +40,12 @@ namespace MFramework.Core.IOC
             SourceType = sourceType;
             Name = name;
         }
-        
+
         public override bool Equals(object obj)
         {
             return Equals(obj as Key);
         }
-        
+
         public override int GetHashCode()
         {
             return HashCode.Combine(SourceType, Name);
@@ -56,11 +59,11 @@ namespace MFramework.Core.IOC
         private bool Equals(Key other)
         {
             if (other == null) return false;
-            
+
             return SourceType == other.SourceType &&
                    string.Equals(Name, other.Name, StringComparison.Ordinal);
         }
-        
+
         public static bool operator ==(Key left, Key right)
         {
             return EqualityComparer<Key>.Default.Equals(left, right);
@@ -71,37 +74,37 @@ namespace MFramework.Core.IOC
             return !(left == right);
         }
     }
-    
+
     public class MDIContainer : IDisposable
     {
         private static readonly ILog _log = new InternalLog(nameof(MDIContainer));
-        
+
         private Dictionary<Key, object> _instances;
         private Dictionary<Key, object> _scopedInstances = new Dictionary<Key, object>();
         private Dictionary<Key, Binding> _bindings; // 子container没有_bindings
 
         private List<IDisposable> _disposables = new List<IDisposable>();
-        
+
         private MDIContainer Root => _parent == null ? this : _parent.Root;
 
         private Dictionary<Key, object> Instances => Root._instances;
         private Dictionary<Key, Binding> Bindings => Root._bindings;
-        
+
         private MDIContainer _parent;
 
         public MDIContainer()
         {
             _parent = null;
-            
+
             _instances = new Dictionary<Key, object>();
             _bindings = new Dictionary<Key, Binding>();
         }
-        
+
         private MDIContainer(MDIContainer parent)
         {
             _parent = parent;
         }
-        
+
         public void Dispose()
         {
             if (_disposables == null) return;
@@ -112,6 +115,12 @@ namespace MFramework.Core.IOC
             }
 
             _disposables.Clear();
+            _scopedInstances.Clear();
+
+            if (_parent == null) // Root
+            {
+                _instances.Clear();
+            }
         }
 
         public MDIContainer CreateScope()
@@ -120,21 +129,21 @@ namespace MFramework.Core.IOC
         }
 
         #region 原型
-        
+
         internal void RegisterInstance(Type sourceType, string name, object targetInstance)
         {
             var key = new Key(sourceType, name);
             ValidKey(key);
 
-            Bindings[key] = new Binding(Lifecycle.Singleton, (_) => targetInstance);
+            Bindings[key] = new Binding(Lifecycle.Singleton, (_) => targetInstance, false);
         }
 
         internal void RegisterType(Type sourceType, string name, Type targetType, Lifecycle lifecycle)
         {
             var key = new Key(sourceType, name);
             ValidKey(key);
-            
-            Bindings[key] = new Binding(lifecycle, container => container.CreateInstance(targetType, name));
+
+            Bindings[key] = new Binding(lifecycle, container => container.CreateInstance(targetType, name), true);
         }
 
         internal void RegisterFactory(Type sourceType, string name, Func<MDIContainer, object> factory, Lifecycle lifecycle)
@@ -142,7 +151,26 @@ namespace MFramework.Core.IOC
             var key = new Key(sourceType, name);
             ValidKey(key);
 
-            Bindings[key] = new Binding(lifecycle, factory);
+            Bindings[key] = new Binding(lifecycle, factory, true);
+        }
+
+        internal bool UnRegister(Type sourceType, string name)
+        {
+            var key = new Key(sourceType, name);
+
+            var removed = Bindings.Remove(key);
+
+            if (Instances.Remove(key, out var singletonInstance))
+            {
+                UntrackDisposable(singletonInstance);
+            }
+
+            if (_scopedInstances.Remove(key, out var scopedInstance))
+            {
+                UntrackDisposable(scopedInstance);
+            }
+
+            return removed;
         }
 
         public object Resolve(Type sourceType, string name)
@@ -158,13 +186,13 @@ namespace MFramework.Core.IOC
             {
                 case Lifecycle.Singleton:
                     return ResolveSingleton(key, binding);
-                
+
                 case Lifecycle.Scoped:
                     return ResolveScoped(key, binding);
-                
+
                 case Lifecycle.Transient:
                     return ResolveTransient(key, binding);
-                
+
                 default:
                     throw new UnityFrameworkException($"未知Lifecycle：{binding.Lifecycle}");
             }
@@ -179,7 +207,7 @@ namespace MFramework.Core.IOC
                 {
                     throw new UnityFrameworkException($"解析失败：{key}");
                 }
-                TrackDisposable(instance, binding.Lifecycle);
+                TrackDisposable(instance, binding);
                 Instances[key] = instance;
             }
             return instance;
@@ -191,7 +219,7 @@ namespace MFramework.Core.IOC
             {
                 throw new UnityFrameworkException($"根容器下禁止解析Scoped：{key}");
             }
-                    
+
             if (!_scopedInstances.TryGetValue(key, out var instance))
             {
                 instance = binding.Factory(this);
@@ -199,6 +227,7 @@ namespace MFramework.Core.IOC
                 {
                     throw new UnityFrameworkException($"解析失败：{key}");
                 }
+                TrackDisposable(instance, binding);
                 _scopedInstances[key] = instance;
             }
             return instance;
@@ -213,7 +242,7 @@ namespace MFramework.Core.IOC
             }
             return instance;
         }
-        
+
         private object CreateInstance(Type targetType, string name)
         {
             // 递归解析
@@ -224,7 +253,7 @@ namespace MFramework.Core.IOC
                 _log.W($"无可用public构造：{targetType}");
                 return null;
             }
-            
+
             // 取最多的那个构造函数
             var suitableParameters = constructors.First().GetParameters();
             foreach (var c in constructors)
@@ -243,26 +272,27 @@ namespace MFramework.Core.IOC
                     var elementType = p.ParameterType.GetElementType();
                     return ResolveAll(elementType);
                 }
-                
+
                 if (p.ParameterType.IsGenericType &&
                     p.ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                 {
                     var elementType = p.ParameterType.GetGenericArguments()[0];
                     return ResolveAll(elementType);
                 }
-                
+
                 return Resolve(p.ParameterType, name);
             }).ToArray();
-            
+
             var obj = Activator.CreateInstance(targetType, args);
             return obj;
         }
 
-        private void TrackDisposable(object instance, Lifecycle lifecycle)
+        private void TrackDisposable(object instance, Binding binding)
         {
+            if (!binding.NeedDispose) return;
             if (instance is not IDisposable disposable) return;
 
-            switch (lifecycle)
+            switch (binding.Lifecycle)
             {
                 case Lifecycle.Singleton:
                 {
@@ -280,11 +310,21 @@ namespace MFramework.Core.IOC
                 {
                     break; // Transient不进行管理
                 }
-                
+
                 default:
                 {
-                    throw new UnityFrameworkException($"未知Lifecycle：{lifecycle}");
+                    throw new UnityFrameworkException($"未知Lifecycle：{binding.Lifecycle}");
                 }
+            }
+        }
+
+        private void UntrackDisposable(object instance)
+        {
+            if (instance is IDisposable disposable)
+            {
+                _disposables.Remove(disposable);
+                Root._disposables.Remove(disposable);
+                disposable.Dispose();
             }
         }
 
@@ -299,7 +339,7 @@ namespace MFramework.Core.IOC
                 throw new UnityFrameworkException($"基础类型无法注册，Key：{key}");
             }
         }
-        
+
         private Array ResolveAll(Type sourceType)
         {
             var matched = Bindings.Keys
@@ -316,31 +356,31 @@ namespace MFramework.Core.IOC
 
             return array;
         }
-        
+
         #endregion
     }
 
     public static class MDIContainerExtensions
     {
         # region Instance
-        
+
         // Singleton特有注册方式
         public static void RegisterSingleton<TSource>(this MDIContainer container, string name, object targetInstance)
         {
             container.RegisterInstance(typeof(TSource), name, targetInstance);
         }
-        
+
         // Singleton特有注册方式
         public static void RegisterSingleton<TSource>(this MDIContainer container, object targetInstance)
         {
             container.RegisterInstance(typeof(TSource), null, targetInstance);
         }
-        
+
         public static void RegisterSingleton<TSource>(this MDIContainer container, string name)
         {
             container.RegisterType(typeof(TSource), name, typeof(TSource), Lifecycle.Singleton);
         }
-        
+
         public static void RegisterSingleton<TSource>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TSource), Lifecycle.Singleton);
@@ -350,18 +390,18 @@ namespace MFramework.Core.IOC
         {
             container.RegisterType(typeof(TSource), name, typeof(TTarget), Lifecycle.Singleton);
         }
-        
+
         public static void RegisterSingleton<TSource, TTarget>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TTarget), Lifecycle.Singleton);
         }
-        
+
         public static void RegisterSingleton<TSource>(this MDIContainer container, string name, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), name, wrappedFactory, Lifecycle.Singleton);
         }
-        
+
         public static void RegisterSingleton<TSource>(this MDIContainer container, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
@@ -379,16 +419,16 @@ namespace MFramework.Core.IOC
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), null, wrappedFactory, Lifecycle.Singleton);
         }
-        
+
         # endregion
-        
+
         # region Scoped
-        
+
         public static void RegisterScoped<TSource>(this MDIContainer container, string name)
         {
             container.RegisterType(typeof(TSource), name, typeof(TSource), Lifecycle.Scoped);
         }
-        
+
         public static void RegisterScoped<TSource>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TSource), Lifecycle.Scoped);
@@ -398,18 +438,18 @@ namespace MFramework.Core.IOC
         {
             container.RegisterType(typeof(TSource), name, typeof(TTarget), Lifecycle.Scoped);
         }
-        
+
         public static void RegisterScoped<TSource, TTarget>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TTarget), Lifecycle.Scoped);
         }
-        
+
         public static void RegisterScoped<TSource>(this MDIContainer container, string name, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), name, wrappedFactory, Lifecycle.Scoped);
         }
-        
+
         public static void RegisterScoped<TSource>(this MDIContainer container, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
@@ -427,16 +467,16 @@ namespace MFramework.Core.IOC
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), null, wrappedFactory, Lifecycle.Scoped);
         }
-        
+
         # endregion
-        
+
         # region Transient
-        
+
         public static void RegisterTransient<TSource>(this MDIContainer container, string name)
         {
             container.RegisterType(typeof(TSource), name, typeof(TSource), Lifecycle.Transient);
         }
-        
+
         public static void RegisterTransient<TSource>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TSource), Lifecycle.Transient);
@@ -446,18 +486,18 @@ namespace MFramework.Core.IOC
         {
             container.RegisterType(typeof(TSource), name, typeof(TTarget), Lifecycle.Transient);
         }
-        
+
         public static void RegisterTransient<TSource, TTarget>(this MDIContainer container)
         {
             container.RegisterType(typeof(TSource), null, typeof(TTarget), Lifecycle.Transient);
         }
-        
+
         public static void RegisterTransient<TSource>(this MDIContainer container, string name, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), name, wrappedFactory, Lifecycle.Transient);
         }
-        
+
         public static void RegisterTransient<TSource>(this MDIContainer container, Func<MDIContainer, TSource> factory)
         {
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
@@ -475,17 +515,28 @@ namespace MFramework.Core.IOC
             Func<MDIContainer, object> wrappedFactory = c => factory(c);
             container.RegisterFactory(typeof(TSource), null, wrappedFactory, Lifecycle.Transient);
         }
-        
+
         # endregion
 
         public static T Resolve<T>(this MDIContainer container, string name)
         {
             return (T)container.Resolve(typeof(T), name);
         }
-        
+
         public static T Resolve<T>(this MDIContainer container)
         {
             return (T)container.Resolve(typeof(T), null);
         }
+
+        public static bool UnRegister<TSource>(this MDIContainer container, string name)
+        {
+            return container.UnRegister(typeof(TSource), name);
+        }
+
+        public static bool UnRegister<TSource>(this MDIContainer container)
+        {
+            return container.UnRegister(typeof(TSource), null);
+        }
+
     }
 }
