@@ -34,6 +34,6 @@
 ## PR Status
 
 - Fork: Done
-- Push: Pending
-- PR: Pending
-- Reason: 实现记录随代码提交后继续推送并创建 PR。
+- Push: Done
+- PR: Done
+- Reason: 已推送 `260425-feat-eventbus-lifecycle` 到固定 fork，并创建 PR `https://github.com/mineselfQAQ/MFramework/pull/4`。PR 正文通过 UTF-8 文件 `.ai/output/260425_[feat] 补齐 EventBus 监听管理与 Unity 生命周期桥接/pr_body.md` 传入 `gh pr create --body-file`。
