@@ -17,6 +17,11 @@ namespace MFrameworkExamples.Log
             return MLog.LogFilter.Debug;
         }
 
+        protected override IManagedService[] ConfigureServices()
+        {
+            return null;
+        }
+
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             MLog.Default.D("Default输出"); // Default的LogFilter会跟着设置走

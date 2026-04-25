@@ -12,15 +12,7 @@ namespace MFramework.Event
             _eventBus = eventBus;
         }
 
-        private void Awake()
-        {
-            Publish(new UnityAwakeEvent(this));
-        }
-
-        private void Start()
-        {
-            Publish(new UnityStartEvent(this));
-        }
+        // 没有Awake/Start，语义会错位
 
         private void Update()
         {

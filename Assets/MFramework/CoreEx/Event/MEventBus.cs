@@ -8,13 +8,25 @@ namespace MFramework.Core.Event
 
     public class MEventBus
     {
-        private readonly Dictionary<string, List<Action>> _eventHandlers = new Dictionary<string, List<Action>>();
-        private readonly Dictionary<string, Dictionary<Action, Action>> _safeEventHandlers =
-            new Dictionary<string, Dictionary<Action, Action>>();
+        private class HandlerEntry
+        {
+            public Action Handler;
+            public bool IsSafe;
 
-        private readonly Dictionary<Type, List<Delegate>> _typeEventHandler = new Dictionary<Type, List<Delegate>>();
-        private readonly Dictionary<Type, Dictionary<Delegate, Delegate>> _safeTypeEventHandlers =
-            new Dictionary<Type, Dictionary<Delegate, Delegate>>();
+            public CallerLocation RegisterLocation;
+        }
+
+        private class TypeHandlerEntry
+        {
+            public Delegate Handler;
+            public bool IsSafe;
+
+            public CallerLocation RegisterLocation;
+        }
+
+        private readonly Dictionary<string, List<HandlerEntry>> _eventHandlers = new();
+
+        private readonly Dictionary<Type, List<TypeHandlerEntry>> _typeEventHandlers = new();
 
         public Action<string> LogError { get; set; }
 
@@ -23,164 +35,158 @@ namespace MFramework.Core.Event
 
         }
 
+        public void Clear()
+        {
+            _eventHandlers.Clear();
+            _typeEventHandlers.Clear();
+        }
+
+
+        # region string版
         public void Register(string eventName, Action handler)
         {
-            RegisterInternal(eventName, handler);
+            var rLocation = IntUtilEx.GetCallerLocation(2);
+            RegisterInternal(eventName, handler, isSafe: false, rLocation);
         }
 
         public void RegisterSafe(string eventName, Action handler)
         {
-            if (handler == null) return;
-
-            if (TryGetSafeHandler(eventName, handler, out Action existingSafeHandler))
-            {
-                RegisterInternal(eventName, existingSafeHandler);
-                return;
-            }
-
             var rLocation = IntUtilEx.GetCallerLocation(2);
-            void SafeHandler()
-            {
-                try
-                {
-                    handler();
-                }
-                catch (FrameworkException)
-                {
-                    throw; // 来自框架的throw直接抛出(因为是致命错误，应该抛出)
-                }
-                catch (Exception ex)
-                {
-                    var pLocation = IntUtilEx.GetCallerLocation(3);
-                    LogError?.Invoke(GetExceptionLog(eventName, rLocation, pLocation, ex.Message));
-                }
-            }
-
-            AddSafeHandler(eventName, handler, SafeHandler);
-            RegisterInternal(eventName, SafeHandler);
+            RegisterInternal(eventName, handler, isSafe: true, rLocation);
         }
 
-        private void RegisterInternal(string eventName, Action handler)
+        private void RegisterInternal(string eventName, Action handler, bool isSafe, CallerLocation rLocation)
         {
             if (handler == null) return;
 
-            if (!_eventHandlers.TryGetValue(eventName, out var handlers))
+            if (!_eventHandlers.TryGetValue(eventName, out var entries))
             {
-                handlers = new List<Action>();
-                _eventHandlers[eventName] = handlers;
+                entries = new List<HandlerEntry>();
+                _eventHandlers[eventName] = entries;
             }
 
-            if (!handlers.Contains(handler))
+            if (entries.Exists(entry => entry.Handler == handler)) return;
+            entries.Add(new HandlerEntry()
             {
-                handlers.Add(handler);
-            }
+                Handler = handler,
+                IsSafe = isSafe,
+
+                RegisterLocation = rLocation,
+            });
         }
 
         public void Publish(string eventName)
         {
-            if (!_eventHandlers.TryGetValue(eventName, out var handlers))
-            {
+            if (!_eventHandlers.TryGetValue(eventName, out var entries))
                 return;
-            }
 
-            foreach (var handler in handlers.ToArray())
+            foreach (var entry in entries.ToArray())
             {
-                handler.Invoke();
+                if (entry.IsSafe)
+                {
+                    try
+                    {
+                        entry.Handler.Invoke();
+                    }
+                    catch (FrameworkException)
+                    {
+                        throw; // 来自框架的throw直接抛出(因为是致命错误，应该抛出)
+                    }
+                    catch (Exception ex)
+                    {
+                        var pLocation = IntUtilEx.GetCallerLocation(2);
+                        LogError?.Invoke(GetExceptionLog(eventName, entry.RegisterLocation, pLocation, ex.Message));
+                    }
+                }
+                else
+                {
+                    entry.Handler.Invoke();
+                }
             }
         }
 
-        public bool Remove(string eventName, Action handler)
+        public bool UnRegister(string eventName, Action handler)
         {
             if (handler == null) return false;
+            if (!_eventHandlers.TryGetValue(eventName, out var entries))
+                return false;
 
-            bool removed = RemoveHandler(eventName, handler);
+            int removed = entries.RemoveAll(entry => entry.Handler == handler);
 
-            if (TryRemoveSafeHandler(eventName, handler, out Action safeHandler))
-            {
-                removed |= RemoveHandler(eventName, safeHandler);
-            }
+            if (entries.Count == 0) _eventHandlers.Remove(eventName);
 
-            return removed;
+            return removed > 0;
         }
 
         public void Clear(string eventName)
         {
             _eventHandlers.Remove(eventName);
-            _safeEventHandlers.Remove(eventName);
         }
-
-        public void Clear()
-        {
-            _eventHandlers.Clear();
-            _safeEventHandlers.Clear();
-            _typeEventHandler.Clear();
-            _safeTypeEventHandlers.Clear();
-        }
+        #endregion
 
 
-
+        # region IEvent版
         public void Register<TEvent>(Action<TEvent> handler) where TEvent : IEvent
         {
-            RegisterInternal(handler);
+            var rLocation = IntUtilEx.GetCallerLocation(2);
+            RegisterInternal(handler, isSafe: false, rLocation);
         }
 
         public void RegisterSafe<TEvent>(Action<TEvent> handler) where TEvent : IEvent
         {
-            if (handler == null) return;
-
-            if (TryGetSafeHandler(handler, out Action<TEvent> existingSafeHandler))
-            {
-                RegisterInternal(existingSafeHandler);
-                return;
-            }
-
             var rLocation = IntUtilEx.GetCallerLocation(2);
-            void SafeHandler(TEvent e)
-            {
-                try
-                {
-                    handler(e);
-                }
-                catch (FrameworkException)
-                {
-                    throw; // 来自框架的throw直接抛出(因为是致命错误，应该抛出)
-                }
-                catch (Exception ex)
-                {
-                    var pLocation = IntUtilEx.GetCallerLocation(3);
-                    LogError?.Invoke(GetExceptionLog(typeof(TEvent).FullName, rLocation, pLocation, ex.Message));
-                }
-            }
-
-            AddSafeHandler(handler, SafeHandler);
-            RegisterInternal((Action<TEvent>)SafeHandler);
+            RegisterInternal(handler, isSafe: true, rLocation);
         }
 
-        private void RegisterInternal<TEvent>(Action<TEvent> handler) where TEvent : IEvent
+        private void RegisterInternal<TEvent>(Action<TEvent> handler, bool isSafe, CallerLocation rLocation) where TEvent : IEvent
         {
             if (handler == null) return;
 
-            if (!_typeEventHandler.TryGetValue(typeof(TEvent), out var handlers))
+            Type eventType = typeof(TEvent);
+            if (!_typeEventHandlers.TryGetValue(eventType, out var entries))
             {
-                handlers = new List<Delegate>();
-                _typeEventHandler[typeof(TEvent)] = handlers;
+                entries = new List<TypeHandlerEntry>();
+                _typeEventHandlers[eventType] = entries;
             }
 
-            if (!handlers.Contains(handler))
+            if (entries.Exists(entry => entry.Handler == (Delegate)handler)) return;
+            entries.Add(new TypeHandlerEntry
             {
-                handlers.Add(handler);
-            }
+                Handler = handler,
+                IsSafe = isSafe,
+
+                RegisterLocation = rLocation,
+            });
         }
 
         public void Publish<TEvent>(TEvent eventData) where TEvent : IEvent
         {
             var eventType = typeof(TEvent);
 
-            if (_typeEventHandler.TryGetValue(eventType, out var handlers))
+            if (_typeEventHandlers.TryGetValue(eventType, out var entries))
             {
-                foreach (var handler in handlers.ToArray())
+                foreach (var entry in entries.ToArray())
                 {
-                    if (handler is Action<TEvent> typedHandler)
+                    if (entry.Handler is not Action<TEvent> typedHandler)
+                        continue;
+
+                    if (entry.IsSafe)
+                    {
+                        try
+                        {
+                            typedHandler.Invoke(eventData);
+                        }
+                        catch (FrameworkException)
+                        {
+                            throw; // 来自框架的throw直接抛出(因为是致命错误，应该抛出)
+                        }
+                        catch (Exception ex)
+                        {
+                            var pLocation = IntUtilEx.GetCallerLocation(2);
+                            LogError?.Invoke(GetExceptionLog(typeof(TEvent).FullName, entry.RegisterLocation, pLocation, ex.Message));
+                        }
+                    }
+                    else
                     {
                         typedHandler.Invoke(eventData);
                     }
@@ -188,144 +194,28 @@ namespace MFramework.Core.Event
             }
         }
 
-        public bool Remove<TEvent>(Action<TEvent> handler) where TEvent : IEvent
+        public bool UnRegister<TEvent>(Action<TEvent> handler) where TEvent : IEvent
         {
             if (handler == null) return false;
 
-            bool removed = RemoveHandler(handler);
+            Type eventType = typeof(TEvent);
 
-            if (TryRemoveSafeHandler(handler, out Action<TEvent> safeHandler))
-            {
-                removed |= RemoveHandler(safeHandler);
-            }
+            if (!_typeEventHandlers.TryGetValue(eventType, out var entries))
+                return false;
 
-            return removed;
+            int removed = entries.RemoveAll(entry => entry.Handler == (Delegate)handler);
+
+            if (entries.Count == 0)
+                _typeEventHandlers.Remove(eventType);
+
+            return removed > 0;
         }
 
         public void Clear<TEvent>() where TEvent : IEvent
         {
-            Type eventType = typeof(TEvent);
-            _typeEventHandler.Remove(eventType);
-            _safeTypeEventHandlers.Remove(eventType);
+            _typeEventHandlers.Remove(typeof(TEvent));
         }
-
-        private bool RemoveHandler(string eventName, Action handler)
-        {
-            if (!_eventHandlers.TryGetValue(eventName, out var handlers))
-            {
-                return false;
-            }
-
-            int removedCount = handlers.RemoveAll(registeredHandler => registeredHandler == handler);
-            if (handlers.Count == 0)
-            {
-                _eventHandlers.Remove(eventName);
-            }
-
-            return removedCount > 0;
-        }
-
-        private bool RemoveHandler<TEvent>(Action<TEvent> handler) where TEvent : IEvent
-        {
-            Type eventType = typeof(TEvent);
-            if (!_typeEventHandler.TryGetValue(eventType, out var handlers))
-            {
-                return false;
-            }
-
-            int removedCount = handlers.RemoveAll(registeredHandler => registeredHandler == (Delegate)handler);
-            if (handlers.Count == 0)
-            {
-                _typeEventHandler.Remove(eventType);
-            }
-
-            return removedCount > 0;
-        }
-
-        private bool TryGetSafeHandler(string eventName, Action handler, out Action safeHandler)
-        {
-            safeHandler = null;
-            return _safeEventHandlers.TryGetValue(eventName, out var handlers) &&
-                   handlers.TryGetValue(handler, out safeHandler);
-        }
-
-        private void AddSafeHandler(string eventName, Action handler, Action safeHandler)
-        {
-            if (!_safeEventHandlers.TryGetValue(eventName, out var handlers))
-            {
-                handlers = new Dictionary<Action, Action>();
-                _safeEventHandlers[eventName] = handlers;
-            }
-
-            handlers[handler] = safeHandler;
-        }
-
-        private bool TryRemoveSafeHandler(string eventName, Action handler, out Action safeHandler)
-        {
-            safeHandler = null;
-            if (!_safeEventHandlers.TryGetValue(eventName, out var handlers) ||
-                !handlers.TryGetValue(handler, out safeHandler))
-            {
-                return false;
-            }
-
-            handlers.Remove(handler);
-            if (handlers.Count == 0)
-            {
-                _safeEventHandlers.Remove(eventName);
-            }
-
-            return true;
-        }
-
-        private bool TryGetSafeHandler<TEvent>(Action<TEvent> handler, out Action<TEvent> safeHandler)
-            where TEvent : IEvent
-        {
-            safeHandler = null;
-            Type eventType = typeof(TEvent);
-            if (!_safeTypeEventHandlers.TryGetValue(eventType, out var handlers) ||
-                !handlers.TryGetValue(handler, out Delegate registeredSafeHandler))
-            {
-                return false;
-            }
-
-            safeHandler = (Action<TEvent>)registeredSafeHandler;
-            return true;
-        }
-
-        private void AddSafeHandler<TEvent>(Action<TEvent> handler, Action<TEvent> safeHandler)
-            where TEvent : IEvent
-        {
-            Type eventType = typeof(TEvent);
-            if (!_safeTypeEventHandlers.TryGetValue(eventType, out var handlers))
-            {
-                handlers = new Dictionary<Delegate, Delegate>();
-                _safeTypeEventHandlers[eventType] = handlers;
-            }
-
-            handlers[handler] = safeHandler;
-        }
-
-        private bool TryRemoveSafeHandler<TEvent>(Action<TEvent> handler, out Action<TEvent> safeHandler)
-            where TEvent : IEvent
-        {
-            safeHandler = null;
-            Type eventType = typeof(TEvent);
-            if (!_safeTypeEventHandlers.TryGetValue(eventType, out var handlers) ||
-                !handlers.TryGetValue(handler, out Delegate registeredSafeHandler))
-            {
-                return false;
-            }
-
-            handlers.Remove(handler);
-            if (handlers.Count == 0)
-            {
-                _safeTypeEventHandlers.Remove(eventType);
-            }
-
-            safeHandler = (Action<TEvent>)registeredSafeHandler;
-            return true;
-        }
+        #endregion
 
         private string GetExceptionLog(string eventName, CallerLocation rLocation, CallerLocation pLocation, string message)
         {

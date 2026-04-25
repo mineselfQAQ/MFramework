@@ -12,20 +12,6 @@ namespace MFramework.Event
         public UnityLifecycleEventDispatcher Dispatcher { get; }
     }
 
-    public sealed class UnityAwakeEvent : UnityLifecycleEvent
-    {
-        public UnityAwakeEvent(UnityLifecycleEventDispatcher dispatcher) : base(dispatcher)
-        {
-        }
-    }
-
-    public sealed class UnityStartEvent : UnityLifecycleEvent
-    {
-        public UnityStartEvent(UnityLifecycleEventDispatcher dispatcher) : base(dispatcher)
-        {
-        }
-    }
-
     public sealed class UnityUpdateEvent : UnityLifecycleEvent
     {
         public UnityUpdateEvent(UnityLifecycleEventDispatcher dispatcher) : base(dispatcher)

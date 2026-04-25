@@ -21,7 +21,7 @@ namespace MFramework.Tests.Event
             void Handler() => callCount++;
 
             eventBus.Register("test", Handler);
-            bool removed = eventBus.Remove("test", Handler);
+            bool removed = eventBus.UnRegister("test", Handler);
             eventBus.Publish("test");
 
             Assert.That(removed, Is.True);
@@ -54,7 +54,7 @@ namespace MFramework.Tests.Event
             void Handler(TestEvent e) => callCount++;
 
             eventBus.Register<TestEvent>(Handler);
-            bool removed = eventBus.Remove<TestEvent>(Handler);
+            bool removed = eventBus.UnRegister<TestEvent>(Handler);
             eventBus.Publish(new TestEvent());
 
             Assert.That(removed, Is.True);
@@ -105,7 +105,7 @@ namespace MFramework.Tests.Event
             void Handler() => callCount++;
 
             eventBus.RegisterSafe("test", Handler);
-            bool removed = eventBus.Remove("test", Handler);
+            bool removed = eventBus.UnRegister("test", Handler);
             eventBus.Publish("test");
 
             Assert.That(removed, Is.True);
@@ -120,7 +120,7 @@ namespace MFramework.Tests.Event
             void Handler(TestEvent e) => callCount++;
 
             eventBus.RegisterSafe<TestEvent>(Handler);
-            bool removed = eventBus.Remove<TestEvent>(Handler);
+            bool removed = eventBus.UnRegister<TestEvent>(Handler);
             eventBus.Publish(new TestEvent());
 
             Assert.That(removed, Is.True);

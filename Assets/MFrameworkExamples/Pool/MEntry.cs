@@ -6,8 +6,6 @@ using MFramework.Pool;
 
 using UnityEngine;
 
-using IServiceProvider = MFramework.Core.CoreEx.IServiceProvider;
-
 namespace MFrameworkExamples.Pool
 {
     public class MEntry : MEntryBase
@@ -41,19 +39,12 @@ namespace MFrameworkExamples.Pool
             }
         }
 
-        protected override IBootstrap GetUserBootstrap()
+        protected override IManagedService[] ConfigureServices()
         {
-            var providers = new IServiceProvider[]
+            return new IManagedService[]
             {
                 new PoolServiceProvider(),
             };
-
-            return new UserBootstrap(Core, providers);
-        }
-
-        protected override IShutdown GetUserShutDown()
-        {
-            return null;
         }
     }
 }

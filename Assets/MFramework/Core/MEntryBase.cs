@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using MFramework.Core.CoreEx;
 using MFramework.Core.Tracker;
 using UnityEngine;
@@ -12,7 +14,7 @@ namespace MFramework.Core
     public abstract class MEntryBase : MonoBehaviour
     {
         protected MCore Core;
-        
+
         protected void Awake()
         {
             Core = (MCore)CreateCore();
@@ -24,11 +26,12 @@ namespace MFramework.Core
             Core.OnShuttingDown(OnShuttingDown);
             Core.OnShutDown(OnShutDown);
             // 流程项注册
-            Core.AddBootstrap(new InternalBootstrap(Core));
+            Core.AddBootstrap(new InternalBootstrap());
+            Core.AddBootstrap(GetServiceBootstrap());
             Core.AddBootstrap(GetUserBootstrap());
             Core.AddShutdown(new InternalShutDown());
             Core.AddShutdown(GetUserShutDown());
-            
+
             // 启动
             MLog.SetDefaultLogFilter(SetLogFilter());
             MLog.Bootstrap(); // 主动提前，使OnBootstrapping事件中可进行MLog操作
@@ -42,7 +45,7 @@ namespace MFramework.Core
 
         protected void Update()
         {
-            
+
         }
 
         protected virtual void OnApplicationQuit()
@@ -57,6 +60,18 @@ namespace MFramework.Core
             return new MCore();
         }
 
+        protected IBootstrap GetServiceBootstrap()
+        {
+            var services = ConfigureServices();
+            return new ServiceBootstrap(Core, services);
+        }
+
+        /// <summary>
+        /// 添加Module/ServiceProvider
+        /// </summary>
+        /// <returns></returns>
+        protected abstract IManagedService[] ConfigureServices();
+
         protected virtual IBootstrap GetUserBootstrap()
         {
             return null;
@@ -66,7 +81,7 @@ namespace MFramework.Core
         {
             return null;
         }
-        
+
         protected virtual void OnBootstrapping(TrackerStartedEvent e) { }
         protected virtual void OnBootstrapped(TrackerStoppedEvent e) { }
         protected virtual void OnInitializing(TrackerStartedEvent e) { }

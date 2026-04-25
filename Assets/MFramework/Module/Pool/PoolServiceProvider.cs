@@ -8,7 +8,7 @@ namespace MFramework.Pool
     /// <summary>
     /// Pool 模块服务注册器。
     /// </summary>
-    public class PoolServiceProvider : IServiceProvider
+    public class PoolServiceProvider : IManagedService
     {
         private readonly Transform _defaultParent;
         private readonly int _autoWarmSize;

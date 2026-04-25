@@ -2,7 +2,6 @@ using MFramework.Core;
 using MFramework.Core.CoreEx;
 using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
-using IServiceProvider = MFramework.Core.CoreEx.IServiceProvider;
 
 namespace MFrameworkExamples.Framework
 {
@@ -41,18 +40,12 @@ namespace MFrameworkExamples.Framework
             MLog.Default.D($"退出完成 时间：{e.EndTime}");
         }
 
-        protected override IBootstrap GetUserBootstrap()
+        protected override IManagedService[] ConfigureServices()
         {
-            var provider = new IServiceProvider[]
+            return new IManagedService[]
             {
                 new TestServiceProvider(),
             };
-            return new UserBootstrap(Core, provider);
-        }
-
-        protected override IShutdown GetUserShutDown()
-        {
-            return null;
         }
     }
 }

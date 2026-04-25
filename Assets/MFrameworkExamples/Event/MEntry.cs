@@ -2,7 +2,9 @@ using System;
 using MFramework.Core;
 using MFramework.Core.CoreEx;
 using MFramework.Core.Event;
+using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
+using MFramework.Event;
 
 namespace MFrameworkExamples.Event
 {
@@ -16,20 +18,33 @@ namespace MFrameworkExamples.Event
             _message = message;
         }
     }
-    
+
     public class MEntry : MEntryBase
     {
         private MEventBus _eventBus = new MEventBus();
-        
+
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
+            _eventBus.LogError = (message) =>
+            {
+                MLog.Default.E(message);
+            };
+
             // IEvent版
             _eventBus.RegisterSafe<TestEvent>((e) => throw new Exception(e.Message));
             _eventBus.Publish(new TestEvent("IEvent版错误"));
-            
+
             // Name版
             _eventBus.RegisterSafe("EventByName", () => throw new Exception("Name版错误"));
             _eventBus.Publish("EventByName");
+        }
+
+        protected override IManagedService[] ConfigureServices()
+        {
+            return new IManagedService[]
+            {
+                new UnityLifecycleEventServiceProvider(),
+            };
         }
     }
 }

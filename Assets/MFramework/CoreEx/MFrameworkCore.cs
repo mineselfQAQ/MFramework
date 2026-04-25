@@ -16,7 +16,7 @@ namespace MFramework.Core.CoreEx
         ShutDown,
         Failed
     }
-    
+
     /// <summary>
     /// 框架核心
     /// </summary>
@@ -24,25 +24,25 @@ namespace MFramework.Core.CoreEx
     {
         private readonly List<IBootstrap> _bootstraps = new List<IBootstrap>();
         private readonly List<IShutdown> _shutdowns = new List<IShutdown>();
-        private readonly List<IServiceProvider> _loadedServiceProviders = new List<IServiceProvider>();
+        private readonly List<IManagedService> _loadedServices = new List<IManagedService>();
 
         private readonly TrackerEventPublisher _trackerEventPublisher;
         private readonly TrackerCollector _trackerCollector = new TrackerCollector();
         private MTracker _runningTracker;
-        
+
         private Action<TrackerStartedEvent> _onBootstrapping;
         private Action<TrackerStoppedEvent> _onBootstrapped;
         private Action<TrackerStartedEvent> _onInitializing;
         private Action<TrackerStoppedEvent> _onInitialized;
         private Action<TrackerStartedEvent> _onShuttingDown;
         private Action<TrackerStoppedEvent> _onShutDown;
-        
+
         private CoreState _state = CoreState.None;
 
         protected MEventBus EventBus { get; } = new MEventBus();
 
         public CoreState State => _state;
-        
+
         public MFrameworkCore()
         {
             // Tip：Running不设置事件，开始即OnInitialized，结束即OnShuttingDown
@@ -52,7 +52,7 @@ namespace MFramework.Core.CoreEx
             EventBus.RegisterSafe<TrackerStoppedEvent>(OnInitialized);
             EventBus.RegisterSafe<TrackerStartedEvent>(OnShuttingDown);
             EventBus.RegisterSafe<TrackerStoppedEvent>(OnShutDown);
-            
+
             _trackerEventPublisher = new TrackerEventPublisher(EventBus);
         }
 
@@ -62,7 +62,7 @@ namespace MFramework.Core.CoreEx
         public void OnInitialized(Action<TrackerStoppedEvent> action) => _onInitialized = action;
         public void OnShuttingDown(Action<TrackerStartedEvent> action) => _onShuttingDown = action;
         public void OnShutDown(Action<TrackerStoppedEvent> action) => _onShutDown = action;
-        
+
         protected virtual void OnBootstrapping(TrackerStartedEvent e)
         {
             if (e.Name == "BOOTSTRAP")
@@ -105,7 +105,7 @@ namespace MFramework.Core.CoreEx
                 _onShutDown?.Invoke(e);
             }
         }
-        
+
         #region Core
 
         public virtual void Bootstrap()
@@ -122,7 +122,7 @@ namespace MFramework.Core.CoreEx
                         bootstrap.Bootstrap();
                     }
                 }
-                
+
                 _state = CoreState.Bootstrapped;
             }
             catch
@@ -131,7 +131,7 @@ namespace MFramework.Core.CoreEx
                 throw;
             }
         }
-        
+
         public virtual void Initialize()
         {
             EnsureState(CoreState.Bootstrapped);
@@ -141,15 +141,15 @@ namespace MFramework.Core.CoreEx
             {
                 using (MTracker.StartNew(MTrackerFactory.CreateTracker(2, "INITIALIZE",  _trackerEventPublisher, _trackerCollector)))
                 {
-                    foreach (var serviceProvider in _loadedServiceProviders)
+                    foreach (var service in _loadedServices)
                     {
-                        serviceProvider.Initialize();
+                        service.Initialize();
                     }
                 }
-            
+
                 _runningTracker = MTrackerFactory.CreateTracker(3, "RUNNING", _trackerEventPublisher, _trackerCollector);
                 _runningTracker.Start();
-                
+
                 _state = CoreState.Running;
             }
             catch
@@ -158,7 +158,7 @@ namespace MFramework.Core.CoreEx
                 throw;
             }
         }
-        
+
         public virtual void Shutdown()
         {
             if (_state == CoreState.None || _state == CoreState.ShutDown) return;
@@ -177,18 +177,18 @@ namespace MFramework.Core.CoreEx
 
                 using (MTracker.StartNew(MTrackerFactory.CreateTracker(4, "SHUTDOWN", _trackerEventPublisher, _trackerCollector)))
                 {
-                    foreach (var serviceProvider in _loadedServiceProviders)
+                    foreach (var service in _loadedServices)
                     {
-                        serviceProvider.Shutdown();
-                        serviceProvider.Unregister();
+                        service.Shutdown();
+                        service.Unregister();
                     }
-                    _loadedServiceProviders.Clear();
+                    _loadedServices.Clear();
 
                     foreach (var shutdown in _shutdowns)
                     {
                         shutdown.Shutdown();
                     }
-                
+
                     _state = CoreState.ShutDown;
                 }
             }
@@ -198,7 +198,7 @@ namespace MFramework.Core.CoreEx
                 throw;
             }
         }
-        
+
         private void StopRunningTracker()
         {
             if (_runningTracker != null)
@@ -207,7 +207,7 @@ namespace MFramework.Core.CoreEx
                 _runningTracker = null;
             }
         }
-        
+
         private void EnsureState(CoreState required)
         {
             if (_state != required)
@@ -216,17 +216,17 @@ namespace MFramework.Core.CoreEx
             }
         }
 
-        public virtual void Register(IServiceProvider serviceProvider)
+        public virtual void Register(IManagedService service)
         {
-            serviceProvider.Register();
-            _loadedServiceProviders.Add(serviceProvider);
+            service.Register();
+            _loadedServices.Add(service);
         }
 
 
-        public virtual void UnRegister(IServiceProvider serviceProvider)
+        public virtual void UnRegister(IManagedService service)
         {
-            serviceProvider.Unregister();
-            _loadedServiceProviders.Remove(serviceProvider);
+            service.Unregister();
+            _loadedServices.Remove(service);
         }
 
         #endregion
@@ -234,14 +234,14 @@ namespace MFramework.Core.CoreEx
         public void AddBootstrap(IBootstrap bootstrap)
         {
             if (bootstrap == null) return;
-            
+
             _bootstraps.Add(bootstrap);
         }
-        
+
         public void AddShutdown(IShutdown shutdown)
         {
             if (shutdown == null) return;
-            
+
             _shutdowns.Add(shutdown);
         }
 

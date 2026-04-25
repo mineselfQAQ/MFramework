@@ -4,13 +4,12 @@ namespace MFramework.Core
 {
     public class InternalBootstrap : IBootstrap
     {
-        private MFrameworkCore _core;
-        
-        public InternalBootstrap(MFrameworkCore core)
+
+        public InternalBootstrap()
         {
-            _core = core;
+
         }
-        
+
         public void Bootstrap()
         {
             DoStaticBootstrap();
@@ -23,7 +22,7 @@ namespace MFramework.Core
 
         private void DoRegister()
         {
-            
+
         }
     }
 }

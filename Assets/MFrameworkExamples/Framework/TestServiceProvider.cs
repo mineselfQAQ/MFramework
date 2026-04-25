@@ -4,14 +4,14 @@ using MFramework.Core.IOC;
 
 namespace MFrameworkExamples.Framework
 {
-    public class TestServiceProvider : IServiceProvider
+    public class TestServiceProvider : IManagedService
     {
         public void Register()
         {
             var container = MIOCContainer.Default;
             var b = new B("B");
             var c = new C("C");
-        
+
             container.RegisterSingleton<A>((_) => new A(container.Resolve<B>(), container.Resolve<C>()));
             container.RegisterSingleton<B>(b);
             container.RegisterSingleton<C>(c);
@@ -19,17 +19,17 @@ namespace MFrameworkExamples.Framework
 
         public void Initialize()
         {
-        
+
         }
 
         public void Unregister()
         {
-        
+
         }
 
         public void Shutdown()
         {
-        
+
         }
     }
 
@@ -37,7 +37,7 @@ namespace MFrameworkExamples.Framework
     {
         private readonly B _b;
         private readonly C _c;
-    
+
         public A(B b, C c)
         {
             _b = b;
@@ -53,7 +53,7 @@ namespace MFrameworkExamples.Framework
     public class B
     {
         public string Name { get; }
-    
+
         public B(string name)
         {
             Name = name;
@@ -68,5 +68,5 @@ namespace MFrameworkExamples.Framework
         {
             Name = name;
         }
-    }    
+    }
 }
