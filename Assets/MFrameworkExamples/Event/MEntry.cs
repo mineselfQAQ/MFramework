@@ -2,7 +2,6 @@ using System;
 using MFramework.Core;
 using MFramework.Core.CoreEx;
 using MFramework.Core.Event;
-using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
 
 namespace MFrameworkExamples.Event
