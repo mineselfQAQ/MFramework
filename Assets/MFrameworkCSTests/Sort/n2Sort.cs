@@ -29,7 +29,7 @@ namespace MFrameworkCSTests.Sort
         {
             comparer ??= Comparer<T>.Default;
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count - 1; i++)
             {
                 // 优化：减少列表访问
                 int minIndex = i;

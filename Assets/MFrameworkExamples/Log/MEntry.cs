@@ -2,6 +2,8 @@ using MFramework.Core;
 using MFramework.Core.CoreEx;
 using MFramework.Core.Tracker;
 
+using UnityEngine;
+
 namespace MFrameworkExamples.Log
 {
     public class MEntry : MEntryBase
@@ -18,7 +20,7 @@ namespace MFrameworkExamples.Log
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             MLog.Default.D("Default输出"); // Default的LogFilter会跟着设置走
-            
+
             _log.D("Debug");
             _log.W("Warning");
             _log.E("Error");
