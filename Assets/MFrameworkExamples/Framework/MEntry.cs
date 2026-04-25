@@ -3,6 +3,8 @@ using MFramework.Core.CoreEx;
 using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
 
+using UnityEngine;
+
 namespace MFrameworkExamples.Framework
 {
     public class MEntry : MEntryBase
@@ -38,6 +40,12 @@ namespace MFrameworkExamples.Framework
         protected override void OnShutDown(TrackerStoppedEvent e)
         {
             MLog.Default.D($"退出完成 时间：{e.EndTime}");
+        }
+
+        protected override void OnUnityUpdate()
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+                MLog.Default.D("MEntry-UPDATE");
         }
 
         protected override IManagedService[] ConfigureServices()

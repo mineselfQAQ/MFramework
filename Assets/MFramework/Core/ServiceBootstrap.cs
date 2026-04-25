@@ -15,9 +15,9 @@ namespace MFramework.Core
 
         public void Bootstrap()
         {
-            foreach (IManagedService serviceProvider in _services)
+            foreach (IManagedService service in _services)
             {
-                _core.Register(serviceProvider);
+                _core.Register(service);
             }
         }
     }

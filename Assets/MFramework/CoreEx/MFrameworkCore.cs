@@ -20,11 +20,17 @@ namespace MFramework.Core.CoreEx
     /// <summary>
     /// 框架核心
     /// </summary>
-    public class MFrameworkCore
+    public class MFrameworkCore : IManagedServiceContext
     {
-        private readonly List<IBootstrap> _bootstraps = new List<IBootstrap>();
-        private readonly List<IShutdown> _shutdowns = new List<IShutdown>();
-        private readonly List<IManagedService> _loadedServices = new List<IManagedService>();
+        private readonly List<IBootstrap> _bootstraps = new();
+        private readonly List<IShutdown> _shutdowns = new();
+        private readonly List<IManagedService> _loadedServices = new();
+
+        private readonly List<IManagedUpdateService> _updateServices = new();
+        private readonly List<IManagedFixedUpdateService> _fixedUpdateServices = new();
+        private readonly List<IManagedLateUpdateService> _lateUpdateServices = new();
+        private readonly List<IManagedApplicationFocusService> _applicationFocusServices = new();
+        private readonly List<IManagedApplicationPauseService> _applicationPauseServices = new();
 
         private readonly TrackerEventPublisher _trackerEventPublisher;
         private readonly TrackerCollector _trackerCollector = new TrackerCollector();
@@ -42,6 +48,8 @@ namespace MFramework.Core.CoreEx
         protected MEventBus EventBus { get; } = new MEventBus();
 
         public CoreState State => _state;
+        public bool IsApplicationPaused { get; private set; }
+        public bool HasApplicationFocus { get; private set; } = true;
 
         public MFrameworkCore()
         {
@@ -199,6 +207,60 @@ namespace MFramework.Core.CoreEx
             }
         }
 
+        public virtual void FixedUpdate()
+        {
+            if (_state != CoreState.Running) return;
+
+            foreach (var service in _fixedUpdateServices)
+            {
+                service.FixedUpdate();
+            }
+        }
+
+        public virtual void Update()
+        {
+            if (_state != CoreState.Running) return;
+
+            foreach (var service in _updateServices)
+            {
+                service.Update();
+            }
+        }
+
+        public virtual void LateUpdate()
+        {
+            if (_state != CoreState.Running) return;
+
+            foreach (var service in _lateUpdateServices)
+            {
+                service.LateUpdate();
+            }
+        }
+
+        public virtual void OnApplicationFocus(bool hasFocus)
+        {
+            if (_state != CoreState.Running) return;
+
+            HasApplicationFocus = hasFocus;
+
+            foreach (var service in _applicationFocusServices)
+            {
+                service.OnApplicationFocus(hasFocus);
+            }
+        }
+
+        public virtual void OnApplicationPause(bool pauseStatus)
+        {
+            if (_state != CoreState.Running) return;
+
+            IsApplicationPaused = pauseStatus;
+
+            foreach (var service in _applicationPauseServices)
+            {
+                service.OnApplicationPause(pauseStatus);
+            }
+        }
+
         private void StopRunningTracker()
         {
             if (_runningTracker != null)
@@ -220,6 +282,32 @@ namespace MFramework.Core.CoreEx
         {
             service.Register();
             _loadedServices.Add(service);
+
+            if (service is IManagedFixedUpdateService fixedUpdateService)
+            {
+                _fixedUpdateServices.Add(fixedUpdateService);
+            }
+            if (service is IManagedUpdateService updateService)
+            {
+                _updateServices.Add(updateService);
+            }
+            if (service is IManagedLateUpdateService lateUpdateService)
+            {
+                _lateUpdateServices.Add(lateUpdateService);
+            }
+            if (service is IManagedApplicationPauseService applicationPauseService)
+            {
+                _applicationPauseServices.Add(applicationPauseService);
+            }
+            if (service is IManagedApplicationFocusService applicationFocusService)
+            {
+                _applicationFocusServices.Add(applicationFocusService);
+            }
+
+            if (service is IManagedServiceWithContext serviceWithContext)
+            {
+                serviceWithContext.BindContext(this);
+            }
         }
 
 
@@ -227,6 +315,27 @@ namespace MFramework.Core.CoreEx
         {
             service.Unregister();
             _loadedServices.Remove(service);
+
+            if (service is IManagedFixedUpdateService fixedUpdateService)
+            {
+                _fixedUpdateServices.Remove(fixedUpdateService);
+            }
+            if (service is IManagedUpdateService updateService)
+            {
+                _updateServices.Remove(updateService);
+            }
+            if (service is IManagedLateUpdateService lateUpdateService)
+            {
+                _lateUpdateServices.Remove(lateUpdateService);
+            }
+            if (service is IManagedApplicationPauseService applicationPauseService)
+            {
+                _applicationPauseServices.Remove(applicationPauseService);
+            }
+            if (service is IManagedApplicationFocusService applicationFocusService)
+            {
+                _applicationFocusServices.Remove(applicationFocusService);
+            }
         }
 
         #endregion

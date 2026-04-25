@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using MFramework.Core.CoreEx;
@@ -43,9 +44,44 @@ namespace MFramework.Core
             Core.Initialize();
         }
 
+        protected void FixedUpdate()
+        {
+            if (!CanDispatchUnityLifecycle()) return;
+
+            Core.FixedUpdate();
+            OnUnityFixedUpdate();
+        }
+
         protected void Update()
         {
+            if (!CanDispatchUnityLifecycle()) return;
 
+            Core.Update();
+            OnUnityUpdate();
+        }
+
+        protected void LateUpdate()
+        {
+            if (!CanDispatchUnityLifecycle()) return;
+
+            Core.LateUpdate();
+            OnUnityLateUpdate();
+        }
+
+        protected void OnApplicationFocus(bool hasFocus)
+        {
+            if (!CanDispatchUnityLifecycle()) return;
+
+            Core.OnApplicationFocus(hasFocus);
+            OnUnityApplicationFocus(hasFocus);
+        }
+
+        protected void OnApplicationPause(bool pauseStatus)
+        {
+            if (!CanDispatchUnityLifecycle()) return;
+
+            Core.OnApplicationPause(pauseStatus);
+            OnUnityApplicationPause(pauseStatus);
         }
 
         protected virtual void OnApplicationQuit()
@@ -89,9 +125,20 @@ namespace MFramework.Core
         protected virtual void OnShuttingDown(TrackerStartedEvent e) { }
         protected virtual void OnShutDown(TrackerStoppedEvent e) { }
 
+        protected virtual void OnUnityUpdate() { }
+        protected virtual void OnUnityFixedUpdate() { }
+        protected virtual void OnUnityLateUpdate() { }
+        protected virtual void OnUnityApplicationFocus(bool hasFocus) { }
+        protected virtual void OnUnityApplicationPause(bool pauseStatus) { }
+
         protected virtual MLog.LogFilter SetLogFilter()
         {
             return MLog.BUILD_FILTER;
+        }
+
+        private bool CanDispatchUnityLifecycle()
+        {
+            return Core != null && Core.State == CoreState.Running;
         }
     }
 }

@@ -2,9 +2,11 @@ using MFramework.Core;
 using MFramework.Core.CoreEx;
 using MFramework.Core.IOC;
 
+using UnityEngine;
+
 namespace MFrameworkExamples.Framework
 {
-    public class TestServiceProvider : IManagedService
+    public class TestServiceProvider : IManagedService, IManagedUpdateService
     {
         public void Register()
         {
@@ -30,6 +32,12 @@ namespace MFrameworkExamples.Framework
         public void Shutdown()
         {
 
+        }
+
+        public void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+                MLog.Default.D("TestServiceProvider-UPDATE");
         }
     }
 
