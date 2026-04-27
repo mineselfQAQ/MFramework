@@ -21,11 +21,6 @@ namespace MFrameworkExamples.Event
     {
         private MEventBus _eventBus = new MEventBus();
 
-        protected override IManagedService[] ConfigureServices()
-        {
-            return null;
-        }
-
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             _eventBus.LogError = (message) =>

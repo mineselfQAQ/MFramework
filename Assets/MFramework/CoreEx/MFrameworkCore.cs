@@ -20,18 +20,12 @@ namespace MFramework.Core.CoreEx
     /// <summary>
     /// 框架核心
     /// </summary>
-    public class MFrameworkCore : IManagedServiceContext
+    public class MFrameworkCore : IRuntimeServiceContext
     {
         private readonly List<IBootstrap> _bootstraps = new();
         private readonly List<IShutdown> _shutdowns = new();
-        private readonly List<IManagedService> _loadedServices = new();
         private readonly List<IRuntimeService> _runtimeServices = new();
 
-        private readonly List<IManagedUpdateService> _updateServices = new();
-        private readonly List<IManagedFixedUpdateService> _fixedUpdateServices = new();
-        private readonly List<IManagedLateUpdateService> _lateUpdateServices = new();
-        private readonly List<IManagedApplicationFocusService> _applicationFocusServices = new();
-        private readonly List<IManagedApplicationPauseService> _applicationPauseServices = new();
         private readonly List<IRuntimeUpdateService> _runtimeUpdateServices = new();
         private readonly List<IRuntimeFixedUpdateService> _runtimeFixedUpdateServices = new();
         private readonly List<IRuntimeLateUpdateService> _runtimeLateUpdateServices = new();
@@ -155,10 +149,6 @@ namespace MFramework.Core.CoreEx
             {
                 using (MTracker.StartNew(MTrackerFactory.CreateTracker(2, "INITIALIZE",  _trackerEventPublisher, _trackerCollector)))
                 {
-                    foreach (var service in _loadedServices)
-                    {
-                        service.Initialize();
-                    }
                     foreach (var service in _runtimeServices)
                     {
                         service.Initialize();
@@ -195,13 +185,6 @@ namespace MFramework.Core.CoreEx
 
                 using (MTracker.StartNew(MTrackerFactory.CreateTracker(4, "SHUTDOWN", _trackerEventPublisher, _trackerCollector)))
                 {
-                    foreach (var service in _loadedServices)
-                    {
-                        service.Shutdown();
-                        service.Unregister();
-                    }
-                    _loadedServices.Clear();
-
                     foreach (var service in _runtimeServices)
                     {
                         service.Shutdown();
@@ -232,10 +215,6 @@ namespace MFramework.Core.CoreEx
         {
             if (_state != CoreState.Running) return;
 
-            foreach (var service in _fixedUpdateServices)
-            {
-                service.FixedUpdate();
-            }
             foreach (var service in _runtimeFixedUpdateServices)
             {
                 service.FixedUpdate();
@@ -246,10 +225,6 @@ namespace MFramework.Core.CoreEx
         {
             if (_state != CoreState.Running) return;
 
-            foreach (var service in _updateServices)
-            {
-                service.Update();
-            }
             foreach (var service in _runtimeUpdateServices)
             {
                 service.Update();
@@ -260,10 +235,6 @@ namespace MFramework.Core.CoreEx
         {
             if (_state != CoreState.Running) return;
 
-            foreach (var service in _lateUpdateServices)
-            {
-                service.LateUpdate();
-            }
             foreach (var service in _runtimeLateUpdateServices)
             {
                 service.LateUpdate();
@@ -276,10 +247,6 @@ namespace MFramework.Core.CoreEx
 
             HasApplicationFocus = hasFocus;
 
-            foreach (var service in _applicationFocusServices)
-            {
-                service.OnApplicationFocus(hasFocus);
-            }
             foreach (var service in _runtimeApplicationFocusServices)
             {
                 service.OnApplicationFocus(hasFocus);
@@ -292,10 +259,6 @@ namespace MFramework.Core.CoreEx
 
             IsApplicationPaused = pauseStatus;
 
-            foreach (var service in _applicationPauseServices)
-            {
-                service.OnApplicationPause(pauseStatus);
-            }
             foreach (var service in _runtimeApplicationPauseServices)
             {
                 service.OnApplicationPause(pauseStatus);
@@ -316,38 +279,6 @@ namespace MFramework.Core.CoreEx
             if (_state != required)
             {
                 throw new CSharpFrameworkException($"非法状态转换: 当前-{_state} 需要-{required}");
-            }
-        }
-
-        public virtual void Register(IManagedService service)
-        {
-            service.Register();
-            _loadedServices.Add(service);
-
-            if (service is IManagedFixedUpdateService fixedUpdateService)
-            {
-                _fixedUpdateServices.Add(fixedUpdateService);
-            }
-            if (service is IManagedUpdateService updateService)
-            {
-                _updateServices.Add(updateService);
-            }
-            if (service is IManagedLateUpdateService lateUpdateService)
-            {
-                _lateUpdateServices.Add(lateUpdateService);
-            }
-            if (service is IManagedApplicationPauseService applicationPauseService)
-            {
-                _applicationPauseServices.Add(applicationPauseService);
-            }
-            if (service is IManagedApplicationFocusService applicationFocusService)
-            {
-                _applicationFocusServices.Add(applicationFocusService);
-            }
-
-            if (service is IManagedServiceWithContext serviceWithContext)
-            {
-                serviceWithContext.BindContext(this);
             }
         }
 
@@ -379,34 +310,6 @@ namespace MFramework.Core.CoreEx
             if (service is IRuntimeServiceWithContext serviceWithContext)
             {
                 serviceWithContext.BindContext(this);
-            }
-        }
-
-
-        public virtual void UnRegister(IManagedService service)
-        {
-            service.Unregister();
-            _loadedServices.Remove(service);
-
-            if (service is IManagedFixedUpdateService fixedUpdateService)
-            {
-                _fixedUpdateServices.Remove(fixedUpdateService);
-            }
-            if (service is IManagedUpdateService updateService)
-            {
-                _updateServices.Remove(updateService);
-            }
-            if (service is IManagedLateUpdateService lateUpdateService)
-            {
-                _lateUpdateServices.Remove(lateUpdateService);
-            }
-            if (service is IManagedApplicationPauseService applicationPauseService)
-            {
-                _applicationPauseServices.Remove(applicationPauseService);
-            }
-            if (service is IManagedApplicationFocusService applicationFocusService)
-            {
-                _applicationFocusServices.Remove(applicationFocusService);
             }
         }
 

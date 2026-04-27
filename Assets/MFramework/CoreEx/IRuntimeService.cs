@@ -37,6 +37,6 @@ namespace MFramework.Core.CoreEx
 
     public interface IRuntimeServiceWithContext
     {
-        void BindContext(IManagedServiceContext context);
+        void BindContext(IRuntimeServiceContext context);
     }
 }

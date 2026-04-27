@@ -14,11 +14,6 @@ namespace MFrameworkExamples.IOC.DI
             return MLog.LogFilter.Debug;
         }
 
-        protected override IManagedService[] ConfigureServices()
-        {
-            return null;
-        }
-
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             var container = MIOCContainer.CreateDI();

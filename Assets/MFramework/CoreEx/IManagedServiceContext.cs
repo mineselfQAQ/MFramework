@@ -1,6 +1,6 @@
 namespace MFramework.Core.CoreEx
 {
-    public interface IManagedServiceContext
+    public interface IRuntimeServiceContext
     {
         CoreState State { get; }
         bool IsApplicationPaused { get; }

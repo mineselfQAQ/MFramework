@@ -48,11 +48,11 @@ namespace MFrameworkExamples.Framework
                 MLog.Default.D("MEntry-UPDATE");
         }
 
-        protected override IManagedService[] ConfigureServices()
+        protected override IModule[] ConfigureModules()
         {
-            return new IManagedService[]
+            return new IModule[]
             {
-                new TestServiceProvider(),
+                new TestFrameworkModule(),
             };
         }
     }

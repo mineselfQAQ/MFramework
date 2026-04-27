@@ -7,11 +7,6 @@ namespace MFrameworkExamples.IOC.SL
 {
     public class MEntry : MEntryBase
     {
-        protected override IManagedService[] ConfigureServices()
-        {
-            return null;
-        }
-
         protected override void OnBootstrapped(TrackerStoppedEvent e)
         {
             var container = MIOCContainer.CreateSL();

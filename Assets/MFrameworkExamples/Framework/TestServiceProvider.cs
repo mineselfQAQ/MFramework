@@ -6,9 +6,28 @@ using UnityEngine;
 
 namespace MFrameworkExamples.Framework
 {
-    public class TestServiceProvider : IManagedService, IManagedUpdateService
+    public class TestFrameworkModule : IModule
     {
-        public void Register()
+        public IModuleInstaller[] ConfigureInstallers()
+        {
+            return new IModuleInstaller[]
+            {
+                new TestFrameworkInstaller(),
+            };
+        }
+
+        public IRuntimeService[] ConfigureRuntimeServices()
+        {
+            return new IRuntimeService[]
+            {
+                new TestFrameworkRuntimeService(),
+            };
+        }
+    }
+
+    public class TestFrameworkInstaller : IModuleInstaller
+    {
+        public void Install()
         {
             var container = MIOCContainer.Default;
             var b = new B("B");
@@ -19,25 +38,29 @@ namespace MFrameworkExamples.Framework
             container.RegisterSingleton<C>(c);
         }
 
+        public void Uninstall()
+        {
+            var container = MIOCContainer.Default;
+            container.UnRegister<A>();
+            container.UnRegister<B>();
+            container.UnRegister<C>();
+        }
+    }
+
+    public class TestFrameworkRuntimeService : IRuntimeService, IRuntimeUpdateService
+    {
         public void Initialize()
         {
-
-        }
-
-        public void Unregister()
-        {
-
         }
 
         public void Shutdown()
         {
-
         }
 
         public void Update()
         {
             if(Input.GetKeyDown(KeyCode.Space))
-                MLog.Default.D("TestServiceProvider-UPDATE");
+                MLog.Default.D("TestFrameworkRuntimeService-UPDATE");
         }
     }
 
