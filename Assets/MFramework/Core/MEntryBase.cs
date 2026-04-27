@@ -27,10 +27,13 @@ namespace MFramework.Core
             Core.OnShuttingDown(OnShuttingDown);
             Core.OnShutDown(OnShutDown);
             // 流程项注册
+            var moduleBootstrap = GetModuleBootstrap();
             Core.AddBootstrap(new InternalBootstrap());
             Core.AddBootstrap(GetServiceBootstrap());
+            Core.AddBootstrap(moduleBootstrap);
             Core.AddBootstrap(GetUserBootstrap());
             Core.AddShutdown(new InternalShutDown());
+            Core.AddShutdown(moduleBootstrap);
             Core.AddShutdown(GetUserShutDown());
 
             // 启动
@@ -102,11 +105,25 @@ namespace MFramework.Core
             return new ServiceBootstrap(Core, services);
         }
 
+        protected ModuleBootstrap GetModuleBootstrap()
+        {
+            var modules = ConfigureModules();
+            return new ModuleBootstrap(Core, modules);
+        }
+
         /// <summary>
         /// 添加Module/ServiceProvider
         /// </summary>
         /// <returns></returns>
-        protected abstract IManagedService[] ConfigureServices();
+        protected virtual IManagedService[] ConfigureServices()
+        {
+            return Array.Empty<IManagedService>();
+        }
+
+        protected virtual IModule[] ConfigureModules()
+        {
+            return Array.Empty<IModule>();
+        }
 
         protected virtual IBootstrap GetUserBootstrap()
         {

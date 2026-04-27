@@ -39,11 +39,11 @@ namespace MFrameworkExamples.Pool
             }
         }
 
-        protected override IManagedService[] ConfigureServices()
+        protected override IModule[] ConfigureModules()
         {
-            return new IManagedService[]
+            return new IModule[]
             {
-                new PoolServiceProvider(),
+                new PoolModule(),
             };
         }
     }

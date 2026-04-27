@@ -25,12 +25,18 @@ namespace MFramework.Core.CoreEx
         private readonly List<IBootstrap> _bootstraps = new();
         private readonly List<IShutdown> _shutdowns = new();
         private readonly List<IManagedService> _loadedServices = new();
+        private readonly List<IRuntimeService> _runtimeServices = new();
 
         private readonly List<IManagedUpdateService> _updateServices = new();
         private readonly List<IManagedFixedUpdateService> _fixedUpdateServices = new();
         private readonly List<IManagedLateUpdateService> _lateUpdateServices = new();
         private readonly List<IManagedApplicationFocusService> _applicationFocusServices = new();
         private readonly List<IManagedApplicationPauseService> _applicationPauseServices = new();
+        private readonly List<IRuntimeUpdateService> _runtimeUpdateServices = new();
+        private readonly List<IRuntimeFixedUpdateService> _runtimeFixedUpdateServices = new();
+        private readonly List<IRuntimeLateUpdateService> _runtimeLateUpdateServices = new();
+        private readonly List<IRuntimeApplicationFocusService> _runtimeApplicationFocusServices = new();
+        private readonly List<IRuntimeApplicationPauseService> _runtimeApplicationPauseServices = new();
 
         private readonly TrackerEventPublisher _trackerEventPublisher;
         private readonly TrackerCollector _trackerCollector = new TrackerCollector();
@@ -153,6 +159,10 @@ namespace MFramework.Core.CoreEx
                     {
                         service.Initialize();
                     }
+                    foreach (var service in _runtimeServices)
+                    {
+                        service.Initialize();
+                    }
                 }
 
                 _runningTracker = MTrackerFactory.CreateTracker(3, "RUNNING", _trackerEventPublisher, _trackerCollector);
@@ -192,6 +202,17 @@ namespace MFramework.Core.CoreEx
                     }
                     _loadedServices.Clear();
 
+                    foreach (var service in _runtimeServices)
+                    {
+                        service.Shutdown();
+                    }
+                    _runtimeServices.Clear();
+                    _runtimeFixedUpdateServices.Clear();
+                    _runtimeUpdateServices.Clear();
+                    _runtimeLateUpdateServices.Clear();
+                    _runtimeApplicationFocusServices.Clear();
+                    _runtimeApplicationPauseServices.Clear();
+
                     foreach (var shutdown in _shutdowns)
                     {
                         shutdown.Shutdown();
@@ -215,6 +236,10 @@ namespace MFramework.Core.CoreEx
             {
                 service.FixedUpdate();
             }
+            foreach (var service in _runtimeFixedUpdateServices)
+            {
+                service.FixedUpdate();
+            }
         }
 
         public virtual void Update()
@@ -225,6 +250,10 @@ namespace MFramework.Core.CoreEx
             {
                 service.Update();
             }
+            foreach (var service in _runtimeUpdateServices)
+            {
+                service.Update();
+            }
         }
 
         public virtual void LateUpdate()
@@ -232,6 +261,10 @@ namespace MFramework.Core.CoreEx
             if (_state != CoreState.Running) return;
 
             foreach (var service in _lateUpdateServices)
+            {
+                service.LateUpdate();
+            }
+            foreach (var service in _runtimeLateUpdateServices)
             {
                 service.LateUpdate();
             }
@@ -247,6 +280,10 @@ namespace MFramework.Core.CoreEx
             {
                 service.OnApplicationFocus(hasFocus);
             }
+            foreach (var service in _runtimeApplicationFocusServices)
+            {
+                service.OnApplicationFocus(hasFocus);
+            }
         }
 
         public virtual void OnApplicationPause(bool pauseStatus)
@@ -256,6 +293,10 @@ namespace MFramework.Core.CoreEx
             IsApplicationPaused = pauseStatus;
 
             foreach (var service in _applicationPauseServices)
+            {
+                service.OnApplicationPause(pauseStatus);
+            }
+            foreach (var service in _runtimeApplicationPauseServices)
             {
                 service.OnApplicationPause(pauseStatus);
             }
@@ -310,6 +351,37 @@ namespace MFramework.Core.CoreEx
             }
         }
 
+        public virtual void Register(IRuntimeService service)
+        {
+            _runtimeServices.Add(service);
+
+            if (service is IRuntimeFixedUpdateService fixedUpdateService)
+            {
+                _runtimeFixedUpdateServices.Add(fixedUpdateService);
+            }
+            if (service is IRuntimeUpdateService updateService)
+            {
+                _runtimeUpdateServices.Add(updateService);
+            }
+            if (service is IRuntimeLateUpdateService lateUpdateService)
+            {
+                _runtimeLateUpdateServices.Add(lateUpdateService);
+            }
+            if (service is IRuntimeApplicationPauseService applicationPauseService)
+            {
+                _runtimeApplicationPauseServices.Add(applicationPauseService);
+            }
+            if (service is IRuntimeApplicationFocusService applicationFocusService)
+            {
+                _runtimeApplicationFocusServices.Add(applicationFocusService);
+            }
+
+            if (service is IRuntimeServiceWithContext serviceWithContext)
+            {
+                serviceWithContext.BindContext(this);
+            }
+        }
+
 
         public virtual void UnRegister(IManagedService service)
         {
@@ -335,6 +407,32 @@ namespace MFramework.Core.CoreEx
             if (service is IManagedApplicationFocusService applicationFocusService)
             {
                 _applicationFocusServices.Remove(applicationFocusService);
+            }
+        }
+
+        public virtual void UnRegister(IRuntimeService service)
+        {
+            _runtimeServices.Remove(service);
+
+            if (service is IRuntimeFixedUpdateService fixedUpdateService)
+            {
+                _runtimeFixedUpdateServices.Remove(fixedUpdateService);
+            }
+            if (service is IRuntimeUpdateService updateService)
+            {
+                _runtimeUpdateServices.Remove(updateService);
+            }
+            if (service is IRuntimeLateUpdateService lateUpdateService)
+            {
+                _runtimeLateUpdateServices.Remove(lateUpdateService);
+            }
+            if (service is IRuntimeApplicationPauseService applicationPauseService)
+            {
+                _runtimeApplicationPauseServices.Remove(applicationPauseService);
+            }
+            if (service is IRuntimeApplicationFocusService applicationFocusService)
+            {
+                _runtimeApplicationFocusServices.Remove(applicationFocusService);
             }
         }
 

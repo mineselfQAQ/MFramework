@@ -1,0 +1,39 @@
+using MFramework.Core.CoreEx;
+using UnityEngine;
+
+namespace MFramework.Pool
+{
+    public class PoolModule : IModule
+    {
+        private readonly Transform _defaultParent;
+        private readonly int _autoWarmSize;
+        private MPoolManager _manager;
+
+        public PoolModule(Transform defaultParent = null, int autoWarmSize = MPoolManager.DefaultAutoWarmSize)
+        {
+            _defaultParent = defaultParent;
+            _autoWarmSize = autoWarmSize;
+        }
+
+        public IModuleInstaller[] ConfigureInstallers()
+        {
+            return new IModuleInstaller[]
+            {
+                new PoolInstaller(GetManager()),
+            };
+        }
+
+        public IRuntimeService[] ConfigureRuntimeServices()
+        {
+            return new IRuntimeService[]
+            {
+                new PoolRuntimeService(GetManager()),
+            };
+        }
+
+        private MPoolManager GetManager()
+        {
+            return _manager ??= new MPoolManager(_defaultParent, _autoWarmSize);
+        }
+    }
+}
