@@ -8,6 +8,7 @@ namespace MFramework.Core
         private readonly MFrameworkCore _core;
         private readonly IModule[] _modules;
         private readonly List<IModuleInstaller> _installedInstallers = new();
+        private readonly HashSet<System.Type> _installedModuleTypes = new();
 
         public ModuleBootstrap(MFrameworkCore core, IModule[] modules)
         {
@@ -17,15 +18,7 @@ namespace MFramework.Core
 
         public void Bootstrap()
         {
-            if (_modules == null) return;
-
-            foreach (var module in _modules)
-            {
-                if (module == null) continue;
-
-                Install(module.ConfigureInstallers());
-                RegisterRuntimeServices(module.ConfigureRuntimeServices());
-            }
+            InstallModules(_modules);
         }
 
         public void Shutdown()
@@ -36,6 +29,29 @@ namespace MFramework.Core
             }
 
             _installedInstallers.Clear();
+            _installedModuleTypes.Clear();
+        }
+
+        private void InstallModules(IModule[] modules)
+        {
+            if (modules == null) return;
+
+            foreach (var module in modules)
+            {
+                InstallModule(module);
+            }
+        }
+
+        private void InstallModule(IModule module)
+        {
+            if (module == null) return;
+
+            var moduleType = module.GetType();
+            if (!_installedModuleTypes.Add(moduleType)) return;
+
+            InstallModules(module.ConfigureDependencies());
+            Install(module.ConfigureInstallers());
+            RegisterRuntimeServices(module.ConfigureRuntimeServices());
         }
 
         private void Install(IModuleInstaller[] installers)

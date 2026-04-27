@@ -15,6 +15,11 @@ namespace MFramework.Pool
             _autoWarmSize = autoWarmSize;
         }
 
+        public IModule[] ConfigureDependencies()
+        {
+            return System.Array.Empty<IModule>();
+        }
+
         public IModuleInstaller[] ConfigureInstallers()
         {
             return new IModuleInstaller[]

@@ -5,6 +5,8 @@ namespace MFramework.Core.CoreEx
     /// </summary>
     public interface IModule
     {
+        IModule[] ConfigureDependencies();
+
         IModuleInstaller[] ConfigureInstallers();
 
         IRuntimeService[] ConfigureRuntimeServices();

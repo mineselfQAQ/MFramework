@@ -8,6 +8,11 @@ namespace MFrameworkExamples.Framework
 {
     public class TestFrameworkModule : IModule
     {
+        public IModule[] ConfigureDependencies()
+        {
+            return System.Array.Empty<IModule>();
+        }
+
         public IModuleInstaller[] ConfigureInstallers()
         {
             return new IModuleInstaller[]
