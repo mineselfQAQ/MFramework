@@ -1,6 +1,5 @@
 using MFramework.Core;
 using MFramework.Core.CoreEx;
-using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
 
 using UnityEngine;
@@ -28,7 +27,7 @@ namespace MFrameworkExamples.Framework
         {
             MLog.Default.D($"初始化完成 时间：{e.EndTime}");
 
-            var container = MIOCContainer.Default;
+            var container = Core.Container;
             container.Resolve<A>().Print();
         }
 

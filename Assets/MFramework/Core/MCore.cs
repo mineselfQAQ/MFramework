@@ -1,4 +1,5 @@
 using MFramework.Core.CoreEx;
+using MFramework.Core.IOC;
 
 namespace MFramework.Core
 {
@@ -10,6 +11,7 @@ namespace MFramework.Core
         private static readonly ILog _log = new InternalLog(nameof(MCore)); 
         
         public MCore()
+            : base(MIOCContainer.CreateDI())
         {
             EventBus.LogError = (message) =>
             {

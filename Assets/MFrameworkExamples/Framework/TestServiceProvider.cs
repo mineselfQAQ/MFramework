@@ -1,6 +1,5 @@
 using MFramework.Core;
 using MFramework.Core.CoreEx;
-using MFramework.Core.IOC;
 
 using UnityEngine;
 
@@ -32,9 +31,9 @@ namespace MFrameworkExamples.Framework
 
     public class TestFrameworkInstaller : IModuleInstaller
     {
-        public void Install()
+        public void Install(IModuleContext context)
         {
-            var container = MIOCContainer.Default;
+            var container = context.Container;
             var b = new B("B");
             var c = new C("C");
 
@@ -43,9 +42,9 @@ namespace MFrameworkExamples.Framework
             container.RegisterSingleton<C>(c);
         }
 
-        public void Uninstall()
+        public void Uninstall(IModuleContext context)
         {
-            var container = MIOCContainer.Default;
+            var container = context.Container;
             container.UnRegister<A>();
             container.UnRegister<B>();
             container.UnRegister<C>();

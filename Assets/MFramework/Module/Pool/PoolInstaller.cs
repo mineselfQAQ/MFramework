@@ -1,5 +1,4 @@
 using MFramework.Core.CoreEx;
-using MFramework.Core.IOC;
 
 namespace MFramework.Pool
 {
@@ -12,14 +11,14 @@ namespace MFramework.Pool
             _manager = manager;
         }
 
-        public void Install()
+        public void Install(IModuleContext context)
         {
-            MIOCContainer.Default.RegisterSingleton<MPoolManager>(_manager);
+            context.Container.RegisterSingleton<MPoolManager>(_manager);
         }
 
-        public void Uninstall()
+        public void Uninstall(IModuleContext context)
         {
-            MIOCContainer.Default.UnRegister<MPoolManager>();
+            context.Container.UnRegister<MPoolManager>();
         }
     }
 }

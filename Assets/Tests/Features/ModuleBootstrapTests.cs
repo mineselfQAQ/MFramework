@@ -14,7 +14,7 @@ namespace MFramework.Tests.Features
             var installer = new RecordingInstaller(events);
             var runtime = new RecordingRuntimeService(events);
             var module = new RecordingModule(installer, runtime);
-            var core = new MFrameworkCore();
+            var core = new MCore();
             var bootstrap = new ModuleBootstrap(core, new IModule[] { module });
 
             core.AddBootstrap(bootstrap);
@@ -43,7 +43,7 @@ namespace MFramework.Tests.Features
                 new RecordingInstaller(events, "feature-b-install", "feature-b-uninstall"),
                 new RecordingRuntimeService(events, "feature-b-initialize", "feature-b-shutdown"),
                 new IModule[] { sharedDependencyB });
-            var core = new MFrameworkCore();
+            var core = new MCore();
             var bootstrap = new ModuleBootstrap(core, new IModule[] { featureA, featureB });
 
             core.AddBootstrap(bootstrap);
@@ -114,12 +114,12 @@ namespace MFramework.Tests.Features
                 _uninstallEvent = uninstallEvent;
             }
 
-            public void Install()
+            public void Install(IModuleContext context)
             {
                 _events.Add(_installEvent);
             }
 
-            public void Uninstall()
+            public void Uninstall(IModuleContext context)
             {
                 _events.Add(_uninstallEvent);
             }

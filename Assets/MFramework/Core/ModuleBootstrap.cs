@@ -25,7 +25,7 @@ namespace MFramework.Core
         {
             for (int i = _installedInstallers.Count - 1; i >= 0; i--)
             {
-                _installedInstallers[i].Uninstall();
+                _installedInstallers[i].Uninstall(_core);
             }
 
             _installedInstallers.Clear();
@@ -62,7 +62,7 @@ namespace MFramework.Core
             {
                 if (installer == null) continue;
 
-                installer.Install();
+                installer.Install(_core);
                 _installedInstallers.Add(installer);
             }
         }

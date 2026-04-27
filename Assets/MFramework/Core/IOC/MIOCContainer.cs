@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MFramework.Core.IOC
 {
     public class MIOCContainer
@@ -9,10 +7,6 @@ namespace MFramework.Core.IOC
             SL, // 服务定位器 Service Locator
             DI, // 依赖反转 Dependency Injection
         }
-
-        public static MDIContainer Default = CreateDI();
-
-        private readonly Dictionary<string, MSLContainer> _slContainers = new Dictionary<string, MSLContainer>();
 
         public static MSLContainer CreateSL()
         {

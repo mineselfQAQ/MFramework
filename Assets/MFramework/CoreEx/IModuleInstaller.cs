@@ -5,8 +5,8 @@ namespace MFramework.Core.CoreEx
     /// </summary>
     public interface IModuleInstaller
     {
-        void Install();
+        void Install(IModuleContext context);
 
-        void Uninstall();
+        void Uninstall(IModuleContext context);
     }
 }

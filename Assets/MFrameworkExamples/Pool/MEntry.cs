@@ -1,6 +1,5 @@
 using MFramework.Core;
 using MFramework.Core.CoreEx;
-using MFramework.Core.IOC;
 using MFramework.Core.Tracker;
 using MFramework.Pool;
 
@@ -14,7 +13,7 @@ namespace MFrameworkExamples.Pool
 
         protected override void OnInitialized(TrackerStoppedEvent e)
         {
-            var manager = MIOCContainer.Default.Resolve<MPoolManager>();
+            var manager = Core.Container.Resolve<MPoolManager>();
 
             manager.WarmPool(_template, null, 2);
 

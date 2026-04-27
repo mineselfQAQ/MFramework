@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
+using MFramework.Core.CoreEx;
 
 namespace MFramework.Core.IOC
 {
@@ -75,7 +76,7 @@ namespace MFramework.Core.IOC
         }
     }
 
-    public class MDIContainer : IDisposable
+    public class MDIContainer : IDIContainer
     {
         private static readonly ILog _log = new InternalLog(nameof(MDIContainer));
 
@@ -126,6 +127,26 @@ namespace MFramework.Core.IOC
         public MDIContainer CreateScope()
         {
             return new MDIContainer(this);
+        }
+
+        public void RegisterSingleton<TSource>(object targetInstance)
+        {
+            RegisterInstance(typeof(TSource), null, targetInstance);
+        }
+
+        public void RegisterSingleton<TSource>(Func<IDIContainer, TSource> factory)
+        {
+            RegisterFactory(typeof(TSource), null, c => factory(c), Lifecycle.Singleton);
+        }
+
+        public T Resolve<T>()
+        {
+            return (T)Resolve(typeof(T), null);
+        }
+
+        public bool UnRegister<TSource>()
+        {
+            return UnRegister(typeof(TSource), null);
         }
 
         #region 原型

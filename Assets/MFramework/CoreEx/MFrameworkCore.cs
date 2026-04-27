@@ -20,7 +20,7 @@ namespace MFramework.Core.CoreEx
     /// <summary>
     /// 框架核心
     /// </summary>
-    public class MFrameworkCore : IRuntimeServiceContext
+    public class MFrameworkCore : IRuntimeServiceContext, IModuleContext
     {
         private readonly List<IBootstrap> _bootstraps = new();
         private readonly List<IShutdown> _shutdowns = new();
@@ -48,11 +48,14 @@ namespace MFramework.Core.CoreEx
         protected MEventBus EventBus { get; } = new MEventBus();
 
         public CoreState State => _state;
+        public IDIContainer Container { get; }
         public bool IsApplicationPaused { get; private set; }
         public bool HasApplicationFocus { get; private set; } = true;
 
-        public MFrameworkCore()
+        public MFrameworkCore(IDIContainer container = null)
         {
+            Container = container;
+
             // Tip：Running不设置事件，开始即OnInitialized，结束即OnShuttingDown
             EventBus.RegisterSafe<TrackerStartedEvent>(OnBootstrapping);
             EventBus.RegisterSafe<TrackerStoppedEvent>(OnBootstrapped);
@@ -200,6 +203,8 @@ namespace MFramework.Core.CoreEx
                     {
                         shutdown.Shutdown();
                     }
+
+                    Container?.Dispose();
 
                     _state = CoreState.ShutDown;
                 }
