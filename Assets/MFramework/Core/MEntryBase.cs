@@ -30,10 +30,16 @@ namespace MFramework.Core
             var moduleBootstrap = GetModuleBootstrap();
             Core.AddBootstrap(new InternalBootstrap());
             Core.AddBootstrap(moduleBootstrap);
-            Core.AddBootstrap(GetUserBootstrap());
+            foreach (var bootstrap in GetUserBootstrap())
+            {
+                Core.AddBootstrap(bootstrap);
+            }
             Core.AddShutdown(new InternalShutDown());
             Core.AddShutdown(moduleBootstrap);
-            Core.AddShutdown(GetUserShutDown());
+            foreach (var bootstrap in GetUserShutDown())
+            {
+                Core.AddShutdown(bootstrap);
+            }
 
             // 启动
             MLog.SetDefaultLogFilter(SetLogFilter());
@@ -113,14 +119,14 @@ namespace MFramework.Core
             return Array.Empty<IModule>();
         }
 
-        protected virtual IBootstrap GetUserBootstrap()
+        protected virtual IBootstrap[] GetUserBootstrap()
         {
-            return null;
+            return Array.Empty<IBootstrap>();
         }
 
-        protected virtual IShutdown GetUserShutDown()
+        protected virtual IShutdown[] GetUserShutDown()
         {
-            return null;
+            return Array.Empty<IShutdown>();
         }
 
         protected virtual void OnBootstrapping(TrackerStartedEvent e) { }
