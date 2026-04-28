@@ -21,31 +21,31 @@ namespace MFramework.Core
             /// 记录：Error Warning Debug
             /// </summary>
             Debug, // 默认值
-            
+
             /// <summary>
             /// 记录：Error Warning
             /// </summary>
             Warning,
-            
+
             /// <summary>
             /// 记录：Error
             /// </summary>
             Error,
-            
+
             /// <summary>
             /// 不记录
             /// </summary>
             Off,
         }
-        
-        
+
+
         public enum LogLevel : byte
         {
             Error, // 默认值
             Warning,
             Debug,
         }
-        
+
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         internal const LogFilter BUILD_FILTER = LogFilter.Debug;
 #else
@@ -54,25 +54,25 @@ namespace MFramework.Core
 
         public static ILog Default { get; private set; }
         private static ILog _selfLog;
-        
-        private static readonly Dictionary<string, UserLog> _ULogDic = new Dictionary<string, UserLog>();
-        
+
+        private static readonly Dictionary<string, UserLog> _uLogDic = new Dictionary<string, UserLog>();
+
         private static LogFilter _logFilter;
-        
+
         private static FileStream _stream;
         private static StreamWriter _writer;
-        
+
         private static LogType? _lastLogType;
-        
+
         private const string FILE_NAME = "log.txt";
-        
+
         public static void Bootstrap()
         {
             Default = new UserLog("Default");
             _selfLog = new InternalLog(nameof(MLog));
-            
+
             _selfLog.D("Log模块：开启");
-            
+
 #if !UNITY_EDITOR
             // TODO：这里的文件读写需要改进吗？
             string path = GetRootPath();
@@ -81,7 +81,7 @@ namespace MFramework.Core
             _writer.WriteLine("==================================");
             _writer.WriteLine($"===日志开始[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]===");
             _writer.WriteLine("==================================");
-            
+
             // 日志回调
             Application.logMessageReceived += OnLogCallBack;
 #endif
@@ -108,30 +108,30 @@ namespace MFramework.Core
             _stream = null;
 #endif
         }
-        
+
         public static UserLog Create<T>()
         {
             string name = typeof(T).FullName;
             return GetOrCreateULog(name);
         }
-        
+
         public static UserLog Create<T>(LogFilter filter)
         {
             string name = typeof(T).FullName;
             return GetOrCreateULog(name, filter);
         }
-        
+
         private static UserLog GetOrCreateULog(string name, LogFilter? filter = null)
         {
-            if (_ULogDic.TryGetValue(name, out UserLog log))
+            if (_uLogDic.TryGetValue(name, out UserLog log))
             {
                 return log;
             }
 
-            if (filter == null) _ULogDic.Add(name, new UserLog(name));
-            else _ULogDic.Add(name, new UserLog(name, filter.Value));
-            
-            return _ULogDic[name];
+            if (filter == null) _uLogDic.Add(name, new UserLog(name));
+            else _uLogDic.Add(name, new UserLog(name, filter.Value));
+
+            return _uLogDic[name];
         }
 
         // 仅应该调用一次
@@ -142,10 +142,10 @@ namespace MFramework.Core
         private static void OnLogCallBack(string logString, string stackTrace, LogType type)
         {
             string time = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}";
-            
+
             bool isError = type == LogType.Exception || type == LogType.Error || type == LogType.Assert;
-            bool lastIsError = _lastLogType == LogType.Exception || 
-                                 _lastLogType == LogType.Error || 
+            bool lastIsError = _lastLogType == LogType.Exception ||
+                                 _lastLogType == LogType.Error ||
                                  _lastLogType == LogType.Assert;
 
             if (isError && !lastIsError) _writer.WriteLine();
@@ -162,7 +162,7 @@ namespace MFramework.Core
             if (isError) _writer.WriteLine();
 
             _lastLogType = type;
-            
+
             _writer.Flush();
             _stream.Flush(true);
         }
@@ -172,14 +172,14 @@ namespace MFramework.Core
             // TODO：仅测试了PC，Ios和Android应该不能用
             return $"{MPathCache.PC_ROOT_PATH}/{FILE_NAME}";
         }
-        
+
         #if UNITY_EDITOR
             [UnityEditor.Callbacks.OnOpenAsset(0)]
             public static bool OnOpenAsset(int instanceID, int line)
             {
                 string stackTrace = GetStackTrace();
                 string fileName = nameof(LogBase);
-                
+
                 if (!string.IsNullOrEmpty(stackTrace) && stackTrace.Contains($"{fileName}.cs"))
                 {
                     var matches = Regex.Match(stackTrace, @"\(at (.+)\)", RegexOptions.IgnoreCase);
