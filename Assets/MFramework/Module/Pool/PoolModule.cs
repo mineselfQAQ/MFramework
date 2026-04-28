@@ -7,7 +7,6 @@ namespace MFramework.Pool
     {
         private readonly Transform _defaultParent;
         private readonly int _autoWarmSize;
-        private MPoolManager _manager;
 
         public PoolModule(Transform defaultParent = null, int autoWarmSize = MPoolManager.DefaultAutoWarmSize)
         {
@@ -24,7 +23,7 @@ namespace MFramework.Pool
         {
             return new IModuleInstaller[]
             {
-                new PoolInstaller(GetManager()),
+                new PoolInstaller(_defaultParent, _autoWarmSize),
             };
         }
 
@@ -32,13 +31,8 @@ namespace MFramework.Pool
         {
             return new IRuntimeService[]
             {
-                new PoolRuntimeService(GetManager()),
+                new PoolRuntimeService(),
             };
-        }
-
-        private MPoolManager GetManager()
-        {
-            return _manager ??= new MPoolManager(_defaultParent, _autoWarmSize);
         }
     }
 }
