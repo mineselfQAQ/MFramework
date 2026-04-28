@@ -96,7 +96,7 @@ namespace MFramework.Core
             _writer.WriteLine($"===日志结束[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]===");
             _writer.WriteLine("==================================");
             string log = core.GetLog();
-            _writer.WriteLine(core.GetLog());
+            _writer.WriteLine(log);
             if (core.State == CoreState.Failed)
             {
                 _writer.WriteLine("发生错误!!!已中断");
