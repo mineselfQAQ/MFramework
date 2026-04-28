@@ -4,7 +4,6 @@ namespace MFramework.Core.Tracker
 {
     public interface ITrackerEventPublisher
     {
-        MEventBus EventBus { get; }
         void Publish<T>(T trackerEvent) where T : ITrackerEvent;
     }
 
@@ -13,16 +12,16 @@ namespace MFramework.Core.Tracker
     /// </summary>
     public class TrackerEventPublisher : ITrackerEventPublisher
     {
-        public MEventBus EventBus { get; }
+        private readonly MEventBus _eventBus;
 
         public TrackerEventPublisher(MEventBus eventBus)
         {
-            EventBus = eventBus;
+            _eventBus = eventBus;
         }
 
         public void Publish<T>(T trackerEvent) where T : ITrackerEvent
         {
-            EventBus.Publish<T>(trackerEvent);
+            _eventBus.Publish<T>(trackerEvent);
         }
     }
 }
