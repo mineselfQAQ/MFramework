@@ -31,15 +31,17 @@ namespace MFramework.Util
             try
             {
                 using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
-                using (XmlTextWriter writer = new XmlTextWriter(fileStream, UTF8))
                 {
-                    writer.Formatting = isPrettyPrint ? Formatting.Indented : Formatting.None;
+                    using (XmlTextWriter writer = new XmlTextWriter(fileStream, UTF8))
+                    {
+                        writer.Formatting = isPrettyPrint ? Formatting.Indented : Formatting.None;
 
-                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                    ns.Add(string.Empty, string.Empty);
+                        XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                        ns.Add(string.Empty, string.Empty);
 
-                    XmlSerializer serializer = new XmlSerializer(typeof(T));
-                    serializer.Serialize(writer, instance, ns);
+                        XmlSerializer serializer = new XmlSerializer(typeof(T));
+                        serializer.Serialize(writer, instance, ns);
+                    }
                 }
 
                 return true;
@@ -63,10 +65,12 @@ namespace MFramework.Util
             try
             {
                 using (FileStream fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
-                using (XmlReader reader = XmlReader.Create(fileStream))
                 {
-                    XmlSerializer serializer = new XmlSerializer(type);
-                    return serializer.Deserialize(reader);
+                    using (XmlReader reader = XmlReader.Create(fileStream))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(type);
+                        return serializer.Deserialize(reader);
+                    }
                 }
             }
             catch (Exception exception)
@@ -199,18 +203,22 @@ namespace MFramework.Util
             }
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            using (TextWriter textWriter = new StreamWriter(fileStream, UTF8))
             {
-                textWriter.Write(code);
+                using (TextWriter textWriter = new StreamWriter(fileStream, UTF8))
+                {
+                    textWriter.Write(code);
+                }
             }
         }
 
         public static string ReadFromFile(string filePath)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            using (TextReader textReader = new StreamReader(fileStream, UTF8))
             {
-                return textReader.ReadToEnd();
+                using (TextReader textReader = new StreamReader(fileStream, UTF8))
+                {
+                    return textReader.ReadToEnd();
+                }
             }
         }
 
