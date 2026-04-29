@@ -222,7 +222,8 @@ namespace MFramework.Util
             }
         }
 
-        public static byte[] SaveToByte<T>(T instance)
+        // 内存流
+        public static byte[] SerializeToBytes<T>(T instance)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -232,7 +233,7 @@ namespace MFramework.Util
             }
         }
 
-        public static object ReadFromByte(byte[] data)
+        public static object DeserializeFromBytes(byte[] data)
         {
             using (MemoryStream memoryStream = new MemoryStream(data))
             {
@@ -241,7 +242,7 @@ namespace MFramework.Util
             }
         }
 
-        public static T ReadFromByte<T>(byte[] data)
+        public static T DeserializeFromBytes<T>(byte[] data)
         {
             using (MemoryStream memoryStream = new MemoryStream(data))
             {
