@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MFramework.Coroutines
 {
-    internal static class MCoroutineUtility
+    internal static class MCoroutineUtil
     {
         internal static IEnumerator DelayFrame(Action action, int frame)
         {
