@@ -22,14 +22,11 @@ namespace MFramework.Text
         protected override void OnEnable()
         {
             base.OnEnable();
-            MLocalizationManager.ActiveChanged += OnActiveLocalizationManagerChanged;
-            Subscribe();
             Refresh();
         }
 
         protected override void OnDisable()
         {
-            MLocalizationManager.ActiveChanged -= OnActiveLocalizationManagerChanged;
             Unsubscribe();
             base.OnDisable();
         }
@@ -45,15 +42,28 @@ namespace MFramework.Text
             Refresh();
         }
 
+        public void SetLocalizationManager(MLocalizationManager manager)
+        {
+            if (ReferenceEquals(_subscribedManager, manager)) return;
+
+            Unsubscribe();
+            _subscribedManager = manager;
+            if (_subscribedManager != null)
+            {
+                _subscribedManager.LanguageChanged += Refresh;
+            }
+
+            Refresh();
+        }
+
         public void Refresh()
         {
             string source = text;
-            MLocalizationManager manager = MLocalizationManager.Active;
 
             if (_localization != null &&
                 _localization.Mode == MTextLocalizationMode.On &&
-                manager != null &&
-                manager.TryGetText(_localization.Key, out string localized))
+                _subscribedManager != null &&
+                _subscribedManager.TryGetText(_localization.Key, out string localized))
             {
                 source = localized;
             }
@@ -76,24 +86,6 @@ namespace MFramework.Text
             MTextParseResult parseResult = MTextInlineParser.Parse(value ?? string.Empty);
             text = parseResult.Text;
             _animator?.RebuildAndPlay(parseResult.Effects);
-        }
-
-        private void Subscribe()
-        {
-            MLocalizationManager manager = MLocalizationManager.Active;
-            if (manager == null) return;
-
-            if (ReferenceEquals(_subscribedManager, manager)) return;
-
-            Unsubscribe();
-            _subscribedManager = manager;
-            _subscribedManager.LanguageChanged += Refresh;
-        }
-
-        private void OnActiveLocalizationManagerChanged()
-        {
-            Subscribe();
-            Refresh();
         }
 
         private void Unsubscribe()

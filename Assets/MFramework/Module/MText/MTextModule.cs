@@ -1,5 +1,4 @@
 using MFramework.Core.CoreEx;
-using MFramework.Coroutines;
 
 namespace MFramework.Text
 {
@@ -7,10 +6,7 @@ namespace MFramework.Text
     {
         public IModule[] ConfigureDependencies()
         {
-            return new IModule[]
-            {
-                new CoroutineModule(),
-            };
+            return System.Array.Empty<IModule>();
         }
 
         public IModuleInstaller[] ConfigureInstallers()

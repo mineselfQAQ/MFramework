@@ -16,7 +16,7 @@ namespace MFramework.Text
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(TMP_Text))]
-    [AddComponentMenu("MFramework/MText/Text Animator")]
+    [AddComponentMenu("MFramework/MText/MTextAnimator")]
     public sealed class MTextAnimator : MonoBehaviour
     {
         [SerializeField] private MTextTypewriterMode typewriterMode = MTextTypewriterMode.Fade;
@@ -70,8 +70,6 @@ namespace MFramework.Text
 
         public void FinishTextImmediately()
         {
-            if (!IsPlaying) return;
-
             _typewriterForceCompleted = true;
             if (_cachedMeshInfo == null)
             {

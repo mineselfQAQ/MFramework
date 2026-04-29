@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MFrameworkExamples/Event/Example_Event.unity
     guid: f01ddeeea0b6c744bbf036d5d3f0ab8f
-  - enabled: 1
+  - enabled: 0
     path: Assets/MFrameworkExamples/IOC/Example_IOC.unity
     guid: 77e05298fd5372e419a237c188df475f
+  - enabled: 1
+    path: Assets/MFrameworkExamples/MText/Example_MText.unity
+    guid: 9c6e786bdffc7274cbd46ed8a82634f7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

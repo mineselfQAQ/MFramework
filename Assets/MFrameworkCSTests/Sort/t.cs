@@ -18,64 +18,55 @@ namespace MFrameworkCSTests.Sort11
         {
             while (left < right)
             {
-                int pivot = Partition(list, comparer, left, left + (right - left) / 2, right);
-
-                if (pivot - left < right - pivot)
+                int pivot = Partition(list, comparer, left, right);
+                if (pivot - left > right - pivot)
                 {
-                    Sort(list, comparer, left, pivot - 1);
-                    left = pivot + 1;
+                    right = pivot - 1;
+                    Sort(list, comparer, pivot + 1, right);
                 }
                 else
                 {
-                    Sort(list, comparer, pivot + 1, right);
-                    right = pivot - 1;
+                    left = pivot + 1;
+                    Sort(list, comparer, left, pivot - 1);
                 }
             }
         }
 
-        private int Partition(IList<T> list, IComparer<T> comparer, int left, int mid, int right)
+        private int Partition(IList<T> list, IComparer<T> comparer, int left, int right)
         {
+            int mid = left + (right - left) / 2;
             MidThree(list, comparer, left, mid, right);
-            SortUtils.Swap(list, mid, left);
+            SortUtils.Swap(list, left, mid);
 
-            T pivotValue = list[left];
-            int l = left, r = right;
-            while (l < r)
+            T temp = list[left];
+            int i = left, j = right;
+            while (i < j)
             {
-                while (l < r && comparer.Compare(list[r], pivotValue) >= 0) // 右侧数比pivot大（包括等于），合规跳过
+                while (i < j && comparer.Compare(list[j], temp) <= 0) j--;
+                if (i < j)
                 {
-                    r--;
-                }
-                if (l < r)
-                {
-                    list[l] = list[r];
-                    l++;
+                    temp = list[j];
+                    i++;
                 }
 
-                while (l < r && comparer.Compare(list[l], pivotValue) <= 0)
+                while (i < j && comparer.Compare(list[i], temp) >= 0) i++;
+                if (i < j)
                 {
-                    l++;
-                }
-                if (l < r)
-                {
-                    list[r] = list[l];
-                    r--;
+                    temp = list[i];
+                    j--;
+                    i--;
                 }
             }
 
-            list[l] = pivotValue;
-            return l;
+            return 0;
         }
 
         private void MidThree(IList<T> list, IComparer<T> comparer, int left, int mid, int right)
         {
-            // 直接把三个位置局部排好：left <= mid <= right
             if (comparer.Compare(list[left], list[mid]) > 0)
                 SortUtils.Swap(list, left, mid);
-
             if (comparer.Compare(list[left], list[right]) > 0)
                 SortUtils.Swap(list, left, right);
-
             if (comparer.Compare(list[mid], list[right]) > 0)
                 SortUtils.Swap(list, mid, right);
         }

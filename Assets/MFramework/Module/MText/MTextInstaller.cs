@@ -7,13 +7,12 @@ namespace MFramework.Text
         public void Install(IModuleContext context)
         {
             var manager = new MLocalizationManager();
+            manager.LoadGeneratedTextTable();
             context.Container.RegisterSingleton<MLocalizationManager>(manager);
-            MLocalizationManager.SetActive(manager);
         }
 
         public void Uninstall(IModuleContext context)
         {
-            MLocalizationManager.SetActive(null);
             context.Container.UnRegister<MLocalizationManager>();
         }
     }

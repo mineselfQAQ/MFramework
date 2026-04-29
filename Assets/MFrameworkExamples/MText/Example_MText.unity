@@ -198,7 +198,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 250553194}
   - component: {fileID: 250553193}
   m_Layer: 0
-  m_Name: MEntry
+  m_Name: MCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,8 +284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e806984aa753743bb49c1d964c6914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizationTable: {fileID: 11400000, guid: 0d9a834d0f1e9f640879124f0afcdf6a, type: 2}
   startLanguage: zh
+  firstKey: dialog.hello
+  secondKey: dialog.effects
+  target: {fileID: 258350741}
 --- !u!4 &250553194
 Transform:
   m_ObjectHideFlags: 0
@@ -343,14 +345,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: MText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b2809d50a1df84249ace6e0553a91ef2, type: 2}
+  m_sharedMaterial: {fileID: 4553023939737405803, guid: b2809d50a1df84249ace6e0553a91ef2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4294637040
   m_fontColor: {r: 0.94, g: 0.96, b: 0.98, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -363,7 +365,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -551,7 +553,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -768,7 +770,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -875,20 +877,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 724994265}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1779126407}
-        m_TargetAssemblyTypeName: MFramework.Examples.MText.MTextExampleController,
-          Assembly-CSharp
-        m_MethodName: ToggleLanguage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &724994265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,20 +998,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1075765748}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1779126407}
-        m_TargetAssemblyTypeName: MFramework.Examples.MText.MTextExampleController,
-          Assembly-CSharp
-        m_MethodName: ToggleLine
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1075765748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1116,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1276,7 +1252,6 @@ GameObject:
   - component: {fileID: 1779126406}
   - component: {fileID: 1779126409}
   - component: {fileID: 1779126408}
-  - component: {fileID: 1779126407}
   m_Layer: 0
   m_Name: MTextDemoPanel
   m_TagString: Untagged
@@ -1307,21 +1282,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 980, y: 520}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1779126407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779126405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c39f9688984f534d8ae5d3c12635f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstKey: dialog.hello
-  secondKey: dialog.effects
-  target: {fileID: 258350741}
 --- !u!114 &1779126408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,20 +1402,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2019919510}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1779126407}
-        m_TargetAssemblyTypeName: MFramework.Examples.MText.MTextExampleController,
-          Assembly-CSharp
-        m_MethodName: FinishImmediately
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2019919510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,5 +1447,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 348965066}
   - {fileID: 1563239775}
-  - {fileID: 577603262}
   - {fileID: 250553194}
+  - {fileID: 577603262}
