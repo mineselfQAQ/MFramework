@@ -286,8 +286,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLanguage: zh
   firstKey: dialog.hello
-  secondKey: dialog.effects
+  secondKey: dialog.warning
   target: {fileID: 258350741}
+  languageButton: {fileID: 0}
+  lineButton: {fileID: 0}
+  finishButton: {fileID: 0}
 --- !u!4 &250553194
 Transform:
   m_ObjectHideFlags: 0
