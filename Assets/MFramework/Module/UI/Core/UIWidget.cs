@@ -114,7 +114,7 @@ namespace MFramework.UI
             return closed;
         }
 
-        internal bool SetVisible(bool visible, bool enableTransition = false)
+        internal bool SetVisible(bool visible)
         {
             if (ShowState == UIShowState.On && visible) return false;
             if (ShowState == UIShowState.Off && !visible) return false;

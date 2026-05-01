@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildSetting ProjectName="MFramework" BuildRoot="../MFramework_AssetBundle">
+	<BuildItem AssetPath="Assets/AssetBundle/Icon/" ResourceType="Direct" BundleType="Directory" Suffix=".png" />
+</BuildSetting>

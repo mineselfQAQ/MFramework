@@ -52,7 +52,8 @@ namespace MFramework.Core
         internal const LogFilter BUILD_FILTER = LogFilter.Error;
 #endif
 
-        public static ILog Default { get; private set; }
+        private static ILog _default;
+        public static ILog Default => _default ??= new UserLog("Default");
         private static ILog _selfLog;
 
         private static readonly Dictionary<string, UserLog> _uLogDic = new Dictionary<string, UserLog>();
@@ -68,7 +69,7 @@ namespace MFramework.Core
 
         public static void Bootstrap()
         {
-            Default = new UserLog("Default");
+            _default = Default;
             _selfLog = new InternalLog(nameof(MLog));
 
             _selfLog.D("Log模块：开启");
