@@ -36,7 +36,7 @@ namespace MFramework
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W($"AB热更新下载失败：url={url}, error={request.error}");
                 yield break;
             }
             else

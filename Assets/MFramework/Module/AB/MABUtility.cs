@@ -18,7 +18,7 @@ namespace MFramework
                 case RuntimePlatform.IPhonePlayer:
                     return "IOS";
                 default:
-                    MLog.Default?.E("AB error.");
+                    MLog.Default?.E($"AB平台识别失败：不支持的平台 {Application.platform}");
                     return null;
             }
         }
@@ -76,7 +76,7 @@ namespace MFramework
                 byte[] data = AESUtlity.AESDecryptFileToStream(file);
                 if (data == null)
                 {
-                    MLog.Default?.E("AB error.");
+                    MLog.Default?.E($"AB加载失败：加密AB解密结果为空，file={file}");
                 }
                 return AssetBundle.LoadFromMemory(data, 0);
             }
@@ -98,7 +98,7 @@ namespace MFramework
                 byte[] data = AESUtlity.AESDecryptFileToStream(file);
                 if (data == null)
                 {
-                    MLog.Default?.E("AB error.");
+                    MLog.Default?.E($"AB异步加载失败：加密AB解密结果为空，file={file}");
                 }
                 return AssetBundle.LoadFromMemoryAsync(data, 0);
             }

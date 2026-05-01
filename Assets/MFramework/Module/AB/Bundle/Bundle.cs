@@ -16,14 +16,14 @@ namespace MFramework
         {
             if (assetBundle)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB同步加载失败：Bundle已加载，url={url}");
             }
 
             string file = BundleManager.GetFileUrl(url);
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (!File.Exists(file))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB同步加载失败：文件不存在，url={url}, file={file}");
             }
 #endif
 
@@ -41,11 +41,11 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(name))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：资源名为空，bundle={url}");
             }
             if (assetBundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：Bundle未加载，bundle={url}, asset={name}");
             }
 
             return assetBundle.LoadAsset(name, type);
@@ -58,11 +58,11 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(name))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：资源名为空，bundle={url}");
             }
             if (assetBundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：Bundle未加载，bundle={url}, asset={name}");
             }
 
             return assetBundle.LoadAssetAsync(name, type);

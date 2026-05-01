@@ -50,14 +50,14 @@ namespace MFramework
         {
             if (assetBundleCreateRequest != null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB异步加载失败：Bundle已在加载中，url={url}");
             }
 
             string file = BundleManager.GetFileUrl(url); // 获取文件路径
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (!File.Exists(file))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB异步加载失败：文件不存在，url={url}, file={file}");
             }
 #endif
 
@@ -72,11 +72,11 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(name))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：资源名为空，bundle={url}");
             }
             if (assetBundleCreateRequest == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：Bundle未开始异步加载，bundle={url}, asset={name}");
             }
 
             if (assetBundle == null)
@@ -94,11 +94,11 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(name))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：资源名为空，bundle={url}");
             }
             if (assetBundleCreateRequest == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：Bundle未开始异步加载，bundle={url}, asset={name}");
             }
 
             if (assetBundle == null)

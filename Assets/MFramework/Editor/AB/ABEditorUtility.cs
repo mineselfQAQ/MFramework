@@ -1,4 +1,4 @@
-﻿using MFramework.Core;
+using MFramework.Core;
 using MFramework.Util;
 
 namespace MFramework
@@ -14,7 +14,7 @@ namespace MFramework
                 var buildSetting = MSerializationUtil.ReadFromXml<BuildSetting>(MPathCache.AB_BUILD_SETTING_PATH);
                 if (buildSetting == null)
                 {
-                    MLog.Default?.E("AB error.");
+                    MLog.Default?.E($"AB构建根目录获取失败：构建配置读取失败，path={MPathCache.AB_BUILD_SETTING_PATH}");
                     return null;
                 }
                 buildSetting.GetBuildRoot();

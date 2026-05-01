@@ -291,13 +291,13 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(assetUrl))
             {
-                MLog.Default?.E("资源路径为空");
+                MLog.Default?.E("AB资源卸载失败：资源路径为空");
             }
 
             ResourceBase resource;
             if (!resourceDic.TryGetValue(assetUrl, out resource))
             {
-                MLog.Default?.E($"<{assetUrl}>所对应资源不存在");
+                MLog.Default?.E($"AB资源卸载失败：资源不存在，asset={assetUrl}");
             }
             Unload(resource);
         }
@@ -305,7 +305,7 @@ namespace MFramework
         {
             if (resource == null)
             {
-                MLog.Default?.E("资源路径为空");
+                MLog.Default?.E("AB资源卸载失败：资源对象为空");
             }
 
             // 该Resource的reference--，如果为0（没有引用），即可准备卸载

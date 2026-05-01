@@ -18,17 +18,17 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(url))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E("AB资源同步加载失败：资源路径为空");
             }
             if (bundle != null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：资源已绑定Bundle，asset={url}, bundle={bundle.url}");
             }
 
             string bundleUrl = null;
             if (!ResourceManager.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：未找到资源对应的Bundle，asset={url}");
             }
 
             bundle = BundleManager.Load(bundleUrl); // 同步获取Bundle
@@ -39,7 +39,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源同步加载失败：Bundle为空，asset={url}");
             }
 
             // 正在异步加载的资源要变成同步
@@ -62,7 +62,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源卸载失败：Bundle为空，asset={url}");
             }
             if (asset != null && !(asset is GameObject))
             {

@@ -41,7 +41,7 @@ namespace MFramework
         {
             if (!File.Exists(filePath))
             {
-                MLog.Default?.W($"AB file not found: {filePath}");
+                MLog.Default?.E($"AB加解密失败：输入文件不存在，file={filePath}");
                 return -1;
             }
 
@@ -49,7 +49,7 @@ namespace MFramework
             int ivCount = iv.Length;
             if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
             {
-                MLog.Default?.D("AB debug.");
+                MLog.Default?.E($"AB加解密失败：Key或IV长度不合法，keyLength={keyCount}, ivLength={ivCount}");
                 return -1;
             }
 
@@ -64,7 +64,7 @@ namespace MFramework
         {
             if (!File.Exists(filePath))
             {
-                MLog.Default?.W($"AB file not found: {filePath}");
+                MLog.Default?.E($"AB解密失败：输入文件不存在，file={filePath}");
                 return null;
             }
 
@@ -72,7 +72,7 @@ namespace MFramework
             int ivCount = iv.Length;
             if (keyCount < 7 || keyCount > 16 || ivCount < 7 || ivCount > 16)
             {
-                MLog.Default?.D("AB debug.");
+                MLog.Default?.E($"AB解密失败：Key或IV长度不合法，keyLength={keyCount}, ivLength={ivCount}");
                 return null;
             }
 
@@ -148,7 +148,7 @@ namespace MFramework
             }
             catch (Exception ex)
             {
-                MLog.Default?.W($"AB warning: {ex.Message}");
+                MLog.Default?.E($"AB加解密失败：file={filePath}, output={outputPath}, error={ex.Message}");
                 return -1;
             }
         }
@@ -182,7 +182,7 @@ namespace MFramework
             }
             catch (Exception ex)
             {
-                MLog.Default?.W($"AB warning: {ex.Message}");
+                MLog.Default?.E($"AB解密到内存失败：file={filePath}, error={ex.Message}");
                 return null;
             }
         }

@@ -39,7 +39,7 @@ namespace MFramework
 
             if (reference < 0)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源引用计数异常：引用计数小于0，asset={url}, reference={reference}");
             }
         }
 

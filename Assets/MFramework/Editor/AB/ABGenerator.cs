@@ -58,7 +58,7 @@ namespace MFramework
             if (GUILayout.Button("生成默认XML"))
             {
                 DrawDefaultGenerator();
-                MLog.Default?.D("AB debug.");
+                MLog.Default?.D($"AB默认构建配置已生成：path={MPathCache.AB_BUILD_SETTING_PATH}");
                 AssetDatabase.Refresh();
             }
             EditorGUILayout.LabelField("自定义生成：");
@@ -66,7 +66,7 @@ namespace MFramework
             {
                 // TODO:自由配置存放路径/格式...
                 // DrawCustomGenerator();
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W("AB自定义XML生成尚未实现");
                 AssetDatabase.Refresh();
             }
         }
@@ -128,7 +128,7 @@ namespace MFramework
                 string fileName = MPathCache.AB_BUILD_SETTING_PATH;
                 if (!File.Exists(fileName))
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W($"AB构建配置不存在，无法打开：path={fileName}");
                     return;
                 }
 
@@ -154,14 +154,14 @@ namespace MFramework
                 string settingPath = MPathCache.AB_BUILD_SETTING_PATH;
                 if (!File.Exists(settingPath))
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W($"AB构建配置不存在，无法定位AB目录：path={settingPath}");
                     return;
                 }
 
                 var buildSetting = MSerializationUtil.ReadFromXml<BuildSetting>(settingPath);
                 if (buildSetting == null)
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W($"AB构建配置读取失败，无法定位AB目录：path={settingPath}");
                     return;
                 }
 
@@ -171,7 +171,7 @@ namespace MFramework
                 resPath = resPath.Replace("{ProjectName}", Application.productName);
                 if (!Directory.Exists(resPath))
                 {
-                    MLog.Default?.D("AB debug.");
+                    MLog.Default?.W($"AB输出目录不存在：path={resPath}");
                     return;
                 }
                 MEditorUtility.OpenFolder(resPath);
@@ -218,7 +218,7 @@ namespace MFramework
 
             if (File.Exists(fileName))
             {
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W($"AB默认构建配置已存在，跳过生成：path={fileName}");
                 return;
             }
             MSerializationUtil.SaveToFile(fileName, code);

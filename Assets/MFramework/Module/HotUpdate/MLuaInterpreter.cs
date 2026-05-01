@@ -38,7 +38,7 @@ namespace MFramework
                 string CSAssemblyPath = GetAssemblyCSharpDLLName();
                 if (string.IsNullOrEmpty(CSAssemblyPath) || !File.Exists(CSAssemblyPath))
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W($"Lua热更新初始化跳过：Assembly-CSharp.dll不存在，path={CSAssemblyPath}");
                     return;
                 }
 
@@ -48,7 +48,7 @@ namespace MFramework
                 luaTableType = assembly.GetType("XLua.LuaTable");
                 if (luaEnvType == null || luaTableType == null)
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W("Lua热更新初始化跳过：未找到XLua.LuaEnv或XLua.LuaTable类型");
                     return;
                 }
 
@@ -149,7 +149,7 @@ namespace MFramework
 #elif UNITY_STANDALONE
             return $"{Application.dataPath}/Managed/Assembly-CSharp.dll";
 #else
-            MLog.Default?.E("AB error.");
+            MLog.Default?.E($"Lua热更新不支持当前平台：platform={Application.platform}");
             return null;
 #endif
         }

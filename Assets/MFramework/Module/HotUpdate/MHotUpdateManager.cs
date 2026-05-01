@@ -61,7 +61,7 @@ namespace MFramework
 
         public void StartHotUpdate()
         {
-            MLog.Default?.D("AB debug.");
+            MLog.Default?.D($"AB热更新开始：info={url}/{ABInfoFileName}");
             _coroutineManager.StartCoroutineNoRecord(DownloadABInfo());
         }
 
@@ -74,7 +74,7 @@ namespace MFramework
                 yield return request.SendWebRequest();
                 if(request.result != UnityWebRequest.Result.Success)
                 {
-                    MLog.Default?.W("AB warning.");
+                    MLog.Default?.W($"AB热更新信息下载失败：url={infoUrl}, error={request.error}");
                     yield break;
                 }
                 else
@@ -179,7 +179,7 @@ namespace MFramework
             }
             File.WriteAllText(ABInfoFileName, sb.ToString());
 
-            MLog.Default?.D("AB debug.");
+            MLog.Default?.D($"AB热更新完成：info={ABInfoFileName}, totalSize={downloadTotalSize}");
         }
 
         public void UpdateLocalABInfo(ABInfo serverinfo)

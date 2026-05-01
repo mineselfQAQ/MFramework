@@ -77,17 +77,17 @@ namespace MFramework
         {
             if (string.IsNullOrEmpty(url))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E("AB资源异步加载失败：资源路径为空");
             }
             if (bundle != null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：资源已绑定Bundle，asset={url}, bundle={bundle.url}");
             }
 
             string bundleUrl = null;
             if (!ResourceManager.ResourceBunldeDic.TryGetValue(url, out bundleUrl))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步加载失败：未找到资源对应的Bundle，asset={url}");
             }
             bundle = BundleManager.LoadAsync(bundleUrl); // 异步加载Bundle
         }
@@ -96,7 +96,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源加载失败：Bundle为空，asset={url}");
             }
 
             if (!bundle.isStreamedSceneAssetBundle)
@@ -125,7 +125,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源异步请求创建失败：Bundle为空，asset={url}");
             }
 
             assetBundleRequest = bundle.LoadAssetAsync(url, typeof(UnityEngine.Object));
@@ -135,7 +135,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB资源卸载失败：Bundle为空，asset={url}");
 
             }
             if (base.asset != null && !(base.asset is GameObject))

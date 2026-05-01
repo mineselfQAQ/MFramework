@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using MFramework.Core;
 using UnityEngine;
 
@@ -42,7 +42,7 @@ namespace MFramework
 
             if (reference < 0)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB引用计数异常：Bundle引用计数小于0，url={url}, reference={reference}");
             }
         }
     }

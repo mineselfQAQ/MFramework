@@ -36,12 +36,12 @@ namespace MFramework
             AssetBundle manifestAssetBundle = AssetBundle.LoadFromFile(assetBundleManifestFile);
             if (manifestAssetBundle == null)
             {
-                MLog.Default?.E("AssetBundleManifest加载失败，请检查getFileCallback()获取路径是否正确");
+                MLog.Default?.E($"AB Manifest加载失败：file={assetBundleManifestFile}");
             }
             UnityEngine.Object[] objs = manifestAssetBundle.LoadAllAssets();
             if (objs.Length == 0)
             {
-                MLog.Default?.E("AssetBundleManifest中无数据");
+                MLog.Default?.E($"AB Manifest加载失败：Manifest中无数据，file={assetBundleManifestFile}");
             }
             _assetBundleManifest = objs[0] as AssetBundleManifest;
         }
@@ -159,7 +159,7 @@ namespace MFramework
         {
             if (bundle == null)
             {
-                MLog.Default?.E("Bundle不存在");
+                MLog.Default?.E("AB卸载失败：Bundle为空");
             }
 
             // 该Bundle的reference--，如果为0（没有引用），即可准备卸载
@@ -179,7 +179,7 @@ namespace MFramework
         {
             if (_getFileCallback == null)
             {
-                MLog.Default?.E("获取路径回调为空");
+                MLog.Default?.E($"AB路径获取失败：路径回调为空，url={url}");
             }
 
             // 交到外部处理

@@ -74,7 +74,7 @@ namespace MFramework
         {
             if (!File.Exists(assetPath))
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB Manifest导入失败：资源文件不存在，path={assetPath}");
                 return;
             }
 
@@ -205,7 +205,7 @@ namespace MFramework
             BuildSetting = MSerializationUtil.ReadFromXml<BuildSetting>(settingPath);
             if (BuildSetting == null)
             {
-                MLog.Default?.E("AB error.");
+                MLog.Default?.E($"AB构建配置加载失败：path={settingPath}");
                 return null;
             }
             if (!BuildSetting.Init())
@@ -785,7 +785,7 @@ namespace MFramework
                 string md5 = MMD5Utility.GetMD5(fullPath);
                 if (string.IsNullOrEmpty(md5))
                 {
-                    MLog.Default?.D($"MD5获取失败，文件<{fullPath}>");
+                    MLog.Default?.E($"AB MD5生成失败：file={fullPath}");
                 }
                 // 文件大小
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
@@ -812,19 +812,19 @@ namespace MFramework
             if (platformInt == 0) // Windows
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows64) return true;
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W("AB构建平台需要切换到Windows，已延迟执行切换");
                 EditorDelayExecute.Instance.DelayDo(SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64));
             }
             else if (platformInt == 1) // Android
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android) return true;
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W("AB构建平台需要切换到Android，已延迟执行切换");
                 EditorDelayExecute.Instance.DelayDo(SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android));
             }
             else if (platformInt == 2) // iOS
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS) return true;
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W("AB构建平台需要切换到iOS，已延迟执行切换");
                 EditorDelayExecute.Instance.DelayDo(SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS));
             }
             return false;

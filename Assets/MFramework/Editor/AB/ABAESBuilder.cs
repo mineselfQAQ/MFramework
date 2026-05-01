@@ -24,7 +24,7 @@ namespace MFramework
             if(RootPath == null) RootPath = ABEditorUtility.GetBuildRootPath();
             if (!Directory.Exists(RootPath))
             {
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W($"AB加密取消：AB根目录不存在，path={RootPath}");
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace MFramework
             if (RootPath == null) RootPath = ABEditorUtility.GetBuildRootPath();
             if (!Directory.Exists(RootPath))
             {
-                MLog.Default?.W("AB warning.");
+                MLog.Default?.W($"AB解密取消：AB根目录不存在，path={RootPath}");
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace MFramework
             {
                 Directory.Delete(newRootPath, true);
                 Directory.CreateDirectory(newRootPath);
-                MLog.Default?.D("AB debug.");
+                MLog.Default?.D($"AB加密输出目录已重建：path={newRootPath}");
             }
 
             StringBuilder sb = new StringBuilder();
@@ -127,7 +127,7 @@ namespace MFramework
                 string md5 = MMD5Utility.GetMD5(newPath);
                 if (string.IsNullOrEmpty(md5))
                 {
-                    MLog.Default?.D("AB debug.");
+                    MLog.Default?.E($"AB加密失败：MD5获取失败，file={newPath}");
                 }
                 // 鏂囦欢澶у皬
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
@@ -138,7 +138,7 @@ namespace MFramework
             }
             File.WriteAllText($"{newRootPath}/{MPathCache.AB_INFO_FILE_NAME}", sb.ToString());
 
-            MLog.Default?.D("AB debug.");
+            MLog.Default?.D($"AB加密完成：platform={platform}, output={newRootPath}");
             return true;
         }
         private static bool Decrypt(MBuildTarget buildTarget)
@@ -174,7 +174,7 @@ namespace MFramework
             {
                 Directory.Delete(newRootPath, true);
                 Directory.CreateDirectory(newRootPath);
-                MLog.Default?.D("AB debug.");
+                MLog.Default?.D($"AB解密输出目录已重建：path={newRootPath}");
             }
 
             StringBuilder sb = new StringBuilder();
@@ -210,7 +210,7 @@ namespace MFramework
                 string md5 = MMD5Utility.GetMD5(newPath);
                 if (string.IsNullOrEmpty(md5))
                 {
-                    MLog.Default?.D("AB debug.");
+                    MLog.Default?.E($"AB解密失败：MD5获取失败，file={newPath}");
                 }
                 // 鏂囦欢澶у皬
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
@@ -220,7 +220,7 @@ namespace MFramework
             }
             File.WriteAllText($"{newRootPath}/{MPathCache.AB_INFO_FILE_NAME}", sb.ToString());
 
-            MLog.Default?.D("AB debug.");
+            MLog.Default?.D($"AB解密完成：platform={platform}, output={newRootPath}");
             return true;
         }
     }
