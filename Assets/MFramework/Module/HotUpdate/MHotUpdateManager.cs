@@ -45,7 +45,7 @@ namespace MFramework
 
         internal void Initialize()
         {
-            // TODO：是否应该使用MABUtility.GetABRootPath（）简化
+            // TODO：是否应该使用MABUtility.GetABRootPath()简化
             string platform = MABUtility.GetPlatform();
             if (_runtimeState.ABEncryptState)
             {
@@ -184,7 +184,7 @@ namespace MFramework
 
         public void UpdateLocalABInfo(ABInfo serverinfo)
         {
-            // 注意：仅更新了本地字典，还需在OnUpdateEnd（）中更新至.txt中
+            // 注意：仅更新了本地字典，还需在OnUpdateEnd()中更新至.txt中
             localInfoDic[serverinfo.ABName] = serverinfo;
         }
 

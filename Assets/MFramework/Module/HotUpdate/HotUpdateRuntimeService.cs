@@ -8,6 +8,7 @@ namespace MFramework
         private readonly bool _startOnInitialize;
         private IDIContainer _container;
         private MHotUpdateManager _manager;
+        private MLuaInterpreter _luaInterpreter;
 
         public HotUpdateRuntimeService(bool startOnInitialize = false)
         {
@@ -28,8 +29,8 @@ namespace MFramework
 
             _manager = _container.Resolve<MHotUpdateManager>();
             _manager.Initialize();
-
-            MLuaInterpreter.Instance.Configure(_container.Resolve<ABRuntimeState>(), _container.Resolve<MResourceManager>());
+            _luaInterpreter = _container.Resolve<MLuaInterpreter>();
+            _luaInterpreter.Initialize();
 
             if (_startOnInitialize)
             {
@@ -41,6 +42,7 @@ namespace MFramework
         {
             _manager?.Shutdown();
             _manager = null;
+            _luaInterpreter = null;
         }
     }
 }

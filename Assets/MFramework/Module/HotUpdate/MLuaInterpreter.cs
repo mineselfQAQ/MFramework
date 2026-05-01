@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace MFramework
 {
-    // TODO：使用反射，真的只能用反射吗？
-    public class MLuaInterpreter : MMonoSingleton<MLuaInterpreter>
+    public class MLuaInterpreter : IDisposable
     {
-        private object luaEnv = null;
-
         private const string LuaFileSuffix = ".lua.txt";
 
+        private readonly ABRuntimeState _runtimeState;
+        private readonly MResourceManager _resourceManager;
+        private object luaEnv;
         private Type luaEnvType;
         private Type luaTableType;
         private PropertyInfo globalProperty;
@@ -20,82 +20,59 @@ namespace MFramework
         private MethodInfo doStringMethod;
         private MethodInfo setMethod;
         private object globalTable;
-        private ABRuntimeState _runtimeState;
-        private MResourceManager _resourceManager;
 
-        public void Configure(ABRuntimeState runtimeState, MResourceManager resourceManager)
+        public MLuaInterpreter(ABRuntimeState runtimeState, MResourceManager resourceManager)
         {
-            _runtimeState = runtimeState;
-            _resourceManager = resourceManager;
+            _runtimeState = runtimeState ?? throw new ArgumentNullException(nameof(runtimeState));
+            _resourceManager = resourceManager ?? throw new ArgumentNullException(nameof(resourceManager));
         }
 
-        protected override void Awake()
+        public void Initialize()
         {
-            base.Awake();
+            if (luaEnv != null) return;
 
-            if (luaEnv == null)
+            string CSAssemblyPath = GetAssemblyCSharpDLLName();
+            if (string.IsNullOrEmpty(CSAssemblyPath) || !File.Exists(CSAssemblyPath))
             {
-                string CSAssemblyPath = GetAssemblyCSharpDLLName();
-                if (string.IsNullOrEmpty(CSAssemblyPath) || !File.Exists(CSAssemblyPath))
-                {
-                    MLog.Default?.W($"Lua热更新初始化跳过：Assembly-CSharp.dll不存在，path={CSAssemblyPath}");
-                    return;
-                }
-
-                Assembly assembly = Assembly.LoadFile(CSAssemblyPath);
-
-                luaEnvType = assembly.GetType("XLua.LuaEnv");
-                luaTableType = assembly.GetType("XLua.LuaTable");
-                if (luaEnvType == null || luaTableType == null)
-                {
-                    MLog.Default?.W("Lua热更新初始化跳过：未找到XLua.LuaEnv或XLua.LuaTable类型");
-                    return;
-                }
-
-                luaEnv = Activator.CreateInstance(luaEnvType);
-
-                // 注入所需参数
-                globalProperty = luaEnv.GetType().GetProperty("Global", BindingFlags.Public | BindingFlags.Instance);
-                globalTable = globalProperty.GetValue(luaEnv);
-                setMethod = luaTableType.GetMethod("Set");
-                setMethod = setMethod.MakeGenericMethod(typeof(string), typeof(GameObject));
-
-                // 需要选择无参Dispose()
-                disposeMethod = luaEnv.GetType().GetMethod("Dispose", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
-                doStringMethod = luaEnv.GetType().GetMethod("DoString", new Type[] { typeof(string), typeof(string), luaTableType });
-
-                // 生成委托
-                Type customLoaderType = luaEnvType.GetNestedType("CustomLoader");
-                MethodInfo methodInfo = typeof(MLuaInterpreter).GetMethod("CustomLuaLoader", BindingFlags.NonPublic | BindingFlags.Instance);
-                Delegate loaderDelegate = Delegate.CreateDelegate(customLoaderType, this, methodInfo);
-                // 调用AddLoader（形参为CustomLoader委托）
-                MethodInfo addLoaderMethod = luaEnvType.GetMethod("AddLoader");
-                addLoaderMethod.Invoke(luaEnv, new object[] { loaderDelegate });
+                MLog.Default?.W($"Lua hot update initialization skipped: Assembly-CSharp.dll not found, path={CSAssemblyPath}");
+                return;
             }
+
+            Assembly assembly = Assembly.LoadFile(CSAssemblyPath);
+
+            luaEnvType = assembly.GetType("XLua.LuaEnv");
+            luaTableType = assembly.GetType("XLua.LuaTable");
+            if (luaEnvType == null || luaTableType == null)
+            {
+                MLog.Default?.W("Lua hot update initialization skipped: XLua.LuaEnv or XLua.LuaTable type not found.");
+                return;
+            }
+
+            luaEnv = Activator.CreateInstance(luaEnvType);
+
+            globalProperty = luaEnv.GetType().GetProperty("Global", BindingFlags.Public | BindingFlags.Instance);
+            globalTable = globalProperty.GetValue(luaEnv);
+            setMethod = luaTableType.GetMethod("Set");
+            setMethod = setMethod.MakeGenericMethod(typeof(string), typeof(GameObject));
+
+            disposeMethod = luaEnv.GetType().GetMethod("Dispose", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            doStringMethod = luaEnv.GetType().GetMethod("DoString", new Type[] { typeof(string), typeof(string), luaTableType });
+
+            Type customLoaderType = luaEnvType.GetNestedType("CustomLoader");
+            MethodInfo methodInfo = typeof(MLuaInterpreter).GetMethod("CustomLuaLoader", BindingFlags.NonPublic | BindingFlags.Instance);
+            Delegate loaderDelegate = Delegate.CreateDelegate(customLoaderType, this, methodInfo);
+            MethodInfo addLoaderMethod = luaEnvType.GetMethod("AddLoader");
+            addLoaderMethod.Invoke(luaEnv, new object[] { loaderDelegate });
+
+            ApplyInjections();
         }
 
-        private void Start()
+        public void Dispose()
         {
-            var injections = _runtimeState?.LuaInjections;
-            if (injections != null)
-            {
-                foreach (var injection in injections)
-                {
-                    Set(injection.name, injection.value);
-                }
-            }
-        }
+            if (luaEnv == null) return;
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            if (luaEnv != null)
-            {
-                disposeMethod.Invoke(luaEnv, null);
-
-                luaEnv = null;
-            }
+            disposeMethod.Invoke(luaEnv, null);
+            luaEnv = null;
         }
 
         public void RequireLua(string sLuaName)
@@ -103,6 +80,17 @@ namespace MFramework
             if (luaEnv != null)
             {
                 doStringMethod.Invoke(luaEnv, new object[] { $"require '{sLuaName}'", "chunk", null });
+            }
+        }
+
+        private void ApplyInjections()
+        {
+            var injections = _runtimeState.LuaInjections;
+            if (injections == null) return;
+
+            foreach (var injection in injections)
+            {
+                Set(injection.name, injection.value);
             }
         }
 
@@ -116,17 +104,12 @@ namespace MFramework
             TextAsset textAsset = null;
 
             var platform = Application.platform;
-            if (platform == RuntimePlatform.WindowsEditor && (_runtimeState == null || _runtimeState.LuaResourcesLoad))
+            if (platform == RuntimePlatform.WindowsEditor && _runtimeState.LuaResourcesLoad)
             {
                 textAsset = Resources.Load<TextAsset>($"{filePath}.lua");
             }
             else if (platform == RuntimePlatform.WindowsPlayer || platform == RuntimePlatform.WindowsEditor)
             {
-                if (_resourceManager == null)
-                {
-                    throw new InvalidOperationException($"{nameof(MLuaInterpreter)} requires {nameof(MResourceManager)}. Configure it from DI before loading Lua from AB.");
-                }
-
                 IResource luaResource = _resourceManager.LoadByName($"{filePath}{LuaFileSuffix}", false);
                 textAsset = luaResource.GetAsset() as TextAsset;
             }
@@ -134,6 +117,7 @@ namespace MFramework
             {
                 throw new NotSupportedException();
             }
+
             if (textAsset == null)
             {
                 throw new FileNotFoundException($"Lua file not found: {filePath}{LuaFileSuffix}");
@@ -149,7 +133,7 @@ namespace MFramework
 #elif UNITY_STANDALONE
             return $"{Application.dataPath}/Managed/Assembly-CSharp.dll";
 #else
-            MLog.Default?.E($"Lua热更新不支持当前平台：platform={Application.platform}");
+            MLog.Default?.E($"Lua hot update does not support current platform: platform={Application.platform}");
             return null;
 #endif
         }
