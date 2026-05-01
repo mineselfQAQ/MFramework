@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using MFramework.Core;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,15 +11,15 @@ namespace MFramework
     /// </summary>
     public class Profiler
     {
-        private static readonly Stopwatch ms_Stopwatch = Stopwatch.StartNew();//鍏ㄥ眬璁℃椂鍣?
-        private static readonly StringBuilder ms_StringBuilder = new StringBuilder();//输出字符串
-        private static readonly List<Profiler> ms_Stack = new List<Profiler>();//遍历容器
+        private static readonly Stopwatch ms_Stopwatch = Stopwatch.StartNew(); // 全局计时器
+        private static readonly StringBuilder ms_StringBuilder = new StringBuilder(); // 输出字符串
+        private static readonly List<Profiler> ms_Stack = new List<Profiler>(); // 遍历容器
 
-        private List<Profiler> m_children;//瀛怭rofiler(缁勫悎妯″紡)
-        private string m_Name;//名字
-        private int m_Level;//灞傜骇
-        private long m_Timestamp;//鏃堕棿鎴?
-        private long m_Time;//总时间(开始到结束的时间戳间隔)
+        private List<Profiler> m_children; // 子Profiler（组合模式）
+        private string m_Name; // 名字
+        private int m_Level; // 层级
+        private long m_Timestamp; // 时间戳
+        private long m_Time; // 总时间（开始到结束的时间戳间隔）
 
         public Profiler(string name)
         {
@@ -70,10 +70,10 @@ namespace MFramework
 
         public void Start()
         {
-            //if (m_Timestamp != -1)
-            //{
-            //    MLog.Default?.W($"{nameof(Profiler)}.{nameof(Start)}：{m_Name}重复开始，请检查);
-            //}
+            // if (m_Timestamp != -1)
+            // {
+            //    MLog.Default?.W（$"{nameof（Profiler）}.{nameof（Start）}：{m_Name}重复开始，请检查）;
+            // }
 
             m_Timestamp = ms_Stopwatch.ElapsedTicks;
         }
@@ -86,10 +86,10 @@ namespace MFramework
 
         public void Stop()
         {
-            //if (m_Timestamp == -1)
-            //{
-            //    MLog.Default?.W($"{nameof(Profiler)}.{nameof(Stop)}：{m_Name}重复结束，请检查");
-            //}
+            // if (m_Timestamp == -1)
+            // {
+            //    MLog.Default?.W（$"{nameof（Profiler）}.{nameof（Stop）}：{m_Name}重复结束，请检查"）;
+            // }
 
             m_Time += ms_Stopwatch.ElapsedTicks - m_Timestamp;
             m_Timestamp = -1;
@@ -101,15 +101,15 @@ namespace MFramework
 
             for (int i = 0; i < m_Level; ++i)
             {
-                //1灞傦細|--
-                //2灞傦細|  |--
-                //3灞傦細|  |  |--
+                // 1层：|--
+                // 2层：|  |--
+                // 3层：|  |  |--
                 ms_StringBuilder.Append(i < m_Level - 1 ? "|  " : "|--");
             }
-            
+
             ms_StringBuilder.Append(m_Name);
-            
-            //杈撳嚭淇℃伅(鏃堕棿)
+
+            // 输出信息（时间）
             string totalMillisecond = $"{(float)m_Time / TimeSpan.TicksPerMillisecond:F2}";
             string totalSecond = $"{(float)m_Time / TimeSpan.TicksPerSecond:F2}";
             string totalMinute = $"{(float)m_Time / TimeSpan.TicksPerMinute:F4}";
@@ -117,7 +117,7 @@ namespace MFramework
         }
 
         /// <summary>
-        /// BFS杈撳嚭Profiler淇℃伅
+        /// 输出Profiler信息（BFS）
         /// </summary>
         public override string ToString()
         {
@@ -131,7 +131,7 @@ namespace MFramework
                 Profiler profiler = ms_Stack[index];
                 ms_Stack.RemoveAt(index);
 
-                profiler.Format();//缁勫悎ms_StringBuilder
+                profiler.Format(); // 组合ms_StringBuilder
 
                 List<Profiler> children = profiler.m_children;
                 if (children == null) continue;
@@ -141,7 +141,7 @@ namespace MFramework
                 }
             }
 
-            return ms_StringBuilder.ToString();//杈撳嚭ms_StringBuilder
+            return ms_StringBuilder.ToString(); // 输出ms_StringBuilder
         }
     }
 }

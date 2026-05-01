@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MFramework
 {
-    //TODO：使用反射，真的只能用反射吗？
+    // TODO：使用反射，真的只能用反射吗？
     public class MLuaInterpreter : MMonoSingleton<MLuaInterpreter>
     {
         private object luaEnv = null;
@@ -54,21 +54,21 @@ namespace MFramework
 
                 luaEnv = Activator.CreateInstance(luaEnvType);
 
-                //注入所需参数
+                // 注入所需参数
                 globalProperty = luaEnv.GetType().GetProperty("Global", BindingFlags.Public | BindingFlags.Instance);
-                globalTable = globalProperty.GetValue(luaEnv); 
+                globalTable = globalProperty.GetValue(luaEnv);
                 setMethod = luaTableType.GetMethod("Set");
                 setMethod = setMethod.MakeGenericMethod(typeof(string), typeof(GameObject));
 
-                //需要选择无参Dispose()
+                // 需要选择无参Dispose()
                 disposeMethod = luaEnv.GetType().GetMethod("Dispose", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
                 doStringMethod = luaEnv.GetType().GetMethod("DoString", new Type[] { typeof(string), typeof(string), luaTableType });
 
-                //生成委托
+                // 生成委托
                 Type customLoaderType = luaEnvType.GetNestedType("CustomLoader");
                 MethodInfo methodInfo = typeof(MLuaInterpreter).GetMethod("CustomLuaLoader", BindingFlags.NonPublic | BindingFlags.Instance);
                 Delegate loaderDelegate = Delegate.CreateDelegate(customLoaderType, this, methodInfo);
-                //调用AddLoader(形参为CustomLoader委托)
+                // 调用AddLoader（形参为CustomLoader委托）
                 MethodInfo addLoaderMethod = luaEnvType.GetMethod("AddLoader");
                 addLoaderMethod.Invoke(luaEnv, new object[] { loaderDelegate });
             }

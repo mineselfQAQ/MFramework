@@ -22,7 +22,7 @@ namespace MFramework
 
         public virtual Object asset { get; protected set; }
         public string url { get; set; }
-        internal bool done { get; set; }//加载完成状态
+        internal bool done { get; set; } // 加载完成状态
         internal BundleBase bundle { get; set; }
         internal ResourceBase[] dependencies { get; set; }
         internal int reference { get; set; }
@@ -55,7 +55,7 @@ namespace MFramework
             if (!obj && !(obj is GameObject)) return null;
             GameObject go = Object.Instantiate(obj) as GameObject;
 
-            if (autoUnload && go)//添加自动卸载功能
+            if (autoUnload && go) // 添加自动卸载功能
             {
                 AutoUnloadAB temp = go.AddComponent<AutoUnloadAB>();
                 temp.resource = this;
@@ -70,7 +70,7 @@ namespace MFramework
             if (!obj && !(obj is GameObject)) return null;
 
             GameObject go = Object.Instantiate(obj, position, rotation) as GameObject;
-            if (autoUnload && go)//添加自动卸载功能
+            if (autoUnload && go) // 添加自动卸载功能
             {
                 AutoUnloadAB temp = go.AddComponent<AutoUnloadAB>();
                 temp.resource = this;
@@ -85,7 +85,7 @@ namespace MFramework
             if (!obj && !(obj is GameObject)) return null;
             GameObject go = Object.Instantiate(obj, parent, instantiateInWorldSpace) as GameObject;
 
-            if (autoUnload && go)//添加自动卸载功能
+            if (autoUnload && go) // 添加自动卸载功能
             {
                 AutoUnloadAB temp = go.AddComponent<AutoUnloadAB>();
                 temp.resource = this;

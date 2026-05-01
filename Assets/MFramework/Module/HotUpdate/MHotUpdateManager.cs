@@ -45,7 +45,7 @@ namespace MFramework
 
         internal void Initialize()
         {
-            //TODO：是否应该使用MABUtility.GetABRootPath()简化
+            // TODO：是否应该使用MABUtility.GetABRootPath（）简化
             string platform = MABUtility.GetPlatform();
             if (_runtimeState.ABEncryptState)
             {
@@ -53,7 +53,7 @@ namespace MFramework
             }
             string rootPath = $"{Application.productName}_AssetBundle/{platform}";
 
-            //TODO：安卓IOS应该不适配
+            // TODO：安卓IOS应该不适配
             ABLocalRootPath = Path.GetFullPath(rootPath).ReplaceSlash();
             ABInfoFileName = $"{rootPath}/{MPathCache.AB_INFO_FILE_NAME}";
             MPathUtility.CreateFolderIfNotExist(ABLocalRootPath);
@@ -89,34 +89,34 @@ namespace MFramework
 
         private void CheckNeedDownloadABPack(string info)
         {
-            Dictionary<string, ABInfo> serverInfoDic = ConvertToABInfo(info);//鏈嶅姟绔疉BInfo
+            Dictionary<string, ABInfo> serverInfoDic = ConvertToABInfo(info); // 服务端ABInfo
 
             if (MPathUtility.CheckFolderHaveFile(ABLocalRootPath))
             {
-                string localInfo = File.ReadAllText(ABInfoFileName);//本地信息
+                string localInfo = File.ReadAllText(ABInfoFileName); // 本地信息
                 localInfoDic = ConvertToABInfo(localInfo); // 客户端本地缓存的资源下载列表
 
-                //遍历服务器文件
+                // 遍历服务器文件
                 foreach (ABInfo serverInfo in serverInfoDic.Values)
                 {
-                    if (localInfoDic.ContainsKey(serverInfo.ABName))//已存在文件
+                    if (localInfoDic.ContainsKey(serverInfo.ABName)) // 已存在文件
                     {
-                        //本地与服务器MD5不一致，即发生改变，需要更新
+                        // 本地与服务器MD5不一致，即发生改变，需要更新
                         if (localInfoDic[serverInfo.ABName].MD5 != serverInfo.MD5)
                         {
                             needUpdateInfoQueue.Enqueue(serverInfo);
                             downloadTotalSize += serverInfo.Size;
                         }
                     }
-                    else//未存在文件
+                    else // 未存在文件
                     {
-                        //不存在的文件需要添加进来
+                        // 不存在的文件需要添加进来
                         needUpdateInfoQueue.Enqueue(serverInfo);
                         downloadTotalSize += serverInfo.Size;
                     }
                 }
             }
-            else//如果不存在本地，即需要更新所有AB
+            else // 如果不存在本地，即需要更新所有AB
             {
                 foreach (ABInfo serverInfo in serverInfoDic.Values)
                 {
@@ -128,7 +128,7 @@ namespace MFramework
 
         private void DownloadABPack()
         {
-            //list无内容，即无需更新
+            // list无内容，即无需更新
             if (needUpdateInfoQueue.Count == 0)
             {
                 OnUpdateEndInternal();
@@ -136,7 +136,7 @@ namespace MFramework
                 return;
             }
 
-            //鍒涘缓Downloader
+            // 创建Downloader
             int downloaderCount = Mathf.Min(needUpdateInfoQueue.Count, maxDownloaderCount);
             for (int i = 0; i < downloaderCount; i++)
             {
@@ -162,7 +162,7 @@ namespace MFramework
                 abInfo.MD5 = datas[1];
                 abInfo.Size = int.Parse(datas[2]);
 
-                infoDic.Add(abInfo.ABName, abInfo);//用名字作为key
+                infoDic.Add(abInfo.ABName, abInfo); // 用名字作为key
             }
 
             return infoDic;
@@ -170,7 +170,7 @@ namespace MFramework
 
         private void OnUpdateEndInternal()
         {
-            //重新创建ABInfo文件
+            // 重新创建ABInfo文件
             StringBuilder sb = new StringBuilder();
             foreach (ABInfo info in localInfoDic.Values)
             {
@@ -184,7 +184,7 @@ namespace MFramework
 
         public void UpdateLocalABInfo(ABInfo serverinfo)
         {
-            //注意：仅更新了本地字典，还需在OnUpdateEnd()中更新至.txt中
+            // 注意：仅更新了本地字典，还需在OnUpdateEnd（）中更新至.txt中
             localInfoDic[serverinfo.ABName] = serverinfo;
         }
 
@@ -192,14 +192,14 @@ namespace MFramework
         {
             curDownloadSize += downloader.GetSize();
 
-            if (needUpdateInfoQueue.Count > 0)//有就继续下一个
+            if (needUpdateInfoQueue.Count > 0) // 有就继续下一个
             {
                 ABInfo info = needUpdateInfoQueue.Dequeue();
                 _coroutineManager.StartCoroutineNoRecord(downloader.DownloadABPack(info));
             }
-            else//没有则完成，有条件
+            else // 没有则完成，有条件
             {
-                //必须所有都下载完毕
+                // 必须所有都下载完毕
                 bool isFinish = true;
                 foreach (ABDownloader dl in downloaderList)
                 {

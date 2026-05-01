@@ -27,15 +27,15 @@ namespace MFramework
             }
 #endif
 
-            //AB解密文件
+            // AB解密文件
             assetBundle = MABUtility.LoadAB(file, RuntimeState, BundleManager.Offset);
             isStreamedSceneAssetBundle = assetBundle.isStreamedSceneAssetBundle;
 
-            done = true;//璇存槑璇undle宸插畬鎴愬姞杞?
+            done = true; // 说明该bundle已完成加载
         }
 
         /// <summary>
-        /// 加载资源(同步)
+        /// 加载资源（同步）
         /// </summary>
         internal override UnityEngine.Object LoadAsset(string name, Type type)
         {
@@ -52,7 +52,7 @@ namespace MFramework
         }
 
         /// <summary>
-        /// 加载资源(异步)
+        /// 加载资源（异步）
         /// </summary>
         internal override AssetBundleRequest LoadAssetAsync(string name, Type type)
         {
@@ -72,7 +72,7 @@ namespace MFramework
         {
             if (assetBundle)
             {
-                assetBundle.Unload(true);//卸载核心
+                assetBundle.Unload(true); // 卸载核心
             }
 
             assetBundle = null;

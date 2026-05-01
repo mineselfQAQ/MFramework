@@ -12,7 +12,7 @@ namespace MFramework
         private readonly ABRuntimeState _runtimeState;
 
         /// <summary>
-        /// 保存资源对应的bundle(key---资源 value---所在bundle)
+        /// 保存资源对应的bundle（key---资源 value---所在bundle）
         /// </summary>
         internal Dictionary<string, string> ResourceBunldeDic = new Dictionary<string, string>();
         /// <summary>
@@ -22,9 +22,9 @@ namespace MFramework
 
         // 当前存在的resource
         internal Dictionary<string, ResourceBase> resourceDic = new Dictionary<string, ResourceBase>();
-        // 异步列表(正在加载的resource)
+        // 异步列表（正在加载的resource）
         private List<ResourceBaseAsync> asyncList = new List<ResourceBaseAsync>();
-        // 卸载列表(正在卸载的resource)
+        // 卸载列表（正在卸载的resource）
         private LinkedList<ResourceBase> unloadList = new LinkedList<ResourceBase>();
 
         public MResourceManager(MBundleManager bundleManager, ABRuntimeState runtimeState)
@@ -46,7 +46,7 @@ namespace MFramework
             // 获取manifest.ab并加载成AssetBundle
             string manifestBunldeFile = getFileCallback.Invoke(MANIFEST_NAME);
             AssetBundle manifestAssetBundle = MABUtility.LoadAB(manifestBunldeFile, _runtimeState, offset);
-            // 通过manifest.ab获取内部信息(打包时记录的文字信息)
+            // 通过manifest.ab获取内部信息（打包时记录的文字信息）
             TextAsset resourceTextAsset = manifestAssetBundle.LoadAsset(RESOURCEASSET_NAME) as TextAsset;
             TextAsset bundleTextAsset = manifestAssetBundle.LoadAsset(BUNDLEASSET_NAME) as TextAsset;
             TextAsset dependencyTextAsset = manifestAssetBundle.LoadAsset(DEPENDENCYASSET_NAME) as TextAsset;
@@ -123,7 +123,7 @@ namespace MFramework
 
         internal void Update()
         {
-            _bundleManager.Update(); // 同ResourceManager.Update()，持续加载Bundle
+            _bundleManager.Update(); // 同ResourceManager.Update（），持续加载Bundle
 
             for (int i = 0; i < asyncList.Count; i++)
             {
@@ -175,14 +175,14 @@ namespace MFramework
             return LoadInternal(url, async);
         }
         /// <summary>
-        /// 加载资源(使用名称，如lua.ab)，如需异步，需要使用协程
+        /// 加载资源（使用名称，如lua.ab），如需异步，需要使用协程
         /// </summary>
         public IResource LoadByName(string name, bool async)
         {
             return LoadByNameInternal(name, async);
         }
         /// <summary>
-        /// 加载资源(具有回调)
+        /// 加载资源（具有回调）
         /// </summary>
         public void LoadWithCallback(string url, bool async, Action<IResource> callback)
         {
@@ -198,7 +198,7 @@ namespace MFramework
             }
         }
         /// <summary>
-        /// 加载资源(使用Awaiter)
+        /// 加载资源（使用Awaiter）
         /// </summary>
         public ResourceAwaiter LoadWithAwaiter(string url)
         {
@@ -270,7 +270,7 @@ namespace MFramework
             }
 
             resource.AddReference();
-            resource.Load(); // **实际resource的Load()**
+            resource.Load(); // **实际resource的Load（）**
 
             return resource;
         }
@@ -308,7 +308,7 @@ namespace MFramework
                 MLog.Default?.E("资源路径为空");
             }
 
-            // 该Resource的reference--，如果为0(没有引用)，即可准备卸载
+            // 该Resource的reference--，如果为0（没有引用），即可准备卸载
             ResourceBase resourceBase = resource as ResourceBase;
             resourceBase.ReduceReference();
             if (resourceBase.reference == 0)

@@ -11,7 +11,7 @@ namespace MFramework
     {
         private static AesCryptoServiceProvider AESCSP;
 
-        //默认Key与IV(向量)  注意：提供*ASCII字符**(因为1个byte)
+        // 默认Key与IV（向量）  注意：提供*ASCII字符**（因为1个byte）
         private const string KEY = "mineself0817QAQx";
         private const string IV = "xQAQ0817mineself";
 
@@ -81,22 +81,22 @@ namespace MFramework
 
         private static AesCryptoServiceProvider CreateAESCSP(string key, string iv)
         {
-            //已存在无需创建
+            // 已存在无需创建
             if (AESCSP != null)
             {
                 return AESCSP;
             }
 
-            //Tip：ASCII字符3bytes，那么16个以内一个16bytes
+            // Tip：ASCII字符3bytes，那么16个以内一个16bytes
             byte[] keyBytes = System.Text.Encoding.ASCII.GetBytes(key);
             byte[] ivBytes = System.Text.Encoding.ASCII.GetBytes(iv);
-            //需要128bits的Key与IV(由Provider定义)
+            // 需要128bits的Key与IV（由Provider定义）
             byte[] keyBytes2 = new byte[16];
             byte[] ivBytes2 = new byte[16];
             Array.Copy(keyBytes, keyBytes2, keyBytes.Length);
             Array.Copy(ivBytes, ivBytes2, ivBytes.Length);
 
-            //鍒涘缓Provider
+            // 创建Provider
             AESCSP = new AesCryptoServiceProvider()
             {
                 Mode = CipherMode.CBC,
@@ -133,7 +133,7 @@ namespace MFramework
                             cryptoStream.Write(inputBytes, 0, inputBytes.Length);
                             cryptoStream.FlushFinalBlock();
 
-                            //路径不一定存在需要创建，FileMode.OpenOrCreate不行(Create指的是文件创建而不是前面的文件夹)
+                            // 路径不一定存在需要创建，FileMode.OpenOrCreate不行（Create指的是文件创建而不是前面的文件夹）
                             MPathUtility.CreateFolderIfNotExist(outputPath, true);
 
                             using (FileStream fileStream2 = new FileStream(outputPath, FileMode.CreateNew, FileAccess.Write))

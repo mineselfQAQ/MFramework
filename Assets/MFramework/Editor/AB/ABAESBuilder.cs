@@ -42,7 +42,7 @@ namespace MFramework
             DecryptAll();
         }
 
-        /// <returns>是否有加密任意平台)</returns>
+        /// <returns>是否有加密任意平台）</returns>
         private static bool EncryptAll()
         {
             var windowsFlag = Encrypt(MBuildTarget.WINDOWS);
@@ -91,7 +91,7 @@ namespace MFramework
             {
                 Directory.CreateDirectory(newRootPath);
             }
-            else//宸插瓨鍦ㄩ渶瑕佸垹闄ら噸寤?
+            else // 宸插瓨鍦ㄩ渶瑕佸垹闄ら噸寤?
             {
                 Directory.Delete(newRootPath, true);
                 Directory.CreateDirectory(newRootPath);
@@ -110,7 +110,7 @@ namespace MFramework
                 string path = oldPath.Substring(oldPath.IndexOf(platform) + platform.Length + 1);
                 string newPath = $"{newRootPath}/{path}";
 
-                //对于非ab文件，不加密直接拷贝
+                // 对于非ab文件，不加密直接拷贝
                 if (suffixName == "ab")
                 {
                     AESUtlity.AESEncryptFile(oldPath, newPath);
@@ -120,16 +120,16 @@ namespace MFramework
                     File.Copy(oldPath, newPath, true);
                 }
 
-                //Tip：获取如XXX_AssetBundle文件夹名(存放该项目的AB的根)，与XML中BuildRoot有关
+                // Tip：获取如XXX_AssetBundle文件夹名（存放该项目的AB的根），与XML中BuildRoot有关
                 string abRootName = RootPath.Substring(RootPath.LastIndexOf('/') + 1);
                 string fullFileName = newPath.Substring(newPath.IndexOf(abRootName));
-                //MD5
+                // MD5
                 string md5 = MMD5Utility.GetMD5(newPath);
                 if (string.IsNullOrEmpty(md5))
                 {
                     MLog.Default?.D("AB debug.");
                 }
-                //鏂囦欢澶у皬
+                // 鏂囦欢澶у皬
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
 
                 string fileData = MABUtility.GetABLine(fullFileName, md5, size);
@@ -170,7 +170,7 @@ namespace MFramework
             {
                 Directory.CreateDirectory(newRootPath);
             }
-            else//宸插瓨鍦ㄩ渶瑕佸垹闄ら噸寤?
+            else // 宸插瓨鍦ㄩ渶瑕佸垹闄ら噸寤?
             {
                 Directory.Delete(newRootPath, true);
                 Directory.CreateDirectory(newRootPath);
@@ -189,10 +189,10 @@ namespace MFramework
                 string path = oldPath.Substring(oldPath.IndexOf(platform) + $"{platform}_Encrypt".Length + 1);
                 string newPath = $"{newRootPath}/{path}";
 
-                //MD5鏂囦欢鏃犻渶鍑虹幇鍦ㄦ澶?
+                // MD5鏂囦欢鏃犻渶鍑虹幇鍦ㄦ澶?
                 if (fileName == MPathCache.AB_INFO_FILE_NAME) continue;
 
-                //对于非ab文件，不解密直接拷贝
+                // 对于非ab文件，不解密直接拷贝
                 if (suffixName == "ab")
                 {
                     AESUtlity.AESDecryptFile(oldPath, newPath);
@@ -202,17 +202,17 @@ namespace MFramework
                     File.Copy(oldPath, newPath, true);
                 }
 
-                //重新生成未加密时的MD5文件
-                //Tip：获取如XXX_AssetBundle文件夹名(存放该项目的AB的根)，与XML中BuildRoot有关
+                // 重新生成未加密时的MD5文件
+                // Tip：获取如XXX_AssetBundle文件夹名（存放该项目的AB的根），与XML中BuildRoot有关
                 string abRootName = RootPath.Substring(RootPath.LastIndexOf('/') + 1);
                 string fullFileName = newPath.Substring(newPath.IndexOf(abRootName));
-                //MD5
+                // MD5
                 string md5 = MMD5Utility.GetMD5(newPath);
                 if (string.IsNullOrEmpty(md5))
                 {
                     MLog.Default?.D("AB debug.");
                 }
-                //鏂囦欢澶у皬
+                // 鏂囦欢澶у皬
                 string size = Mathf.Ceil(file.Length / 1024f).ToString();
 
                 string fileData = MABUtility.GetABLine(fullFileName, md5, size);

@@ -12,7 +12,7 @@ using MFramework.Util;
 using MFramework.Core;
 namespace MFramework
 {
-    //TODO:最好在XML中添加隔离目标某Scene不需要打进包，但是只要在文件夹中就必须打入，会导致依赖增�?    /// <summary>
+    // TODO:最好在XML中添加隔离目标某Scene不需要打进包，但是只要在文件夹中就必须打入，会导致依赖增�?    /// <summary>
     /// AB包构建核心类
     /// </summary>
     public class ABBuilder
@@ -31,17 +31,17 @@ namespace MFramework
 
         public static readonly Vector2[] ms_Progress = new Vector2[]
         {
-            new Vector2(0.0f, 0.1f),//0---FileCollect
-            new Vector2(0.1f, 0.2f),//1---CollectDependency
-            new Vector2(0.2f, 0.3f),//2---CollectBundle
-            new Vector2(0.3f, 0.4f),//3---GenerateManifest
-            new Vector2(0.4f, 0.7f),//4---BuildBundle
-            new Vector2(0.7f, 0.8f),//5---ClearBundle
-            new Vector2(0.8f, 0.9f),//6---BuildManifest
-            new Vector2(0.9f, 1.0f),//7---BuildMD5
+            new Vector2(0.0f, 0.1f), // 0---FileCollect
+            new Vector2(0.1f, 0.2f), // 1---CollectDependency
+            new Vector2(0.2f, 0.3f), // 2---CollectBundle
+            new Vector2(0.3f, 0.4f), // 3---GenerateManifest
+            new Vector2(0.4f, 0.7f), // 4---BuildBundle
+            new Vector2(0.7f, 0.8f), // 5---ClearBundle
+            new Vector2(0.8f, 0.9f), // 6---BuildManifest
+            new Vector2(0.9f, 1.0f), // 7---BuildMD5
         };
 
-        // 根据当前平台选择打包平台名称(用于路径)
+        // 根据当前平台选择打包平台名称（用于路径）
 #if UNITY_IOS
         private const string PLATFORM = "IOS";
 #elif UNITY_ANDROID
@@ -87,7 +87,7 @@ namespace MFramework
         public static readonly BuildAssetBundleOptions BuildAssetBundleOptions =
             BuildAssetBundleOptions.ChunkBasedCompression | // LZ4压缩
             BuildAssetBundleOptions.StrictMode | // 报错则打包不成狗
-            BuildAssetBundleOptions.DisableLoadAssetByFileName | // 禁用(Player)搜索方式
+            BuildAssetBundleOptions.DisableLoadAssetByFileName | // 禁用（Player）搜索方式
             BuildAssetBundleOptions.DisableLoadAssetByFileNameWithExtension; // 禁用（Player.prefab）搜索方�?
         /// <summary>
         /// 并行设置
@@ -100,7 +100,7 @@ namespace MFramework
         /// <summary>
         /// 打包路径
         /// </summary>
-        //public static readonly string BuildSettingPath = MPathCache.AB_BUILD_SETTING_PATH;
+        // public static readonly string BuildSettingPath = MPathCache.AB_BUILD_SETTING_PATH;
 
         /// <summary>
         /// 打包设置信息
@@ -295,7 +295,7 @@ namespace MFramework
                 string assetUrl = fileList[i];
                 if (dependencyDic.ContainsKey(assetUrl)) continue; // 文件路径已存在，不进行操作
 
-                // 通过Unity的GetDependencies()获取所有依赖路径
+                // 通过Unity的GetDependencies（）获取所有依赖路径
                 string[] dependencies = AssetDatabase.GetDependencies(assetUrl, false);
                 List<string> dependencyList = new List<string>(dependencies.Length);
 
@@ -306,7 +306,7 @@ namespace MFramework
                     string extension = Path.GetExtension(tempAssetUrl).ToLower();
                     // 不需要cs文件与dll文件
                     if (string.IsNullOrEmpty(extension) || extension == ".cs" || extension == ".dll") continue;
-                    // 对于其它符合要求的文件都会存到正式的dependencyList中，除此以外，如果文件列表中没有该文件，需要加入并继续寻找它的依赖(依赖的依赖)
+                    // 对于其它符合要求的文件都会存到正式的dependencyList中，除此以外，如果文件列表中没有该文件，需要加入并继续寻找它的依赖（依赖的依赖）
                     dependencyList.Add(tempAssetUrl);
                     if (!fileList.Contains(tempAssetUrl)) fileList.Add(tempAssetUrl);
                 }
@@ -328,7 +328,7 @@ namespace MFramework
             return dependencyDic;
         }
 
-        // TODO: 根据MDirGraphAdjList，是一种效率极低的方法(为了保证搜索所有环，必须完整遍历)，待改进
+        // TODO: 根据MDirGraphAdjList，是一种效率极低的方法（为了保证搜索所有环，必须完整遍历），待改进
         public static bool HasCycle(Dictionary<string, List<string>> dependencyDic)
         {
             List<string> path = new List<string>();
@@ -358,11 +358,11 @@ namespace MFramework
             // 如果该节点已经在当前路径中，说明存在循环依赖
             if (path.Contains(asset))
             {
-                //找到循环，记录并存储循环依赖路径
+                // 找到循环，记录并存储循环依赖路径
                 int cycleStartIndex = path.IndexOf(asset);
                 List<string> cycle = new List<string>(path.GetRange(cycleStartIndex, path.Count - cycleStartIndex));
 
-                // 检测环是否为新环(如：0->1->2->0和1->2->0->1是同一环)
+                // 检测环是否为新环（如：0->1->2->0和1->2->0->1是同一环）
                 // 需要在添加为环之前检测，否则重复元素不同
                 string normalizeCycle = NormalizeCycle(cycle);
                 if (uniqueCycles.Add(normalizeCycle))
@@ -374,7 +374,7 @@ namespace MFramework
                 return true;
             }
 
-            //标记该节点为正在访问
+            // 标记该节点为正在访问
             path.Add(asset); // 添加到当前路径
 
             // 递归检查该节点的依赖
@@ -433,7 +433,7 @@ namespace MFramework
                 // 关键：获取资源所属Bundle名
                 string bundleName = buildSetting.GetBundleName(assetUrl, pair.Value);
 
-                // 没有bundleName的资源为外部资源(XML所指示以外的资源)
+                // 没有bundleName的资源为外部资源（XML所指示以外的资源）
                 if (bundleName == null)
                 {
                     notInRuleList.Add(assetUrl);
@@ -492,7 +492,7 @@ namespace MFramework
             // .txt文件用于可视化查看
             // .bytes文件用于创建（所以是关键）
 
-            //资源映射id
+            // 资源映射id
             Dictionary<string, ushort> assetIdDic = new Dictionary<string, ushort>();
 
             #region 生成资源描述信息
@@ -699,10 +699,10 @@ namespace MFramework
             foreach (string bundle in bundleDic.Keys)
             {
                 fileSet.Remove($"{path}/{bundle}");
-                //fileSet.Remove($"{path}{bundle}{BUNDLE_MANIFEST_SUFFIX}");
+                // fileSet.Remove($"{path}{bundle}{BUNDLE_MANIFEST_SUFFIX}");
             }
             fileSet.Remove($"{path}/{PLATFORM}");
-            //fileSet.Remove($"{path}{PLATFORM}{BUNDLE_MANIFEST_SUFFIX}");
+            // fileSet.Remove($"{path}{PLATFORM}{BUNDLE_MANIFEST_SUFFIX}");
 
             // fileSet中剩余路径为多余文件
             Parallel.ForEach(fileSet, ParallelOptions, File.Delete);
@@ -743,7 +743,7 @@ namespace MFramework
 
             AssetBundleManifest assetBundleManifest = BuildPipeline.BuildAssetBundles(TempBuildPath, new AssetBundleBuild[] { manifest }, BuildAssetBundleOptions, EditorUserBuildSettings.activeBuildTarget);
 
-            // 复制manifest文件(Tip：只复制了manifest.ab文件)
+            // 复制manifest文件（Tip：只复制了manifest.ab文件）
             if (assetBundleManifest)
             {
                 string manifestFile = $"{TempBuildPath}/{MANIFEST}{BUNDLE_SUFFIX}";
@@ -777,7 +777,7 @@ namespace MFramework
                 string fileName = file.Name;
                 string suffixName = fullPath.Substring(fullPath.LastIndexOf(".") + 1);
 
-                // Tip：获取如XXX_AssetBundle文件夹名(存放该项目的AB的根)，与XML中BuildRoot有关
+                // Tip：获取如XXX_AssetBundle文件夹名（存放该项目的AB的根），与XML中BuildRoot有关
                 string path = ABEditorUtility.GetBuildRootPath();
                 string abRootName = path.Substring(path.LastIndexOf('/') + 1);
                 string fullFileName = fullPath.Substring(fullPath.IndexOf(abRootName));
@@ -801,27 +801,27 @@ namespace MFramework
 
 
         /// <summary>
-        /// 鍒囨崲骞冲彴(寮傛�?
+        /// 鍒囨崲骞冲彴（寮傛�?
         /// </summary>
         /// <returns></returns>
         internal static async Task<bool> SwitchPlatform()
         {
-            //使用异步等待按钮按下
+            // 使用异步等待按钮按下
             int platformInt = await MEditorUtility.DisplayDialogAsync("Switch Platform", "Select platform", "Windows", "Android", "iOS");
 
-            if (platformInt == 0)//Windows
+            if (platformInt == 0) // Windows
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows64) return true;
                 MLog.Default?.W("AB warning.");
                 EditorDelayExecute.Instance.DelayDo(SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64));
             }
-            else if (platformInt == 1)//Android
+            else if (platformInt == 1) // Android
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android) return true;
                 MLog.Default?.W("AB warning.");
                 EditorDelayExecute.Instance.DelayDo(SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android));
             }
-            else if (platformInt == 2)//iOS
+            else if (platformInt == 2) // iOS
             {
                 if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS) return true;
                 MLog.Default?.W("AB warning.");

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -31,7 +31,7 @@ namespace MFramework
 
         private void OnGUI()
         {
-            //Tip:XML文件路径---"项目/XmlSettings/CORE/XMLBuildSetting.xml"
+            // Tip:XML文件路径---"项目/XmlSettings/CORE/XMLBuildSetting.xml"
 
             MEditorGUIUtility.DrawH2("工具");
             DrawCheckXMLBtn();
@@ -64,8 +64,8 @@ namespace MFramework
             EditorGUILayout.LabelField("自定义生成：");
             if (GUILayout.Button("生成"))
             {
-                //TODO:自由配置存放路径/格式...
-                //DrawCustomGenerator();
+                // TODO:自由配置存放路径/格式...
+                // DrawCustomGenerator();
                 MLog.Default?.W("AB warning.");
                 AssetDatabase.Refresh();
             }
@@ -105,19 +105,19 @@ namespace MFramework
                 ABBuilder.BuildInternal(MPathCache.AB_BUILD_SETTING_PATH);
                 AssetDatabase.Refresh();
             }
-            //GUILayout.BeginHorizontal();
-            //{
+            // GUILayout.BeginHorizontal();
+            // {
             //    //TODO：一个场景够吗？
             //    obj = EditorGUILayout.ObjectField(obj, typeof(Object), false);
-            //    if (GUILayout.Button("构建初始化"))
+            //    if （GUILayout.Button（"构建初始化"））
             //    {
             //        string objPath = AssetDatabase.GetAssetPath(obj);
             //        ABBuilder.BuildInitInternal(MPathCache.AB_BUILD_SETTING_PATH, objPath);
 
             //        AssetDatabase.Refresh();
             //    }
-            //}
-            //GUILayout.EndHorizontal();
+            // }
+            // GUILayout.EndHorizontal();
         }
 
         private void DrawCheckXMLBtn()
@@ -134,17 +134,17 @@ namespace MFramework
 
                 MEditorUtility.OpenFile(fileName);
             }
-            //if (GUILayout.Button("查看初始包XML"))
-            //{
+            // if （GUILayout.Button（"查看初始包XML"））
+            // {
             //    string fileName = "CORE/AB/ABBuildInitSetting.xml";
             //    if (!File.Exists(fileName))
             //    {
-            //        MLog.Default?.W("ABBuildInitSetting.xml未创建，请先创建后再查看");
+            //        MLog.Default?.W（"ABBuildInitSetting.xml未创建，请先创建后再查看"）;
             //        return;
             //    }
 
             //    MEditorUtility.OpenFile(fileName);
-            //}
+            // }
             GUILayout.EndHorizontal();
         }
         private void DrawCheckABBtn()
@@ -167,7 +167,7 @@ namespace MFramework
 
                 string resPath = buildSetting.buildRoot;
                 resPath = Path.GetFullPath(resPath).ReplaceSlash();
-                //鐗规畩澶勭悊{ProjectName}
+                // 鐗规畩澶勭悊{ProjectName}
                 resPath = resPath.Replace("{ProjectName}", Application.productName);
                 if (!Directory.Exists(resPath))
                 {
@@ -183,12 +183,12 @@ namespace MFramework
             string defaultSavePath = Application.dataPath.CD();
 
             string abPath = $"{defaultSavePath}/Assets/AssetBundle";
-            //CreateABDirectoryIfNotExist(abPath);
+            // CreateABDirectoryIfNotExist(abPath);
 
             string projectPath = Application.dataPath;
-            projectPath = projectPath.Substring(0, projectPath.Length - "Assets".Length);//"Assets"之前的路径
-            abPath = abPath.Replace(projectPath, "");//以"Assets"开头的abPath
-            //CreateDefaultXML(abPath, "CORE/AB/ABBuildInitSetting.xml");
+            projectPath = projectPath.Substring(0, projectPath.Length - "Assets".Length); // "Assets"之前的路径
+            abPath = abPath.Replace(projectPath, ""); // 以"Assets"开头的abPath
+            // CreateDefaultXML(abPath, "CORE/AB/ABBuildInitSetting.xml");
             CreateDefaultXML(abPath, MPathCache.AB_BUILD_SETTING_PATH);
 
             MEditorUtility.OpenFolder(MPathCache.AB_BUILD_SETTING_PATH.CD());

@@ -14,9 +14,9 @@ namespace MFramework
 
         // 当前存在的bundle
         private Dictionary<string, BundleBase> _bundleDic = new Dictionary<string, BundleBase>();
-        // 异步列表(正在加载的bundle)
+        // 异步列表（正在加载的bundle）
         private List<BundleBaseAsync> _asyncList = new List<BundleBaseAsync>();
-        // 卸载列表(正在卸载的bundle)
+        // 卸载列表（正在卸载的bundle）
         private LinkedList<BundleBase> _unloadList = new LinkedList<BundleBase>();
 
         public MBundleManager(ABRuntimeState runtimeState)
@@ -150,7 +150,7 @@ namespace MFramework
             }
 
             bundle.AddReference();
-            bundle.Load(); // **实际bundle的Load()**
+            bundle.Load(); // **实际bundle的Load（）**
 
             return bundle;
         }
@@ -162,7 +162,7 @@ namespace MFramework
                 MLog.Default?.E("Bundle不存在");
             }
 
-            //该Bundle的reference--，如果为0(没有引用)，即可准备卸载
+            // 该Bundle的reference--，如果为0（没有引用），即可准备卸载
             bundle.ReduceReference();
             if (bundle.reference == 0)
             {

@@ -22,7 +22,7 @@ namespace MFramework
             {
                 if (done) return base.asset;
 
-                //正在异步加载的资源要变成同步
+                // 正在异步加载的资源要变成同步
                 FreshAsyncAsset();
 
                 return base.asset;
@@ -38,7 +38,7 @@ namespace MFramework
         {
             if (done) return true;
 
-            //自身完成前依赖必须先完成
+            // 自身完成前依赖必须先完成
             if (dependencies != null)
             {
                 for (int i = 0; i < dependencies.Length; i++)
@@ -50,10 +50,10 @@ namespace MFramework
                 }
             }
 
-            //先要等待Bundle完成
+            // 先要等待Bundle完成
             if (!bundle.done) return false;
 
-            //对于场景情况，直接结算即可
+            // 对于场景情况，直接结算即可
             if (bundle.assetBundle.isStreamedSceneAssetBundle)
             {
                 LoadAsset();
@@ -62,13 +62,13 @@ namespace MFramework
 
             if (assetBundleRequest == null)
             {
-                LoadAssetAsync();//拿到assetBundleRequest(异步获取资源)
+                LoadAssetAsync(); // 拿到assetBundleRequest（异步获取资源）
             }
-            //等待加载完成
+            // 等待加载完成
             if (assetBundleRequest != null && !assetBundleRequest.isDone) return false;
 
-            //加载完成后最终加载资源
-            LoadAsset();//拿到asset
+            // 加载完成后最终加载资源
+            LoadAsset(); // 拿到asset
 
             return true;
         }
@@ -89,7 +89,7 @@ namespace MFramework
             {
                 MLog.Default?.E("AB error.");
             }
-            bundle = BundleManager.LoadAsync(bundleUrl);//异步加载Bundle
+            bundle = BundleManager.LoadAsync(bundleUrl); // 异步加载Bundle
         }
 
         internal override void LoadAsset()
@@ -101,11 +101,11 @@ namespace MFramework
 
             if (!bundle.isStreamedSceneAssetBundle)
             {
-                if (assetBundleRequest != null)//异步加载
+                if (assetBundleRequest != null) // 异步加载
                 {
                     asset = assetBundleRequest.asset;
                 }
-                else//同步加载
+                else // 同步加载
                 {
                     asset = bundle.LoadAsset(url, typeof(UnityEngine.Object));
                 }

@@ -31,7 +31,7 @@ namespace MFramework
                 MLog.Default?.E("AB error.");
             }
 
-            bundle = BundleManager.Load(bundleUrl);//同步获取Bundle
+            bundle = BundleManager.Load(bundleUrl); // 同步获取Bundle
             LoadAsset();
         }
 
@@ -42,10 +42,10 @@ namespace MFramework
                 MLog.Default?.E("AB error.");
             }
 
-            //正在异步加载的资源要变成同步
+            // 正在异步加载的资源要变成同步
             FreshAsyncAsset();
 
-            if (bundle.isStreamedSceneAssetBundle) return;//对于场景不需要LoadAsset()
+            if (bundle.isStreamedSceneAssetBundle) return; // 对于场景不需要LoadAsset()
             asset = bundle.LoadAsset(url, typeof(Object));
 
             done = true;
@@ -57,7 +57,7 @@ namespace MFramework
                 tempCallback.Invoke(this);
             }
         }
-        
+
         internal override void UnLoad()
         {
             if (bundle == null)
@@ -82,13 +82,13 @@ namespace MFramework
             Object tempAsset = asset;
             Type type = typeof(T);
 
-            if (type == typeof(Sprite))//获取Sprite资源的处理
+            if (type == typeof(Sprite)) // 获取Sprite资源的处理
             {
-                if (asset is Sprite)//如果资源是Sprite那么直接取出即可
+                if (asset is Sprite) // 如果资源是Sprite那么直接取出即可
                 {
                     return tempAsset as T;
                 }
-                else//如果资源不是Sprite就需要重新加载
+                else // 如果资源不是Sprite就需要重新加载
                 {
                     if (tempAsset && !(tempAsset is GameObject))
                     {
@@ -99,7 +99,7 @@ namespace MFramework
                     return asset as T;
                 }
             }
-            else//非Sprite直接取出
+            else // 非Sprite直接取出
             {
                 return tempAsset as T;
             }

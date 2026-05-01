@@ -23,7 +23,7 @@ namespace MFramework
             }
         }
 
-        //TODO：只支持安卓/PC(默认状态下)
+        // TODO：只支持安卓/PC（默认状态下）
         public static string GetABRootPath(bool encrypt)
         {
             if (encrypt)
@@ -54,12 +54,12 @@ namespace MFramework
 
         public static string GetABLine(string name, string md5, string size)
         {
-            //注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
+            // 注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
             return $"{name}|{md5}|{size}";
         }
         public static string GetABLine(string name, string md5, int size)
         {
-            //注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
+            // 注意：不应该用空格，会出现如textmesh pro之类的文件夹干扰
             return $"{name}|{md5}|{size}";
         }
 
@@ -70,7 +70,7 @@ namespace MFramework
             {
                 isABFile = true;
             }
-            //加载文件(由Unity提供)
+            // 加载文件（由Unity提供）
             if (state != null && state.ABEncryptState && isABFile)
             {
                 byte[] data = AESUtlity.AESDecryptFileToStream(file);
@@ -92,7 +92,7 @@ namespace MFramework
             {
                 isABFile = true;
             }
-            //加载文件(由Unity提供)
+            // 加载文件（由Unity提供）
             if (state != null && state.ABEncryptState && isABFile)
             {
                 byte[] data = AESUtlity.AESDecryptFileToStream(file);

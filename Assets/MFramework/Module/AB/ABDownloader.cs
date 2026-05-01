@@ -41,11 +41,11 @@ namespace MFramework
             }
             else
             {
-                //Tip：由于ABLocalRootPath添加了xxx_AssetBundle/平台名，而Info中同样有，需要去除一个
+                // Tip：由于ABLocalRootPath添加了xxx_AssetBundle/平台名，而Info中同样有，需要去除一个
                 string abPath = $"{_hotUpdateManager.ABLocalRootPath.CD(2)}/{serverInfo.ABName}";
                 MPathUtility.CreateFolderIfNotExist(abPath, true);
 
-                //替换文件
+                // 替换文件
                 using (FileStream fileStream = new FileStream(abPath, FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     byte[] data = request.downloadHandler.data;

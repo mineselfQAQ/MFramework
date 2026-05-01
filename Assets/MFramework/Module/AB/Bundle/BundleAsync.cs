@@ -18,7 +18,7 @@ namespace MFramework
         {
             if (done) return true;
 
-            //自身完成前依赖必须先完成
+            // 自身完成前依赖必须先完成
             if (dependencies != null)
             {
                 for (int i = 0; i < dependencies.Length; i++)
@@ -30,14 +30,14 @@ namespace MFramework
                 }
             }
 
-            //等待创建完成
+            // 等待创建完成
             if (!assetBundleCreateRequest.isDone) return false; 
-            //完成
+            // 完成
             done = true;
-            assetBundle = assetBundleCreateRequest.assetBundle;//取出assetBundle
-            isStreamedSceneAssetBundle = assetBundle.isStreamedSceneAssetBundle;//取出isStreamedSceneAssetBundle
+            assetBundle = assetBundleCreateRequest.assetBundle; // 取出assetBundle
+            isStreamedSceneAssetBundle = assetBundle.isStreamedSceneAssetBundle; // 取出isStreamedSceneAssetBundle
 
-            //虽然创建完成，但是没人要用，卸载
+            // 虽然创建完成，但是没人要用，卸载
             if (reference == 0)
             {
                 UnLoad();
@@ -53,7 +53,7 @@ namespace MFramework
                 MLog.Default?.E("AB error.");
             }
 
-            string file = BundleManager.GetFileUrl(url);//获取文件路径
+            string file = BundleManager.GetFileUrl(url); // 获取文件路径
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (!File.Exists(file))
             {
@@ -61,12 +61,12 @@ namespace MFramework
             }
 #endif
 
-            //核心---加载文件(由Unity提供)
+            // 核心---加载文件（由Unity提供）
             assetBundleCreateRequest = MABUtility.LoadABAsync(file, RuntimeState, BundleManager.Offset);
         }
 
         /// <summary>
-        /// 加载资源(同步)
+        /// 加载资源（同步）
         /// </summary>
         internal override UnityEngine.Object LoadAsset(string name, Type type)
         {
@@ -88,7 +88,7 @@ namespace MFramework
         }
 
         /// <summary>
-        /// 加载资源(异步)
+        /// 加载资源（异步）
         /// </summary>
         internal override AssetBundleRequest LoadAssetAsync(string name, Type type)
         {
@@ -111,13 +111,13 @@ namespace MFramework
 
         internal override void UnLoad()
         {
-            if (assetBundle)//正常卸载
+            if (assetBundle) // 正常卸载
             {
                 assetBundle.Unload(true);
             }
-            else//还没加载完就卸载
+            else // 还没加载完就卸载
             {
-                //正在异步加载的资源也要切到主线程进行释放
+                // 正在异步加载的资源也要切到主线程进行释放
                 if (assetBundleCreateRequest != null)
                 {
                     assetBundle = assetBundleCreateRequest.assetBundle;

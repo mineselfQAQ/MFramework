@@ -35,7 +35,7 @@ namespace MFramework
         }
         internal void GetBuildRoot()
         {
-            // 获取完整buildRoot路径(取决于.xml文件，默认在与项目同级)
+            // 获取完整buildRoot路径（取决于.xml文件，默认在与项目同级）
             buildRoot = Path.GetFullPath(buildRoot).ReplaceSlash();
             buildRoot = buildRoot.Replace("{ProjectName}", Application.productName);
         }
@@ -81,7 +81,7 @@ namespace MFramework
         /// </summary>
         internal HashSet<string> FileCollect()
         {
-            float min = ABBuilder.ms_Progress[0].x, max = ABBuilder.ms_Progress[0].y; //[0,0.2]
+            float min = ABBuilder.ms_Progress[0].x, max = ABBuilder.ms_Progress[0].y; // [0,0.2]
 
             EditorUtility.DisplayProgressBar($"{nameof(FileCollect)}", "搜集打包资源", min);
 
@@ -118,22 +118,22 @@ namespace MFramework
             {
                 BuildItem buildItem = items[i];
 
-                if (buildItem.resourceType != ResourceType.Direct) continue;//同上
+                if (buildItem.resourceType != ResourceType.Direct) continue; // 同上
 
                 // 寻找文件，要求：
-                // 1.在assetPath中寻找 2.无前缀要求 3.有尾缀要求（在LoadSetting()中获取了suffixes，也就是XML表中的后缀列表）
+                // 1.在assetPath中寻找 2.无前缀要求 3.有尾缀要求（在LoadSetting（）中获取了suffixes，也就是XML表中的后缀列表）
                 List<string> tempFiles = MPathUtility.GetFiles(buildItem.assetPath, null, buildItem.suffixes.ToArray());
-                //添加文件（需要忽略某些文件）
+                // 添加文件（需要忽略某些文件）
                 for (int j = 0; j < tempFiles.Count; j++)
                 {
                     string file = tempFiles[j];
                     // Tip:逻辑如下
                     // assetPath---一个基础路径
-                    // ignorePaths---assetPath下的子路径(需要忽略)
-                    // file---assetPath下收集到的文件(必定包括ignorePaths下的文件)
+                    // ignorePaths---assetPath下的子路径（需要忽略）
+                    // file---assetPath下收集到的文件（必定包括ignorePaths下的文件）
                     // 那么想必会出现一种情况：
                     // assetPath为"A/B"，ignorePath有"A/B/C"
-                    // 那么如果file为"A/B/C/pic.png"就应该忽略(此时file为ignorePaths的子文件)
+                    // 那么如果file为"A/B/C/pic.png"就应该忽略（此时file为ignorePaths的子文件）
                     if (IsIgnore(buildItem.ignorePaths, file)) continue;
 
                     files.Add(file);
@@ -147,8 +147,8 @@ namespace MFramework
 
         /// <summary>
         /// 获取Bundle名
-        /// 对于File级别，获取到如：assets/assetbundle/background/1.png.ab(1.png为文件)
-        /// 对于Directory级别，获取到如：assets/assetbundle/atlas/role.ab(role为文件夹)
+        /// 对于File级别，获取到如：assets/assetbundle/background/1.png.ab（1.png为文件）
+        /// 对于Directory级别，获取到如：assets/assetbundle/atlas/role.ab（role为文件夹）
         /// 对于All级别，直接使用assetPath
         /// </summary>
         internal string GetBundleName(string assetUrl, ResourceType resourceType)
@@ -224,7 +224,7 @@ namespace MFramework
                 BuildItem tempItem = items[i];
                 if (assetUrl.StartsWith(tempItem.assetPath, StringComparison.InvariantCulture))
                 {
-                    //找到优先级最高、路径最长的item
+                    // 找到优先级最高、路径最长的item
                     if (item == null || item.assetPath.Length < tempItem.assetPath.Length)
                     {
                         item = tempItem;
